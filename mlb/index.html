@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>MLB Board — Slate</title>
 <meta name="theme-color" content="#0B1020">
-<link rel="manifest" href="../manifest.webmanifest">
+<link rel="manifest" href="../manifest.webmanifest">\n<link rel="apple-touch-icon" href="../icon-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -48,7 +48,19 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1}
 .team{display:flex;align-items:center;justify-content:space-between;padding:4px 0}
 .t-name{display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px;min-width:0}
 .t-abbr{font-family:'Sora',sans-serif;font-weight:700;font-size:12px;color:var(--blue);
-  background:rgba(76,141,255,.12);border-radius:8px;padding:4px 7px;min-width:44px;text-align:center;flex:none}
+  background:rgba(76,141,255,.12);border-radius:8px;padding:3px;width:32px;height:32px;
+  display:grid;place-items:center;text-align:center;flex:none;overflow:hidden}
+.t-abbr img{width:26px;height:26px;object-fit:contain;display:block}
+.t-abbr:not(:has(img))::before{content:attr(data-ab)}
+.p-avatar{width:38px;height:38px;border-radius:50%;background:var(--card-2);border:1px solid var(--line);
+  flex:none;overflow:hidden;display:grid;place-items:center;font-family:'Sora',sans-serif;
+  font-weight:700;font-size:12px;color:var(--muted)}
+.p-avatar img{width:100%;height:100%;object-fit:cover;display:block}
+.p-avatar:not(:has(img))::before{content:attr(data-in)}
+.hr-avatar{width:28px;height:28px;border-radius:50%;background:var(--card);border:1px solid var(--line);
+  overflow:hidden;flex:none;display:grid;place-items:center;font-size:10px;font-weight:700;color:var(--muted)}
+.hr-avatar img{width:100%;height:100%;object-fit:cover;display:block}
+.hr-left{display:flex;align-items:center;gap:9px;min-width:0}
 .t-city{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .t-num{font-variant-numeric:tabular-nums;font-weight:600;font-size:14px;color:var(--muted);flex:none;margin-left:8px}
 .t-num.fav{color:var(--text)}
@@ -105,7 +117,7 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1}
 
 <div class="tabs">
   <div class="tab on" data-tab="games">Games</div>
-  <div class="tab" data-tab="plays">Top Plays</div>
+  <div class="tab" data-tab="plays">Projections</div>
 </div>
 
 <div class="slate-label" id="slate"></div>
@@ -116,6 +128,26 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1}
 const $ = id => document.getElementById(id);
 const ABBR = {"Arizona Diamondbacks":"ARI","Athletics":"ATH","Oakland Athletics":"ATH","Atlanta Braves":"ATL","Baltimore Orioles":"BAL","Boston Red Sox":"BOS","Chicago Cubs":"CHC","Chicago White Sox":"CWS","Cincinnati Reds":"CIN","Cleveland Guardians":"CLE","Colorado Rockies":"COL","Detroit Tigers":"DET","Houston Astros":"HOU","Kansas City Royals":"KC","Los Angeles Angels":"LAA","Los Angeles Dodgers":"LAD","Miami Marlins":"MIA","Milwaukee Brewers":"MIL","Minnesota Twins":"MIN","New York Mets":"NYM","New York Yankees":"NYY","Philadelphia Phillies":"PHI","Pittsburgh Pirates":"PIT","San Diego Padres":"SD","San Francisco Giants":"SF","Seattle Mariners":"SEA","St. Louis Cardinals":"STL","Tampa Bay Rays":"TB","Texas Rangers":"TEX","Toronto Blue Jays":"TOR","Washington Nationals":"WSH"};
 const ab = n => ABBR[n] || (n||'').split(' ').map(w=>w[0]).join('').slice(0,3).toUpperCase();
+// Official MLB StatsAPI team IDs → mlbstatic logo CDN
+const TEAMID = {"ARI":109,"ATH":133,"ATL":144,"BAL":110,"BOS":111,"CHC":112,"CWS":145,"CIN":113,"CLE":114,"COL":115,"DET":116,"HOU":117,"KC":118,"LAA":108,"LAD":119,"MIA":146,"MIL":158,"MIN":142,"NYM":121,"NYY":147,"PHI":143,"PIT":134,"SD":135,"SF":137,"SEA":136,"STL":138,"TB":139,"TEX":140,"TOR":141,"WSH":120};
+const logo = a => TEAMID[a] ? `https://www.mlbstatic.com/team-logos/${TEAMID[a]}.svg` : '';
+const mug = id => `https://img.mlbstatic.com/mlb-photos/image/upload/w_120,q_auto:best/v1/people/${id}/headshot/67/current`;
+const initials = n => (n||'').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+const badge = a => `<span class="t-abbr" data-ab="${a}">${logo(a) ? `<img src="${logo(a)}" alt="" loading="lazy" onerror="this.remove()">` : ''}</span>`;
+let NAMEID = {};
+function buildIds(d){
+  NAMEID = {};
+  for (const g of d.games){
+    if (g.away_pitcher_id) NAMEID[g.away_pitcher] = g.away_pitcher_id;
+    if (g.home_pitcher_id) NAMEID[g.home_pitcher] = g.home_pitcher_id;
+    for (const s of ['away_lineup','home_lineup'])
+      for (const p of (g[s]||[])) if (p.player_id) NAMEID[p.name] = p.player_id;
+  }
+}
+const avatar = (name, cls='p-avatar') => {
+  const id = NAMEID[name];
+  return `<span class="${cls}" data-in="${initials(name)}">${id ? `<img src="${mug(id)}" alt="" loading="lazy" onerror="this.remove()">` : ''}</span>`;
+};
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const rel = iso => {
   const m = Math.round((Date.now() - new Date(iso)) / 60000);
@@ -151,7 +183,7 @@ function gameCard(g){
         ? `<span class="t-num ${((s==='away')===aFav)?'fav':''}">${g[s+'_runs']?.toFixed(1) ?? '–'} · ${pct(g[s+'_win_pct'])}</span>`
         : `<span class="t-num">–</span>`;
     return `<div class="team">
-      <span class="t-name"><span class="t-abbr">${ab(g[s+'_team'])}</span><span class="t-city">${esc(g[s+'_team'])}</span></span>
+      <span class="t-name">${badge(ab(g[s+'_team']))}<span class="t-city">${esc(g[s+'_team'])}</span></span>
       ${num}</div>`;
   }).join('');
   const stats = hasModel ? `<div class="g-stats">
@@ -177,50 +209,68 @@ function renderGames(d){
   $('games').innerHTML = gs.map(gameCard).join('') || '<div class="empty">No games today.</div>';
 }
 
-function allPlays(d){
-  const out = [];
+function collectProjections(d){
+  const bat = [], arm = [];
   for (const g of d.games) {
-    const gid = `${ab(g.away_team)}@${ab(g.home_team)}`;
-    for (const p of (g.prop_plays || [])) out.push({...p, gid, state: g.game_state});
+    if (g.game_state === 'Final') continue;
+    const matchup = `${ab(g.away_team)}@${ab(g.home_team)}`;
+    for (const [side, opp] of [['away', ab(g.home_team)], ['home', ab(g.away_team)]]) {
+      const team = ab(g[side + '_team']);
+      for (const p of (g[side + '_lineup'] || []))
+        bat.push({...p, team, opp, matchup});
+      const pp = g[side + '_pitcher_proj'];
+      if (pp) arm.push({...pp, player_id: g[side + '_pitcher_id'], team, opp, matchup});
+    }
   }
-  return out.sort((a,b) => b.edge - a.edge);
+  return {bat, arm};
 }
 
+const STATS = {
+  'HR':    {pool:'bat', v:p=>p.expected_hr,   fmt:v=>v.toFixed(2), sub:p=>`${(p.hr_prob*100).toFixed(1)}% HR · ${(p.pa??0).toFixed(1)} PA`},
+  'Hits':  {pool:'bat', v:p=>p.expected_hits, fmt:v=>v.toFixed(2), sub:p=>`${(p.hit_rate*100).toFixed(0)}% per PA · ${(p.pa??0).toFixed(1)} PA`},
+  'Bases': {pool:'bat', v:p=>p.expected_tb,   fmt:v=>v.toFixed(2), sub:p=>`${(p.expected_hits??0).toFixed(2)} H · ${(p.expected_hr??0).toFixed(2)} HR`},
+  'RBI':   {pool:'bat', v:p=>p.expected_rbi,  fmt:v=>v.toFixed(2), sub:p=>`${(p.expected_runs??0).toFixed(2)} R proj`},
+  'Runs':  {pool:'bat', v:p=>p.expected_runs, fmt:v=>v.toFixed(2), sub:p=>`${(p.expected_rbi??0).toFixed(2)} RBI proj`},
+  'Ks':    {pool:'arm', v:p=>p.expected_k,    fmt:v=>v.toFixed(1), sub:p=>`${(p.expected_ip??0).toFixed(1)} IP · ${(p.expected_er??0).toFixed(1)} ER proj`}
+};
+let statFilter = 'HR', shownP = 40;
+
 function renderPlays(d){
-  const plays = allPlays(d);
-  const markets = ['All', ...new Set(plays.map(p => p.market))];
-  const chips = markets.map(m =>
-    `<div class="chip ${m===marketFilter?'on':''}" data-m="${esc(m)}">${esc(m)}</div>`).join('');
-  const filtered = plays.filter(p => marketFilter==='All' || p.market===marketFilter)
-                        .filter(p => p.state !== 'Final');
-  const maxEdge = Math.max(...filtered.map(p=>p.edge), 1);
-  const list = filtered.slice(0, shown).map(p => `<div class="play">
+  const {bat, arm} = collectProjections(d);
+  const cfg = STATS[statFilter];
+  const pool = (cfg.pool === 'arm' ? arm : bat)
+    .filter(p => typeof cfg.v(p) === 'number')
+    .sort((a,b) => cfg.v(b) - cfg.v(a));
+  const chips = Object.keys(STATS).map(s =>
+    `<div class="chip ${s===statFilter?'on':''}" data-m="${s}">${s}</div>`).join('');
+  const list = pool.slice(0, shownP).map((p,i) => `<div class="play">
+      ${avatar(p.name)}
       <div class="p-main">
         <div class="p-player">${esc(p.name)}</div>
-        <div class="p-meta"><span class="side ${esc(p.side)}">${esc(p.side)}</span><b>${esc(p.market)} ${p.line}</b> · ${esc(p.gid)}</div>
+        <div class="p-meta"><b>${p.team}</b> vs ${p.opp}${p.order ? ` · #${p.order}` : ''}</div>
       </div>
       <div class="p-edge">
-        <div class="edge-val">+${p.edge.toFixed(1)}%</div>
-        <div class="edge-bar"><div class="edge-fill" style="width:${(p.edge/maxEdge)*100}%"></div></div>
-        <div class="p-odds">${odds(p.book_odds)} · model ${p.model_prob.toFixed(0)}% vs ${p.book_prob.toFixed(0)}%</div>
+        <div class="edge-val">${cfg.fmt(cfg.v(p))}</div>
+        <div class="p-odds">${cfg.sub(p)}</div>
       </div>
     </div>`).join('');
   const hr = (d.standouts?.top_hr || []).slice(0,5).map(h =>
-    `<div class="hr-row"><span><span class="nm">${esc(h.name)}</span><span class="tm">${ab(h.team)}</span></span>
+    `<div class="hr-row"><span class="hr-left">${avatar(h.name,'hr-avatar')}<span class="nm">${esc(h.name)}</span><span class="tm">${ab(h.team)}</span></span>
      <span class="pct">${(h.hr_prob*100).toFixed(1)}%</span></div>`).join('');
   $('plays').innerHTML =
-    (hr ? `<div class="hr-strip"><div class="hr-title">⚾ HR WATCH</div>${hr}</div>` : '') +
+    (hr ? `<div class="hr-strip"><div class="hr-title">HR WATCH</div>${hr}</div>` : '') +
     `<div class="chips">${chips}</div>` +
-    (list || '<div class="empty">No live edges for this filter.</div>') +
-    (filtered.length > shown ? `<button class="more" id="more">Show ${Math.min(60, filtered.length-shown)} more · ${filtered.length-shown} left</button>` : '');
-  document.querySelectorAll('.chip').forEach(c => c.onclick = () => { marketFilter = c.dataset.m; shown = 60; renderPlays(DATA); });
-  const mb = $('more'); if (mb) mb.onclick = () => { shown += 60; renderPlays(DATA); };
+    (list || '<div class="empty">No lineups posted yet for this slate.</div>') +
+    (pool.length > shownP ? `<button class="more" id="more">Show ${Math.min(40, pool.length-shownP)} more</button>` : '');
+  document.querySelectorAll('.chip').forEach(c => c.onclick = () => { statFilter = c.dataset.m; shownP = 40; renderPlays(DATA); });
+  const mb = $('more'); if (mb) mb.onclick = () => { shownP += 40; renderPlays(DATA); };
 }
 
 async function load(){
   try {
     const r = await fetch(`../data/mlb_slate.json?t=${Date.now()}`);
     DATA = await r.json();
+    buildIds(DATA);
     $('updated').textContent = 'Updated ' + rel(DATA.generated_at);
     const live = DATA.games.filter(g=>g.game_state==='Live').length;
     $('slate').textContent = `Slate · ${DATA.date} · ${DATA.games.length} games${live ? ` · ${live} live` : ''}`;

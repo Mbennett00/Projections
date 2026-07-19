@@ -6,6 +6,7 @@
 <title>Slate — Daily Model Boards</title>
 <meta name="theme-color" content="#0B1020">
 <link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./icon-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -26,8 +27,9 @@ body{
   max-width:520px; margin:0 auto;
 }
 header{display:flex; align-items:center; justify-content:space-between; padding:6px 2px 26px}
-.wordmark{font-family:'Sora',sans-serif; font-weight:800; font-size:22px; letter-spacing:.5px}
-.wordmark .dot{color:var(--yellow)}
+.wordmark{font-family:'Sora',sans-serif; font-weight:800; font-size:22px; letter-spacing:.5px;
+  background:linear-gradient(100deg,var(--blue),var(--yellow)); -webkit-background-clip:text;
+  background-clip:text; color:transparent}
 .date-chip{
   font-size:12px; font-weight:600; color:var(--muted);
   background:var(--card); border:1px solid var(--line);
@@ -52,6 +54,12 @@ header{display:flex; align-items:center; justify-content:space-between; padding:
   font-family:'Sora',sans-serif; font-weight:700; font-size:12px; letter-spacing:.14em;
   color:var(--yellow); margin-bottom:8px;
 }
+.card-head{display:flex; align-items:center; gap:14px}
+.league-logo{
+  width:52px; height:52px; border-radius:14px; background:var(--card);
+  border:1px solid var(--line); display:grid; place-items:center; flex:none;
+}
+.league-logo img{width:38px; height:38px; object-fit:contain}
 .sport-name{font-family:'Sora',sans-serif; font-weight:700; font-size:24px; margin-bottom:6px}
 .sport-sub{font-size:13.5px; color:var(--muted); line-height:1.45}
 .meta-row{display:flex; align-items:center; gap:8px; margin-top:16px}
@@ -79,9 +87,14 @@ footer b{color:var(--yellow); font-weight:600}
 <div class="kicker">Model Boards</div>
 
 <a class="sport-card" href="./mlb/">
-  <div class="sport-tag">MLB · DAILY</div>
-  <div class="sport-name">Baseball Board</div>
-  <div class="sport-sub">Run projections, totals leans, and prop edges — refreshed every morning after lineups.</div>
+  <div class="card-head">
+    <div class="league-logo"><img src="https://a.espncdn.com/i/teamlogos/leagues/500/mlb.png" alt="MLB" loading="lazy" onerror="this.remove()"></div>
+    <div>
+      <div class="sport-tag">MLB · DAILY</div>
+      <div class="sport-name">Baseball Board</div>
+    </div>
+  </div>
+  <div class="sport-sub" style="margin-top:10px">Run projections, totals leans, and player projections — refreshed every morning after lineups.</div>
   <div class="meta-row">
     <span class="pill" id="mlb-games">— games</span>
     <span class="pill updated" id="mlb-updated">syncing…</span>
@@ -90,9 +103,14 @@ footer b{color:var(--yellow); font-weight:600}
 </a>
 
 <a class="sport-card" href="./nfl/">
-  <div class="sport-tag">NFL · WEEKLY</div>
-  <div class="sport-name">Football Board</div>
-  <div class="sport-sub">Opponent-adjusted spreads, totals, win probabilities, and TD prop edges for the full slate.</div>
+  <div class="card-head">
+    <div class="league-logo"><img src="https://a.espncdn.com/i/teamlogos/leagues/500/nfl.png" alt="NFL" loading="lazy" onerror="this.remove()"></div>
+    <div>
+      <div class="sport-tag">NFL · WEEKLY</div>
+      <div class="sport-name">Football Board</div>
+    </div>
+  </div>
+  <div class="sport-sub" style="margin-top:10px">Opponent-adjusted spreads, totals, win probabilities, and QB projections for the full slate.</div>
   <div class="meta-row">
     <span class="pill" id="nfl-games">— games</span>
     <span class="pill updated" id="nfl-updated">syncing…</span>

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>NFL Board — Slate</title>
 <meta name="theme-color" content="#0B1020">
-<link rel="manifest" href="../manifest.webmanifest">
+<link rel="manifest" href="../manifest.webmanifest">\n<link rel="apple-touch-icon" href="../icon-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -45,7 +45,10 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1}
 .team{display:flex;align-items:center;justify-content:space-between;padding:4px 0}
 .t-name{display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px;min-width:0}
 .t-abbr{font-family:'Sora',sans-serif;font-weight:700;font-size:12px;color:var(--blue);
-  background:rgba(76,141,255,.12);border-radius:8px;padding:4px 7px;min-width:44px;text-align:center;flex:none}
+  background:rgba(76,141,255,.12);border-radius:8px;padding:3px;width:32px;height:32px;
+  display:grid;place-items:center;text-align:center;flex:none;overflow:hidden}
+.t-abbr img{width:26px;height:26px;object-fit:contain;display:block}
+.t-abbr:not(:has(img))::before{content:attr(data-ab)}
 .t-city{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .t-num{font-variant-numeric:tabular-nums;font-weight:600;font-size:14px;color:var(--muted);flex:none;margin-left:8px}
 .t-num.fav{color:var(--text)}
@@ -83,7 +86,7 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1}
 
 <div class="tabs">
   <div class="tab on" data-tab="games">Games</div>
-  <div class="tab" data-tab="plays">Top Plays</div>
+  <div class="tab" data-tab="plays">Projections</div>
 </div>
 
 <div class="slate-label" id="slate"></div>
@@ -94,6 +97,8 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1}
 const $ = id => document.getElementById(id);
 const ABBR = {"Arizona Cardinals":"ARI","Atlanta Falcons":"ATL","Baltimore Ravens":"BAL","Buffalo Bills":"BUF","Carolina Panthers":"CAR","Chicago Bears":"CHI","Cincinnati Bengals":"CIN","Cleveland Browns":"CLE","Dallas Cowboys":"DAL","Denver Broncos":"DEN","Detroit Lions":"DET","Green Bay Packers":"GB","Houston Texans":"HOU","Indianapolis Colts":"IND","Jacksonville Jaguars":"JAX","Kansas City Chiefs":"KC","Las Vegas Raiders":"LV","Los Angeles Chargers":"LAC","Los Angeles Rams":"LAR","Miami Dolphins":"MIA","Minnesota Vikings":"MIN","New England Patriots":"NE","New Orleans Saints":"NO","New York Giants":"NYG","New York Jets":"NYJ","Philadelphia Eagles":"PHI","Pittsburgh Steelers":"PIT","San Francisco 49ers":"SF","Seattle Seahawks":"SEA","Tampa Bay Buccaneers":"TB","Tennessee Titans":"TEN","Washington Commanders":"WSH"};
 const ab = n => ABBR[n] || (n||'').split(' ').map(w=>w[0]).join('').slice(0,3).toUpperCase();
+const logo = a => `https://a.espncdn.com/i/teamlogos/nfl/500/${(a||'').toLowerCase()}.png`;
+const badge = a => `<span class="t-abbr" data-ab="${a}"><img src="${logo(a)}" alt="" loading="lazy" onerror="this.remove()"></span>`;
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const rel = iso => {
   const m = Math.round((Date.now() - new Date(iso)) / 60000);
@@ -121,7 +126,7 @@ function gameCard(g){
   const aFav = (g.away_win_pct ?? 0) >= (g.home_win_pct ?? 0);
   const rows = [['away', L.spread != null ? -L.spread : null, L.ml_away],
                 ['home', L.spread, L.ml_home]].map(([s, spread, ml]) => `<div class="team">
-      <span class="t-name"><span class="t-abbr">${ab(g[s+'_team'])}</span><span class="t-city">${esc(g[s+'_team'])}</span></span>
+      <span class="t-name">${badge(ab(g[s+'_team']))}<span class="t-city">${esc(g[s+'_team'])}</span></span>
       <span class="t-num ${((s==='away')===aFav)?'fav':''}">${spr(spread)} · ${g[s+'_pts']?.toFixed(1) ?? '–'} · ${pct(g[s+'_win_pct'] ?? 0)}</span>
     </div>`).join('');
   const total = L.total != null ? `${L.total}` : '–';
@@ -150,47 +155,31 @@ function renderGames(d){
   $('games').innerHTML = gs.map(gameCard).join('') || '<div class="empty">No games this week.</div>';
 }
 
-// Derive plays from game-level model leans (spread + total),
-// plus player props from skill arrays whenever the model includes them.
-function derivePlays(d){
-  const out = [];
+// QB projections across the slate, ranked by projected passing yards.
+// Skill-position players appear automatically once the model fills
+// away_skill / home_skill with projection fields.
+function renderPlays(d){
+  const qbs = [];
   for (const g of d.games) {
     if (g.game_state === 'Final') continue;
-    const gid = `${ab(g.away_team)}@${ab(g.home_team)}`;
-    const L = g._lines || {};
-    if (typeof g.p_cover === 'number' && L.spread != null) {
-      const homeSide = g.p_cover >= .5;
-      const p = homeSide ? g.p_cover : 1 - g.p_cover;
-      out.push({ label: homeSide ? `${ab(g.home_team)} ${spr(L.spread)}` : `${ab(g.away_team)} ${spr(-L.spread)}`,
-        market:'Spread', gid, prob:p, edge:(p-.524)*100, tier:g.tier });
-    }
-    if (typeof g.p_over === 'number' && L.total != null) {
-      const over = g.p_over >= .5;
-      const p = over ? g.p_over : 1 - g.p_over;
-      out.push({ label:`${over?'Over':'Under'} ${L.total}`, market:'Total', gid, prob:p, edge:(p-.524)*100, tier:g.tier });
-    }
-    for (const side of ['away','home']) for (const sk of (g[side+'_skill'] || [])) {
-      if (typeof sk.edge === 'number')
-        out.push({ label:esc(sk.name), market:esc(sk.market ?? 'Prop'), gid, prob:sk.model_prob, edge:sk.edge, tier:g.tier, line:sk.book_odds });
+    const matchup = `${ab(g.away_team)}@${ab(g.home_team)}`;
+    for (const [side, opp] of [['away', ab(g.home_team)], ['home', ab(g.away_team)]]) {
+      const q = g[side + '_qb_proj'];
+      if (q && typeof q.pass_yds === 'number')
+        qbs.push({...q, team: ab(g[side + '_team']), opp, matchup});
     }
   }
-  return out.filter(p => p.edge > 0).sort((a,b) => b.edge - a.edge);
-}
-
-function renderPlays(d){
-  const plays = derivePlays(d);
-  const maxEdge = Math.max(...plays.map(p=>p.edge), 1);
-  $('plays').innerHTML = plays.map(p => `<div class="play">
+  qbs.sort((a,b) => b.pass_yds - a.pass_yds);
+  $('plays').innerHTML = qbs.map(q => `<div class="play">
       <div class="p-main">
-        <div class="p-player">${p.label}</div>
-        <div class="p-meta"><b>${p.market}</b> · ${p.gid}${p.tier ? ' · ' + p.tier : ''}</div>
+        <div class="p-player">${esc(q.name)}</div>
+        <div class="p-meta"><b>${q.team}</b> vs ${q.opp}</div>
       </div>
       <div class="p-edge">
-        <div class="edge-val">+${p.edge.toFixed(1)}%</div>
-        <div class="edge-bar"><div class="edge-fill" style="width:${(p.edge/maxEdge)*100}%"></div></div>
-        <div class="p-odds">model ${(p.prob*100).toFixed(0)}% vs break-even 52.4%</div>
+        <div class="edge-val">${q.pass_yds.toFixed(0)} yds</div>
+        <div class="p-odds">${(q.pass_td??0).toFixed(1)} TD · ${(q.int??0).toFixed(1)} INT · ${(q.rating??0).toFixed(0)} rate</div>
       </div>
-    </div>`).join('') || '<div class="empty">No model edges cleared the vig this slate.</div>';
+    </div>`).join('') || '<div class="empty">No projections for this slate yet.</div>';
 }
 
 async function load(){
