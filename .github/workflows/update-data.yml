@@ -1,0 +1,58 @@
+name: Update model data
+
+on:
+  schedule:
+    # MLB: daily at 14:30 UTC (10:30 AM ET) — after lineups start posting
+    - cron: "30 14 * * *"
+    # MLB live windows: every 30 min through game hours (1 PM ET – midnight ET)
+    # keeps Live scores/innings and prop states fresh on the board
+    - cron: "*/30 17-23 * * *"
+    - cron: "*/30 0-4 * * *"
+    # NFL: Tue/Thu/Sun at 13:00 UTC during season
+    - cron: "0 13 * * 2,4,0"
+  workflow_dispatch: {}   # manual "Run workflow" button
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      # ── The boards read data/mlb_slate.json and data/nfl_slate.json ───
+      # Your scripts already produce exactly this format — just make sure
+      # they write (or the step copies) to these paths.
+      - name: Run MLB model
+        run: |
+          python mlb_projections.py
+          cp mlb_slate.json data/mlb_slate.json
+        env:
+          SGO_API_KEY: ${{ secrets.SGO_API_KEY }}
+          OWM_API_KEY: ${{ secrets.OWM_API_KEY }}
+        continue-on-error: true   # NFL step still runs if MLB slate is empty
+
+      - name: Run NFL model
+        run: |
+          python nfl_projections.py
+          cp nfl_slate.json data/nfl_slate.json
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+        continue-on-error: true
+      # ──────────────────────────────────────────────────────────────────
+
+      - name: Commit updated data
+        run: |
+          git config user.name "slate-bot"
+          git config user.email "actions@github.com"
+          git add data/*.json
+          git diff --staged --quiet || git commit -m "data: model run $(date -u +'%Y-%m-%d %H:%M UTC')"
+          git push

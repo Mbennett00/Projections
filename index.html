@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Slate — Daily Model Boards</title>
+<meta name="theme-color" content="#0B1020">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0B1020; --card:#141C30; --card-2:#1B2540; --line:#25304E;
+  --blue:#4C8DFF; --blue-deep:#1F3B7A; --yellow:#FFD34D;
+  --text:#EEF2FA; --muted:#94A1BE;
+  --r:18px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--bg); color:var(--text);
+  font-family:'Inter',system-ui,sans-serif;
+  min-height:100dvh; display:flex; flex-direction:column;
+  padding:max(20px,env(safe-area-inset-top)) 20px max(28px,env(safe-area-inset-bottom));
+  max-width:520px; margin:0 auto;
+}
+header{display:flex; align-items:center; justify-content:space-between; padding:6px 2px 26px}
+.wordmark{font-family:'Sora',sans-serif; font-weight:800; font-size:22px; letter-spacing:.5px}
+.wordmark .dot{color:var(--yellow)}
+.date-chip{
+  font-size:12px; font-weight:600; color:var(--muted);
+  background:var(--card); border:1px solid var(--line);
+  padding:7px 12px; border-radius:99px;
+}
+.kicker{font-size:13px; font-weight:600; color:var(--muted); letter-spacing:.12em; text-transform:uppercase; margin-bottom:14px}
+.sport-card{
+  display:block; text-decoration:none; color:inherit;
+  background:linear-gradient(160deg,var(--card-2),var(--card));
+  border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 20px; margin-bottom:14px; position:relative; overflow:hidden;
+  transition:transform .15s ease, border-color .15s ease;
+}
+.sport-card:active{transform:scale(.985)}
+.sport-card:hover{border-color:var(--blue)}
+.sport-card::after{
+  content:''; position:absolute; inset:auto -30px -30px auto;
+  width:120px; height:120px; border-radius:50%;
+  background:radial-gradient(circle, rgba(76,141,255,.18), transparent 70%);
+}
+.sport-tag{
+  font-family:'Sora',sans-serif; font-weight:700; font-size:12px; letter-spacing:.14em;
+  color:var(--yellow); margin-bottom:8px;
+}
+.sport-name{font-family:'Sora',sans-serif; font-weight:700; font-size:24px; margin-bottom:6px}
+.sport-sub{font-size:13.5px; color:var(--muted); line-height:1.45}
+.meta-row{display:flex; align-items:center; gap:8px; margin-top:16px}
+.pill{
+  font-size:11.5px; font-weight:600; padding:5px 10px; border-radius:99px;
+  background:rgba(76,141,255,.14); color:var(--blue); border:1px solid rgba(76,141,255,.25);
+}
+.pill.updated{background:rgba(255,211,77,.1); color:var(--yellow); border-color:rgba(255,211,77,.22)}
+.arrow{
+  position:absolute; top:22px; right:20px; width:34px; height:34px; border-radius:50%;
+  background:var(--card); border:1px solid var(--line);
+  display:grid; place-items:center; color:var(--blue); font-weight:700;
+}
+footer{margin-top:auto; text-align:center; font-size:12px; color:var(--muted); padding-top:30px}
+footer b{color:var(--yellow); font-weight:600}
+@media (prefers-reduced-motion:reduce){ .sport-card{transition:none} }
+</style>
+</head>
+<body>
+<header>
+  <div class="wordmark">SLATE<span class="dot">.</span></div>
+  <div class="date-chip" id="today"></div>
+</header>
+
+<div class="kicker">Model Boards</div>
+
+<a class="sport-card" href="./mlb/">
+  <div class="sport-tag">MLB · DAILY</div>
+  <div class="sport-name">Baseball Board</div>
+  <div class="sport-sub">Run projections, totals leans, and prop edges — refreshed every morning after lineups.</div>
+  <div class="meta-row">
+    <span class="pill" id="mlb-games">— games</span>
+    <span class="pill updated" id="mlb-updated">syncing…</span>
+  </div>
+  <div class="arrow">→</div>
+</a>
+
+<a class="sport-card" href="./nfl/">
+  <div class="sport-tag">NFL · WEEKLY</div>
+  <div class="sport-name">Football Board</div>
+  <div class="sport-sub">Opponent-adjusted spreads, totals, win probabilities, and TD prop edges for the full slate.</div>
+  <div class="meta-row">
+    <span class="pill" id="nfl-games">— games</span>
+    <span class="pill updated" id="nfl-updated">syncing…</span>
+  </div>
+  <div class="arrow">→</div>
+</a>
+
+<footer>Auto-updated by the model · <b>Add to Home Screen</b> to install</footer>
+
+<script>
+const rel = iso => {
+  const m = Math.round((Date.now() - new Date(iso)) / 60000);
+  if (m < 1) return 'just now';
+  if (m < 60) return m + 'm ago';
+  const h = Math.round(m / 60);
+  return h < 24 ? h + 'h ago' : Math.round(h / 24) + 'd ago';
+};
+document.getElementById('today').textContent =
+  new Date().toLocaleDateString('en-US', { weekday:'short', month:'short', day:'numeric' });
+
+for (const s of ['mlb','nfl']) {
+  fetch(`./data/${s}_slate.json?t=${Date.now()}`)
+    .then(r => r.json())
+    .then(d => {
+      const live = (d.games || []).filter(g => g.game_state === 'Live').length;
+      document.getElementById(s+'-games').textContent =
+        (d.games?.length ?? 0) + ' games' + (live ? ` · ${live} live` : '');
+      document.getElementById(s+'-updated').textContent = 'Updated ' + rel(d.generated_at);
+    })
+    .catch(() => { document.getElementById(s+'-updated').textContent = 'No data yet'; });
+}
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');
+</script>
+</body>
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NFL Board — Slate</title>
+<meta name="theme-color" content="#0B1020">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0B1020; --card:#141C30; --card-2:#1B2540; --line:#25304E;
+  --blue:#4C8DFF; --yellow:#FFD34D; --red:#FF6B6B; --text:#EEF2FA; --muted:#94A1BE; --r:16px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg); color:var(--text); font-family:'Inter',system-ui,sans-serif;
+  min-height:100dvh; max-width:520px; margin:0 auto;
+  padding:max(16px,env(safe-area-inset-top)) 16px max(28px,env(safe-area-inset-bottom))}
+header{display:flex; align-items:center; gap:12px; padding:4px 2px 18px}
+.back{width:36px;height:36px;border-radius:50%;background:var(--card);border:1px solid var(--line);
+  display:grid;place-items:center;color:var(--text);text-decoration:none;font-weight:700;flex:none}
+h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1}
+.updated{font-size:11.5px;font-weight:600;color:var(--yellow);background:rgba(255,211,77,.1);
+  border:1px solid rgba(255,211,77,.22);padding:6px 10px;border-radius:99px;white-space:nowrap}
+.tabs{display:flex;gap:8px;margin-bottom:14px}
+.tab{flex:1;text-align:center;font-size:13.5px;font-weight:600;color:var(--muted);
+  background:var(--card);border:1px solid var(--line);border-radius:12px;
+  padding:11px 0;cursor:pointer;user-select:none;transition:all .15s}
+.tab.on{color:#0B1020;background:var(--yellow);border-color:var(--yellow)}
+.slate-label{font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.1em;
+  text-transform:uppercase;margin:2px 2px 12px}
+.game{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:15px 16px;margin-bottom:12px}
+.g-top{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted);font-weight:600;margin-bottom:11px}
+.state{font-size:10.5px;font-weight:700;letter-spacing:.06em;padding:4px 9px;border-radius:99px}
+.state.live{color:#0B1020;background:var(--red);animation:pulse 2s infinite}
+.state.final{color:var(--muted);background:var(--card-2)}
+.state.preview{color:var(--blue);background:rgba(76,141,255,.12)}
+@keyframes pulse{50%{opacity:.65}}
+.tier{font-size:10.5px;font-weight:700;letter-spacing:.06em;padding:4px 9px;border-radius:99px;margin-left:6px}
+.tier.STRONG{color:#0B1020;background:var(--yellow)}
+.tier.LEAN{color:var(--blue);background:rgba(76,141,255,.12);border:1px solid rgba(76,141,255,.3)}
+.tier.PASS{color:var(--muted);background:var(--card-2)}
+.team{display:flex;align-items:center;justify-content:space-between;padding:4px 0}
+.t-name{display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px;min-width:0}
+.t-abbr{font-family:'Sora',sans-serif;font-weight:700;font-size:12px;color:var(--blue);
+  background:rgba(76,141,255,.12);border-radius:8px;padding:4px 7px;min-width:44px;text-align:center;flex:none}
+.t-city{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.t-num{font-variant-numeric:tabular-nums;font-weight:600;font-size:14px;color:var(--muted);flex:none;margin-left:8px}
+.t-num.fav{color:var(--text)}
+.prob-track{height:6px;border-radius:99px;background:var(--card-2);margin:11px 0 9px;overflow:hidden;display:flex}
+.prob-away{height:100%;background:var(--blue);border-radius:99px 0 0 99px;transition:width .6s ease}
+.g-stats{display:flex;gap:6px;margin-top:10px}
+.stat{flex:1;background:var(--card-2);border-radius:10px;padding:8px 6px;text-align:center}
+.stat .v{font-family:'Sora',sans-serif;font-weight:700;font-size:13.5px;color:var(--text);font-variant-numeric:tabular-nums}
+.stat .v.hot{color:var(--yellow)}
+.stat .l{font-size:10px;color:var(--muted);font-weight:600;margin-top:2px;letter-spacing:.03em}
+.qbs{font-size:12px;color:var(--muted);margin-top:10px;padding-top:9px;border-top:1px solid var(--line);line-height:1.5}
+.qbs b{color:var(--text);font-weight:600}
+.play{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  padding:13px 16px;margin-bottom:9px;display:flex;align-items:center;gap:12px}
+.p-main{flex:1;min-width:0}
+.p-player{font-weight:600;font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.p-meta{font-size:12px;color:var(--muted);margin-top:3px}
+.p-meta b{color:var(--blue);font-weight:600}
+.p-edge{text-align:right;flex:none}
+.edge-val{font-family:'Sora',sans-serif;font-weight:700;font-size:16px;color:var(--yellow);font-variant-numeric:tabular-nums}
+.edge-bar{width:60px;height:5px;border-radius:99px;background:var(--card-2);margin-top:5px;overflow:hidden;margin-left:auto}
+.edge-fill{height:100%;background:var(--yellow);border-radius:99px}
+.p-odds{font-size:11px;color:var(--muted);margin-top:4px;font-variant-numeric:tabular-nums}
+.empty{text-align:center;color:var(--muted);font-size:14px;padding:60px 20px}
+.hide{display:none}
+@media (prefers-reduced-motion:reduce){.prob-away{transition:none}.state.live{animation:none}}
+</style>
+</head>
+<body>
+<header>
+  <a class="back" href="../">←</a>
+  <h1>NFL Board</h1>
+  <span class="updated" id="updated">…</span>
+</header>
+
+<div class="tabs">
+  <div class="tab on" data-tab="games">Games</div>
+  <div class="tab" data-tab="plays">Top Plays</div>
+</div>
+
+<div class="slate-label" id="slate"></div>
+<div id="games"></div>
+<div id="plays" class="hide"></div>
+
+<script>
+const $ = id => document.getElementById(id);
+const ABBR = {"Arizona Cardinals":"ARI","Atlanta Falcons":"ATL","Baltimore Ravens":"BAL","Buffalo Bills":"BUF","Carolina Panthers":"CAR","Chicago Bears":"CHI","Cincinnati Bengals":"CIN","Cleveland Browns":"CLE","Dallas Cowboys":"DAL","Denver Broncos":"DEN","Detroit Lions":"DET","Green Bay Packers":"GB","Houston Texans":"HOU","Indianapolis Colts":"IND","Jacksonville Jaguars":"JAX","Kansas City Chiefs":"KC","Las Vegas Raiders":"LV","Los Angeles Chargers":"LAC","Los Angeles Rams":"LAR","Miami Dolphins":"MIA","Minnesota Vikings":"MIN","New England Patriots":"NE","New Orleans Saints":"NO","New York Giants":"NYG","New York Jets":"NYJ","Philadelphia Eagles":"PHI","Pittsburgh Steelers":"PIT","San Francisco 49ers":"SF","Seattle Seahawks":"SEA","Tampa Bay Buccaneers":"TB","Tennessee Titans":"TEN","Washington Commanders":"WSH"};
+const ab = n => ABBR[n] || (n||'').split(' ').map(w=>w[0]).join('').slice(0,3).toUpperCase();
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const rel = iso => {
+  const m = Math.round((Date.now() - new Date(iso)) / 60000);
+  if (isNaN(m)) return '';
+  if (m < 1) return 'just now';
+  if (m < 60) return m + 'm ago';
+  const h = Math.round(m/60);
+  return h < 24 ? h + 'h ago' : Math.round(h/24) + 'd ago';
+};
+const kickoff = iso => new Date(iso).toLocaleString('en-US',{weekday:'short',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});
+const odds = v => v == null ? '–' : (v > 0 ? '+' + Math.round(v) : String(Math.round(v)));
+const spr = v => v == null ? '–' : (v > 0 ? '+' + v : String(v));
+const pct = v => (v*100).toFixed(0) + '%';
+
+let DATA = null;
+
+function stateBadge(g){
+  if (g.game_state === 'Live') return `<span class="state live">LIVE</span>`;
+  if (g.game_state === 'Final') return `<span class="state final">FINAL</span>`;
+  return `<span class="state preview">${esc(kickoff(g.game_time))}</span>`;
+}
+
+function gameCard(g){
+  const L = g._lines || {};
+  const aFav = (g.away_win_pct ?? 0) >= (g.home_win_pct ?? 0);
+  const rows = [['away', L.spread != null ? -L.spread : null, L.ml_away],
+                ['home', L.spread, L.ml_home]].map(([s, spread, ml]) => `<div class="team">
+      <span class="t-name"><span class="t-abbr">${ab(g[s+'_team'])}</span><span class="t-city">${esc(g[s+'_team'])}</span></span>
+      <span class="t-num ${((s==='away')===aFav)?'fav':''}">${spr(spread)} · ${g[s+'_pts']?.toFixed(1) ?? '–'} · ${pct(g[s+'_win_pct'] ?? 0)}</span>
+    </div>`).join('');
+  const total = L.total != null ? `${L.total}` : '–';
+  const proj = (g.away_pts != null && g.home_pts != null) ? (g.away_pts + g.home_pts).toFixed(1) : '–';
+  return `<div class="game">
+    <div class="g-top">
+      <span>${ab(g.away_team)} @ ${ab(g.home_team)} · ${esc(g.venue ?? '')}</span>
+      <span>${stateBadge(g)}${g.tier ? `<span class="tier ${g.tier}">${g.tier}</span>` : ''}</span>
+    </div>
+    ${rows}
+    <div class="prob-track"><div class="prob-away" style="width:${(g.away_win_pct ?? .5)*100}%"></div></div>
+    <div class="g-stats">
+      <div class="stat"><div class="v">${total} / ${proj}</div><div class="l">TOTAL / MODEL</div></div>
+      <div class="stat"><div class="v ${Math.abs(g.p_cover-.5)>=.05?'hot':''}">${pct(g.p_cover ?? .5)}</div><div class="l">HOME COVER</div></div>
+      <div class="stat"><div class="v ${Math.abs(g.p_over-.5)>=.05?'hot':''}">${pct(g.p_over ?? .5)}</div><div class="l">OVER</div></div>
+    </div>
+    ${g.away_qb ? `<div class="qbs"><b>${esc(g.away_qb)}</b> ${g.away_qb_proj ? `(${g.away_qb_proj.pass_yds?.toFixed(0)} yds, ${g.away_qb_proj.pass_td?.toFixed(1)} TD)` : ''} vs <b>${esc(g.home_qb)}</b> ${g.home_qb_proj ? `(${g.home_qb_proj.pass_yds?.toFixed(0)} yds, ${g.home_qb_proj.pass_td?.toFixed(1)} TD)` : ''}</div>` : ''}
+  </div>`;
+}
+
+function renderGames(d){
+  const order = {Live:0, Preview:1, Final:2};
+  const gs = [...d.games].sort((a,b) =>
+    (order[a.game_state] ?? 1) - (order[b.game_state] ?? 1) ||
+    new Date(a.game_time) - new Date(b.game_time));
+  $('games').innerHTML = gs.map(gameCard).join('') || '<div class="empty">No games this week.</div>';
+}
+
+// Derive plays from game-level model leans (spread + total),
+// plus player props from skill arrays whenever the model includes them.
+function derivePlays(d){
+  const out = [];
+  for (const g of d.games) {
+    if (g.game_state === 'Final') continue;
+    const gid = `${ab(g.away_team)}@${ab(g.home_team)}`;
+    const L = g._lines || {};
+    if (typeof g.p_cover === 'number' && L.spread != null) {
+      const homeSide = g.p_cover >= .5;
+      const p = homeSide ? g.p_cover : 1 - g.p_cover;
+      out.push({ label: homeSide ? `${ab(g.home_team)} ${spr(L.spread)}` : `${ab(g.away_team)} ${spr(-L.spread)}`,
+        market:'Spread', gid, prob:p, edge:(p-.524)*100, tier:g.tier });
+    }
+    if (typeof g.p_over === 'number' && L.total != null) {
+      const over = g.p_over >= .5;
+      const p = over ? g.p_over : 1 - g.p_over;
+      out.push({ label:`${over?'Over':'Under'} ${L.total}`, market:'Total', gid, prob:p, edge:(p-.524)*100, tier:g.tier });
+    }
+    for (const side of ['away','home']) for (const sk of (g[side+'_skill'] || [])) {
+      if (typeof sk.edge === 'number')
+        out.push({ label:esc(sk.name), market:esc(sk.market ?? 'Prop'), gid, prob:sk.model_prob, edge:sk.edge, tier:g.tier, line:sk.book_odds });
+    }
+  }
+  return out.filter(p => p.edge > 0).sort((a,b) => b.edge - a.edge);
+}
+
+function renderPlays(d){
+  const plays = derivePlays(d);
+  const maxEdge = Math.max(...plays.map(p=>p.edge), 1);
+  $('plays').innerHTML = plays.map(p => `<div class="play">
+      <div class="p-main">
+        <div class="p-player">${p.label}</div>
+        <div class="p-meta"><b>${p.market}</b> · ${p.gid}${p.tier ? ' · ' + p.tier : ''}</div>
+      </div>
+      <div class="p-edge">
+        <div class="edge-val">+${p.edge.toFixed(1)}%</div>
+        <div class="edge-bar"><div class="edge-fill" style="width:${(p.edge/maxEdge)*100}%"></div></div>
+        <div class="p-odds">model ${(p.prob*100).toFixed(0)}% vs break-even 52.4%</div>
+      </div>
+    </div>`).join('') || '<div class="empty">No model edges cleared the vig this slate.</div>';
+}
+
+async function load(){
+  try {
+    const r = await fetch(`../data/nfl_slate.json?t=${Date.now()}`);
+    DATA = await r.json();
+    $('updated').textContent = 'Updated ' + rel(DATA.generated_at);
+    $('slate').textContent = `Slate · ${DATA.date} · ${DATA.games.length} games`;
+    renderGames(DATA);
+    renderPlays(DATA);
+  } catch(e){ $('updated').textContent = 'Offline'; }
+}
+load();
+setInterval(load, 10*60*1000);
+document.addEventListener('visibilitychange', () => { if (!document.hidden) load(); });
+
+document.querySelectorAll('.tab').forEach(t => t.onclick = () => {
+  document.querySelectorAll('.tab').forEach(x => x.classList.remove('on'));
+  t.classList.add('on');
+  $('games').classList.toggle('hide', t.dataset.tab !== 'games');
+  $('plays').classList.toggle('hide', t.dataset.tab !== 'plays');
+});
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('../sw.js');
+</script>
+</body>
+</html>

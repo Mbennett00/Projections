@@ -1,0 +1,20 @@
+# Slate — static deploy, no build step needed
+[build]
+  publish = "."
+
+# Model data must never be cached by the CDN — always serve the latest run
+[[headers]]
+  for = "/data/*"
+  [headers.values]
+    Cache-Control = "no-cache, must-revalidate"
+
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
