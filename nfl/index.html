@@ -16,22 +16,28 @@
 }
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--bg); color:var(--text); font-family:'Inter',system-ui,sans-serif;
-  min-height:100dvh; max-width:520px; margin:0 auto;
+  min-height:100dvh; max-width:520px; margin:0 auto; position:relative;
   padding:max(16px,env(safe-area-inset-top)) 16px max(28px,env(safe-area-inset-bottom))}
+body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(600px 320px at 12% -6%,rgba(76,141,255,.16),transparent 60%),
+             radial-gradient(520px 300px at 108% 4%,rgba(255,211,77,.10),transparent 60%)}
 header{display:flex; align-items:center; gap:12px; padding:4px 2px 18px}
 .back{width:36px;height:36px;border-radius:50%;background:var(--card);border:1px solid var(--line);
   display:grid;place-items:center;color:var(--text);text-decoration:none;font-weight:700;flex:none}
-h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1}
+h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
+  background:linear-gradient(100deg,var(--blue),var(--yellow));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
 .updated{font-size:11.5px;font-weight:600;color:var(--yellow);background:rgba(255,211,77,.1);
   border:1px solid rgba(255,211,77,.22);padding:6px 10px;border-radius:99px;white-space:nowrap}
 .tabs{display:flex;gap:8px;margin-bottom:14px}
 .tab{flex:1;text-align:center;font-size:13.5px;font-weight:600;color:var(--muted);
   background:var(--card);border:1px solid var(--line);border-radius:12px;
   padding:11px 0;cursor:pointer;user-select:none;transition:all .15s}
-.tab.on{color:#0B1020;background:var(--yellow);border-color:var(--yellow)}
+.tab.on{color:#0B1020;background:linear-gradient(100deg,var(--blue) 0%,var(--yellow) 90%);border-color:transparent}
 .slate-label{font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.1em;
   text-transform:uppercase;margin:2px 2px 12px}
-.game{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:15px 16px;margin-bottom:12px}
+.game{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:17px 16px 15px;margin-bottom:12px;position:relative;overflow:hidden}
+.g-accent{position:absolute;top:0;left:0;right:0;height:3px}
 .g-top{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted);font-weight:600;margin-bottom:11px}
 .state{font-size:10.5px;font-weight:700;letter-spacing:.06em;padding:4px 9px;border-radius:99px}
 .state.live{color:#0B1020;background:var(--red);animation:pulse 2s infinite}
@@ -44,16 +50,17 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1}
 .tier.PASS{color:var(--muted);background:var(--card-2)}
 .team{display:flex;align-items:center;justify-content:space-between;padding:4px 0}
 .t-name{display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px;min-width:0}
-.t-abbr{font-family:'Sora',sans-serif;font-weight:700;font-size:12px;color:var(--blue);
-  background:rgba(76,141,255,.12);border-radius:8px;padding:3px;width:32px;height:32px;
+.t-abbr{font-family:'Sora',sans-serif;font-weight:700;font-size:11px;
+  border-radius:9px;padding:3px;width:34px;height:34px;
   display:grid;place-items:center;text-align:center;flex:none;overflow:hidden}
 .t-abbr img{width:26px;height:26px;object-fit:contain;display:block}
 .t-abbr:not(:has(img))::before{content:attr(data-ab)}
 .t-city{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .t-num{font-variant-numeric:tabular-nums;font-weight:600;font-size:14px;color:var(--muted);flex:none;margin-left:8px}
 .t-num.fav{color:var(--text)}
-.prob-track{height:6px;border-radius:99px;background:var(--card-2);margin:11px 0 9px;overflow:hidden;display:flex}
-.prob-away{height:100%;background:var(--blue);border-radius:99px 0 0 99px;transition:width .6s ease}
+.prob-track{height:6px;border-radius:99px;background:var(--card-2);margin:11px 0 9px;overflow:hidden;display:flex;gap:2px}
+.prob-away{height:100%;transition:width .6s ease}
+.prob-home{height:100%;flex:1}
 .g-stats{display:flex;gap:6px;margin-top:10px}
 .stat{flex:1;background:var(--card-2);border-radius:10px;padding:8px 6px;text-align:center}
 .stat .v{font-family:'Sora',sans-serif;font-weight:700;font-size:13.5px;color:var(--text);font-variant-numeric:tabular-nums}
@@ -97,8 +104,11 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1}
 const $ = id => document.getElementById(id);
 const ABBR = {"Arizona Cardinals":"ARI","Atlanta Falcons":"ATL","Baltimore Ravens":"BAL","Buffalo Bills":"BUF","Carolina Panthers":"CAR","Chicago Bears":"CHI","Cincinnati Bengals":"CIN","Cleveland Browns":"CLE","Dallas Cowboys":"DAL","Denver Broncos":"DEN","Detroit Lions":"DET","Green Bay Packers":"GB","Houston Texans":"HOU","Indianapolis Colts":"IND","Jacksonville Jaguars":"JAX","Kansas City Chiefs":"KC","Las Vegas Raiders":"LV","Los Angeles Chargers":"LAC","Los Angeles Rams":"LAR","Miami Dolphins":"MIA","Minnesota Vikings":"MIN","New England Patriots":"NE","New Orleans Saints":"NO","New York Giants":"NYG","New York Jets":"NYJ","Philadelphia Eagles":"PHI","Pittsburgh Steelers":"PIT","San Francisco 49ers":"SF","Seattle Seahawks":"SEA","Tampa Bay Buccaneers":"TB","Tennessee Titans":"TEN","Washington Commanders":"WSH"};
 const ab = n => ABBR[n] || (n||'').split(' ').map(w=>w[0]).join('').slice(0,3).toUpperCase();
+const TC = {ARI:'#B0325B',ATL:'#C8283C',BAL:'#7A5FD0',BUF:'#3B6EDC',CAR:'#0085CA',CHI:'#E05A2B',CIN:'#FB4F14',CLE:'#FF3C00',DAL:'#4A7CD6',DEN:'#FB4F14',DET:'#0076B6',GB:'#57A05C',HOU:'#C42B45',IND:'#3F76D2',JAX:'#12A5BC',KC:'#E31837',LV:'#B8C4CA',LAC:'#0080C6',LAR:'#3F6FE0',MIA:'#00A5A0',MIN:'#8A63D2',NE:'#C8102E',NO:'#D3BC8D',NYG:'#4A6FD6',NYJ:'#1FA37A',PHI:'#1FA394',PIT:'#FFB612',SF:'#C42B2B',SEA:'#69BE28',TB:'#D50A0A',TEN:'#4B92DB',WSH:'#B04545'};
+const tc = a => TC[a] || '#4C8DFF';
+const abSpan = a => `<b style="color:${tc(a)}">${a}</b>`;
 const logo = a => `https://a.espncdn.com/i/teamlogos/nfl/500/${(a||'').toLowerCase()}.png`;
-const badge = a => `<span class="t-abbr" data-ab="${a}"><img src="${logo(a)}" alt="" loading="lazy" onerror="this.remove()"></span>`;
+const badge = a => `<span class="t-abbr" data-ab="${a}" style="color:${tc(a)};background:${tc(a)}1E;border:1px solid ${tc(a)}55"><img src="${logo(a)}" alt="" loading="lazy" onerror="this.remove()"></span>`;
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const rel = iso => {
   const m = Math.round((Date.now() - new Date(iso)) / 60000);
@@ -131,13 +141,15 @@ function gameCard(g){
     </div>`).join('');
   const total = L.total != null ? `${L.total}` : '–';
   const proj = (g.away_pts != null && g.home_pts != null) ? (g.away_pts + g.home_pts).toFixed(1) : '–';
+  const cA = tc(ab(g.away_team)), cH = tc(ab(g.home_team));
   return `<div class="game">
+    <div class="g-accent" style="background:linear-gradient(90deg,${cA},${cH})"></div>
     <div class="g-top">
-      <span>${ab(g.away_team)} @ ${ab(g.home_team)} · ${esc(g.venue ?? '')}</span>
+      <span>${abSpan(ab(g.away_team))} @ ${abSpan(ab(g.home_team))} · ${esc(g.venue ?? '')}</span>
       <span>${stateBadge(g)}${g.tier ? `<span class="tier ${g.tier}">${g.tier}</span>` : ''}</span>
     </div>
     ${rows}
-    <div class="prob-track"><div class="prob-away" style="width:${(g.away_win_pct ?? .5)*100}%"></div></div>
+    <div class="prob-track"><div class="prob-away" style="width:${(g.away_win_pct ?? .5)*100}%;background:${cA}"></div><div class="prob-home" style="background:${cH}"></div></div>
     <div class="g-stats">
       <div class="stat"><div class="v">${total} / ${proj}</div><div class="l">TOTAL / MODEL</div></div>
       <div class="stat"><div class="v ${Math.abs(g.p_cover-.5)>=.05?'hot':''}">${pct(g.p_cover ?? .5)}</div><div class="l">HOME COVER</div></div>
@@ -173,7 +185,7 @@ function renderPlays(d){
   $('plays').innerHTML = qbs.map(q => `<div class="play">
       <div class="p-main">
         <div class="p-player">${esc(q.name)}</div>
-        <div class="p-meta"><b>${q.team}</b> vs ${q.opp}</div>
+        <div class="p-meta">${abSpan(q.team)} vs ${abSpan(q.opp)}</div>
       </div>
       <div class="p-edge">
         <div class="edge-val">${q.pass_yds.toFixed(0)} yds</div>

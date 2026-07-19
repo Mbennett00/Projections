@@ -50,6 +50,12 @@ header{display:flex; align-items:center; justify-content:space-between; padding:
   width:120px; height:120px; border-radius:50%;
   background:radial-gradient(circle, rgba(76,141,255,.18), transparent 70%);
 }
+a[href="./nfl/"].sport-card::after{background:radial-gradient(circle, rgba(255,211,77,.15), transparent 70%)}
+a[href="./nfl/"].sport-card:hover{border-color:var(--yellow)}
+body{position:relative}
+body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(600px 320px at 12% -6%,rgba(76,141,255,.16),transparent 60%),
+             radial-gradient(520px 300px at 108% 4%,rgba(255,211,77,.10),transparent 60%)}
 .sport-tag{
   font-family:'Sora',sans-serif; font-weight:700; font-size:12px; letter-spacing:.14em;
   color:var(--yellow); margin-bottom:8px;

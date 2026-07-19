@@ -17,24 +17,30 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{
   background:var(--bg); color:var(--text); font-family:'Inter',system-ui,sans-serif;
-  min-height:100dvh; max-width:520px; margin:0 auto;
+  min-height:100dvh; max-width:520px; margin:0 auto; position:relative;
   padding:max(16px,env(safe-area-inset-top)) 16px max(28px,env(safe-area-inset-bottom));
 }
+body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(600px 320px at 12% -6%,rgba(76,141,255,.16),transparent 60%),
+             radial-gradient(520px 300px at 108% 4%,rgba(255,211,77,.10),transparent 60%)}
 header{display:flex; align-items:center; gap:12px; padding:4px 2px 18px}
 .back{width:36px;height:36px;border-radius:50%;background:var(--card);border:1px solid var(--line);
   display:grid;place-items:center;color:var(--text);text-decoration:none;font-weight:700;flex:none}
-h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1}
+h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
+  background:linear-gradient(100deg,var(--blue),var(--yellow));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
 .updated{font-size:11.5px;font-weight:600;color:var(--yellow);background:rgba(255,211,77,.1);
   border:1px solid rgba(255,211,77,.22);padding:6px 10px;border-radius:99px;white-space:nowrap}
 .tabs{display:flex;gap:8px;margin-bottom:14px}
 .tab{flex:1;text-align:center;font-size:13.5px;font-weight:600;color:var(--muted);
   background:var(--card);border:1px solid var(--line);border-radius:12px;
   padding:11px 0;cursor:pointer;user-select:none;transition:all .15s}
-.tab.on{color:#0B1020;background:var(--yellow);border-color:var(--yellow)}
+.tab.on{color:#0B1020;background:linear-gradient(100deg,var(--blue) 0%,var(--yellow) 90%);border-color:transparent}
 .slate-label{font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.1em;
   text-transform:uppercase;margin:2px 2px 12px}
 /* game cards */
-.game{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:15px 16px;margin-bottom:12px}
+.game{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:17px 16px 15px;margin-bottom:12px;position:relative;overflow:hidden}
+.g-accent{position:absolute;top:0;left:0;right:0;height:3px}
 .g-top{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted);font-weight:600;margin-bottom:11px}
 .state{font-size:10.5px;font-weight:700;letter-spacing:.06em;padding:4px 9px;border-radius:99px}
 .state.live{color:#0B1020;background:var(--red);animation:pulse 2s infinite}
@@ -47,26 +53,27 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1}
 .tier.PASS{color:var(--muted);background:var(--card-2)}
 .team{display:flex;align-items:center;justify-content:space-between;padding:4px 0}
 .t-name{display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px;min-width:0}
-.t-abbr{font-family:'Sora',sans-serif;font-weight:700;font-size:12px;color:var(--blue);
-  background:rgba(76,141,255,.12);border-radius:8px;padding:3px;width:32px;height:32px;
+.t-abbr{font-family:'Sora',sans-serif;font-weight:700;font-size:11px;
+  border-radius:9px;padding:3px;width:34px;height:34px;
   display:grid;place-items:center;text-align:center;flex:none;overflow:hidden}
 .t-abbr img{width:26px;height:26px;object-fit:contain;display:block}
 .t-abbr:not(:has(img))::before{content:attr(data-ab)}
-.p-avatar{width:38px;height:38px;border-radius:50%;background:var(--card-2);border:1px solid var(--line);
-  flex:none;overflow:hidden;display:grid;place-items:center;font-family:'Sora',sans-serif;
-  font-weight:700;font-size:12px;color:var(--muted)}
-.p-avatar img{width:100%;height:100%;object-fit:cover;display:block}
+.p-avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(160deg,var(--card-2),#232E4E);
+  border:1px solid var(--line);flex:none;overflow:hidden;display:grid;place-items:center;
+  font-family:'Sora',sans-serif;font-weight:700;font-size:12px;color:var(--muted)}
+.p-avatar img{width:92%;height:92%;object-fit:contain;object-position:center;display:block}
 .p-avatar:not(:has(img))::before{content:attr(data-in)}
 .hr-avatar{width:28px;height:28px;border-radius:50%;background:var(--card);border:1px solid var(--line);
   overflow:hidden;flex:none;display:grid;place-items:center;font-size:10px;font-weight:700;color:var(--muted)}
-.hr-avatar img{width:100%;height:100%;object-fit:cover;display:block}
+.hr-avatar img{width:90%;height:90%;object-fit:contain;object-position:center;display:block}
 .hr-left{display:flex;align-items:center;gap:9px;min-width:0}
 .t-city{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .t-num{font-variant-numeric:tabular-nums;font-weight:600;font-size:14px;color:var(--muted);flex:none;margin-left:8px}
 .t-num.fav{color:var(--text)}
 .t-score{font-family:'Sora',sans-serif;font-weight:700;font-size:17px;color:var(--text);flex:none;margin-left:8px}
-.prob-track{height:6px;border-radius:99px;background:var(--card-2);margin:11px 0 9px;overflow:hidden;display:flex}
-.prob-away{height:100%;background:var(--blue);border-radius:99px 0 0 99px;transition:width .6s ease}
+.prob-track{height:6px;border-radius:99px;background:var(--card-2);margin:11px 0 9px;overflow:hidden;display:flex;gap:2px}
+.prob-away{height:100%;transition:width .6s ease}
+.prob-home{height:100%;flex:1}
 .g-stats{display:flex;gap:6px;margin-top:10px}
 .stat{flex:1;background:var(--card-2);border-radius:10px;padding:8px 6px;text-align:center}
 .stat .v{font-family:'Sora',sans-serif;font-weight:700;font-size:13.5px;color:var(--text);font-variant-numeric:tabular-nums}
@@ -79,8 +86,8 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1}
 .chips::-webkit-scrollbar{display:none}
 .chip{flex:none;font-size:12.5px;font-weight:600;color:var(--muted);background:var(--card);
   border:1px solid var(--line);border-radius:99px;padding:8px 14px;cursor:pointer;user-select:none;white-space:nowrap}
-.chip.on{color:#0B1020;background:var(--blue);border-color:var(--blue)}
-.hr-strip{background:linear-gradient(160deg,var(--card-2),var(--card));border:1px solid var(--line);
+.chip.on{color:#0B1020;background:linear-gradient(100deg,var(--blue),var(--yellow));border-color:transparent}
+.hr-strip{background:linear-gradient(160deg,var(--card-2),var(--card));border:1px solid rgba(255,211,77,.28);
   border-radius:var(--r);padding:13px 16px;margin-bottom:12px}
 .hr-title{font-family:'Sora',sans-serif;font-weight:700;font-size:12px;letter-spacing:.12em;color:var(--yellow);margin-bottom:9px}
 .hr-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;font-size:13.5px}
@@ -130,10 +137,13 @@ const ABBR = {"Arizona Diamondbacks":"ARI","Athletics":"ATH","Oakland Athletics"
 const ab = n => ABBR[n] || (n||'').split(' ').map(w=>w[0]).join('').slice(0,3).toUpperCase();
 // Official MLB StatsAPI team IDs → mlbstatic logo CDN
 const TEAMID = {"ARI":109,"ATH":133,"ATL":144,"BAL":110,"BOS":111,"CHC":112,"CWS":145,"CIN":113,"CLE":114,"COL":115,"DET":116,"HOU":117,"KC":118,"LAA":108,"LAD":119,"MIA":146,"MIL":158,"MIN":142,"NYM":121,"NYY":147,"PHI":143,"PIT":134,"SD":135,"SF":137,"SEA":136,"STL":138,"TB":139,"TEX":140,"TOR":141,"WSH":120};
+const TC = {ARI:'#D53A4C',ATH:'#EFB21E',ATL:'#CE1141',BAL:'#DF4601',BOS:'#BD3039',CHC:'#3E7CD6',CWS:'#C4CED4',CIN:'#E0142E',CLE:'#E31937',COL:'#8A63D2',DET:'#FA4616',HOU:'#EB6E1F',KC:'#3E8EDE',LAA:'#D01432',LAD:'#2F7DE1',MIA:'#00A3E0',MIL:'#FFC52F',MIN:'#4F9FE0',NYM:'#FF5910',NYY:'#8A9BC4',PHI:'#E81828',PIT:'#FDB827',SD:'#FFC425',SF:'#FD5A1E',SEA:'#2FBDB3',STL:'#D02543',TB:'#8FBCE6',TEX:'#D01A28',TOR:'#3D7EDB',WSH:'#D22B33'};
+const tc = a => TC[a] || '#4C8DFF';
+const abSpan = a => `<b style="color:${tc(a)}">${a}</b>`;
 const logo = a => TEAMID[a] ? `https://www.mlbstatic.com/team-logos/${TEAMID[a]}.svg` : '';
 const mug = id => `https://img.mlbstatic.com/mlb-photos/image/upload/w_120,q_auto:best/v1/people/${id}/headshot/67/current`;
 const initials = n => (n||'').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
-const badge = a => `<span class="t-abbr" data-ab="${a}">${logo(a) ? `<img src="${logo(a)}" alt="" loading="lazy" onerror="this.remove()">` : ''}</span>`;
+const badge = a => `<span class="t-abbr" data-ab="${a}" style="color:${tc(a)};background:${tc(a)}1E;border:1px solid ${tc(a)}55">${logo(a) ? `<img src="${logo(a)}" alt="" loading="lazy" onerror="this.remove()">` : ''}</span>`;
 let NAMEID = {};
 function buildIds(d){
   NAMEID = {};
@@ -191,11 +201,13 @@ function gameCard(g){
       <div class="stat"><div class="v">${pct(g.p_any_hr)}</div><div class="l">ANY HR</div></div>
       <div class="stat"><div class="v ${g.target_score>=70?'hot':''}">${g.target_score ?? '–'}</div><div class="l">TARGET</div></div>
     </div>` : '';
-  const prob = (hasModel && !done) ? `<div class="prob-track"><div class="prob-away" style="width:${g.away_win_pct*100}%"></div></div>` : '';
+  const cA = tc(ab(g.away_team)), cH = tc(ab(g.home_team));
+  const prob = (hasModel && !done) ? `<div class="prob-track"><div class="prob-away" style="width:${g.away_win_pct*100}%;background:${cA}"></div><div class="prob-home" style="background:${cH}"></div></div>` : '';
   const pitch = g.away_pitcher ? `<div class="pitchers"><b>${esc(g.away_pitcher)}</b> vs <b>${esc(g.home_pitcher)}</b>${g.home_plate_ump ? ` · Ump: ${esc(g.home_plate_ump)}` : ''}</div>` : '';
   return `<div class="game">
+    <div class="g-accent" style="background:linear-gradient(90deg,${cA},${cH})"></div>
     <div class="g-top">
-      <span>${ab(g.away_team)} @ ${ab(g.home_team)} · ${esc(g.venue ?? '')}</span>
+      <span>${abSpan(ab(g.away_team))} @ ${abSpan(ab(g.home_team))} · ${esc(g.venue ?? '')}</span>
       <span>${stateBadge(g)}${g.tier ? `<span class="tier ${g.tier}">${g.tier}</span>` : ''}</span>
     </div>
     ${rows}${prob}${stats}${pitch}</div>`;
@@ -247,7 +259,7 @@ function renderPlays(d){
       ${avatar(p.name)}
       <div class="p-main">
         <div class="p-player">${esc(p.name)}</div>
-        <div class="p-meta"><b>${p.team}</b> vs ${p.opp}${p.order ? ` · #${p.order}` : ''}</div>
+        <div class="p-meta">${abSpan(p.team)} vs ${abSpan(p.opp)}${p.order ? ` · #${p.order}` : ''}</div>
       </div>
       <div class="p-edge">
         <div class="edge-val">${cfg.fmt(cfg.v(p))}</div>
@@ -255,7 +267,7 @@ function renderPlays(d){
       </div>
     </div>`).join('');
   const hr = (d.standouts?.top_hr || []).slice(0,5).map(h =>
-    `<div class="hr-row"><span class="hr-left">${avatar(h.name,'hr-avatar')}<span class="nm">${esc(h.name)}</span><span class="tm">${ab(h.team)}</span></span>
+    `<div class="hr-row"><span class="hr-left">${avatar(h.name,'hr-avatar')}<span class="nm">${esc(h.name)}</span><span class="tm">${abSpan(ab(h.team))}</span></span>
      <span class="pct">${(h.hr_prob*100).toFixed(1)}%</span></div>`).join('');
   $('plays').innerHTML =
     (hr ? `<div class="hr-strip"><div class="hr-title">HR WATCH</div>${hr}</div>` : '') +
