@@ -36,6 +36,29 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
   background:var(--card);border:1px solid var(--line);border-radius:12px;
   padding:11px 0;cursor:pointer;user-select:none;transition:all .15s}
 .tab.on{color:#0B1020;background:linear-gradient(100deg,var(--blue) 0%,var(--yellow) 90%);border-color:transparent}
+.summary{display:flex;gap:8px;flex-wrap:wrap;margin:2px 0 14px}
+.sum-chip{font-size:11.5px;font-weight:600;color:var(--text);background:var(--card);
+  border:1px solid var(--line);border-radius:9px;padding:7px 11px;display:inline-flex;align-items:center;gap:6px}
+.sum-chip .dot{width:7px;height:7px;border-radius:50%;display:inline-block}
+.tag{font-size:8.5px;font-weight:800;letter-spacing:.06em;padding:2px 6px;border-radius:5px;
+  display:inline-block;margin-right:4px;margin-top:4px;line-height:1.4}
+.rank{width:20px;flex:none;text-align:center;font-family:'Sora',sans-serif;font-weight:800;
+  font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.rank.r1{background:linear-gradient(135deg,#FFD34D,#FF9F1C);-webkit-background-clip:text;background-clip:text;color:transparent}
+.rank.r2{color:#C7D2E0}.rank.r3{color:#E0A96D}
+.play{cursor:pointer;flex-wrap:wrap}
+.sim{flex-basis:100%;margin-top:11px;padding-top:11px;border-top:1px dashed var(--line)}
+.sim-head{font-size:10.5px;font-weight:700;letter-spacing:.08em;color:var(--muted);margin-bottom:8px;display:flex;justify-content:space-between}
+.sim-head b{background:linear-gradient(100deg,var(--blue),var(--yellow));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sim-row{display:flex;align-items:center;gap:9px;margin-bottom:6px;font-size:12px}
+.sim-lab{width:42px;flex:none;color:var(--muted);font-weight:600;font-variant-numeric:tabular-nums}
+.sim-bar{flex:1;height:12px;border-radius:6px;background:var(--card-2);overflow:hidden}
+.sim-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--blue),var(--yellow));
+  transition:width .5s cubic-bezier(.2,.8,.2,1)}
+.sim-pct{width:44px;flex:none;text-align:right;font-weight:700;font-variant-numeric:tabular-nums;color:var(--text);font-size:12px}
+.sim-hint{font-size:9.5px;font-weight:700;letter-spacing:.06em;color:var(--blue);margin-top:4px}
+@keyframes rise{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+.game,.play,.hr-strip{animation:rise .28s ease both}
 .slate-label{font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.1em;
   text-transform:uppercase;margin:2px 2px 12px}
 /* game cards */
@@ -78,7 +101,8 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
 .prob-away{height:100%;transition:width .6s ease}
 .prob-home{height:100%;flex:1}
 .g-stats{display:flex;gap:6px;margin-top:10px}
-.stat{flex:1;background:var(--card-2);border-radius:10px;padding:8px 6px;text-align:center}
+.stat{flex:1;background:var(--card-2);border-radius:10px;padding:8px 6px;text-align:center;border-top:2px solid transparent}
+.stat.sb{border-top-color:rgba(76,141,255,.6)}.stat.st{border-top-color:rgba(45,212,191,.6)}.stat.sy{border-top-color:rgba(255,211,77,.6)}
 .stat .v{font-family:'Sora',sans-serif;font-weight:700;font-size:13.5px;color:var(--text);font-variant-numeric:tabular-nums}
 .stat .v.hot{color:var(--yellow)}
 .stat .l{font-size:10px;color:var(--muted);font-weight:600;margin-top:2px;letter-spacing:.03em}
@@ -115,7 +139,7 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
   background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;cursor:pointer;font-family:inherit}
 .empty{text-align:center;color:var(--muted);font-size:14px;padding:60px 20px}
 .hide{display:none}
-@media (prefers-reduced-motion:reduce){.prob-away{transition:none}.state.live{animation:none}}
+@media (prefers-reduced-motion:reduce){.prob-away,.sim-fill{transition:none}.state.live,.game,.play,.hr-strip{animation:none}}
 </style>
 </head>
 <body>
@@ -210,9 +234,9 @@ function gameCard(g){
       ${num}</div>`;
   }).join('');
   const stats = hasModel ? `<div class="g-stats">
-      <div class="stat"><div class="v ${g.p_over_8_5>=.6?'hot':''}">${pct(g.p_over_8_5)}</div><div class="l">O8.5</div></div>
-      <div class="stat"><div class="v">${pct(g.p_any_hr)}</div><div class="l">ANY HR</div></div>
-      <div class="stat"><div class="v ${g.target_score>=70?'hot':''}">${g.target_score ?? '–'}</div><div class="l">TARGET</div></div>
+      <div class="stat sb"><div class="v ${g.p_over_8_5>=.6?'hot':''}">${pct(g.p_over_8_5)}</div><div class="l">O8.5</div></div>
+      <div class="stat st"><div class="v">${pct(g.p_any_hr)}</div><div class="l">ANY HR</div></div>
+      <div class="stat sy"><div class="v ${g.target_score>=70?'hot':''}">${g.target_score ?? '–'}</div><div class="l">TARGET</div></div>
     </div>` : '';
   const cA = tc(ab(g.away_team)), cH = tc(ab(g.home_team));
   const prob = (hasModel && !done) ? `<div class="prob-track"><div class="prob-away" style="width:${g.away_win_pct*100}%;background:${cA}"></div><div class="prob-home" style="background:${cH}"></div></div>` : '';
@@ -258,6 +282,58 @@ const STATS = {
   'Runs':  {pool:'bat', v:p=>p.expected_runs, fmt:v=>v.toFixed(2), sub:p=>`${(p.expected_rbi??0).toFixed(2)} RBI proj`},
   'Ks':    {pool:'arm', v:p=>p.expected_k,    fmt:v=>v.toFixed(1), sub:p=>`${(p.expected_ip??0).toFixed(1)} IP · ${(p.expected_er??0).toFixed(1)} ER proj`}
 };
+
+// ---- player tags derived from model inputs ----
+function tagsFor(p, pool){
+  const t = [];
+  if (pool === 'arm') {
+    if ((p.expected_k ?? 0) >= 6.0) t.push(['K UPSIDE','#FFD34D']);
+    if ((p.expected_ip ?? 0) >= 6.0) t.push(['WORKHORSE','#4C8DFF']);
+    if ((p.expected_er ?? 9) <= 2.2) t.push(['STINGY','#2DD4BF']);
+  } else {
+    if ((p.hr_prob ?? 0) >= .08) t.push(['POWER','#FFD34D']);
+    if ((p.offense_quality ?? 0) >= 78 || (p.xwoba ?? 0) >= .360) t.push(['ELITE BAT','#A78BFA']);
+    if ((p.k_rate ?? 1) <= .17) t.push(['CONTACT','#2DD4BF']);
+    if ((p.bb_rate ?? 0) >= .12) t.push(['GOOD EYE','#4C8DFF']);
+    if ((p.pa ?? 0) >= 4.55) t.push(['TOP OF ORDER','#FF8FA3']);
+  }
+  return t.slice(0,3).map(([n,c]) =>
+    `<span class="tag" style="color:${c};background:${c}1C;border:1px solid ${c}44">${n}</span>`).join('');
+}
+
+// ---- Monte Carlo: 10,000 Poisson sims per tap ----
+const pois = l => { const L = Math.exp(-l); let k = 0, p = 1; do { k++; p *= Math.random(); } while (p > L); return k - 1; };
+const BUCKETS = {
+  'HR':    [['0',v=>v===0],['1',v=>v===1],['2+',v=>v>=2]],
+  'Hits':  [['0',v=>v===0],['1',v=>v===1],['2',v=>v===2],['3+',v=>v>=3]],
+  'Bases': [['0-1',v=>v<=1],['2-3',v=>v<=3],['4-5',v=>v<=5],['6+',v=>v>=6]],
+  'RBI':   [['0',v=>v===0],['1',v=>v===1],['2+',v=>v>=2]],
+  'Runs':  [['0',v=>v===0],['1',v=>v===1],['2+',v=>v>=2]],
+  'Ks':    [['≤4',v=>v<=4],['5-6',v=>v<=6],['7-8',v=>v<=8],['9+',v=>v>=9]]
+};
+let openSim = null;
+const SIMCACHE = {};
+function runSim(stat, lambda){
+  const key = stat + ':' + lambda.toFixed(3);
+  if (SIMCACHE[key]) return SIMCACHE[key];
+  const N = 10000, draws = new Array(N);
+  for (let i = 0; i < N; i++) draws[i] = pois(lambda);
+  let rem = [...draws];
+  const out = BUCKETS[stat].map(([lab, test]) => {
+    const hit = rem.filter(test).length;
+    rem = rem.filter(v => !test(v));
+    return [lab, hit / N];
+  });
+  return SIMCACHE[key] = out;
+}
+function simPanel(stat, lambda){
+  const rows = runSim(stat, lambda).map(([lab, p]) =>
+    `<div class="sim-row"><span class="sim-lab">${lab}</span>
+      <div class="sim-bar"><div class="sim-fill" style="width:${(p*100).toFixed(1)}%"></div></div>
+      <span class="sim-pct">${(p*100).toFixed(1)}%</span></div>`).join('');
+  return `<div class="sim"><div class="sim-head"><span>MONTE CARLO · ${stat.toUpperCase()}</span><b>10,000 SIMS</b></div>${rows}</div>`;
+}
+
 let statFilter = 'HR', shownP = 40;
 
 function renderPlays(d){
@@ -268,17 +344,25 @@ function renderPlays(d){
     .sort((a,b) => cfg.v(b) - cfg.v(a));
   const chips = Object.keys(STATS).map(s =>
     `<div class="chip ${s===statFilter?'on':''}" data-m="${s}">${s}</div>`).join('');
-  const list = pool.slice(0, shownP).map((p,i) => `<div class="play">
+  const list = pool.slice(0, shownP).map((p,i) => {
+    const key = statFilter + '|' + p.name + '|' + p.matchup;
+    const open = openSim === key;
+    return `<div class="play" data-key="${esc(key)}" data-l="${cfg.v(p)}">
+      <span class="rank ${i<3?'r'+(i+1):''}">${i+1}</span>
       ${avatar(p.name, p.team)}
       <div class="p-main">
         <div class="p-player">${esc(p.name)}</div>
         <div class="p-meta">${abSpan(p.team)} vs ${abSpan(p.opp)}${p.order ? ` · #${p.order}` : ''}</div>
+        <div>${tagsFor(p, cfg.pool)}</div>
       </div>
       <div class="p-edge">
         <div class="edge-val">${cfg.fmt(cfg.v(p))}</div>
         <div class="p-odds">${cfg.sub(p)}</div>
+        <div class="sim-hint">${open ? '▾ SIM' : '▸ TAP TO SIM'}</div>
       </div>
-    </div>`).join('');
+      ${open ? simPanel(statFilter, cfg.v(p)) : ''}
+    </div>`;
+  }).join('');
   const hr = (d.standouts?.top_hr || []).slice(0,5).map(h =>
     `<div class="hr-row"><span class="hr-left">${avatar(h.name, ab(h.team), 'hr-avatar')}<span class="nm">${esc(h.name)}</span><span class="tm">${abSpan(ab(h.team))}</span></span>
      <span class="pct">${(h.hr_prob*100).toFixed(1)}%</span></div>`).join('');
@@ -287,8 +371,12 @@ function renderPlays(d){
     `<div class="chips">${chips}</div>` +
     (list || '<div class="empty">No lineups posted yet for this slate.</div>') +
     (pool.length > shownP ? `<button class="more" id="more">Show ${Math.min(40, pool.length-shownP)} more</button>` : '');
-  document.querySelectorAll('.chip').forEach(c => c.onclick = () => { statFilter = c.dataset.m; shownP = 40; renderPlays(DATA); });
+  document.querySelectorAll('.chip').forEach(c => c.onclick = () => { statFilter = c.dataset.m; shownP = 40; openSim = null; renderPlays(DATA); });
   const mb = $('more'); if (mb) mb.onclick = () => { shownP += 40; renderPlays(DATA); };
+  document.querySelectorAll('.play[data-key]').forEach(el => el.onclick = () => {
+    openSim = (openSim === el.dataset.key) ? null : el.dataset.key;
+    renderPlays(DATA);
+  });
 }
 
 async function load(){
@@ -298,7 +386,13 @@ async function load(){
     buildIds(DATA);
     $('updated').textContent = 'Updated ' + rel(DATA.generated_at);
     const live = DATA.games.filter(g=>g.game_state==='Live').length;
-    $('slate').textContent = `Slate · ${DATA.date} · ${DATA.games.length} games${live ? ` · ${live} live` : ''}`;
+    const strong = DATA.games.filter(g=>g.tier==='STRONG').length;
+    $('slate').className = 'summary';
+    $('slate').innerHTML =
+      `<span class="sum-chip"><span class="dot" style="background:var(--blue)"></span>${DATA.games.length} games</span>` +
+      (live ? `<span class="sum-chip"><span class="dot" style="background:var(--red)"></span>${live} live</span>` : '') +
+      (strong ? `<span class="sum-chip"><span class="dot" style="background:var(--yellow)"></span>${strong} strong</span>` : '') +
+      `<span class="sum-chip"><span class="dot" style="background:#2DD4BF"></span>${DATA.date}</span>`;
     renderGames(DATA);
     renderPlays(DATA);
   } catch(e){ $('updated').textContent = 'Offline'; }
