@@ -276,6 +276,7 @@ def fetch_qb_season_stats(athlete_id):
             "pass_td": round((tds or 0) / games, 2),
             "int": round((ints or 0) / games, 2),
             "rating": round(rating, 1) if rating else None,
+            "gp": games,
         }
     except Exception as e:
         _qb_stat_failures.append(str(athlete_id))
@@ -329,6 +330,7 @@ def fetch_skill_season_stats(athlete_id):
             "rush_att": round((rush_att or 0) / games, 1),
             "rush_yds": round((rush_yds or 0) / games, 1),
             "td_per_game": round((rec_td + rush_td) / games, 2),
+            "gp": games,
         }
     except Exception as e:
         _skill_stat_failures.append(str(athlete_id))
@@ -671,32 +673,145 @@ def fetch_defense_factor(team_abbr):
 # league average, dampened 50%). "epa_db" remains a proxy derived from
 # passer rating, not real EPA — true EPA needs play-by-play data.
 # ──────────────────────────────────────────────────────────────────────────
+# ── PRIOR-SEASON STATS + BLENDING ────────────────────────────────────────
+# Early-season per-game stats are tiny-sample noise (one blowout skews
+# everything). Fix: blend current season with last season's per-game rates
+# using shrinkage: blended = (gp*current + K*prior) / (gp + K).
+# Week 1: ~all prior. Week 5: ~50/50. Week 10+: current dominates.
+from datetime import date as _date
+_today = _date.today()
+PRIOR_SEASON = _today.year - 1 if _today.month >= 3 else _today.year - 2
+K_RATE = 4      # shrinkage for efficiency-ish rates (yards, TDs, rating)
+K_USAGE = 2     # usage stabilizes faster (targets/carries are coach decisions)
+LEAGUE_YPT = 7.6    # league yards per target
+LEAGUE_YPA = 4.3    # league yards per rush attempt
+LEAGUE_CATCH = 0.655
+TD_PER_CARRY = 0.025
+TD_PER_TARGET = 0.045
+
+def fetch_prior_stats(athlete_id, kind):
+    """Last completed season per-game stats via ESPN core API.
+    kind: 'passing' or 'skill'. Returns dict or None."""
+    if not athlete_id:
+        return None
+    url = (f"https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/"
+           f"seasons/{PRIOR_SEASON}/types/2/athletes/{athlete_id}/statistics/0")
+    try:
+        data = _http_get_json(url)
+
+        def stat(block, *names):
+            if not block:
+                return None
+            for s in block.get("stats", []):
+                if isinstance(s, dict) and (s.get("name") in names or s.get("shortDisplayName") in names):
+                    try:
+                        return float(s.get("value"))
+                    except (TypeError, ValueError):
+                        continue
+            return None
+
+        gen = _find_stat_category(data, {"general"})
+        games = stat(gen, "gamesPlayed", "GP")
+        if kind == "passing":
+            blk = _find_stat_category(data, {"passing"})
+            if not blk:
+                return None
+            games = games or stat(blk, "teamGamesPlayed") or 17
+            att = stat(blk, "passingAttempts", "ATT")
+            if not att or att < 100:   # ignore fringe/no-sample seasons
+                return None
+            comp = stat(blk, "completions", "CMP") or 0
+            return {
+                "comp_pct": round(comp / att * 100, 1),
+                "pass_yds": round((stat(blk, "passingYards", "YDS") or 0) / games, 1),
+                "pass_td": round((stat(blk, "passingTouchdowns", "TD") or 0) / games, 2),
+                "int": round((stat(blk, "interceptions", "INT") or 0) / games, 2),
+                "rating": stat(blk, "QBRating", "passerRating", "RTG"),
+                "gp": games,
+            }
+        else:
+            rec_b = _find_stat_category(data, {"receiving"})
+            rush_b = _find_stat_category(data, {"rushing"})
+            if not rec_b and not rush_b:
+                return None
+            games = games or 17
+            tgt = stat(rec_b, "receivingTargets", "TGTS") or 0
+            att = stat(rush_b, "rushingAttempts", "ATT") or 0
+            if tgt + att < 20:         # too small even for a prior
+                return None
+            return {
+                "targets": round(tgt / games, 1),
+                "rec": round((stat(rec_b, "receptions", "REC") or 0) / games, 1),
+                "rec_yds": round((stat(rec_b, "receivingYards", "YDS") or 0) / games, 1),
+                "rush_att": round(att / games, 1),
+                "rush_yds": round((stat(rush_b, "rushingYards", "YDS") or 0) / games, 1),
+                "td_per_game": round(((stat(rec_b, "receivingTouchdowns", "TD") or 0)
+                                     + (stat(rush_b, "rushingTouchdowns", "TD") or 0)) / games, 2),
+                "gp": games,
+            }
+    except Exception:
+        return None
+
+def _blend(cur, pri, gp, k):
+    """Shrinkage blend of two per-game rates. Either side may be None."""
+    if cur is None and pri is None:
+        return None
+    if pri is None:
+        return cur
+    if cur is None or not gp:
+        return pri
+    return (gp * cur + k * pri) / (gp + k)
+
+def blend_stats(cur, pri, keys_usage=(), keys_rate=()):
+    gp = (cur or {}).get("gp") or 0
+    out = {}
+    for key in keys_usage:
+        out[key] = _blend((cur or {}).get(key), (pri or {}).get(key), gp, K_USAGE)
+    for key in keys_rate:
+        out[key] = _blend((cur or {}).get(key), (pri or {}).get(key), gp, K_RATE)
+    return out
+
 LEAGUE_AVG_QB = {"comp_pct": 64.5, "pass_yds": 220, "pass_td": 1.4, "int": 0.7, "rating": 88.0}
 
 
-def project_qb(team_abbr, opponent_abbr=None):
+def project_qb(team_abbr, opponent_abbr=None, vegas_factor=None):
     name, athlete_id = fetch_starting_qb(team_abbr)
-    stats = fetch_qb_season_stats(athlete_id) if athlete_id else None
-    if not stats:
-        stats = dict(LEAGUE_AVG_QB)  # fallback so the field never breaks the dashboard
+    cur = fetch_qb_season_stats(athlete_id) if athlete_id else None
+    pri = fetch_prior_stats(athlete_id, "passing") if athlete_id else None
 
-    def_factor = fetch_defense_factor(opponent_abbr) if opponent_abbr else 1.0
+    if cur or pri:
+        stats = blend_stats(cur, pri, keys_rate=("comp_pct", "pass_yds", "pass_td", "int", "rating"))
+        src_tag = "blend" if (cur and pri) else ("current" if cur else "prior")
+    else:
+        stats = dict(LEAGUE_AVG_QB)
+        src_tag = "league_avg"
+
+    # Vegas-implied team total is the sharpest single signal available:
+    # the market already prices injuries, pace, weather, and matchup.
+    # When lines exist, scale to them; otherwise fall back to the
+    # defense-strength factor (avoids double-counting defense).
+    if vegas_factor is not None:
+        factor = vegas_factor
+    else:
+        factor = fetch_defense_factor(opponent_abbr) if opponent_abbr else 1.0
 
     rating = stats.get("rating") or LEAGUE_AVG_QB["rating"]
-    rating_adj = round(rating * (1 + (def_factor - 1) * 0.6), 1)  # rating moves less than counting stats
+    rating_adj = round(rating * (1 + (factor - 1) * 0.6), 1)
     quality = round(max(0, min(50, (rating_adj - 70) / 1.2)))
-    epa_db = round((rating_adj - 85) / 100, 2)  # proxy only — not real EPA, see note above
+    epa_db = round((rating_adj - 85) / 100, 2)
 
     return {
         "name": name,
+        "player_id": athlete_id,
         "quality": quality,
-        "comp_pct": stats.get("comp_pct", LEAGUE_AVG_QB["comp_pct"]),
-        "pass_yds": round(stats.get("pass_yds", LEAGUE_AVG_QB["pass_yds"]) * def_factor, 1),
-        "pass_td": round(stats.get("pass_td", LEAGUE_AVG_QB["pass_td"]) * def_factor, 2),
-        "int": stats.get("int", LEAGUE_AVG_QB["int"]),
+        "comp_pct": round(stats.get("comp_pct") or LEAGUE_AVG_QB["comp_pct"], 1),
+        "pass_yds": round((stats.get("pass_yds") or LEAGUE_AVG_QB["pass_yds"]) * factor, 1),
+        "pass_td": round((stats.get("pass_td") or LEAGUE_AVG_QB["pass_td"]) * factor, 2),
+        "int": round(stats.get("int") or LEAGUE_AVG_QB["int"], 2),
         "rating": rating_adj,
         "epa_db": epa_db,
-        "_matchup_factor": round(def_factor, 3) if opponent_abbr else None,
+        "src": src_tag,
+        "_matchup_factor": round(factor, 3),
     }
 
 
@@ -709,39 +824,64 @@ def project_qb(team_abbr, opponent_abbr=None):
 # how often a player gets the ball — while yards/TD-rate/fantasy points
 # scale with the matchup.
 # ──────────────────────────────────────────────────────────────────────────
-def project_skill_players(team_abbr, opponent_abbr=None):
+def project_skill_players(team_abbr, opponent_abbr=None, vegas_factor=None):
+    import math as _math
     starters = fetch_skill_starters(team_abbr)
-    def_factor = fetch_defense_factor(opponent_abbr) if opponent_abbr else 1.0
+    if vegas_factor is not None:
+        factor = vegas_factor
+    else:
+        factor = fetch_defense_factor(opponent_abbr) if opponent_abbr else 1.0
+
     players = []
     for name, athlete_id, pos in starters:
         if not name:
             continue
-        stats = fetch_skill_season_stats(athlete_id)
-        if not stats:
+        cur = fetch_skill_season_stats(athlete_id)
+        pri = fetch_prior_stats(athlete_id, "skill")
+        if not cur and not pri:
             continue  # skip rather than show a fake stub player
 
-        rec_yds = round(stats["rec_yds"] * def_factor, 1)
-        rush_yds = round(stats["rush_yds"] * def_factor, 1)
-        td_per_game_adj = stats["td_per_game"] * def_factor
-        td_prob = min(0.85, td_per_game_adj * 0.65)
-        fpts = round(
-            stats["rec"] * 1.0 +            # PPR, usage left unadjusted
-            rec_yds * 0.1 +
-            rush_yds * 0.1 +
-            td_per_game_adj * 6.0,
-            1,
-        )
+        # usage stabilizes fast (K=2); yardage rates slower (K=4)
+        b = blend_stats(cur, pri,
+                        keys_usage=("targets", "rush_att"),
+                        keys_rate=("rec", "rec_yds", "rush_yds", "td_per_game"))
+        targets = b.get("targets") or 0.0
+        rush_att = b.get("rush_att") or 0.0
+
+        # efficiency = blended rate, regressed 20% to league average --
+        # a hot 11.2 yds/target through 3 games is mostly noise.
+        ypt = ((b.get("rec_yds") or 0) / targets) if targets else LEAGUE_YPT
+        ypa = ((b.get("rush_yds") or 0) / rush_att) if rush_att else LEAGUE_YPA
+        ypt = 0.8 * ypt + 0.2 * LEAGUE_YPT
+        ypa = 0.8 * ypa + 0.2 * LEAGUE_YPA
+        catch = ((b.get("rec") or 0) / targets) if targets else LEAGUE_CATCH
+        catch = min(0.9, 0.85 * catch + 0.15 * LEAGUE_CATCH)
+
+        rec = round(targets * catch, 1)                      # usage unadjusted
+        rec_yds = round(targets * ypt * factor, 1)           # yards scale w/ matchup
+        rush_yds = round(rush_att * ypa * factor, 1)
+
+        # TD probability from USAGE, not TD history -- TDs are the noisiest
+        # stat in football. 70% usage-implied, 30% blended history.
+        td_usage = rush_att * TD_PER_CARRY + targets * TD_PER_TARGET
+        td_hist = b.get("td_per_game") or td_usage
+        td_pg = (0.7 * td_usage + 0.3 * td_hist) * factor
+        td_prob = min(0.85, 1 - _math.exp(-max(0.0, td_pg)))  # P(>=1) under Poisson
+
+        fpts = round(rec * 1.0 + rec_yds * 0.1 + rush_yds * 0.1 + td_pg * 6.0, 1)
+
         players.append({
             "name": name,
             "pos": pos,
             "player_id": athlete_id,
-            "targets": stats["targets"],
-            "rec": stats["rec"],
+            "targets": round(targets, 1),
+            "rec": rec,
             "rec_yds": rec_yds,
             "rush_yds": rush_yds,
-            "rush_att": stats["rush_att"],
+            "rush_att": round(rush_att, 1),
             "td_prob": round(td_prob, 2),
             "fpts": fpts,
+            "src": "blend" if (cur and pri) else ("current" if cur else "prior"),
         })
     return players
 
@@ -832,12 +972,31 @@ def calc_market_fields(away_team, home_team, odds=None, model_home_win_pct=None)
     }
 
 
+def _vegas_factors(market):
+    """Implied team totals from spread+total -> dampened scaling factors.
+    home_spread is negative when home is favored: A - H = spread, A + H = total
+    => H = (total - spread) / 2, A = (total + spread) / 2.
+    Factor is (implied / 22.0) ** 0.7 clipped to [0.75, 1.30] -- dampened so
+    the market steers the projection without steamrolling player identity."""
+    L = (market or {}).get("_lines") or {}
+    spread, total = L.get("spread"), L.get("total")
+    if spread is None or total is None:
+        return None, None
+    home_imp = (total - spread) / 2.0
+    away_imp = (total + spread) / 2.0
+    def f(pts):
+        raw_f = max(0.75, min(1.30, pts / 22.0))
+        return round(raw_f ** 0.7, 3)
+    return f(away_imp), f(home_imp)
+
+
 def build_game(raw, odds_map=None):
     odds = (odds_map or {}).get((raw["away_team"], raw["home_team"]))
     model_home_win_pct = fetch_espn_predictor(raw.get("event_id"))
     market = calc_market_fields(raw["away_team"], raw["home_team"], odds, model_home_win_pct)
-    away_qb_proj = project_qb(raw["away_abbr"], raw["home_abbr"])
-    home_qb_proj = project_qb(raw["home_abbr"], raw["away_abbr"])
+    away_vf, home_vf = _vegas_factors(market)
+    away_qb_proj = project_qb(raw["away_abbr"], raw["home_abbr"], vegas_factor=away_vf)
+    home_qb_proj = project_qb(raw["home_abbr"], raw["away_abbr"], vegas_factor=home_vf)
     game = {
         "away_team": raw["away_team"],
         "home_team": raw["home_team"],
@@ -852,8 +1011,8 @@ def build_game(raw, odds_map=None):
         "home_qb": home_qb_proj.get("name"),
         "away_qb_proj": away_qb_proj,
         "home_qb_proj": home_qb_proj,
-        "away_skill": project_skill_players(raw["away_abbr"], raw["home_abbr"]),
-        "home_skill": project_skill_players(raw["home_abbr"], raw["away_abbr"]),
+        "away_skill": project_skill_players(raw["away_abbr"], raw["home_abbr"], vegas_factor=away_vf),
+        "home_skill": project_skill_players(raw["home_abbr"], raw["away_abbr"], vegas_factor=home_vf),
         **market,
     }
     if "away_score" in raw:
