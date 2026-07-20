@@ -1,0 +1,412 @@
+#!/usr/bin/env python3
+"""
+NHL Projections -> nhl_slate.json
+
+Data sources (all free):
+  - NHL API (api-web.nhle.com): schedule, rosters, live game states. No key.
+  - MoneyPuck (moneypuck.com): skater xGoals/shots, goalie quality, team
+    xGF/xGA. Free CSVs. This is the talent layer -- xG stabilizes far
+    faster than raw goals.
+  - The Odds API (optional, ODDS_API_KEY env var): NHL totals/spreads for
+    Vegas-implied team goal anchoring, same as the NFL engine.
+
+Engine (mirrors nfl_projections v2):
+  - Prior-season blending with shrinkage: (gp*current + K*prior)/(gp+K)
+  - Team goal lambdas from blended team xGF vs opponent xGA (+ home ice)
+  - Win % / over % from a Poisson score matrix
+  - Skater anytime-goal probability: blended xG/game * matchup factor,
+    P(>=1 goal) = 1 - exp(-lambda)
+  - Vegas-implied team goals override the stats-based matchup factor when
+    lines exist (market already prices goalies, injuries, b2b fatigue).
+
+Output: nhl_slate.json next to this script (workflow copies to data/).
+"""
+
+import json
+import math
+import os
+import sys
+from datetime import datetime, date, timezone
+from pathlib import Path
+
+try:
+    import requests
+except ImportError:
+    requests = None
+    import urllib.request
+
+import pandas as pd
+from io import StringIO
+
+OUT_PATH = Path(__file__).parent / "nhl_slate.json"
+ODDS_API_KEY = os.environ.get("ODDS_API_KEY")  # optional, never hardcode
+
+# ── season bookkeeping ────────────────────────────────────────────────────
+# MoneyPuck names seasons by starting year (2025 == 2025-26).
+_today = date.today()
+CUR_SEASON = _today.year if _today.month >= 9 else _today.year - 1
+PRIOR_SEASON = CUR_SEASON - 1
+K_GP = 10                 # shrinkage constant (games) for per-game rates
+LEAGUE_GOALS_PG = 3.05    # league average team goals per game
+HOME_ICE = 1.05           # ~5% home bump
+
+# ── http helper ───────────────────────────────────────────────────────────
+def _get(url, timeout=25):
+    if requests:
+        r = requests.get(url, timeout=timeout, headers={"User-Agent": "slate-app"})
+        r.raise_for_status()
+        return r
+    req = urllib.request.Request(url, headers={"User-Agent": "slate-app"})
+    return urllib.request.urlopen(req, timeout=timeout)
+
+
+def get_json(url):
+    r = _get(url)
+    return r.json() if requests else json.load(r)
+
+
+def get_csv(url):
+    try:
+        r = _get(url, timeout=60)
+        text = r.text if requests else r.read().decode("utf-8")
+        return pd.read_csv(StringIO(text))
+    except Exception as e:
+        print(f"  (couldn't fetch {url.split('/')[-1]}: {e})")
+        return None
+
+
+# ── MoneyPuck layer ───────────────────────────────────────────────────────
+MP_BASE = "https://moneypuck.com/moneypuck/playerData/seasonSummary"
+
+def mp_skaters(season):
+    df = get_csv(f"{MP_BASE}/{season}/regular/skaters.csv")
+    if df is None:
+        return None
+    df = df[df["situation"] == "all"].copy()
+    keep = {
+        "playerId": "player_id", "name": "name", "team": "team",
+        "position": "pos", "games_played": "gp", "icetime": "icetime",
+        "I_F_xGoals": "xg", "I_F_goals": "goals",
+        "I_F_shotsOnGoal": "shots", "I_F_points": "points",
+    }
+    have = {k: v for k, v in keep.items() if k in df.columns}
+    df = df[list(have)].rename(columns=have)
+    if "points" not in df.columns:
+        df["points"] = df.get("goals", 0)
+    for col in ("xg", "goals", "shots", "points", "icetime"):
+        if col in df.columns:
+            df[col + "_pg"] = df[col] / df["gp"].clip(lower=1)
+    df["toi_pg"] = df.get("icetime_pg", 0) / 60.0  # minutes
+    return df.set_index("player_id")
+
+
+def mp_teams(season):
+    df = get_csv(f"{MP_BASE}/{season}/regular/teams.csv")
+    if df is None:
+        return None
+    df = df[df["situation"] == "all"].copy()
+    keep = {"team": "team", "games_played": "gp",
+            "xGoalsFor": "xgf", "xGoalsAgainst": "xga",
+            "goalsFor": "gf", "goalsAgainst": "ga"}
+    have = {k: v for k, v in keep.items() if k in df.columns}
+    df = df[list(have)].rename(columns=have)
+    for col in ("xgf", "xga", "gf", "ga"):
+        if col in df.columns:
+            df[col + "_pg"] = df[col] / df["gp"].clip(lower=1)
+    return df.set_index("team")
+
+
+def _blend(cur, pri, gp, k=K_GP):
+    if cur is None and pri is None:
+        return None
+    if pri is None:
+        return cur
+    if cur is None or not gp:
+        return pri
+    try:
+        if pd.isna(cur): cur = None
+        if pd.isna(pri): pri = None
+    except (TypeError, ValueError):
+        pass
+    if cur is None and pri is None:
+        return None
+    if pri is None:
+        return cur
+    if cur is None:
+        return pri
+    return (gp * cur + k * pri) / (gp + k)
+
+
+class Talent:
+    """Blended current+prior MoneyPuck rates, keyed by playerId / team."""
+
+    def __init__(self):
+        print(f"MoneyPuck: loading seasons {CUR_SEASON} + {PRIOR_SEASON}...")
+        self.sk_cur = mp_skaters(CUR_SEASON)
+        self.sk_pri = mp_skaters(PRIOR_SEASON)
+        self.tm_cur = mp_teams(CUR_SEASON)
+        self.tm_pri = mp_teams(PRIOR_SEASON)
+        if self.sk_cur is None and self.sk_pri is None:
+            print("  WARNING: no MoneyPuck skater data at all -- goal probs will be thin.")
+
+    def skater(self, player_id):
+        cur = self.sk_cur.loc[player_id].to_dict() if (
+            self.sk_cur is not None and player_id in self.sk_cur.index) else None
+        pri = self.sk_pri.loc[player_id].to_dict() if (
+            self.sk_pri is not None and player_id in self.sk_pri.index) else None
+        if cur is None and pri is None:
+            return None
+        gp = (cur or {}).get("gp", 0) or 0
+        out = {"gp": gp, "src": "blend" if (cur and pri) else ("current" if cur else "prior")}
+        for k in ("xg_pg", "shots_pg", "points_pg", "goals_pg", "toi_pg"):
+            out[k] = _blend((cur or {}).get(k), (pri or {}).get(k), gp)
+        return out
+
+    def team(self, abbr):
+        cur = self.tm_cur.loc[abbr].to_dict() if (
+            self.tm_cur is not None and abbr in self.tm_cur.index) else None
+        pri = self.tm_pri.loc[abbr].to_dict() if (
+            self.tm_pri is not None and abbr in self.tm_pri.index) else None
+        if cur is None and pri is None:
+            return None
+        gp = (cur or {}).get("gp", 0) or 0
+        out = {}
+        for k in ("xgf_pg", "xga_pg", "gf_pg", "ga_pg"):
+            out[k] = _blend((cur or {}).get(k), (pri or {}).get(k), gp)
+        return out
+
+
+# ── NHL API layer ─────────────────────────────────────────────────────────
+def fetch_schedule(day):
+    """Games for a YYYY-MM-DD day via the NHL API."""
+    data = get_json(f"https://api-web.nhle.com/v1/schedule/{day}")
+    games = []
+    for week_day in data.get("gameWeek", []):
+        if week_day.get("date") != day:
+            continue
+        for g in week_day.get("games", []):
+            state = g.get("gameState", "FUT")
+            mapped = ("Live" if state in ("LIVE", "CRIT")
+                      else "Final" if state in ("FINAL", "OFF")
+                      else "Preview")
+            away, home = g["awayTeam"], g["homeTeam"]
+
+            def full_name(t):
+                place = (t.get("placeName", {}) or {}).get("default", "")
+                common = (t.get("commonName", {}) or {}).get("default", "")
+                nm = f"{place} {common}".strip()
+                return nm or t.get("abbrev", "")
+
+            games.append({
+                "away_abbr": away["abbrev"],
+                "home_abbr": home["abbrev"],
+                "away_name": full_name(away),
+                "home_name": full_name(home),
+                "venue": (g.get("venue", {}) or {}).get("default"),
+                "game_time": g.get("startTimeUTC"),
+                "game_state": mapped,
+                "away_score": away.get("score"),
+                "home_score": home.get("score"),
+            })
+    return games
+
+
+def fetch_roster(abbr):
+    """Skaters + goalies for a team from the NHL API."""
+    try:
+        data = get_json(f"https://api-web.nhle.com/v1/roster/{abbr}/current")
+    except Exception:
+        return [], []
+
+    def nm(p):
+        f = (p.get("firstName", {}) or {}).get("default", "")
+        l = (p.get("lastName", {}) or {}).get("default", "")
+        return f"{f} {l}".strip()
+
+    skaters = [(p["id"], nm(p), p.get("positionCode", "F"))
+               for grp in ("forwards", "defensemen") for p in data.get(grp, [])]
+    goalies = [(p["id"], nm(p)) for p in data.get("goalies", [])]
+    return skaters, goalies
+
+
+# ── Vegas layer (optional) ────────────────────────────────────────────────
+def fetch_nhl_odds():
+    if not ODDS_API_KEY:
+        return {}
+    url = (f"https://api.the-odds-api.com/v4/sports/icehockey_nhl/odds"
+           f"?apiKey={ODDS_API_KEY}&regions=us&markets=spreads,totals&oddsFormat=american")
+    try:
+        rows = get_json(url)
+    except Exception as e:
+        print(f"  (odds fetch failed: {e})")
+        return {}
+    out = {}
+    for ev in rows:
+        totals, spreads = [], []
+        for bk in ev.get("bookmakers", []):
+            for mk in bk.get("markets", []):
+                for o in mk.get("outcomes", []):
+                    if mk["key"] == "totals" and o.get("name") == "Over" and o.get("point") is not None:
+                        totals.append(o["point"])
+                    if mk["key"] == "spreads" and o.get("name") == ev.get("home_team") and o.get("point") is not None:
+                        spreads.append(o["point"])
+        if totals:
+            out[(ev.get("away_team"), ev.get("home_team"))] = {
+                "total": round(sum(totals) / len(totals), 2),
+                "home_spread": round(sum(spreads) / len(spreads), 2) if spreads else None,
+            }
+    return out
+
+
+def match_odds(odds_map, away_name, home_name):
+    """Odds API uses full names; NHL API name pieces vary. Loose match."""
+    a_key = away_name.split()[-1].lower() if away_name else ""
+    h_key = home_name.split()[-1].lower() if home_name else ""
+    for (a, h), v in odds_map.items():
+        if a_key and h_key and a_key in a.lower() and h_key in h.lower():
+            return v
+    return None
+
+
+# ── engine ────────────────────────────────────────────────────────────────
+def team_lambdas(talent, away, home, line=None):
+    """Expected goals per side. Vegas-implied when lines exist, else
+    blended xGF vs opponent xGA."""
+    if line and line.get("total"):
+        total = line["total"]
+        spread = line.get("home_spread") or 0.0  # negative = home favored
+        home_l = (total - spread) / 2.0
+        away_l = (total + spread) / 2.0
+        return max(1.5, away_l), max(1.5, home_l), "vegas"
+    ta, th = talent.team(away), talent.team(home)
+    la = lh = LEAGUE_GOALS_PG
+    if ta and th:
+        la = (ta.get("xgf_pg") or LEAGUE_GOALS_PG) * ((th.get("xga_pg") or LEAGUE_GOALS_PG) / LEAGUE_GOALS_PG)
+        lh = (th.get("xgf_pg") or LEAGUE_GOALS_PG) * ((ta.get("xga_pg") or LEAGUE_GOALS_PG) / LEAGUE_GOALS_PG)
+    lh *= HOME_ICE
+    return max(1.5, la), max(1.5, lh), "model"
+
+
+def poisson_matrix(la, lh, cap=9):
+    def pmf(l, k):
+        return math.exp(-l) * l ** k / math.factorial(k)
+    p_away = p_home = p_tie = 0.0
+    total_dist = {}
+    for a in range(cap + 1):
+        for h in range(cap + 1):
+            p = pmf(la, a) * pmf(lh, h)
+            total_dist[a + h] = total_dist.get(a + h, 0) + p
+            if a > h:
+                p_away += p
+            elif h > a:
+                p_home += p
+            else:
+                p_tie += p
+    # OT/SO: split regulation-tie mass with a slight home edge
+    p_away += p_tie * 0.48
+    p_home += p_tie * 0.52
+    p_over_6_5 = sum(v for k, v in total_dist.items() if k >= 7)
+    return p_away, p_home, p_over_6_5
+
+
+def matchup_factor(lam):
+    """Dampened team-environment scaler, same philosophy as NFL v2."""
+    raw = max(0.75, min(1.30, lam / LEAGUE_GOALS_PG))
+    return round(raw ** 0.7, 3)
+
+
+def project_skaters(talent, abbr, factor):
+    skaters, goalies = fetch_roster(abbr)
+    out = []
+    for pid, name, pos in skaters:
+        t = talent.skater(pid)
+        if not t or not t.get("xg_pg"):
+            continue
+        xg = (t["xg_pg"] or 0) * factor
+        goal_prob = min(0.75, 1 - math.exp(-max(0.0, xg)))
+        out.append({
+            "name": name, "player_id": pid, "pos": pos,
+            "toi": round(t.get("toi_pg") or 0, 1),
+            "shots_pg": round(t.get("shots_pg") or 0, 2),
+            "xg_pg": round(xg, 3),
+            "goal_prob": round(goal_prob, 3),
+            "pts_pg": round((t.get("points_pg") or 0) * factor, 2),
+            "src": t["src"],
+        })
+    out.sort(key=lambda p: p["toi"], reverse=True)
+    goalie = goalies[0][1] if goalies else None
+    return out[:12], goalie
+
+
+def build_game(talent, raw, odds_map):
+    away, home = raw["away_abbr"], raw["home_abbr"]
+    line = match_odds(odds_map, raw["away_name"], raw["home_name"])
+    la, lh, source = team_lambdas(talent, away, home, line)
+    p_away, p_home, p_over = poisson_matrix(la, lh)
+
+    edge = abs(p_home - 0.5)
+    tier = "STRONG" if edge >= 0.12 else "LEAN" if edge >= 0.06 else "PASS"
+    target = round(50 + edge * 200 + (p_over - 0.5) * 40)
+
+    fa, fh = matchup_factor(la), matchup_factor(lh)
+    away_skaters, away_goalie = project_skaters(talent, away, fa)
+    home_skaters, home_goalie = project_skaters(talent, home, fh)
+
+    game = {
+        "away_team": raw["away_name"], "home_team": raw["home_name"],
+        "away_abbr": away, "home_abbr": home,
+        "venue": raw.get("venue"), "game_time": raw.get("game_time"),
+        "game_state": raw.get("game_state", "Preview"),
+        "away_goals": round(la, 2), "home_goals": round(lh, 2),
+        "away_win_pct": round(p_away, 3), "home_win_pct": round(p_home, 3),
+        "p_over_6_5": round(p_over, 3),
+        "tier": tier, "target_score": max(0, min(100, target)),
+        "line_source": source,
+        "away_goalie": away_goalie, "home_goalie": home_goalie,
+        "away_skaters": away_skaters, "home_skaters": home_skaters,
+    }
+    if raw.get("away_score") is not None:
+        game["away_score"] = raw["away_score"]
+        game["home_score"] = raw["home_score"]
+    return game
+
+
+def main():
+    day = sys.argv[1] if len(sys.argv) > 1 else datetime.now().strftime("%Y-%m-%d")
+    print(f"NHL Projections for {day}")
+
+    try:
+        games_raw = fetch_schedule(day)
+    except Exception as e:
+        print(f"Schedule fetch failed: {e}")
+        games_raw = []
+    print(f"{len(games_raw)} games on the slate")
+
+    games = []
+    if games_raw:
+        talent = Talent()
+        odds_map = fetch_nhl_odds()
+        if odds_map:
+            print(f"Odds matched for {len(odds_map)} events (Vegas anchoring on)")
+        for raw in games_raw:
+            print(f"  {raw['away_abbr']} @ {raw['home_abbr']}...")
+            try:
+                games.append(build_game(talent, raw, odds_map))
+            except Exception as e:
+                print(f"    skipped ({e})")
+
+    all_sk = [s for g in games for s in g["away_skaters"] + g["home_skaters"]]
+    top_goal = sorted(all_sk, key=lambda s: s["goal_prob"], reverse=True)[:10]
+
+    export = {
+        "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "date": day,
+        "games": games,
+        "standouts": {"top_goal": top_goal},
+    }
+    OUT_PATH.write_text(json.dumps(export, indent=2))
+    print(f"Wrote {len(games)} games to {OUT_PATH}")
+
+
+if __name__ == "__main__":
+    main()

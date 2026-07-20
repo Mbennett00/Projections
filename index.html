@@ -113,12 +113,16 @@ footer b{background:linear-gradient(100deg,var(--blue),var(--yellow));
     </div>
   </a>
 
-  <div class="sport-card soon" style="--acc:var(--teal)">
+  <a class="sport-card" href="./nhl/" style="--acc:var(--teal)">
+    <div class="arrow">→</div>
     <div class="league-logo"><img src="https://a.espncdn.com/i/teamlogos/leagues/500/nhl.png" alt="NHL" loading="lazy" onerror="this.remove()"></div>
-    <div class="sport-tag">NHL · 2026-27</div>
+    <div class="sport-tag">NHL · DAILY</div>
     <div class="sport-name">Hockey</div>
-    <div class="meta-col"><span class="pill">COMING SOON</span></div>
-  </div>
+    <div class="meta-col">
+      <span class="pill" id="nhl-games">— games</span>
+      <span class="pill" id="nhl-updated">syncing…</span>
+    </div>
+  </a>
 
   <div class="sport-card soon" style="--acc:var(--orange)">
     <div class="league-logo"><img src="https://a.espncdn.com/i/teamlogos/leagues/500/nba.png" alt="NBA" loading="lazy" onerror="this.remove()"></div>
@@ -142,7 +146,7 @@ const rel = iso => {
 document.getElementById('today').textContent =
   new Date().toLocaleDateString('en-US', { weekday:'short', month:'short', day:'numeric' });
 
-for (const s of ['mlb','nfl']) {
+for (const s of ['mlb','nfl','nhl']) {
   fetch(`./data/${s}_slate.json?t=${Date.now()}`)
     .then(r => r.json())
     .then(d => {

@@ -47,6 +47,14 @@ jobs:
         env:
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
         continue-on-error: true
+
+      - name: Run NHL model
+        run: |
+          python nhl_projections.py
+          cp nhl_slate.json data/nhl_slate.json
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+        continue-on-error: true
       # ──────────────────────────────────────────────────────────────────
 
       - name: Commit updated data

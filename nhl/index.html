@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NHL Board — Slate</title>
+<meta name="theme-color" content="#0B1020">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="apple-touch-icon" href="../icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0B1020; --card:#141C30; --card-2:#1B2540; --line:#25304E;
+  --blue:#6366F1; --yellow:#4ADE80; --red:#FF6B6B; --text:#EEF2FA; --muted:#94A1BE; --r:16px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg); color:var(--text); font-family:'Inter',system-ui,sans-serif;
+  min-height:100dvh; max-width:520px; margin:0 auto; position:relative;
+  padding:max(16px,env(safe-area-inset-top)) 16px max(28px,env(safe-area-inset-bottom))}
+body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(600px 320px at 12% -6%,rgba(99,102,241,.16),transparent 60%),
+             radial-gradient(520px 300px at 108% 4%,rgba(74,222,128,.10),transparent 60%)}
+header{display:flex; align-items:center; gap:12px; padding:4px 2px 18px}
+.back{width:36px;height:36px;border-radius:50%;background:var(--card);border:1px solid var(--line);
+  display:grid;place-items:center;color:var(--text);text-decoration:none;font-weight:700;flex:none}
+h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
+  background:linear-gradient(100deg,var(--blue),var(--yellow));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.updated{font-size:11.5px;font-weight:600;color:var(--yellow);background:rgba(74,222,128,.1);
+  border:1px solid rgba(74,222,128,.22);padding:6px 10px;border-radius:99px;white-space:nowrap}
+.tabs{display:flex;gap:7px;margin-bottom:14px}
+.tab{flex:none;font-size:12px;font-weight:700;letter-spacing:.03em;color:var(--muted);
+  background:var(--card);border:1px solid var(--line);border-radius:99px;
+  padding:7px 15px;cursor:pointer;user-select:none;transition:all .15s;line-height:1.3}
+.tab.on{color:#0B1020;background:linear-gradient(100deg,var(--blue) 0%,var(--yellow) 90%);border-color:transparent}
+.summary{display:flex;gap:8px;flex-wrap:wrap;margin:2px 0 14px}
+.sum-chip{font-size:11.5px;font-weight:600;color:var(--text);border-radius:9px;padding:7px 11px;
+  display:inline-flex;align-items:center;gap:6px;
+  background:linear-gradient(var(--card),var(--card)) padding-box,
+             linear-gradient(120deg,rgba(99,102,241,.45),rgba(74,222,128,.45)) border-box;
+  border:1px solid transparent}
+.sum-chip .dot{width:7px;height:7px;border-radius:50%;display:inline-block}
+.game{border-radius:var(--r);padding:17px 16px 15px;margin-bottom:12px;position:relative;overflow:hidden;
+  background:linear-gradient(160deg,var(--card-2),var(--card)) padding-box,
+             linear-gradient(150deg,rgba(99,102,241,.4),rgba(37,48,78,.65) 45%,rgba(74,222,128,.3)) border-box;
+  border:1px solid transparent}
+.g-accent{position:absolute;top:0;left:0;right:0;height:3px}
+.g-top{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted);font-weight:600;margin-bottom:11px}
+.g-badges{display:inline-flex;align-items:center;gap:6px;flex:none}
+.state{font-size:10px;font-weight:700;letter-spacing:.05em;padding:4px 8px;border-radius:7px;
+  display:inline-flex;align-items:center;line-height:1.2}
+.state.live{color:#0B1020;background:var(--red);animation:pulse 2s infinite}
+.state.final{color:var(--muted);background:var(--card-2)}
+.state.preview{color:var(--blue);background:rgba(99,102,241,.12)}
+@keyframes pulse{50%{opacity:.65}}
+.tier{font-size:10px;font-weight:700;letter-spacing:.05em;padding:4px 8px;border-radius:7px;
+  display:inline-flex;align-items:center;gap:4px;line-height:1.2}
+.tier img{width:13px;height:13px;object-fit:contain}
+.tier.STRONG{color:#0B1020;background:var(--yellow)}
+.tier.LEAN{color:var(--blue);background:rgba(99,102,241,.12);border:1px solid rgba(99,102,241,.3)}
+.tier.PASS{color:var(--muted);background:var(--card-2)}
+.team{display:flex;align-items:center;justify-content:space-between;padding:4px 0}
+.t-name{display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px;min-width:0}
+.t-abbr{font-family:'Sora',sans-serif;font-weight:700;font-size:11px;
+  border-radius:9px;padding:3px;width:34px;height:34px;
+  display:grid;place-items:center;text-align:center;flex:none;overflow:hidden}
+.t-abbr img{width:26px;height:26px;object-fit:contain;display:block}
+.t-abbr:not(:has(img))::before{content:attr(data-ab)}
+.t-city{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.t-num{font-variant-numeric:tabular-nums;font-weight:600;font-size:14px;color:var(--muted);flex:none;margin-left:8px}
+.t-num.fav{color:var(--text)}
+.t-score{font-family:'Sora',sans-serif;font-weight:700;font-size:17px;color:var(--text);flex:none;margin-left:8px}
+.prob-track{height:6px;border-radius:99px;background:var(--card-2);margin:11px 0 9px;overflow:hidden;display:flex;gap:2px}
+.prob-away{height:100%;transition:width .6s ease}
+.prob-home{height:100%;flex:1}
+.g-stats{display:flex;gap:6px;margin-top:10px}
+.stat{flex:1;border-radius:10px;padding:8px 6px;text-align:center;border-top:2px solid transparent;background:var(--card-2)}
+.stat.sb{border-top-color:rgba(99,102,241,.65);background:linear-gradient(180deg,rgba(99,102,241,.10),var(--card-2) 65%)}
+.stat.st{border-top-color:rgba(45,212,191,.65);background:linear-gradient(180deg,rgba(45,212,191,.10),var(--card-2) 65%)}
+.stat.sy{border-top-color:rgba(74,222,128,.65);background:linear-gradient(180deg,rgba(74,222,128,.10),var(--card-2) 65%)}
+.stat .v{font-family:'Sora',sans-serif;font-weight:700;font-size:13.5px;color:var(--text);font-variant-numeric:tabular-nums}
+.stat .v.hot{color:var(--yellow)}
+.stat .l{font-size:10px;color:var(--muted);font-weight:600;margin-top:2px;letter-spacing:.03em}
+.goalies{font-size:12px;color:var(--muted);margin-top:10px;padding-top:9px;border-top:1px solid var(--line);line-height:1.5}
+.goalies b{color:var(--text);font-weight:600}
+.hr-strip{background:linear-gradient(160deg,var(--card-2),var(--card)) padding-box,
+  linear-gradient(140deg,rgba(74,222,128,.55),rgba(99,102,241,.35)) border-box;border:1px solid transparent;
+  border-radius:var(--r);padding:13px 16px;margin-bottom:12px;animation:rise .28s ease both}
+.hr-title{font-family:'Sora',sans-serif;font-weight:700;font-size:12px;letter-spacing:.12em;color:var(--yellow);margin-bottom:9px}
+.hr-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;font-size:13.5px}
+.hr-left{display:flex;align-items:center;gap:9px;min-width:0}
+.hr-row .nm{font-weight:600}
+.hr-row .tm{color:var(--muted);font-size:11.5px;font-weight:500;margin-left:2px}
+.hr-avatar{width:32px;height:32px;border-radius:50%;overflow:hidden;flex:none;position:relative;
+  display:grid;place-items:center;font-size:9px;font-weight:700}
+.hr-avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
+.hr-row .pct{font-family:'Sora',sans-serif;font-weight:700;color:var(--yellow);font-variant-numeric:tabular-nums}
+.chips{display:flex;gap:7px;overflow-x:auto;padding:2px 2px 12px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;font-size:12px;font-weight:600;color:var(--muted);background:var(--card);
+  border:1px solid var(--line);border-radius:9px;padding:7px 12px;cursor:pointer;user-select:none;white-space:nowrap;line-height:1.2}
+.chip.on{color:#0B1020;background:linear-gradient(100deg,var(--blue),var(--yellow));border-color:transparent}
+.play{border-radius:var(--r);padding:13px 16px;margin-bottom:9px;display:flex;align-items:center;gap:12px;
+  cursor:pointer;flex-wrap:wrap;animation:rise .28s ease both;
+  background:linear-gradient(160deg,var(--card-2),var(--card)) padding-box,
+             linear-gradient(150deg,rgba(99,102,241,.35),rgba(37,48,78,.65) 50%,rgba(74,222,128,.25)) border-box;
+  border:1px solid transparent}
+.rank{width:20px;flex:none;text-align:center;font-family:'Sora',sans-serif;font-weight:800;
+  font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.rank.r1{background:linear-gradient(135deg,#4ADE80,#16A34A);-webkit-background-clip:text;background-clip:text;color:transparent}
+.rank.r2{color:#C7D2E0}.rank.r3{color:#E0A96D}
+.p-avatar{width:46px;height:46px;border-radius:50%;flex:none;overflow:hidden;position:relative;
+  display:grid;place-items:center;font-family:'Sora',sans-serif;font-weight:700;font-size:12px}
+.p-avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
+.p-avatar:not(:has(img))::before{content:attr(data-in)}
+.p-main{flex:1;min-width:0}
+.p-player{font-weight:600;font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.p-meta{font-size:12px;color:var(--muted);margin-top:3px}
+.tag{font-size:8.5px;font-weight:800;letter-spacing:.06em;padding:2px 6px;border-radius:5px;
+  display:inline-block;margin-right:4px;margin-top:4px;line-height:1.4}
+.p-edge{text-align:right;flex:none}
+.edge-val{font-family:'Sora',sans-serif;font-weight:700;font-size:16px;font-variant-numeric:tabular-nums;
+  background:linear-gradient(100deg,var(--yellow),#22C55E);-webkit-background-clip:text;background-clip:text;color:transparent}
+.p-odds{font-size:11px;color:var(--muted);margin-top:4px;font-variant-numeric:tabular-nums}
+.sim{flex-basis:100%;margin-top:11px;padding-top:11px;border-top:1px dashed var(--line)}
+.sim-head{font-size:10.5px;font-weight:700;letter-spacing:.08em;color:var(--muted);margin-bottom:8px;display:flex;justify-content:space-between}
+.sim-head b{background:linear-gradient(100deg,var(--blue),var(--yellow));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sim-row{display:flex;align-items:center;gap:9px;margin-bottom:6px;font-size:12px}
+.sim-lab{width:42px;flex:none;color:var(--muted);font-weight:600;font-variant-numeric:tabular-nums}
+.sim-bar{flex:1;height:12px;border-radius:6px;background:var(--card-2);overflow:hidden}
+.sim-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--blue),var(--yellow));
+  transition:width .5s cubic-bezier(.2,.8,.2,1)}
+.sim-pct{width:44px;flex:none;text-align:right;font-weight:700;font-variant-numeric:tabular-nums;color:var(--text);font-size:12px}
+.sim-hint{font-size:9.5px;font-weight:700;letter-spacing:.06em;color:var(--blue);margin-top:4px}
+@keyframes rise{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+.game{animation:rise .28s ease both}
+.empty{text-align:center;color:var(--muted);font-size:14px;padding:60px 20px;line-height:1.6}
+.hide{display:none}
+@media (prefers-reduced-motion:reduce){.prob-away,.sim-fill{transition:none}.state.live,.game,.play,.hr-strip{animation:none}}
+</style>
+</head>
+<body>
+<header>
+  <a class="back" href="../">←</a>
+  <h1>NHL Board</h1>
+  <span class="updated" id="updated">…</span>
+</header>
+
+<div class="tabs">
+  <div class="tab on" data-tab="games">Slate</div>
+  <div class="tab" data-tab="plays">Numbers</div>
+</div>
+
+<div class="summary" id="slate"></div>
+<div id="games"></div>
+<div id="plays" class="hide"></div>
+
+<script>
+const $ = id => document.getElementById(id);
+// team text colours (brightened for navy bg) and avatar fill/ring pairs
+const TC = {ANA:'#F47A38',BOS:'#FFB81C',BUF:'#3E6FD8',CGY:'#D2001C',CAR:'#CE1126',CHI:'#CF0A2C',COL:'#B5485F',CBJ:'#4A6FD0',DAL:'#0FA36B',DET:'#E31837',EDM:'#FF4C00',FLA:'#C8102E',LAK:'#A2AAAD',MIN:'#37A169',MTL:'#AF1E2D',NSH:'#FFB81C',NJD:'#CE0E2D',NYI:'#F47D30',NYR:'#3E6FD8',OTT:'#DA1A32',PHI:'#F74902',PIT:'#FCB514',SJS:'#12A5AD',SEA:'#99D9D9',STL:'#4C7CE0',TBL:'#4169CF',TOR:'#4179D8',UTA:'#6CACE4',VAN:'#14A85A',VGK:'#B4975A',WSH:'#D22B33',WPG:'#5578C8'};
+const AV = {ANA:['#F47A38','#B9975B'],BOS:['#000000','#FFB81C'],BUF:['#003087','#FFB81C'],CGY:['#D2001C','#FAAF19'],CAR:['#CE1126','#A4A9AD'],CHI:['#CF0A2C','#FFD100'],COL:['#6F263D','#236192'],CBJ:['#002654','#CE1126'],DAL:['#006847','#8F8F8C'],DET:['#CE1126','#F5F0E1'],EDM:['#041E42','#FF4C00'],FLA:['#041E42','#C8102E'],LAK:['#111111','#A2AAAD'],MIN:['#154734','#A6192E'],MTL:['#AF1E2D','#192168'],NSH:['#FFB81C','#041E42'],NJD:['#CE0E2D','#101820'],NYI:['#00539B','#F47D30'],NYR:['#0038A8','#CE1126'],OTT:['#000000','#DA1A32'],PHI:['#F74902','#101820'],PIT:['#000000','#FCB514'],SJS:['#006D75','#EA7200'],SEA:['#001628','#99D9D9'],STL:['#002F87','#FCB514'],TBL:['#00205B','#F5F0E1'],TOR:['#00205B','#F5F0E1'],UTA:['#010101','#6CACE4'],VAN:['#00205B','#00843D'],VGK:['#333F42','#B4975A'],WSH:['#041E42','#C8102E'],WPG:['#041E42','#AC162C']};
+const tc = a => TC[a] || '#6366F1';
+const abSpan = a => `<b style="color:${tc(a)}">${a}</b>`;
+const logo = a => `https://a.espncdn.com/i/teamlogos/nhl/500/${(a||'').toLowerCase()}.png`;
+const badge = a => `<span class="t-abbr" data-ab="${a}" style="color:${tc(a)};background:${tc(a)}1E;border:1px solid ${tc(a)}55"><img src="${logo(a)}" alt="" loading="lazy" onerror="this.remove()"></span>`;
+const mug = id => `https://assets.nhle.com/mugs/nhl/latest/${id}.png`;
+const initials = n => (n||'').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+const avatar = (name, team, id, cls='p-avatar') => {
+  const [bg, ring] = AV[team] || ['#1B2540','#6366F1'];
+  return `<span class="${cls}" data-in="${initials(name)}" style="background:${bg};border:${cls==='p-avatar'?'2.5px':'2px'} solid ${ring};color:#F5F0E1">${id ? `<img src="${mug(id)}" alt="" loading="lazy" onerror="this.remove()">` : ''}</span>`;
+};
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const rel = iso => {
+  const m = Math.round((Date.now() - new Date(iso)) / 60000);
+  if (isNaN(m)) return '';
+  if (m < 1) return 'just now';
+  if (m < 60) return m + 'm ago';
+  const h = Math.round(m/60);
+  return h < 24 ? h + 'h ago' : Math.round(h/24) + 'd ago';
+};
+const gameTime = iso => new Date(iso).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+const pct = v => (v*100).toFixed(0) + '%';
+
+let DATA = null;
+
+function tagsFor(p){
+  const t = [];
+  if ((p.xg_pg ?? 0) >= .42) t.push(['GOAL THREAT','#4ADE80']);
+  if ((p.shots_pg ?? 0) >= 3.4) t.push(['VOLUME','#6366F1']);
+  if ((p.pts_pg ?? 0) >= 1.0) t.push(['POINT MACHINE','#A78BFA']);
+  if ((p.toi ?? 0) >= 21) t.push(['BIG MINUTES','#2DD4BF']);
+  return t.slice(0,3).map(([n,c]) =>
+    `<span class="tag" style="color:${c};background:${c}1C;border:1px solid ${c}44">${n}</span>`).join('');
+}
+
+const pois = l => { const L = Math.exp(-l); let k = 0, p = 1; do { k++; p *= Math.random(); } while (p > L); return k - 1; };
+const BUCKETS = {
+  'Goals':  [['0',v=>v===0],['1',v=>v===1],['2+',v=>v>=2]],
+  'Points': [['0',v=>v===0],['1',v=>v===1],['2',v=>v===2],['3+',v=>v>=3]],
+  'Shots':  [['0-1',v=>v<=1],['2-3',v=>v<=3],['4-5',v=>v<=5],['6+',v=>v>=6]]
+};
+let openSim = null, statFilter = 'Goals';
+const SIMCACHE = {};
+function runSim(stat, lambda){
+  const key = stat + ':' + lambda.toFixed(3);
+  if (SIMCACHE[key]) return SIMCACHE[key];
+  const N = 10000, draws = new Array(N);
+  for (let i = 0; i < N; i++) draws[i] = pois(lambda);
+  let rem = [...draws];
+  const out = BUCKETS[stat].map(([lab, test]) => {
+    const hit = rem.filter(test).length;
+    rem = rem.filter(v => !test(v));
+    return [lab, hit / N];
+  });
+  return SIMCACHE[key] = out;
+}
+const STATS = {
+  'Goals':  {v:p=>p.xg_pg,    fmt:v=>v.toFixed(2), sub:p=>`${(p.goal_prob*100).toFixed(0)}% anytime · ${p.shots_pg?.toFixed(1)} SOG`},
+  'Points': {v:p=>p.pts_pg,   fmt:v=>v.toFixed(2), sub:p=>`${p.pos} · ${(p.toi??0).toFixed(0)} min TOI`},
+  'Shots':  {v:p=>p.shots_pg, fmt:v=>v.toFixed(1), sub:p=>`${(p.xg_pg??0).toFixed(2)} xG · ${(p.goal_prob*100).toFixed(0)}% goal`}
+};
+
+function stateBadge(g){
+  if (g.game_state === 'Live') return `<span class="state live">LIVE</span>`;
+  if (g.game_state === 'Final') return `<span class="state final">FINAL</span>`;
+  return `<span class="state preview">${esc(gameTime(g.game_time))}</span>`;
+}
+
+function gameCard(g){
+  const done = g.game_state === 'Final' || g.game_state === 'Live';
+  const aFav = g.away_win_pct >= g.home_win_pct;
+  const cA = tc(g.away_abbr), cH = tc(g.home_abbr);
+  const favAb = aFav ? g.away_abbr : g.home_abbr;
+  const tierHtml = g.tier ? `<span class="tier ${g.tier}"><img src="${logo(favAb)}" alt="" loading="lazy" onerror="this.remove()">${g.tier}</span>` : '';
+  const rows = ['away','home'].map(s => {
+    const num = done && g[s+'_score'] != null
+      ? `<span class="t-score">${g[s+'_score']}</span>`
+      : `<span class="t-num ${((s==='away')===aFav)?'fav':''}">${g[s+'_goals']?.toFixed(1) ?? '–'} · ${pct(g[s+'_win_pct'] ?? .5)}</span>`;
+    return `<div class="team">
+      <span class="t-name">${badge(g[s+'_abbr'])}<span class="t-city">${esc(g[s+'_team'])}</span></span>
+      ${num}</div>`;
+  }).join('');
+  const total = (g.away_goals ?? 0) + (g.home_goals ?? 0);
+  return `<div class="game">
+    <div class="g-accent" style="background:linear-gradient(90deg,${cA},${cH})"></div>
+    <div class="g-top">
+      <span>${abSpan(g.away_abbr)} @ ${abSpan(g.home_abbr)} · ${esc(g.venue ?? '')}</span>
+      <span class="g-badges">${stateBadge(g)}${tierHtml}</span>
+    </div>
+    ${rows}
+    ${done ? '' : `<div class="prob-track"><div class="prob-away" style="width:${(g.away_win_pct??.5)*100}%;background:${cA}"></div><div class="prob-home" style="background:${cH}"></div></div>`}
+    <div class="g-stats">
+      <div class="stat sb"><div class="v ${g.p_over_6_5>=.55?'hot':''}">${pct(g.p_over_6_5 ?? .5)}</div><div class="l">O6.5</div></div>
+      <div class="stat st"><div class="v">${total.toFixed(1)}</div><div class="l">PROJ TOTAL</div></div>
+      <div class="stat sy"><div class="v ${g.target_score>=70?'hot':''}">${g.target_score ?? '–'}</div><div class="l">TARGET</div></div>
+    </div>
+    ${g.away_goalie ? `<div class="goalies"><b>${esc(g.away_goalie)}</b> vs <b>${esc(g.home_goalie ?? 'TBD')}</b>${g.line_source==='vegas' ? ' · market-anchored' : ''}</div>` : ''}
+  </div>`;
+}
+
+function renderGames(d){
+  const order = {Live:0, Preview:1, Final:2};
+  const gs = [...d.games].sort((a,b) =>
+    (order[a.game_state] ?? 1) - (order[b.game_state] ?? 1) ||
+    new Date(a.game_time) - new Date(b.game_time));
+  $('games').innerHTML = gs.map(gameCard).join('') ||
+    '<div class="empty">No games on the slate.<br>The board lights up automatically when the season starts — first puck drop in October.</div>';
+}
+
+function renderPlays(d){
+  const skaters = [];
+  for (const g of d.games){
+    if (g.game_state === 'Final') continue;
+    for (const [side, opp] of [['away', g.home_abbr],['home', g.away_abbr]])
+      for (const p of (g[side+'_skaters'] || []))
+        skaters.push({...p, team: g[side+'_abbr'], opp});
+  }
+  const cfg = STATS[statFilter];
+  const pool = skaters.filter(p => typeof cfg.v(p) === 'number')
+                      .sort((a,b) => cfg.v(b) - cfg.v(a)).slice(0, 40);
+  const chips = Object.keys(STATS).map(m =>
+    `<div class="chip ${m===statFilter?'on':''}" data-m="${m}">${m}</div>`).join('');
+  const list = pool.map((p,i) => {
+    const key = statFilter + '|' + p.name, open = openSim === key;
+    const simHtml = open ? (() => {
+      const rows = runSim(statFilter, Math.max(.01, cfg.v(p))).map(([lab, pr]) =>
+        `<div class="sim-row"><span class="sim-lab">${lab}</span>
+          <div class="sim-bar"><div class="sim-fill" style="width:${(pr*100).toFixed(1)}%"></div></div>
+          <span class="sim-pct">${(pr*100).toFixed(1)}%</span></div>`).join('');
+      return `<div class="sim"><div class="sim-head"><span>MONTE CARLO · ${statFilter.toUpperCase()}</span><b>10,000 SIMS</b></div>${rows}</div>`;
+    })() : '';
+    return `<div class="play" data-key="${esc(key)}">
+      <span class="rank ${i<3?'r'+(i+1):''}">${i+1}</span>
+      ${avatar(p.name, p.team, p.player_id)}
+      <div class="p-main">
+        <div class="p-player">${esc(p.name)}</div>
+        <div class="p-meta">${abSpan(p.team)} vs ${abSpan(p.opp)}</div>
+        <div>${tagsFor(p)}</div>
+      </div>
+      <div class="p-edge">
+        <div class="edge-val">${cfg.fmt(cfg.v(p))}</div>
+        <div class="p-odds">${cfg.sub(p)}</div>
+        <div class="sim-hint">${open ? '▾ SIM' : '▸ TAP TO SIM'}</div>
+      </div>
+      ${simHtml}
+    </div>`;
+  }).join('');
+  const top = (d.standouts?.top_goal || []).slice(0,5);
+  const watch = top.length ? `<div class="hr-strip"><div class="hr-title">GOAL WATCH</div>` +
+    top.map(p => {
+      const team = skaters.find(s => s.player_id === p.player_id)?.team ?? '';
+      return `<div class="hr-row"><span class="hr-left">${avatar(p.name, team, p.player_id, 'hr-avatar')}<span class="nm">${esc(p.name)}</span><span class="tm">${team ? abSpan(team) : ''}</span></span><span class="pct">${(p.goal_prob*100).toFixed(0)}%</span></div>`;
+    }).join('') + `</div>` : '';
+  $('plays').innerHTML = watch + `<div class="chips">${chips}</div>` +
+    (list || '<div class="empty">Skater projections arrive with the first slates of the season.</div>');
+  document.querySelectorAll('.chip').forEach(c => c.onclick = () => { statFilter = c.dataset.m; openSim = null; renderPlays(DATA); });
+  document.querySelectorAll('.play[data-key]').forEach(el => el.onclick = () => {
+    openSim = (openSim === el.dataset.key) ? null : el.dataset.key;
+    renderPlays(DATA);
+  });
+}
+
+async function load(){
+  try {
+    const r = await fetch(`../data/nhl_slate.json?t=${Date.now()}`);
+    DATA = await r.json();
+    $('updated').textContent = DATA.generated_at ? 'Updated ' + rel(DATA.generated_at) : 'Preseason';
+    const live = DATA.games.filter(g=>g.game_state==='Live').length;
+    const strong = DATA.games.filter(g=>g.tier==='STRONG').length;
+    $('slate').innerHTML =
+      `<span class="sum-chip"><span class="dot" style="background:var(--blue)"></span>${DATA.games.length} games</span>` +
+      (live ? `<span class="sum-chip"><span class="dot" style="background:var(--red)"></span>${live} live</span>` : '') +
+      (strong ? `<span class="sum-chip"><span class="dot" style="background:var(--yellow)"></span>${strong} strong</span>` : '') +
+      `<span class="sum-chip"><span class="dot" style="background:#38BDF8"></span>${DATA.date ?? ''}</span>`;
+    renderGames(DATA);
+    renderPlays(DATA);
+  } catch(e){ $('updated').textContent = 'Offline'; }
+}
+load();
+setInterval(load, 10*60*1000);
+document.addEventListener('visibilitychange', () => { if (!document.hidden) load(); });
+
+document.querySelectorAll('.tab').forEach(t => t.onclick = () => {
+  document.querySelectorAll('.tab').forEach(x => x.classList.remove('on'));
+  t.classList.add('on');
+  $('games').classList.toggle('hide', t.dataset.tab !== 'games');
+  $('plays').classList.toggle('hide', t.dataset.tab !== 'plays');
+});
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('../sw.js');
+</script>
+</body>
+</html>
