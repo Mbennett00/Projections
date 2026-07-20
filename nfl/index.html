@@ -39,12 +39,16 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
 .game{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:17px 16px 15px;margin-bottom:12px;position:relative;overflow:hidden}
 .g-accent{position:absolute;top:0;left:0;right:0;height:3px}
 .g-top{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted);font-weight:600;margin-bottom:11px}
-.state{font-size:10.5px;font-weight:700;letter-spacing:.06em;padding:4px 9px;border-radius:99px}
+.g-badges{display:inline-flex;align-items:center;gap:6px;flex:none}
+.state{font-size:10px;font-weight:700;letter-spacing:.05em;padding:4px 8px;border-radius:7px;
+  display:inline-flex;align-items:center;line-height:1.2}
 .state.live{color:#0B1020;background:var(--red);animation:pulse 2s infinite}
 .state.final{color:var(--muted);background:var(--card-2)}
 .state.preview{color:var(--blue);background:rgba(76,141,255,.12)}
 @keyframes pulse{50%{opacity:.65}}
-.tier{font-size:10.5px;font-weight:700;letter-spacing:.06em;padding:4px 9px;border-radius:99px;margin-left:6px}
+.tier{font-size:10px;font-weight:700;letter-spacing:.05em;padding:4px 8px;border-radius:7px;
+  display:inline-flex;align-items:center;gap:4px;line-height:1.2}
+.tier img{width:13px;height:13px;object-fit:contain}
 .tier.STRONG{color:#0B1020;background:var(--yellow)}
 .tier.LEAN{color:var(--blue);background:rgba(76,141,255,.12);border:1px solid rgba(76,141,255,.3)}
 .tier.PASS{color:var(--muted);background:var(--card-2)}
@@ -118,7 +122,7 @@ const rel = iso => {
   const h = Math.round(m/60);
   return h < 24 ? h + 'h ago' : Math.round(h/24) + 'd ago';
 };
-const kickoff = iso => new Date(iso).toLocaleString('en-US',{weekday:'short',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});
+const kickoff = iso => new Date(iso).toLocaleString('en-US',{weekday:'short',hour:'numeric',minute:'2-digit'});
 const odds = v => v == null ? '–' : (v > 0 ? '+' + Math.round(v) : String(Math.round(v)));
 const spr = v => v == null ? '–' : (v > 0 ? '+' + v : String(v));
 const pct = v => (v*100).toFixed(0) + '%';
@@ -134,26 +138,31 @@ function stateBadge(g){
 function gameCard(g){
   const L = g._lines || {};
   const aFav = (g.away_win_pct ?? 0) >= (g.home_win_pct ?? 0);
-  const rows = [['away', L.spread != null ? -L.spread : null, L.ml_away],
-                ['home', L.spread, L.ml_home]].map(([s, spread, ml]) => `<div class="team">
+  const rows = ['away','home'].map(s => `<div class="team">
       <span class="t-name">${badge(ab(g[s+'_team']))}<span class="t-city">${esc(g[s+'_team'])}</span></span>
-      <span class="t-num ${((s==='away')===aFav)?'fav':''}">${spr(spread)} · ${g[s+'_pts']?.toFixed(1) ?? '–'} · ${pct(g[s+'_win_pct'] ?? 0)}</span>
+      <span class="t-num ${((s==='away')===aFav)?'fav':''}">${g[s+'_pts']?.toFixed(1) ?? '–'} · ${pct(g[s+'_win_pct'] ?? 0)}</span>
     </div>`).join('');
-  const total = L.total != null ? `${L.total}` : '–';
-  const proj = (g.away_pts != null && g.home_pts != null) ? (g.away_pts + g.home_pts).toFixed(1) : '–';
+  const homeCover = (g.p_cover ?? .5) >= .5;
+  const leanTeam = homeCover ? ab(g.home_team) : ab(g.away_team);
+  const leanNum = L.spread != null ? spr(homeCover ? L.spread : -L.spread) : '';
+  const coverP = homeCover ? (g.p_cover ?? .5) : 1 - (g.p_cover ?? .5);
+  const overSide = (g.p_over ?? .5) >= .5;
+  const totP = overSide ? (g.p_over ?? .5) : 1 - (g.p_over ?? .5);
   const cA = tc(ab(g.away_team)), cH = tc(ab(g.home_team));
+  const favLogo = (aFav ? ab(g.away_team) : ab(g.home_team));
+  const tierHtml = g.tier ? `<span class="tier ${g.tier}"><img src="${logo(favLogo)}" alt="" loading="lazy" onerror="this.remove()">${g.tier}</span>` : '';
   return `<div class="game">
     <div class="g-accent" style="background:linear-gradient(90deg,${cA},${cH})"></div>
     <div class="g-top">
-      <span>${abSpan(ab(g.away_team))} @ ${abSpan(ab(g.home_team))} · ${esc(g.venue ?? '')}</span>
-      <span>${stateBadge(g)}${g.tier ? `<span class="tier ${g.tier}">${g.tier}</span>` : ''}</span>
+      <span>${abSpan(ab(g.away_team))} @ ${abSpan(ab(g.home_team))}</span>
+      <span class="g-badges">${stateBadge(g)}${tierHtml}</span>
     </div>
     ${rows}
     <div class="prob-track"><div class="prob-away" style="width:${(g.away_win_pct ?? .5)*100}%;background:${cA}"></div><div class="prob-home" style="background:${cH}"></div></div>
     <div class="g-stats">
-      <div class="stat"><div class="v">${total} / ${proj}</div><div class="l">TOTAL / MODEL</div></div>
-      <div class="stat"><div class="v ${Math.abs(g.p_cover-.5)>=.05?'hot':''}">${pct(g.p_cover ?? .5)}</div><div class="l">HOME COVER</div></div>
-      <div class="stat"><div class="v ${Math.abs(g.p_over-.5)>=.05?'hot':''}">${pct(g.p_over ?? .5)}</div><div class="l">OVER</div></div>
+      <div class="stat"><div class="v ${coverP>=.55?'hot':''}">${leanTeam} ${leanNum}</div><div class="l">COVER ${pct(coverP)}</div></div>
+      <div class="stat"><div class="v ${totP>=.55?'hot':''}">${overSide ? 'Ov' : 'Un'} ${L.total ?? '–'}</div><div class="l">TOTAL ${pct(totP)}</div></div>
+      <div class="stat"><div class="v">${g.away_pts?.toFixed(0) ?? '–'}–${g.home_pts?.toFixed(0) ?? '–'}</div><div class="l">PROJ</div></div>
     </div>
     ${g.away_qb ? `<div class="qbs"><b>${esc(g.away_qb)}</b> ${g.away_qb_proj ? `(${g.away_qb_proj.pass_yds?.toFixed(0)} yds, ${g.away_qb_proj.pass_td?.toFixed(1)} TD)` : ''} vs <b>${esc(g.home_qb)}</b> ${g.home_qb_proj ? `(${g.home_qb_proj.pass_yds?.toFixed(0)} yds, ${g.home_qb_proj.pass_td?.toFixed(1)} TD)` : ''}</div>` : ''}
   </div>`;

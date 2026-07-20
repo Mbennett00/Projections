@@ -42,12 +42,16 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
 .game{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:17px 16px 15px;margin-bottom:12px;position:relative;overflow:hidden}
 .g-accent{position:absolute;top:0;left:0;right:0;height:3px}
 .g-top{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted);font-weight:600;margin-bottom:11px}
-.state{font-size:10.5px;font-weight:700;letter-spacing:.06em;padding:4px 9px;border-radius:99px}
+.g-badges{display:inline-flex;align-items:center;gap:6px;flex:none}
+.state{font-size:10px;font-weight:700;letter-spacing:.05em;padding:4px 8px;border-radius:7px;
+  display:inline-flex;align-items:center;line-height:1.2}
 .state.live{color:#0B1020;background:var(--red);animation:pulse 2s infinite}
 .state.final{color:var(--muted);background:var(--card-2)}
 .state.preview{color:var(--blue);background:rgba(76,141,255,.12)}
 @keyframes pulse{50%{opacity:.65}}
-.tier{font-size:10.5px;font-weight:700;letter-spacing:.06em;padding:4px 9px;border-radius:99px;margin-left:6px}
+.tier{font-size:10px;font-weight:700;letter-spacing:.05em;padding:4px 8px;border-radius:7px;
+  display:inline-flex;align-items:center;gap:4px;line-height:1.2}
+.tier img{width:13px;height:13px;object-fit:contain}
 .tier.STRONG{color:#0B1020;background:var(--yellow)}
 .tier.LEAN{color:var(--blue);background:rgba(76,141,255,.12);border:1px solid rgba(76,141,255,.3)}
 .tier.PASS{color:var(--muted);background:var(--card-2)}
@@ -58,14 +62,13 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
   display:grid;place-items:center;text-align:center;flex:none;overflow:hidden}
 .t-abbr img{width:26px;height:26px;object-fit:contain;display:block}
 .t-abbr:not(:has(img))::before{content:attr(data-ab)}
-.p-avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(160deg,var(--card-2),#232E4E);
-  border:1px solid var(--line);flex:none;overflow:hidden;display:grid;place-items:center;
-  font-family:'Sora',sans-serif;font-weight:700;font-size:12px;color:var(--muted)}
-.p-avatar img{width:92%;height:92%;object-fit:contain;object-position:center;display:block}
+.p-avatar{width:44px;height:44px;border-radius:50%;flex:none;overflow:hidden;
+  display:grid;place-items:center;font-family:'Sora',sans-serif;font-weight:700;font-size:12px}
+.p-avatar img{width:94%;height:94%;object-fit:contain;object-position:center bottom;display:block;margin-top:auto}
 .p-avatar:not(:has(img))::before{content:attr(data-in)}
-.hr-avatar{width:28px;height:28px;border-radius:50%;background:var(--card);border:1px solid var(--line);
-  overflow:hidden;flex:none;display:grid;place-items:center;font-size:10px;font-weight:700;color:var(--muted)}
-.hr-avatar img{width:90%;height:90%;object-fit:contain;object-position:center;display:block}
+.hr-avatar{width:30px;height:30px;border-radius:50%;overflow:hidden;flex:none;
+  display:grid;place-items:center;font-size:9px;font-weight:700}
+.hr-avatar img{width:92%;height:92%;object-fit:contain;object-position:center bottom;display:block;margin-top:auto}
 .hr-left{display:flex;align-items:center;gap:9px;min-width:0}
 .t-city{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .t-num{font-variant-numeric:tabular-nums;font-weight:600;font-size:14px;color:var(--muted);flex:none;margin-left:8px}
@@ -84,8 +87,8 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
 /* plays */
 .chips{display:flex;gap:7px;overflow-x:auto;padding:2px 2px 12px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .chips::-webkit-scrollbar{display:none}
-.chip{flex:none;font-size:12.5px;font-weight:600;color:var(--muted);background:var(--card);
-  border:1px solid var(--line);border-radius:99px;padding:8px 14px;cursor:pointer;user-select:none;white-space:nowrap}
+.chip{flex:none;font-size:12px;font-weight:600;color:var(--muted);background:var(--card);
+  border:1px solid var(--line);border-radius:9px;padding:7px 12px;cursor:pointer;user-select:none;white-space:nowrap;line-height:1.2}
 .chip.on{color:#0B1020;background:linear-gradient(100deg,var(--blue),var(--yellow));border-color:transparent}
 .hr-strip{background:linear-gradient(160deg,var(--card-2),var(--card));border:1px solid rgba(255,211,77,.28);
   border-radius:var(--r);padding:13px 16px;margin-bottom:12px}
@@ -154,9 +157,12 @@ function buildIds(d){
       for (const p of (g[s]||[])) if (p.player_id) NAMEID[p.name] = p.player_id;
   }
 }
-const avatar = (name, cls='p-avatar') => {
+const AV = {ARI:['#A71930','#E3D4AD'],ATH:['#003831','#EFB21E'],ATL:['#CE1141','#EAAA00'],BAL:['#DF4601','#F5F0E1'],BOS:['#BD3039','#0C2340'],CHC:['#0E3386','#CC3433'],CWS:['#27251F','#C4CED4'],CIN:['#C6011F','#F5F0E1'],CLE:['#00385D','#E31937'],COL:['#33006F','#C4CED4'],DET:['#0C2340','#FA4616'],HOU:['#002D62','#EB6E1F'],KC:['#004687','#BD9B60'],LAA:['#BA0021','#003263'],LAD:['#005A9C','#F5F0E1'],MIA:['#00A3E0','#EF3340'],MIL:['#12284B','#FFC52F'],MIN:['#002B5C','#D31145'],NYM:['#002D72','#FF5910'],NYY:['#0C2340','#C4CED3'],PHI:['#E81828','#002D72'],PIT:['#27251F','#FDB827'],SD:['#2F241D','#FFC425'],SF:['#27251F','#FD5A1E'],SEA:['#0C2C56','#2FBDB3'],STL:['#C41E3A','#0C2340'],TB:['#092C5C','#8FBCE6'],TEX:['#003278','#C0111F'],TOR:['#134A8E','#E8291C'],WSH:['#AB0003','#14225A']};
+const avColors = a => AV[a] || ['#1B2540','#4C8DFF'];
+const avatar = (name, team, cls='p-avatar') => {
   const id = NAMEID[name];
-  return `<span class="${cls}" data-in="${initials(name)}">${id ? `<img src="${mug(id)}" alt="" loading="lazy" onerror="this.remove()">` : ''}</span>`;
+  const [bg, ring] = avColors(team);
+  return `<span class="${cls}" data-in="${initials(name)}" style="background:${bg};border:2px solid ${ring};color:#F5F0E1">${id ? `<img src="${mug(id)}" alt="" loading="lazy" onerror="this.remove()">` : ''}</span>`;
 };
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const rel = iso => {
@@ -172,6 +178,13 @@ const odds = v => v > 0 ? '+' + v : String(v);
 const pct = v => (v*100).toFixed(0) + '%';
 
 let DATA = null, marketFilter = 'All', shown = 60;
+
+function tierPill(g, hasModel, aFav){
+  if (!g.tier) return '';
+  const fav = hasModel ? ab(aFav ? g.away_team : g.home_team) : null;
+  const ico = (fav && logo(fav)) ? `<img src="${logo(fav)}" alt="" loading="lazy" onerror="this.remove()">` : '';
+  return `<span class="tier ${g.tier}">${ico}${g.tier}</span>`;
+}
 
 function stateBadge(g){
   if (g.game_state === 'Live') {
@@ -208,7 +221,7 @@ function gameCard(g){
     <div class="g-accent" style="background:linear-gradient(90deg,${cA},${cH})"></div>
     <div class="g-top">
       <span>${abSpan(ab(g.away_team))} @ ${abSpan(ab(g.home_team))} · ${esc(g.venue ?? '')}</span>
-      <span>${stateBadge(g)}${g.tier ? `<span class="tier ${g.tier}">${g.tier}</span>` : ''}</span>
+      <span class="g-badges">${stateBadge(g)}${tierPill(g, hasModel, aFav)}</span>
     </div>
     ${rows}${prob}${stats}${pitch}</div>`;
 }
@@ -256,7 +269,7 @@ function renderPlays(d){
   const chips = Object.keys(STATS).map(s =>
     `<div class="chip ${s===statFilter?'on':''}" data-m="${s}">${s}</div>`).join('');
   const list = pool.slice(0, shownP).map((p,i) => `<div class="play">
-      ${avatar(p.name)}
+      ${avatar(p.name, p.team)}
       <div class="p-main">
         <div class="p-player">${esc(p.name)}</div>
         <div class="p-meta">${abSpan(p.team)} vs ${abSpan(p.opp)}${p.order ? ` · #${p.order}` : ''}</div>
@@ -267,7 +280,7 @@ function renderPlays(d){
       </div>
     </div>`).join('');
   const hr = (d.standouts?.top_hr || []).slice(0,5).map(h =>
-    `<div class="hr-row"><span class="hr-left">${avatar(h.name,'hr-avatar')}<span class="nm">${esc(h.name)}</span><span class="tm">${abSpan(ab(h.team))}</span></span>
+    `<div class="hr-row"><span class="hr-left">${avatar(h.name, ab(h.team), 'hr-avatar')}<span class="nm">${esc(h.name)}</span><span class="tm">${abSpan(ab(h.team))}</span></span>
      <span class="pct">${(h.hr_prob*100).toFixed(1)}%</span></div>`).join('');
   $('plays').innerHTML =
     (hr ? `<div class="hr-strip"><div class="hr-title">HR WATCH</div>${hr}</div>` : '') +
