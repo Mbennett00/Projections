@@ -229,6 +229,50 @@ def fetch_roster(abbr):
     return skaters, goalies
 
 
+# ── injuries (ESPN NHL feed; matched by lowercase name) ──────────────────
+_INJ = None
+
+def fetch_injuries():
+    global _INJ
+    if _INJ is not None:
+        return _INJ
+    out = {}
+    try:
+        data = get_json("https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/injuries")
+
+        def walk(node):
+            if isinstance(node, dict):
+                ath, status = node.get("athlete"), node.get("status")
+                if isinstance(ath, dict) and ath.get("displayName") and status:
+                    s = status if isinstance(status, str) else (status.get("name") or "")
+                    if s:
+                        out[ath["displayName"].lower()] = s
+                for v in node.values():
+                    walk(v)
+            elif isinstance(node, list):
+                for v in node:
+                    walk(v)
+        walk(data)
+        if out:
+            print(f"Injuries: {len(out)} NHL statuses loaded")
+    except Exception as e:
+        print(f"  (injury feed unavailable: {e})")
+    _INJ = out
+    return out
+
+
+def skater_status(name):
+    s = fetch_injuries().get((name or "").lower())
+    if not s:
+        return None
+    sl = s.lower()
+    if sl in ("out", "injured reserve", "ir"):
+        return "O"
+    if "day-to-day" in sl or sl in ("doubtful", "questionable"):
+        return "Q"
+    return None
+
+
 # ── Vegas layer (optional) ────────────────────────────────────────────────
 def fetch_nhl_odds():
     if not ODDS_API_KEY:
@@ -317,25 +361,51 @@ def matchup_factor(lam):
 
 def project_skaters(talent, abbr, factor):
     skaters, goalies = fetch_roster(abbr)
-    out = []
+    pool = []
     for pid, name, pos in skaters:
         t = talent.skater(pid)
         if not t or not t.get("xg_pg"):
             continue
-        xg = (t["xg_pg"] or 0) * factor
-        goal_prob = min(0.75, 1 - math.exp(-max(0.0, xg)))
-        out.append({
-            "name": name, "player_id": pid, "pos": pos,
+        pool.append({"pid": pid, "name": name, "pos": pos, "t": t,
+                     "status": skater_status(name)})
+
+    out_sk = [r for r in pool if r["status"] == "O"]
+    active = [r for r in pool if r["status"] != "O"]
+    # 60% of an out skater's xG/shots redistribute (line juggling isn't 1:1)
+    vac_xg = sum((r["t"].get("xg_pg") or 0) for r in out_sk) * 0.6
+    vac_sh = sum((r["t"].get("shots_pg") or 0) for r in out_sk) * 0.6
+    out_names = ", ".join(r["name"] for r in out_sk[:2])
+    tot_xg = sum((r["t"].get("xg_pg") or 0) for r in active) or 1.0
+
+    result = []
+    for r in active:
+        t = r["t"]
+        base_xg = (t.get("xg_pg") or 0) * factor
+        share = (t.get("xg_pg") or 0) / tot_xg
+        boost_xg = base_xg + vac_xg * share * factor
+        goal_prob = min(0.75, 1 - math.exp(-max(0.0, boost_xg)))
+        base_prob = min(0.75, 1 - math.exp(-max(0.0, base_xg)))
+        p = {
+            "name": r["name"], "player_id": r["pid"], "pos": r["pos"],
             "toi": round(t.get("toi_pg") or 0, 1),
-            "shots_pg": round(t.get("shots_pg") or 0, 2),
-            "xg_pg": round(xg, 3),
+            "shots_pg": round((t.get("shots_pg") or 0) + vac_sh * share, 2),
+            "xg_pg": round(boost_xg, 3),
             "goal_prob": round(goal_prob, 3),
             "pts_pg": round((t.get("points_pg") or 0) * factor, 2),
             "src": t["src"],
-        })
-    out.sort(key=lambda p: p["toi"], reverse=True)
+        }
+        if r["status"]:
+            p["status"] = r["status"]
+        if out_sk and (goal_prob - base_prob) >= 0.03:
+            p["news"] = {
+                "reason": f"{out_names} ruled OUT",
+                "prob_from": round(base_prob, 3),
+                "prob_to": round(goal_prob, 3),
+            }
+        result.append(p)
+    result.sort(key=lambda p: p["toi"], reverse=True)
     goalie = goalies[0][1] if goalies else None
-    return out[:12], goalie
+    return result[:12], goalie
 
 
 def build_game(talent, raw, odds_map):
@@ -404,6 +474,25 @@ def main():
         "games": games,
         "standouts": {"top_goal": top_goal},
     }
+    try:
+        prev_path = Path(__file__).parent / "data" / "nhl_slate.json"
+        if prev_path.exists():
+            prev = json.loads(prev_path.read_text())
+            prev_sk = {}
+            for pg in prev.get("games", []):
+                for side in ("away_skaters", "home_skaters"):
+                    for pp in pg.get(side, []) or []:
+                        prev_sk[pp.get("name")] = pp
+            for g in export.get("games", []):
+                for side in ("away_skaters", "home_skaters"):
+                    for pp in g.get(side, []) or []:
+                        old_p = prev_sk.get(pp.get("name"))
+                        if old_p and "news" not in pp:
+                            d = (pp.get("xg_pg") or 0) - (old_p.get("xg_pg") or 0)
+                            if abs(d) >= 0.06:
+                                pp["xg_prev"] = old_p.get("xg_pg")
+    except Exception:
+        pass
     OUT_PATH.write_text(json.dumps(export, indent=2))
     print(f"Wrote {len(games)} games to {OUT_PATH}")
 

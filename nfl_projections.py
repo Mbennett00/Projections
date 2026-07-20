@@ -689,6 +689,55 @@ LEAGUE_CATCH = 0.655
 TD_PER_CARRY = 0.025
 TD_PER_TARGET = 0.045
 
+INJURY_STATUS = None  # lazy-loaded league-wide {athlete_id: status}
+
+def fetch_injuries():
+    """League-wide injury statuses from ESPN's free feed.
+    Returns {athlete_id_str: 'Out'|'Doubtful'|'Questionable'|...}."""
+    global INJURY_STATUS
+    if INJURY_STATUS is not None:
+        return INJURY_STATUS
+    out = {}
+    try:
+        data = _http_get_json("https://site.api.espn.com/apis/site/v2/sports/football/nfl/injuries")
+
+        def walk(node):
+            if isinstance(node, dict):
+                ath = node.get("athlete")
+                status = node.get("status")
+                if isinstance(ath, dict) and ath.get("id") and status:
+                    s = status if isinstance(status, str) else (status.get("name") or status.get("type", {}).get("name"))
+                    if s:
+                        out[str(ath["id"])] = s
+                for v in node.values():
+                    walk(v)
+            elif isinstance(node, list):
+                for v in node:
+                    walk(v)
+        walk(data)
+    except Exception as e:
+        print(f"  (injury feed unavailable: {e})")
+    INJURY_STATUS = out
+    if out:
+        n_out = sum(1 for s in out.values() if s.lower() in ("out", "injured reserve", "ir", "doubtful"))
+        print(f"Injuries: {len(out)} statuses loaded ({n_out} out/doubtful)")
+    return out
+
+
+def player_status(athlete_id):
+    s = fetch_injuries().get(str(athlete_id))
+    if not s:
+        return None
+    sl = s.lower()
+    if sl in ("out", "injured reserve", "ir", "physically unable to perform", "pup", "suspension"):
+        return "O"
+    if sl == "doubtful":
+        return "D"
+    if sl == "questionable":
+        return "Q"
+    return None
+
+
 def fetch_prior_stats(athlete_id, kind):
     """Last completed season per-game stats via ESPN core API.
     kind: 'passing' or 'skill'. Returns dict or None."""
@@ -811,6 +860,7 @@ def project_qb(team_abbr, opponent_abbr=None, vegas_factor=None):
         "rating": rating_adj,
         "epa_db": epa_db,
         "src": src_tag,
+        "status": player_status(athlete_id),
         "_matchup_factor": round(factor, 3),
     }
 
@@ -832,57 +882,79 @@ def project_skill_players(team_abbr, opponent_abbr=None, vegas_factor=None):
     else:
         factor = fetch_defense_factor(opponent_abbr) if opponent_abbr else 1.0
 
-    players = []
+    # ── pass 1: blended usage + status for everyone ──
+    roster = []
     for name, athlete_id, pos in starters:
         if not name:
             continue
         cur = fetch_skill_season_stats(athlete_id)
         pri = fetch_prior_stats(athlete_id, "skill")
         if not cur and not pri:
-            continue  # skip rather than show a fake stub player
-
-        # usage stabilizes fast (K=2); yardage rates slower (K=4)
+            continue
         b = blend_stats(cur, pri,
                         keys_usage=("targets", "rush_att"),
                         keys_rate=("rec", "rec_yds", "rush_yds", "td_per_game"))
-        targets = b.get("targets") or 0.0
-        rush_att = b.get("rush_att") or 0.0
+        roster.append({
+            "name": name, "id": athlete_id, "pos": pos, "b": b,
+            "status": player_status(athlete_id),
+            "src": "blend" if (cur and pri) else ("current" if cur else "prior"),
+        })
 
-        # efficiency = blended rate, regressed 20% to league average --
-        # a hot 11.2 yds/target through 3 games is mostly noise.
-        ypt = ((b.get("rec_yds") or 0) / targets) if targets else LEAGUE_YPT
-        ypa = ((b.get("rush_yds") or 0) / rush_att) if rush_att else LEAGUE_YPA
+    # ── vacated usage from OUT/doubtful players, redistributed 85% ──
+    out_players = [r for r in roster if r["status"] in ("O", "D")]
+    active = [r for r in roster if r["status"] not in ("O", "D")]
+    vac_tgt = sum((r["b"].get("targets") or 0) for r in out_players) * 0.85
+    vac_att = sum((r["b"].get("rush_att") or 0) for r in out_players) * 0.85
+    out_names = ", ".join(f'{r["name"]} ({r["pos"]})' for r in out_players[:2])
+    tot_tgt = sum((r["b"].get("targets") or 0) for r in active) or 1.0
+    tot_att = sum((r["b"].get("rush_att") or 0) for r in active) or 1.0
+
+    def compute(b, targets, rush_att):
+        """Full projection from a usage pair (lets us diff base vs boosted)."""
+        ypt = ((b.get("rec_yds") or 0) / (b.get("targets") or 1)) if (b.get("targets") or 0) else LEAGUE_YPT
+        ypa = ((b.get("rush_yds") or 0) / (b.get("rush_att") or 1)) if (b.get("rush_att") or 0) else LEAGUE_YPA
         ypt = 0.8 * ypt + 0.2 * LEAGUE_YPT
         ypa = 0.8 * ypa + 0.2 * LEAGUE_YPA
-        catch = ((b.get("rec") or 0) / targets) if targets else LEAGUE_CATCH
+        catch = ((b.get("rec") or 0) / (b.get("targets") or 1)) if (b.get("targets") or 0) else LEAGUE_CATCH
         catch = min(0.9, 0.85 * catch + 0.15 * LEAGUE_CATCH)
-
-        rec = round(targets * catch, 1)                      # usage unadjusted
-        rec_yds = round(targets * ypt * factor, 1)           # yards scale w/ matchup
-        rush_yds = round(rush_att * ypa * factor, 1)
-
-        # TD probability from USAGE, not TD history -- TDs are the noisiest
-        # stat in football. 70% usage-implied, 30% blended history.
+        rec = targets * catch
+        rec_yds = targets * ypt * factor
+        rush_yds = rush_att * ypa * factor
         td_usage = rush_att * TD_PER_CARRY + targets * TD_PER_TARGET
         td_hist = b.get("td_per_game") or td_usage
         td_pg = (0.7 * td_usage + 0.3 * td_hist) * factor
-        td_prob = min(0.85, 1 - _math.exp(-max(0.0, td_pg)))  # P(>=1) under Poisson
+        td_prob = min(0.85, 1 - _math.exp(-max(0.0, td_pg)))
+        fpts = rec * 1.0 + rec_yds * 0.1 + rush_yds * 0.1 + td_pg * 6.0
+        return rec, rec_yds, rush_yds, td_prob, fpts
 
-        fpts = round(rec * 1.0 + rec_yds * 0.1 + rush_yds * 0.1 + td_pg * 6.0, 1)
+    players = []
+    for r in active:
+        b = r["b"]
+        base_tgt = b.get("targets") or 0.0
+        base_att = b.get("rush_att") or 0.0
+        boost_tgt = base_tgt + vac_tgt * (base_tgt / tot_tgt)
+        boost_att = base_att + vac_att * (base_att / tot_att)
 
-        players.append({
-            "name": name,
-            "pos": pos,
-            "player_id": athlete_id,
-            "targets": round(targets, 1),
-            "rec": rec,
-            "rec_yds": rec_yds,
-            "rush_yds": rush_yds,
-            "rush_att": round(rush_att, 1),
-            "td_prob": round(td_prob, 2),
-            "fpts": fpts,
-            "src": "blend" if (cur and pri) else ("current" if cur else "prior"),
-        })
+        _, _, _, _, fpts_base = compute(b, base_tgt, base_att)
+        rec, rec_yds, rush_yds, td_prob, fpts = compute(b, boost_tgt, boost_att)
+
+        p = {
+            "name": r["name"], "pos": r["pos"], "player_id": r["id"],
+            "targets": round(boost_tgt, 1), "rec": round(rec, 1),
+            "rec_yds": round(rec_yds, 1), "rush_yds": round(rush_yds, 1),
+            "rush_att": round(boost_att, 1),
+            "td_prob": round(td_prob, 2), "fpts": round(fpts, 1),
+            "src": r["src"],
+        }
+        if r["status"]:
+            p["status"] = r["status"]           # Q shows a badge on the board
+        if out_players and (fpts - fpts_base) >= 0.5:
+            p["news"] = {
+                "reason": f"{out_names} ruled OUT",
+                "fpts_from": round(fpts_base, 1),
+                "fpts_to": round(fpts, 1),
+            }
+        players.append(p)
     return players
 
 
@@ -1048,6 +1120,26 @@ def main():
         "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
         "games": games,
     }
+    # attach run-over-run projection deltas (generic news layer)
+    try:
+        prev_path = Path(__file__).parent / "data" / "nfl_slate.json"
+        if prev_path.exists():
+            prev = json.loads(prev_path.read_text())
+            prev_sk = {}
+            for pg in prev.get("games", []):
+                for side in ("away_skill", "home_skill"):
+                    for pp in pg.get(side, []) or []:
+                        prev_sk[pp.get("name")] = pp
+            for g in slate.get("games", []):
+                for side in ("away_skill", "home_skill"):
+                    for pp in g.get(side, []) or []:
+                        old_p = prev_sk.get(pp.get("name"))
+                        if old_p and "news" not in pp:
+                            d = (pp.get("fpts") or 0) - (old_p.get("fpts") or 0)
+                            if abs(d) >= 0.8:
+                                pp["fpts_prev"] = old_p.get("fpts")
+    except Exception:
+        pass
     OUT_PATH.write_text(json.dumps(slate, indent=2))
     print(f"Wrote {len(games)} games to {OUT_PATH}")
     if _qb_stat_failures:

@@ -149,6 +149,9 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
 .p-odds{font-size:11px;color:var(--muted);margin-top:4px;font-variant-numeric:tabular-nums}
 .more{width:100%;text-align:center;font-size:13.5px;font-weight:600;color:var(--blue);
   background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;cursor:pointer;font-family:inherit}
+.news{font-size:10.5px;font-weight:700;margin-top:4px;line-height:1.4}
+.news.up{color:var(--yellow)}
+.news.dn{color:#FF8FA3}
 .d-sec{font-size:10.5px;font-weight:700;letter-spacing:.08em;color:var(--muted);margin:10px 0 7px}
 .d-match{font-size:12.5px;color:var(--text);background:var(--card-2);border-radius:9px;padding:8px 11px}
 .d-line{display:flex;gap:5px;flex-wrap:wrap}
@@ -383,6 +386,24 @@ function renderPlays(d){
     RANKS[m] = {map: mp, n: pl.length};
   }
 
+  const DELTA_FIELD = {'HR':'expected_hr','Hits':'expected_hits','Bases':'expected_tb','RBI':'expected_rbi','Runs':'expected_runs'};
+  const arrowLine = (a, b, dp, unit='') => {
+    const up = b >= a;
+    return `<div class="news ${up?'up':'dn'}">${up?'↑':'↓'} Projection ${up?'increased':'decreased'} · ${a.toFixed(dp)} → ${b.toFixed(dp)}${unit}</div>`;
+  };
+  function newsLine(p){
+    if (statFilter === 'H+R+RBI') {
+      const ks = ['expected_hits','expected_runs','expected_rbi'];
+      if (!ks.some(k => p['prev_'+k] != null)) return '';
+      const prev = ks.reduce((s,k) => s + (p['prev_'+k] ?? p[k] ?? 0), 0);
+      const cur = ks.reduce((s,k) => s + (p[k] ?? 0), 0);
+      return arrowLine(prev, cur, 2);
+    }
+    const f = DELTA_FIELD[statFilter];
+    if (!f || p['prev_'+f] == null) return '';
+    return arrowLine(p['prev_'+f], p[f], 2);
+  }
+
   function detailPanel(p){
     const isArm = cfg.pool === 'arm';
     const cells = (isArm
@@ -428,6 +449,7 @@ function renderPlays(d){
         <div class="p-player">${esc(p.name)}</div>
         <div class="p-meta">${abSpan(p.team)} vs ${abSpan(p.opp)}${p.order ? ` · #${p.order}` : ''}</div>
         <div>${tagsFor(p, cfg.pool)}</div>
+        ${newsLine(p)}
       </div>
       <div class="p-edge">
         <div class="edge-val">${cfg.fmt(cfg.v(p))}</div>

@@ -139,6 +139,9 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
 .edge-bar{width:60px;height:5px;border-radius:99px;background:var(--card-2);margin-top:5px;overflow:hidden;margin-left:auto}
 .edge-fill{height:100%;background:var(--yellow);border-radius:99px}
 .p-odds{font-size:11px;color:var(--muted);margin-top:4px;font-variant-numeric:tabular-nums}
+.news{font-size:10.5px;font-weight:700;margin-top:4px;line-height:1.4}
+.news.up{color:var(--yellow)}
+.news.dn{color:#FF8FA3}
 .d-sec{font-size:10.5px;font-weight:700;letter-spacing:.08em;color:var(--muted);margin:10px 0 7px}
 .d-match{font-size:12.5px;color:var(--text);background:var(--card-2);border-radius:9px;padding:8px 11px}
 .d-line{display:flex;gap:5px;flex-wrap:wrap}
@@ -343,6 +346,20 @@ function renderPlays(d){
     RANKS[m] = {map: mp, n: pl.length};
   }
 
+  const statusTag = p => {
+    if (p.status === 'Q') return `<span class="tag" style="color:#FBBF24;background:#FBBF241C;border:1px solid #FBBF2444">QUESTIONABLE</span>`;
+    if (p.status === 'D') return `<span class="tag" style="color:#FB923C;background:#FB923C1C;border:1px solid #FB923C44">DOUBTFUL</span>`;
+    return '';
+  };
+  function newsLine(p){
+    if (p.news) return `<div class="news up">↑ ${esc(p.news.reason)} · ${p.news.fpts_from} → ${p.news.fpts_to} fpts</div>`;
+    if (p.fpts_prev != null) {
+      const up = (p.fpts ?? 0) >= p.fpts_prev;
+      return `<div class="news ${up?'up':'dn'}">${up?'↑':'↓'} Projection ${up?'increased':'decreased'} · ${p.fpts_prev} → ${p.fpts} fpts</div>`;
+    }
+    return '';
+  }
+
   function detailPanel(p){
     const isQB = cfg.pool === 'qb';
     const cells = (isQB
@@ -386,7 +403,8 @@ function renderPlays(d){
       <div class="p-main">
         <div class="p-player">${esc(p.name)}</div>
         <div class="p-meta">${abSpan(p.team)} vs ${abSpan(p.opp)}</div>
-        <div>${nflTags(p, cfg.pool)}</div>
+        <div>${statusTag(p)}${nflTags(p, cfg.pool)}</div>
+        ${newsLine(p)}
       </div>
       <div class="p-edge">
         <div class="edge-val">${cfg.fmt(cfg.v(p))}</div>

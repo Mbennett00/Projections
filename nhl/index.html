@@ -136,6 +136,9 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
 .sim-hint{font-size:9.5px;font-weight:700;letter-spacing:.06em;color:var(--blue);margin-top:4px}
 @keyframes rise{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
 .game{animation:rise .28s ease both}
+.news{font-size:10.5px;font-weight:700;margin-top:4px;line-height:1.4}
+.news.up{color:var(--yellow)}
+.news.dn{color:#FF8FA3}
 .d-sec{font-size:10.5px;font-weight:700;letter-spacing:.08em;color:var(--muted);margin:10px 0 7px}
 .d-match{font-size:12.5px;color:var(--text);background:var(--card-2);border-radius:9px;padding:8px 11px}
 .d-line{display:flex;gap:5px;flex-wrap:wrap}
@@ -303,6 +306,17 @@ function renderPlays(d){
     pl.forEach((p, i) => mp.set(p.name + '|' + p.team, i + 1));
     RANKS[m] = {map: mp, n: pl.length};
   }
+  const statusTag = p => p.status === 'Q'
+    ? `<span class="tag" style="color:#FBBF24;background:#FBBF241C;border:1px solid #FBBF2444">DAY-TO-DAY</span>` : '';
+  function newsLine(p){
+    if (p.news) return `<div class="news up">↑ ${esc(p.news.reason)} · ${(p.news.prob_from*100).toFixed(0)}% → ${(p.news.prob_to*100).toFixed(0)}% anytime</div>`;
+    if (p.xg_prev != null) {
+      const up = (p.xg_pg ?? 0) >= p.xg_prev;
+      return `<div class="news ${up?'up':'dn'}">${up?'↑':'↓'} xG ${up?'up':'down'} since last run · ${p.xg_prev.toFixed(2)} → ${(p.xg_pg??0).toFixed(2)}</div>`;
+    }
+    return '';
+  }
+
   function detailPanel(p){
     const cells = [['TOI', p.toi, 1], ['SOG', p.shots_pg, 1], ['xG', p.xg_pg, 2],
                    ['GOAL%', (p.goal_prob ?? 0) * 100, 0], ['PTS', p.pts_pg, 2]]
@@ -341,7 +355,8 @@ function renderPlays(d){
       <div class="p-main">
         <div class="p-player">${esc(p.name)}</div>
         <div class="p-meta">${abSpan(p.team)} vs ${abSpan(p.opp)}</div>
-        <div>${tagsFor(p)}</div>
+        <div>${statusTag(p)}${tagsFor(p)}</div>
+        ${newsLine(p)}
       </div>
       <div class="p-edge">
         <div class="edge-val">${cfg.fmt(cfg.v(p))}</div>

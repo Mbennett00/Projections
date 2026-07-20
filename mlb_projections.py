@@ -1009,6 +1009,32 @@ def main():
             "top_hr": sorted(all_standouts, key=lambda x: -x["hr_prob"])[:10] if all_standouts else [],
         },
     }
+    # run-over-run deltas: annotate lineup projections that moved since the
+    # previous run (lineup changes / pitcher swaps flow through automatically)
+    try:
+        from pathlib import Path as _P
+        prev_path = _P(__file__).parent / "data" / "mlb_slate.json"
+        if prev_path.exists():
+            prev = json.loads(prev_path.read_text())
+            prev_pl = {}
+            for pg in prev.get("games", []):
+                for side in ("away_lineup", "home_lineup"):
+                    for pp in pg.get(side, []) or []:
+                        prev_pl[pp.get("name")] = pp
+            fields = ("expected_hr", "expected_hits", "expected_tb",
+                      "expected_rbi", "expected_runs", "expected_k")
+            for g in export.get("games", []):
+                for side in ("away_lineup", "home_lineup"):
+                    for pp in g.get(side, []) or []:
+                        old_p = prev_pl.get(pp.get("name"))
+                        if not old_p:
+                            continue
+                        for fkey in fields:
+                            a, b = old_p.get(fkey), pp.get(fkey)
+                            if a is not None and b is not None and abs(b - a) >= max(0.12, abs(a) * 0.12):
+                                pp["prev_" + fkey] = a
+    except Exception:
+        pass
     with open(args.json_out, "w") as f:
         json.dump(export, f, indent=2)
     print(f"\nWrote {args.json_out}")
