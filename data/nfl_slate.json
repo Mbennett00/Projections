@@ -1,6 +1,6 @@
 {
-  "date": "2026-07-19",
-  "generated_at": "2026-07-19 20:33 UTC",
+  "date": "2026-07-20",
+  "generated_at": "2026-07-20 03:27 UTC",
   "games": [
     {
       "away_team": "New England Patriots",
@@ -38,10 +38,10 @@
       },
       "away_skill": [],
       "home_skill": [],
-      "away_win_pct": 0.36,
-      "home_win_pct": 0.64,
-      "p_cover": 0.466,
-      "p_over": 0.502,
+      "away_win_pct": 0.361,
+      "home_win_pct": 0.639,
+      "p_cover": 0.474,
+      "p_over": 0.5,
       "p_ml_edge": 0.0,
       "away_pts": 20.2,
       "home_pts": 23.8,
@@ -49,9 +49,9 @@
       "_lines": {
         "spread": -3.5,
         "total": 44.0,
-        "ml_away": 166.0,
-        "ml_home": -200.33333333333334,
-        "books": 9
+        "ml_away": 165.8181818181818,
+        "ml_home": -200.27272727272728,
+        "books": 11
       }
     },
     {
@@ -90,9 +90,9 @@
       },
       "away_skill": [],
       "home_skill": [],
-      "away_win_pct": 0.375,
-      "home_win_pct": 0.625,
-      "p_cover": 0.556,
+      "away_win_pct": 0.376,
+      "home_win_pct": 0.624,
+      "p_cover": 0.538,
       "p_over": 0.499,
       "p_ml_edge": 0.0,
       "away_pts": 22.5,
@@ -101,9 +101,9 @@
       "_lines": {
         "spread": -3.5,
         "total": 48.5,
-        "ml_away": 155.66666666666666,
-        "ml_home": -187.22222222222223,
-        "books": 9
+        "ml_away": 155.1818181818182,
+        "ml_home": -186.8181818181818,
+        "books": 11
       }
     },
     {
@@ -144,7 +144,7 @@
       "home_skill": [],
       "away_win_pct": 0.363,
       "home_win_pct": 0.637,
-      "p_cover": 0.47,
+      "p_cover": 0.476,
       "p_over": 0.503,
       "p_ml_edge": 0.0,
       "away_pts": 24.0,
@@ -153,9 +153,9 @@
       "_lines": {
         "spread": -3.5,
         "total": 51.5,
-        "ml_away": 164.66666666666666,
-        "ml_home": -197.88888888888889,
-        "books": 9
+        "ml_away": 164.63636363636363,
+        "ml_home": -198.0,
+        "books": 11
       }
     },
     {
@@ -194,10 +194,10 @@
       },
       "away_skill": [],
       "home_skill": [],
-      "away_win_pct": 0.257,
-      "home_win_pct": 0.743,
-      "p_cover": 0.5,
-      "p_over": 0.503,
+      "away_win_pct": 0.258,
+      "home_win_pct": 0.742,
+      "p_cover": 0.501,
+      "p_over": 0.502,
       "p_ml_edge": 0.0,
       "away_pts": 21.0,
       "home_pts": 28.0,
@@ -205,9 +205,9 @@
       "_lines": {
         "spread": -7.0,
         "total": 49.0,
-        "ml_away": 271.8888888888889,
-        "ml_home": -346.6666666666667,
-        "books": 9
+        "ml_away": 271.09090909090907,
+        "ml_home": -346.8181818181818,
+        "books": 11
       }
     },
     {
@@ -246,10 +246,10 @@
       },
       "away_skill": [],
       "home_skill": [],
-      "away_win_pct": 0.424,
-      "home_win_pct": 0.576,
-      "p_cover": 0.649,
-      "p_over": 0.502,
+      "away_win_pct": 0.423,
+      "home_win_pct": 0.577,
+      "p_cover": 0.581,
+      "p_over": 0.503,
       "p_ml_edge": 0.0,
       "away_pts": 18.2,
       "home_pts": 20.8,
@@ -257,9 +257,9 @@
       "_lines": {
         "spread": -2.5,
         "total": 39.0,
-        "ml_away": 126.22222222222223,
-        "ml_home": -149.77777777777777,
-        "books": 9
+        "ml_away": 126.63636363636364,
+        "ml_home": -150.9090909090909,
+        "books": 11
       }
     },
     {
@@ -300,7 +300,7 @@
       "home_skill": [],
       "away_win_pct": 0.634,
       "home_win_pct": 0.366,
-      "p_cover": 0.497,
+      "p_cover": 0.498,
       "p_over": 0.497,
       "p_ml_edge": 0.0,
       "away_pts": 26.0,
@@ -309,9 +309,9 @@
       "_lines": {
         "spread": 3.5,
         "total": 48.5,
-        "ml_away": -194.33333333333334,
-        "ml_home": 161.88888888888889,
-        "books": 9
+        "ml_away": -195.36363636363637,
+        "ml_home": 162.45454545454547,
+        "books": 11
       }
     },
     {
@@ -350,9 +350,9 @@
       },
       "away_skill": [],
       "home_skill": [],
-      "away_win_pct": 0.407,
-      "home_win_pct": 0.593,
-      "p_cover": 0.655,
+      "away_win_pct": 0.406,
+      "home_win_pct": 0.594,
+      "p_cover": 0.612,
       "p_over": 0.5,
       "p_ml_edge": 0.0,
       "away_pts": 19.2,
@@ -361,9 +361,9 @@
       "_lines": {
         "spread": -3.0,
         "total": 41.5,
-        "ml_away": 136.0,
-        "ml_home": -161.55555555555554,
-        "books": 9
+        "ml_away": 136.36363636363637,
+        "ml_home": -162.36363636363637,
+        "books": 11
       }
     },
     {
@@ -404,7 +404,7 @@
       "home_skill": [],
       "away_win_pct": 0.557,
       "home_win_pct": 0.443,
-      "p_cover": 0.419,
+      "p_cover": 0.439,
       "p_over": 0.5,
       "p_ml_edge": 0.0,
       "away_pts": 23.8,
@@ -413,9 +413,9 @@
       "_lines": {
         "spread": 2.5,
         "total": 45.0,
-        "ml_away": -139.44444444444446,
-        "ml_home": 116.22222222222223,
-        "books": 9
+        "ml_away": -139.45454545454547,
+        "ml_home": 116.0909090909091,
+        "books": 11
       }
     },
     {
@@ -454,9 +454,9 @@
       },
       "away_skill": [],
       "home_skill": [],
-      "away_win_pct": 0.242,
-      "home_win_pct": 0.758,
-      "p_cover": 0.501,
+      "away_win_pct": 0.241,
+      "home_win_pct": 0.759,
+      "p_cover": 0.5,
       "p_over": 0.506,
       "p_ml_edge": 0.0,
       "away_pts": 16.5,
@@ -465,9 +465,9 @@
       "_lines": {
         "spread": -7.5,
         "total": 40.5,
-        "ml_away": 294.77777777777777,
-        "ml_home": -380.44444444444446,
-        "books": 9
+        "ml_away": 296.1818181818182,
+        "ml_home": -383.09090909090907,
+        "books": 11
       }
     },
     {
@@ -506,10 +506,10 @@
       },
       "away_skill": [],
       "home_skill": [],
-      "away_win_pct": 0.509,
-      "home_win_pct": 0.491,
-      "p_cover": 0.364,
-      "p_over": 0.497,
+      "away_win_pct": 0.508,
+      "home_win_pct": 0.492,
+      "p_cover": 0.359,
+      "p_over": 0.498,
       "p_ml_edge": 0.0,
       "away_pts": 22.8,
       "home_pts": 21.8,
@@ -517,9 +517,9 @@
       "_lines": {
         "spread": 1.0,
         "total": 44.5,
-        "ml_away": -114.33333333333333,
-        "ml_home": -106.33333333333333,
-        "books": 9
+        "ml_away": -113.9090909090909,
+        "ml_home": -106.54545454545455,
+        "books": 11
       }
     },
     {
@@ -558,10 +558,10 @@
       },
       "away_skill": [],
       "home_skill": [],
-      "away_win_pct": 0.378,
-      "home_win_pct": 0.622,
-      "p_cover": 0.585,
-      "p_over": 0.5,
+      "away_win_pct": 0.379,
+      "home_win_pct": 0.621,
+      "p_cover": 0.563,
+      "p_over": 0.501,
       "p_ml_edge": 0.0,
       "away_pts": 18.5,
       "home_pts": 22.0,
@@ -569,9 +569,9 @@
       "_lines": {
         "spread": -3.5,
         "total": 40.5,
-        "ml_away": 153.22222222222223,
-        "ml_home": -185.0,
-        "books": 9
+        "ml_away": 152.8181818181818,
+        "ml_home": -184.27272727272728,
+        "books": 11
       }
     },
     {
@@ -612,8 +612,8 @@
       "home_skill": [],
       "away_win_pct": 0.499,
       "home_win_pct": 0.501,
-      "p_cover": 0.557,
-      "p_over": 0.504,
+      "p_cover": 0.538,
+      "p_over": 0.503,
       "p_ml_edge": 0.0,
       "away_pts": 22.2,
       "home_pts": 23.2,
@@ -622,8 +622,8 @@
         "spread": -1.0,
         "total": 45.5,
         "ml_away": -110.0,
-        "ml_home": -111.33333333333333,
-        "books": 9
+        "ml_home": -111.0,
+        "books": 11
       }
     },
     {
@@ -664,8 +664,8 @@
       "home_skill": [],
       "away_win_pct": 0.34,
       "home_win_pct": 0.66,
-      "p_cover": 0.53,
-      "p_over": 0.505,
+      "p_cover": 0.524,
+      "p_over": 0.503,
       "p_ml_edge": 0.0,
       "away_pts": 21.2,
       "home_pts": 25.8,
@@ -673,9 +673,9 @@
       "_lines": {
         "spread": -4.5,
         "total": 47.0,
-        "ml_away": 181.77777777777777,
-        "ml_home": -220.0,
-        "books": 9
+        "ml_away": 182.1818181818182,
+        "ml_home": -220.9090909090909,
+        "books": 11
       }
     },
     {
@@ -714,10 +714,10 @@
       },
       "away_skill": [],
       "home_skill": [],
-      "away_win_pct": 0.178,
-      "home_win_pct": 0.822,
+      "away_win_pct": 0.177,
+      "home_win_pct": 0.823,
       "p_cover": 0.499,
-      "p_over": 0.504,
+      "p_over": 0.503,
       "p_ml_edge": 0.0,
       "away_pts": 17.8,
       "home_pts": 28.2,
@@ -725,9 +725,9 @@
       "_lines": {
         "spread": -10.5,
         "total": 46.0,
-        "ml_away": 436.8888888888889,
-        "ml_home": -604.4444444444445,
-        "books": 9
+        "ml_away": 439.27272727272725,
+        "ml_home": -611.8181818181819,
+        "books": 11
       }
     },
     {
@@ -741,7 +741,7 @@
       "target_score": 50,
       "referee": null,
       "away_qb": "Dak Prescott",
-      "home_qb": "Jaxson Dart",
+      "home_qb": "Brandon Allen",
       "away_qb_proj": {
         "name": "Dak Prescott",
         "quality": 19,
@@ -754,7 +754,7 @@
         "_matchup_factor": 1.087
       },
       "home_qb_proj": {
-        "name": "Jaxson Dart",
+        "name": "Brandon Allen",
         "quality": 23,
         "comp_pct": 64.5,
         "pass_yds": 260.3,
@@ -766,10 +766,10 @@
       },
       "away_skill": [],
       "home_skill": [],
-      "away_win_pct": 0.562,
-      "home_win_pct": 0.438,
-      "p_cover": 0.464,
-      "p_over": 0.5,
+      "away_win_pct": 0.564,
+      "home_win_pct": 0.436,
+      "p_cover": 0.471,
+      "p_over": 0.499,
       "p_ml_edge": 0.0,
       "away_pts": 25.8,
       "home_pts": 22.8,
@@ -777,9 +777,9 @@
       "_lines": {
         "spread": 3.0,
         "total": 48.5,
-        "ml_away": -142.44444444444446,
-        "ml_home": 118.55555555555556,
-        "books": 9
+        "ml_away": -143.36363636363637,
+        "ml_home": 119.45454545454545,
+        "books": 11
       }
     },
     {
@@ -818,10 +818,10 @@
       },
       "away_skill": [],
       "home_skill": [],
-      "away_win_pct": 0.429,
-      "home_win_pct": 0.571,
-      "p_cover": 0.497,
-      "p_over": 0.5,
+      "away_win_pct": 0.428,
+      "home_win_pct": 0.572,
+      "p_cover": 0.496,
+      "p_over": 0.501,
       "p_ml_edge": 0.0,
       "away_pts": 20.2,
       "home_pts": 22.8,
@@ -829,9 +829,9 @@
       "_lines": {
         "spread": -2.5,
         "total": 43.0,
-        "ml_away": 123.22222222222223,
-        "ml_home": -147.77777777777777,
-        "books": 9
+        "ml_away": 123.54545454545455,
+        "ml_home": -148.1818181818182,
+        "books": 11
       }
     }
   ]
