@@ -1,6 +1,6 @@
 {
   "date": "2026-07-20",
-  "generated_at": "2026-07-20 20:11 UTC",
+  "generated_at": "2026-07-20 20:56 UTC",
   "games": [
     {
       "away_team": "New England Patriots",
@@ -176,7 +176,7 @@
       ],
       "away_win_pct": 0.361,
       "home_win_pct": 0.639,
-      "p_cover": 0.473,
+      "p_cover": 0.474,
       "p_over": 0.5,
       "p_ml_edge": 0.0,
       "away_pts": 20.2,
@@ -1142,7 +1142,7 @@
       ],
       "away_win_pct": 0.634,
       "home_win_pct": 0.366,
-      "p_cover": 0.498,
+      "p_cover": 0.499,
       "p_over": 0.497,
       "p_ml_edge": 0.0,
       "away_pts": 26.0,
