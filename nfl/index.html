@@ -139,6 +139,19 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
 .edge-bar{width:60px;height:5px;border-radius:99px;background:var(--card-2);margin-top:5px;overflow:hidden;margin-left:auto}
 .edge-fill{height:100%;background:var(--yellow);border-radius:99px}
 .p-odds{font-size:11px;color:var(--muted);margin-top:4px;font-variant-numeric:tabular-nums}
+.d-sec{font-size:10.5px;font-weight:700;letter-spacing:.08em;color:var(--muted);margin:10px 0 7px}
+.d-match{font-size:12.5px;color:var(--text);background:var(--card-2);border-radius:9px;padding:8px 11px}
+.d-line{display:flex;gap:5px;flex-wrap:wrap}
+.d-cell{flex:1;min-width:42px;background:var(--card-2);border-radius:9px;padding:7px 3px;text-align:center}
+.d-cell .v{font-family:'Sora',sans-serif;font-weight:700;font-size:12.5px;font-variant-numeric:tabular-nums}
+.d-cell .l{font-size:8.5px;color:var(--muted);font-weight:700;margin-top:2px;letter-spacing:.03em}
+.rankchips{display:flex;gap:6px;flex-wrap:wrap}
+.rk{font-size:10.5px;font-weight:700;padding:4px 9px;border-radius:99px;background:var(--card-2);color:var(--muted)}
+.rk.on{color:#0B1020;background:linear-gradient(100deg,var(--blue),var(--yellow))}
+.rk.top{color:var(--yellow);border:1px solid rgba(74,222,128,.4);background:rgba(74,222,128,.08)}
+.pctile{height:8px;border-radius:5px;background:var(--card-2);overflow:hidden;margin-top:8px}
+.pctile-fill{height:100%;border-radius:5px;background:linear-gradient(90deg,var(--blue),var(--yellow))}
+.pctile-lab{display:flex;justify-content:space-between;font-size:9.5px;color:var(--muted);font-weight:600;margin-top:4px}
 .empty{text-align:center;color:var(--muted);font-size:14px;padding:60px 20px}
 .hide{display:none}
 @media (prefers-reduced-motion:reduce){.prob-away,.sim-fill{transition:none}.state.live,.game,.play{animation:none}}
@@ -319,17 +332,54 @@ function renderPlays(d){
   const pool = (cfg.pool === 'qb' ? qb : skill)
     .filter(p => typeof cfg.v(p) === 'number' && (!cfg.min || cfg.min(p)))
     .sort((a,b) => cfg.v(b) - cfg.v(a));
+
+  const RANKS = {};
+  for (const [m, c] of Object.entries(MARKETS)) {
+    const pl = (c.pool === 'qb' ? qb : skill)
+      .filter(p => typeof c.v(p) === 'number' && (!c.min || c.min(p)))
+      .sort((a,b) => c.v(b) - c.v(a));
+    const mp = new Map();
+    pl.forEach((p, i) => mp.set(p.name + '|' + p.team, i + 1));
+    RANKS[m] = {map: mp, n: pl.length};
+  }
+
+  function detailPanel(p){
+    const isQB = cfg.pool === 'qb';
+    const cells = (isQB
+      ? [['CMP%', p.comp_pct, 1], ['YDS', p.pass_yds, 0], ['TD', p.pass_td, 1], ['INT', p.int, 1], ['RATE', p.rating, 0]]
+      : [['TGT', p.targets, 1], ['REC', p.rec, 1], ['RC YD', p.rec_yds, 0], ['ATT', p.rush_att, 1],
+         ['RU YD', p.rush_yds, 0], ['TD%', (p.td_prob ?? 0) * 100, 0], ['FPTS', p.fpts, 1]])
+      .map(([l, v, dp]) => `<div class="d-cell"><div class="v">${(v ?? 0).toFixed(dp)}</div><div class="l">${l}</div></div>`).join('');
+    const key = p.name + '|' + p.team;
+    const rankChips = Object.entries(MARKETS)
+      .filter(([, c]) => c.pool === cfg.pool)
+      .map(([m]) => {
+        const r = RANKS[m].map.get(key);
+        return r ? `<span class="rk ${m === marketFilter ? 'on' : (r <= 3 ? 'top' : '')}">${m} #${r}</span>` : '';
+      }).join('');
+    const r = RANKS[marketFilter].map.get(key) ?? 1, n = RANKS[marketFilter].n || 1;
+    const pctl = Math.round((1 - (r - 1) / n) * 100);
+    const simRows = cfg.sim(p).map(([lab, pr]) =>
+      `<div class="sim-row"><span class="sim-lab">${lab}</span>
+        <div class="sim-bar"><div class="sim-fill" style="width:${(pr*100).toFixed(1)}%"></div></div>
+        <span class="sim-pct">${(pr*100).toFixed(1)}%</span></div>`).join('');
+    return `<div class="sim">
+      <div class="d-sec">MATCHUP</div>
+      <div class="d-match">vs ${abSpan(p.opp)}${p.src ? ` · projection source: ${p.src}` : ''}</div>
+      <div class="d-sec">PROJECTED LINE VS ${p.opp}</div>
+      <div class="d-line">${cells}</div>
+      <div class="d-sec">SLATE RANKS</div>
+      <div class="rankchips">${rankChips}</div>
+      <div class="pctile"><div class="pctile-fill" style="width:${pctl}%"></div></div>
+      <div class="pctile-lab"><span>#${r} of ${n} in ${marketFilter}</span><span>top ${Math.max(1, Math.round(r / n * 100))}%</span></div>
+      <div class="sim-head" style="margin-top:12px"><span>MONTE CARLO · ${cfg.lab}</span><b>10,000 SIMS</b></div>${simRows}
+    </div>`;
+  }
+
   const chips = Object.keys(MARKETS).map(m =>
     `<div class="chip ${m===marketFilter?'on':''}" data-m="${m}">${m}</div>`).join('');
   const list = pool.slice(0, 40).map((p,i) => {
     const key = marketFilter + '|' + p.name, open = openSim === key;
-    const simHtml = open ? (() => {
-      const rows = cfg.sim(p).map(([lab, pr]) =>
-        `<div class="sim-row"><span class="sim-lab">${lab}</span>
-          <div class="sim-bar"><div class="sim-fill" style="width:${(pr*100).toFixed(1)}%"></div></div>
-          <span class="sim-pct">${(pr*100).toFixed(1)}%</span></div>`).join('');
-      return `<div class="sim"><div class="sim-head"><span>MONTE CARLO · ${cfg.lab}</span><b>10,000 SIMS</b></div>${rows}</div>`;
-    })() : '';
     return `<div class="play" data-key="${esc(key)}">
       <span class="rank ${i<3?'r'+(i+1):''}">${i+1}</span>
       ${avatar(p.name, p.team, p.player_id)}
@@ -341,9 +391,9 @@ function renderPlays(d){
       <div class="p-edge">
         <div class="edge-val">${cfg.fmt(cfg.v(p))}</div>
         <div class="p-odds">${cfg.sub(p)}</div>
-        <div class="sim-hint">${open ? '▾ SIM' : '▸ TAP TO SIM'}</div>
+        <div class="sim-hint">${open ? '▾ CLOSE' : '▸ MATCHUP + SIM'}</div>
       </div>
-      ${simHtml}
+      ${open ? detailPanel(p) : ''}
     </div>`;
   }).join('');
   const emptyMsg = cfg.pool === 'skill'
