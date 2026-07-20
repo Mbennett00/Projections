@@ -1,6 +1,6 @@
 {
   "date": "2026-07-20",
-  "generated_at": "2026-07-20 03:27 UTC",
+  "generated_at": "2026-07-20 08:27 UTC",
   "games": [
     {
       "away_team": "New England Patriots",
@@ -40,7 +40,7 @@
       "home_skill": [],
       "away_win_pct": 0.361,
       "home_win_pct": 0.639,
-      "p_cover": 0.474,
+      "p_cover": 0.473,
       "p_over": 0.5,
       "p_ml_edge": 0.0,
       "away_pts": 20.2,
@@ -741,7 +741,7 @@
       "target_score": 50,
       "referee": null,
       "away_qb": "Dak Prescott",
-      "home_qb": "Brandon Allen",
+      "home_qb": "Jaxson Dart",
       "away_qb_proj": {
         "name": "Dak Prescott",
         "quality": 19,
@@ -754,7 +754,7 @@
         "_matchup_factor": 1.087
       },
       "home_qb_proj": {
-        "name": "Brandon Allen",
+        "name": "Jaxson Dart",
         "quality": 23,
         "comp_pct": 64.5,
         "pass_yds": 260.3,
