@@ -12,39 +12,51 @@
 <style>
 :root{
   --bg:#0B1020; --card:#141C30; --card-2:#1B2540; --line:#25304E;
-  --blue:#4C8DFF; --yellow:#FFD34D; --red:#FF6B6B; --text:#EEF2FA; --muted:#94A1BE; --r:16px;
+  --blue:#6366F1; --yellow:#4ADE80; --red:#FF6B6B; --text:#EEF2FA; --muted:#94A1BE; --r:16px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--bg); color:var(--text); font-family:'Inter',system-ui,sans-serif;
   min-height:100dvh; max-width:520px; margin:0 auto; position:relative;
   padding:max(16px,env(safe-area-inset-top)) 16px max(28px,env(safe-area-inset-bottom))}
 body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
-  background:radial-gradient(600px 320px at 12% -6%,rgba(76,141,255,.16),transparent 60%),
-             radial-gradient(520px 300px at 108% 4%,rgba(255,211,77,.10),transparent 60%)}
+  background:radial-gradient(600px 320px at 12% -6%,rgba(99,102,241,.16),transparent 60%),
+             radial-gradient(520px 300px at 108% 4%,rgba(74,222,128,.10),transparent 60%)}
 header{display:flex; align-items:center; gap:12px; padding:4px 2px 18px}
 .back{width:36px;height:36px;border-radius:50%;background:var(--card);border:1px solid var(--line);
   display:grid;place-items:center;color:var(--text);text-decoration:none;font-weight:700;flex:none}
 h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
   background:linear-gradient(100deg,var(--blue),var(--yellow));
   -webkit-background-clip:text;background-clip:text;color:transparent}
-.updated{font-size:11.5px;font-weight:600;color:var(--yellow);background:rgba(255,211,77,.1);
-  border:1px solid rgba(255,211,77,.22);padding:6px 10px;border-radius:99px;white-space:nowrap}
+.updated{font-size:11.5px;font-weight:600;color:var(--yellow);background:rgba(74,222,128,.1);
+  border:1px solid rgba(74,222,128,.22);padding:6px 10px;border-radius:99px;white-space:nowrap}
 .tabs{display:flex;gap:8px;margin-bottom:14px}
 .tab{flex:1;text-align:center;font-size:13.5px;font-weight:600;color:var(--muted);
   background:var(--card);border:1px solid var(--line);border-radius:12px;
   padding:11px 0;cursor:pointer;user-select:none;transition:all .15s}
 .tab.on{color:#0B1020;background:linear-gradient(100deg,var(--blue) 0%,var(--yellow) 90%);border-color:transparent}
 .summary{display:flex;gap:8px;flex-wrap:wrap;margin:2px 0 14px}
-.sum-chip{font-size:11.5px;font-weight:600;color:var(--text);background:var(--card);
-  border:1px solid var(--line);border-radius:9px;padding:7px 11px;display:inline-flex;align-items:center;gap:6px}
+.sum-chip{font-size:11.5px;font-weight:600;color:var(--text);border-radius:9px;padding:7px 11px;
+  display:inline-flex;align-items:center;gap:6px;
+  background:linear-gradient(var(--card),var(--card)) padding-box,
+             linear-gradient(120deg,rgba(99,102,241,.45),rgba(74,222,128,.45)) border-box;
+  border:1px solid transparent}
 .sum-chip .dot{width:7px;height:7px;border-radius:50%;display:inline-block}
 .tag{font-size:8.5px;font-weight:800;letter-spacing:.06em;padding:2px 6px;border-radius:5px;
   display:inline-block;margin-right:4px;margin-top:4px;line-height:1.4}
 .rank{width:20px;flex:none;text-align:center;font-family:'Sora',sans-serif;font-weight:800;
   font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
-.rank.r1{background:linear-gradient(135deg,#FFD34D,#FF9F1C);-webkit-background-clip:text;background-clip:text;color:transparent}
+.rank.r1{background:linear-gradient(135deg,#4ADE80,#16A34A);-webkit-background-clip:text;background-clip:text;color:transparent}
 .rank.r2{color:#C7D2E0}.rank.r3{color:#E0A96D}
+.p-avatar{width:46px;height:46px;border-radius:50%;flex:none;overflow:hidden;position:relative;
+  display:grid;place-items:center;font-family:'Sora',sans-serif;font-weight:700;font-size:12px}
+.p-avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
+.p-avatar:not(:has(img))::before{content:attr(data-in)}
 .play{cursor:pointer;flex-wrap:wrap}
+.chips{display:flex;gap:7px;overflow-x:auto;padding:2px 2px 12px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;font-size:12px;font-weight:600;color:var(--muted);background:var(--card);
+  border:1px solid var(--line);border-radius:9px;padding:7px 12px;cursor:pointer;user-select:none;white-space:nowrap;line-height:1.2}
+.chip.on{color:#0B1020;background:linear-gradient(100deg,var(--blue),var(--yellow));border-color:transparent}
 .sim{flex-basis:100%;margin-top:11px;padding-top:11px;border-top:1px dashed var(--line)}
 .sim-head{font-size:10.5px;font-weight:700;letter-spacing:.08em;color:var(--muted);margin-bottom:8px;display:flex;justify-content:space-between}
 .sim-head b{background:linear-gradient(100deg,var(--blue),var(--yellow));-webkit-background-clip:text;background-clip:text;color:transparent}
@@ -59,7 +71,10 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
 .game,.play{animation:rise .28s ease both}
 .slate-label{font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.1em;
   text-transform:uppercase;margin:2px 2px 12px}
-.game{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:17px 16px 15px;margin-bottom:12px;position:relative;overflow:hidden}
+.game{border-radius:var(--r);padding:17px 16px 15px;margin-bottom:12px;position:relative;overflow:hidden;
+  background:linear-gradient(160deg,var(--card-2),var(--card)) padding-box,
+             linear-gradient(150deg,rgba(99,102,241,.4),rgba(37,48,78,.65) 45%,rgba(74,222,128,.3)) border-box;
+  border:1px solid transparent}
 .g-accent{position:absolute;top:0;left:0;right:0;height:3px}
 .g-top{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted);font-weight:600;margin-bottom:11px}
 .g-badges{display:inline-flex;align-items:center;gap:6px;flex:none}
@@ -67,13 +82,13 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
   display:inline-flex;align-items:center;line-height:1.2}
 .state.live{color:#0B1020;background:var(--red);animation:pulse 2s infinite}
 .state.final{color:var(--muted);background:var(--card-2)}
-.state.preview{color:var(--blue);background:rgba(76,141,255,.12)}
+.state.preview{color:var(--blue);background:rgba(99,102,241,.12)}
 @keyframes pulse{50%{opacity:.65}}
 .tier{font-size:10px;font-weight:700;letter-spacing:.05em;padding:4px 8px;border-radius:7px;
   display:inline-flex;align-items:center;gap:4px;line-height:1.2}
 .tier img{width:13px;height:13px;object-fit:contain}
 .tier.STRONG{color:#0B1020;background:var(--yellow)}
-.tier.LEAN{color:var(--blue);background:rgba(76,141,255,.12);border:1px solid rgba(76,141,255,.3)}
+.tier.LEAN{color:var(--blue);background:rgba(99,102,241,.12);border:1px solid rgba(99,102,241,.3)}
 .tier.PASS{color:var(--muted);background:var(--card-2)}
 .team{display:flex;align-items:center;justify-content:space-between;padding:4px 0}
 .t-name{display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px;min-width:0}
@@ -89,21 +104,26 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
 .prob-away{height:100%;transition:width .6s ease}
 .prob-home{height:100%;flex:1}
 .g-stats{display:flex;gap:6px;margin-top:10px}
-.stat{flex:1;background:var(--card-2);border-radius:10px;padding:8px 6px;text-align:center;border-top:2px solid transparent}
-.stat.sb{border-top-color:rgba(76,141,255,.6)}.stat.st{border-top-color:rgba(45,212,191,.6)}.stat.sy{border-top-color:rgba(255,211,77,.6)}
+.stat{flex:1;border-radius:10px;padding:8px 6px;text-align:center;border-top:2px solid transparent;background:var(--card-2)}
+.stat.sb{border-top-color:rgba(99,102,241,.65);background:linear-gradient(180deg,rgba(99,102,241,.10),var(--card-2) 65%)}
+.stat.st{border-top-color:rgba(45,212,191,.65);background:linear-gradient(180deg,rgba(45,212,191,.10),var(--card-2) 65%)}
+.stat.sy{border-top-color:rgba(74,222,128,.65);background:linear-gradient(180deg,rgba(74,222,128,.10),var(--card-2) 65%)}
 .stat .v{font-family:'Sora',sans-serif;font-weight:700;font-size:13.5px;color:var(--text);font-variant-numeric:tabular-nums}
 .stat .v.hot{color:var(--yellow)}
 .stat .l{font-size:10px;color:var(--muted);font-weight:600;margin-top:2px;letter-spacing:.03em}
 .qbs{font-size:12px;color:var(--muted);margin-top:10px;padding-top:9px;border-top:1px solid var(--line);line-height:1.5}
 .qbs b{color:var(--text);font-weight:600}
-.play{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
-  padding:13px 16px;margin-bottom:9px;display:flex;align-items:center;gap:12px}
+.play{border-radius:var(--r);padding:13px 16px;margin-bottom:9px;display:flex;align-items:center;gap:12px;
+  background:linear-gradient(160deg,var(--card-2),var(--card)) padding-box,
+             linear-gradient(150deg,rgba(99,102,241,.35),rgba(37,48,78,.65) 50%,rgba(74,222,128,.25)) border-box;
+  border:1px solid transparent}
 .p-main{flex:1;min-width:0}
 .p-player{font-weight:600;font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .p-meta{font-size:12px;color:var(--muted);margin-top:3px}
 .p-meta b{color:var(--blue);font-weight:600}
 .p-edge{text-align:right;flex:none}
-.edge-val{font-family:'Sora',sans-serif;font-weight:700;font-size:16px;color:var(--yellow);font-variant-numeric:tabular-nums}
+.edge-val{font-family:'Sora',sans-serif;font-weight:700;font-size:16px;font-variant-numeric:tabular-nums;
+  background:linear-gradient(100deg,var(--yellow),#22C55E);-webkit-background-clip:text;background-clip:text;color:transparent}
 .edge-bar{width:60px;height:5px;border-radius:99px;background:var(--card-2);margin-top:5px;overflow:hidden;margin-left:auto}
 .edge-fill{height:100%;background:var(--yellow);border-radius:99px}
 .p-odds{font-size:11px;color:var(--muted);margin-top:4px;font-variant-numeric:tabular-nums}
@@ -133,7 +153,7 @@ const $ = id => document.getElementById(id);
 const ABBR = {"Arizona Cardinals":"ARI","Atlanta Falcons":"ATL","Baltimore Ravens":"BAL","Buffalo Bills":"BUF","Carolina Panthers":"CAR","Chicago Bears":"CHI","Cincinnati Bengals":"CIN","Cleveland Browns":"CLE","Dallas Cowboys":"DAL","Denver Broncos":"DEN","Detroit Lions":"DET","Green Bay Packers":"GB","Houston Texans":"HOU","Indianapolis Colts":"IND","Jacksonville Jaguars":"JAX","Kansas City Chiefs":"KC","Las Vegas Raiders":"LV","Los Angeles Chargers":"LAC","Los Angeles Rams":"LAR","Miami Dolphins":"MIA","Minnesota Vikings":"MIN","New England Patriots":"NE","New Orleans Saints":"NO","New York Giants":"NYG","New York Jets":"NYJ","Philadelphia Eagles":"PHI","Pittsburgh Steelers":"PIT","San Francisco 49ers":"SF","Seattle Seahawks":"SEA","Tampa Bay Buccaneers":"TB","Tennessee Titans":"TEN","Washington Commanders":"WSH"};
 const ab = n => ABBR[n] || (n||'').split(' ').map(w=>w[0]).join('').slice(0,3).toUpperCase();
 const TC = {ARI:'#B0325B',ATL:'#C8283C',BAL:'#7A5FD0',BUF:'#3B6EDC',CAR:'#0085CA',CHI:'#E05A2B',CIN:'#FB4F14',CLE:'#FF3C00',DAL:'#4A7CD6',DEN:'#FB4F14',DET:'#0076B6',GB:'#57A05C',HOU:'#C42B45',IND:'#3F76D2',JAX:'#12A5BC',KC:'#E31837',LV:'#B8C4CA',LAC:'#0080C6',LAR:'#3F6FE0',MIA:'#00A5A0',MIN:'#8A63D2',NE:'#C8102E',NO:'#D3BC8D',NYG:'#4A6FD6',NYJ:'#1FA37A',PHI:'#1FA394',PIT:'#FFB612',SF:'#C42B2B',SEA:'#69BE28',TB:'#D50A0A',TEN:'#4B92DB',WSH:'#B04545'};
-const tc = a => TC[a] || '#4C8DFF';
+const tc = a => TC[a] || '#6366F1';
 const abSpan = a => `<b style="color:${tc(a)}">${a}</b>`;
 const logo = a => `https://a.espncdn.com/i/teamlogos/nfl/500/${(a||'').toLowerCase()}.png`;
 const badge = a => `<span class="t-abbr" data-ab="${a}" style="color:${tc(a)};background:${tc(a)}1E;border:1px solid ${tc(a)}55"><img src="${logo(a)}" alt="" loading="lazy" onerror="this.remove()"></span>`;
@@ -203,75 +223,122 @@ function renderGames(d){
 // QB projections across the slate, ranked by projected passing yards.
 // Skill-position players appear automatically once the model fills
 // away_skill / home_skill with projection fields.
-// QB tags from projection profile
-function qbTags(q){
+// ---- NFL avatars: primary fill / secondary ring + ESPN headshots ----
+const AV = {ARI:['#97233F','#FFB612'],ATL:['#A71930','#A5ACAF'],BAL:['#241773','#9E7C0C'],BUF:['#00338D','#C60C30'],CAR:['#0085CA','#101820'],CHI:['#0B162A','#C83803'],CIN:['#FB4F14','#101820'],CLE:['#311D00','#FF3C00'],DAL:['#003594','#869397'],DEN:['#FB4F14','#002244'],DET:['#0076B6','#B0B7BC'],GB:['#203731','#FFB612'],HOU:['#03202F','#A71930'],IND:['#002C5F','#A2AAAD'],JAX:['#006778','#9F792C'],KC:['#E31837','#FFB81C'],LV:['#000000','#A5ACAF'],LAC:['#0080C6','#FFC20E'],LAR:['#003594','#FFA300'],MIA:['#008E97','#FC4C02'],MIN:['#4F2683','#FFC62F'],NE:['#002244','#C60C30'],NO:['#101820','#D3BC8D'],NYG:['#0B2265','#A71930'],NYJ:['#125740','#F5F0E1'],PHI:['#004C54','#A5ACAF'],PIT:['#101820','#FFB612'],SF:['#AA0000','#B3995D'],SEA:['#002244','#69BE28'],TB:['#D50A0A','#B1BABF'],TEN:['#0C2340','#4B92DB'],WSH:['#5A1414','#FFB612']};
+const mug = id => `https://a.espncdn.com/i/headshots/nfl/players/full/${id}.png`;
+const initials = n => (n||'').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+const avatar = (name, team, id) => {
+  const [bg, ring] = AV[team] || ['#1B2540','#6366F1'];
+  return `<span class="p-avatar" data-in="${initials(name)}" style="background:${bg};border:2.5px solid ${ring};color:#F5F0E1">${id ? `<img src="${mug(id)}" alt="" loading="lazy" onerror="this.remove()">` : ''}</span>`;
+};
+
+// ---- tags ----
+function nflTags(p, pool){
   const t = [];
-  if ((q.pass_yds ?? 0) >= 250) t.push(['VOLUME','#4C8DFF']);
-  if ((q.pass_td ?? 0) >= 1.8) t.push(['TD UPSIDE','#FFD34D']);
-  if ((q.rating ?? 0) >= 92) t.push(['EFFICIENT','#2DD4BF']);
-  if ((q.int ?? 9) <= 0.7) t.push(['PROTECTS IT','#A78BFA']);
+  if (pool === 'qb') {
+    if ((p.pass_yds ?? 0) >= 250) t.push(['VOLUME','#6366F1']);
+    if ((p.pass_td ?? 0) >= 1.8) t.push(['TD UPSIDE','#4ADE80']);
+    if ((p.rating ?? 0) >= 92) t.push(['EFFICIENT','#2DD4BF']);
+    if ((p.int ?? 9) <= 0.7) t.push(['PROTECTS IT','#A78BFA']);
+  } else {
+    if ((p.targets ?? 0) >= 8) t.push(['TARGET HOG','#6366F1']);
+    if ((p.rush_att ?? 0) >= 15) t.push(['BELLCOW','#FF8FA3']);
+    if ((p.td_prob ?? 0) >= .5) t.push(['TD MAGNET','#4ADE80']);
+    if ((p.fpts ?? 0) >= 15) t.push(['FPTS STUD','#2DD4BF']);
+  }
   return t.slice(0,3).map(([n,c]) =>
     `<span class="tag" style="color:${c};background:${c}1C;border:1px solid ${c}44">${n}</span>`).join('');
 }
-// Monte Carlo: pass yards ~ Normal(μ, .21μ), TDs ~ Poisson
+
+// ---- sims ----
 const gauss = (m, s) => { let u=0,v=0; while(!u)u=Math.random(); while(!v)v=Math.random();
   return m + s * Math.sqrt(-2*Math.log(u)) * Math.cos(2*Math.PI*v); };
 const pois = l => { const L=Math.exp(-l); let k=0,p=1; do{k++;p*=Math.random()}while(p>L); return k-1; };
-let openSim = null;
+let openSim = null, marketFilter = 'Pass Yds';
 const SIMCACHE = {};
-function qbSim(q){
-  const key = q.name + q.pass_yds;
+function bucketSim(key, sampler, buckets){
   if (SIMCACHE[key]) return SIMCACHE[key];
-  const N = 10000; let y = [0,0,0,0], t = [0,0,0,0];
+  const N = 10000, counts = new Array(buckets.length).fill(0);
   for (let i = 0; i < N; i++){
-    const yd = gauss(q.pass_yds, q.pass_yds * .21);
-    y[yd < 200 ? 0 : yd < 250 ? 1 : yd < 300 ? 2 : 3]++;
-    const td = pois(q.pass_td ?? 1.4);
-    t[td <= 1 ? 0 : td === 2 ? 1 : td === 3 ? 2 : 3]++;
+    const v = sampler();
+    for (let b = 0; b < buckets.length; b++) if (buckets[b][1](v)) { counts[b]++; break; }
   }
-  return SIMCACHE[key] = {
-    yds: [['<200',y[0]/N],['200-249',y[1]/N],['250-299',y[2]/N],['300+',y[3]/N]],
-    tds: [['0-1 TD',t[0]/N],['2 TD',t[1]/N],['3 TD',t[2]/N],['4+ TD',t[3]/N]]
-  };
+  return SIMCACHE[key] = buckets.map(([lab], i) => [lab, counts[i] / N]);
 }
-function simPanel(q){
-  const s = qbSim(q);
-  const row = ([lab,p]) => `<div class="sim-row"><span class="sim-lab">${lab}</span>
-    <div class="sim-bar"><div class="sim-fill" style="width:${(p*100).toFixed(1)}%"></div></div>
-    <span class="sim-pct">${(p*100).toFixed(1)}%</span></div>`;
-  return `<div class="sim"><div class="sim-head"><span>MONTE CARLO · PASS YDS</span><b>10,000 SIMS</b></div>${s.yds.map(row).join('')}
-    <div class="sim-head" style="margin-top:10px"><span>PASS TDs</span></div>${s.tds.map(row).join('')}</div>`;
+const YD_BUCKETS = [['<40',v=>v<40],['40-69',v=>v<70],['70-99',v=>v<100],['100+',v=>v>=100]];
+const MARKETS = {
+  'Pass Yds': {pool:'qb', v:p=>p.pass_yds, fmt:v=>v.toFixed(0)+' yds',
+    sub:p=>`${(p.pass_td??0).toFixed(1)} TD · ${(p.int??0).toFixed(1)} INT · ${(p.rating??0).toFixed(0)} rate`,
+    sim:p=>bucketSim('py'+p.name+p.pass_yds, ()=>gauss(p.pass_yds, p.pass_yds*.21),
+      [['<200',v=>v<200],['200-249',v=>v<250],['250-299',v=>v<300],['300+',v=>v>=300]]), lab:'PASS YDS'},
+  'Rush Yds': {pool:'skill', v:p=>p.rush_yds, min:p=>(p.rush_yds??0)>=10, fmt:v=>v.toFixed(0)+' yds',
+    sub:p=>`${p.pos??''} · ${(p.rush_att??0).toFixed(0)} att · ${((p.td_prob??0)*100).toFixed(0)}% TD`,
+    sim:p=>bucketSim('ru'+p.name+p.rush_yds, ()=>gauss(p.rush_yds, Math.max(12, p.rush_yds*.4)), YD_BUCKETS), lab:'RUSH YDS'},
+  'Rec Yds': {pool:'skill', v:p=>p.rec_yds, min:p=>(p.rec_yds??0)>=10, fmt:v=>v.toFixed(0)+' yds',
+    sub:p=>`${p.pos??''} · ${(p.rec??0).toFixed(1)} rec · ${(p.targets??0).toFixed(1)} tgt`,
+    sim:p=>bucketSim('re'+p.name+p.rec_yds, ()=>gauss(p.rec_yds, Math.max(12, p.rec_yds*.4)), YD_BUCKETS), lab:'REC YDS'},
+  'Receptions': {pool:'skill', v:p=>p.rec, min:p=>(p.rec??0)>=1, fmt:v=>v.toFixed(1),
+    sub:p=>`${p.pos??''} · ${(p.targets??0).toFixed(1)} tgt · ${(p.rec_yds??0).toFixed(0)} yds`,
+    sim:p=>bucketSim('rc'+p.name+p.rec, ()=>pois(p.rec),
+      [['0-2',v=>v<=2],['3-4',v=>v<=4],['5-6',v=>v<=6],['7+',v=>v>=7]]), lab:'RECEPTIONS'},
+  'TD': {pool:'skill', v:p=>p.td_prob, min:p=>(p.td_prob??0)>=.1, fmt:v=>(v*100).toFixed(0)+'%',
+    sub:p=>`${p.pos??''} · anytime TD · ${(p.fpts??0).toFixed(1)} fpts`,
+    sim:p=>bucketSim('td'+p.name+p.td_prob, ()=>Math.random()<p.td_prob?1:0,
+      [['TD ✓',v=>v===1],['No TD',v=>v===0]]), lab:'ANYTIME TD'}
+};
+
+function collect(d){
+  const qb = [], skill = [];
+  for (const g of d.games){
+    if (g.game_state === 'Final') continue;
+    for (const [side, opp] of [['away', ab(g.home_team)],['home', ab(g.away_team)]]){
+      const team = ab(g[side+'_team']);
+      const q = g[side+'_qb_proj'];
+      if (q && typeof q.pass_yds === 'number') qb.push({...q, team, opp});
+      for (const s of (g[side+'_skill'] || [])) skill.push({...s, team, opp});
+    }
+  }
+  return {qb, skill};
 }
 
 function renderPlays(d){
-  const qbs = [];
-  for (const g of d.games) {
-    if (g.game_state === 'Final') continue;
-    const matchup = `${ab(g.away_team)}@${ab(g.home_team)}`;
-    for (const [side, opp] of [['away', ab(g.home_team)], ['home', ab(g.away_team)]]) {
-      const q = g[side + '_qb_proj'];
-      if (q && typeof q.pass_yds === 'number')
-        qbs.push({...q, team: ab(g[side + '_team']), opp, matchup});
-    }
-  }
-  qbs.sort((a,b) => b.pass_yds - a.pass_yds);
-  $('plays').innerHTML = qbs.map((q,i) => {
-    const key = q.name + '|' + q.matchup, open = openSim === key;
+  const {qb, skill} = collect(d);
+  const cfg = MARKETS[marketFilter];
+  const pool = (cfg.pool === 'qb' ? qb : skill)
+    .filter(p => typeof cfg.v(p) === 'number' && (!cfg.min || cfg.min(p)))
+    .sort((a,b) => cfg.v(b) - cfg.v(a));
+  const chips = Object.keys(MARKETS).map(m =>
+    `<div class="chip ${m===marketFilter?'on':''}" data-m="${m}">${m}</div>`).join('');
+  const list = pool.slice(0, 40).map((p,i) => {
+    const key = marketFilter + '|' + p.name, open = openSim === key;
+    const simHtml = open ? (() => {
+      const rows = cfg.sim(p).map(([lab, pr]) =>
+        `<div class="sim-row"><span class="sim-lab">${lab}</span>
+          <div class="sim-bar"><div class="sim-fill" style="width:${(pr*100).toFixed(1)}%"></div></div>
+          <span class="sim-pct">${(pr*100).toFixed(1)}%</span></div>`).join('');
+      return `<div class="sim"><div class="sim-head"><span>MONTE CARLO · ${cfg.lab}</span><b>10,000 SIMS</b></div>${rows}</div>`;
+    })() : '';
     return `<div class="play" data-key="${esc(key)}">
       <span class="rank ${i<3?'r'+(i+1):''}">${i+1}</span>
+      ${avatar(p.name, p.team, p.player_id)}
       <div class="p-main">
-        <div class="p-player">${esc(q.name)}</div>
-        <div class="p-meta">${abSpan(q.team)} vs ${abSpan(q.opp)}</div>
-        <div>${qbTags(q)}</div>
+        <div class="p-player">${esc(p.name)}</div>
+        <div class="p-meta">${abSpan(p.team)} vs ${abSpan(p.opp)}</div>
+        <div>${nflTags(p, cfg.pool)}</div>
       </div>
       <div class="p-edge">
-        <div class="edge-val">${q.pass_yds.toFixed(0)} yds</div>
-        <div class="p-odds">${(q.pass_td??0).toFixed(1)} TD · ${(q.int??0).toFixed(1)} INT · ${(q.rating??0).toFixed(0)} rate</div>
+        <div class="edge-val">${cfg.fmt(cfg.v(p))}</div>
+        <div class="p-odds">${cfg.sub(p)}</div>
         <div class="sim-hint">${open ? '▾ SIM' : '▸ TAP TO SIM'}</div>
       </div>
-      ${open ? simPanel(q) : ''}
+      ${simHtml}
     </div>`;
-  }).join('') || '<div class="empty">No projections for this slate yet.</div>';
+  }).join('');
+  const emptyMsg = cfg.pool === 'skill'
+    ? '<div class="empty">Skill-position projections populate once the season starts and usage data exists.<br>QBs are live now under Pass Yds.</div>'
+    : '<div class="empty">No projections for this slate yet.</div>';
+  $('plays').innerHTML = `<div class="chips">${chips}</div>` + (list || emptyMsg);
+  document.querySelectorAll('.chip').forEach(c => c.onclick = () => { marketFilter = c.dataset.m; openSim = null; renderPlays(DATA); });
   document.querySelectorAll('.play[data-key]').forEach(el => el.onclick = () => {
     openSim = (openSim === el.dataset.key) ? null : el.dataset.key;
     renderPlays(DATA);

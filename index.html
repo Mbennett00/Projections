@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Slate — Daily Model Boards</title>
+<title>Slate — Model Boards</title>
 <meta name="theme-color" content="#0B1020">
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" href="./icon-180.png">
@@ -13,122 +13,127 @@
 <style>
 :root{
   --bg:#0B1020; --card:#141C30; --card-2:#1B2540; --line:#25304E;
-  --blue:#4C8DFF; --blue-deep:#1F3B7A; --yellow:#FFD34D;
-  --text:#EEF2FA; --muted:#94A1BE;
-  --r:18px;
+  --blue:#6366F1; --yellow:#4ADE80; --teal:#38BDF8; --orange:#FF7A45;
+  --text:#EEF2FA; --muted:#94A1BE; --r:18px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{
-  background:var(--bg); color:var(--text);
-  font-family:'Inter',system-ui,sans-serif;
-  min-height:100dvh; display:flex; flex-direction:column;
-  padding:max(20px,env(safe-area-inset-top)) 20px max(28px,env(safe-area-inset-bottom));
+  background:var(--bg); color:var(--text); font-family:'Inter',system-ui,sans-serif;
+  min-height:100dvh; display:flex; flex-direction:column; position:relative;
+  padding:max(20px,env(safe-area-inset-top)) 18px max(28px,env(safe-area-inset-bottom));
   max-width:520px; margin:0 auto;
 }
-header{display:flex; align-items:center; justify-content:space-between; padding:6px 2px 26px}
-.wordmark{font-family:'Sora',sans-serif; font-weight:800; font-size:22px; letter-spacing:.5px;
+body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(640px 340px at 10% -8%,rgba(99,102,241,.18),transparent 60%),
+             radial-gradient(560px 320px at 110% 2%,rgba(74,222,128,.12),transparent 60%),
+             radial-gradient(500px 400px at 50% 115%,rgba(45,212,191,.07),transparent 60%)}
+header{display:flex; align-items:center; justify-content:space-between; padding:6px 2px 24px}
+.wordmark{font-family:'Sora',sans-serif; font-weight:800; font-size:23px; letter-spacing:.5px;
   background:linear-gradient(100deg,var(--blue),var(--yellow)); -webkit-background-clip:text;
   background-clip:text; color:transparent}
 .date-chip{
-  font-size:12px; font-weight:600; color:var(--muted);
-  background:var(--card); border:1px solid var(--line);
-  padding:7px 12px; border-radius:99px;
+  font-size:12px; font-weight:600; color:var(--muted); padding:7px 12px; border-radius:99px;
+  background:linear-gradient(var(--card),var(--card)) padding-box,
+             linear-gradient(120deg,rgba(99,102,241,.55),rgba(74,222,128,.55)) border-box;
+  border:1px solid transparent;
 }
-.kicker{font-size:13px; font-weight:600; color:var(--muted); letter-spacing:.12em; text-transform:uppercase; margin-bottom:14px}
+.kicker{font-size:12.5px; font-weight:700; color:var(--muted); letter-spacing:.14em;
+  text-transform:uppercase; margin-bottom:6px}
+.kicker-bar{width:44px;height:3px;border-radius:2px;margin-bottom:16px;
+  background:linear-gradient(90deg,var(--blue),var(--yellow))}
+.grid{display:grid; grid-template-columns:1fr 1fr; gap:12px}
 .sport-card{
-  display:block; text-decoration:none; color:inherit;
-  background:linear-gradient(160deg,var(--card-2),var(--card));
-  border:1px solid var(--line); border-radius:var(--r);
-  padding:22px 20px; margin-bottom:14px; position:relative; overflow:hidden;
-  transition:transform .15s ease, border-color .15s ease;
+  display:block; text-decoration:none; color:inherit; position:relative; overflow:hidden;
+  border-radius:var(--r); padding:16px 15px 14px;
+  background:linear-gradient(160deg,var(--card-2),var(--card)) padding-box,
+             linear-gradient(150deg, color-mix(in srgb, var(--acc) 55%, transparent), rgba(37,48,78,.6) 60%) border-box;
+  border:1px solid transparent;
+  transition:transform .15s ease;
 }
-.sport-card:active{transform:scale(.985)}
-.sport-card:hover{border-color:var(--blue)}
+.sport-card:active{transform:scale(.97)}
 .sport-card::after{
-  content:''; position:absolute; inset:auto -30px -30px auto;
-  width:120px; height:120px; border-radius:50%;
-  background:radial-gradient(circle, rgba(76,141,255,.18), transparent 70%);
+  content:''; position:absolute; inset:auto -26px -26px auto; width:110px; height:110px;
+  border-radius:50%; background:radial-gradient(circle, color-mix(in srgb, var(--acc) 22%, transparent), transparent 70%);
 }
-a[href="./nfl/"].sport-card::after{background:radial-gradient(circle, rgba(255,211,77,.15), transparent 70%)}
-a[href="./nfl/"].sport-card:hover{border-color:var(--yellow)}
-body{position:relative}
-body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
-  background:radial-gradient(600px 320px at 12% -6%,rgba(76,141,255,.16),transparent 60%),
-             radial-gradient(520px 300px at 108% 4%,rgba(255,211,77,.10),transparent 60%)}
-.sport-tag{
-  font-family:'Sora',sans-serif; font-weight:700; font-size:12px; letter-spacing:.14em;
-  color:var(--yellow); margin-bottom:8px;
-}
-.card-head{display:flex; align-items:center; gap:14px}
 .league-logo{
-  width:52px; height:52px; border-radius:14px; background:var(--card);
-  border:1px solid var(--line); display:grid; place-items:center; flex:none;
+  width:46px; height:46px; border-radius:13px; margin-bottom:11px;
+  background:linear-gradient(160deg, color-mix(in srgb, var(--acc) 20%, var(--card)), var(--card));
+  border:1px solid color-mix(in srgb, var(--acc) 35%, transparent);
+  display:grid; place-items:center;
 }
-.league-logo img{width:38px; height:38px; object-fit:contain}
-.sport-name{font-family:'Sora',sans-serif; font-weight:700; font-size:24px; margin-bottom:6px}
-.sport-sub{font-size:13.5px; color:var(--muted); line-height:1.45}
-.meta-row{display:flex; align-items:center; gap:8px; margin-top:16px}
-.pill{
-  font-size:11.5px; font-weight:600; padding:5px 10px; border-radius:99px;
-  background:rgba(76,141,255,.14); color:var(--blue); border:1px solid rgba(76,141,255,.25);
-}
-.pill.updated{background:rgba(255,211,77,.1); color:var(--yellow); border-color:rgba(255,211,77,.22)}
-.arrow{
-  position:absolute; top:22px; right:20px; width:34px; height:34px; border-radius:50%;
-  background:var(--card); border:1px solid var(--line);
-  display:grid; place-items:center; color:var(--blue); font-weight:700;
-}
-footer{margin-top:auto; text-align:center; font-size:12px; color:var(--muted); padding-top:30px}
-footer b{color:var(--yellow); font-weight:600}
-@media (prefers-reduced-motion:reduce){ .sport-card{transition:none} }
+.league-logo img{width:32px; height:32px; object-fit:contain}
+.sport-tag{font-family:'Sora',sans-serif; font-weight:700; font-size:10.5px; letter-spacing:.13em;
+  color:var(--acc); margin-bottom:4px}
+.sport-name{font-family:'Sora',sans-serif; font-weight:700; font-size:18px; margin-bottom:9px}
+.meta-col{display:flex; flex-direction:column; gap:5px; align-items:flex-start}
+.pill{font-size:10.5px; font-weight:600; padding:4px 9px; border-radius:99px;
+  background:color-mix(in srgb, var(--acc) 13%, transparent);
+  color:var(--acc); border:1px solid color-mix(in srgb, var(--acc) 26%, transparent)}
+.soon .sport-name,.soon .league-logo img{opacity:.75}
+.soon{cursor:default}
+.arrow{position:absolute; top:15px; right:14px; width:30px; height:30px; border-radius:50%;
+  background:var(--card); border:1px solid var(--line); display:grid; place-items:center;
+  color:var(--acc); font-weight:700; font-size:14px}
+footer{margin-top:auto; text-align:center; font-size:12px; color:var(--muted); padding-top:28px}
+footer b{background:linear-gradient(100deg,var(--blue),var(--yellow));
+  -webkit-background-clip:text;background-clip:text;color:transparent;font-weight:700}
+@media (prefers-reduced-motion:reduce){.sport-card{transition:none}}
 </style>
 </head>
 <body>
 <header>
-  <div class="wordmark">SLATE<span class="dot">.</span></div>
+  <div class="wordmark">SLATE.</div>
   <div class="date-chip" id="today"></div>
 </header>
 
 <div class="kicker">Model Boards</div>
+<div class="kicker-bar"></div>
 
-<a class="sport-card" href="./mlb/">
-  <div class="card-head">
+<div class="grid">
+  <a class="sport-card" href="./mlb/" style="--acc:var(--blue)">
+    <div class="arrow">→</div>
     <div class="league-logo"><img src="https://a.espncdn.com/i/teamlogos/leagues/500/mlb.png" alt="MLB" loading="lazy" onerror="this.remove()"></div>
-    <div>
-      <div class="sport-tag">MLB · DAILY</div>
-      <div class="sport-name">Baseball Board</div>
+    <div class="sport-tag">MLB · DAILY</div>
+    <div class="sport-name">Baseball</div>
+    <div class="meta-col">
+      <span class="pill" id="mlb-games">— games</span>
+      <span class="pill" id="mlb-updated">syncing…</span>
     </div>
-  </div>
-  <div class="sport-sub" style="margin-top:10px">Run projections, totals leans, and player projections — refreshed every morning after lineups.</div>
-  <div class="meta-row">
-    <span class="pill" id="mlb-games">— games</span>
-    <span class="pill updated" id="mlb-updated">syncing…</span>
-  </div>
-  <div class="arrow">→</div>
-</a>
+  </a>
 
-<a class="sport-card" href="./nfl/">
-  <div class="card-head">
+  <a class="sport-card" href="./nfl/" style="--acc:var(--yellow)">
+    <div class="arrow">→</div>
     <div class="league-logo"><img src="https://a.espncdn.com/i/teamlogos/leagues/500/nfl.png" alt="NFL" loading="lazy" onerror="this.remove()"></div>
-    <div>
-      <div class="sport-tag">NFL · WEEKLY</div>
-      <div class="sport-name">Football Board</div>
+    <div class="sport-tag">NFL · WEEKLY</div>
+    <div class="sport-name">Football</div>
+    <div class="meta-col">
+      <span class="pill" id="nfl-games">— games</span>
+      <span class="pill" id="nfl-updated">syncing…</span>
     </div>
+  </a>
+
+  <div class="sport-card soon" style="--acc:var(--teal)">
+    <div class="league-logo"><img src="https://a.espncdn.com/i/teamlogos/leagues/500/nhl.png" alt="NHL" loading="lazy" onerror="this.remove()"></div>
+    <div class="sport-tag">NHL · 2026-27</div>
+    <div class="sport-name">Hockey</div>
+    <div class="meta-col"><span class="pill">COMING SOON</span></div>
   </div>
-  <div class="sport-sub" style="margin-top:10px">Opponent-adjusted spreads, totals, win probabilities, and QB projections for the full slate.</div>
-  <div class="meta-row">
-    <span class="pill" id="nfl-games">— games</span>
-    <span class="pill updated" id="nfl-updated">syncing…</span>
+
+  <div class="sport-card soon" style="--acc:var(--orange)">
+    <div class="league-logo"><img src="https://a.espncdn.com/i/teamlogos/leagues/500/nba.png" alt="NBA" loading="lazy" onerror="this.remove()"></div>
+    <div class="sport-tag">NBA · 2026-27</div>
+    <div class="sport-name">Basketball</div>
+    <div class="meta-col"><span class="pill">COMING SOON</span></div>
   </div>
-  <div class="arrow">→</div>
-</a>
+</div>
 
 <footer>Auto-updated by the model · <b>Add to Home Screen</b> to install</footer>
 
 <script>
 const rel = iso => {
   const m = Math.round((Date.now() - new Date(iso)) / 60000);
+  if (isNaN(m)) return '';
   if (m < 1) return 'just now';
   if (m < 60) return m + 'm ago';
   const h = Math.round(m / 60);
@@ -144,9 +149,9 @@ for (const s of ['mlb','nfl']) {
       const live = (d.games || []).filter(g => g.game_state === 'Live').length;
       document.getElementById(s+'-games').textContent =
         (d.games?.length ?? 0) + ' games' + (live ? ` · ${live} live` : '');
-      document.getElementById(s+'-updated').textContent = 'Updated ' + rel(d.generated_at);
+      document.getElementById(s+'-updated').textContent = rel(d.generated_at);
     })
-    .catch(() => { document.getElementById(s+'-updated').textContent = 'No data yet'; });
+    .catch(() => { document.getElementById(s+'-updated').textContent = 'no data yet'; });
 }
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');
 </script>

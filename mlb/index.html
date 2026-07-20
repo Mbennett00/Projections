@@ -12,7 +12,7 @@
 <style>
 :root{
   --bg:#0B1020; --card:#141C30; --card-2:#1B2540; --line:#25304E;
-  --blue:#4C8DFF; --yellow:#FFD34D; --red:#FF6B6B; --text:#EEF2FA; --muted:#94A1BE; --r:16px;
+  --blue:#6366F1; --yellow:#4ADE80; --red:#FF6B6B; --text:#EEF2FA; --muted:#94A1BE; --r:16px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 body{
@@ -21,30 +21,33 @@ body{
   padding:max(16px,env(safe-area-inset-top)) 16px max(28px,env(safe-area-inset-bottom));
 }
 body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
-  background:radial-gradient(600px 320px at 12% -6%,rgba(76,141,255,.16),transparent 60%),
-             radial-gradient(520px 300px at 108% 4%,rgba(255,211,77,.10),transparent 60%)}
+  background:radial-gradient(600px 320px at 12% -6%,rgba(99,102,241,.16),transparent 60%),
+             radial-gradient(520px 300px at 108% 4%,rgba(74,222,128,.10),transparent 60%)}
 header{display:flex; align-items:center; gap:12px; padding:4px 2px 18px}
 .back{width:36px;height:36px;border-radius:50%;background:var(--card);border:1px solid var(--line);
   display:grid;place-items:center;color:var(--text);text-decoration:none;font-weight:700;flex:none}
 h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
   background:linear-gradient(100deg,var(--blue),var(--yellow));
   -webkit-background-clip:text;background-clip:text;color:transparent}
-.updated{font-size:11.5px;font-weight:600;color:var(--yellow);background:rgba(255,211,77,.1);
-  border:1px solid rgba(255,211,77,.22);padding:6px 10px;border-radius:99px;white-space:nowrap}
+.updated{font-size:11.5px;font-weight:600;color:var(--yellow);background:rgba(74,222,128,.1);
+  border:1px solid rgba(74,222,128,.22);padding:6px 10px;border-radius:99px;white-space:nowrap}
 .tabs{display:flex;gap:8px;margin-bottom:14px}
 .tab{flex:1;text-align:center;font-size:13.5px;font-weight:600;color:var(--muted);
   background:var(--card);border:1px solid var(--line);border-radius:12px;
   padding:11px 0;cursor:pointer;user-select:none;transition:all .15s}
 .tab.on{color:#0B1020;background:linear-gradient(100deg,var(--blue) 0%,var(--yellow) 90%);border-color:transparent}
 .summary{display:flex;gap:8px;flex-wrap:wrap;margin:2px 0 14px}
-.sum-chip{font-size:11.5px;font-weight:600;color:var(--text);background:var(--card);
-  border:1px solid var(--line);border-radius:9px;padding:7px 11px;display:inline-flex;align-items:center;gap:6px}
+.sum-chip{font-size:11.5px;font-weight:600;color:var(--text);border-radius:9px;padding:7px 11px;
+  display:inline-flex;align-items:center;gap:6px;
+  background:linear-gradient(var(--card),var(--card)) padding-box,
+             linear-gradient(120deg,rgba(99,102,241,.45),rgba(74,222,128,.45)) border-box;
+  border:1px solid transparent}
 .sum-chip .dot{width:7px;height:7px;border-radius:50%;display:inline-block}
 .tag{font-size:8.5px;font-weight:800;letter-spacing:.06em;padding:2px 6px;border-radius:5px;
   display:inline-block;margin-right:4px;margin-top:4px;line-height:1.4}
 .rank{width:20px;flex:none;text-align:center;font-family:'Sora',sans-serif;font-weight:800;
   font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
-.rank.r1{background:linear-gradient(135deg,#FFD34D,#FF9F1C);-webkit-background-clip:text;background-clip:text;color:transparent}
+.rank.r1{background:linear-gradient(135deg,#4ADE80,#16A34A);-webkit-background-clip:text;background-clip:text;color:transparent}
 .rank.r2{color:#C7D2E0}.rank.r3{color:#E0A96D}
 .play{cursor:pointer;flex-wrap:wrap}
 .sim{flex-basis:100%;margin-top:11px;padding-top:11px;border-top:1px dashed var(--line)}
@@ -62,7 +65,10 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
 .slate-label{font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.1em;
   text-transform:uppercase;margin:2px 2px 12px}
 /* game cards */
-.game{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:17px 16px 15px;margin-bottom:12px;position:relative;overflow:hidden}
+.game{border-radius:var(--r);padding:17px 16px 15px;margin-bottom:12px;position:relative;overflow:hidden;
+  background:linear-gradient(160deg,var(--card-2),var(--card)) padding-box,
+             linear-gradient(150deg,rgba(99,102,241,.4),rgba(37,48,78,.65) 45%,rgba(74,222,128,.3)) border-box;
+  border:1px solid transparent}
 .g-accent{position:absolute;top:0;left:0;right:0;height:3px}
 .g-top{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted);font-weight:600;margin-bottom:11px}
 .g-badges{display:inline-flex;align-items:center;gap:6px;flex:none}
@@ -70,13 +76,13 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
   display:inline-flex;align-items:center;line-height:1.2}
 .state.live{color:#0B1020;background:var(--red);animation:pulse 2s infinite}
 .state.final{color:var(--muted);background:var(--card-2)}
-.state.preview{color:var(--blue);background:rgba(76,141,255,.12)}
+.state.preview{color:var(--blue);background:rgba(99,102,241,.12)}
 @keyframes pulse{50%{opacity:.65}}
 .tier{font-size:10px;font-weight:700;letter-spacing:.05em;padding:4px 8px;border-radius:7px;
   display:inline-flex;align-items:center;gap:4px;line-height:1.2}
 .tier img{width:13px;height:13px;object-fit:contain}
 .tier.STRONG{color:#0B1020;background:var(--yellow)}
-.tier.LEAN{color:var(--blue);background:rgba(76,141,255,.12);border:1px solid rgba(76,141,255,.3)}
+.tier.LEAN{color:var(--blue);background:rgba(99,102,241,.12);border:1px solid rgba(99,102,241,.3)}
 .tier.PASS{color:var(--muted);background:var(--card-2)}
 .team{display:flex;align-items:center;justify-content:space-between;padding:4px 0}
 .t-name{display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px;min-width:0}
@@ -85,13 +91,13 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
   display:grid;place-items:center;text-align:center;flex:none;overflow:hidden}
 .t-abbr img{width:26px;height:26px;object-fit:contain;display:block}
 .t-abbr:not(:has(img))::before{content:attr(data-ab)}
-.p-avatar{width:44px;height:44px;border-radius:50%;flex:none;overflow:hidden;
+.p-avatar{width:46px;height:46px;border-radius:50%;flex:none;overflow:hidden;position:relative;
   display:grid;place-items:center;font-family:'Sora',sans-serif;font-weight:700;font-size:12px}
-.p-avatar img{width:94%;height:94%;object-fit:contain;object-position:center bottom;display:block;margin-top:auto}
+.p-avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
 .p-avatar:not(:has(img))::before{content:attr(data-in)}
-.hr-avatar{width:30px;height:30px;border-radius:50%;overflow:hidden;flex:none;
+.hr-avatar{width:32px;height:32px;border-radius:50%;overflow:hidden;flex:none;position:relative;
   display:grid;place-items:center;font-size:9px;font-weight:700}
-.hr-avatar img{width:92%;height:92%;object-fit:contain;object-position:center bottom;display:block;margin-top:auto}
+.hr-avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
 .hr-left{display:flex;align-items:center;gap:9px;min-width:0}
 .t-city{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .t-num{font-variant-numeric:tabular-nums;font-weight:600;font-size:14px;color:var(--muted);flex:none;margin-left:8px}
@@ -101,8 +107,10 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
 .prob-away{height:100%;transition:width .6s ease}
 .prob-home{height:100%;flex:1}
 .g-stats{display:flex;gap:6px;margin-top:10px}
-.stat{flex:1;background:var(--card-2);border-radius:10px;padding:8px 6px;text-align:center;border-top:2px solid transparent}
-.stat.sb{border-top-color:rgba(76,141,255,.6)}.stat.st{border-top-color:rgba(45,212,191,.6)}.stat.sy{border-top-color:rgba(255,211,77,.6)}
+.stat{flex:1;border-radius:10px;padding:8px 6px;text-align:center;border-top:2px solid transparent;background:var(--card-2)}
+.stat.sb{border-top-color:rgba(99,102,241,.65);background:linear-gradient(180deg,rgba(99,102,241,.10),var(--card-2) 65%)}
+.stat.st{border-top-color:rgba(45,212,191,.65);background:linear-gradient(180deg,rgba(45,212,191,.10),var(--card-2) 65%)}
+.stat.sy{border-top-color:rgba(74,222,128,.65);background:linear-gradient(180deg,rgba(74,222,128,.10),var(--card-2) 65%)}
 .stat .v{font-family:'Sora',sans-serif;font-weight:700;font-size:13.5px;color:var(--text);font-variant-numeric:tabular-nums}
 .stat .v.hot{color:var(--yellow)}
 .stat .l{font-size:10px;color:var(--muted);font-weight:600;margin-top:2px;letter-spacing:.03em}
@@ -114,24 +122,28 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
 .chip{flex:none;font-size:12px;font-weight:600;color:var(--muted);background:var(--card);
   border:1px solid var(--line);border-radius:9px;padding:7px 12px;cursor:pointer;user-select:none;white-space:nowrap;line-height:1.2}
 .chip.on{color:#0B1020;background:linear-gradient(100deg,var(--blue),var(--yellow));border-color:transparent}
-.hr-strip{background:linear-gradient(160deg,var(--card-2),var(--card));border:1px solid rgba(255,211,77,.28);
+.hr-strip{background:linear-gradient(160deg,var(--card-2),var(--card)) padding-box,
+  linear-gradient(140deg,rgba(74,222,128,.55),rgba(99,102,241,.35)) border-box;border:1px solid transparent;
   border-radius:var(--r);padding:13px 16px;margin-bottom:12px}
 .hr-title{font-family:'Sora',sans-serif;font-weight:700;font-size:12px;letter-spacing:.12em;color:var(--yellow);margin-bottom:9px}
 .hr-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;font-size:13.5px}
 .hr-row .nm{font-weight:600}
 .hr-row .tm{color:var(--muted);font-size:11.5px;font-weight:500;margin-left:7px}
 .hr-row .pct{font-family:'Sora',sans-serif;font-weight:700;color:var(--yellow);font-variant-numeric:tabular-nums}
-.play{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
-  padding:13px 16px;margin-bottom:9px;display:flex;align-items:center;gap:12px}
+.play{border-radius:var(--r);padding:13px 16px;margin-bottom:9px;display:flex;align-items:center;gap:12px;
+  background:linear-gradient(160deg,var(--card-2),var(--card)) padding-box,
+             linear-gradient(150deg,rgba(99,102,241,.35),rgba(37,48,78,.65) 50%,rgba(74,222,128,.25)) border-box;
+  border:1px solid transparent}
 .p-main{flex:1;min-width:0}
 .p-player{font-weight:600;font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .p-meta{font-size:12px;color:var(--muted);margin-top:3px}
 .p-meta b{color:var(--blue);font-weight:600}
 .side{font-size:10px;font-weight:700;padding:2px 7px;border-radius:6px;margin-right:5px;letter-spacing:.04em}
 .side.OVER{color:#0B1020;background:var(--yellow)}
-.side.UNDER{color:var(--blue);background:rgba(76,141,255,.14);border:1px solid rgba(76,141,255,.3)}
+.side.UNDER{color:var(--blue);background:rgba(99,102,241,.14);border:1px solid rgba(99,102,241,.3)}
 .p-edge{text-align:right;flex:none}
-.edge-val{font-family:'Sora',sans-serif;font-weight:700;font-size:16px;color:var(--yellow);font-variant-numeric:tabular-nums}
+.edge-val{font-family:'Sora',sans-serif;font-weight:700;font-size:16px;font-variant-numeric:tabular-nums;
+  background:linear-gradient(100deg,var(--yellow),#22C55E);-webkit-background-clip:text;background-clip:text;color:transparent}
 .edge-bar{width:60px;height:5px;border-radius:99px;background:var(--card-2);margin-top:5px;overflow:hidden;margin-left:auto}
 .edge-fill{height:100%;background:var(--yellow);border-radius:99px}
 .p-odds{font-size:11px;color:var(--muted);margin-top:4px;font-variant-numeric:tabular-nums}
@@ -165,7 +177,7 @@ const ab = n => ABBR[n] || (n||'').split(' ').map(w=>w[0]).join('').slice(0,3).t
 // Official MLB StatsAPI team IDs → mlbstatic logo CDN
 const TEAMID = {"ARI":109,"ATH":133,"ATL":144,"BAL":110,"BOS":111,"CHC":112,"CWS":145,"CIN":113,"CLE":114,"COL":115,"DET":116,"HOU":117,"KC":118,"LAA":108,"LAD":119,"MIA":146,"MIL":158,"MIN":142,"NYM":121,"NYY":147,"PHI":143,"PIT":134,"SD":135,"SF":137,"SEA":136,"STL":138,"TB":139,"TEX":140,"TOR":141,"WSH":120};
 const TC = {ARI:'#D53A4C',ATH:'#EFB21E',ATL:'#CE1141',BAL:'#DF4601',BOS:'#BD3039',CHC:'#3E7CD6',CWS:'#C4CED4',CIN:'#E0142E',CLE:'#E31937',COL:'#8A63D2',DET:'#FA4616',HOU:'#EB6E1F',KC:'#3E8EDE',LAA:'#D01432',LAD:'#2F7DE1',MIA:'#00A3E0',MIL:'#FFC52F',MIN:'#4F9FE0',NYM:'#FF5910',NYY:'#8A9BC4',PHI:'#E81828',PIT:'#FDB827',SD:'#FFC425',SF:'#FD5A1E',SEA:'#2FBDB3',STL:'#D02543',TB:'#8FBCE6',TEX:'#D01A28',TOR:'#3D7EDB',WSH:'#D22B33'};
-const tc = a => TC[a] || '#4C8DFF';
+const tc = a => TC[a] || '#6366F1';
 const abSpan = a => `<b style="color:${tc(a)}">${a}</b>`;
 const logo = a => TEAMID[a] ? `https://www.mlbstatic.com/team-logos/${TEAMID[a]}.svg` : '';
 const mug = id => `https://img.mlbstatic.com/mlb-photos/image/upload/w_120,q_auto:best/v1/people/${id}/headshot/67/current`;
@@ -182,11 +194,11 @@ function buildIds(d){
   }
 }
 const AV = {ARI:['#A71930','#E3D4AD'],ATH:['#003831','#EFB21E'],ATL:['#CE1141','#EAAA00'],BAL:['#DF4601','#F5F0E1'],BOS:['#BD3039','#0C2340'],CHC:['#0E3386','#CC3433'],CWS:['#27251F','#C4CED4'],CIN:['#C6011F','#F5F0E1'],CLE:['#00385D','#E31937'],COL:['#33006F','#C4CED4'],DET:['#0C2340','#FA4616'],HOU:['#002D62','#EB6E1F'],KC:['#004687','#BD9B60'],LAA:['#BA0021','#003263'],LAD:['#005A9C','#F5F0E1'],MIA:['#00A3E0','#EF3340'],MIL:['#12284B','#FFC52F'],MIN:['#002B5C','#D31145'],NYM:['#002D72','#FF5910'],NYY:['#0C2340','#C4CED3'],PHI:['#E81828','#002D72'],PIT:['#27251F','#FDB827'],SD:['#2F241D','#FFC425'],SF:['#27251F','#FD5A1E'],SEA:['#0C2C56','#2FBDB3'],STL:['#C41E3A','#0C2340'],TB:['#092C5C','#8FBCE6'],TEX:['#003278','#C0111F'],TOR:['#134A8E','#E8291C'],WSH:['#AB0003','#14225A']};
-const avColors = a => AV[a] || ['#1B2540','#4C8DFF'];
+const avColors = a => AV[a] || ['#1B2540','#6366F1'];
 const avatar = (name, team, cls='p-avatar') => {
   const id = NAMEID[name];
   const [bg, ring] = avColors(team);
-  return `<span class="${cls}" data-in="${initials(name)}" style="background:${bg};border:2px solid ${ring};color:#F5F0E1">${id ? `<img src="${mug(id)}" alt="" loading="lazy" onerror="this.remove()">` : ''}</span>`;
+  return `<span class="${cls}" data-in="${initials(name)}" style="background:${bg};border:2.5px solid ${ring};color:#F5F0E1">${id ? `<img src="${mug(id)}" alt="" loading="lazy" onerror="this.remove()">` : ''}</span>`;
 };
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const rel = iso => {
@@ -275,6 +287,8 @@ function collectProjections(d){
 }
 
 const STATS = {
+  'H+R+RBI': {pool:'bat', v:p=>(p.expected_hits??0)+(p.expected_runs??0)+(p.expected_rbi??0), fmt:v=>v.toFixed(2),
+             sub:p=>`${(p.expected_hits??0).toFixed(1)}H · ${(p.expected_runs??0).toFixed(1)}R · ${(p.expected_rbi??0).toFixed(1)}RBI`},
   'HR':    {pool:'bat', v:p=>p.expected_hr,   fmt:v=>v.toFixed(2), sub:p=>`${(p.hr_prob*100).toFixed(1)}% HR · ${(p.pa??0).toFixed(1)} PA`},
   'Hits':  {pool:'bat', v:p=>p.expected_hits, fmt:v=>v.toFixed(2), sub:p=>`${(p.hit_rate*100).toFixed(0)}% per PA · ${(p.pa??0).toFixed(1)} PA`},
   'Bases': {pool:'bat', v:p=>p.expected_tb,   fmt:v=>v.toFixed(2), sub:p=>`${(p.expected_hits??0).toFixed(2)} H · ${(p.expected_hr??0).toFixed(2)} HR`},
@@ -287,14 +301,14 @@ const STATS = {
 function tagsFor(p, pool){
   const t = [];
   if (pool === 'arm') {
-    if ((p.expected_k ?? 0) >= 6.0) t.push(['K UPSIDE','#FFD34D']);
-    if ((p.expected_ip ?? 0) >= 6.0) t.push(['WORKHORSE','#4C8DFF']);
+    if ((p.expected_k ?? 0) >= 6.0) t.push(['K UPSIDE','#4ADE80']);
+    if ((p.expected_ip ?? 0) >= 6.0) t.push(['WORKHORSE','#6366F1']);
     if ((p.expected_er ?? 9) <= 2.2) t.push(['STINGY','#2DD4BF']);
   } else {
-    if ((p.hr_prob ?? 0) >= .08) t.push(['POWER','#FFD34D']);
+    if ((p.hr_prob ?? 0) >= .08) t.push(['POWER','#4ADE80']);
     if ((p.offense_quality ?? 0) >= 78 || (p.xwoba ?? 0) >= .360) t.push(['ELITE BAT','#A78BFA']);
     if ((p.k_rate ?? 1) <= .17) t.push(['CONTACT','#2DD4BF']);
-    if ((p.bb_rate ?? 0) >= .12) t.push(['GOOD EYE','#4C8DFF']);
+    if ((p.bb_rate ?? 0) >= .12) t.push(['GOOD EYE','#6366F1']);
     if ((p.pa ?? 0) >= 4.55) t.push(['TOP OF ORDER','#FF8FA3']);
   }
   return t.slice(0,3).map(([n,c]) =>
@@ -304,6 +318,7 @@ function tagsFor(p, pool){
 // ---- Monte Carlo: 10,000 Poisson sims per tap ----
 const pois = l => { const L = Math.exp(-l); let k = 0, p = 1; do { k++; p *= Math.random(); } while (p > L); return k - 1; };
 const BUCKETS = {
+  'H+R+RBI': [['0-1',v=>v<=1],['2',v=>v===2],['3',v=>v===3],['4+',v=>v>=4]],
   'HR':    [['0',v=>v===0],['1',v=>v===1],['2+',v=>v>=2]],
   'Hits':  [['0',v=>v===0],['1',v=>v===1],['2',v=>v===2],['3+',v=>v>=3]],
   'Bases': [['0-1',v=>v<=1],['2-3',v=>v<=3],['4-5',v=>v<=5],['6+',v=>v>=6]],
