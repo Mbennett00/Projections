@@ -11,12 +11,12 @@ name: Update model data
 on:
   schedule:
     # MLB: morning slate after lineups (10:30 AM ET) + one midday top-up.
-    - cron: "30 14 * * *"
+    - cron: "0 19 * * *"
     - cron: "0 22 * * *"        # 6 PM ET -- catch late lineup/pitcher changes
     # NFL: Tue + Sun mornings in season.
     - cron: "0 13 * * 0,2"
     # NHL: morning skate report (11 AM ET) in season.
-    - cron: "0 15 * * *"
+    - cron: "0 21 * * *"
   workflow_dispatch: {}          # manual "Run workflow" button, anytime
 
 permissions:
