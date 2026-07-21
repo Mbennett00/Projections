@@ -94,6 +94,118 @@ PARK_FACTORS = {
 }
 
 
+OWM_API_KEY = os.environ.get("OWM_API_KEY")
+
+# Retractable-roof / dome parks: weather doesn't apply (neutral).
+DOME_PARKS = {
+    "Tropicana Field", "Chase Field", "Minute Maid Park", "Daikin Park",
+    "loanDepot park", "American Family Field", "Rogers Centre", "T-Mobile Park",
+    "Globe Life Field",
+}
+
+# Approx park orientation isn't modeled; we use wind SPEED as the signal
+# (strong wind any direction increases variance / carry on warm days) and
+# temperature (ball carries farther in heat). Conservative, HR-focused.
+def fetch_mlb_weather(venue, city):
+    if venue in DOME_PARKS:
+        return {"indoor": True, "wind": 0, "temp": 72}
+    if not (OWM_API_KEY and city):
+        return None
+    try:
+        url = (f"https://api.openweathermap.org/data/2.5/weather"
+               f"?q={city},US&units=imperial&appid={OWM_API_KEY}")
+        resp = requests.get(url, timeout=10)
+        resp.raise_for_status()
+        d = resp.json()
+        return {
+            "indoor": False,
+            "wind": round((d.get("wind") or {}).get("speed", 0)),
+            "temp": round((d.get("main") or {}).get("temp", 70)),
+            "cond": (d.get("weather") or [{}])[0].get("main", ""),
+        }
+    except Exception as e:
+        print(f"  (weather fetch failed for {city}: {e})")
+        return None
+
+
+def weather_hr_factor(wx):
+    """HR multiplier from weather. Heat helps carry, cold suppresses,
+    strong wind adds carry/variance. Dampened, HR-specific."""
+    if not wx or wx.get("indoor"):
+        return 1.0, None
+    temp = wx.get("temp", 70)
+    wind = wx.get("wind", 0)
+    f = 1.0
+    notes = []
+    # temperature: ~1% per 10°F off a 70°F baseline (well-documented carry effect)
+    f *= 1 + (temp - 70) * 0.001
+    if temp >= 85:
+        notes.append(f"{temp}°F hot")
+    elif temp <= 50:
+        notes.append(f"{temp}°F cold")
+    # wind: strong wind boosts carry/variance (we can't get direction cheaply,
+    # so treat 15+ mph as a HR-variance boost, capped)
+    if wind >= 20:
+        f *= 1.08; notes.append(f"{wind}mph wind")
+    elif wind >= 15:
+        f *= 1.05; notes.append(f"{wind}mph wind")
+    elif wind >= 10:
+        f *= 1.02
+    f = max(0.90, min(1.15, f))
+    return round(f, 3), (" · ".join(notes) if notes else None)
+
+
+_bullpen_cache = None
+
+def load_bullpen_quality():
+    """Team bullpen quality as a run-environment multiplier, keyed by team
+    abbreviation. Weak pen (high ERA) => opponent scores more late.
+    Falls back to empty (neutral) if the pull fails."""
+    global _bullpen_cache
+    if _bullpen_cache is not None:
+        return _bullpen_cache
+    out = {}
+    try:
+        from pybaseball import team_pitching
+        import datetime as _dt
+        yr = _dt.date.today().year
+        df = team_pitching(yr)
+        # relief ERA isn't always split; use team ERA as the bullpen proxy
+        # (correlates strongly and is always present). Normalize to league avg.
+        if "ERA" in df.columns and "Team" in df.columns:
+            lg = df["ERA"].mean()
+            for _, r in df.iterrows():
+                era = r["ERA"]
+                # weak pen (era > lg) -> factor > 1 (more opponent runs)
+                factor = max(0.93, min(1.08, era / lg))
+                out[str(r["Team"])] = round(factor, 3)
+        print(f"  bullpen quality loaded for {len(out)} teams")
+    except Exception as e:
+        print(f"  (bullpen quality unavailable: {e})")
+    _bullpen_cache = out
+    return out
+
+
+# map full team names -> the abbreviations pybaseball uses
+def _team_abbr_for_bullpen(team_name):
+    # pybaseball team_pitching uses standard abbreviations; do a loose match
+    # on the last word of the city/nickname via a small map when needed.
+    return (team_name or "")[:3].upper()
+
+
+def platoon_factor(bat_side, pitch_hand):
+    """Same-handed matchup (L vs L, R vs R) favors the pitcher; opposite-hand
+    favors the batter. Switch hitters (S) always bat opposite = small edge.
+    Well-documented ~8-10% swing in production. Dampened here."""
+    if not bat_side or not pitch_hand:
+        return 1.0
+    if bat_side == "S":
+        return 1.03          # switch hitters always get the platoon advantage
+    if bat_side == pitch_hand:
+        return 0.94          # same-handed: batter disadvantaged
+    return 1.06              # opposite-handed: batter advantaged
+
+
 def get_park_factor(venue, bat_side):
     """HR park factor multiplier for a given venue and batter handedness.
     Falls back to 1.0 (neutral) for unknown venues -- printed in output
@@ -193,9 +305,12 @@ def get_todays_games(date_str):
             "home_team": home["team"]["name"],
             "away_pitcher_name": away.get("probablePitcher", {}).get("fullName"),
             "away_pitcher_id": away.get("probablePitcher", {}).get("id"),
+            "away_pitcher_hand": (away.get("probablePitcher", {}).get("pitchHand", {}) or {}).get("code"),
             "home_pitcher_name": home.get("probablePitcher", {}).get("fullName"),
             "home_pitcher_id": home.get("probablePitcher", {}).get("id"),
+            "home_pitcher_hand": (home.get("probablePitcher", {}).get("pitchHand", {}) or {}).get("code"),
             "venue": g.get("venue", {}).get("name", ""),
+            "venue_city": (home["team"].get("locationName") or home["team"].get("franchiseName") or "").split("/")[0].strip() or None,
             "game_pk": g.get("gamePk"),
             "game_time": g.get("gameDate"),           # ISO 8601 UTC
             "game_state": abstract,                    # Preview / Live / Final
@@ -357,7 +472,7 @@ def run_sanity_check(bat_df):
 # ---------------------------------------------------------------------------
 # STEP 4: Offense quality score per batter, matchup-adjusted
 # ---------------------------------------------------------------------------
-def project_batter_simple(brow, prow, order, park_hr_factor=1.0):
+def project_batter_simple(brow, prow, order, park_hr_factor=1.0, weather_factor=1.0, platoon_factor=1.0):
     bstats = get_converted_stats(brow)
     xwoba = bstats["xwoba"] or LEAGUE_AVG_XWOBA
     brl_pct = bstats["brl_pct"]
@@ -378,6 +493,7 @@ def project_batter_simple(brow, prow, order, park_hr_factor=1.0):
     else:
         matchup_xwoba = log5(xwoba, LEAGUE_AVG_XWOBA, LEAGUE_AVG_XWOBA)
 
+    matchup_xwoba = matchup_xwoba * platoon_factor
     offense_quality = round(min(100, max(0, (matchup_xwoba / 0.450) * 100)))
 
     # HR probability from Barrel% (direct power signal)
@@ -387,7 +503,7 @@ def project_batter_simple(brow, prow, order, park_hr_factor=1.0):
         hr_rate = LEAGUE_AVG_HR_PA * (hh_pct / 38.0)
     else:
         hr_rate = LEAGUE_AVG_HR_PA
-    hr_rate = max(0.005, min(0.12, hr_rate)) * park_hr_factor
+    hr_rate = max(0.005, min(0.12, hr_rate)) * park_hr_factor * weather_factor * platoon_factor
 
     # K and BB rates: log5 batter vs. pitcher, anchored to league average.
     # Fall back to league average if either side's data is missing.
@@ -782,6 +898,15 @@ def print_game(game, bat_df, pit_df, odds_lines, all_standouts):
         print("  (Run again closer to game time.)")
         return result
 
+    # weather (HR factor) — one call per game, shared by both lineups
+    _wx = fetch_mlb_weather(venue, game.get("venue_city"))
+    _wx_hr, _wx_note = weather_hr_factor(_wx)
+    if _wx_note:
+        print(f"  Weather: {_wx_note} (HR factor {_wx_hr})")
+    result["weather"] = _wx
+    result["weather_note"] = _wx_note
+    result["weather_hr_factor"] = _wx_hr
+
     home_prow = pitcher_row(pit_df, game["home_pitcher_id"]) if game["home_pitcher_id"] else None
     away_prow = pitcher_row(pit_df, game["away_pitcher_id"]) if game["away_pitcher_id"] else None
 
@@ -807,9 +932,9 @@ def print_game(game, bat_df, pit_df, odds_lines, all_standouts):
 
     away_projs, home_projs = [], []
     away_names, home_names = [], []
-    for label, lineup, opp_prow, store, names in [
-        (game["away_team"], away_lineup, home_prow, away_projs, away_names),
-        (game["home_team"], home_lineup, away_prow, home_projs, home_names),
+    for label, lineup, opp_prow, opp_pitch_hand, store, names in [
+        (game["away_team"], away_lineup, home_prow, game.get("home_pitcher_hand"), away_projs, away_names),
+        (game["home_team"], home_lineup, away_prow, game.get("away_pitcher_hand"), home_projs, home_names),
     ]:
         for slot in lineup:
             brow = batter_row(bat_df, slot["player_id"])
@@ -819,7 +944,9 @@ def print_game(game, bat_df, pit_df, odds_lines, all_standouts):
                 continue
             proj = project_batter_simple(
                 brow, opp_prow, slot["order"],
-                park_hr_factor=get_park_factor(venue, slot.get("bat_side", "R"))
+                park_hr_factor=get_park_factor(venue, slot.get("bat_side", "R")),
+                weather_factor=_wx_hr,
+                platoon_factor=platoon_factor(slot.get("bat_side", "R"), opp_pitch_hand)
             )
             store.append(proj)
             names.append(slot["name"])

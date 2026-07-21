@@ -181,6 +181,8 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
 .team-chip img{width:16px;height:16px;object-fit:contain;display:block}
 .read{font-size:12px;line-height:1.5;color:var(--text);background:linear-gradient(160deg,rgba(138,144,124,.10),rgba(198,242,78,.06));border:1px solid var(--line);border-radius:10px;padding:9px 12px;margin-top:4px}
 .read b{font-weight:700}
+.wx-chip{font-size:9.5px;font-weight:700;letter-spacing:.02em;color:#7FB2C4;background:#7FB2C41A;
+  border:1px solid #7FB2C444;border-radius:6px;padding:2px 7px;display:inline-flex;align-items:center;gap:3px}
 .src-pill{font-size:9px;font-weight:700;letter-spacing:.05em;color:var(--muted);background:var(--card);border:1px solid var(--line);border-radius:6px;padding:2px 7px}
 .fmc{display:flex;gap:6px;margin-top:4px}
 .fmc-cell{flex:1;text-align:center;background:var(--card-2);border-radius:10px;padding:9px 4px}
@@ -357,7 +359,7 @@ function collectProjections(d){
       const team = ab(g[side + '_team']);
       const oppP = g[(side === 'away' ? 'home' : 'away') + '_pitcher'];
       for (const p of (g[side + '_lineup'] || []))
-        bat.push({...p, team, opp, matchup, opp_pitcher: oppP, venue: g.venue});
+        bat.push({...p, team, opp, matchup, opp_pitcher: oppP, venue: g.venue, _wx: g.weather, _wx_note: g.weather_note, _wx_hr: g.weather_hr_factor});
       const pp = g[side + '_pitcher_proj'];
       if (pp) arm.push({...pp, player_id: g[side + '_pitcher_id'], team, opp, matchup});
     }
@@ -530,6 +532,12 @@ function renderPlays(d){
     return `<div class="read">Powered by <b>${up}</b> vs ${p.opp}, held back by <b>${dn}</b>.</div>`;
   }
 
+  function weatherChip(p){
+    if (!p._wx) return '';
+    if (p._wx.indoor) return ` <span class="wx-chip">🏟 DOME</span>`;
+    if (p._wx_note) return ` <span class="wx-chip">🌤 ${esc(p._wx_note)}</span>`;
+    return '';
+  }
   function detailPanel(p){
     const isArm = cfg.pool === 'arm';
     const poolArr = isArm ? arm : bat;
@@ -563,7 +571,7 @@ function renderPlays(d){
       ${confBlock(conf)}
       ${readLine(p, conf)}
       <div class="d-sec">MATCHUP</div>
-      <div class="d-match">vs ${teamChip(p.opp)}${p.matchup_grade ? gradeChip(p.matchup_grade) : ''} ${srcPill}${p.venue ? `<span class="src-pill">${esc(p.venue)}</span>` : ''}</div>
+      <div class="d-match">vs ${teamChip(p.opp)}${p.matchup_grade ? gradeChip(p.matchup_grade) : ''}${weatherChip(p)} ${srcPill}${p.venue ? `<span class="src-pill">${esc(p.venue)}</span>` : ''}</div>
       <div class="d-sec">PROJECTED LINE vs ${p.opp}</div>
       <div class="d-line">${cells}</div>
       <div class="d-sec">RANGE OF OUTCOMES · ${statFilter}</div>
