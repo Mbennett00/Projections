@@ -74,40 +74,22 @@ jobs:
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
         continue-on-error: true
 
-      # Only commit when content actually changed beyond the timestamp, so
-      # Netlify only rebuilds on real updates. We normalize each JSON by
-      # stripping the generated_at line before diffing against the committed
-      # copy; if everything else is identical, we skip the commit entirely.
-      - name: Commit only if data changed
+      # Commit whenever any slate file actually changed. We let git itself
+      # decide what changed (via `git status --porcelain`) instead of a
+      # hand-rolled diff — the old timestamp-stripping compare was throwing
+      # away real lineup updates, leaving the app stuck on stale data.
+      # Worst case this is ~4-6 Netlify builds/day, well under the free cap.
+      - name: Commit if data changed
         run: |
           git config user.name "slate-bot"
           git config user.email "actions@github.com"
 
-          changed=0
-          for f in mlb nfl nhl nba; do
-            new="${f}_slate.json"
-            old="data/${f}_slate.json"
-            [ -f "$new" ] || continue
-            # compare ignoring the generated_at timestamp line
-            if [ -f "$old" ]; then
-              if diff -q \
-                <(grep -v '"generated_at"' "$old") \
-                <(grep -v '"generated_at"' "$new") >/dev/null 2>&1; then
-                echo "$f: no change, skipping"
-                git checkout -- "$old" 2>/dev/null || true
-                continue
-              fi
-            fi
-            cp "$new" "$old"
-            changed=1
-            echo "$f: updated"
-          done
+          git add data/*.json
 
-          if [ "$changed" = "1" ]; then
-            git add data/*.json
+          if git diff --cached --quiet; then
+            echo "No file changes — nothing to commit."
+          else
             git commit -m "data: model update $(date -u +'%Y-%m-%d %H:%M UTC')"
             git push
             echo "Committed — Netlify will rebuild."
-          else
-            echo "Nothing meaningful changed — no deploy triggered."
           fi
