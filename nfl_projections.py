@@ -416,7 +416,12 @@ def fetch_schedule(week=None, season=None, seasontype=2):
 
         away_abbr = away["team"]["abbreviation"]
         home_abbr = home["team"]["abbreviation"]
-        venue = (comp.get("venue") or {}).get("fullName", "")
+        _venue_obj = comp.get("venue") or {}
+        venue = _venue_obj.get("fullName", "")
+        indoor = bool(_venue_obj.get("indoor"))
+        _addr = _venue_obj.get("address") or {}
+        venue_city = _addr.get("city")
+        venue_state = _addr.get("state")
 
         status = (event.get("status") or {}).get("type", {})
         state = status.get("state")  # 'pre' | 'in' | 'post'
@@ -428,6 +433,9 @@ def fetch_schedule(week=None, season=None, seasontype=2):
             "home_team": NFL_TEAM_NAMES.get(home_abbr, home["team"].get("displayName")),
             "home_abbr": home_abbr,
             "venue": venue,
+            "indoor": indoor,
+            "venue_city": venue_city,
+            "venue_state": venue_state,
             "game_time": event.get("date"),
             "game_state": game_state,
             "event_id": event.get("id"),
@@ -899,7 +907,7 @@ def blend_stats(cur, pri, keys_usage=(), keys_rate=()):
 LEAGUE_AVG_QB = {"comp_pct": 64.5, "pass_yds": 220, "pass_td": 1.4, "int": 0.7, "rating": 88.0}
 
 
-def project_qb(team_abbr, opponent_abbr=None, vegas_factor=None):
+def project_qb(team_abbr, opponent_abbr=None, vegas_factor=None, weather=None):
     name, athlete_id = fetch_starting_qb(team_abbr)
     cur = fetch_qb_season_stats(athlete_id) if athlete_id else None
     pri = fetch_prior_stats(athlete_id, "passing") if athlete_id else None
@@ -920,6 +928,7 @@ def project_qb(team_abbr, opponent_abbr=None, vegas_factor=None):
     else:
         factor = fetch_defense_factor(opponent_abbr) if opponent_abbr else 1.0
 
+    _wxp = (weather or {}).get("pass", 1.0)
     rating = stats.get("rating") or LEAGUE_AVG_QB["rating"]
     rating_adj = round(rating * (1 + (factor - 1) * 0.6), 1)
     quality = round(max(0, min(50, (rating_adj - 70) / 1.2)))
@@ -930,8 +939,8 @@ def project_qb(team_abbr, opponent_abbr=None, vegas_factor=None):
         "player_id": athlete_id,
         "quality": quality,
         "comp_pct": round(stats.get("comp_pct") or LEAGUE_AVG_QB["comp_pct"], 1),
-        "pass_yds": round((stats.get("pass_yds") or LEAGUE_AVG_QB["pass_yds"]) * factor, 1),
-        "pass_td": round((stats.get("pass_td") or LEAGUE_AVG_QB["pass_td"]) * factor, 2),
+        "pass_yds": round((stats.get("pass_yds") or LEAGUE_AVG_QB["pass_yds"]) * factor * _wxp, 1),
+        "pass_td": round((stats.get("pass_td") or LEAGUE_AVG_QB["pass_td"]) * factor * _wxp, 2),
         "int": round(stats.get("int") or LEAGUE_AVG_QB["int"], 2),
         "rating": rating_adj,
         "epa_db": epa_db,
@@ -951,9 +960,11 @@ def project_qb(team_abbr, opponent_abbr=None, vegas_factor=None):
 # how often a player gets the ball — while yards/TD-rate/fantasy points
 # scale with the matchup.
 # ──────────────────────────────────────────────────────────────────────────
-def project_skill_players(team_abbr, opponent_abbr=None, vegas_factor=None):
+def project_skill_players(team_abbr, opponent_abbr=None, vegas_factor=None, game_script=None, weather=None):
     import math as _math
     starters = fetch_skill_starters(team_abbr)
+    gs = game_script or {"rush": 1.0, "pass": 1.0}
+    _wxp = (weather or {}).get("pass", 1.0)
     if vegas_factor is not None:
         factor = vegas_factor
     else:
@@ -995,7 +1006,7 @@ def project_skill_players(team_abbr, opponent_abbr=None, vegas_factor=None):
         catch = ((b.get("rec") or 0) / (b.get("targets") or 1)) if (b.get("targets") or 0) else LEAGUE_CATCH
         catch = min(0.9, 0.85 * catch + 0.15 * LEAGUE_CATCH)
         rec = targets * catch
-        rec_yds = targets * ypt * factor
+        rec_yds = targets * ypt * factor * _wxp
         rush_yds = rush_att * ypa * factor
         td_usage = rush_att * TD_PER_CARRY + targets * TD_PER_TARGET
         td_hist = b.get("td_per_game") or td_usage
@@ -1007,6 +1018,12 @@ def project_skill_players(team_abbr, opponent_abbr=None, vegas_factor=None):
     players = []
     for r in active:
         b = r["b"]
+        # game-script: nudge this player's usage by team run/pass tendency
+        b = dict(b)
+        if b.get("targets"):
+            b["targets"] = b["targets"] * gs["pass"]
+        if b.get("rush_att"):
+            b["rush_att"] = b["rush_att"] * gs["rush"]
         base_tgt = b.get("targets") or 0.0
         base_att = b.get("rush_att") or 0.0
         boost_tgt = base_tgt + vac_tgt * (base_tgt / tot_tgt)
@@ -1140,17 +1157,94 @@ def _vegas_factors(market):
     return f(away_imp), f(home_imp)
 
 
+OWM_API_KEY = os.environ.get("OWM_API_KEY")
+
+def get_json_generic(url):
+    return _http_get_json(url)
+
+def fetch_weather(city, state, indoor):
+    """Wind (mph) + precip flag for a game. Indoor games return calm.
+    Uses OpenWeather (same key as MLB). Returns dict or None."""
+    if indoor:
+        return {"wind": 0, "precip": False, "indoor": True, "temp": 72}
+    if not (OWM_API_KEY and city):
+        return None
+    try:
+        q = f"{city},{state},US" if state else f"{city},US"
+        url = (f"https://api.openweathermap.org/data/2.5/weather"
+               f"?q={q}&units=imperial&appid={OWM_API_KEY}")
+        d = get_json_generic(url)
+        wind = (d.get("wind") or {}).get("speed", 0)
+        main = (d.get("weather") or [{}])[0].get("main", "").lower()
+        precip = main in ("rain", "snow", "thunderstorm", "drizzle")
+        temp = (d.get("main") or {}).get("temp", 60)
+        return {"wind": round(wind), "precip": precip, "indoor": False, "temp": round(temp)}
+    except Exception as e:
+        print(f"  (weather fetch failed for {city}: {e})")
+        return None
+
+
+def weather_factor(wx):
+    """Passing/kicking suppression from weather. 1.0 = no effect.
+    Wind is the big one: >15mph starts hurting the deep passing game."""
+    if not wx or wx.get("indoor"):
+        return {"pass": 1.0, "note": None}
+    wind = wx.get("wind", 0)
+    pass_mult = 1.0
+    note = None
+    if wind >= 25:
+        pass_mult, note = 0.86, f"{wind}mph wind"
+    elif wind >= 20:
+        pass_mult, note = 0.91, f"{wind}mph wind"
+    elif wind >= 15:
+        pass_mult, note = 0.95, f"{wind}mph wind"
+    if wx.get("precip"):
+        pass_mult *= 0.96
+        note = (note + " + precip") if note else "precip"
+    return {"pass": round(pass_mult, 3), "note": note}
+
+
+def _game_script(market):
+    """Spread -> per-team run/pass tendencies. Returns (away_script, home_script)
+    where each is {'rush': mult, 'pass': mult}. Favorites lean run (game-flow
+    lead -> clock-killing carries), underdogs lean pass (chasing points).
+    Dampened so it nudges rather than dominates."""
+    L = (market or {}).get("_lines") or {}
+    spread = L.get("spread")   # home spread; negative = home favored
+    if spread is None:
+        return None, None
+    # magnitude of the favorite's edge, capped
+    mag = max(-10, min(10, spread))
+    # home favored (spread<0): home runs more, away passes more
+    # scale: each point of spread ~1.2% shift, capped ~ +/-12%
+    shift = min(0.12, abs(mag) * 0.012)
+    if mag < 0:      # home favored
+        home_script = {"rush": 1 + shift, "pass": 1 - shift * 0.6}
+        away_script = {"rush": 1 - shift, "pass": 1 + shift * 0.6}
+    elif mag > 0:    # away favored
+        away_script = {"rush": 1 + shift, "pass": 1 - shift * 0.6}
+        home_script = {"rush": 1 - shift, "pass": 1 + shift * 0.6}
+    else:
+        away_script = home_script = {"rush": 1.0, "pass": 1.0}
+    return away_script, home_script
+
+
 def build_game(raw, odds_map=None):
     odds = (odds_map or {}).get((raw["away_team"], raw["home_team"]))
     model_home_win_pct = fetch_espn_predictor(raw.get("event_id"))
     market = calc_market_fields(raw["away_team"], raw["home_team"], odds, model_home_win_pct)
     away_vf, home_vf = _vegas_factors(market)
-    away_qb_proj = project_qb(raw["away_abbr"], raw["home_abbr"], vegas_factor=away_vf)
-    home_qb_proj = project_qb(raw["home_abbr"], raw["away_abbr"], vegas_factor=home_vf)
+    away_gs, home_gs = _game_script(market)
+    wx = fetch_weather(raw.get("venue_city"), raw.get("venue_state"), raw.get("indoor"))
+    wxf = weather_factor(wx)
+    away_qb_proj = project_qb(raw["away_abbr"], raw["home_abbr"], vegas_factor=away_vf, weather=wxf)
+    home_qb_proj = project_qb(raw["home_abbr"], raw["away_abbr"], vegas_factor=home_vf, weather=wxf)
     game = {
         "away_team": raw["away_team"],
         "home_team": raw["home_team"],
         "venue": raw["venue"],
+        "weather": wx,
+        "weather_note": wxf.get("note"),
         "game_time": raw["game_time"],
         "game_state": raw.get("game_state", "Preview"),
         "confirmed": True,
@@ -1161,8 +1255,8 @@ def build_game(raw, odds_map=None):
         "home_qb": home_qb_proj.get("name"),
         "away_qb_proj": away_qb_proj,
         "home_qb_proj": home_qb_proj,
-        "away_skill": project_skill_players(raw["away_abbr"], raw["home_abbr"], vegas_factor=away_vf),
-        "home_skill": project_skill_players(raw["home_abbr"], raw["away_abbr"], vegas_factor=home_vf),
+        "away_skill": project_skill_players(raw["away_abbr"], raw["home_abbr"], vegas_factor=away_vf, game_script=away_gs, weather=wxf),
+        "home_skill": project_skill_players(raw["home_abbr"], raw["away_abbr"], vegas_factor=home_vf, game_script=home_gs, weather=wxf),
         **market,
     }
     if "away_score" in raw:

@@ -171,6 +171,9 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
 .team-chip img{width:16px;height:16px;object-fit:contain;display:block}
 .read{font-size:12px;line-height:1.5;color:var(--text);background:linear-gradient(160deg,rgba(138,144,124,.10),rgba(198,242,78,.06));border:1px solid var(--line);border-radius:10px;padding:9px 12px;margin-top:4px}
 .read b{font-weight:700}
+.wx-chip{font-size:9.5px;font-weight:700;letter-spacing:.02em;color:#7FB2C4;background:#7FB2C41A;
+  border:1px solid #7FB2C444;border-radius:6px;padding:2px 7px;display:inline-flex;align-items:center;gap:3px}
+.script-chip{font-size:9.5px;font-weight:700;letter-spacing:.02em;border-radius:6px;padding:2px 7px;display:inline-block}
 .src-pill{font-size:9px;font-weight:700;letter-spacing:.05em;color:var(--muted);background:var(--card);border:1px solid var(--line);border-radius:6px;padding:2px 7px}
 .fmc{display:flex;gap:6px;margin-top:4px}
 .fmc-cell{flex:1;text-align:center;background:var(--card-2);border-radius:10px;padding:9px 4px;position:relative;overflow:hidden}
@@ -423,8 +426,9 @@ function collect(d){
     for (const [side, opp] of [['away', ab(g.home_team)],['home', ab(g.away_team)]]){
       const team = ab(g[side+'_team']);
       const q = g[side+'_qb_proj'];
-      if (q && typeof q.pass_yds === 'number') qb.push({...q, team, opp});
-      for (const s of (g[side+'_skill'] || [])) skill.push({...s, team, opp});
+      const wx = g.weather, wn = g.weather_note;
+      if (q && typeof q.pass_yds === 'number') qb.push({...q, team, opp, _wx: wx, _wx_note: wn});
+      for (const s of (g[side+'_skill'] || [])) skill.push({...s, team, opp, _wx: wx, _wx_note: wn});
     }
   }
   return {qb, skill};
@@ -472,6 +476,9 @@ function nflConfidence(p, isQB){
       f.push(['Usage', clamp01(((p.targets||0) + (p.rush_att||0)) / 20)]);
     if (p.fpts != null)     f.push(['Projected role', clamp01(p.fpts / 20)]);
     if (p.td_prob != null)  f.push(['Scoring chance', clamp01(p.td_prob / .7)]);
+    // weather certainty: bad weather lowers confidence for pass-catchers
+    if (p._wx && !p._wx.indoor && (p._wx.wind||0) >= 18 && (p.targets||0) > (p.rush_att||0))
+      f.push(['Weather risk', 0.4]);
   }
   // sample honesty: priors cap confidence lower than in-season data
   if (p.src === 'prior')       f.push(['Sample (prior yr)', 0.45]);
@@ -521,6 +528,14 @@ function nflConfidence(p, isQB){
     return `<div class="read">Carried by <b>${up}</b> ${oppNote}, tempered by <b>${dn}</b>.</div>`;
   }
 
+    function weatherChip(p){
+    if (!p._wx) return '';
+    if (p._wx.indoor) return ` <span class="wx-chip">🏟 DOME</span>`;
+    const w = p._wx.wind;
+    if (p._wx_note) return ` <span class="wx-chip">💨 ${esc(p._wx_note)}</span>`;
+    if (w != null && w >= 12) return ` <span class="wx-chip">💨 ${w}mph</span>`;
+    return '';
+  }
   function detailPanel(p){
     const isQB = cfg.pool === 'qb';
     const poolArr = isQB ? qb : skill;
@@ -570,7 +585,7 @@ function nflConfidence(p, isQB){
       ${confHeader(conf)}${confBlock(conf)}
       ${readLine(p, conf, isQB)}
       <div class="d-sec">MATCHUP</div>
-      <div class="d-match">vs ${teamChip(p.opp)}${p.matchup_grade ? gradeChip(p.matchup_grade) : ''} ${srcPill}</div>
+      <div class="d-match">vs ${teamChip(p.opp)}${p.matchup_grade ? gradeChip(p.matchup_grade) : ''}${weatherChip(p)} ${srcPill}</div>
       <div class="d-sec">PROJECTED LINE vs ${p.opp}</div>
       <div class="d-line">${cells}</div>
       <div class="d-sec">RANGE OF OUTCOMES · ${cfg.lab}</div>
