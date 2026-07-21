@@ -1,19 +1,30 @@
 name: Update model data
 
+# ── Lean deploy strategy ──────────────────────────────────────────────────
+# Netlify's free tier limits BUILD MINUTES (each commit to the repo triggers
+# one rebuild). GitHub Actions itself is free/unlimited on public repos, so
+# the model can run as often as we like -- we just avoid committing (and thus
+# rebuilding Netlify) unless the numbers meaningfully changed.
+#
+# Result: ~2-3 deploys/day in season instead of ~40. Well under the free cap.
+
 on:
   schedule:
-    # MLB: daily at 14:30 UTC (10:30 AM ET) — after lineups start posting
+    # MLB: morning slate after lineups (10:30 AM ET) + one midday top-up.
     - cron: "30 14 * * *"
-    # MLB live windows: every 30 min through game hours (1 PM ET – midnight ET)
-    # keeps Live scores/innings and prop states fresh on the board
-    - cron: "*/30 17-23 * * *"
-    - cron: "*/30 0-4 * * *"
-    # NFL: Tue/Thu/Sun at 13:00 UTC during season
-    - cron: "0 13 * * 2,4,0"
-  workflow_dispatch: {}   # manual "Run workflow" button
+    - cron: "0 22 * * *"        # 6 PM ET -- catch late lineup/pitcher changes
+    # NFL: Tue + Sun mornings in season.
+    - cron: "0 13 * * 0,2"
+    # NHL: morning skate report (11 AM ET) in season.
+    - cron: "0 15 * * *"
+  workflow_dispatch: {}          # manual "Run workflow" button, anytime
 
 permissions:
   contents: write
+
+concurrency:                     # never let two runs stack up
+  group: model-data
+  cancel-in-progress: true
 
 jobs:
   update:
@@ -24,13 +35,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+          cache: pip
 
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      # ── The boards read data/mlb_slate.json and data/nfl_slate.json ───
-      # Your scripts already produce exactly this format — just make sure
-      # they write (or the step copies) to these paths.
       - name: Run MLB model
         run: |
           python mlb_projections.py
@@ -38,7 +47,7 @@ jobs:
         env:
           SGO_API_KEY: ${{ secrets.SGO_API_KEY }}
           OWM_API_KEY: ${{ secrets.OWM_API_KEY }}
-        continue-on-error: true   # NFL step still runs if MLB slate is empty
+        continue-on-error: true
 
       - name: Run NFL model
         run: |
@@ -55,12 +64,41 @@ jobs:
         env:
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
         continue-on-error: true
-      # ──────────────────────────────────────────────────────────────────
 
-      - name: Commit updated data
+      # Only commit when content actually changed beyond the timestamp, so
+      # Netlify only rebuilds on real updates. We normalize each JSON by
+      # stripping the generated_at line before diffing against the committed
+      # copy; if everything else is identical, we skip the commit entirely.
+      - name: Commit only if data changed
         run: |
           git config user.name "slate-bot"
           git config user.email "actions@github.com"
-          git add data/*.json
-          git diff --staged --quiet || git commit -m "data: model run $(date -u +'%Y-%m-%d %H:%M UTC')"
-          git push
+
+          changed=0
+          for f in mlb nfl nhl; do
+            new="${f}_slate.json"
+            old="data/${f}_slate.json"
+            [ -f "$new" ] || continue
+            # compare ignoring the generated_at timestamp line
+            if [ -f "$old" ]; then
+              if diff -q \
+                <(grep -v '"generated_at"' "$old") \
+                <(grep -v '"generated_at"' "$new") >/dev/null 2>&1; then
+                echo "$f: no change, skipping"
+                git checkout -- "$old" 2>/dev/null || true
+                continue
+              fi
+            fi
+            cp "$new" "$old"
+            changed=1
+            echo "$f: updated"
+          done
+
+          if [ "$changed" = "1" ]; then
+            git add data/*.json
+            git commit -m "data: model update $(date -u +'%Y-%m-%d %H:%M UTC')"
+            git push
+            echo "Committed — Netlify will rebuild."
+          else
+            echo "Nothing meaningful changed — no deploy triggered."
+          fi
