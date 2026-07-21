@@ -133,12 +133,14 @@ footer b{background:linear-gradient(100deg,#C6F24E,#EAFF9E);
     </div>
   </a>
 
-  <div class="sport-card soon" style="--acc:var(--orange)">
+  <a class="sport-card" href="./nba/" style="--acc:var(--orange)">
+    <div class="arrow">→</div>
     <div class="league-logo"><img src="https://a.espncdn.com/i/teamlogos/leagues/500/nba.png" alt="NBA" loading="lazy" onerror="this.remove()"></div>
-    <div class="sport-tag">NBA · 2026-27</div>
+    <div class="sport-tag">NBA · DAILY</div>
     <div class="sport-name">Basketball</div>
-    <div class="meta-col"><span class="pill">COMING SOON</span></div>
-  </div>
+    <div class="meta-col"><span class="pill" id="nba-games">— games</span>
+      <span class="pill" id="nba-updated">syncing…</span></div>
+  </a>
 </div>
 
 <footer>Auto-updated by the model · <b>Add to Home Screen</b> to install</footer>
@@ -156,7 +158,7 @@ document.getElementById('today').textContent =
   new Date().toLocaleDateString('en-US', { weekday:'short', month:'short', day:'numeric' });
 
 function loadHub(){
-  for (const s of ['mlb','nfl','nhl']) {
+  for (const s of ['mlb','nfl','nhl','nba']) {
     fetch(`./data/${s}_slate.json?t=${Date.now()}`)
       .then(r => r.json())
       .then(d => {
