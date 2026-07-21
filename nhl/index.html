@@ -28,6 +28,12 @@ header{display:flex; align-items:center; gap:12px; padding:4px 2px 18px}
 h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
   background:linear-gradient(100deg,var(--blue),var(--yellow));
   -webkit-background-clip:text;background-clip:text;color:transparent}
+.refresh{width:32px;height:32px;border-radius:50%;background:var(--card);border:1px solid var(--line);
+  display:grid;place-items:center;cursor:pointer;flex:none;color:var(--blue);padding:0;font-size:15px;
+  transition:transform .2s;-webkit-tap-highlight-color:transparent}
+.refresh:active{transform:scale(.9)}
+.refresh.spin{animation:spin .7s linear infinite;pointer-events:none;color:var(--yellow)}
+@keyframes spin{to{transform:rotate(360deg)}}
 .updated{font-size:11.5px;font-weight:600;color:var(--yellow);background:rgba(74,222,128,.1);
   border:1px solid rgba(74,222,128,.22);padding:6px 10px;border-radius:99px;white-space:nowrap}
 .tabs{display:flex;gap:7px;margin-bottom:14px}
@@ -176,6 +182,7 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
   <a class="back" href="../">←</a>
   <h1>NHL Board</h1>
   <span class="updated" id="updated">…</span>
+  <button class="refresh" id="refresh" aria-label="Refresh data" title="Refresh">↻</button>
 </header>
 
 <div class="tabs">
@@ -448,6 +455,14 @@ async function load(){
   } catch(e){ $('updated').textContent = 'Offline'; }
 }
 load();
+const refreshBtn = document.getElementById('refresh');
+if (refreshBtn) refreshBtn.onclick = async () => {
+  refreshBtn.classList.add('spin');
+  const started = Date.now();
+  await load();
+  const wait = Math.max(0, 500 - (Date.now() - started));
+  setTimeout(() => refreshBtn.classList.remove('spin'), wait);
+};
 setInterval(load, 10*60*1000);
 document.addEventListener('visibilitychange', () => { if (!document.hidden) load(); });
 

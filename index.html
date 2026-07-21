@@ -32,6 +32,12 @@ header{display:flex; align-items:center; justify-content:space-between; padding:
 .wordmark{font-family:'Sora',sans-serif; font-weight:800; font-size:23px; letter-spacing:.5px;
   background:linear-gradient(100deg,var(--blue),var(--yellow)); -webkit-background-clip:text;
   background-clip:text; color:transparent}
+.hub-refresh{width:34px;height:34px;border-radius:50%;background:var(--card);border:1px solid var(--line);
+  display:grid;place-items:center;cursor:pointer;color:var(--blue);font-size:16px;margin-left:8px;
+  transition:transform .2s;-webkit-tap-highlight-color:transparent;padding:0}
+.hub-refresh:active{transform:scale(.9)}
+.hub-refresh.spin{animation:spin .7s linear infinite;color:var(--yellow)}
+@keyframes spin{to{transform:rotate(360deg)}}
 .date-chip{
   font-size:12px; font-weight:600; color:var(--muted); padding:7px 12px; border-radius:99px;
   background:linear-gradient(var(--card),var(--card)) padding-box,
@@ -84,7 +90,10 @@ footer b{background:linear-gradient(100deg,var(--blue),var(--yellow));
 <body>
 <header>
   <div class="wordmark">SLATE.</div>
-  <div class="date-chip" id="today"></div>
+  <div style="display:flex;align-items:center">
+    <div class="date-chip" id="today"></div>
+    <button class="hub-refresh" id="hub-refresh" aria-label="Refresh" title="Refresh">↻</button>
+  </div>
 </header>
 
 <div class="kicker">Model Boards</div>
@@ -146,17 +155,26 @@ const rel = iso => {
 document.getElementById('today').textContent =
   new Date().toLocaleDateString('en-US', { weekday:'short', month:'short', day:'numeric' });
 
-for (const s of ['mlb','nfl','nhl']) {
-  fetch(`./data/${s}_slate.json?t=${Date.now()}`)
-    .then(r => r.json())
-    .then(d => {
-      const live = (d.games || []).filter(g => g.game_state === 'Live').length;
-      document.getElementById(s+'-games').textContent =
-        (d.games?.length ?? 0) + ' games' + (live ? ` · ${live} live` : '');
-      document.getElementById(s+'-updated').textContent = rel(d.generated_at);
-    })
-    .catch(() => { document.getElementById(s+'-updated').textContent = 'no data yet'; });
+function loadHub(){
+  for (const s of ['mlb','nfl','nhl']) {
+    fetch(`./data/${s}_slate.json?t=${Date.now()}`)
+      .then(r => r.json())
+      .then(d => {
+        const live = (d.games || []).filter(g => g.game_state === 'Live').length;
+        document.getElementById(s+'-games').textContent =
+          (d.games?.length ?? 0) + ' games' + (live ? ` · ${live} live` : '');
+        document.getElementById(s+'-updated').textContent = d.generated_at ? rel(d.generated_at) : 'preseason';
+      })
+      .catch(() => { document.getElementById(s+'-updated').textContent = 'no data yet'; });
+  }
 }
+loadHub();
+const hubRefresh = document.getElementById('hub-refresh');
+if (hubRefresh) hubRefresh.onclick = () => {
+  hubRefresh.classList.add('spin');
+  loadHub();
+  setTimeout(() => hubRefresh.classList.remove('spin'), 700);
+};
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');
 </script>
 </body>
