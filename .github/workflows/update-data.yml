@@ -45,6 +45,7 @@ jobs:
           python mlb_projections.py
           cp mlb_slate.json data/mlb_slate.json
         env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
           SGO_API_KEY: ${{ secrets.SGO_API_KEY }}
           OWM_API_KEY: ${{ secrets.OWM_API_KEY }}
         continue-on-error: true
