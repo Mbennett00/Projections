@@ -367,15 +367,17 @@ function confBlock(c){
 function tagsFor(p, pool){
   const t = [];
   if (pool === 'arm') {
-    if ((p.expected_k ?? 0) >= 6.0) t.push(['K UPSIDE','#4ADE80']);
-    if ((p.expected_ip ?? 0) >= 6.0) t.push(['WORKHORSE','#6366F1']);
-    if ((p.expected_er ?? 9) <= 2.2) t.push(['STINGY','#2DD4BF']);
+    // Ace: elite projected line across K + run prevention
+    if ((p.expected_k ?? 0) >= 6.5 && (p.expected_er ?? 9) <= 2.6) t.push(['ACE','#FDE047']);
+    if ((p.expected_k ?? 0) >= 7.0) t.push(['STRIKEOUT ARTIST','#6366F1']);
   } else {
-    if ((p.hr_prob ?? 0) >= .08) t.push(['POWER','#4ADE80']);
-    if ((p.offense_quality ?? 0) >= 78 || (p.xwoba ?? 0) >= .360) t.push(['ELITE BAT','#A78BFA']);
-    if ((p.k_rate ?? 1) <= .17) t.push(['CONTACT','#2DD4BF']);
-    if ((p.bb_rate ?? 0) >= .12) t.push(['GOOD EYE','#6366F1']);
-    if ((p.pa ?? 0) >= 4.55) t.push(['TOP OF ORDER','#FF8FA3']);
+    if ((p.hr_prob ?? 0) >= .07) t.push(['HOME RUN THREAT','#F87171']);
+    if ((p.xwoba ?? 0) >= .380) t.push(['BARREL KING','#FDE047']);
+    if ((p.offense_quality ?? 0) >= 75) t.push(['HARD HIT','#FB923C']);
+    if ((p.k_rate ?? 1) <= .15) t.push(['CONTACT HITTER','#2DD4BF']);
+    if ((p.order ?? 9) === 4) t.push(['CLEANUP HITTER','#A78BFA']);
+    // Speedster: high hit-rate table-setter proxy (top of order + contact)
+    if ((p.order ?? 9) <= 2 && (p.hit_rate ?? 0) >= .26) t.push(['SPEEDSTER','#4ADE80']);
   }
   return t.slice(0,3).map(([n,c]) =>
     `<span class="tag" style="color:${c};background:${c}1C;border:1px solid ${c}44">${n}</span>`).join('');

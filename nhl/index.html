@@ -247,10 +247,15 @@ function nhlConfidence(p){
 
 function tagsFor(p){
   const t = [];
-  if ((p.xg_pg ?? 0) >= .42) t.push(['GOAL THREAT','#4ADE80']);
-  if ((p.shots_pg ?? 0) >= 3.4) t.push(['VOLUME','#6366F1']);
-  if ((p.pts_pg ?? 0) >= 1.0) t.push(['POINT MACHINE','#A78BFA']);
-  if ((p.toi ?? 0) >= 21) t.push(['BIG MINUTES','#2DD4BF']);
+  const pos = (p.pos || '').toUpperCase();
+  const isD = pos === 'D';
+  if ((p.xg_pg ?? 0) >= .40) t.push(['GOAL SCORER','#4ADE80']);
+  if ((p.xg_pg ?? 0) >= .30 && (p.shots_pg ?? 0) >= 3.4) t.push(['SNIPER','#FDE047']);
+  if ((p.pts_pg ?? 0) >= 1.0) t.push(['PLAYMAKER','#A78BFA']);
+  if ((p.toi ?? 0) >= 20) t.push(['TOP LINE','#6366F1']);
+  if (isD && (p.toi ?? 0) >= 22) t.push(['SHUTDOWN D','#38BDF8']);
+  // PP1 proxy: high points relative to a scoring role signals top powerplay unit
+  if (!isD && (p.pts_pg ?? 0) >= 0.85 && (p.toi ?? 0) >= 18) t.push(['PP1','#FB923C']);
   return t.slice(0,3).map(([n,c]) =>
     `<span class="tag" style="color:${c};background:${c}1C;border:1px solid ${c}44">${n}</span>`).join('');
 }
@@ -316,7 +321,7 @@ function gameCard(g){
       <div class="stat st"><div class="v">${total.toFixed(1)}</div><div class="l">PROJ TOTAL</div></div>
       <div class="stat sy"><div class="v ${g.target_score>=70?'hot':''}">${g.target_score ?? '–'}</div><div class="l">TARGET</div></div>
     </div>
-    ${g.away_goalie ? `<div class="goalies"><b>${esc(g.away_goalie)}</b> vs <b>${esc(g.home_goalie ?? 'TBD')}</b>${g.line_source==='vegas' ? ' · market-anchored' : ''}</div>` : ''}
+    ${g.away_goalie ? `<div class="goalies"><span class="tag" style="color:#38BDF8;background:#38BDF81C;border:1px solid #38BDF844">STARTING G</span> <b>${esc(g.away_goalie)}</b> vs <b>${esc(g.home_goalie ?? 'TBD')}</b>${g.line_source==='vegas' ? ' · market-anchored' : ''}</div>` : ''}
   </div>`;
 }
 

@@ -278,15 +278,19 @@ const avatar = (name, team, id, cls='p-avatar') => {
 function nflTags(p, pool){
   const t = [];
   if (pool === 'qb') {
-    if ((p.pass_yds ?? 0) >= 250) t.push(['VOLUME','#6366F1']);
+    if ((p.pass_yds ?? 0) >= 250) t.push(['GUNSLINGER','#6366F1']);
     if ((p.pass_td ?? 0) >= 1.8) t.push(['TD UPSIDE','#4ADE80']);
     if ((p.rating ?? 0) >= 92) t.push(['EFFICIENT','#2DD4BF']);
-    if ((p.int ?? 9) <= 0.7) t.push(['PROTECTS IT','#A78BFA']);
   } else {
+    const pos = (p.pos || '').toUpperCase();
+    if ((p.rush_att ?? 0) >= 15) t.push(['BELLCOW','#FB923C']);
     if ((p.targets ?? 0) >= 8) t.push(['TARGET HOG','#6366F1']);
-    if ((p.rush_att ?? 0) >= 15) t.push(['BELLCOW','#FF8FA3']);
-    if ((p.td_prob ?? 0) >= .5) t.push(['TD MAGNET','#4ADE80']);
-    if ((p.fpts ?? 0) >= 15) t.push(['FPTS STUD','#2DD4BF']);
+    if ((p.fpts ?? 0) >= 15) t.push(['FANTASY STUD','#FDE047']);
+    if ((p.td_prob ?? 0) >= .5) t.push(['RED ZONE THREAT','#F87171']);
+    if (pos === 'RB' && (p.td_prob ?? 0) >= .55) t.push(['GOAL LINE BACK','#EF4444']);
+    if (pos === 'RB' && (p.targets ?? 0) >= 5 && (p.rush_att ?? 0) >= 10) t.push(['DUAL THREAT','#2DD4BF']);
+    if ((pos === 'WR' || pos === 'TE') && (p.targets ?? 0) >= 1 && ((p.rec_yds ?? 0) / Math.max(1, p.rec ?? 1)) >= 14) t.push(['DEEP THREAT','#A78BFA']);
+    if (pos === 'WR' && (p.targets ?? 0) >= 9) t.push(['WR1','#4ADE80']);
   }
   return t.slice(0,3).map(([n,c]) =>
     `<span class="tag" style="color:${c};background:${c}1C;border:1px solid ${c}44">${n}</span>`).join('');
