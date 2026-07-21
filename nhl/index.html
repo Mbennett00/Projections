@@ -278,8 +278,7 @@ function tagsFor(p){
   if ((p.pts_pg ?? 0) >= 1.0) t.push(['PLAYMAKER','#A78BFA']);
   if ((p.toi ?? 0) >= 20) t.push(['TOP LINE','#8A907C']);
   if (isD && (p.toi ?? 0) >= 22) t.push(['SHUTDOWN D','#38BDF8']);
-  // PP1 proxy: high points relative to a scoring role signals top powerplay unit
-  if (!isD && (p.pts_pg ?? 0) >= 0.85 && (p.toi ?? 0) >= 18) t.push(['PP1','#FB923C']);
+  if (p.pp1) t.push(['PP1','#FB923C']);   // real: from MoneyPuck PP time-on-ice
   return t.slice(0,3).map(([n,c]) =>
     `<span class="tag" style="color:${c};background:${c}1C;border:1px solid ${c}44">${n}</span>`).join('');
 }
@@ -319,6 +318,12 @@ const STATS = {
   'Shots':  {v:p=>p.shots_pg, fmt:v=>v.toFixed(1), sub:p=>`${(p.xg_pg??0).toFixed(2)} xG · ${(p.goal_prob*100).toFixed(0)}% goal`}
 };
 
+function goalieChip(gc){
+  if (!gc || !gc.grade) return '';
+  const bw = gc.brick_wall ? ` <span class="tag" style="color:#C6F24E;background:#C6F24E1C;border:1px solid #C6F24E55">🧱 BRICK WALL</span>` : '';
+  const col = gc.grade[0]==='A' ? '#C6F24E' : gc.grade[0]==='B' ? '#9FD13E' : gc.grade[0]==='C' ? '#C9B85B' : '#9A7A6A';
+  return `<span class="grade" style="color:${col};border-color:${col}55;background:${col}18">G ${gc.grade}</span>${bw}`;
+}
 function stateBadge(g){
   if (g.game_state === 'Live') return `<span class="state live">LIVE</span>`;
   if (g.game_state === 'Final') return `<span class="state final">FINAL</span>`;
@@ -353,7 +358,7 @@ function gameCard(g){
       <div class="stat st"><div class="v">${total.toFixed(1)}</div><div class="l">PROJ TOTAL</div></div>
       <div class="stat sy"><div class="v ${g.target_score>=70?'hot':''}">${g.target_score ?? '–'}</div><div class="l">TARGET</div></div>
     </div>
-    ${g.away_goalie ? `<div class="goalies"><span class="tag" style="color:#38BDF8;background:#38BDF81C;border:1px solid #38BDF844">STARTING G</span> <b>${esc(g.away_goalie)}</b> vs <b>${esc(g.home_goalie ?? 'TBD')}</b>${g.line_source==='vegas' ? ' · market-anchored' : ''}</div>` : ''}
+    ${g.away_goalie ? `<div class="goalies">${goalieChip(g.away_goalie_card)} <b>${esc(g.away_goalie)}</b> vs <b>${esc(g.home_goalie ?? 'TBD')}</b> ${goalieChip(g.home_goalie_card)}${g.line_source==='vegas' ? ' · mkt' : ''}</div>` : ''}
   </div>`;
 }
 

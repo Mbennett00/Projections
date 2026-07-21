@@ -100,6 +100,44 @@ def mp_skaters(season):
     return df.set_index("player_id")
 
 
+def mp_goalies(season):
+    """Goalie quality: goals saved above expected per 60. The single biggest
+    driver of a game's scoring environment. Higher GSAx = tougher to score on."""
+    df = get_csv(f"{MP_BASE}/{season}/regular/goalies.csv")
+    if df is None:
+        return None
+    df = df[df["situation"] == "all"].copy()
+    keep = {"playerId": "player_id", "name": "name", "team": "team",
+            "games_played": "gp", "icetime": "icetime",
+            "xGoals": "xg_against", "goals": "goals_against"}
+    have = {k: v for k, v in keep.items() if k in df.columns}
+    df = df[list(have)].rename(columns=have)
+    # GSAx = expected goals against - actual goals against (positive = good)
+    if "xg_against" in df.columns and "goals_against" in df.columns:
+        mins = (df.get("icetime", 0) / 60.0).clip(lower=1)
+        df["gsax_60"] = (df["xg_against"] - df["goals_against"]) / mins * 60.0
+        df["sv_quality"] = df["xg_against"] / df["goals_against"].clip(lower=1)
+    return df.set_index("player_id") if "player_id" in df.columns else None
+
+
+def mp_skaters_pp(season):
+    """Power-play production: identifies PP1 usage via PP time-on-ice and
+    PP xG. Big chunk of goal-scoring happens on the man advantage."""
+    df = get_csv(f"{MP_BASE}/{season}/regular/skaters.csv")
+    if df is None:
+        return None
+    df = df[df["situation"] == "5on4"].copy()   # power-play situation
+    keep = {"playerId": "player_id", "games_played": "gp", "icetime": "pp_icetime",
+            "I_F_xGoals": "pp_xg", "I_F_goals": "pp_goals"}
+    have = {k: v for k, v in keep.items() if k in df.columns}
+    df = df[list(have)].rename(columns=have)
+    for col in ("pp_xg", "pp_goals", "pp_icetime"):
+        if col in df.columns:
+            df[col + "_pg"] = df[col] / df["gp"].clip(lower=1)
+    df["pp_toi_pg"] = df.get("pp_icetime_pg", 0) / 60.0
+    return df.set_index("player_id")
+
+
 def mp_teams(season):
     df = get_csv(f"{MP_BASE}/{season}/regular/teams.csv")
     if df is None:
@@ -146,8 +184,40 @@ class Talent:
         self.sk_pri = mp_skaters(PRIOR_SEASON)
         self.tm_cur = mp_teams(CUR_SEASON)
         self.tm_pri = mp_teams(PRIOR_SEASON)
+        self.g_cur = mp_goalies(CUR_SEASON)
+        self.g_pri = mp_goalies(PRIOR_SEASON)
+        self.pp_cur = mp_skaters_pp(CUR_SEASON)
+        self.pp_pri = mp_skaters_pp(PRIOR_SEASON)
         if self.sk_cur is None and self.sk_pri is None:
             print("  WARNING: no MoneyPuck skater data at all -- goal probs will be thin.")
+        if self.g_cur is not None or self.g_pri is not None:
+            print("  goalie quality loaded")
+        if self.pp_cur is not None or self.pp_pri is not None:
+            print("  power-play units loaded")
+
+    def goalie_by_name(self, name):
+        """Find a goalie's quality by name (NHL API gives name, MP keys by id)."""
+        for tbl in (self.g_cur, self.g_pri):
+            if tbl is None or "name" not in tbl.columns:
+                continue
+            m = tbl[tbl["name"].str.lower() == (name or "").lower()]
+            if not m.empty:
+                row = m.iloc[0]
+                return {"gsax_60": float(row.get("gsax_60", 0) or 0),
+                        "sv_quality": float(row.get("sv_quality", 1) or 1),
+                        "src": "current" if tbl is self.g_cur else "prior"}
+        return None
+
+    def pp(self, player_id):
+        cur = self.pp_cur.loc[player_id].to_dict() if (
+            self.pp_cur is not None and player_id in self.pp_cur.index) else None
+        pri = self.pp_pri.loc[player_id].to_dict() if (
+            self.pp_pri is not None and player_id in self.pp_pri.index) else None
+        if cur is None and pri is None:
+            return None
+        gp = (cur or {}).get("gp", 0) or 0
+        return {"pp_toi": _blend((cur or {}).get("pp_toi_pg"), (pri or {}).get("pp_toi_pg"), gp) or 0,
+                "pp_xg": _blend((cur or {}).get("pp_xg_pg"), (pri or {}).get("pp_xg_pg"), gp) or 0}
 
     def skater(self, player_id):
         cur = self.sk_cur.loc[player_id].to_dict() if (
@@ -371,9 +441,22 @@ def _def_grade(opp_xga):
     return "F"
 
 
-def project_skaters(talent, abbr, factor, opp_xga=None):
+def goalie_factor(gsax_60):
+    """Opposing goalie quality -> scoring multiplier. A goalie saving +0.5
+    goals/60 above expected suppresses scoring; a leaky one inflates it.
+    Dampened so an elite goalie is ~-12%, a weak one ~+10%."""
+    if gsax_60 is None:
+        return 1.0
+    # gsax_60 typically ranges roughly -1.0 (bad) to +1.0 (elite)
+    return round(max(0.82, min(1.12, 1 - gsax_60 * 0.14)), 3)
+
+
+def project_skaters(talent, abbr, factor, opp_xga=None, opp_goalie_name=None):
     skaters, goalies = fetch_roster(abbr)
     grade = _def_grade(opp_xga)
+    # opposing goalie quality scales every skater's goal probability
+    gq = talent.goalie_by_name(opp_goalie_name) if opp_goalie_name else None
+    gfac = goalie_factor(gq["gsax_60"]) if gq else 1.0
     pool = []
     for pid, name, pos in skaters:
         t = talent.skater(pid)
@@ -395,9 +478,12 @@ def project_skaters(talent, abbr, factor, opp_xga=None):
         t = r["t"]
         base_xg = (t.get("xg_pg") or 0) * factor
         share = (t.get("xg_pg") or 0) / tot_xg
-        boost_xg = base_xg + vac_xg * share * factor
+        boost_xg = (base_xg + vac_xg * share * factor) * gfac   # goalie-adjusted
         goal_prob = min(0.75, 1 - math.exp(-max(0.0, boost_xg)))
         base_prob = min(0.75, 1 - math.exp(-max(0.0, base_xg)))
+        # power-play unit: real PP1 detection from MoneyPuck PP time-on-ice
+        ppd = talent.pp(r["pid"])
+        pp1 = bool(ppd and (ppd.get("pp_toi") or 0) >= 2.2)   # ~2.2+ PP min/game = top unit
         p = {
             "name": r["name"], "player_id": r["pid"], "pos": r["pos"],
             "toi": round(t.get("toi_pg") or 0, 1),
@@ -405,6 +491,8 @@ def project_skaters(talent, abbr, factor, opp_xga=None):
             "xg_pg": round(boost_xg, 3),
             "goal_prob": round(goal_prob, 3),
             "pts_pg": round((t.get("points_pg") or 0) * factor, 2),
+            "pp1": pp1,
+            "pp_xg": round((ppd or {}).get("pp_xg", 0), 3) if ppd else 0,
             "matchup_grade": grade,
             "src": t["src"],
         }
@@ -436,8 +524,28 @@ def build_game(talent, raw, odds_map):
     ta_def, th_def = talent.team(away), talent.team(home)
     away_xga = (th_def or {}).get("xga_pg")   # away skaters face home defense
     home_xga = (ta_def or {}).get("xga_pg")
-    away_skaters, away_goalie = project_skaters(talent, away, fa, away_xga)
-    home_skaters, home_goalie = project_skaters(talent, home, fh, home_xga)
+
+    # resolve probable goalies first so each side's skaters are graded against
+    # the ACTUAL netminder they'll face
+    away_g_list = fetch_roster(away)[1]
+    home_g_list = fetch_roster(home)[1]
+    away_goalie = away_g_list[0][1] if away_g_list else None
+    home_goalie = home_g_list[0][1] if home_g_list else None
+
+    # away skaters face the HOME goalie; home skaters face the AWAY goalie
+    away_skaters, _ = project_skaters(talent, away, fa, away_xga, opp_goalie_name=home_goalie)
+    home_skaters, _ = project_skaters(talent, home, fh, home_xga, opp_goalie_name=away_goalie)
+
+    # goalie quality + Brick Wall grade for display
+    def goalie_card(name):
+        gq = talent.goalie_by_name(name) if name else None
+        if not gq:
+            return {"name": name, "grade": None, "gsax": None}
+        gsax = gq["gsax_60"]
+        scale = [(0.6,"A+"),(0.35,"A"),(0.15,"B+"),(0.0,"B"),(-0.2,"C+"),(-0.4,"C"),(-0.7,"D"),(-99,"F")]
+        grade = next(g for thr,g in scale if gsax >= thr)
+        return {"name": name, "grade": grade, "gsax": round(gsax, 2),
+                "brick_wall": gsax >= 0.35}
 
     game = {
         "away_team": raw["away_name"], "home_team": raw["home_name"],
@@ -450,6 +558,8 @@ def build_game(talent, raw, odds_map):
         "tier": tier, "target_score": max(0, min(100, target)),
         "line_source": source,
         "away_goalie": away_goalie, "home_goalie": home_goalie,
+        "away_goalie_card": goalie_card(away_goalie),
+        "home_goalie_card": goalie_card(home_goalie),
         "away_skaters": away_skaters, "home_skaters": home_skaters,
     }
     if raw.get("away_score") is not None:

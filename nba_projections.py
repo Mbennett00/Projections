@@ -340,7 +340,7 @@ def match_odds(odds_map, away_name, home_name):
 
 
 # ── projections ───────────────────────────────────────────────────────────
-def project_team(talent_players, pace_factor, b2b=False):
+def project_team(talent_players, pace_factor, b2b=False, blowout=0.0):
     """Roster projections with injury-redistribution, pace, usage, B2B fatigue.
 
     - OUT/doubtful players are removed; their minutes AND production
@@ -376,6 +376,10 @@ def project_team(talent_players, pace_factor, b2b=False):
         share = base_min / tot_active_min
         # redistribute up to 85% of vacated minutes, capped so nobody exceeds 42
         boost_min = min(42, base_min + vac_min * share * 0.85)
+        # blowout risk: in likely blowouts, high-minute starters sit late.
+        # blowout is 0..1; caps a 34-min starter toward ~30 at full blowout.
+        if blowout > 0 and boost_min >= 30:
+            boost_min *= (1 - blowout * 0.12 * ((boost_min - 30) / 12 + 0.5))
         min_scale = (boost_min / base_min) if base_min else 1.0
 
         def proj(stat):
@@ -468,8 +472,12 @@ def build_game(raw, odds_map, yesterday=None):
     yset = yesterday or set()
     away_b2b = raw["away_abbr"] in yset 
     home_b2b = raw["home_abbr"] in yset 
-    away_players = project_team(away_talent, away_f, b2b=away_b2b)
-    home_players = project_team(home_talent, home_f, b2b=home_b2b)
+    # blowout risk from spread magnitude: 12+ point spread = high garbage-time risk
+    blowout = 0.0
+    if spread is not None:
+        blowout = max(0.0, min(1.0, (abs(spread) - 8) / 12))   # ramps 8->20 pts
+    away_players = project_team(away_talent, away_f, b2b=away_b2b, blowout=blowout)
+    home_players = project_team(home_talent, home_f, b2b=home_b2b, blowout=blowout)
 
     # defense grades (each side graded vs the opponent's points allowed)
     away_def = fetch_def_rating(raw["away_id"], CUR_SEASON) or fetch_def_rating(raw["away_id"], PRIOR_SEASON)
@@ -495,7 +503,7 @@ def build_game(raw, odds_map, yesterday=None):
         "game_state": raw.get("game_state", "Preview"),
         "away_win_pct": round(1 - home_win, 3), "home_win_pct": round(home_win, 3),
         "total": total, "spread": spread,
-        "tier": tier, "line_source": source,
+        "tier": tier, "line_source": source, "blowout_risk": round(blowout, 2),
         "away_players": away_players, "home_players": home_players,
     }
     if raw.get("away_score") is not None:

@@ -326,6 +326,7 @@ function stateBadge(g){
   return `<span class="state preview">${esc(gameTime(g.game_time))}</span>`;
 }
 
+const blowoutChip = g => (g.blowout_risk ?? 0) >= 0.5 ? `<span class="tag" style="color:#9A7A6A;background:#9A7A6A1C;border:1px solid #9A7A6A44">⚠ BLOWOUT RISK</span>` : '';
 function gameCard(g){
   const done = g.game_state === 'Final' || g.game_state === 'Live';
   const aFav = g.away_win_pct >= g.home_win_pct;
@@ -345,7 +346,7 @@ function gameCard(g){
     <div class="g-accent" style="background:linear-gradient(90deg,${cA},${cH})"></div>
     <div class="g-top">
       <span>${teamChip(g.away_abbr)} @ ${teamChip(g.home_abbr)} · ${esc(g.venue ?? '')}</span>
-      <span class="g-badges">${stateBadge(g)}${tierHtml}</span>
+      <span class="g-badges">${stateBadge(g)}${blowoutChip(g)}${tierHtml}</span>
     </div>
     ${rows}
     ${done ? '' : `<div class="prob-track"><div class="prob-away" style="width:${(g.away_win_pct??.5)*100}%;background:${cA}"></div><div class="prob-home" style="background:${cH}"></div></div>`}
