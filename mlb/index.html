@@ -77,6 +77,7 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
   border:1px solid transparent}
 .g-accent{position:absolute;top:0;left:0;right:0;height:3px}
 .g-top{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted);font-weight:600;margin-bottom:11px}
+.g-top .team-chip img{width:15px;height:15px}
 .g-badges{display:inline-flex;align-items:center;gap:6px;flex:none}
 .state{font-size:10px;font-weight:700;letter-spacing:.05em;padding:4px 8px;border-radius:7px;
   display:inline-flex;align-items:center;line-height:1.2}
@@ -173,9 +174,22 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
 .news.up{color:var(--yellow)}
 .news.dn{color:#FF8FA3}
 .d-sec{font-size:10.5px;font-weight:700;letter-spacing:.08em;color:var(--muted);margin:10px 0 7px}
-.d-match{font-size:12.5px;color:var(--text);background:var(--card-2);border-radius:9px;padding:8px 11px}
+.d-match{font-size:12.5px;color:var(--text);background:var(--card-2);border-radius:9px;padding:8px 11px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.team-chip{display:inline-flex;align-items:center;gap:4px;vertical-align:middle}
+.team-chip img{width:16px;height:16px;object-fit:contain;display:block}
+.read{font-size:12px;line-height:1.5;color:var(--text);background:linear-gradient(160deg,rgba(99,102,241,.10),rgba(74,222,128,.06));border:1px solid var(--line);border-radius:10px;padding:9px 12px;margin-top:4px}
+.read b{font-weight:700}
+.src-pill{font-size:9px;font-weight:700;letter-spacing:.05em;color:var(--muted);background:var(--card);border:1px solid var(--line);border-radius:6px;padding:2px 7px}
+.fmc{display:flex;gap:6px;margin-top:4px}
+.fmc-cell{flex:1;text-align:center;background:var(--card-2);border-radius:10px;padding:9px 4px}
+.fmc-cell .v{font-family:'Sora',sans-serif;font-weight:800;font-size:16px;font-variant-numeric:tabular-nums}
+.fmc-cell .l{font-size:8.5px;color:var(--muted);font-weight:700;margin-top:2px;letter-spacing:.06em}
+.fmc-cell.mid{background:linear-gradient(180deg,rgba(74,222,128,.14),var(--card-2) 70%)}
+.fmc-cell.mid .v{background:linear-gradient(100deg,var(--yellow),#22C55E);-webkit-background-clip:text;background-clip:text;color:transparent}
 .d-line{display:flex;gap:5px;flex-wrap:wrap}
-.d-cell{flex:1;min-width:42px;background:var(--card-2);border-radius:9px;padding:7px 3px;text-align:center}
+.d-cell{flex:1;min-width:42px;background:var(--card-2);border-radius:9px;padding:7px 3px;text-align:center;border-bottom:2px solid transparent}
+.d-cell.hot{border-bottom-color:#4ADE80;background:linear-gradient(180deg,rgba(74,222,128,.12),var(--card-2) 70%)}
+.d-cell.warm{border-bottom-color:#6366F1;background:linear-gradient(180deg,rgba(99,102,241,.10),var(--card-2) 70%)}
 .d-cell .v{font-family:'Sora',sans-serif;font-weight:700;font-size:12.5px;font-variant-numeric:tabular-nums}
 .d-cell .l{font-size:8.5px;color:var(--muted);font-weight:700;margin-top:2px;letter-spacing:.03em}
 .rankchips{display:flex;gap:6px;flex-wrap:wrap}
@@ -216,6 +230,7 @@ const TEAMID = {"ARI":109,"ATH":133,"ATL":144,"BAL":110,"BOS":111,"CHC":112,"CWS
 const TC = {ARI:'#D53A4C',ATH:'#EFB21E',ATL:'#CE1141',BAL:'#DF4601',BOS:'#BD3039',CHC:'#3E7CD6',CWS:'#C4CED4',CIN:'#E0142E',CLE:'#E31937',COL:'#8A63D2',DET:'#FA4616',HOU:'#EB6E1F',KC:'#3E8EDE',LAA:'#D01432',LAD:'#2F7DE1',MIA:'#00A3E0',MIL:'#FFC52F',MIN:'#4F9FE0',NYM:'#FF5910',NYY:'#8A9BC4',PHI:'#E81828',PIT:'#FDB827',SD:'#FFC425',SF:'#FD5A1E',SEA:'#2FBDB3',STL:'#D02543',TB:'#8FBCE6',TEX:'#D01A28',TOR:'#3D7EDB',WSH:'#D22B33'};
 const tc = a => TC[a] || '#6366F1';
 const abSpan = a => `<b style="color:${tc(a)}">${a}</b>`;
+const teamChip = a => `<span class="team-chip">${logo(a) ? `<img src="${logo(a)}" alt="" loading="lazy" onerror="this.style.display='none'">` : ''}<b style="color:${tc(a)}">${a}</b></span>`;
 const logo = a => TEAMID[a] ? `https://www.mlbstatic.com/team-logos/${TEAMID[a]}.svg` : '';
 const mug = id => `https://img.mlbstatic.com/mlb-photos/image/upload/w_120,q_auto:best/v1/people/${id}/headshot/67/current`;
 const initials = n => (n||'').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
@@ -293,7 +308,7 @@ function gameCard(g){
   return `<div class="game">
     <div class="g-accent" style="background:linear-gradient(90deg,${cA},${cH})"></div>
     <div class="g-top">
-      <span>${abSpan(ab(g.away_team))} @ ${abSpan(ab(g.home_team))} · ${esc(g.venue ?? '')}</span>
+      <span>${teamChip(ab(g.away_team))} @ ${teamChip(ab(g.home_team))} · ${esc(g.venue ?? '')}</span>
       <span class="g-badges">${stateBadge(g)}${tierPill(g, hasModel, aFav)}</span>
     </div>
     ${rows}${prob}${stats}${pitch}</div>`;
@@ -403,6 +418,14 @@ const BUCKETS = {
 };
 let openSim = null;
 const SIMCACHE = {};
+function simDrawsPois(key, lambda){
+  if (SIMCACHE['d'+key]) return SIMCACHE['d'+key];
+  const N = 10000, draws = new Array(N);
+  for (let i = 0; i < N; i++) draws[i] = pois(lambda);
+  draws.sort((a,b)=>a-b);
+  return SIMCACHE['d'+key] = draws;
+}
+const pctileArr = (draws, q) => draws[Math.min(draws.length-1, Math.floor(q*draws.length))];
 function runSim(stat, lambda){
   const key = stat + ':' + lambda.toFixed(3);
   if (SIMCACHE[key]) return SIMCACHE[key];
@@ -462,13 +485,34 @@ function renderPlays(d){
     return arrowLine(p['prev_'+f], p[f], 2);
   }
 
+  function tileClass(statKey, val, poolArr){
+    if (val == null) return '';
+    const vals = poolArr.map(x => x[statKey]).filter(v => typeof v === 'number').sort((a,b)=>a-b);
+    if (vals.length < 4) return '';
+    const rank = vals.filter(v => v <= val).length / vals.length;
+    return rank >= 0.85 ? 'hot' : rank >= 0.6 ? 'warm' : '';
+  }
+  function readLine(p, conf){
+    if (!conf) return '';
+    const sorted = [...conf.factors].sort((a,b)=>b[1]-a[1]);
+    const hi = sorted[0], lo = sorted[sorted.length-1];
+    const phr = { 'Sample size':'a strong sample','Bat quality':'elite bat quality','Consistency':'consistent contact quality',
+      'Contact (low K)':'excellent bat-to-ball','Lineup spot':'a premium lineup spot','Bat quality':'elite bat quality',
+      'Strikeout floor':'a high strikeout floor','Matchup quality':'a favorable matchup','Health':'an injury flag' };
+    const up = phr[hi[0]] || hi[0].toLowerCase();
+    const dn = phr[lo[0]] || lo[0].toLowerCase();
+    return `<div class="read">Powered by <b>${up}</b> vs ${p.opp}, held back by <b>${dn}</b>.</div>`;
+  }
+
   function detailPanel(p){
     const isArm = cfg.pool === 'arm';
-    const cells = (isArm
-      ? [['K', p.expected_k, 1], ['IP', p.expected_ip, 1], ['ER', p.expected_er, 1]]
-      : [['H', p.expected_hits, 2], ['R', p.expected_runs, 2], ['RBI', p.expected_rbi, 2],
-         ['HR', p.expected_hr, 2], ['TB', p.expected_tb, 2], ['BB', p.expected_bb, 2], ['K', p.expected_k, 2]])
-      .map(([l, v, dp]) => `<div class="d-cell"><div class="v">${(v ?? 0).toFixed(dp)}</div><div class="l">${l}</div></div>`).join('');
+    const poolArr = isArm ? arm : bat;
+    const cellDefs = (isArm
+      ? [['K','expected_k',1], ['IP','expected_ip',1], ['ER','expected_er',1]]
+      : [['H','expected_hits',2], ['R','expected_runs',2], ['RBI','expected_rbi',2],
+         ['HR','expected_hr',2], ['TB','expected_tb',2], ['BB','expected_bb',2], ['K','expected_k',2]]);
+    const cells = cellDefs.map(([l,k,dp]) =>
+      `<div class="d-cell ${tileClass(k, p[k], poolArr)}"><div class="v">${(p[k] ?? 0).toFixed(dp)}</div><div class="l">${l}</div></div>`).join('');
     const key = p.name + '|' + p.matchup;
     const rankChips = Object.entries(STATS)
       .filter(([, c]) => c.pool === cfg.pool)
@@ -477,22 +521,34 @@ function renderPlays(d){
         return r ? `<span class="rk ${m === statFilter ? 'on' : (r <= 3 ? 'top' : '')}">${m} #${r}</span>` : '';
       }).join('');
     const r = RANKS[statFilter].map.get(key) ?? 1, n = RANKS[statFilter].n || 1;
-    const pctl = Math.round((1 - (r - 1) / n) * 100);
-    const simRows = runSim(statFilter, Math.max(.01, cfg.v(p))).map(([lab, pr]) =>
+
+    // range of outcomes from Poisson draws on the active stat's projection
+    const lambda = Math.max(.01, cfg.v(p));
+    const draws = simDrawsPois(statFilter + key, lambda);
+    const floor = pctileArr(draws, 0.25), med = pctileArr(draws, 0.50), ceil = pctileArr(draws, 0.90);
+    const simRows = runSim(statFilter, lambda).map(([lab, pr]) =>
       `<div class="sim-row"><span class="sim-lab">${lab}</span>
         <div class="sim-bar"><div class="sim-fill" style="width:${(pr*100).toFixed(1)}%"></div></div>
         <span class="sim-pct">${(pr*100).toFixed(1)}%</span></div>`).join('');
     const conf = mlbConfidence(p, isArm);
+    const srcPill = `<span class="src-pill">${p.opp_pitcher ? esc(p.opp_pitcher) : 'SP TBD'}</span>`;
     return `<div class="sim">
       ${conf ? `<div class="conf"><div class="conf-ring" style="--v:${conf.score};--c:${confColor(conf.score)}"><span class="conf-num">${conf.score}</span></div><div class="conf-meta"><div class="conf-label">CONFIDENCE</div><div class="conf-word" style="color:${confColor(conf.score)}">${confWord(conf.score)} · ${conf.score}/100</div></div></div>` : ''}
       ${confBlock(conf)}
+      ${readLine(p, conf)}
       <div class="d-sec">MATCHUP</div>
-      <div class="d-match">vs ${abSpan(p.opp)}${p.opp_pitcher ? ` · ${esc(p.opp_pitcher)}` : ''}${p.venue ? ` · ${esc(p.venue)}` : ''}</div>
-      <div class="d-sec">PROJECTED LINE VS ${p.opp}</div>
+      <div class="d-match">vs ${teamChip(p.opp)} ${srcPill}${p.venue ? `<span class="src-pill">${esc(p.venue)}</span>` : ''}</div>
+      <div class="d-sec">PROJECTED LINE vs ${p.opp}</div>
       <div class="d-line">${cells}</div>
+      <div class="d-sec">RANGE OF OUTCOMES · ${statFilter}</div>
+      <div class="fmc">
+        <div class="fmc-cell"><div class="v">${floor}</div><div class="l">FLOOR</div></div>
+        <div class="fmc-cell mid"><div class="v">${med}</div><div class="l">MEDIAN</div></div>
+        <div class="fmc-cell"><div class="v">${ceil}</div><div class="l">CEILING</div></div>
+      </div>
       <div class="d-sec">SLATE RANKS</div>
       <div class="rankchips">${rankChips}</div>
-      <div class="pctile"><div class="pctile-fill" style="width:${pctl}%"></div></div>
+      <div class="pctile"><div class="pctile-fill" style="width:${Math.round((1-(r-1)/n)*100)}%"></div></div>
       <div class="pctile-lab"><span>#${r} of ${n} in ${statFilter}</span><span>top ${Math.max(1, Math.round(r / n * 100))}%</span></div>
       <div class="sim-head" style="margin-top:12px"><span>MONTE CARLO · ${statFilter.toUpperCase()}</span><b>10,000 SIMS</b></div>${simRows}
     </div>`;

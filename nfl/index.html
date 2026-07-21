@@ -95,6 +95,7 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
   border:1px solid transparent}
 .g-accent{position:absolute;top:0;left:0;right:0;height:3px}
 .g-top{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted);font-weight:600;margin-bottom:11px}
+.g-top .team-chip img{width:15px;height:15px}
 .g-badges{display:inline-flex;align-items:center;gap:6px;flex:none}
 .state{font-size:10px;font-weight:700;letter-spacing:.05em;padding:4px 8px;border-radius:7px;
   display:inline-flex;align-items:center;line-height:1.2}
@@ -163,9 +164,27 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
 .news.up{color:var(--yellow)}
 .news.dn{color:#FF8FA3}
 .d-sec{font-size:10.5px;font-weight:700;letter-spacing:.08em;color:var(--muted);margin:10px 0 7px}
-.d-match{font-size:12.5px;color:var(--text);background:var(--card-2);border-radius:9px;padding:8px 11px}
+.d-match{font-size:12.5px;color:var(--text);background:var(--card-2);border-radius:9px;padding:8px 11px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.team-chip{display:inline-flex;align-items:center;gap:4px;vertical-align:middle}
+.team-chip img{width:16px;height:16px;object-fit:contain;display:block}
+.read{font-size:12px;line-height:1.5;color:var(--text);background:linear-gradient(160deg,rgba(99,102,241,.10),rgba(74,222,128,.06));border:1px solid var(--line);border-radius:10px;padding:9px 12px;margin-top:4px}
+.read b{font-weight:700}
+.src-pill{font-size:9px;font-weight:700;letter-spacing:.05em;color:var(--muted);background:var(--card);border:1px solid var(--line);border-radius:6px;padding:2px 7px}
+.fmc{display:flex;gap:6px;margin-top:4px}
+.fmc-cell{flex:1;text-align:center;background:var(--card-2);border-radius:10px;padding:9px 4px;position:relative;overflow:hidden}
+.fmc-cell .v{font-family:'Sora',sans-serif;font-weight:800;font-size:16px;font-variant-numeric:tabular-nums}
+.fmc-cell .l{font-size:8.5px;color:var(--muted);font-weight:700;margin-top:2px;letter-spacing:.06em}
+.fmc-cell.mid{background:linear-gradient(180deg,rgba(74,222,128,.14),var(--card-2) 70%)}
+.fmc-cell.mid .v{background:linear-gradient(100deg,var(--yellow),#22C55E);-webkit-background-clip:text;background-clip:text;color:transparent}
+.dist{margin-top:4px;height:52px;position:relative;background:var(--card-2);border-radius:10px;overflow:hidden;padding:6px 4px 0}
+.dist svg{width:100%;height:100%;display:block;overflow:visible}
+.dist-proj{position:absolute;top:4px;bottom:14px;width:2px;background:var(--yellow);border-radius:2px}
+.dist-proj::after{content:attr(data-v);position:absolute;top:-2px;left:4px;font-size:8.5px;font-weight:700;color:var(--yellow);white-space:nowrap}
+.dist-x{position:absolute;bottom:2px;left:0;right:0;display:flex;justify-content:space-between;font-size:7.5px;color:var(--muted);padding:0 4px}
 .d-line{display:flex;gap:5px;flex-wrap:wrap}
-.d-cell{flex:1;min-width:42px;background:var(--card-2);border-radius:9px;padding:7px 3px;text-align:center}
+.d-cell{flex:1;min-width:42px;background:var(--card-2);border-radius:9px;padding:7px 3px;text-align:center;border-bottom:2px solid transparent}
+.d-cell.hot{border-bottom-color:#4ADE80;background:linear-gradient(180deg,rgba(74,222,128,.12),var(--card-2) 70%)}
+.d-cell.warm{border-bottom-color:#6366F1;background:linear-gradient(180deg,rgba(99,102,241,.10),var(--card-2) 70%)}
 .d-cell .v{font-family:'Sora',sans-serif;font-weight:700;font-size:12.5px;font-variant-numeric:tabular-nums}
 .d-cell .l{font-size:8.5px;color:var(--muted);font-weight:700;margin-top:2px;letter-spacing:.03em}
 .rankchips{display:flex;gap:6px;flex-wrap:wrap}
@@ -204,6 +223,8 @@ const ab = n => ABBR[n] || (n||'').split(' ').map(w=>w[0]).join('').slice(0,3).t
 const TC = {ARI:'#B0325B',ATL:'#C8283C',BAL:'#7A5FD0',BUF:'#3B6EDC',CAR:'#0085CA',CHI:'#E05A2B',CIN:'#FB4F14',CLE:'#FF3C00',DAL:'#4A7CD6',DEN:'#FB4F14',DET:'#0076B6',GB:'#57A05C',HOU:'#C42B45',IND:'#3F76D2',JAX:'#12A5BC',KC:'#E31837',LV:'#B8C4CA',LAC:'#0080C6',LAR:'#3F6FE0',MIA:'#00A5A0',MIN:'#8A63D2',NE:'#C8102E',NO:'#D3BC8D',NYG:'#4A6FD6',NYJ:'#1FA37A',PHI:'#1FA394',PIT:'#FFB612',SF:'#C42B2B',SEA:'#69BE28',TB:'#D50A0A',TEN:'#4B92DB',WSH:'#B04545'};
 const tc = a => TC[a] || '#6366F1';
 const abSpan = a => `<b style="color:${tc(a)}">${a}</b>`;
+// opponent chip: tiny logo + coloured abbr, used everywhere a matchup shows
+const teamChip = a => `<span class="team-chip"><img src="${logo(a)}" alt="" loading="lazy" onerror="this.style.display='none'"><b style="color:${tc(a)}">${a}</b></span>`;
 const logo = a => `https://a.espncdn.com/i/teamlogos/nfl/500/${(a||'').toLowerCase()}.png`;
 const badge = a => `<span class="t-abbr" data-ab="${a}" style="color:${tc(a)};background:${tc(a)}1E;border:1px solid ${tc(a)}55"><img src="${logo(a)}" alt="" loading="lazy" onerror="this.remove()"></span>`;
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -247,7 +268,7 @@ function gameCard(g){
   return `<div class="game">
     <div class="g-accent" style="background:linear-gradient(90deg,${cA},${cH})"></div>
     <div class="g-top">
-      <span>${abSpan(ab(g.away_team))} @ ${abSpan(ab(g.home_team))}</span>
+      <span>${teamChip(ab(g.away_team))} @ ${teamChip(ab(g.home_team))}</span>
       <span class="g-badges">${stateBadge(g)}${tierHtml}</span>
     </div>
     ${rows}
@@ -309,35 +330,62 @@ const gauss = (m, s) => { let u=0,v=0; while(!u)u=Math.random(); while(!v)v=Math
 const pois = l => { const L=Math.exp(-l); let k=0,p=1; do{k++;p*=Math.random()}while(p>L); return k-1; };
 let openSim = null, marketFilter = 'Pass Yds';
 const SIMCACHE = {};
-function bucketSim(key, sampler, buckets){
+function simDraws(key, sampler){
   if (SIMCACHE[key]) return SIMCACHE[key];
-  const N = 10000, counts = new Array(buckets.length).fill(0);
-  for (let i = 0; i < N; i++){
-    const v = sampler();
-    for (let b = 0; b < buckets.length; b++) if (buckets[b][1](v)) { counts[b]++; break; }
-  }
-  return SIMCACHE[key] = buckets.map(([lab], i) => [lab, counts[i] / N]);
+  const N = 10000, draws = new Array(N);
+  for (let i = 0; i < N; i++) draws[i] = Math.max(0, sampler());
+  draws.sort((a,b) => a - b);
+  return SIMCACHE[key] = draws;
+}
+const pctile = (draws, q) => draws[Math.min(draws.length-1, Math.floor(q * draws.length))];
+function bucketize(draws, buckets){
+  const counts = new Array(buckets.length).fill(0);
+  for (const v of draws) for (let b = 0; b < buckets.length; b++) if (buckets[b][1](v)) { counts[b]++; break; }
+  return buckets.map(([lab], i) => [lab, counts[i] / draws.length]);
+}
+// smooth histogram (20 bins) as an SVG area path, with the projection marker
+function distSVG(draws, proj){
+  const lo = draws[0], hi = pctile(draws, 0.98), span = Math.max(1, hi - lo);
+  const BINS = 20, bins = new Array(BINS).fill(0);
+  for (const v of draws) { if (v > hi) { bins[BINS-1]++; continue; }
+    bins[Math.min(BINS-1, Math.floor((v - lo) / span * BINS))]++; }
+  const max = Math.max(...bins);
+  const pts = bins.map((c,i) => `${(i/(BINS-1)*100).toFixed(1)},${(38 - c/max*36).toFixed(1)}`);
+  const area = `M0,38 L${pts.join(' L')} L100,38 Z`;
+  const projX = Math.max(0, Math.min(100, (proj - lo) / span * 100));
+  return {area, projX, lo: Math.round(lo), hi: Math.round(hi)};
+}
+// Gamma-shaped yardage: tighter, right-skewed, variance scales with sqrt not linear.
+// This centers the distribution on the projection so median ≈ projection.
+function ydSampler(mean){
+  // negative-binomial-ish via gamma(shape,scale): CV ~ 0.42 for realistic spread
+  const cv = 0.42, shape = 1/(cv*cv), scale = mean/shape;
+  let s = 0; for (let i=0;i<shape;i++) s += -Math.log(Math.random());
+  // fractional shape remainder
+  const frac = shape - Math.floor(shape);
+  if (frac > 0) s += -Math.log(Math.random()) * frac;
+  return s * scale;
 }
 const YD_BUCKETS = [['<40',v=>v<40],['40-69',v=>v<70],['70-99',v=>v<100],['100+',v=>v>=100]];
 const MARKETS = {
-  'Pass Yds': {pool:'qb', v:p=>p.pass_yds, fmt:v=>v.toFixed(0)+' yds',
+  'Pass Yds': {pool:'qb', v:p=>p.pass_yds, fmt:v=>v.toFixed(0)+' yds', unit:'yds',
     sub:p=>`${(p.pass_td??0).toFixed(1)} TD · ${(p.int??0).toFixed(1)} INT · ${(p.rating??0).toFixed(0)} rate`,
-    sim:p=>bucketSim('py'+p.name+p.pass_yds, ()=>gauss(p.pass_yds, p.pass_yds*.21),
-      [['<200',v=>v<200],['200-249',v=>v<250],['250-299',v=>v<300],['300+',v=>v>=300]]), lab:'PASS YDS'},
-  'Rush Yds': {pool:'skill', v:p=>p.rush_yds, min:p=>(p.rush_yds??0)>=10, fmt:v=>v.toFixed(0)+' yds',
+    draws:p=>simDraws('py'+p.name+p.pass_yds, ()=>gauss(p.pass_yds, p.pass_yds*.16)),
+    buckets:[['<200',v=>v<200],['200-249',v=>v<250],['250-299',v=>v<300],['300+',v=>v>=300]], lab:'PASS YDS'},
+  'Rush Yds': {pool:'skill', v:p=>p.rush_yds, min:p=>(p.rush_yds??0)>=10, fmt:v=>v.toFixed(0)+' yds', unit:'yds',
     sub:p=>`${p.pos??''} · ${(p.rush_att??0).toFixed(0)} att · ${((p.td_prob??0)*100).toFixed(0)}% TD`,
-    sim:p=>bucketSim('ru'+p.name+p.rush_yds, ()=>gauss(p.rush_yds, Math.max(12, p.rush_yds*.4)), YD_BUCKETS), lab:'RUSH YDS'},
-  'Rec Yds': {pool:'skill', v:p=>p.rec_yds, min:p=>(p.rec_yds??0)>=10, fmt:v=>v.toFixed(0)+' yds',
+    draws:p=>simDraws('ru'+p.name+p.rush_yds, ()=>ydSampler(Math.max(1,p.rush_yds))), buckets:YD_BUCKETS, lab:'RUSH YDS'},
+  'Rec Yds': {pool:'skill', v:p=>p.rec_yds, min:p=>(p.rec_yds??0)>=10, fmt:v=>v.toFixed(0)+' yds', unit:'yds',
     sub:p=>`${p.pos??''} · ${(p.rec??0).toFixed(1)} rec · ${(p.targets??0).toFixed(1)} tgt`,
-    sim:p=>bucketSim('re'+p.name+p.rec_yds, ()=>gauss(p.rec_yds, Math.max(12, p.rec_yds*.4)), YD_BUCKETS), lab:'REC YDS'},
-  'Receptions': {pool:'skill', v:p=>p.rec, min:p=>(p.rec??0)>=1, fmt:v=>v.toFixed(1),
+    draws:p=>simDraws('re'+p.name+p.rec_yds, ()=>ydSampler(Math.max(1,p.rec_yds))), buckets:YD_BUCKETS, lab:'REC YDS'},
+  'Receptions': {pool:'skill', v:p=>p.rec, min:p=>(p.rec??0)>=1, fmt:v=>v.toFixed(1), unit:'rec',
     sub:p=>`${p.pos??''} · ${(p.targets??0).toFixed(1)} tgt · ${(p.rec_yds??0).toFixed(0)} yds`,
-    sim:p=>bucketSim('rc'+p.name+p.rec, ()=>pois(p.rec),
-      [['0-2',v=>v<=2],['3-4',v=>v<=4],['5-6',v=>v<=6],['7+',v=>v>=7]]), lab:'RECEPTIONS'},
-  'TD': {pool:'skill', v:p=>p.td_prob, min:p=>(p.td_prob??0)>=.1, fmt:v=>(v*100).toFixed(0)+'%',
+    draws:p=>simDraws('rc'+p.name+p.rec, ()=>pois(p.rec)),
+    buckets:[['0-2',v=>v<=2],['3-4',v=>v<=4],['5-6',v=>v<=6],['7+',v=>v>=7]], lab:'RECEPTIONS'},
+  'TD': {pool:'skill', v:p=>p.td_prob, min:p=>(p.td_prob??0)>=.1, fmt:v=>(v*100).toFixed(0)+'%', unit:'',
     sub:p=>`${p.pos??''} · anytime TD · ${(p.fpts??0).toFixed(1)} fpts`,
-    sim:p=>bucketSim('td'+p.name+p.td_prob, ()=>Math.random()<p.td_prob?1:0,
-      [['TD ✓',v=>v===1],['No TD',v=>v===0]]), lab:'ANYTIME TD'}
+    draws:p=>simDraws('td'+p.name+p.td_prob, ()=>Math.random()<p.td_prob?1:0),
+    buckets:[['TD ✓',v=>v===1],['No TD',v=>v===0]], lab:'ANYTIME TD'}
 };
 
 function collect(d){
@@ -422,13 +470,41 @@ function nflConfidence(p, isQB){
     return '';
   }
 
+  // percentile of a stat value within the slate pool (for tile tinting)
+  function tileClass(statKey, val, poolArr){
+    if (val == null) return '';
+    const vals = poolArr.map(x => x[statKey]).filter(v => typeof v === 'number').sort((a,b)=>a-b);
+    if (vals.length < 4) return '';
+    const rank = vals.filter(v => v <= val).length / vals.length;
+    return rank >= 0.85 ? 'hot' : rank >= 0.6 ? 'warm' : '';
+  }
+  // one-line plain-English read synthesized from the factor bars
+  function readLine(p, conf, isQB){
+    if (!conf) return '';
+    const sorted = [...conf.factors].sort((a,b)=>b[1]-a[1]);
+    const hi = sorted[0], lo = sorted[sorted.length-1];
+    const phr = { 'Usage':'heavy usage','Projected role':'a featured role','Scoring chance':'strong TD equity',
+      'Volume':'big passing volume','Efficiency':'sharp efficiency','Accuracy':'accurate passing',
+      'Sample (prior yr)':'limited current-season data','Sample (blended)':'a solid data blend',
+      'Sample (current)':'a full current-season sample','Health':'an injury flag' };
+    const up = phr[hi[0]] || hi[0].toLowerCase();
+    const dn = phr[lo[0]] || lo[0].toLowerCase();
+    const oppNote = 'vs ' + p.opp;
+    return `<div class="read">Carried by <b>${up}</b> ${oppNote}, tempered by <b>${dn}</b>.</div>`;
+  }
+
   function detailPanel(p){
     const isQB = cfg.pool === 'qb';
-    const cells = (isQB
-      ? [['CMP%', p.comp_pct, 1], ['YDS', p.pass_yds, 0], ['TD', p.pass_td, 1], ['INT', p.int, 1], ['RATE', p.rating, 0]]
-      : [['TGT', p.targets, 1], ['REC', p.rec, 1], ['RC YD', p.rec_yds, 0], ['ATT', p.rush_att, 1],
-         ['RU YD', p.rush_yds, 0], ['TD%', (p.td_prob ?? 0) * 100, 0], ['FPTS', p.fpts, 1]])
-      .map(([l, v, dp]) => `<div class="d-cell"><div class="v">${(v ?? 0).toFixed(dp)}</div><div class="l">${l}</div></div>`).join('');
+    const poolArr = isQB ? qb : skill;
+    const cellDefs = (isQB
+      ? [['CMP%','comp_pct',1], ['YDS','pass_yds',0], ['TD','pass_td',1], ['INT','int',1], ['RATE','rating',0]]
+      : [['TGT','targets',1], ['REC','rec',1], ['RC YD','rec_yds',0], ['ATT','rush_att',1],
+         ['RU YD','rush_yds',0], ['TD%','td_prob',0], ['FPTS','fpts',1]]);
+    const cells = cellDefs.map(([l,k,dp]) => {
+      let v = p[k]; if (k === 'td_prob') v = (v ?? 0) * 100;
+      const cls = tileClass(k, p[k], poolArr);
+      return `<div class="d-cell ${cls}"><div class="v">${(v ?? 0).toFixed(dp)}</div><div class="l">${l}</div></div>`;
+    }).join('');
     const key = p.name + '|' + p.team;
     const rankChips = Object.entries(MARKETS)
       .filter(([, c]) => c.pool === cfg.pool)
@@ -437,21 +513,48 @@ function nflConfidence(p, isQB){
         return r ? `<span class="rk ${m === marketFilter ? 'on' : (r <= 3 ? 'top' : '')}">${m} #${r}</span>` : '';
       }).join('');
     const r = RANKS[marketFilter].map.get(key) ?? 1, n = RANKS[marketFilter].n || 1;
-    const pctl = Math.round((1 - (r - 1) / n) * 100);
-    const simRows = cfg.sim(p).map(([lab, pr]) =>
+
+    // sims: draws -> floor/median/ceiling, distribution, buckets
+    const draws = cfg.draws(p);
+    const proj = cfg.v(p);
+    const floor = pctile(draws, 0.25), med = pctile(draws, 0.50), ceil = pctile(draws, 0.90);
+    const fmtN = cfg.unit === '' ? (x=>Math.round(x*100)+'%') : (x=>Math.round(x));
+    const showDist = cfg.unit === 'yds';
+    let distHtml = '';
+    if (showDist){
+      const d = distSVG(draws, proj);
+      distHtml = `<div class="dist">
+        <svg viewBox="0 0 100 38" preserveAspectRatio="none">
+          <defs><linearGradient id="dg" x1="0" x2="1"><stop offset="0" stop-color="#6366F1"/><stop offset="1" stop-color="#4ADE80"/></linearGradient></defs>
+          <path d="${d.area}" fill="url(#dg)" opacity="0.55"/>
+        </svg>
+        <div class="dist-proj" style="left:${d.projX}%" data-v="${fmtN(proj)}"></div>
+        <div class="dist-x"><span>${d.lo}</span><span>${d.hi}</span></div>
+      </div>`;
+    }
+    const simRows = bucketize(draws, cfg.buckets).map(([lab, pr]) =>
       `<div class="sim-row"><span class="sim-lab">${lab}</span>
         <div class="sim-bar"><div class="sim-fill" style="width:${(pr*100).toFixed(1)}%"></div></div>
         <span class="sim-pct">${(pr*100).toFixed(1)}%</span></div>`).join('');
     const conf = nflConfidence(p, isQB);
+    const srcPill = p.src ? `<span class="src-pill">${p.src === 'prior' ? 'PRIOR-YR DATA' : p.src === 'blend' ? 'BLENDED DATA' : 'CURRENT SEASON'}</span>` : '';
     return `<div class="sim">
       ${confHeader(conf)}${confBlock(conf)}
+      ${readLine(p, conf, isQB)}
       <div class="d-sec">MATCHUP</div>
-      <div class="d-match">vs ${abSpan(p.opp)}${p.src ? ` · projection source: ${p.src}` : ''}</div>
-      <div class="d-sec">PROJECTED LINE VS ${p.opp}</div>
+      <div class="d-match">vs ${teamChip(p.opp)} ${srcPill}</div>
+      <div class="d-sec">PROJECTED LINE vs ${p.opp}</div>
       <div class="d-line">${cells}</div>
+      <div class="d-sec">RANGE OF OUTCOMES · ${cfg.lab}</div>
+      <div class="fmc">
+        <div class="fmc-cell"><div class="v">${fmtN(floor)}</div><div class="l">FLOOR</div></div>
+        <div class="fmc-cell mid"><div class="v">${fmtN(med)}</div><div class="l">MEDIAN</div></div>
+        <div class="fmc-cell"><div class="v">${fmtN(ceil)}</div><div class="l">CEILING</div></div>
+      </div>
+      ${distHtml}
       <div class="d-sec">SLATE RANKS</div>
       <div class="rankchips">${rankChips}</div>
-      <div class="pctile"><div class="pctile-fill" style="width:${pctl}%"></div></div>
+      <div class="pctile"><div class="pctile-fill" style="width:${Math.round((1-(r-1)/n)*100)}%"></div></div>
       <div class="pctile-lab"><span>#${r} of ${n} in ${marketFilter}</span><span>top ${Math.max(1, Math.round(r / n * 100))}%</span></div>
       <div class="sim-head" style="margin-top:12px"><span>MONTE CARLO · ${cfg.lab}</span><b>10,000 SIMS</b></div>${simRows}
     </div>`;
