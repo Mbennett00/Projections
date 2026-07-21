@@ -149,6 +149,20 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
 .p-odds{font-size:11px;color:var(--muted);margin-top:4px;font-variant-numeric:tabular-nums}
 .more{width:100%;text-align:center;font-size:13.5px;font-weight:600;color:var(--blue);
   background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;cursor:pointer;font-family:inherit}
+.conf{display:flex;align-items:center;gap:11px;margin:4px 0 2px}
+.conf-ring{--v:0;--c:var(--yellow);width:44px;height:44px;border-radius:50%;flex:none;position:relative;
+  background:conic-gradient(var(--c) calc(var(--v)*1%), var(--card-2) 0);display:grid;place-items:center}
+.conf-ring::before{content:'';position:absolute;inset:4px;border-radius:50%;background:var(--card)}
+.conf-num{position:relative;font-family:'Sora',sans-serif;font-weight:800;font-size:14px;font-variant-numeric:tabular-nums}
+.conf-meta{min-width:0}
+.conf-label{font-size:9.5px;font-weight:700;letter-spacing:.09em;color:var(--muted)}
+.conf-word{font-family:'Sora',sans-serif;font-weight:700;font-size:13px}
+.factors{margin-top:4px}
+.factor{display:flex;align-items:center;gap:8px;margin-bottom:5px;font-size:11px}
+.factor-l{width:96px;flex:none;color:var(--muted);font-weight:600}
+.factor-bar{flex:1;height:7px;border-radius:4px;background:var(--card-2);overflow:hidden}
+.factor-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--blue),var(--yellow))}
+.factor-v{width:30px;flex:none;text-align:right;font-weight:700;font-variant-numeric:tabular-nums;color:var(--text)}
 .news{font-size:10.5px;font-weight:700;margin-top:4px;line-height:1.4}
 .news.up{color:var(--yellow)}
 .news.dn{color:#FF8FA3}
@@ -315,6 +329,41 @@ const STATS = {
 };
 
 // ---- player tags derived from model inputs ----
+// ── Confidence scoring: only factors the model genuinely measures ──
+const clamp01 = x => Math.max(0, Math.min(1, x));
+const confWord = s => s >= 85 ? 'Elite' : s >= 72 ? 'Strong' : s >= 58 ? 'Solid' : s >= 44 ? 'Moderate' : 'Volatile';
+const confColor = s => s >= 72 ? 'var(--yellow)' : s >= 55 ? 'var(--blue)' : '#FB923C';
+
+function mlbConfidence(p, isArm){
+  const f = [];
+  if (isArm){
+    // pitchers: sample via IP proj, matchup via opp implied, consistency via K rate stability
+    if (p.expected_ip != null) f.push(['Sample size', clamp01((p.expected_ip - 3.5) / 3.0)]);
+    if (p.expected_k != null)  f.push(['Strikeout floor', clamp01((p.expected_k - 3) / 6)]);
+    if (p.expected_er != null) f.push(['Matchup quality', clamp01(1 - (p.expected_er - 1.5) / 4)]);
+  } else {
+    if (p.pa != null)              f.push(['Sample size', clamp01((p.pa - 3.2) / 1.6)]);
+    if (p.offense_quality != null) f.push(['Bat quality', clamp01(p.offense_quality / 100)]);
+    if (p.xwoba != null)           f.push(['Consistency', clamp01((p.xwoba - .280) / .120)]);
+    if (p.k_rate != null)          f.push(['Contact (low K)', clamp01(1 - (p.k_rate - .12) / .22)]);
+    if (p.order != null)           f.push(['Lineup spot', clamp01(1 - (p.order - 1) / 8)]);
+  }
+  if (p.status === 'Q') f.push(['Health', 0.45]);
+  if (!f.length) return null;
+  const score = Math.round(f.reduce((s,[,v]) => s + v, 0) / f.length * 100);
+  return {score, factors: f};
+}
+
+function confBlock(c){
+  if (!c) return '';
+  const bars = c.factors.map(([l,v]) =>
+    `<div class="factor"><span class="factor-l">${l}</span>
+      <div class="factor-bar"><div class="factor-fill" style="width:${(v*100).toFixed(0)}%"></div></div>
+      <span class="factor-v">${Math.round(v*100)}</span></div>`).join('');
+  return `<div class="d-sec">CONFIDENCE · ${c.factors.length} factors</div>
+    <div class="factors">${bars}</div>`;
+}
+
 function tagsFor(p, pool){
   const t = [];
   if (pool === 'arm') {
@@ -424,7 +473,10 @@ function renderPlays(d){
       `<div class="sim-row"><span class="sim-lab">${lab}</span>
         <div class="sim-bar"><div class="sim-fill" style="width:${(pr*100).toFixed(1)}%"></div></div>
         <span class="sim-pct">${(pr*100).toFixed(1)}%</span></div>`).join('');
+    const conf = mlbConfidence(p, isArm);
     return `<div class="sim">
+      ${conf ? `<div class="conf"><div class="conf-ring" style="--v:${conf.score};--c:${confColor(conf.score)}"><span class="conf-num">${conf.score}</span></div><div class="conf-meta"><div class="conf-label">CONFIDENCE</div><div class="conf-word" style="color:${confColor(conf.score)}">${confWord(conf.score)} · ${conf.score}/100</div></div></div>` : ''}
+      ${confBlock(conf)}
       <div class="d-sec">MATCHUP</div>
       <div class="d-match">vs ${abSpan(p.opp)}${p.opp_pitcher ? ` · ${esc(p.opp_pitcher)}` : ''}${p.venue ? ` · ${esc(p.venue)}` : ''}</div>
       <div class="d-sec">PROJECTED LINE VS ${p.opp}</div>
@@ -453,8 +505,8 @@ function renderPlays(d){
       </div>
       <div class="p-edge">
         <div class="edge-val">${cfg.fmt(cfg.v(p))}</div>
-        <div class="p-odds">${cfg.sub(p)}</div>
-        <div class="sim-hint">${open ? '▾ CLOSE' : '▸ MATCHUP + SIM'}</div>
+        ${(() => { const c = mlbConfidence(p, cfg.pool === 'arm'); return c ? `<div class="conf" style="justify-content:flex-end"><div class="conf-ring" style="--v:${c.score};--c:${confColor(c.score)}"><span class="conf-num">${c.score}</span></div></div>` : ''; })()}
+        <div class="sim-hint">${open ? '▾ CLOSE' : '▸ DETAILS'}</div>
       </div>
       ${open ? detailPanel(p) : ''}
     </div>`;

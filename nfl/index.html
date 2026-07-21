@@ -139,6 +139,20 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
 .edge-bar{width:60px;height:5px;border-radius:99px;background:var(--card-2);margin-top:5px;overflow:hidden;margin-left:auto}
 .edge-fill{height:100%;background:var(--yellow);border-radius:99px}
 .p-odds{font-size:11px;color:var(--muted);margin-top:4px;font-variant-numeric:tabular-nums}
+.conf{display:flex;align-items:center;gap:11px;margin:4px 0 2px}
+.conf-ring{--v:0;--c:var(--yellow);width:44px;height:44px;border-radius:50%;flex:none;position:relative;
+  background:conic-gradient(var(--c) calc(var(--v)*1%), var(--card-2) 0);display:grid;place-items:center}
+.conf-ring::before{content:'';position:absolute;inset:4px;border-radius:50%;background:var(--card)}
+.conf-num{position:relative;font-family:'Sora',sans-serif;font-weight:800;font-size:14px;font-variant-numeric:tabular-nums}
+.conf-meta{min-width:0}
+.conf-label{font-size:9.5px;font-weight:700;letter-spacing:.09em;color:var(--muted)}
+.conf-word{font-family:'Sora',sans-serif;font-weight:700;font-size:13px}
+.factors{margin-top:4px}
+.factor{display:flex;align-items:center;gap:8px;margin-bottom:5px;font-size:11px}
+.factor-l{width:104px;flex:none;color:var(--muted);font-weight:600}
+.factor-bar{flex:1;height:7px;border-radius:4px;background:var(--card-2);overflow:hidden}
+.factor-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--blue),var(--yellow))}
+.factor-v{width:30px;flex:none;text-align:right;font-weight:700;font-variant-numeric:tabular-nums;color:var(--text)}
 .news{font-size:10.5px;font-weight:700;margin-top:4px;line-height:1.4}
 .news.up{color:var(--yellow)}
 .news.dn{color:#FF8FA3}
@@ -346,6 +360,43 @@ function renderPlays(d){
     RANKS[m] = {map: mp, n: pl.length};
   }
 
+  const clamp01 = x => Math.max(0, Math.min(1, x));
+const confWord = s => s >= 85 ? 'Elite' : s >= 72 ? 'Strong' : s >= 58 ? 'Solid' : s >= 44 ? 'Moderate' : 'Volatile';
+const confColor = s => s >= 72 ? 'var(--yellow)' : s >= 55 ? 'var(--blue)' : '#FB923C';
+function confBlock(c){
+  if (!c) return '';
+  const bars = c.factors.map(([l,v]) =>
+    `<div class="factor"><span class="factor-l">${l}</span>
+      <div class="factor-bar"><div class="factor-fill" style="width:${(v*100).toFixed(0)}%"></div></div>
+      <span class="factor-v">${Math.round(v*100)}</span></div>`).join('');
+  return `<div class="d-sec">CONFIDENCE · ${c.factors.length} factors</div><div class="factors">${bars}</div>`;
+}
+const confRing = c => c ? `<div class="conf" style="justify-content:flex-end"><div class="conf-ring" style="--v:${c.score};--c:${confColor(c.score)}"><span class="conf-num">${c.score}</span></div></div>` : '';
+const confHeader = c => c ? `<div class="conf"><div class="conf-ring" style="--v:${c.score};--c:${confColor(c.score)}"><span class="conf-num">${c.score}</span></div><div class="conf-meta"><div class="conf-label">CONFIDENCE</div><div class="conf-word" style="color:${confColor(c.score)}">${confWord(c.score)} · ${c.score}/100</div></div></div>` : '';
+function nflConfidence(p, isQB){
+  // NFL preseason runs on priors -- score only what's real, lower ceiling honestly
+  const f = [];
+  if (isQB){
+    if (p.pass_yds != null) f.push(['Volume', clamp01((p.pass_yds - 150) / 130)]);
+    if (p.rating != null)   f.push(['Efficiency', clamp01((p.rating - 70) / 40)]);
+    if (p.comp_pct != null) f.push(['Accuracy', clamp01((p.comp_pct - 55) / 20)]);
+  } else {
+    if (p.targets != null || p.rush_att != null)
+      f.push(['Usage', clamp01(((p.targets||0) + (p.rush_att||0)) / 20)]);
+    if (p.fpts != null)     f.push(['Projected role', clamp01(p.fpts / 20)]);
+    if (p.td_prob != null)  f.push(['Scoring chance', clamp01(p.td_prob / .7)]);
+  }
+  // sample honesty: priors cap confidence lower than in-season data
+  if (p.src === 'prior')       f.push(['Sample (prior yr)', 0.45]);
+  else if (p.src === 'blend')  f.push(['Sample (blended)', 0.75]);
+  else if (p.src === 'current')f.push(['Sample (current)', 0.92]);
+  if (p.status === 'Q') f.push(['Health', 0.45]);
+  else if (p.status === 'D') f.push(['Health', 0.25]);
+  if (!f.length) return null;
+  const score = Math.round(f.reduce((s,[,v]) => s + v, 0) / f.length * 100);
+  return {score, factors: f};
+}
+
   const statusTag = p => {
     if (p.status === 'Q') return `<span class="tag" style="color:#FBBF24;background:#FBBF241C;border:1px solid #FBBF2444">QUESTIONABLE</span>`;
     if (p.status === 'D') return `<span class="tag" style="color:#FB923C;background:#FB923C1C;border:1px solid #FB923C44">DOUBTFUL</span>`;
@@ -380,7 +431,9 @@ function renderPlays(d){
       `<div class="sim-row"><span class="sim-lab">${lab}</span>
         <div class="sim-bar"><div class="sim-fill" style="width:${(pr*100).toFixed(1)}%"></div></div>
         <span class="sim-pct">${(pr*100).toFixed(1)}%</span></div>`).join('');
+    const conf = nflConfidence(p, isQB);
     return `<div class="sim">
+      ${confHeader(conf)}${confBlock(conf)}
       <div class="d-sec">MATCHUP</div>
       <div class="d-match">vs ${abSpan(p.opp)}${p.src ? ` · projection source: ${p.src}` : ''}</div>
       <div class="d-sec">PROJECTED LINE VS ${p.opp}</div>
@@ -408,8 +461,8 @@ function renderPlays(d){
       </div>
       <div class="p-edge">
         <div class="edge-val">${cfg.fmt(cfg.v(p))}</div>
-        <div class="p-odds">${cfg.sub(p)}</div>
-        <div class="sim-hint">${open ? '▾ CLOSE' : '▸ MATCHUP + SIM'}</div>
+        ${confRing(nflConfidence(p, cfg.pool === 'qb'))}
+        <div class="sim-hint">${open ? '▾ CLOSE' : '▸ DETAILS'}</div>
       </div>
       ${open ? detailPanel(p) : ''}
     </div>`;
