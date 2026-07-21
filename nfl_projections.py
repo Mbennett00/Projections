@@ -631,6 +631,82 @@ def fetch_standings_pts_against(season=None):
     return by_team
 
 
+# ── DEFENSE-VS-POSITION (DvP) ──────────────────────────────────────────────
+# Pulls per-team yards allowed to each position (QB/RB/WR/TE) from ESPN's
+# team stat splits. Produces a per-position matchup grade: A+ = this defense
+# is generous to that position (great spot), F = shuts it down.
+# Falls back to prior season in the offseason. Team-level factor stays as a
+# secondary signal; DvP is the position-specific layer on top.
+_dvp_cache = {}
+
+def fetch_dvp(season=None):
+    """Returns {team_abbr: {'QB': ypg, 'RB': ypg, 'WR': ypg, 'TE': ypg}}
+    of yards allowed per game to each position. Empty on failure."""
+    season = season or _season_year()
+    if season in _dvp_cache:
+        return _dvp_cache[season]
+    out = {}
+    try:
+        # ESPN opponent stats: passing yards allowed proxies QB/WR/TE,
+        # rushing yards allowed proxies RB. We split passing into WR/TE via
+        # league-average target share since ESPN doesn't break it out cleanly.
+        url = (f"https://site.api.espn.com/apis/site/v2/sports/football/nfl/"
+               f"statistics/byteam?season={season}&seasontype=2")
+        data = _http_get_json(url)
+
+        teams = (data.get("teams") or
+                 data.get("stats", {}).get("teams") or [])
+        for t in teams:
+            team = (t.get("team", {}) or {}).get("abbreviation")
+            if not team:
+                continue
+            cats = {}
+            for cat in t.get("categories", t.get("stats", [])):
+                for s in cat.get("stats", cat.get("splits", [])):
+                    nm = (s.get("name") or s.get("abbreviation") or "").lower()
+                    val = s.get("perGameValue") or s.get("value")
+                    if val is not None:
+                        cats[nm] = float(val)
+            pass_ypg = cats.get("passingyardsallowed") or cats.get("passingyards")
+            rush_ypg = cats.get("rushingyardsallowed") or cats.get("rushingyards")
+            if pass_ypg or rush_ypg:
+                out[team] = {
+                    "QB": pass_ypg or 220,
+                    "WR": (pass_ypg or 220) * 0.62,   # ~62% of pass yards to WRs
+                    "TE": (pass_ypg or 220) * 0.20,   # ~20% to TEs
+                    "RB": rush_ypg or 110,
+                }
+    except Exception as e:
+        print(f"  (DvP fetch failed for {season}: {e})")
+    _dvp_cache[season] = out
+    return out
+
+
+# league baselines for grading (yards allowed per game, per position)
+DVP_BASE = {"QB": 220.0, "WR": 136.0, "TE": 44.0, "RB": 110.0}
+
+def dvp_grade(opponent_abbr, pos):
+    """Letter grade for how favorable `opponent`'s defense is to `pos`.
+    Higher yards allowed vs baseline = better matchup = higher grade."""
+    pos = (pos or "").upper()
+    if pos not in DVP_BASE:
+        return None
+    table = fetch_dvp()
+    if not table or opponent_abbr not in table:
+        table = fetch_dvp(_season_year() - 1)   # offseason fallback
+    row = table.get(opponent_abbr)
+    if not row or pos not in row:
+        return None
+    ratio = row[pos] / DVP_BASE[pos]            # >1 = generous defense
+    # map ratio to grade: +12% or more allowed = A+, -12% or less = F
+    scale = [(1.12, "A+"), (1.07, "A"), (1.03, "B+"), (0.99, "B"),
+             (0.95, "C+"), (0.91, "C"), (0.86, "D"), (0.0, "F")]
+    for thr, g in scale:
+        if ratio >= thr:
+            return g
+    return "F"
+
+
 def fetch_defense_factor(team_abbr):
     """Returns a multiplier: >1.0 means this team's defense is below
     average (good for the opposing offense), <1.0 means above average
@@ -861,6 +937,7 @@ def project_qb(team_abbr, opponent_abbr=None, vegas_factor=None):
         "epa_db": epa_db,
         "src": src_tag,
         "status": player_status(athlete_id),
+        "matchup_grade": dvp_grade(opponent_abbr, "QB"),
         "_matchup_factor": round(factor, 3),
     }
 
@@ -940,6 +1017,7 @@ def project_skill_players(team_abbr, opponent_abbr=None, vegas_factor=None):
 
         p = {
             "name": r["name"], "pos": r["pos"], "player_id": r["id"],
+            "matchup_grade": dvp_grade(opponent_abbr, r["pos"]),
             "targets": round(boost_tgt, 1), "rec": round(rec, 1),
             "rec_yds": round(rec_yds, 1), "rush_yds": round(rush_yds, 1),
             "rush_att": round(boost_att, 1),

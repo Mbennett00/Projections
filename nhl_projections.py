@@ -359,8 +359,21 @@ def matchup_factor(lam):
     return round(raw ** 0.7, 3)
 
 
-def project_skaters(talent, abbr, factor):
+def _def_grade(opp_xga):
+    """Grade opposing team defense by xG allowed per game. Weak D = high grade."""
+    if not opp_xga:
+        return None
+    ratio = opp_xga / LEAGUE_GOALS_PG   # >1 = leaky defense = good matchup
+    scale = [(1.12,"A+"),(1.06,"A"),(1.02,"B+"),(0.98,"B"),(0.94,"C+"),(0.90,"C"),(0.85,"D"),(0.0,"F")]
+    for thr, g in scale:
+        if ratio >= thr:
+            return g
+    return "F"
+
+
+def project_skaters(talent, abbr, factor, opp_xga=None):
     skaters, goalies = fetch_roster(abbr)
+    grade = _def_grade(opp_xga)
     pool = []
     for pid, name, pos in skaters:
         t = talent.skater(pid)
@@ -392,6 +405,7 @@ def project_skaters(talent, abbr, factor):
             "xg_pg": round(boost_xg, 3),
             "goal_prob": round(goal_prob, 3),
             "pts_pg": round((t.get("points_pg") or 0) * factor, 2),
+            "matchup_grade": grade,
             "src": t["src"],
         }
         if r["status"]:
@@ -419,8 +433,11 @@ def build_game(talent, raw, odds_map):
     target = round(50 + edge * 200 + (p_over - 0.5) * 40)
 
     fa, fh = matchup_factor(la), matchup_factor(lh)
-    away_skaters, away_goalie = project_skaters(talent, away, fa)
-    home_skaters, home_goalie = project_skaters(talent, home, fh)
+    ta_def, th_def = talent.team(away), talent.team(home)
+    away_xga = (th_def or {}).get("xga_pg")   # away skaters face home defense
+    home_xga = (ta_def or {}).get("xga_pg")
+    away_skaters, away_goalie = project_skaters(talent, away, fa, away_xga)
+    home_skaters, home_goalie = project_skaters(talent, home, fh, home_xga)
 
     game = {
         "away_team": raw["away_name"], "home_team": raw["home_name"],

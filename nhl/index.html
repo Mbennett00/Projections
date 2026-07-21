@@ -163,6 +163,8 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
 .d-sec{font-size:10.5px;font-weight:700;letter-spacing:.08em;color:var(--muted);margin:10px 0 7px}
 .d-match{font-size:12.5px;color:var(--text);background:var(--card-2);border-radius:9px;padding:8px 11px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 .team-chip{display:inline-flex;align-items:center;gap:4px;vertical-align:middle}
+.grade{font-family:'Sora',sans-serif;font-weight:800;font-size:10px;letter-spacing:.02em;
+  padding:2px 6px;border-radius:6px;border:1px solid;margin-left:5px;line-height:1.3;display:inline-block}
 .team-chip img{width:16px;height:16px;object-fit:contain;display:block}
 .read{font-size:12px;line-height:1.5;color:var(--text);background:linear-gradient(160deg,rgba(138,144,124,.10),rgba(198,242,78,.06));border:1px solid var(--line);border-radius:10px;padding:9px 12px;margin-top:4px}
 .read b{font-weight:700}
@@ -364,6 +366,30 @@ function renderGames(d){
     '<div class="empty">No games on the slate.<br>The board lights up automatically when the season starts — first puck drop in October.</div>';
 }
 
+
+// ── Matchup grade: favorability of the scoring environment vs opposing goalie ──
+function teamGoals(p, allGames){
+  for (const g of allGames){
+    if (g.away_abbr === p.team) return g.away_goals;
+    if (g.home_abbr === p.team) return g.home_goals;
+  }
+  return null;
+}
+function matchupGrade(goals){
+  if (goals == null) return null;
+  // NHL implied team goals ~2.2 (tough) to ~4+ (great)
+  const t = [[3.7,'A+'],[3.4,'A'],[3.15,'B+'],[2.95,'B'],[2.75,'C+'],[2.5,'C'],[0,'D']];
+  for (const [thr,g] of t) if (goals >= thr) return g;
+  return 'D';
+}
+const gradeColor = g => {
+  if (g === 'A+' || g === 'A') return '#C6F24E';
+  if (g === 'B+' || g === 'B') return '#9FD13E';
+  if (g === 'C+' || g === 'C') return '#C9B85B';
+  return '#9A7A6A';
+};
+const gradeChip = g => g ? `<span class="grade" style="color:${gradeColor(g)};border-color:${gradeColor(g)}55;background:${gradeColor(g)}18">${g}</span>` : '';
+
 function renderPlays(d){
   const skaters = [];
   for (const g of d.games){
@@ -439,7 +465,7 @@ function renderPlays(d){
       ${confHeader(conf)}${confBlock(conf)}
       ${readLine(p, conf)}
       <div class="d-sec">MATCHUP</div>
-      <div class="d-match">vs ${teamChip(p.opp)} ${gPill}${p.venue ? `<span class="src-pill">${esc(p.venue)}</span>` : ''}</div>
+      <div class="d-match">vs ${teamChip(p.opp)}${p.matchup_grade ? gradeChip(p.matchup_grade) : ''} ${gPill}${p.venue ? `<span class="src-pill">${esc(p.venue)}</span>` : ''}</div>
       <div class="d-sec">PROJECTED LINE vs ${p.opp}</div>
       <div class="d-line">${cells}</div>
       <div class="d-sec">RANGE OF OUTCOMES · ${statFilter}</div>
@@ -465,7 +491,7 @@ function renderPlays(d){
       ${avatar(p.name, p.team, p.player_id)}
       <div class="p-main">
         <div class="p-player">${esc(p.name)}</div>
-        <div class="p-meta">${abSpan(p.team)} vs ${abSpan(p.opp)}</div>
+        <div class="p-meta">${abSpan(p.team)} vs ${teamChip(p.opp)}${gradeChip(p.matchup_grade || matchupGrade(teamGoals(p, d.games)))}</div>
         <div>${statusTag(p)}${tagsFor(p)}</div>
         ${newsLine(p)}
       </div>

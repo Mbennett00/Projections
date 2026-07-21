@@ -176,6 +176,8 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
 .d-sec{font-size:10.5px;font-weight:700;letter-spacing:.08em;color:var(--muted);margin:10px 0 7px}
 .d-match{font-size:12.5px;color:var(--text);background:var(--card-2);border-radius:9px;padding:8px 11px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 .team-chip{display:inline-flex;align-items:center;gap:4px;vertical-align:middle}
+.grade{font-family:'Sora',sans-serif;font-weight:800;font-size:10px;letter-spacing:.02em;
+  padding:2px 6px;border-radius:6px;border:1px solid;margin-left:5px;line-height:1.3;display:inline-block}
 .team-chip img{width:16px;height:16px;object-fit:contain;display:block}
 .read{font-size:12px;line-height:1.5;color:var(--text);background:linear-gradient(160deg,rgba(138,144,124,.10),rgba(198,242,78,.06));border:1px solid var(--line);border-radius:10px;padding:9px 12px;margin-top:4px}
 .read b{font-weight:700}
@@ -321,6 +323,30 @@ function renderGames(d){
     new Date(a.game_time) - new Date(b.game_time));
   $('games').innerHTML = gs.map(gameCard).join('') || '<div class="empty">No games today.</div>';
 }
+
+
+// ── Matchup grade: favorability of the run environment vs the opposing SP ──
+function teamRuns(p, allGames){
+  for (const g of allGames){
+    if (ab(g.away_team) === p.team) return g.away_runs;
+    if (ab(g.home_team) === p.team) return g.home_runs;
+  }
+  return null;
+}
+function matchupGrade(runs){
+  if (runs == null) return null;
+  // MLB implied team runs ~3.2 (tough) to ~6+ (great)
+  const t = [[5.5,'A+'],[5.0,'A'],[4.6,'B+'],[4.2,'B'],[3.9,'C+'],[3.5,'C'],[0,'D']];
+  for (const [thr,g] of t) if (runs >= thr) return g;
+  return 'D';
+}
+const gradeColor = g => {
+  if (g === 'A+' || g === 'A') return '#C6F24E';
+  if (g === 'B+' || g === 'B') return '#9FD13E';
+  if (g === 'C+' || g === 'C') return '#C9B85B';
+  return '#9A7A6A';
+};
+const gradeChip = g => g ? `<span class="grade" style="color:${gradeColor(g)};border-color:${gradeColor(g)}55;background:${gradeColor(g)}18">${g}</span>` : '';
 
 function collectProjections(d){
   const bat = [], arm = [];
@@ -537,7 +563,7 @@ function renderPlays(d){
       ${confBlock(conf)}
       ${readLine(p, conf)}
       <div class="d-sec">MATCHUP</div>
-      <div class="d-match">vs ${teamChip(p.opp)} ${srcPill}${p.venue ? `<span class="src-pill">${esc(p.venue)}</span>` : ''}</div>
+      <div class="d-match">vs ${teamChip(p.opp)}${p.matchup_grade ? gradeChip(p.matchup_grade) : ''} ${srcPill}${p.venue ? `<span class="src-pill">${esc(p.venue)}</span>` : ''}</div>
       <div class="d-sec">PROJECTED LINE vs ${p.opp}</div>
       <div class="d-line">${cells}</div>
       <div class="d-sec">RANGE OF OUTCOMES · ${statFilter}</div>
@@ -564,7 +590,7 @@ function renderPlays(d){
       ${avatar(p.name, p.team)}
       <div class="p-main">
         <div class="p-player">${esc(p.name)}</div>
-        <div class="p-meta">${abSpan(p.team)} vs ${abSpan(p.opp)}${p.order ? ` · #${p.order}` : ''}</div>
+        <div class="p-meta">${abSpan(p.team)} vs ${teamChip(p.opp)}${gradeChip(p.matchup_grade || matchupGrade(teamRuns(p, DATA.games)))}${p.order ? ` · #${p.order}` : ''}</div>
         <div>${tagsFor(p, cfg.pool)}</div>
         ${newsLine(p)}
       </div>

@@ -416,8 +416,17 @@ def project_batter_simple(brow, prow, order, park_hr_factor=1.0):
     total_hit_rate = single_rate + double_rate + triple_rate + hr_rate
 
     pa = PA_BY_ORDER.get(order, 4.0)
+
+    # Matchup grade: batter's projected quality vs THIS pitcher relative to
+    # league average. matchup_xwoba already log5s batter vs the specific SP,
+    # so this is genuinely pitcher-specific, not a generic position grade.
+    _mratio = matchup_xwoba / LEAGUE_AVG_XWOBA
+    _scale = [(1.15,"A+"),(1.09,"A"),(1.04,"B+"),(1.00,"B"),(0.96,"C+"),(0.91,"C"),(0.85,"D"),(0.0,"F")]
+    matchup_grade = next(g for thr,g in _scale if _mratio >= thr)
+
     return {
         "offense_quality": offense_quality,
+        "matchup_grade": matchup_grade,
         "xwoba": round(xwoba, 3),
         "hr_prob": round(hr_rate, 4),
         "k_rate": round(k_rate, 4),
