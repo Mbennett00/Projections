@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Slate — Model Boards</title>
-<meta name="theme-color" content="#0B1020">
+<meta name="theme-color" content="#12140E">
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" href="./icon-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,9 +12,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#0B1020; --card:#141C30; --card-2:#1B2540; --line:#25304E;
-  --blue:#6366F1; --yellow:#4ADE80; --teal:#38BDF8; --orange:#FF7A45;
-  --text:#EEF2FA; --muted:#94A1BE; --r:18px;
+  --bg:#12140E; --card:#1A1D14; --card-2:#22261A; --line:#33372A;
+  --blue:#8A907C; --yellow:#C6F24E; --teal:#7FB2C4; --orange:#C99A5B;
+  --text:#F2F3EC; --muted:#8A907C; --r:18px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
@@ -25,12 +25,12 @@ body{
   max-width:520px; margin:0 auto;
 }
 body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
-  background:radial-gradient(640px 340px at 10% -8%,rgba(99,102,241,.18),transparent 60%),
-             radial-gradient(560px 320px at 110% 2%,rgba(74,222,128,.12),transparent 60%),
+  background:radial-gradient(640px 340px at 10% -8%,rgba(138,144,124,.18),transparent 60%),
+             radial-gradient(560px 320px at 110% 2%,rgba(198,242,78,.12),transparent 60%),
              radial-gradient(500px 400px at 50% 115%,rgba(45,212,191,.07),transparent 60%)}
 header{display:flex; align-items:center; justify-content:space-between; padding:6px 2px 24px}
 .wordmark{font-family:'Sora',sans-serif; font-weight:800; font-size:23px; letter-spacing:.5px;
-  background:linear-gradient(100deg,var(--blue),var(--yellow)); -webkit-background-clip:text;
+  background:linear-gradient(100deg,#C6F24E,#EAFF9E); -webkit-background-clip:text;
   background-clip:text; color:transparent}
 .hub-refresh{width:34px;height:34px;border-radius:50%;background:var(--card);border:1px solid var(--line);
   display:grid;place-items:center;cursor:pointer;color:var(--blue);font-size:16px;margin-left:8px;
@@ -41,13 +41,13 @@ header{display:flex; align-items:center; justify-content:space-between; padding:
 .date-chip{
   font-size:12px; font-weight:600; color:var(--muted); padding:7px 12px; border-radius:99px;
   background:linear-gradient(var(--card),var(--card)) padding-box,
-             linear-gradient(120deg,rgba(99,102,241,.55),rgba(74,222,128,.55)) border-box;
+             linear-gradient(120deg,rgba(138,144,124,.55),rgba(198,242,78,.55)) border-box;
   border:1px solid transparent;
 }
 .kicker{font-size:12.5px; font-weight:700; color:var(--muted); letter-spacing:.14em;
   text-transform:uppercase; margin-bottom:6px}
 .kicker-bar{width:44px;height:3px;border-radius:2px;margin-bottom:16px;
-  background:linear-gradient(90deg,var(--blue),var(--yellow))}
+  background:linear-gradient(90deg,#A8D62E,#C6F24E)}
 .grid{display:grid; grid-template-columns:1fr 1fr; gap:12px}
 .sport-card{
   display:block; text-decoration:none; color:inherit; position:relative; overflow:hidden;
@@ -82,7 +82,7 @@ header{display:flex; align-items:center; justify-content:space-between; padding:
   background:var(--card); border:1px solid var(--line); display:grid; place-items:center;
   color:var(--acc); font-weight:700; font-size:14px}
 footer{margin-top:auto; text-align:center; font-size:12px; color:var(--muted); padding-top:28px}
-footer b{background:linear-gradient(100deg,var(--blue),var(--yellow));
+footer b{background:linear-gradient(100deg,#C6F24E,#EAFF9E);
   -webkit-background-clip:text;background-clip:text;color:transparent;font-weight:700}
 @media (prefers-reduced-motion:reduce){.sport-card{transition:none}}
 </style>
@@ -100,7 +100,7 @@ footer b{background:linear-gradient(100deg,var(--blue),var(--yellow));
 <div class="kicker-bar"></div>
 
 <div class="grid">
-  <a class="sport-card" href="./mlb/" style="--acc:var(--blue)">
+  <a class="sport-card" href="./mlb/" style="--acc:var(--yellow)">
     <div class="arrow">→</div>
     <div class="league-logo"><img src="https://a.espncdn.com/i/teamlogos/leagues/500/mlb.png" alt="MLB" loading="lazy" onerror="this.remove()"></div>
     <div class="sport-tag">MLB · DAILY</div>
