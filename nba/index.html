@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NBA Board — Slate</title>
+<meta name="theme-color" content="#12140E">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="apple-touch-icon" href="../icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#12140E; --card:#1A1D14; --card-2:#22261A; --line:#33372A;
+  --blue:#8A907C; --yellow:#C6F24E; --red:#FF6B6B; --text:#F2F3EC; --muted:#8A907C; --r:16px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg); color:var(--text); font-family:'Inter',system-ui,sans-serif;
+  min-height:100dvh; max-width:520px; margin:0 auto; position:relative;
+  padding:max(16px,env(safe-area-inset-top)) 16px max(28px,env(safe-area-inset-bottom))}
+body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(600px 320px at 12% -6%,rgba(138,144,124,.16),transparent 60%),
+             radial-gradient(520px 300px at 108% 4%,rgba(198,242,78,.10),transparent 60%)}
+header{display:flex; align-items:center; gap:12px; padding:4px 2px 18px}
+.back{width:36px;height:36px;border-radius:50%;background:var(--card);border:1px solid var(--line);
+  display:grid;place-items:center;color:var(--text);text-decoration:none;font-weight:700;flex:none}
+h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
+  background:linear-gradient(100deg,#C6F24E,#EAFF9E);
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.refresh{width:32px;height:32px;border-radius:50%;background:var(--card);border:1px solid var(--line);
+  display:grid;place-items:center;cursor:pointer;flex:none;color:var(--blue);padding:0;font-size:15px;
+  transition:transform .2s;-webkit-tap-highlight-color:transparent}
+.refresh:active{transform:scale(.9)}
+.refresh.spin{animation:spin .7s linear infinite;pointer-events:none;color:var(--yellow)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.updated{font-size:11.5px;font-weight:600;color:var(--yellow);background:rgba(198,242,78,.1);
+  border:1px solid rgba(198,242,78,.22);padding:6px 10px;border-radius:99px;white-space:nowrap}
+.tabs{display:flex;gap:7px;margin-bottom:14px}
+.tab{flex:none;font-size:12px;font-weight:700;letter-spacing:.03em;color:var(--muted);
+  background:var(--card);border:1px solid var(--line);border-radius:99px;
+  padding:7px 15px;cursor:pointer;user-select:none;transition:all .15s;line-height:1.3}
+.tab.on{color:#12140E;background:linear-gradient(100deg,#C6F24E 0%,#A8D62E 100%);border-color:transparent}
+.summary{display:flex;gap:8px;flex-wrap:wrap;margin:2px 0 14px}
+.sum-chip{font-size:11.5px;font-weight:600;color:var(--text);border-radius:9px;padding:7px 11px;
+  display:inline-flex;align-items:center;gap:6px;
+  background:linear-gradient(var(--card),var(--card)) padding-box,
+             linear-gradient(120deg,rgba(138,144,124,.45),rgba(198,242,78,.45)) border-box;
+  border:1px solid transparent}
+.sum-chip .dot{width:7px;height:7px;border-radius:50%;display:inline-block}
+.game{border-radius:var(--r);padding:17px 16px 15px;margin-bottom:12px;position:relative;overflow:hidden;
+  background:linear-gradient(160deg,var(--card-2),var(--card)) padding-box,
+             linear-gradient(150deg,rgba(198,242,78,.28),rgba(51,55,42,.6) 55%,rgba(198,242,78,.12)) border-box;
+  border:1px solid transparent}
+.g-accent{position:absolute;top:0;left:0;right:0;height:3px}
+.g-top{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted);font-weight:600;margin-bottom:11px}
+.g-top .team-chip img{width:15px;height:15px}
+.g-badges{display:inline-flex;align-items:center;gap:6px;flex:none}
+.state{font-size:10px;font-weight:700;letter-spacing:.05em;padding:4px 8px;border-radius:7px;
+  display:inline-flex;align-items:center;line-height:1.2}
+.state.live{color:#12140E;background:var(--red);animation:pulse 2s infinite}
+.state.final{color:var(--muted);background:var(--card-2)}
+.state.preview{color:var(--blue);background:rgba(138,144,124,.12)}
+@keyframes pulse{50%{opacity:.65}}
+.tier{font-size:10px;font-weight:700;letter-spacing:.05em;padding:4px 8px;border-radius:7px;
+  display:inline-flex;align-items:center;gap:4px;line-height:1.2}
+.tier img{width:13px;height:13px;object-fit:contain}
+.tier.STRONG{color:#12140E;background:var(--yellow)}
+.tier.LEAN{color:var(--blue);background:rgba(138,144,124,.12);border:1px solid rgba(138,144,124,.3)}
+.tier.PASS{color:var(--muted);background:var(--card-2)}
+.team{display:flex;align-items:center;justify-content:space-between;padding:4px 0}
+.t-name{display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px;min-width:0}
+.t-abbr{font-family:'Sora',sans-serif;font-weight:700;font-size:11px;
+  border-radius:9px;padding:3px;width:34px;height:34px;
+  display:grid;place-items:center;text-align:center;flex:none;overflow:hidden}
+.t-abbr img{width:26px;height:26px;object-fit:contain;display:block}
+.t-abbr:not(:has(img))::before{content:attr(data-ab)}
+.t-city{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.t-num{font-variant-numeric:tabular-nums;font-weight:600;font-size:14px;color:var(--muted);flex:none;margin-left:8px}
+.t-num.fav{color:var(--text)}
+.t-score{font-family:'Sora',sans-serif;font-weight:700;font-size:17px;color:var(--text);flex:none;margin-left:8px}
+.prob-track{height:6px;border-radius:99px;background:var(--card-2);margin:11px 0 9px;overflow:hidden;display:flex;gap:2px}
+.prob-away{height:100%;transition:width .6s ease}
+.prob-home{height:100%;flex:1}
+.g-stats{display:flex;gap:6px;margin-top:10px}
+.stat{flex:1;border-radius:10px;padding:8px 6px;text-align:center;border-top:2px solid transparent;background:var(--card-2)}
+.stat.sb{border-top-color:rgba(138,144,124,.65);background:linear-gradient(180deg,rgba(138,144,124,.10),var(--card-2) 65%)}
+.stat.st{border-top-color:rgba(45,212,191,.65);background:linear-gradient(180deg,rgba(45,212,191,.10),var(--card-2) 65%)}
+.stat.sy{border-top-color:rgba(198,242,78,.65);background:linear-gradient(180deg,rgba(198,242,78,.10),var(--card-2) 65%)}
+.stat .v{font-family:'Sora',sans-serif;font-weight:700;font-size:13.5px;color:var(--text);font-variant-numeric:tabular-nums}
+.stat .v.hot{color:var(--yellow)}
+.stat .l{font-size:10px;color:var(--muted);font-weight:600;margin-top:2px;letter-spacing:.03em}
+.goalies{font-size:12px;color:var(--muted);margin-top:10px;padding-top:9px;border-top:1px solid var(--line);line-height:1.5}
+.goalies b{color:var(--text);font-weight:600}
+.hr-strip{background:linear-gradient(160deg,var(--card-2),var(--card)) padding-box,
+  linear-gradient(140deg,rgba(198,242,78,.55),rgba(138,144,124,.35)) border-box;border:1px solid transparent;
+  border-radius:var(--r);padding:13px 16px;margin-bottom:12px;animation:rise .28s ease both}
+.hr-title{font-family:'Sora',sans-serif;font-weight:700;font-size:12px;letter-spacing:.12em;color:var(--yellow);margin-bottom:9px}
+.hr-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;font-size:13.5px}
+.hr-left{display:flex;align-items:center;gap:9px;min-width:0}
+.hr-row .nm{font-weight:600}
+.hr-row .tm{color:var(--muted);font-size:11.5px;font-weight:500;margin-left:2px}
+.hr-avatar{width:32px;height:32px;border-radius:50%;overflow:hidden;flex:none;position:relative;
+  display:grid;place-items:center;font-size:9px;font-weight:700}
+.hr-avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
+.hr-row .pct{font-family:'Sora',sans-serif;font-weight:700;color:var(--yellow);font-variant-numeric:tabular-nums}
+.chips{display:flex;gap:7px;overflow-x:auto;padding:2px 2px 12px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;font-size:12px;font-weight:600;color:var(--muted);background:var(--card);
+  border:1px solid var(--line);border-radius:9px;padding:7px 12px;cursor:pointer;user-select:none;white-space:nowrap;line-height:1.2}
+.chip.on{color:#12140E;background:linear-gradient(100deg,#C6F24E,#EAFF9E);border-color:transparent}
+.play{border-radius:var(--r);padding:13px 16px;margin-bottom:9px;display:flex;align-items:center;gap:12px;
+  cursor:pointer;flex-wrap:wrap;animation:rise .28s ease both;
+  background:linear-gradient(160deg,var(--card-2),var(--card)) padding-box,
+             linear-gradient(150deg,rgba(198,242,78,.22),rgba(51,55,42,.6) 55%,rgba(198,242,78,.10)) border-box;
+  border:1px solid transparent}
+.rank{width:20px;flex:none;text-align:center;font-family:'Sora',sans-serif;font-weight:800;
+  font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.rank.r1{background:linear-gradient(135deg,#EAFF9E,#C6F24E);-webkit-background-clip:text;background-clip:text;color:transparent}
+.rank.r2{color:#C7D2E0}.rank.r3{color:#E0A96D}
+.p-avatar{width:46px;height:46px;border-radius:50%;flex:none;overflow:hidden;position:relative;
+  display:grid;place-items:center;font-family:'Sora',sans-serif;font-weight:700;font-size:12px}
+.p-avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
+.p-avatar:not(:has(img))::before{content:attr(data-in)}
+.p-main{flex:1;min-width:0}
+.p-player{font-weight:600;font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.p-meta{font-size:12px;color:var(--muted);margin-top:3px}
+.tag{font-size:8.5px;font-weight:800;letter-spacing:.06em;padding:2px 6px;border-radius:5px;
+  display:inline-block;margin-right:4px;margin-top:4px;line-height:1.4}
+.p-edge{text-align:right;flex:none}
+.edge-val{font-family:'Sora',sans-serif;font-weight:700;font-size:16px;font-variant-numeric:tabular-nums;
+  background:linear-gradient(100deg,#C6F24E,#A8D62E);-webkit-background-clip:text;background-clip:text;color:transparent}
+.p-odds{font-size:11px;color:var(--muted);margin-top:4px;font-variant-numeric:tabular-nums}
+.sim{flex-basis:100%;margin-top:11px;padding-top:11px;border-top:1px dashed var(--line)}
+.sim-head{font-size:10.5px;font-weight:700;letter-spacing:.08em;color:var(--muted);margin-bottom:8px;display:flex;justify-content:space-between}
+.sim-head b{background:linear-gradient(100deg,#C6F24E,#EAFF9E);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sim-row{display:flex;align-items:center;gap:9px;margin-bottom:6px;font-size:12px}
+.sim-lab{width:42px;flex:none;color:var(--muted);font-weight:600;font-variant-numeric:tabular-nums}
+.sim-bar{flex:1;height:12px;border-radius:6px;background:var(--card-2);overflow:hidden}
+.sim-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,#A8D62E,#C6F24E);
+  transition:width .5s cubic-bezier(.2,.8,.2,1)}
+.sim-pct{width:44px;flex:none;text-align:right;font-weight:700;font-variant-numeric:tabular-nums;color:var(--text);font-size:12px}
+.sim-hint{font-size:9.5px;font-weight:700;letter-spacing:.06em;color:var(--blue);margin-top:4px}
+@keyframes rise{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+.game{animation:rise .28s ease both}
+.conf{display:flex;align-items:center;gap:11px;margin:4px 0 2px}
+.conf-ring{--v:0;--c:var(--yellow);width:44px;height:44px;border-radius:50%;flex:none;position:relative;
+  background:conic-gradient(var(--c) calc(var(--v)*1%), var(--card-2) 0);display:grid;place-items:center}
+.conf-ring::before{content:'';position:absolute;inset:4px;border-radius:50%;background:var(--card)}
+.conf-num{position:relative;font-family:'Sora',sans-serif;font-weight:800;font-size:14px;font-variant-numeric:tabular-nums}
+.conf-meta{min-width:0}
+.conf-label{font-size:9.5px;font-weight:700;letter-spacing:.09em;color:var(--muted)}
+.conf-word{font-family:'Sora',sans-serif;font-weight:700;font-size:13px}
+.factors{margin-top:4px}
+.factor{display:flex;align-items:center;gap:8px;margin-bottom:5px;font-size:11px}
+.factor-l{width:104px;flex:none;color:var(--muted);font-weight:600}
+.factor-bar{flex:1;height:7px;border-radius:4px;background:var(--card-2);overflow:hidden}
+.factor-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,#A8D62E,#C6F24E)}
+.factor-v{width:30px;flex:none;text-align:right;font-weight:700;font-variant-numeric:tabular-nums;color:var(--text)}
+.news{font-size:10.5px;font-weight:700;margin-top:4px;line-height:1.4}
+.news.up{color:var(--yellow)}
+.news.dn{color:#FF8FA3}
+.d-sec{font-size:10.5px;font-weight:700;letter-spacing:.08em;color:var(--muted);margin:10px 0 7px}
+.d-match{font-size:12.5px;color:var(--text);background:var(--card-2);border-radius:9px;padding:8px 11px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.team-chip{display:inline-flex;align-items:center;gap:4px;vertical-align:middle}
+.grade{font-family:'Sora',sans-serif;font-weight:800;font-size:10px;letter-spacing:.02em;
+  padding:2px 6px;border-radius:6px;border:1px solid;margin-left:5px;line-height:1.3;display:inline-block}
+.team-chip img{width:16px;height:16px;object-fit:contain;display:block}
+.read{font-size:12px;line-height:1.5;color:var(--text);background:linear-gradient(160deg,rgba(138,144,124,.10),rgba(198,242,78,.06));border:1px solid var(--line);border-radius:10px;padding:9px 12px;margin-top:4px}
+.read b{font-weight:700}
+.src-pill{font-size:9px;font-weight:700;letter-spacing:.05em;color:var(--muted);background:var(--card);border:1px solid var(--line);border-radius:6px;padding:2px 7px}
+.fmc{display:flex;gap:6px;margin-top:4px}
+.fmc-cell{flex:1;text-align:center;background:var(--card-2);border-radius:10px;padding:9px 4px}
+.fmc-cell .v{font-family:'Sora',sans-serif;font-weight:800;font-size:16px;font-variant-numeric:tabular-nums}
+.fmc-cell .l{font-size:8.5px;color:var(--muted);font-weight:700;margin-top:2px;letter-spacing:.06em}
+.fmc-cell.mid{background:linear-gradient(180deg,rgba(198,242,78,.14),var(--card-2) 70%)}
+.fmc-cell.mid .v{background:linear-gradient(100deg,#C6F24E,#A8D62E);-webkit-background-clip:text;background-clip:text;color:transparent}
+.d-line{display:flex;gap:5px;flex-wrap:wrap}
+.d-cell{flex:1;min-width:42px;background:var(--card-2);border-radius:9px;padding:7px 3px;text-align:center;border-bottom:2px solid transparent}
+.d-cell.hot{border-bottom-color:#C6F24E;background:linear-gradient(180deg,rgba(198,242,78,.12),var(--card-2) 70%)}
+.d-cell.warm{border-bottom-color:#8A907C;background:linear-gradient(180deg,rgba(138,144,124,.10),var(--card-2) 70%)}
+.d-cell .v{font-family:'Sora',sans-serif;font-weight:700;font-size:12.5px;font-variant-numeric:tabular-nums}
+.d-cell .l{font-size:8.5px;color:var(--muted);font-weight:700;margin-top:2px;letter-spacing:.03em}
+.rankchips{display:flex;gap:6px;flex-wrap:wrap}
+.rk{font-size:10.5px;font-weight:700;padding:4px 9px;border-radius:99px;background:var(--card-2);color:var(--muted)}
+.rk.on{color:#12140E;background:linear-gradient(100deg,#C6F24E,#EAFF9E)}
+.rk.top{color:var(--yellow);border:1px solid rgba(198,242,78,.4);background:rgba(198,242,78,.08)}
+.pctile{height:8px;border-radius:5px;background:var(--card-2);overflow:hidden;margin-top:8px}
+.pctile-fill{height:100%;border-radius:5px;background:linear-gradient(90deg,#A8D62E,#C6F24E)}
+.pctile-lab{display:flex;justify-content:space-between;font-size:9.5px;color:var(--muted);font-weight:600;margin-top:4px}
+.empty{text-align:center;color:var(--muted);font-size:14px;padding:60px 20px;line-height:1.6}
+.hide{display:none}
+@media (prefers-reduced-motion:reduce){.prob-away,.sim-fill{transition:none}.state.live,.game,.play,.hr-strip{animation:none}}
+</style>
+</head>
+<body>
+<header>
+  <a class="back" href="../">←</a>
+  <h1>NBA Board</h1>
+  <span class="updated" id="updated">…</span>
+  <button class="refresh" id="refresh" aria-label="Refresh data" title="Refresh">↻</button>
+</header>
+
+<div class="tabs">
+  <div class="tab on" data-tab="games">Slate</div>
+  <div class="tab" data-tab="plays">Numbers</div>
+</div>
+
+<div class="summary" id="slate"></div>
+<div id="games"></div>
+<div id="plays" class="hide"></div>
+
+<script>
+const $ = id => document.getElementById(id);
+// team text colours (brightened for navy bg) and avatar fill/ring pairs
+const TC = {ATL:'#E03A3E',BOS:'#25A45B',BKN:'#B0B0B0',CHA:'#00788C',CHI:'#CE1141',CLE:'#860038',DAL:'#4A80C4',DEN:'#4FA0DC',DET:'#C8102E',GS:'#FDB927',HOU:'#CE1141',IND:'#FDBB30',LAC:'#C8102E',LAL:'#FDB927',MEM:'#5D76A9',MIA:'#98002E',MIL:'#00471B',MIN:'#4FA0DC',NO:'#B4975A',NY:'#F58426',OKC:'#EF3B24',ORL:'#0077C0',PHI:'#006BB6',PHX:'#E56020',POR:'#E03A3E',SAC:'#5A2D81',SA:'#B0B0B0',TOR:'#CE1141',UTAH:'#F9A01B',WSH:'#E31837'};
+const AV = {ATL:['#E03A3E','#C1D32F'],BOS:['#007A33','#BA9653'],BKN:['#000000','#FFFFFF'],CHA:['#1D1160','#00788C'],CHI:['#CE1141','#000000'],CLE:['#860038','#FDBB30'],DAL:['#00538C','#B8C4CA'],DEN:['#0E2240','#FEC524'],DET:['#C8102E','#1D42BA'],GS:['#1D428A','#FFC72C'],HOU:['#CE1141','#000000'],IND:['#002D62','#FDBB30'],LAC:['#C8102E','#1D428A'],LAL:['#552583','#FDB927'],MEM:['#5D76A9','#12173F'],MIA:['#98002E','#F9A01B'],MIL:['#00471B','#EEE1C6'],MIN:['#0C2340','#236192'],NO:['#0C2340','#C8102E'],NY:['#006BB6','#F58426'],OKC:['#007AC1','#EF3B24'],ORL:['#0077C0','#C4CED4'],PHI:['#006BB6','#ED174C'],PHX:['#1D1160','#E56020'],POR:['#E03A3E','#000000'],SAC:['#5A2D81','#63727A'],SA:['#C4CED4','#000000'],TOR:['#CE1141','#000000'],UTAH:['#002B5C','#00471B'],WSH:['#002B5C','#E31837']};
+const tc = a => TC[a] || '#8A907C';
+const abSpan = a => `<b style="color:${tc(a)}">${a}</b>`;
+const teamChip = a => `<span class="team-chip"><img src="${logo(a)}" alt="" loading="lazy" onerror="this.style.display='none'"><b style="color:${tc(a)}">${a}</b></span>`;
+const logo = a => `https://a.espncdn.com/i/teamlogos/nba/500/${(a||'').toLowerCase()}.png`;
+const badge = a => `<span class="t-abbr" data-ab="${a}" style="color:${tc(a)};background:${tc(a)}1E;border:1px solid ${tc(a)}55"><img src="${logo(a)}" alt="" loading="lazy" onerror="this.remove()"></span>`;
+const mug = id => `https://a.espncdn.com/i/headshots/nba/players/full/${id}.png`;
+const initials = n => (n||'').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+const avatar = (name, team, id, cls='p-avatar') => {
+  const [bg, ring] = AV[team] || ['#22261A','#8A907C'];
+  return `<span class="${cls}" data-in="${initials(name)}" style="background:${bg};border:${cls==='p-avatar'?'2.5px':'2px'} solid ${ring};color:#F5F0E1">${id ? `<img src="${mug(id)}" alt="" loading="lazy" onerror="this.remove()">` : ''}</span>`;
+};
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const rel = iso => {
+  const m = Math.round((Date.now() - new Date(iso)) / 60000);
+  if (isNaN(m)) return '';
+  if (m < 1) return 'just now';
+  if (m < 60) return m + 'm ago';
+  const h = Math.round(m/60);
+  return h < 24 ? h + 'h ago' : Math.round(h/24) + 'd ago';
+};
+const gameTime = iso => new Date(iso).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+const pct = v => (v*100).toFixed(0) + '%';
+
+let DATA = null;
+
+const clamp01 = x => Math.max(0, Math.min(1, x));
+const confWord = s => s >= 85 ? 'Elite' : s >= 72 ? 'Strong' : s >= 58 ? 'Solid' : s >= 44 ? 'Moderate' : 'Volatile';
+const confColor = s => s >= 72 ? 'var(--yellow)' : s >= 55 ? 'var(--blue)' : '#FB923C';
+function confBlock(c){
+  if (!c) return '';
+  const bars = c.factors.map(([l,v]) =>
+    `<div class="factor"><span class="factor-l">${l}</span>
+      <div class="factor-bar"><div class="factor-fill" style="width:${(v*100).toFixed(0)}%"></div></div>
+      <span class="factor-v">${Math.round(v*100)}</span></div>`).join('');
+  return `<div class="d-sec">CONFIDENCE · ${c.factors.length} factors</div><div class="factors">${bars}</div>`;
+}
+const confRing = c => c ? `<div class="conf" style="justify-content:flex-end"><div class="conf-ring" style="--v:${c.score};--c:${confColor(c.score)}"><span class="conf-num">${c.score}</span></div></div>` : '';
+const confHeader = c => c ? `<div class="conf"><div class="conf-ring" style="--v:${c.score};--c:${confColor(c.score)}"><span class="conf-num">${c.score}</span></div><div class="conf-meta"><div class="conf-label">CONFIDENCE</div><div class="conf-word" style="color:${confColor(c.score)}">${confWord(c.score)} · ${c.score}/100</div></div></div>` : '';
+function nbaConfidence(p){
+  // minutes-driven: role certainty (minutes), scoring load, sample quality
+  const f = [];
+  if (p.min != null)  f.push(['Projected minutes', clamp01((p.min - 12) / 22)]);
+  if (p.pts != null)  f.push(['Scoring role', clamp01(p.pts / 28)]);
+  if (p.pra != null)  f.push(['Usage (P+R+A)', clamp01(p.pra / 50)]);
+  if (p.src === 'prior')  f.push(['Sample (prior yr)', 0.5]);
+  else if (p.src === 'blend') f.push(['Sample (blended)', 0.8]);
+  else if (p.src === 'current') f.push(['Sample (current)', 0.95]);
+  if (p.status === 'Q') f.push(['Health', 0.5]);
+  if (!f.length) return null;
+  const score = Math.round(f.reduce((s,[,v]) => s + v, 0) / f.length * 100);
+  return {score, factors: f};
+}
+
+function tagsFor(p){
+  const t = [];
+  if ((p.pts ?? 0) >= 25) t.push(['BUCKET GETTER','#C6F24E']);
+  if ((p.tpm ?? 0) >= 3.0) t.push(['SNIPER','#FDE047']);
+  if ((p.ast ?? 0) >= 7) t.push(['FLOOR GENERAL','#A78BFA']);
+  if ((p.reb ?? 0) >= 10) t.push(['GLASS CLEANER','#2DD4BF']);
+  if ((p.pra ?? 0) >= 40) t.push(['TRIPLE THREAT','#FB923C']);
+  if ((p.min ?? 0) >= 34) t.push(['WORKHORSE','#8A907C']);
+  if ((p.usage ?? 0) >= 0.30) t.push(['HIGH USAGE','#F87171']);
+  return t.slice(0,3).map(([n,c]) =>
+    `<span class="tag" style="color:${c};background:${c}1C;border:1px solid ${c}44">${n}</span>`).join('');
+}
+
+const pois = l => { const L = Math.exp(-l); let k = 0, p = 1; do { k++; p *= Math.random(); } while (p > L); return k - 1; };
+const BUCKETS = {
+  'Points':  [['<10',v=>v<10],['10-19',v=>v<20],['20-29',v=>v<30],['30+',v=>v>=30]],
+  'Rebounds':[['0-3',v=>v<=3],['4-7',v=>v<=7],['8-11',v=>v<=11],['12+',v=>v>=12]],
+  'Assists': [['0-2',v=>v<=2],['3-5',v=>v<=5],['6-8',v=>v<=8],['9+',v=>v>=9]],
+  '3PM':     [['0',v=>v===0],['1-2',v=>v<=2],['3-4',v=>v<=4],['5+',v=>v>=5]],
+  'PRA':     [['<20',v=>v<20],['20-34',v=>v<35],['35-49',v=>v<50],['50+',v=>v>=50]]
+};
+let openSim = null, statFilter = 'Points';
+const SIMCACHE = {};
+function simDrawsPois(key, lambda){
+  if (SIMCACHE['d'+key]) return SIMCACHE['d'+key];
+  const N = 10000, draws = new Array(N);
+  for (let i = 0; i < N; i++) draws[i] = pois(lambda);
+  draws.sort((a,b)=>a-b);
+  return SIMCACHE['d'+key] = draws;
+}
+const pctileArr = (draws, q) => draws[Math.min(draws.length-1, Math.floor(q*draws.length))];
+function runSim(stat, lambda){
+  const key = stat + ':' + lambda.toFixed(3);
+  if (SIMCACHE[key]) return SIMCACHE[key];
+  const N = 10000, draws = new Array(N);
+  for (let i = 0; i < N; i++) draws[i] = pois(lambda);
+  let rem = [...draws];
+  const out = BUCKETS[stat].map(([lab, test]) => {
+    const hit = rem.filter(test).length;
+    rem = rem.filter(v => !test(v));
+    return [lab, hit / N];
+  });
+  return SIMCACHE[key] = out;
+}
+const STATS = {
+  'Points':  {v:p=>p.pts,  fmt:v=>v.toFixed(1), sub:p=>`${(p.min??0).toFixed(0)} min · ${p.pos||''}`},
+  'Rebounds':{v:p=>p.reb,  fmt:v=>v.toFixed(1), sub:p=>`${(p.min??0).toFixed(0)} min · ${p.pos||''}`},
+  'Assists': {v:p=>p.ast,  fmt:v=>v.toFixed(1), sub:p=>`${(p.min??0).toFixed(0)} min · ${p.pos||''}`},
+  '3PM':     {v:p=>p.tpm,  fmt:v=>v.toFixed(1), sub:p=>`${(p.pts??0).toFixed(1)} pts · ${p.pos||''}`},
+  'PRA':     {v:p=>p.pra,  fmt:v=>v.toFixed(1), sub:p=>`${(p.pts??0).toFixed(0)}/${(p.reb??0).toFixed(0)}/${(p.ast??0).toFixed(0)} P/R/A`}
+};
+
+function stateBadge(g){
+  if (g.game_state === 'Live') return `<span class="state live">LIVE</span>`;
+  if (g.game_state === 'Final') return `<span class="state final">FINAL</span>`;
+  return `<span class="state preview">${esc(gameTime(g.game_time))}</span>`;
+}
+
+function gameCard(g){
+  const done = g.game_state === 'Final' || g.game_state === 'Live';
+  const aFav = g.away_win_pct >= g.home_win_pct;
+  const cA = tc(g.away_abbr), cH = tc(g.home_abbr);
+  const favAb = aFav ? g.away_abbr : g.home_abbr;
+  const tierHtml = g.tier ? `<span class="tier ${g.tier}"><img src="${logo(favAb)}" alt="" loading="lazy" onerror="this.remove()">${g.tier}</span>` : '';
+  const rows = ['away','home'].map(s => {
+    const num = done && g[s+'_score'] != null
+      ? `<span class="t-score">${g[s+'_score']}</span>`
+      : `<span class="t-num ${((s==='away')===aFav)?'fav':''}">${g[s+'_goals']?.toFixed(1) ?? '–'} · ${pct(g[s+'_win_pct'] ?? .5)}</span>`;
+    return `<div class="team">
+      <span class="t-name">${badge(g[s+'_abbr'])}<span class="t-city">${esc(g[s+'_team'])}</span></span>
+      ${num}</div>`;
+  }).join('');
+  const total = (g.away_goals ?? 0) + (g.home_goals ?? 0);
+  return `<div class="game">
+    <div class="g-accent" style="background:linear-gradient(90deg,${cA},${cH})"></div>
+    <div class="g-top">
+      <span>${teamChip(g.away_abbr)} @ ${teamChip(g.home_abbr)} · ${esc(g.venue ?? '')}</span>
+      <span class="g-badges">${stateBadge(g)}${tierHtml}</span>
+    </div>
+    ${rows}
+    ${done ? '' : `<div class="prob-track"><div class="prob-away" style="width:${(g.away_win_pct??.5)*100}%;background:${cA}"></div><div class="prob-home" style="background:${cH}"></div></div>`}
+    <div class="g-stats">
+      <div class="stat sb"><div class="v ${g.p_over_6_5>=.55?'hot':''}">${pct(g.p_over_6_5 ?? .5)}</div><div class="l">OVER</div></div>
+      <div class="stat st"><div class="v">${total.toFixed(1)}</div><div class="l">TOTAL</div></div>
+      <div class="stat sy"><div class="v ${g.target_score>=70?'hot':''}">${g.target_score ?? '–'}</div><div class="l">TARGET</div></div>
+    </div>
+    
+  </div>`;
+}
+
+function renderGames(d){
+  const order = {Live:0, Preview:1, Final:2};
+  const gs = [...d.games].sort((a,b) =>
+    (order[a.game_state] ?? 1) - (order[b.game_state] ?? 1) ||
+    new Date(a.game_time) - new Date(b.game_time));
+  $('games').innerHTML = gs.map(gameCard).join('') ||
+    '<div class="empty">No games on the slate.<br>The board lights up automatically when the season starts — first puck drop in October.</div>';
+}
+
+
+// ── Matchup grade: favorability of the scoring environment vs opposing goalie ──
+function teamGoals(p, allGames){
+  for (const g of allGames){
+    if (g.away_abbr === p.team) return g.away_goals;
+    if (g.home_abbr === p.team) return g.home_goals;
+  }
+  return null;
+}
+function matchupGrade(goals){
+  if (goals == null) return null;
+  // NHL implied team goals ~2.2 (tough) to ~4+ (great)
+  const t = [[3.7,'A+'],[3.4,'A'],[3.15,'B+'],[2.95,'B'],[2.75,'C+'],[2.5,'C'],[0,'D']];
+  for (const [thr,g] of t) if (goals >= thr) return g;
+  return 'D';
+}
+const gradeColor = g => {
+  if (g === 'A+' || g === 'A') return '#C6F24E';
+  if (g === 'B+' || g === 'B') return '#9FD13E';
+  if (g === 'C+' || g === 'C') return '#C9B85B';
+  return '#9A7A6A';
+};
+const gradeChip = g => g ? `<span class="grade" style="color:${gradeColor(g)};border-color:${gradeColor(g)}55;background:${gradeColor(g)}18">${g}</span>` : '';
+
+function renderPlays(d){
+  const players = [];
+  for (const g of d.games){
+    if (g.game_state === 'Final') continue;
+    for (const [side, opp] of [['away', g.home_abbr],['home', g.away_abbr]]) {
+      const oppG = g[(side === 'away' ? 'home' : 'away') + '_goalie'];
+      for (const p of (g[side+'_players'] || []))
+        players.push({...p, team: g[side+'_abbr'], opp, opp_goalie: oppG, venue: g.venue});
+    }
+  }
+  const cfg = STATS[statFilter];
+  const pool = players.filter(p => typeof cfg.v(p) === 'number')
+                      .sort((a,b) => cfg.v(b) - cfg.v(a)).slice(0, 40);
+  const RANKS = {};
+  for (const [m, c] of Object.entries(STATS)) {
+    const pl = players.filter(p => typeof c.v(p) === 'number').sort((a,b) => c.v(b) - c.v(a));
+    const mp = new Map();
+    pl.forEach((p, i) => mp.set(p.name + '|' + p.team, i + 1));
+    RANKS[m] = {map: mp, n: pl.length};
+  }
+  const statusTag = p => p.status === 'Q'
+    ? `<span class="tag" style="color:#FBBF24;background:#FBBF241C;border:1px solid #FBBF2444">DAY-TO-DAY</span>` : '';
+  function newsLine(p){
+    if (p.news) return `<div class="news up">↑ ${esc(p.news.reason)} · ${(p.news.prob_from*100).toFixed(0)}% → ${(p.news.prob_to*100).toFixed(0)}% anytime</div>`;
+    if (p.xg_prev != null) {
+      const up = (p.xg_pg ?? 0) >= p.xg_prev;
+      return `<div class="news ${up?'up':'dn'}">${up?'↑':'↓'} xG ${up?'up':'down'} since last run · ${p.xg_prev.toFixed(2)} → ${(p.xg_pg??0).toFixed(2)}</div>`;
+    }
+    return '';
+  }
+
+  function tileClass(statKey, val, poolArr){
+    if (val == null) return '';
+    const vals = poolArr.map(x => x[statKey]).filter(v => typeof v === 'number').sort((a,b)=>a-b);
+    if (vals.length < 4) return '';
+    const rank = vals.filter(v => v <= val).length / vals.length;
+    return rank >= 0.85 ? 'hot' : rank >= 0.6 ? 'warm' : '';
+  }
+  function readLine(p, conf){
+    if (!conf) return '';
+    const sorted = [...conf.factors].sort((a,b)=>b[1]-a[1]);
+    const hi = sorted[0], lo = sorted[sorted.length-1];
+    const phr = { 'Projected minutes':'heavy minutes','Scoring role':'a featured scoring role','Usage (P+R+A)':'high all-around usage',
+      'Sample (prior yr)':'limited current data','Sample (blended)':'a solid data blend',
+      'Sample (current)':'a full current sample','Health':'an injury flag' };
+    const up = phr[hi[0]] || hi[0].toLowerCase();
+    const dn = phr[lo[0]] || lo[0].toLowerCase();
+    return `<div class="read">Driven by <b>${up}</b> vs ${p.opp}, capped by <b>${dn}</b>.</div>`;
+  }
+
+  function detailPanel(p){
+    const cellDefs = [['MIN','min',0], ['PTS','pts',1], ['REB','reb',1], ['AST','ast',1], ['3PM','tpm',1], ['PRA','pra',1]];
+    const cells = cellDefs.map(([l,k,dp]) =>
+      `<div class="d-cell ${tileClass(k, p[k], players)}"><div class="v">${(p[k] ?? 0).toFixed(dp)}</div><div class="l">${l}</div></div>`).join('');
+    const key = p.name + '|' + p.team;
+    const rankChips = Object.keys(STATS).map(m => {
+      const r = RANKS[m].map.get(key);
+      return r ? `<span class="rk ${m === statFilter ? 'on' : (r <= 3 ? 'top' : '')}">${m} #${r}</span>` : '';
+    }).join('');
+    const r = RANKS[statFilter].map.get(key) ?? 1, n = RANKS[statFilter].n || 1;
+    const lambda = Math.max(.01, cfg.v(p));
+    const draws = simDrawsPois(statFilter + key, lambda);
+    const floor = pctileArr(draws, 0.25), med = pctileArr(draws, 0.50), ceil = pctileArr(draws, 0.90);
+    const simRows = runSim(statFilter, lambda).map(([lab, pr]) =>
+      `<div class="sim-row"><span class="sim-lab">${lab}</span>
+        <div class="sim-bar"><div class="sim-fill" style="width:${(pr*100).toFixed(1)}%"></div></div>
+        <span class="sim-pct">${(pr*100).toFixed(1)}%</span></div>`).join('');
+    const conf = nbaConfidence(p);
+    const gPill = '';
+    return `<div class="sim">
+      ${confHeader(conf)}${confBlock(conf)}
+      ${readLine(p, conf)}
+      <div class="d-sec">MATCHUP</div>
+      <div class="d-match">vs ${teamChip(p.opp)}${p.matchup_grade ? gradeChip(p.matchup_grade) : ''} ${gPill}${p.venue ? `<span class="src-pill">${esc(p.venue)}</span>` : ''}</div>
+      <div class="d-sec">PROJECTED LINE vs ${p.opp}</div>
+      <div class="d-line">${cells}</div>
+      <div class="d-sec">RANGE OF OUTCOMES · ${statFilter}</div>
+      <div class="fmc">
+        <div class="fmc-cell"><div class="v">${floor}</div><div class="l">FLOOR</div></div>
+        <div class="fmc-cell mid"><div class="v">${med}</div><div class="l">MEDIAN</div></div>
+        <div class="fmc-cell"><div class="v">${ceil}</div><div class="l">CEILING</div></div>
+      </div>
+      <div class="d-sec">SLATE RANKS</div>
+      <div class="rankchips">${rankChips}</div>
+      <div class="pctile"><div class="pctile-fill" style="width:${Math.round((1-(r-1)/n)*100)}%"></div></div>
+      <div class="pctile-lab"><span>#${r} of ${n} in ${statFilter}</span><span>top ${Math.max(1, Math.round(r / n * 100))}%</span></div>
+      <div class="sim-head" style="margin-top:12px"><span>MONTE CARLO · ${statFilter.toUpperCase()}</span><b>10,000 SIMS</b></div>${simRows}
+    </div>`;
+  }
+  const chips = Object.keys(STATS).map(m =>
+    `<div class="chip ${m===statFilter?'on':''}" data-m="${m}">${m}</div>`).join('');
+  const list = pool.map((p,i) => {
+    const key = statFilter + '|' + p.name, open = openSim === key;
+    const simHtml = open ? detailPanel(p) : '';
+    return `<div class="play" data-key="${esc(key)}">
+      <span class="rank ${i<3?'r'+(i+1):''}">${i+1}</span>
+      ${avatar(p.name, p.team, p.player_id)}
+      <div class="p-main">
+        <div class="p-player">${esc(p.name)}</div>
+        <div class="p-meta">${abSpan(p.team)} vs ${teamChip(p.opp)}${gradeChip(p.matchup_grade || matchupGrade(teamGoals(p, d.games)))}</div>
+        <div>${statusTag(p)}${tagsFor(p)}</div>
+        ${newsLine(p)}
+      </div>
+      <div class="p-edge">
+        <div class="edge-val">${cfg.fmt(cfg.v(p))}</div>
+        ${confRing(nbaConfidence(p))}
+        <div class="sim-hint">${open ? '▾ CLOSE' : '▸ DETAILS'}</div>
+      </div>
+      ${simHtml}
+    </div>`;
+  }).join('');
+  const top = (d.standouts?.top_pra || []).slice(0,5);
+  const watch = top.length ? `<div class="hr-strip"><div class="hr-title">PRA WATCH</div>` +
+    top.map(p => {
+      const team = players.find(s => s.player_id === p.player_id)?.team ?? '';
+      return `<div class="hr-row"><span class="hr-left">${avatar(p.name, team, p.player_id, 'hr-avatar')}<span class="nm">${esc(p.name)}</span><span class="tm">${team ? abSpan(team) : ''}</span></span><span class="pct">${(p.pra??0).toFixed(0)} PRA</span></div>`;
+    }).join('') + `</div>` : '';
+  $('plays').innerHTML = watch + `<div class="chips">${chips}</div>` +
+    (list || '<div class="empty">Skater projections arrive with the first slates of the season.</div>');
+  document.querySelectorAll('.chip').forEach(c => c.onclick = () => { statFilter = c.dataset.m; openSim = null; renderPlays(DATA); });
+  document.querySelectorAll('.play[data-key]').forEach(el => el.onclick = () => {
+    openSim = (openSim === el.dataset.key) ? null : el.dataset.key;
+    renderPlays(DATA);
+  });
+}
+
+async function load(){
+  try {
+    const r = await fetch(`../data/nba_slate.json?t=${Date.now()}`);
+    DATA = await r.json();
+    $('updated').textContent = DATA.generated_at ? 'Updated ' + rel(DATA.generated_at) : 'Preseason';
+    const live = DATA.games.filter(g=>g.game_state==='Live').length;
+    const strong = DATA.games.filter(g=>g.tier==='STRONG').length;
+    $('slate').innerHTML =
+      `<span class="sum-chip"><span class="dot" style="background:var(--blue)"></span>${DATA.games.length} games</span>` +
+      (live ? `<span class="sum-chip"><span class="dot" style="background:var(--red)"></span>${live} live</span>` : '') +
+      (strong ? `<span class="sum-chip"><span class="dot" style="background:var(--yellow)"></span>${strong} strong</span>` : '') +
+      `<span class="sum-chip"><span class="dot" style="background:#38BDF8"></span>${DATA.date ?? ''}</span>`;
+    renderGames(DATA);
+    renderPlays(DATA);
+  } catch(e){ $('updated').textContent = 'Offline'; }
+}
+load();
+const refreshBtn = document.getElementById('refresh');
+if (refreshBtn) refreshBtn.onclick = async () => {
+  refreshBtn.classList.add('spin');
+  const started = Date.now();
+  await load();
+  const wait = Math.max(0, 500 - (Date.now() - started));
+  setTimeout(() => refreshBtn.classList.remove('spin'), wait);
+};
+setInterval(load, 10*60*1000);
+document.addEventListener('visibilitychange', () => { if (!document.hidden) load(); });
+
+document.querySelectorAll('.tab').forEach(t => t.onclick = () => {
+  document.querySelectorAll('.tab').forEach(x => x.classList.remove('on'));
+  t.classList.add('on');
+  $('games').classList.toggle('hide', t.dataset.tab !== 'games');
+  $('plays').classList.toggle('hide', t.dataset.tab !== 'plays');
+});
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('../sw.js');
+</script>
+</body>
+</html>
