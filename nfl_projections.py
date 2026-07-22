@@ -916,6 +916,108 @@ def blend_stats(cur, pri, keys_usage=(), keys_rate=()):
         out[key] = _blend((cur or {}).get(key), (pri or {}).get(key), gp, K_RATE)
     return out
 
+
+# ---------------------------------------------------------------------------
+# RECENT FORM (last-N games). A hot or cold stretch should move a projection
+# off the season baseline. We pull ESPN's per-game gamelog, average the last
+# RECENT_N games, and overlay that on the season/prior blend at RECENT_W.
+# Fails safe: any error or thin sample -> returns None -> projection is
+# exactly the old season/prior blend. Never breaks a run.
+# ---------------------------------------------------------------------------
+RECENT_N = 4       # games in the rolling window
+RECENT_W = 0.35    # weight on recent form (0 = ignore, 1 = only recent)
+RECENT_MIN = 2     # need at least this many games or we skip form entirely
+
+def _gl_val(stats_list, labels, names):
+    """Pull a value out of a gamelog row by matching the column label/name."""
+    for i, lab in enumerate(labels):
+        key = (lab.get("name") or lab.get("abbreviation") or "").lower()
+        disp = (lab.get("displayName") or "").lower()
+        if any(n.lower() in (key, disp) for n in names):
+            try:
+                return float(stats_list[i])
+            except (TypeError, ValueError, IndexError):
+                return None
+    return None
+
+def fetch_recent_form(athlete_id, kind):
+    """Average of the last RECENT_N games from ESPN's gamelog. dict or None."""
+    if not athlete_id:
+        return None
+    url = (f"https://site.web.api.espn.com/apis/common/v3/sports/football/nfl/"
+           f"athletes/{athlete_id}/gamelog")
+    try:
+        data = _http_get_json(url)
+    except Exception:
+        return None
+    # gamelog structure: seasonTypes -> categories -> events{ eventId: {stats:[...]}}
+    # labels live at data["labels"] or data["names"]; we map by label text.
+    labels = data.get("labels") or data.get("names") or []
+    label_objs = []
+    # ESPN sometimes gives plain-string labels; wrap them uniformly
+    for l in labels:
+        label_objs.append({"name": l} if isinstance(l, str) else l)
+
+    # collect per-game stat arrays, most-recent first
+    rows = []
+    seasontypes = data.get("seasonTypes") or []
+    for st in seasontypes:
+        for cat in (st.get("categories") or []):
+            for ev in (cat.get("events") or []):
+                stt = ev.get("stats")
+                if isinstance(stt, list) and stt:
+                    rows.append(stt)
+    # events may already be newest-first; guard both ways by keeping order given
+    if not rows:
+        # alternate shape: data["events"] dict + data["seasonTypes"]... skip if absent
+        return None
+
+    rows = rows[:RECENT_N]
+    n = len(rows)
+    if n < RECENT_MIN:
+        return None
+
+    def avg(names):
+        vals = [_gl_val(r, label_objs, names) for r in rows]
+        vals = [v for v in vals if v is not None]
+        return sum(vals) / len(vals) if vals else None
+
+    if kind == "passing":
+        py = avg(["passingYards", "YDS", "yds"])
+        ptd = avg(["passingTouchdowns", "passing touchdowns", "TD"])
+        cpct = avg(["completionPct", "comp%", "CMP%"])
+        rtg = avg(["QBRating", "passer rating", "RTG", "rating"])
+        if py is None and ptd is None:
+            return None
+        return {"pass_yds": py, "pass_td": ptd, "comp_pct": cpct, "rating": rtg, "gp": n}
+    else:
+        ry = avg(["rushingYards", "rush yds", "YDS"])
+        rtd = avg(["rushingTouchdowns", "rushing touchdowns"])
+        rec = avg(["receptions", "REC"])
+        recy = avg(["receivingYards", "rec yds"])
+        rectd = avg(["receivingTouchdowns", "receiving touchdowns"])
+        tgt = avg(["receivingTargets", "targets", "TGTS"])
+        if all(v is None for v in (ry, recy, rec)):
+            return None
+        return {"rush_yds": ry, "rush_td": rtd, "rec": rec, "rec_yds": recy,
+                "rec_td": rectd, "targets": tgt, "gp": n}
+
+def apply_recent_form(blended, recent, keys):
+    """Overlay recent-form onto a blended stat dict for the given keys.
+    result = (1-w)*season_blend + w*recent, only where recent has the stat."""
+    if not recent:
+        return blended
+    w = RECENT_W
+    out = dict(blended)
+    for k in keys:
+        rv = recent.get(k)
+        bv = blended.get(k)
+        if rv is not None and bv is not None:
+            out[k] = (1 - w) * bv + w * rv
+        elif rv is not None and bv is None:
+            out[k] = rv
+    return out
+
 LEAGUE_AVG_QB = {"comp_pct": 64.5, "pass_yds": 220, "pass_td": 1.4, "int": 0.7, "rating": 88.0}
 
 
@@ -927,6 +1029,11 @@ def project_qb(team_abbr, opponent_abbr=None, vegas_factor=None, weather=None):
     if cur or pri:
         stats = blend_stats(cur, pri, keys_rate=("comp_pct", "pass_yds", "pass_td", "int", "rating"))
         src_tag = "blend" if (cur and pri) else ("current" if cur else "prior")
+        # recent-form overlay (last few games) — nudges toward a hot/cold streak
+        recent = fetch_recent_form(athlete_id, "passing")
+        if recent:
+            stats = apply_recent_form(stats, recent, ("pass_yds", "pass_td", "comp_pct", "rating"))
+            src_tag = "form"
     else:
         stats = dict(LEAGUE_AVG_QB)
         src_tag = "league_avg"
@@ -994,10 +1101,15 @@ def project_skill_players(team_abbr, opponent_abbr=None, vegas_factor=None, game
         b = blend_stats(cur, pri,
                         keys_usage=("targets", "rush_att"),
                         keys_rate=("rec", "rec_yds", "rush_yds", "td_per_game"))
+        _src = "blend" if (cur and pri) else ("current" if cur else "prior")
+        recent = fetch_recent_form(athlete_id, "skill")
+        if recent:
+            b = apply_recent_form(b, recent, ("rec", "rec_yds", "rush_yds", "targets"))
+            _src = "form"
         roster.append({
             "name": name, "id": athlete_id, "pos": pos, "b": b,
             "status": player_status(athlete_id),
-            "src": "blend" if (cur and pri) else ("current" if cur else "prior"),
+            "src": _src,
         })
 
     # ── vacated usage from OUT/doubtful players, redistributed 85% ──
