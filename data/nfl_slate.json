@@ -1,6 +1,6 @@
 {
   "date": "2026-07-22",
-  "generated_at": "2026-07-22 18:40 UTC",
+  "generated_at": "2026-07-22 22:40 UTC",
   "games": [
     {
       "away_team": "New England Patriots",
@@ -192,7 +192,7 @@
       ],
       "away_win_pct": 0.357,
       "home_win_pct": 0.643,
-      "p_cover": 0.476,
+      "p_cover": 0.498,
       "p_over": 0.5,
       "p_ml_edge": 0.0,
       "away_pts": 20.2,
@@ -1250,7 +1250,7 @@
       ],
       "away_win_pct": 0.634,
       "home_win_pct": 0.366,
-      "p_cover": 0.498,
+      "p_cover": 0.499,
       "p_over": 0.497,
       "p_ml_edge": 0.0,
       "away_pts": 26.0,
@@ -1452,9 +1452,9 @@
           "src": "form"
         }
       ],
-      "away_win_pct": 0.407,
-      "home_win_pct": 0.593,
-      "p_cover": 0.612,
+      "away_win_pct": 0.408,
+      "home_win_pct": 0.592,
+      "p_cover": 0.61,
       "p_over": 0.5,
       "p_ml_edge": 0.0,
       "away_pts": 19.2,
@@ -1463,8 +1463,8 @@
       "_lines": {
         "spread": -3.0,
         "total": 41.5,
-        "ml_away": 136.0909090909091,
-        "ml_home": -161.9090909090909,
+        "ml_away": 135.1818181818182,
+        "ml_home": -161.0,
         "books": 11
       }
     },
@@ -2373,20 +2373,6 @@
           "src": "form"
         },
         {
-          "name": "Chris Brooks",
-          "pos": "RB",
-          "player_id": "3149687",
-          "matchup_grade": null,
-          "targets": 0.9,
-          "rec": 0.7,
-          "rec_yds": 5.8,
-          "rush_yds": 10.3,
-          "rush_att": 1.6,
-          "td_prob": 0.08,
-          "fpts": 2.8,
-          "src": "form"
-        },
-        {
           "name": "Christian Watson",
           "pos": "WR",
           "player_id": "4248528",
@@ -2501,8 +2487,8 @@
           "src": "form"
         }
       ],
-      "away_win_pct": 0.502,
-      "home_win_pct": 0.498,
+      "away_win_pct": 0.5,
+      "home_win_pct": 0.5,
       "p_cover": 0.536,
       "p_over": 0.501,
       "p_ml_edge": 0.0,
@@ -2512,8 +2498,8 @@
       "_lines": {
         "spread": -1.0,
         "total": 45.5,
-        "ml_away": -111.5,
-        "ml_home": -109.5,
+        "ml_away": -110.5,
+        "ml_home": -110.5,
         "books": 11
       }
     },
@@ -3113,9 +3099,9 @@
           "src": "form"
         }
       ],
-      "away_win_pct": 0.571,
-      "home_win_pct": 0.429,
-      "p_cover": 0.472,
+      "away_win_pct": 0.572,
+      "home_win_pct": 0.428,
+      "p_cover": 0.461,
       "p_over": 0.501,
       "p_ml_edge": 0.0,
       "away_pts": 25.2,
@@ -3124,8 +3110,8 @@
       "_lines": {
         "spread": 2.5,
         "total": 48.0,
-        "ml_away": -147.63636363636363,
-        "ml_home": 122.81818181818181,
+        "ml_away": -148.54545454545453,
+        "ml_home": 123.72727272727273,
         "books": 11
       }
     },
