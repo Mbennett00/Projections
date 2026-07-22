@@ -1,6 +1,6 @@
 {
   "date": "2026-07-22",
-  "generated_at": "2026-07-22 13:14 UTC",
+  "generated_at": "2026-07-22 18:40 UTC",
   "games": [
     {
       "away_team": "New England Patriots",
@@ -73,8 +73,7 @@
           "rush_att": 10.2,
           "td_prob": 0.33,
           "fpts": 9.4,
-          "src": "form",
-          "fpts_prev": 10.7
+          "src": "form"
         },
         {
           "name": "A.J. Brown",
@@ -102,8 +101,7 @@
           "rush_att": 0.1,
           "td_prob": 0.18,
           "fpts": 9.8,
-          "src": "form",
-          "fpts_prev": 7.5
+          "src": "form"
         },
         {
           "name": "Hunter Henry",
@@ -133,8 +131,7 @@
           "rush_att": 12.0,
           "td_prob": 0.4,
           "fpts": 11.0,
-          "src": "form",
-          "fpts_prev": 10.1
+          "src": "form"
         },
         {
           "name": "Jaxon Smith-Njigba",
@@ -148,8 +145,7 @@
           "rush_att": 0.4,
           "td_prob": 0.39,
           "fpts": 22.0,
-          "src": "form",
-          "fpts_prev": 20.5
+          "src": "form"
         },
         {
           "name": "Tory Horton",
@@ -194,10 +190,10 @@
           "src": "form"
         }
       ],
-      "away_win_pct": 0.356,
-      "home_win_pct": 0.644,
-      "p_cover": 0.473,
-      "p_over": 0.501,
+      "away_win_pct": 0.357,
+      "home_win_pct": 0.643,
+      "p_cover": 0.476,
+      "p_over": 0.5,
       "p_ml_edge": 0.0,
       "away_pts": 20.2,
       "home_pts": 23.8,
@@ -205,9 +201,9 @@
       "_lines": {
         "spread": -3.5,
         "total": 44.0,
-        "ml_away": 168.9,
-        "ml_home": -204.4,
-        "books": 10
+        "ml_away": 168.54545454545453,
+        "ml_home": -203.54545454545453,
+        "books": 11
       }
     },
     {
@@ -295,8 +291,7 @@
           "rush_att": 0.1,
           "td_prob": 0.33,
           "fpts": 14.8,
-          "src": "form",
-          "fpts_prev": 13.1
+          "src": "form"
         },
         {
           "name": "Jake Tonges",
@@ -354,8 +349,7 @@
           "rush_att": 0.6,
           "td_prob": 0.47,
           "fpts": 27.1,
-          "src": "form",
-          "fpts_prev": 23.5
+          "src": "form"
         },
         {
           "name": "Xavier Smith",
@@ -402,7 +396,7 @@
       ],
       "away_win_pct": 0.371,
       "home_win_pct": 0.629,
-      "p_cover": 0.5,
+      "p_cover": 0.499,
       "p_over": 0.499,
       "p_ml_edge": 0.0,
       "away_pts": 22.5,
@@ -573,8 +567,7 @@
           "rush_att": 0.2,
           "td_prob": 0.45,
           "fpts": 25.2,
-          "src": "form",
-          "fpts_prev": 21.8
+          "src": "form"
         },
         {
           "name": "Mike Gesicki",
@@ -602,14 +595,13 @@
           "rush_att": 0.1,
           "td_prob": 0.07,
           "fpts": 3.1,
-          "src": "form",
-          "fpts_prev": 2.1
+          "src": "form"
         }
       ],
       "away_win_pct": 0.363,
       "home_win_pct": 0.637,
       "p_cover": 0.477,
-      "p_over": 0.501,
+      "p_over": 0.5,
       "p_ml_edge": 0.0,
       "away_pts": 24.2,
       "home_pts": 27.8,
@@ -712,8 +704,7 @@
           "rush_att": 0.1,
           "td_prob": 0.38,
           "fpts": 19.1,
-          "src": "form",
-          "fpts_prev": 16.3
+          "src": "form"
         },
         {
           "name": "Mason Tipton",
@@ -727,8 +718,7 @@
           "rush_att": 0.3,
           "td_prob": 0.08,
           "fpts": 2.9,
-          "src": "form",
-          "fpts_prev": 1.9
+          "src": "form"
         },
         {
           "name": "Juwan Johnson",
@@ -772,8 +762,7 @@
           "rush_att": 15.5,
           "td_prob": 0.6,
           "fpts": 21.7,
-          "src": "form",
-          "fpts_prev": 22.5
+          "src": "form"
         },
         {
           "name": "Isiah Pacheco",
@@ -801,8 +790,7 @@
           "rush_att": 0.2,
           "td_prob": 0.47,
           "fpts": 24.7,
-          "src": "form",
-          "fpts_prev": 20.0
+          "src": "form"
         },
         {
           "name": "Greg Dortch",
@@ -816,8 +804,7 @@
           "rush_att": 0.7,
           "td_prob": 0.22,
           "fpts": 7.6,
-          "src": "form",
-          "fpts_prev": 6.0
+          "src": "form"
         },
         {
           "name": "Sam LaPorta",
@@ -848,8 +835,8 @@
           "src": "form"
         }
       ],
-      "away_win_pct": 0.257,
-      "home_win_pct": 0.743,
+      "away_win_pct": 0.258,
+      "home_win_pct": 0.742,
       "p_cover": 0.501,
       "p_over": 0.5,
       "p_ml_edge": 0.0,
@@ -859,9 +846,9 @@
       "_lines": {
         "spread": -7.0,
         "total": 49.0,
-        "ml_away": 271.7,
-        "ml_home": -349.5,
-        "books": 10
+        "ml_away": 271.09090909090907,
+        "ml_home": -347.72727272727275,
+        "books": 11
       }
     },
     {
@@ -1021,8 +1008,7 @@
           "rush_att": 0.6,
           "td_prob": 0.19,
           "fpts": 7.9,
-          "src": "form",
-          "fpts_prev": 6.7
+          "src": "form"
         },
         {
           "name": "Gunnar Helm",
@@ -1055,7 +1041,7 @@
       ],
       "away_win_pct": 0.432,
       "home_win_pct": 0.568,
-      "p_cover": 0.571,
+      "p_cover": 0.561,
       "p_over": 0.502,
       "p_ml_edge": 0.0,
       "away_pts": 18.0,
@@ -1131,8 +1117,7 @@
           "rush_att": 18.9,
           "td_prob": 0.51,
           "fpts": 17.6,
-          "src": "form",
-          "fpts_prev": 16.5
+          "src": "form"
         },
         {
           "name": "Justice Hill",
@@ -1146,8 +1131,7 @@
           "rush_att": 1.9,
           "td_prob": 0.19,
           "fpts": 5.5,
-          "src": "form",
-          "fpts_prev": 6.4
+          "src": "form"
         },
         {
           "name": "Zay Flowers",
@@ -1161,8 +1145,7 @@
           "rush_att": 0.6,
           "td_prob": 0.3,
           "fpts": 17.2,
-          "src": "form",
-          "fpts_prev": 15.1
+          "src": "form"
         },
         {
           "name": "Mark Andrews",
@@ -1192,8 +1175,7 @@
           "rush_att": 18.2,
           "td_prob": 0.55,
           "fpts": 17.9,
-          "src": "form",
-          "fpts_prev": 18.8
+          "src": "form"
         },
         {
           "name": "DJ Giddens",
@@ -1266,9 +1248,9 @@
           "src": "form"
         }
       ],
-      "away_win_pct": 0.636,
-      "home_win_pct": 0.364,
-      "p_cover": 0.497,
+      "away_win_pct": 0.634,
+      "home_win_pct": 0.366,
+      "p_cover": 0.498,
       "p_over": 0.497,
       "p_ml_edge": 0.0,
       "away_pts": 26.0,
@@ -1277,9 +1259,9 @@
       "_lines": {
         "spread": 3.5,
         "total": 48.5,
-        "ml_away": -196.9,
-        "ml_home": 163.2,
-        "books": 10
+        "ml_away": -195.36363636363637,
+        "ml_home": 162.45454545454547,
+        "books": 11
       }
     },
     {
@@ -1294,18 +1276,18 @@
       "tier": "LEAN",
       "target_score": 50,
       "referee": null,
-      "away_qb": "Michael Penix Jr.",
+      "away_qb": "Tua Tagovailoa",
       "home_qb": "Aaron Rodgers",
       "away_qb_proj": {
-        "name": "Michael Penix Jr.",
-        "player_id": "4360423",
-        "quality": 13,
-        "comp_pct": 60.0,
-        "pass_yds": 195.3,
-        "pass_td": 0.99,
-        "int": 0.33,
-        "rating": 85.5,
-        "epa_db": 0.01,
+        "name": "Tua Tagovailoa",
+        "player_id": "4241479",
+        "quality": 12,
+        "comp_pct": 67.0,
+        "pass_yds": 168.9,
+        "pass_td": 1.09,
+        "int": 1.07,
+        "rating": 84.2,
+        "epa_db": -0.01,
         "src": "form",
         "status": null,
         "matchup_grade": null,
@@ -1328,17 +1310,45 @@
       },
       "away_skill": [
         {
-          "name": "Austin Hooper",
-          "pos": "TE",
-          "player_id": "3043275",
+          "name": "Bijan Robinson",
+          "pos": "RB",
+          "player_id": "4430807",
           "matchup_grade": null,
-          "targets": 1.7,
-          "rec": 1.1,
-          "rec_yds": 14.3,
+          "targets": 7.0,
+          "rec": 4.9,
+          "rec_yds": 44.8,
+          "rush_yds": 79.2,
+          "rush_att": 16.3,
+          "td_prob": 0.47,
+          "fpts": 21.2,
+          "src": "form"
+        },
+        {
+          "name": "Brian Robinson Jr.",
+          "pos": "RB",
+          "player_id": "4241474",
+          "matchup_grade": null,
+          "targets": 0.6,
+          "rec": 0.5,
+          "rec_yds": 2.0,
+          "rush_yds": 17.4,
+          "rush_att": 5.2,
+          "td_prob": 0.13,
+          "fpts": 3.2,
+          "src": "form"
+        },
+        {
+          "name": "Drake London",
+          "pos": "WR",
+          "player_id": "4426502",
+          "matchup_grade": null,
+          "targets": 8.6,
+          "rec": 5.1,
+          "rec_yds": 67.7,
           "rush_yds": 0.0,
           "rush_att": 0.0,
-          "td_prob": 0.08,
-          "fpts": 3.0,
+          "td_prob": 0.33,
+          "fpts": 14.3,
           "src": "form"
         },
         {
@@ -1353,6 +1363,20 @@
           "rush_att": 0.0,
           "td_prob": 0.26,
           "fpts": 12.3,
+          "src": "form"
+        },
+        {
+          "name": "Austin Hooper",
+          "pos": "TE",
+          "player_id": "3043275",
+          "matchup_grade": null,
+          "targets": 1.7,
+          "rec": 1.1,
+          "rec_yds": 14.3,
+          "rush_yds": 0.0,
+          "rush_att": 0.0,
+          "td_prob": 0.08,
+          "fpts": 3.0,
           "src": "form"
         }
       ],
@@ -1397,8 +1421,7 @@
           "rush_att": 0.1,
           "td_prob": 0.3,
           "fpts": 13.8,
-          "src": "form",
-          "fpts_prev": 11.7
+          "src": "form"
         },
         {
           "name": "Pat Freiermuth",
@@ -1429,9 +1452,9 @@
           "src": "form"
         }
       ],
-      "away_win_pct": 0.408,
-      "home_win_pct": 0.592,
-      "p_cover": 0.571,
+      "away_win_pct": 0.407,
+      "home_win_pct": 0.593,
+      "p_cover": 0.612,
       "p_over": 0.5,
       "p_ml_edge": 0.0,
       "away_pts": 19.2,
@@ -1440,9 +1463,9 @@
       "_lines": {
         "spread": -3.0,
         "total": 41.5,
-        "ml_away": 135.2,
-        "ml_home": -161.1,
-        "books": 10
+        "ml_away": 136.0909090909091,
+        "ml_home": -161.9090909090909,
+        "books": 11
       }
     },
     {
@@ -1502,8 +1525,7 @@
           "rush_att": 14.3,
           "td_prob": 0.42,
           "fpts": 13.7,
-          "src": "form",
-          "fpts_prev": 14.5
+          "src": "form"
         },
         {
           "name": "Kyle Monangai",
@@ -1545,8 +1567,7 @@
           "rush_att": 0.1,
           "td_prob": 0.31,
           "fpts": 14.7,
-          "src": "form",
-          "fpts_prev": 9.9
+          "src": "form"
         },
         {
           "name": "Cole Kmet",
@@ -1623,7 +1644,7 @@
       ],
       "away_win_pct": 0.557,
       "home_win_pct": 0.443,
-      "p_cover": 0.428,
+      "p_cover": 0.437,
       "p_over": 0.5,
       "p_ml_edge": 0.0,
       "away_pts": 23.8,
@@ -1764,8 +1785,7 @@
           "rush_att": 0.4,
           "td_prob": 0.27,
           "fpts": 12.0,
-          "src": "form",
-          "fpts_prev": 10.2
+          "src": "form"
         }
       ],
       "home_skill": [
@@ -1823,8 +1843,7 @@
           "rush_att": 0.1,
           "td_prob": 0.23,
           "fpts": 12.0,
-          "src": "form",
-          "fpts_prev": 10.1
+          "src": "form"
         },
         {
           "name": "Brenton Strange",
@@ -1843,7 +1862,7 @@
       ],
       "away_win_pct": 0.24,
       "home_win_pct": 0.76,
-      "p_cover": 0.501,
+      "p_cover": 0.5,
       "p_over": 0.503,
       "p_ml_edge": 0.0,
       "away_pts": 16.5,
@@ -1919,8 +1938,7 @@
           "rush_att": 18.4,
           "td_prob": 0.48,
           "fpts": 15.9,
-          "src": "form",
-          "fpts_prev": 17.0
+          "src": "form"
         },
         {
           "name": "Ray Davis",
@@ -1934,8 +1952,7 @@
           "rush_att": 3.4,
           "td_prob": 0.12,
           "fpts": 4.4,
-          "src": "form",
-          "fpts_prev": 3.5
+          "src": "form"
         },
         {
           "name": "DJ Moore",
@@ -1949,8 +1966,7 @@
           "rush_att": 0.9,
           "td_prob": 0.27,
           "fpts": 10.3,
-          "src": "form",
-          "fpts_prev": 9.3
+          "src": "form"
         },
         {
           "name": "Keon Coleman",
@@ -1964,8 +1980,7 @@
           "rush_att": 0.0,
           "td_prob": 0.19,
           "fpts": 6.6,
-          "src": "form",
-          "fpts_prev": 7.6
+          "src": "form"
         },
         {
           "name": "Tyrell Shavers",
@@ -2065,8 +2080,7 @@
           "rush_att": 0.2,
           "td_prob": 0.19,
           "fpts": 7.8,
-          "src": "form",
-          "fpts_prev": 5.7
+          "src": "form"
         },
         {
           "name": "Dalton Schultz",
@@ -2080,13 +2094,12 @@
           "rush_att": 0.0,
           "td_prob": 0.2,
           "fpts": 9.8,
-          "src": "form",
-          "fpts_prev": 10.8
+          "src": "form"
         }
       ],
       "away_win_pct": 0.62,
       "home_win_pct": 0.38,
-      "p_cover": 0.626,
+      "p_cover": 0.607,
       "p_over": 0.5,
       "p_ml_edge": 0.0,
       "away_pts": 22.8,
@@ -2204,8 +2217,7 @@
           "rush_att": 0.1,
           "td_prob": 0.12,
           "fpts": 7.5,
-          "src": "form",
-          "fpts_prev": 6.1
+          "src": "form"
         }
       ],
       "home_skill": [
@@ -2263,8 +2275,7 @@
           "rush_att": 0.2,
           "td_prob": 0.32,
           "fpts": 14.0,
-          "src": "form",
-          "fpts_prev": 13.2
+          "src": "form"
         },
         {
           "name": "Michael Mayer",
@@ -2283,7 +2294,7 @@
       ],
       "away_win_pct": 0.368,
       "home_win_pct": 0.632,
-      "p_cover": 0.503,
+      "p_cover": 0.502,
       "p_over": 0.5,
       "p_ml_edge": 0.0,
       "away_pts": 18.5,
@@ -2292,8 +2303,8 @@
       "_lines": {
         "spread": -3.5,
         "total": 40.5,
-        "ml_away": 160.2,
-        "ml_home": -193.8,
+        "ml_away": 160.63636363636363,
+        "ml_home": -193.9090909090909,
         "books": 11
       }
     },
@@ -2359,8 +2370,7 @@
           "rush_att": 15.4,
           "td_prob": 0.47,
           "fpts": 13.6,
-          "src": "form",
-          "fpts_prev": 14.5
+          "src": "form"
         },
         {
           "name": "Chris Brooks",
@@ -2388,8 +2398,7 @@
           "rush_att": 0.1,
           "td_prob": 0.31,
           "fpts": 12.9,
-          "src": "form",
-          "fpts_prev": 11.5
+          "src": "form"
         },
         {
           "name": "Savion Williams",
@@ -2417,8 +2426,7 @@
           "rush_att": 0.1,
           "td_prob": 0.34,
           "fpts": 14.1,
-          "src": "form",
-          "fpts_prev": 12.2
+          "src": "form"
         },
         {
           "name": "Luke Musgrave",
@@ -2476,8 +2484,7 @@
           "rush_att": 0.1,
           "td_prob": 0.26,
           "fpts": 15.0,
-          "src": "form",
-          "fpts_prev": 13.3
+          "src": "form"
         },
         {
           "name": "T.J. Hockenson",
@@ -2491,8 +2498,7 @@
           "rush_att": 0.1,
           "td_prob": 0.18,
           "fpts": 8.6,
-          "src": "form",
-          "fpts_prev": 7.7
+          "src": "form"
         }
       ],
       "away_win_pct": 0.502,
@@ -2506,8 +2512,8 @@
       "_lines": {
         "spread": -1.0,
         "total": 45.5,
-        "ml_away": -111.71428571428571,
-        "ml_home": -109.42857142857143,
+        "ml_away": -111.5,
+        "ml_home": -109.5,
         "books": 11
       }
     },
@@ -2713,9 +2719,9 @@
           "src": "form"
         }
       ],
-      "away_win_pct": 0.347,
-      "home_win_pct": 0.653,
-      "p_cover": 0.525,
+      "away_win_pct": 0.346,
+      "home_win_pct": 0.654,
+      "p_cover": 0.522,
       "p_over": 0.504,
       "p_ml_edge": 0.0,
       "away_pts": 21.5,
@@ -2724,8 +2730,8 @@
       "_lines": {
         "spread": -4.5,
         "total": 47.5,
-        "ml_away": 176.7,
-        "ml_home": -213.6,
+        "ml_away": 177.0,
+        "ml_home": -214.1818181818182,
         "books": 11
       }
     },
@@ -2830,8 +2836,7 @@
           "rush_att": 15.5,
           "td_prob": 0.48,
           "fpts": 16.3,
-          "src": "form",
-          "fpts_prev": 17.4
+          "src": "form"
         },
         {
           "name": "Kimani Vidal",
@@ -2845,8 +2850,7 @@
           "rush_att": 13.3,
           "td_prob": 0.36,
           "fpts": 10.3,
-          "src": "form",
-          "fpts_prev": 11.3
+          "src": "form"
         },
         {
           "name": "Ladd McConkey",
@@ -2860,8 +2864,7 @@
           "rush_att": 0.0,
           "td_prob": 0.28,
           "fpts": 11.2,
-          "src": "form",
-          "fpts_prev": 12.2
+          "src": "form"
         },
         {
           "name": "Oronde Gadsden",
@@ -2889,12 +2892,11 @@
           "rush_att": 0.0,
           "td_prob": 0.2,
           "fpts": 6.3,
-          "src": "form",
-          "fpts_prev": 7.3
+          "src": "form"
         }
       ],
-      "away_win_pct": 0.18,
-      "home_win_pct": 0.82,
+      "away_win_pct": 0.182,
+      "home_win_pct": 0.818,
       "p_cover": 0.499,
       "p_over": 0.502,
       "p_ml_edge": 0.0,
@@ -2904,8 +2906,8 @@
       "_lines": {
         "spread": -11.0,
         "total": 46.5,
-        "ml_away": 432.0,
-        "ml_home": -596.3636363636364,
+        "ml_away": 427.0,
+        "ml_home": -587.7272727272727,
         "books": 11
       }
     },
@@ -2966,8 +2968,7 @@
           "rush_att": 16.3,
           "td_prob": 0.49,
           "fpts": 14.8,
-          "src": "form",
-          "fpts_prev": 15.8
+          "src": "form"
         },
         {
           "name": "Malik Davis",
@@ -2995,8 +2996,7 @@
           "rush_att": 0.1,
           "td_prob": 0.29,
           "fpts": 16.9,
-          "src": "form",
-          "fpts_prev": 15.7
+          "src": "form"
         },
         {
           "name": "KaVontae Turpin",
@@ -3024,8 +3024,7 @@
           "rush_att": 0.1,
           "td_prob": 0.28,
           "fpts": 9.9,
-          "src": "form",
-          "fpts_prev": 10.9
+          "src": "form"
         }
       ],
       "home_skill": [
@@ -3055,8 +3054,7 @@
           "rush_att": 11.3,
           "td_prob": 0.33,
           "fpts": 13.1,
-          "src": "form",
-          "fpts_prev": 11.8
+          "src": "form"
         },
         {
           "name": "Malik Nabers",
@@ -3115,10 +3113,10 @@
           "src": "form"
         }
       ],
-      "away_win_pct": 0.57,
-      "home_win_pct": 0.43,
-      "p_cover": 0.469,
-      "p_over": 0.5,
+      "away_win_pct": 0.571,
+      "home_win_pct": 0.429,
+      "p_cover": 0.472,
+      "p_over": 0.501,
       "p_ml_edge": 0.0,
       "away_pts": 25.2,
       "home_pts": 22.8,
@@ -3126,9 +3124,9 @@
       "_lines": {
         "spread": 2.5,
         "total": 48.0,
-        "ml_away": -147.9,
-        "ml_home": 122.6,
-        "books": 10
+        "ml_away": -147.63636363636363,
+        "ml_home": 122.81818181818181,
+        "books": 11
       }
     },
     {
@@ -3274,8 +3272,7 @@
           "rush_att": 13.5,
           "td_prob": 0.34,
           "fpts": 13.9,
-          "src": "form",
-          "fpts_prev": 12.0
+          "src": "form"
         },
         {
           "name": "Rashee Rice",
@@ -3289,8 +3286,7 @@
           "rush_att": 0.6,
           "td_prob": 0.43,
           "fpts": 20.0,
-          "src": "form",
-          "fpts_prev": 17.5
+          "src": "form"
         },
         {
           "name": "Travis Kelce",
@@ -3323,7 +3319,7 @@
       ],
       "away_win_pct": 0.422,
       "home_win_pct": 0.578,
-      "p_cover": 0.494,
+      "p_cover": 0.469,
       "p_over": 0.501,
       "p_ml_edge": 0.0,
       "away_pts": 20.0,
