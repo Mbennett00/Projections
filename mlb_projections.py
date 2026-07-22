@@ -484,7 +484,58 @@ def run_sanity_check(bat_df):
 # ---------------------------------------------------------------------------
 # STEP 4: Offense quality score per batter, matchup-adjusted
 # ---------------------------------------------------------------------------
-def project_batter_simple(brow, prow, order, park_hr_factor=1.0, weather_factor=1.0, platoon_factor=1.0):
+# ---------------------------------------------------------------------------
+# RECENT FORM (light). MLB Statcast percentiles are season-long, so we add a
+# modest hot/cold multiplier from the batter's last N games via the MLB Stats
+# API game log (already the schedule/lineup source, so no new dependency).
+# We compare recent hits+HR pace to a league-ish baseline and nudge the
+# projection within tight bounds. Fails safe: any error -> factor 1.0.
+# ---------------------------------------------------------------------------
+FORM_LAST_N = 12       # games in the rolling window
+FORM_MAX = 0.12        # cap the swing at +/-12% so one hot week can't dominate
+_FORM_CACHE = {}
+
+def recent_form_factor(player_id, season=None):
+    """Return (hit_factor, hr_factor) multipliers ~[1-FORM_MAX, 1+FORM_MAX]."""
+    if not player_id:
+        return 1.0, 1.0
+    if player_id in _FORM_CACHE:
+        return _FORM_CACHE[player_id]
+    if season is None:
+        season = datetime.now(_ET).year if _ET else datetime.now().year
+    hit_f = hr_f = 1.0
+    try:
+        url = (f"https://statsapi.mlb.com/api/v1/people/{player_id}/stats"
+               f"?stats=gameLog&group=hitting&season={season}&gameType=R")
+        resp = requests.get(url, timeout=5)
+        resp.raise_for_status()
+        data = resp.json()
+        splits = []
+        for st in data.get("stats", []):
+            splits.extend(st.get("splits", []))
+        # most recent games are last in the list; take the tail
+        splits = splits[-FORM_LAST_N:]
+        if len(splits) >= 5:
+            ab = h = hr = 0
+            for sp in splits:
+                s = sp.get("stat", {})
+                ab += int(s.get("atBats", 0) or 0)
+                h  += int(s.get("hits", 0) or 0)
+                hr += int(s.get("homeRuns", 0) or 0)
+            if ab >= 20:
+                recent_avg = h / ab
+                recent_hr_rate = hr / ab
+                # league-ish baselines
+                base_avg, base_hr = 0.248, 0.035
+                hit_f = 1.0 + max(-FORM_MAX, min(FORM_MAX, (recent_avg - base_avg) / base_avg * 0.5))
+                hr_f  = 1.0 + max(-FORM_MAX, min(FORM_MAX, (recent_hr_rate - base_hr) / base_hr * 0.5))
+    except Exception:
+        pass
+    _FORM_CACHE[player_id] = (hit_f, hr_f)
+    return hit_f, hr_f
+
+
+def project_batter_simple(brow, prow, order, park_hr_factor=1.0, weather_factor=1.0, platoon_factor=1.0, form_hit=1.0, form_hr=1.0):
     bstats = get_converted_stats(brow)
     xwoba = bstats["xwoba"] or LEAGUE_AVG_XWOBA
     brl_pct = bstats["brl_pct"]
@@ -515,7 +566,7 @@ def project_batter_simple(brow, prow, order, park_hr_factor=1.0, weather_factor=
         hr_rate = LEAGUE_AVG_HR_PA * (hh_pct / 38.0)
     else:
         hr_rate = LEAGUE_AVG_HR_PA
-    hr_rate = max(0.005, min(0.12, hr_rate)) * park_hr_factor * weather_factor * platoon_factor
+    hr_rate = max(0.005, min(0.12, hr_rate)) * park_hr_factor * weather_factor * platoon_factor * form_hr
 
     # K and BB rates: log5 batter vs. pitcher, anchored to league average.
     # Fall back to league average if either side's data is missing.
@@ -537,7 +588,7 @@ def project_batter_simple(brow, prow, order, park_hr_factor=1.0, weather_factor=
     # approximation, not a precise split. HR uses the barrel-based rate
     # above instead of the league-shape HR share, since that's more direct.
     hit_shape_total = LEAGUE_HIT_SHAPE["single"] + LEAGUE_HIT_SHAPE["double"] + LEAGUE_HIT_SHAPE["triple"] + LEAGUE_HIT_SHAPE["hr"]
-    xwoba_hit_total = max(0.10, (matchup_xwoba / LEAGUE_AVG_XWOBA) * hit_shape_total)
+    xwoba_hit_total = max(0.10, (matchup_xwoba / LEAGUE_AVG_XWOBA) * hit_shape_total) * form_hit
     single_rate = xwoba_hit_total * (LEAGUE_HIT_SHAPE["single"] / hit_shape_total)
     double_rate = xwoba_hit_total * (LEAGUE_HIT_SHAPE["double"] / hit_shape_total)
     triple_rate = xwoba_hit_total * (LEAGUE_HIT_SHAPE["triple"] / hit_shape_total)
@@ -954,11 +1005,13 @@ def print_game(game, bat_df, pit_df, odds_lines, all_standouts):
                 store.append(None)
                 names.append(slot["name"])
                 continue
+            _fhit, _fhr = recent_form_factor(slot.get("player_id"))
             proj = project_batter_simple(
                 brow, opp_prow, slot["order"],
                 park_hr_factor=get_park_factor(venue, slot.get("bat_side", "R")),
                 weather_factor=_wx_hr,
-                platoon_factor=platoon_factor(slot.get("bat_side", "R"), opp_pitch_hand)
+                platoon_factor=platoon_factor(slot.get("bat_side", "R"), opp_pitch_hand),
+                form_hit=_fhit, form_hr=_fhr
             )
             store.append(proj)
             names.append(slot["name"])
