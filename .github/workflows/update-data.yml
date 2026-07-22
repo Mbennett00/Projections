@@ -10,10 +10,14 @@ name: Update model data
 
 on:
   schedule:
-    # MLB: 3 PM ET (afternoon slate lineups posted) + 6 PM ET (evening slate).
-    # Lineups post ~1-3h before first pitch, so these hit the sweet spot.
-    - cron: "0 19 * * *"        # 3 PM ET
-    - cron: "0 22 * * *"        # 6 PM ET
+    # MLB: 11 AM ET (day-game lineups) + 3 PM ET (afternoon slate) + 6 PM ET (evening).
+    # Lineups post ~1-3h before first pitch. Day games (1 PM ET) post lineups
+    # ~10:30-11 AM, so the 11 AM run catches getaway-day / weekend day slates
+    # that the afternoon runs missed. Times are UTC and assume EDT (summer);
+    # in EST they land one hour earlier, still fine for the same slates.
+    - cron: "0 15 * * *"        # 11 AM ET (EDT) — day games
+    - cron: "0 19 * * *"        # 3 PM ET (EDT) — afternoon slate
+    - cron: "0 22 * * *"        # 6 PM ET (EDT) — evening slate
     # NFL: Tue + Sun mornings in season.
     - cron: "0 13 * * 0,2"
     # NHL: 5 PM ET (evening slate, most games 7 PM) in season.
