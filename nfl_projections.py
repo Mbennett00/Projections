@@ -22,6 +22,18 @@ import json
 import re
 import sys
 from datetime import datetime, timezone
+
+try:
+    from zoneinfo import ZoneInfo
+    _ET = ZoneInfo("America/New_York")
+except Exception:
+    _ET = None
+
+def _today_et():
+    # Display the slate's date in US Eastern so it doesn't show "tomorrow"
+    # after 8pm ET (when the GitHub runner's UTC clock has already rolled over).
+    now = datetime.now(_ET) if _ET else datetime.now(timezone.utc)
+    return now.strftime("%Y-%m-%d")
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor
 
@@ -1288,7 +1300,7 @@ def main():
         games = list(pool.map(lambda g: build_game(g, odds_map), raw_games))
 
     slate = {
-        "date": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+        "date": _today_et(),
         "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
         "games": games,
     }
