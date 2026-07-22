@@ -34,6 +34,18 @@ import sys
 import math
 import json
 from datetime import datetime
+try:
+    from zoneinfo import ZoneInfo
+    _ET = ZoneInfo("America/New_York")
+except Exception:
+    _ET = None
+
+def _today_et():
+    # The sports "slate day" is defined in US Eastern, not the runner's UTC clock.
+    # Without this, a job running after 8pm ET (past midnight UTC) rolls the slate
+    # to tomorrow and shows "waiting for lines" for games not yet posted.
+    now = datetime.now(_ET) if _ET else datetime.now()
+    return now.strftime("%Y-%m-%d")
 
 import requests
 import pandas as pd
@@ -1064,7 +1076,7 @@ def print_game(game, bat_df, pit_df, odds_lines, all_standouts):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--date", type=str, default=datetime.now().strftime("%Y-%m-%d"))
+    parser.add_argument("--date", type=str, default=_today_et())
     parser.add_argument("--season", type=int, default=datetime.now().year)
     parser.add_argument("--json-out", type=str, default="mlb_slate.json")
     args = parser.parse_args()
