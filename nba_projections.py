@@ -25,6 +25,18 @@ import math
 import os
 import sys
 from datetime import datetime, date, timezone
+
+try:
+    from zoneinfo import ZoneInfo
+    _ET = ZoneInfo("America/New_York")
+except Exception:
+    _ET = None
+
+def _today_et():
+    # Slate day is US Eastern, not the GitHub runner's UTC clock (prevents the
+    # slate rolling to "tomorrow / waiting for lines" after 8pm ET).
+    now = datetime.now(_ET) if _ET else datetime.now()
+    return now.strftime("%Y-%m-%d")
 from pathlib import Path
 
 try:
@@ -513,7 +525,7 @@ def build_game(raw, odds_map, yesterday=None):
 
 
 def main():
-    day = sys.argv[1] if len(sys.argv) > 1 else datetime.now().strftime("%Y-%m-%d")
+    day = sys.argv[1] if len(sys.argv) > 1 else _today_et()
     print(f"NBA Projections for {day}  (season {CUR_SEASON}, prior {PRIOR_SEASON})")
 
     games_raw = fetch_schedule(day)
