@@ -1,6 +1,6 @@
 {
   "date": "2026-07-23",
-  "generated_at": "2026-07-23 18:52 UTC",
+  "generated_at": "2026-07-23 22:34 UTC",
   "games": [
     {
       "away_team": "New England Patriots",
@@ -21,30 +21,30 @@
         "player_id": "4431452",
         "quality": 24,
         "comp_pct": 66.8,
-        "pass_yds": 227.0,
-        "pass_td": 1.61,
+        "pass_yds": 224.8,
+        "pass_td": 1.6,
         "int": 0.47,
-        "rating": 98.8,
-        "epa_db": 0.14,
+        "rating": 98.2,
+        "epa_db": 0.13,
         "src": "form",
         "status": null,
         "matchup_grade": null,
-        "_matchup_factor": 0.944
+        "_matchup_factor": 0.935
       },
       "home_qb_proj": {
         "name": "Sam Darnold",
         "player_id": "3912547",
-        "quality": 28,
+        "quality": 29,
         "comp_pct": 67.4,
-        "pass_yds": 243.6,
-        "pass_td": 1.47,
+        "pass_yds": 245.4,
+        "pass_td": 1.48,
         "int": 0.82,
-        "rating": 103.7,
+        "rating": 104.2,
         "epa_db": 0.19,
         "src": "form",
         "status": null,
         "matchup_grade": null,
-        "_matchup_factor": 1.055
+        "_matchup_factor": 1.063
       },
       "away_skill": [
         {
@@ -54,11 +54,11 @@
           "matchup_grade": null,
           "targets": 3.1,
           "rec": 2.5,
-          "rec_yds": 23.0,
-          "rush_yds": 42.7,
+          "rec_yds": 22.8,
+          "rush_yds": 42.3,
           "rush_att": 8.9,
           "td_prob": 0.34,
-          "fpts": 11.6,
+          "fpts": 11.5,
           "src": "form"
         },
         {
@@ -68,11 +68,11 @@
           "matchup_grade": null,
           "targets": 2.2,
           "rec": 1.7,
-          "rec_yds": 13.0,
-          "rush_yds": 39.6,
-          "rush_att": 10.2,
+          "rec_yds": 12.9,
+          "rush_yds": 39.1,
+          "rush_att": 10.1,
           "td_prob": 0.33,
-          "fpts": 9.4,
+          "fpts": 9.3,
           "src": "form"
         },
         {
@@ -82,11 +82,11 @@
           "matchup_grade": null,
           "targets": 7.9,
           "rec": 5.1,
-          "rec_yds": 61.9,
+          "rec_yds": 61.3,
           "rush_yds": 0.0,
           "rush_att": 0.0,
           "td_prob": 0.31,
-          "fpts": 13.5,
+          "fpts": 13.4,
           "src": "form"
         },
         {
@@ -96,11 +96,11 @@
           "matchup_grade": null,
           "targets": 5.3,
           "rec": 3.5,
-          "rec_yds": 35.3,
-          "rush_yds": 16.0,
+          "rec_yds": 35.0,
+          "rush_yds": 15.9,
           "rush_att": 0.1,
           "td_prob": 0.18,
-          "fpts": 9.8,
+          "fpts": 9.7,
           "src": "form"
         },
         {
@@ -108,9 +108,9 @@
           "pos": "TE",
           "player_id": "3046439",
           "matchup_grade": null,
-          "targets": 4.7,
+          "targets": 4.8,
           "rec": 3.1,
-          "rec_yds": 40.9,
+          "rec_yds": 40.6,
           "rush_yds": 0.0,
           "rush_att": 0.0,
           "td_prob": 0.23,
@@ -126,11 +126,11 @@
           "matchup_grade": null,
           "targets": 1.8,
           "rec": 1.5,
-          "rec_yds": 10.5,
-          "rush_yds": 53.3,
-          "rush_att": 12.0,
-          "td_prob": 0.4,
-          "fpts": 11.0,
+          "rec_yds": 10.6,
+          "rush_yds": 53.8,
+          "rush_att": 12.1,
+          "td_prob": 0.41,
+          "fpts": 11.1,
           "src": "form"
         },
         {
@@ -138,13 +138,13 @@
           "pos": "WR",
           "player_id": "4430878",
           "matchup_grade": null,
-          "targets": 9.0,
+          "targets": 8.9,
           "rec": 6.5,
-          "rec_yds": 103.4,
-          "rush_yds": 22.4,
+          "rec_yds": 104.2,
+          "rush_yds": 22.6,
           "rush_att": 0.4,
           "td_prob": 0.39,
-          "fpts": 22.0,
+          "fpts": 22.1,
           "src": "form"
         },
         {
@@ -154,7 +154,7 @@
           "matchup_grade": null,
           "targets": 2.8,
           "rec": 1.7,
-          "rec_yds": 21.5,
+          "rec_yds": 21.6,
           "rush_yds": 0.0,
           "rush_att": 0.0,
           "td_prob": 0.25,
@@ -168,10 +168,10 @@
           "matchup_grade": null,
           "targets": 3.4,
           "rec": 2.6,
-          "rec_yds": 31.2,
+          "rec_yds": 31.4,
           "rush_yds": 7.0,
           "rush_att": 0.6,
-          "td_prob": 0.22,
+          "td_prob": 0.23,
           "fpts": 8.0,
           "src": "form"
         },
@@ -182,7 +182,7 @@
           "matchup_grade": null,
           "targets": 1.6,
           "rec": 0.9,
-          "rec_yds": 14.2,
+          "rec_yds": 14.3,
           "rush_yds": 0.0,
           "rush_att": 0.0,
           "td_prob": 0.08,
@@ -190,19 +190,19 @@
           "src": "form"
         }
       ],
-      "away_win_pct": 0.357,
-      "home_win_pct": 0.643,
-      "p_cover": 0.498,
+      "away_win_pct": 0.359,
+      "home_win_pct": 0.641,
+      "p_cover": 0.5,
       "p_over": 0.5,
       "p_ml_edge": 0.0,
-      "away_pts": 20.2,
-      "home_pts": 23.8,
+      "away_pts": 20.0,
+      "home_pts": 24.0,
       "edge": null,
       "_lines": {
-        "spread": -3.5,
+        "spread": -4.0,
         "total": 44.0,
-        "ml_away": 168.54545454545453,
-        "ml_home": -203.54545454545453,
+        "ml_away": 166.9090909090909,
+        "ml_home": -201.54545454545453,
         "books": 11
       }
     },
@@ -1039,8 +1039,8 @@
           "src": "form"
         }
       ],
-      "away_win_pct": 0.431,
-      "home_win_pct": 0.569,
+      "away_win_pct": 0.434,
+      "home_win_pct": 0.566,
       "p_cover": 0.56,
       "p_over": 0.502,
       "p_ml_edge": 0.0,
@@ -1050,8 +1050,8 @@
       "_lines": {
         "spread": -2.5,
         "total": 38.5,
-        "ml_away": 122.54545454545455,
-        "ml_home": -146.0,
+        "ml_away": 121.0,
+        "ml_home": -144.27272727272728,
         "books": 11
       }
     },
@@ -1860,8 +1860,8 @@
           "src": "form"
         }
       ],
-      "away_win_pct": 0.239,
-      "home_win_pct": 0.761,
+      "away_win_pct": 0.235,
+      "home_win_pct": 0.765,
       "p_cover": 0.5,
       "p_over": 0.503,
       "p_ml_edge": 0.0,
@@ -1871,8 +1871,8 @@
       "_lines": {
         "spread": -7.5,
         "total": 40.5,
-        "ml_away": 299.8181818181818,
-        "ml_home": -389.0,
+        "ml_away": 306.1818181818182,
+        "ml_home": -398.09090909090907,
         "books": 11
       }
     },
@@ -2892,8 +2892,8 @@
       "_lines": {
         "spread": -11.5,
         "total": 46.5,
-        "ml_away": 441.54545454545456,
-        "ml_home": -616.3636363636364,
+        "ml_away": 440.1818181818182,
+        "ml_home": -614.0909090909091,
         "books": 11
       }
     },
