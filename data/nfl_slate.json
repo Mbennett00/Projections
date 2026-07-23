@@ -1,6 +1,6 @@
 {
   "date": "2026-07-23",
-  "generated_at": "2026-07-23 07:44 UTC",
+  "generated_at": "2026-07-23 18:52 UTC",
   "games": [
     {
       "away_team": "New England Patriots",
@@ -1039,9 +1039,9 @@
           "src": "form"
         }
       ],
-      "away_win_pct": 0.432,
-      "home_win_pct": 0.568,
-      "p_cover": 0.561,
+      "away_win_pct": 0.431,
+      "home_win_pct": 0.569,
+      "p_cover": 0.56,
       "p_over": 0.502,
       "p_ml_edge": 0.0,
       "away_pts": 18.0,
@@ -1050,8 +1050,8 @@
       "_lines": {
         "spread": -2.5,
         "total": 38.5,
-        "ml_away": 122.0,
-        "ml_home": -145.27272727272728,
+        "ml_away": 122.54545454545455,
+        "ml_home": -146.0,
         "books": 11
       }
     },
@@ -1487,30 +1487,30 @@
         "player_id": "4431611",
         "quality": 16,
         "comp_pct": 57.4,
-        "pass_yds": 266.1,
-        "pass_td": 1.83,
+        "pass_yds": 268.1,
+        "pass_td": 1.84,
         "int": 0.41,
-        "rating": 89.3,
-        "epa_db": 0.04,
+        "rating": 89.7,
+        "epa_db": 0.05,
         "src": "form",
         "status": null,
         "matchup_grade": null,
-        "_matchup_factor": 1.055
+        "_matchup_factor": 1.063
       },
       "home_qb_proj": {
         "name": "Bryce Young",
         "player_id": "4685720",
-        "quality": 11,
+        "quality": 12,
         "comp_pct": 62.8,
-        "pass_yds": 185.6,
-        "pass_td": 1.34,
+        "pass_yds": 187.1,
+        "pass_td": 1.35,
         "int": 0.69,
-        "rating": 83.6,
+        "rating": 84.0,
         "epa_db": -0.01,
         "src": "form",
         "status": null,
         "matchup_grade": null,
-        "_matchup_factor": 0.976
+        "_matchup_factor": 0.984
       },
       "away_skill": [
         {
@@ -1520,11 +1520,11 @@
           "matchup_grade": null,
           "targets": 2.5,
           "rec": 1.8,
-          "rec_yds": 19.8,
-          "rush_yds": 66.8,
+          "rec_yds": 20.0,
+          "rush_yds": 67.3,
           "rush_att": 14.3,
           "td_prob": 0.42,
-          "fpts": 13.7,
+          "fpts": 13.8,
           "src": "form"
         },
         {
@@ -1534,8 +1534,8 @@
           "matchup_grade": null,
           "targets": 2.2,
           "rec": 1.5,
-          "rec_yds": 11.6,
-          "rush_yds": 43.0,
+          "rec_yds": 11.7,
+          "rush_yds": 43.4,
           "rush_att": 10.2,
           "td_prob": 0.3,
           "fpts": 9.1,
@@ -1548,7 +1548,7 @@
           "matchup_grade": null,
           "targets": 7.1,
           "rec": 3.4,
-          "rec_yds": 57.9,
+          "rec_yds": 58.3,
           "rush_yds": 0.0,
           "rush_att": 0.0,
           "td_prob": 0.33,
@@ -1562,11 +1562,11 @@
           "matchup_grade": null,
           "targets": 7.4,
           "rec": 4.8,
-          "rec_yds": 49.5,
-          "rush_yds": 28.0,
+          "rec_yds": 49.9,
+          "rush_yds": 28.2,
           "rush_att": 0.1,
           "td_prob": 0.31,
-          "fpts": 14.7,
+          "fpts": 14.8,
           "src": "form"
         },
         {
@@ -1576,11 +1576,11 @@
           "matchup_grade": null,
           "targets": 2.9,
           "rec": 1.9,
-          "rec_yds": 22.9,
+          "rec_yds": 23.1,
           "rush_yds": 0.0,
           "rush_att": 0.0,
-          "td_prob": 0.12,
-          "fpts": 4.9,
+          "td_prob": 0.13,
+          "fpts": 5.0,
           "src": "form"
         }
       ],
@@ -1592,10 +1592,10 @@
           "matchup_grade": null,
           "targets": 2.6,
           "rec": 2.0,
-          "rec_yds": 15.5,
-          "rush_yds": 31.0,
+          "rec_yds": 15.6,
+          "rush_yds": 31.3,
           "rush_att": 8.6,
-          "td_prob": 0.26,
+          "td_prob": 0.27,
           "fpts": 8.5,
           "src": "form"
         },
@@ -1606,11 +1606,11 @@
           "matchup_grade": null,
           "targets": 7.2,
           "rec": 4.2,
-          "rec_yds": 57.2,
+          "rec_yds": 57.6,
           "rush_yds": 0.0,
           "rush_att": 0.0,
           "td_prob": 0.29,
-          "fpts": 11.9,
+          "fpts": 12.0,
           "src": "form"
         },
         {
@@ -1620,7 +1620,7 @@
           "matchup_grade": null,
           "targets": 2.3,
           "rec": 1.7,
-          "rec_yds": 14.7,
+          "rec_yds": 14.9,
           "rush_yds": 0.0,
           "rush_att": 0.0,
           "td_prob": 0.1,
@@ -1634,7 +1634,7 @@
           "matchup_grade": null,
           "targets": 2.1,
           "rec": 1.7,
-          "rec_yds": 14.5,
+          "rec_yds": 14.6,
           "rush_yds": 0.0,
           "rush_att": 0.0,
           "td_prob": 0.08,
@@ -1647,12 +1647,12 @@
       "p_cover": 0.437,
       "p_over": 0.5,
       "p_ml_edge": 0.0,
-      "away_pts": 23.8,
-      "home_pts": 21.2,
+      "away_pts": 24.0,
+      "home_pts": 21.5,
       "edge": null,
       "_lines": {
         "spread": 2.5,
-        "total": 45.0,
+        "total": 45.5,
         "ml_away": -139.45454545454547,
         "ml_home": 116.0909090909091,
         "books": 11
@@ -1871,7 +1871,7 @@
       "_lines": {
         "spread": -7.5,
         "total": 40.5,
-        "ml_away": 300.27272727272725,
+        "ml_away": 299.8181818181818,
         "ml_home": -389.0,
         "books": 11
       }
@@ -2294,7 +2294,7 @@
       ],
       "away_win_pct": 0.368,
       "home_win_pct": 0.632,
-      "p_cover": 0.502,
+      "p_cover": 0.501,
       "p_over": 0.5,
       "p_ml_edge": 0.0,
       "away_pts": 18.5,
@@ -3305,7 +3305,7 @@
       ],
       "away_win_pct": 0.423,
       "home_win_pct": 0.577,
-      "p_cover": 0.435,
+      "p_cover": 0.494,
       "p_over": 0.501,
       "p_ml_edge": 0.0,
       "away_pts": 20.0,
