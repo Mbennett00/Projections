@@ -1,6 +1,6 @@
 {
   "date": "2026-07-23",
-  "generated_at": "2026-07-23 06:38 UTC",
+  "generated_at": "2026-07-23 07:44 UTC",
   "games": [
     {
       "away_team": "New England Patriots",
@@ -192,7 +192,7 @@
       ],
       "away_win_pct": 0.357,
       "home_win_pct": 0.643,
-      "p_cover": 0.499,
+      "p_cover": 0.498,
       "p_over": 0.5,
       "p_ml_edge": 0.0,
       "away_pts": 20.2,
@@ -364,20 +364,6 @@
           "td_prob": 0.06,
           "fpts": 3.0,
           "src": "form"
-        },
-        {
-          "name": "Davante Adams",
-          "pos": "WR",
-          "player_id": "16800",
-          "matchup_grade": null,
-          "targets": 7.9,
-          "rec": 4.4,
-          "rec_yds": 64.2,
-          "rush_yds": 0.0,
-          "rush_att": 0.0,
-          "td_prob": 0.46,
-          "fpts": 14.6,
-          "src": "prior"
         },
         {
           "name": "Colby Parkinson",
@@ -851,7 +837,7 @@
       ],
       "away_win_pct": 0.258,
       "home_win_pct": 0.742,
-      "p_cover": 0.501,
+      "p_cover": 0.5,
       "p_over": 0.5,
       "p_ml_edge": 0.0,
       "away_pts": 21.0,
@@ -1466,9 +1452,9 @@
           "src": "form"
         }
       ],
-      "away_win_pct": 0.408,
-      "home_win_pct": 0.592,
-      "p_cover": 0.61,
+      "away_win_pct": 0.406,
+      "home_win_pct": 0.594,
+      "p_cover": 0.612,
       "p_over": 0.5,
       "p_ml_edge": 0.0,
       "away_pts": 19.2,
@@ -1477,8 +1463,8 @@
       "_lines": {
         "spread": -3.0,
         "total": 41.5,
-        "ml_away": 135.1818181818182,
-        "ml_home": -161.0,
+        "ml_away": 136.36363636363637,
+        "ml_home": -162.36363636363637,
         "books": 11
       }
     },
@@ -1874,8 +1860,8 @@
           "src": "form"
         }
       ],
-      "away_win_pct": 0.24,
-      "home_win_pct": 0.76,
+      "away_win_pct": 0.239,
+      "home_win_pct": 0.761,
       "p_cover": 0.5,
       "p_over": 0.503,
       "p_ml_edge": 0.0,
@@ -1885,8 +1871,8 @@
       "_lines": {
         "spread": -7.5,
         "total": 40.5,
-        "ml_away": 299.3636363636364,
-        "ml_home": -386.72727272727275,
+        "ml_away": 300.27272727272725,
+        "ml_home": -389.0,
         "books": 11
       }
     },
@@ -2111,8 +2097,8 @@
           "src": "form"
         }
       ],
-      "away_win_pct": 0.62,
-      "home_win_pct": 0.38,
+      "away_win_pct": 0.57,
+      "home_win_pct": 0.43,
       "p_cover": 0.607,
       "p_over": 0.5,
       "p_ml_edge": 0.0,
@@ -2122,8 +2108,8 @@
       "_lines": {
         "spread": 1.0,
         "total": 44.5,
-        "ml_away": -116.54545454545455,
-        "ml_home": -49.36363636363637,
+        "ml_away": -116.0909090909091,
+        "ml_home": -68.0,
         "books": 11
       }
     },
@@ -2719,9 +2705,9 @@
           "src": "form"
         }
       ],
-      "away_win_pct": 0.346,
-      "home_win_pct": 0.654,
-      "p_cover": 0.522,
+      "away_win_pct": 0.345,
+      "home_win_pct": 0.655,
+      "p_cover": 0.525,
       "p_over": 0.504,
       "p_ml_edge": 0.0,
       "away_pts": 21.5,
@@ -2730,8 +2716,8 @@
       "_lines": {
         "spread": -4.5,
         "total": 47.5,
-        "ml_away": 177.0,
-        "ml_home": -214.1818181818182,
+        "ml_away": 177.9090909090909,
+        "ml_home": -215.54545454545453,
         "books": 11
       }
     },
@@ -2895,8 +2881,8 @@
           "src": "form"
         }
       ],
-      "away_win_pct": 0.178,
-      "home_win_pct": 0.822,
+      "away_win_pct": 0.177,
+      "home_win_pct": 0.823,
       "p_cover": 0.499,
       "p_over": 0.502,
       "p_ml_edge": 0.0,
@@ -2906,8 +2892,8 @@
       "_lines": {
         "spread": -11.5,
         "total": 46.5,
-        "ml_away": 439.27272727272725,
-        "ml_home": -610.0,
+        "ml_away": 441.54545454545456,
+        "ml_home": -616.3636363636364,
         "books": 11
       }
     },
@@ -3115,7 +3101,7 @@
       ],
       "away_win_pct": 0.572,
       "home_win_pct": 0.428,
-      "p_cover": 0.461,
+      "p_cover": 0.387,
       "p_over": 0.501,
       "p_ml_edge": 0.0,
       "away_pts": 25.2,
@@ -3319,7 +3305,7 @@
       ],
       "away_win_pct": 0.423,
       "home_win_pct": 0.577,
-      "p_cover": 0.494,
+      "p_cover": 0.435,
       "p_over": 0.501,
       "p_ml_edge": 0.0,
       "away_pts": 20.0,
