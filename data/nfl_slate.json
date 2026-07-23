@@ -1,6 +1,6 @@
 {
-  "date": "2026-07-22",
-  "generated_at": "2026-07-23 03:12 UTC",
+  "date": "2026-07-23",
+  "generated_at": "2026-07-23 06:38 UTC",
   "games": [
     {
       "away_team": "New England Patriots",
@@ -364,6 +364,20 @@
           "td_prob": 0.06,
           "fpts": 3.0,
           "src": "form"
+        },
+        {
+          "name": "Davante Adams",
+          "pos": "WR",
+          "player_id": "16800",
+          "matchup_grade": null,
+          "targets": 7.9,
+          "rec": 4.4,
+          "rec_yds": 64.2,
+          "rush_yds": 0.0,
+          "rush_att": 0.0,
+          "td_prob": 0.46,
+          "fpts": 14.6,
+          "src": "prior"
         },
         {
           "name": "Colby Parkinson",
@@ -3303,9 +3317,9 @@
           "src": "form"
         }
       ],
-      "away_win_pct": 0.422,
-      "home_win_pct": 0.578,
-      "p_cover": 0.469,
+      "away_win_pct": 0.423,
+      "home_win_pct": 0.577,
+      "p_cover": 0.494,
       "p_over": 0.501,
       "p_ml_edge": 0.0,
       "away_pts": 20.0,
@@ -3314,8 +3328,8 @@
       "_lines": {
         "spread": -3.0,
         "total": 43.0,
-        "ml_away": 127.0909090909091,
-        "ml_home": -152.63636363636363,
+        "ml_away": 126.63636363636364,
+        "ml_home": -151.72727272727272,
         "books": 11
       }
     }
