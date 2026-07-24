@@ -1,6 +1,6 @@
 {
   "date": "2026-07-24",
-  "generated_at": "2026-07-24 07:41 UTC",
+  "generated_at": "2026-07-24 20:00 UTC",
   "games": [
     {
       "away_team": "New England Patriots",
@@ -190,8 +190,8 @@
           "src": "form"
         }
       ],
-      "away_win_pct": 0.359,
-      "home_win_pct": 0.641,
+      "away_win_pct": 0.358,
+      "home_win_pct": 0.642,
       "p_cover": 0.5,
       "p_over": 0.5,
       "p_ml_edge": 0.0,
@@ -201,8 +201,8 @@
       "_lines": {
         "spread": -4.0,
         "total": 44.0,
-        "ml_away": 166.9090909090909,
-        "ml_home": -201.54545454545453,
+        "ml_away": 167.8181818181818,
+        "ml_home": -202.45454545454547,
         "books": 11
       }
     },
@@ -1039,9 +1039,9 @@
           "src": "form"
         }
       ],
-      "away_win_pct": 0.434,
-      "home_win_pct": 0.566,
-      "p_cover": 0.56,
+      "away_win_pct": 0.429,
+      "home_win_pct": 0.571,
+      "p_cover": 0.502,
       "p_over": 0.502,
       "p_ml_edge": 0.0,
       "away_pts": 18.0,
@@ -1050,8 +1050,8 @@
       "_lines": {
         "spread": -2.5,
         "total": 38.5,
-        "ml_away": 121.0,
-        "ml_home": -144.27272727272728,
+        "ml_away": 123.81818181818181,
+        "ml_home": -147.45454545454547,
         "books": 11
       }
     },
@@ -1644,7 +1644,7 @@
       ],
       "away_win_pct": 0.557,
       "home_win_pct": 0.443,
-      "p_cover": 0.437,
+      "p_cover": 0.439,
       "p_over": 0.5,
       "p_ml_edge": 0.0,
       "away_pts": 24.0,
@@ -2097,9 +2097,9 @@
           "src": "form"
         }
       ],
-      "away_win_pct": 0.57,
-      "home_win_pct": 0.43,
-      "p_cover": 0.607,
+      "away_win_pct": 0.569,
+      "home_win_pct": 0.431,
+      "p_cover": 0.609,
       "p_over": 0.5,
       "p_ml_edge": 0.0,
       "away_pts": 22.8,
@@ -2108,8 +2108,8 @@
       "_lines": {
         "spread": 1.0,
         "total": 44.5,
-        "ml_away": -116.0909090909091,
-        "ml_home": -68.0,
+        "ml_away": -115.63636363636364,
+        "ml_home": -68.45454545454545,
         "books": 11
       }
     },
@@ -2294,7 +2294,7 @@
       ],
       "away_win_pct": 0.368,
       "home_win_pct": 0.632,
-      "p_cover": 0.501,
+      "p_cover": 0.502,
       "p_over": 0.5,
       "p_ml_edge": 0.0,
       "away_pts": 18.5,
@@ -2707,7 +2707,7 @@
       ],
       "away_win_pct": 0.345,
       "home_win_pct": 0.655,
-      "p_cover": 0.525,
+      "p_cover": 0.524,
       "p_over": 0.504,
       "p_ml_edge": 0.0,
       "away_pts": 21.5,
@@ -3101,7 +3101,7 @@
       ],
       "away_win_pct": 0.572,
       "home_win_pct": 0.428,
-      "p_cover": 0.387,
+      "p_cover": 0.461,
       "p_over": 0.501,
       "p_ml_edge": 0.0,
       "away_pts": 25.2,
@@ -3305,7 +3305,7 @@
       ],
       "away_win_pct": 0.423,
       "home_win_pct": 0.577,
-      "p_cover": 0.494,
+      "p_cover": 0.518,
       "p_over": 0.501,
       "p_ml_edge": 0.0,
       "away_pts": 20.0,
