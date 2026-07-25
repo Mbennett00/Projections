@@ -1,0 +1,26 @@
+{
+  "generated_at": "2026-07-25T15:53:13.149900-04:00",
+  "leagues": [
+    {
+      "key": "nfl",
+      "label": "NFL",
+      "teams": []
+    },
+    {
+      "key": "nba",
+      "label": "NBA",
+      "teams": []
+    },
+    {
+      "key": "mlb",
+      "label": "MLB",
+      "teams": []
+    },
+    {
+      "key": "nhl",
+      "label": "NHL",
+      "teams": []
+    }
+  ],
+  "total_players": 0
+}
