@@ -4,144 +4,208 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Slate — Model Boards</title>
-<meta name="theme-color" content="#12140E">
+<meta name="theme-color" content="#141510">
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" href="./icon-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,600;0,800;1,800;1,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#12140E; --card:#1A1D14; --card-2:#22261A; --line:#33372A;
-  --blue:#8A907C; --yellow:#C6F24E; --teal:#7FB2C4; --orange:#C99A5B;
-  --text:#F2F3EC; --muted:#8A907C; --r:18px;
+  --bg:#141510; --panel:#1B1D15; --panel-hi:#24271C; --line:#33372A;
+  --volt:#D8FF4D; --ink:#F4F3E9; --mute:#8B8F7A; --faint:#5C6050;
+  --r:20px; --r-sm:13px;
 }
-*{margin:0;padding:0;box-sizing:border-box}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{-webkit-text-size-adjust:100%}
 body{
-  background:var(--bg); color:var(--text); font-family:'Inter',system-ui,sans-serif;
+  background:var(--bg); color:var(--ink); font-family:'Inter',system-ui,sans-serif;
   min-height:100dvh; display:flex; flex-direction:column; position:relative;
   padding:max(20px,env(safe-area-inset-top)) 18px max(28px,env(safe-area-inset-bottom));
   max-width:520px; margin:0 auto;
 }
-body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
-  background:radial-gradient(640px 340px at 10% -8%,rgba(138,144,124,.18),transparent 60%),
-             radial-gradient(560px 320px at 110% 2%,rgba(198,242,78,.12),transparent 60%),
-             radial-gradient(500px 400px at 50% 115%,rgba(45,212,191,.07),transparent 60%)}
-header{display:flex; align-items:center; justify-content:space-between; padding:6px 2px 24px}
-.wordmark{font-family:'Sora',sans-serif; font-weight:800; font-size:23px; letter-spacing:.5px;
-  background:linear-gradient(100deg,#C6F24E,#EAFF9E); -webkit-background-clip:text;
-  background-clip:text; color:transparent}
-.hub-refresh{width:34px;height:34px;border-radius:50%;background:var(--card);border:1px solid var(--line);
-  display:grid;place-items:center;cursor:pointer;color:var(--blue);font-size:16px;margin-left:8px;
-  transition:transform .2s;-webkit-tap-highlight-color:transparent;padding:0}
-.hub-refresh:active{transform:scale(.9)}
-.hub-refresh.spin{animation:spin .7s linear infinite;color:var(--yellow)}
+body::before{
+  content:''; position:fixed; inset:0; z-index:-1; pointer-events:none;
+  background:
+    radial-gradient(560px 320px at 8% -6%, rgba(216,255,77,.10), transparent 60%),
+    radial-gradient(480px 360px at 108% 8%, rgba(217,122,61,.08), transparent 60%),
+    radial-gradient(520px 420px at 46% 118%, rgba(111,216,232,.06), transparent 60%);
+}
+
+/* ---------- header ---------- */
+header{display:flex; align-items:flex-start; justify-content:space-between; padding:4px 2px 26px}
+.head-left .wordmark{
+  font-family:'Archivo',sans-serif; font-weight:800; font-size:22px; letter-spacing:.01em;
+  color:var(--ink); display:flex; align-items:baseline; gap:7px;
+}
+.wordmark i{font-style:italic; font-weight:900; color:var(--volt)}
+.head-left .today{font-size:12.5px; color:var(--mute); font-weight:500; margin-top:3px}
+.hub-refresh{
+  width:36px; height:36px; border-radius:50%; background:var(--panel); border:1px solid var(--line);
+  display:grid; place-items:center; cursor:pointer; color:var(--mute); font-size:16px;
+  transition:transform .2s, color .2s, border-color .2s; padding:0; flex:none;
+}
+.hub-refresh:active{transform:scale(.88)}
+.hub-refresh:focus-visible{outline:2px solid var(--volt); outline-offset:2px}
+.hub-refresh.spin{animation:spin .7s linear infinite; color:var(--volt); border-color:rgba(216,255,77,.4)}
 @keyframes spin{to{transform:rotate(360deg)}}
-.date-chip{
-  font-size:12px; font-weight:600; color:var(--muted); padding:7px 12px; border-radius:99px;
-  background:linear-gradient(var(--card),var(--card)) padding-box,
-             linear-gradient(120deg,rgba(138,144,124,.55),rgba(198,242,78,.55)) border-box;
-  border:1px solid transparent;
-}
-.kicker{font-size:12.5px; font-weight:700; color:var(--muted); letter-spacing:.14em;
-  text-transform:uppercase; margin-bottom:6px}
-.kicker-bar{width:44px;height:3px;border-radius:2px;margin-bottom:16px;
-  background:linear-gradient(90deg,#A8D62E,#C6F24E)}
-.grid{display:grid; grid-template-columns:1fr 1fr; gap:12px}
-.sport-card{
+
+/* ---------- section label ---------- */
+.kicker-row{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.kicker{font-size:11.5px; font-weight:700; color:var(--mute); letter-spacing:.16em; text-transform:uppercase; flex:none}
+.kicker-line{height:1px; flex:1; background:linear-gradient(90deg, var(--line), transparent)}
+
+/* ---------- board grid ---------- */
+.grid{display:grid; grid-template-columns:1fr 1fr; gap:11px}
+.board{
+  --acc:var(--volt);
   display:block; text-decoration:none; color:inherit; position:relative; overflow:hidden;
-  border-radius:var(--r); padding:16px 15px 14px;
-  background:linear-gradient(160deg,var(--card-2),var(--card)) padding-box,
-             linear-gradient(150deg, color-mix(in srgb, var(--acc) 55%, transparent), rgba(37,48,78,.6) 60%) border-box;
-  border:1px solid transparent;
-  transition:transform .15s ease;
+  border-radius:var(--r); padding:16px 16px 15px;
+  background:var(--panel);
+  border:1px solid var(--line);
+  transition:transform .16s cubic-bezier(.2,.8,.3,1), border-color .2s;
 }
-.sport-card:active{transform:scale(.97)}
-.sport-card::after{
-  content:''; position:absolute; inset:auto -26px -26px auto; width:110px; height:110px;
-  border-radius:50%; background:radial-gradient(circle, color-mix(in srgb, var(--acc) 22%, transparent), transparent 70%);
+.board:active{transform:scale(.97)}
+.board:focus-visible{outline:2px solid var(--volt); outline-offset:2px}
+.board::before{
+  content:''; position:absolute; inset:0; border-radius:inherit; padding:1px;
+  background:linear-gradient(155deg, color-mix(in srgb, var(--acc) 45%, transparent), transparent 55%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor; mask-composite:exclude; pointer-events:none;
 }
-.league-logo{
-  width:46px; height:46px; border-radius:13px; margin-bottom:11px;
-  background:linear-gradient(160deg, color-mix(in srgb, var(--acc) 20%, var(--card)), var(--card));
-  border:1px solid color-mix(in srgb, var(--acc) 35%, transparent);
-  display:grid; place-items:center;
+.board.quiet{--dim-card:1}
+.board.quiet .board-num, .board.quiet .board-name{opacity:.4}
+.board.quiet::before{opacity:.35}
+
+.board-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.board-tag{font-size:10px; font-weight:700; letter-spacing:.12em; color:var(--acc)}
+.live-dot{display:none; align-items:center; gap:4px; font-size:9px; font-weight:700; color:#FF6B5E; letter-spacing:.04em}
+.live-dot.on{display:flex}
+.live-dot i{width:6px;height:6px;border-radius:50%;background:#FF6B5E;animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+
+.board-num{
+  font-family:'Archivo',sans-serif; font-style:italic; font-weight:900;
+  font-size:40px; line-height:.85; color:var(--ink); letter-spacing:-.01em;
+  margin-bottom:2px; font-variant-numeric:tabular-nums;
 }
-.league-logo img{width:32px; height:32px; object-fit:contain}
-.sport-tag{font-family:'Sora',sans-serif; font-weight:700; font-size:10.5px; letter-spacing:.13em;
-  color:var(--acc); margin-bottom:4px}
-.sport-name{font-family:'Sora',sans-serif; font-weight:700; font-size:18px; margin-bottom:9px}
-.meta-col{display:flex; flex-direction:column; gap:5px; align-items:flex-start}
-.pill{font-size:10.5px; font-weight:600; padding:4px 9px; border-radius:99px;
-  background:color-mix(in srgb, var(--acc) 13%, transparent);
-  color:var(--acc); border:1px solid color-mix(in srgb, var(--acc) 26%, transparent)}
-.soon .sport-name,.soon .league-logo img{opacity:.75}
-.soon{cursor:default}
-.arrow{position:absolute; top:15px; right:14px; width:30px; height:30px; border-radius:50%;
-  background:var(--card); border:1px solid var(--line); display:grid; place-items:center;
-  color:var(--acc); font-weight:700; font-size:14px}
-footer{margin-top:auto; text-align:center; font-size:12px; color:var(--muted); padding-top:28px}
-footer b{background:linear-gradient(100deg,#C6F24E,#EAFF9E);
-  -webkit-background-clip:text;background-clip:text;color:transparent;font-weight:700}
-@media (prefers-reduced-motion:reduce){.sport-card{transition:none}}
+.board-name{font-size:12.5px; font-weight:600; color:var(--mute); margin-bottom:12px}
+
+.board-foot{display:flex; align-items:center; justify-content:space-between; gap:8px}
+.board-updated{font-size:10.5px; font-weight:600; color:var(--faint)}
+.board-arrow{
+  width:26px; height:26px; border-radius:50%; background:var(--panel-hi); flex:none;
+  display:grid; place-items:center; color:var(--acc); font-size:13px; font-weight:700;
+  transition:transform .16s ease;
+}
+.board:active .board-arrow{transform:translateX(2px)}
+
+/* ---------- injuries strip ---------- */
+.injuries{
+  margin-top:11px; display:flex; align-items:center; justify-content:space-between; gap:12px;
+  text-decoration:none; color:inherit; background:var(--panel); border:1px solid var(--line);
+  border-radius:var(--r); padding:14px 16px; transition:transform .16s cubic-bezier(.2,.8,.3,1);
+}
+.injuries:active{transform:scale(.98)}
+.injuries:focus-visible{outline:2px solid var(--volt); outline-offset:2px}
+.injuries-left{display:flex;align-items:center;gap:12px;min-width:0}
+.injuries-icn{
+  width:38px;height:38px;border-radius:11px;flex:none;display:grid;place-items:center;font-size:17px;
+  background:rgba(216,255,77,.10); border:1px solid rgba(216,255,77,.24);
+}
+.injuries-text .board-tag{margin-bottom:2px;display:block}
+.injuries-text .board-name{margin-bottom:0;font-size:13.5px;font-weight:700;color:var(--ink)}
+.injuries-count{font-family:'Archivo',sans-serif;font-style:italic;font-weight:800;font-size:17px;color:var(--volt);flex:none}
+
+/* ---------- footer ---------- */
+footer{margin-top:auto; text-align:center; font-size:11.5px; color:var(--faint); padding-top:30px; font-weight:500}
+footer b{color:var(--volt); font-weight:700}
+
+@media (prefers-reduced-motion:reduce){
+  .board, .injuries, .hub-refresh, .board-arrow{transition:none}
+  .live-dot i{animation:none}
+  .hub-refresh.spin{animation:none}
+}
 </style>
 </head>
 <body>
 <header>
-  <div class="wordmark">SLATE.</div>
-  <div style="display:flex;align-items:center">
-    <div class="date-chip" id="today"></div>
-    <button class="hub-refresh" id="hub-refresh" aria-label="Refresh" title="Refresh">↻</button>
+  <div class="head-left">
+    <div class="wordmark">Slate<i>.</i></div>
+    <div class="today" id="today"></div>
   </div>
+  <button class="hub-refresh" id="hub-refresh" aria-label="Refresh" title="Refresh">↻</button>
 </header>
 
-<div class="kicker">Model Boards</div>
-<div class="kicker-bar"></div>
+<div class="kicker-row">
+  <div class="kicker">Model Boards</div>
+  <div class="kicker-line"></div>
+</div>
 
 <div class="grid">
-  <a class="sport-card" href="./mlb/" style="--acc:var(--yellow)">
-    <div class="arrow">→</div>
-    <div class="league-logo"><img src="https://a.espncdn.com/i/teamlogos/leagues/500/mlb.png" alt="MLB" loading="lazy" onerror="this.remove()"></div>
-    <div class="sport-tag">MLB · DAILY</div>
-    <div class="sport-name">Baseball</div>
-    <div class="meta-col">
-      <span class="pill" id="mlb-games">— games</span>
-      <span class="pill" id="mlb-updated">syncing…</span>
+  <a class="board" data-sport="mlb" href="./mlb/" style="--acc:#D8FF4D">
+    <div class="board-top">
+      <span class="board-tag">MLB · DAILY</span>
+      <span class="live-dot" id="mlb-live"><i></i>LIVE</span>
+    </div>
+    <div class="board-num" id="mlb-games">—</div>
+    <div class="board-name">games today</div>
+    <div class="board-foot">
+      <span class="board-updated" id="mlb-updated">syncing…</span>
+      <span class="board-arrow">→</span>
     </div>
   </a>
 
-  <a class="sport-card" href="./nfl/" style="--acc:var(--yellow)">
-    <div class="arrow">→</div>
-    <div class="league-logo"><img src="https://a.espncdn.com/i/teamlogos/leagues/500/nfl.png" alt="NFL" loading="lazy" onerror="this.remove()"></div>
-    <div class="sport-tag">NFL · WEEKLY</div>
-    <div class="sport-name">Football</div>
-    <div class="meta-col">
-      <span class="pill" id="nfl-games">— games</span>
-      <span class="pill" id="nfl-updated">syncing…</span>
+  <a class="board" data-sport="nfl" href="./nfl/" style="--acc:#D97A3D">
+    <div class="board-top">
+      <span class="board-tag">NFL · WEEKLY</span>
+      <span class="live-dot" id="nfl-live"><i></i>LIVE</span>
+    </div>
+    <div class="board-num" id="nfl-games">—</div>
+    <div class="board-name">games today</div>
+    <div class="board-foot">
+      <span class="board-updated" id="nfl-updated">syncing…</span>
+      <span class="board-arrow">→</span>
     </div>
   </a>
 
-  <a class="sport-card" href="./nhl/" style="--acc:var(--teal)">
-    <div class="arrow">→</div>
-    <div class="league-logo"><img src="https://a.espncdn.com/i/teamlogos/leagues/500/nhl.png" alt="NHL" loading="lazy" onerror="this.remove()"></div>
-    <div class="sport-tag">NHL · DAILY</div>
-    <div class="sport-name">Hockey</div>
-    <div class="meta-col">
-      <span class="pill" id="nhl-games">— games</span>
-      <span class="pill" id="nhl-updated">syncing…</span>
+  <a class="board" data-sport="nhl" href="./nhl/" style="--acc:#6FD8E8">
+    <div class="board-top">
+      <span class="board-tag">NHL · DAILY</span>
+      <span class="live-dot" id="nhl-live"><i></i>LIVE</span>
+    </div>
+    <div class="board-num" id="nhl-games">—</div>
+    <div class="board-name">games today</div>
+    <div class="board-foot">
+      <span class="board-updated" id="nhl-updated">syncing…</span>
+      <span class="board-arrow">→</span>
     </div>
   </a>
 
-  <a class="sport-card" href="./nba/" style="--acc:var(--orange)">
-    <div class="arrow">→</div>
-    <div class="league-logo"><img src="https://a.espncdn.com/i/teamlogos/leagues/500/nba.png" alt="NBA" loading="lazy" onerror="this.remove()"></div>
-    <div class="sport-tag">NBA · DAILY</div>
-    <div class="sport-name">Basketball</div>
-    <div class="meta-col"><span class="pill" id="nba-games">— games</span>
-      <span class="pill" id="nba-updated">syncing…</span></div>
+  <a class="board" data-sport="nba" href="./nba/" style="--acc:#E0A860">
+    <div class="board-top">
+      <span class="board-tag">NBA · DAILY</span>
+      <span class="live-dot" id="nba-live"><i></i>LIVE</span>
+    </div>
+    <div class="board-num" id="nba-games">—</div>
+    <div class="board-name">games today</div>
+    <div class="board-foot">
+      <span class="board-updated" id="nba-updated">syncing…</span>
+      <span class="board-arrow">→</span>
+    </div>
   </a>
 </div>
+
+<a class="injuries" href="./injuries/">
+  <div class="injuries-left">
+    <div class="injuries-icn">🩹</div>
+    <div class="injuries-text">
+      <span class="board-tag">ALL LEAGUES</span>
+      <span class="board-name">Injuries</span>
+    </div>
+  </div>
+  <div class="injuries-count" id="inj-count">—</div>
+</a>
 
 <footer>Auto-updated by the model · <b>Add to Home Screen</b> to install</footer>
 
@@ -162,13 +226,22 @@ function loadHub(){
     fetch(`./data/${s}_slate.json?t=${Date.now()}`)
       .then(r => r.json())
       .then(d => {
+        const count = d.games?.length ?? 0;
         const live = (d.games || []).filter(g => g.game_state === 'Live').length;
-        document.getElementById(s+'-games').textContent =
-          (d.games?.length ?? 0) + ' games' + (live ? ` · ${live} live` : '');
+        const card = document.querySelector(`.board[data-sport="${s}"]`);
+        document.getElementById(s+'-games').textContent = count;
         document.getElementById(s+'-updated').textContent = d.generated_at ? rel(d.generated_at) : 'preseason';
+        document.getElementById(s+'-live').classList.toggle('on', live > 0);
+        if (card) card.classList.toggle('quiet', count === 0);
       })
       .catch(() => { document.getElementById(s+'-updated').textContent = 'no data yet'; });
   }
+  fetch(`./data/injuries_slate.json?t=${Date.now()}`)
+    .then(r => r.json())
+    .then(d => {
+      document.getElementById('inj-count').textContent = (d.total_players ?? 0);
+    })
+    .catch(() => { document.getElementById('inj-count').textContent = '—'; });
 }
 loadHub();
 const hubRefresh = document.getElementById('hub-refresh');
