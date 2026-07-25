@@ -1,10 +1,10 @@
 name: Update model data
 
 # ── Lean deploy strategy ──────────────────────────────────────────────────
-# Netlify's free tier limits BUILD MINUTES (each commit to the repo triggers
-# one rebuild). GitHub Actions itself is free/unlimited on public repos, so
+# Cloudflare Pages' free tier limits BUILDS PER MONTH (each push to the repo
+# triggers one). GitHub Actions itself is free/unlimited on public repos, so
 # the model can run as often as we like -- we just avoid committing (and thus
-# rebuilding Netlify) unless the numbers meaningfully changed.
+# triggering a Pages build) unless the numbers meaningfully changed.
 #
 # Result: ~2-3 deploys/day in season instead of ~40. Well under the free cap.
 
@@ -78,11 +78,17 @@ jobs:
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
         continue-on-error: true
 
+      - name: Run injuries report
+        run: |
+          python injuries_projections.py
+          cp injuries_slate.json data/injuries_slate.json
+        continue-on-error: true
+
       # Commit whenever any slate file actually changed. We let git itself
       # decide what changed (via `git status --porcelain`) instead of a
       # hand-rolled diff — the old timestamp-stripping compare was throwing
       # away real lineup updates, leaving the app stuck on stale data.
-      # Worst case this is ~4-6 Netlify builds/day, well under the free cap.
+      # Cloudflare Pages auto-deploys on every push to main, same as Netlify did.
       - name: Commit if data changed
         run: |
           git config user.name "slate-bot"
@@ -95,5 +101,5 @@ jobs:
           else
             git commit -m "data: model update $(date -u +'%Y-%m-%d %H:%M UTC')"
             git push
-            echo "Committed — Netlify will rebuild."
+            echo "Committed — Cloudflare Pages will rebuild."
           fi
