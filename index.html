@@ -78,7 +78,8 @@ header{display:flex; align-items:flex-start; justify-content:space-between; padd
 .board.quiet::before{opacity:.35}
 
 .board-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
-.board-tag{font-size:10px; font-weight:700; letter-spacing:.12em; color:var(--acc)}
+.board-tag{font-size:10px; font-weight:700; letter-spacing:.12em; color:var(--acc); display:flex; align-items:center; gap:6px}
+.board-logo{width:15px; height:15px; object-fit:contain; flex:none}
 .live-dot{display:none; align-items:center; gap:4px; font-size:9px; font-weight:700; color:#FF6B5E; letter-spacing:.04em}
 .live-dot.on{display:flex}
 .live-dot i{width:6px;height:6px;border-radius:50%;background:#FF6B5E;animation:pulse 1.4s ease-in-out infinite}
@@ -145,7 +146,7 @@ footer b{color:var(--volt); font-weight:700}
 <div class="grid">
   <a class="board" data-sport="mlb" href="./mlb/" style="--acc:#D8FF4D">
     <div class="board-top">
-      <span class="board-tag">MLB · DAILY</span>
+      <span class="board-tag"><img class="board-logo" src="https://a.espncdn.com/i/teamlogos/leagues/500/mlb.png" alt="" loading="lazy" onerror="this.remove()">MLB · DAILY</span>
       <span class="live-dot" id="mlb-live"><i></i>LIVE</span>
     </div>
     <div class="board-num" id="mlb-games">—</div>
@@ -158,7 +159,7 @@ footer b{color:var(--volt); font-weight:700}
 
   <a class="board" data-sport="nfl" href="./nfl/" style="--acc:#D97A3D">
     <div class="board-top">
-      <span class="board-tag">NFL · WEEKLY</span>
+      <span class="board-tag"><img class="board-logo" src="https://a.espncdn.com/i/teamlogos/leagues/500/nfl.png" alt="" loading="lazy" onerror="this.remove()">NFL · WEEKLY</span>
       <span class="live-dot" id="nfl-live"><i></i>LIVE</span>
     </div>
     <div class="board-num" id="nfl-games">—</div>
@@ -171,7 +172,7 @@ footer b{color:var(--volt); font-weight:700}
 
   <a class="board" data-sport="nhl" href="./nhl/" style="--acc:#6FD8E8">
     <div class="board-top">
-      <span class="board-tag">NHL · DAILY</span>
+      <span class="board-tag"><img class="board-logo" src="https://a.espncdn.com/i/teamlogos/leagues/500/nhl.png" alt="" loading="lazy" onerror="this.remove()">NHL · DAILY</span>
       <span class="live-dot" id="nhl-live"><i></i>LIVE</span>
     </div>
     <div class="board-num" id="nhl-games">—</div>
@@ -184,7 +185,7 @@ footer b{color:var(--volt); font-weight:700}
 
   <a class="board" data-sport="nba" href="./nba/" style="--acc:#E0A860">
     <div class="board-top">
-      <span class="board-tag">NBA · DAILY</span>
+      <span class="board-tag"><img class="board-logo" src="https://a.espncdn.com/i/teamlogos/leagues/500/nba.png" alt="" loading="lazy" onerror="this.remove()">NBA · DAILY</span>
       <span class="live-dot" id="nba-live"><i></i>LIVE</span>
     </div>
     <div class="board-num" id="nba-games">—</div>
