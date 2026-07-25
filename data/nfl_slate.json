@@ -1,6 +1,6 @@
 {
   "date": "2026-07-25",
-  "generated_at": "2026-07-25 17:53 UTC",
+  "generated_at": "2026-07-25 18:08 UTC",
   "games": [
     {
       "away_team": "New England Patriots",
@@ -190,9 +190,9 @@
           "src": "form"
         }
       ],
-      "away_win_pct": 0.358,
-      "home_win_pct": 0.642,
-      "p_cover": 0.5,
+      "away_win_pct": 0.356,
+      "home_win_pct": 0.644,
+      "p_cover": 0.498,
       "p_over": 0.5,
       "p_ml_edge": 0.0,
       "away_pts": 20.0,
@@ -201,8 +201,8 @@
       "_lines": {
         "spread": -4.0,
         "total": 44.0,
-        "ml_away": 168.1818181818182,
-        "ml_home": -203.0,
+        "ml_away": 169.0909090909091,
+        "ml_home": -204.36363636363637,
         "books": 11
       }
     },
@@ -394,9 +394,9 @@
           "src": "form"
         }
       ],
-      "away_win_pct": 0.369,
-      "home_win_pct": 0.631,
-      "p_cover": 0.499,
+      "away_win_pct": 0.367,
+      "home_win_pct": 0.633,
+      "p_cover": 0.5,
       "p_over": 0.499,
       "p_ml_edge": 0.0,
       "away_pts": 22.5,
@@ -405,8 +405,8 @@
       "_lines": {
         "spread": -3.5,
         "total": 48.5,
-        "ml_away": 159.6,
-        "ml_home": -192.1,
+        "ml_away": 161.1,
+        "ml_home": -194.1,
         "books": 10
       }
     },
@@ -600,7 +600,7 @@
       ],
       "away_win_pct": 0.362,
       "home_win_pct": 0.638,
-      "p_cover": 0.476,
+      "p_cover": 0.475,
       "p_over": 0.501,
       "p_ml_edge": 0.0,
       "away_pts": 24.2,
@@ -609,8 +609,8 @@
       "_lines": {
         "spread": -3.5,
         "total": 52.0,
-        "ml_away": 165.36363636363637,
-        "ml_home": -198.54545454545453,
+        "ml_away": 164.9090909090909,
+        "ml_home": -197.63636363636363,
         "books": 11
       }
     },
@@ -835,9 +835,9 @@
           "src": "form"
         }
       ],
-      "away_win_pct": 0.258,
-      "home_win_pct": 0.742,
-      "p_cover": 0.5,
+      "away_win_pct": 0.257,
+      "home_win_pct": 0.743,
+      "p_cover": 0.501,
       "p_over": 0.5,
       "p_ml_edge": 0.0,
       "away_pts": 21.0,
@@ -846,8 +846,8 @@
       "_lines": {
         "spread": -7.0,
         "total": 49.0,
-        "ml_away": 271.09090909090907,
-        "ml_home": -347.72727272727275,
+        "ml_away": 272.0,
+        "ml_home": -349.54545454545456,
         "books": 11
       }
     },
@@ -1039,9 +1039,9 @@
           "src": "form"
         }
       ],
-      "away_win_pct": 0.429,
-      "home_win_pct": 0.571,
-      "p_cover": 0.502,
+      "away_win_pct": 0.428,
+      "home_win_pct": 0.572,
+      "p_cover": 0.585,
       "p_over": 0.502,
       "p_ml_edge": 0.0,
       "away_pts": 18.0,
@@ -1050,8 +1050,8 @@
       "_lines": {
         "spread": -2.5,
         "total": 38.5,
-        "ml_away": 123.81818181818181,
-        "ml_home": -147.45454545454547,
+        "ml_away": 124.27272727272727,
+        "ml_home": -147.9090909090909,
         "books": 11
       }
     },
@@ -1250,7 +1250,7 @@
       ],
       "away_win_pct": 0.634,
       "home_win_pct": 0.366,
-      "p_cover": 0.499,
+      "p_cover": 0.498,
       "p_over": 0.497,
       "p_ml_edge": 0.0,
       "away_pts": 26.0,
@@ -1259,8 +1259,8 @@
       "_lines": {
         "spread": 3.5,
         "total": 48.5,
-        "ml_away": -195.36363636363637,
-        "ml_home": 162.45454545454547,
+        "ml_away": -194.9090909090909,
+        "ml_home": 162.0,
         "books": 11
       }
     },
@@ -1452,9 +1452,9 @@
           "src": "form"
         }
       ],
-      "away_win_pct": 0.406,
-      "home_win_pct": 0.594,
-      "p_cover": 0.612,
+      "away_win_pct": 0.407,
+      "home_win_pct": 0.593,
+      "p_cover": 0.563,
       "p_over": 0.5,
       "p_ml_edge": 0.0,
       "away_pts": 19.2,
@@ -1463,8 +1463,8 @@
       "_lines": {
         "spread": -3.0,
         "total": 41.5,
-        "ml_away": 136.36363636363637,
-        "ml_home": -162.36363636363637,
+        "ml_away": 135.9090909090909,
+        "ml_home": -161.9090909090909,
         "books": 11
       }
     },
@@ -1642,9 +1642,9 @@
           "src": "form"
         }
       ],
-      "away_win_pct": 0.566,
-      "home_win_pct": 0.434,
-      "p_cover": 0.31,
+      "away_win_pct": 0.567,
+      "home_win_pct": 0.433,
+      "p_cover": 0.385,
       "p_over": 0.5,
       "p_ml_edge": 0.0,
       "away_pts": 24.2,
@@ -1653,8 +1653,8 @@
       "_lines": {
         "spread": 3.0,
         "total": 45.5,
-        "ml_away": -144.45454545454547,
-        "ml_home": 120.63636363636364,
+        "ml_away": -144.9090909090909,
+        "ml_home": 121.0909090909091,
         "books": 11
       }
     },
@@ -1860,8 +1860,8 @@
           "src": "form"
         }
       ],
-      "away_win_pct": 0.235,
-      "home_win_pct": 0.765,
+      "away_win_pct": 0.237,
+      "home_win_pct": 0.763,
       "p_cover": 0.5,
       "p_over": 0.503,
       "p_ml_edge": 0.0,
@@ -1871,8 +1871,8 @@
       "_lines": {
         "spread": -7.5,
         "total": 40.5,
-        "ml_away": 306.1818181818182,
-        "ml_home": -398.09090909090907,
+        "ml_away": 303.0,
+        "ml_home": -392.6363636363636,
         "books": 11
       }
     },
@@ -2097,9 +2097,9 @@
           "src": "form"
         }
       ],
-      "away_win_pct": 0.569,
-      "home_win_pct": 0.431,
-      "p_cover": 0.609,
+      "away_win_pct": 0.534,
+      "home_win_pct": 0.466,
+      "p_cover": 0.607,
       "p_over": 0.5,
       "p_ml_edge": 0.0,
       "away_pts": 22.8,
@@ -2108,8 +2108,8 @@
       "_lines": {
         "spread": 1.0,
         "total": 44.5,
-        "ml_away": -115.63636363636364,
-        "ml_home": -68.45454545454545,
+        "ml_away": -114.72727272727273,
+        "ml_home": -87.54545454545455,
         "books": 11
       }
     },
@@ -2292,8 +2292,8 @@
           "src": "form"
         }
       ],
-      "away_win_pct": 0.368,
-      "home_win_pct": 0.632,
+      "away_win_pct": 0.366,
+      "home_win_pct": 0.634,
       "p_cover": 0.502,
       "p_over": 0.5,
       "p_ml_edge": 0.0,
@@ -2303,8 +2303,8 @@
       "_lines": {
         "spread": -3.5,
         "total": 40.5,
-        "ml_away": 160.63636363636363,
-        "ml_home": -193.9090909090909,
+        "ml_away": 161.54545454545453,
+        "ml_home": -195.27272727272728,
         "books": 11
       }
     },
@@ -2487,10 +2487,10 @@
           "src": "form"
         }
       ],
-      "away_win_pct": 0.5,
-      "home_win_pct": 0.5,
-      "p_cover": 0.536,
-      "p_over": 0.501,
+      "away_win_pct": 0.466,
+      "home_win_pct": 0.534,
+      "p_cover": 0.501,
+      "p_over": 0.502,
       "p_ml_edge": 0.0,
       "away_pts": 22.2,
       "home_pts": 23.2,
@@ -2498,8 +2498,8 @@
       "_lines": {
         "spread": -1.0,
         "total": 45.5,
-        "ml_away": -110.5,
-        "ml_home": -110.5,
+        "ml_away": -84.875,
+        "ml_home": -111.125,
         "books": 11
       }
     },
@@ -2705,9 +2705,9 @@
           "src": "form"
         }
       ],
-      "away_win_pct": 0.345,
-      "home_win_pct": 0.655,
-      "p_cover": 0.524,
+      "away_win_pct": 0.346,
+      "home_win_pct": 0.654,
+      "p_cover": 0.522,
       "p_over": 0.504,
       "p_ml_edge": 0.0,
       "away_pts": 21.5,
@@ -2716,8 +2716,8 @@
       "_lines": {
         "spread": -4.5,
         "total": 47.5,
-        "ml_away": 177.9090909090909,
-        "ml_home": -215.54545454545453,
+        "ml_away": 177.45454545454547,
+        "ml_home": -214.63636363636363,
         "books": 11
       }
     },
@@ -2881,9 +2881,9 @@
           "src": "form"
         }
       ],
-      "away_win_pct": 0.177,
-      "home_win_pct": 0.823,
-      "p_cover": 0.499,
+      "away_win_pct": 0.18,
+      "home_win_pct": 0.82,
+      "p_cover": 0.5,
       "p_over": 0.502,
       "p_ml_edge": 0.0,
       "away_pts": 17.5,
@@ -2892,8 +2892,8 @@
       "_lines": {
         "spread": -11.5,
         "total": 46.5,
-        "ml_away": 440.1818181818182,
-        "ml_home": -614.0909090909091,
+        "ml_away": 432.45454545454544,
+        "ml_home": -600.4545454545455,
         "books": 11
       }
     },
@@ -3099,9 +3099,9 @@
           "src": "form"
         }
       ],
-      "away_win_pct": 0.572,
-      "home_win_pct": 0.428,
-      "p_cover": 0.382,
+      "away_win_pct": 0.575,
+      "home_win_pct": 0.425,
+      "p_cover": 0.386,
       "p_over": 0.501,
       "p_ml_edge": 0.0,
       "away_pts": 25.2,
@@ -3110,8 +3110,8 @@
       "_lines": {
         "spread": 2.5,
         "total": 48.0,
-        "ml_away": -148.54545454545453,
-        "ml_home": 123.72727272727273,
+        "ml_away": -150.36363636363637,
+        "ml_home": 125.0909090909091,
         "books": 11
       }
     },
@@ -3303,9 +3303,9 @@
           "src": "form"
         }
       ],
-      "away_win_pct": 0.423,
-      "home_win_pct": 0.577,
-      "p_cover": 0.518,
+      "away_win_pct": 0.421,
+      "home_win_pct": 0.579,
+      "p_cover": 0.519,
       "p_over": 0.501,
       "p_ml_edge": 0.0,
       "away_pts": 20.0,
@@ -3314,8 +3314,8 @@
       "_lines": {
         "spread": -3.0,
         "total": 43.0,
-        "ml_away": 126.63636363636364,
-        "ml_home": -151.72727272727272,
+        "ml_away": 127.54545454545455,
+        "ml_home": -153.0909090909091,
         "books": 11
       }
     }
