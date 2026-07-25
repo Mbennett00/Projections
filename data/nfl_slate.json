@@ -1,6 +1,6 @@
 {
-  "date": "2026-07-24",
-  "generated_at": "2026-07-24 22:41 UTC",
+  "date": "2026-07-25",
+  "generated_at": "2026-07-25 06:07 UTC",
   "games": [
     {
       "away_team": "New England Patriots",
@@ -338,18 +338,32 @@
           "src": "form"
         },
         {
-          "name": "Davante Adams",
+          "name": "Puka Nacua",
           "pos": "WR",
-          "player_id": "16800",
+          "player_id": "4426515",
           "matchup_grade": null,
-          "targets": 7.9,
-          "rec": 4.4,
-          "rec_yds": 64.2,
+          "targets": 11.1,
+          "rec": 8.1,
+          "rec_yds": 115.4,
+          "rush_yds": 36.6,
+          "rush_att": 0.6,
+          "td_prob": 0.47,
+          "fpts": 27.1,
+          "src": "form"
+        },
+        {
+          "name": "Xavier Smith",
+          "pos": "WR",
+          "player_id": "4386544",
+          "matchup_grade": null,
+          "targets": 1.1,
+          "rec": 0.8,
+          "rec_yds": 18.9,
           "rush_yds": 0.0,
           "rush_att": 0.0,
-          "td_prob": 0.46,
-          "fpts": 14.6,
-          "src": "prior"
+          "td_prob": 0.06,
+          "fpts": 3.0,
+          "src": "form"
         },
         {
           "name": "Colby Parkinson",
@@ -586,7 +600,7 @@
       ],
       "away_win_pct": 0.362,
       "home_win_pct": 0.638,
-      "p_cover": 0.477,
+      "p_cover": 0.476,
       "p_over": 0.501,
       "p_ml_edge": 0.0,
       "away_pts": 24.2,
@@ -3087,7 +3101,7 @@
       ],
       "away_win_pct": 0.572,
       "home_win_pct": 0.428,
-      "p_cover": 0.458,
+      "p_cover": 0.382,
       "p_over": 0.501,
       "p_ml_edge": 0.0,
       "away_pts": 25.2,
