@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MLB Board — Slate</title>
+<meta name="theme-color" content="#141510">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="apple-touch-icon" href="../icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,600;0,700;0,800;1,700;1,800;1,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#141510; --panel:#1B1D15; --panel-hi:#24271C; --line:#33372A;
+  --volt:#D8FF4D; --ink:#F4F3E9; --mute:#8B8F7A; --faint:#5C6050;
+  --red:#FF6B5E; --cyan:#6FD8E8; --tan:#E0A860;
+  --r:18px; --r-sm:12px;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{
+  background:var(--bg); color:var(--ink); font-family:'Inter',system-ui,sans-serif;
+  min-height:100dvh; max-width:520px; margin:0 auto; position:relative;
+  padding:max(16px,env(safe-area-inset-top)) 16px max(28px,env(safe-area-inset-bottom));
+}
+body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(600px 320px at 12% -6%,rgba(216,255,77,.10),transparent 60%),
+             radial-gradient(520px 300px at 108% 4%,rgba(217,122,61,.07),transparent 60%)}
+header{display:flex; align-items:center; gap:12px; padding:4px 2px 18px}
+.back{width:36px;height:36px;border-radius:50%;background:var(--panel);border:1px solid var(--line);
+  display:grid;place-items:center;color:var(--ink);text-decoration:none;font-weight:700;flex:none;
+  transition:transform .16s ease}
+.back:active{transform:scale(.9)}
+h1{font-family:'Archivo',sans-serif;font-weight:800;font-size:18px;flex:1;color:var(--ink)}
+.updated{font-size:11px;font-weight:600;color:var(--volt);background:rgba(216,255,77,.08);
+  border:1px solid rgba(216,255,77,.22);padding:6px 10px;border-radius:99px;white-space:nowrap}
+.refresh{width:32px;height:32px;border-radius:50%;background:var(--panel);border:1px solid var(--line);
+  display:grid;place-items:center;cursor:pointer;flex:none;color:var(--mute);padding:0;font-size:15px;
+  transition:transform .2s, color .2s}
+.refresh:active{transform:scale(.9)}
+.refresh:focus-visible{outline:2px solid var(--volt);outline-offset:2px}
+.refresh.spin{animation:spin .7s linear infinite;pointer-events:none;color:var(--volt)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.tabs{display:flex;gap:7px;margin-bottom:14px}
+.tab{flex:none;font-size:12px;font-weight:700;letter-spacing:.03em;color:var(--mute);
+  background:var(--panel);border:1px solid var(--line);border-radius:99px;
+  padding:7px 15px;cursor:pointer;user-select:none;transition:all .15s;line-height:1.3}
+.tab:focus-visible{outline:2px solid var(--volt);outline-offset:2px}
+.tab.on{color:#161616;background:linear-gradient(135deg,#D8FF4D,#FFC93C);border-color:transparent;font-weight:800}
+.summary{display:flex;gap:8px;flex-wrap:wrap;margin:2px 0 14px}
+.sum-chip{font-size:11.5px;font-weight:600;color:var(--ink);border-radius:9px;padding:7px 11px;
+  display:inline-flex;align-items:center;gap:6px;background:var(--panel);border:1px solid var(--line)}
+.sum-chip .dot{width:7px;height:7px;border-radius:50%;display:inline-block}
+.tag{font-size:8.5px;font-weight:800;letter-spacing:.06em;padding:2px 6px;border-radius:5px;
+  display:inline-block;margin-right:4px;margin-top:4px;line-height:1.4}
+.rank{width:20px;flex:none;text-align:center;font-family:'Archivo',sans-serif;font-weight:800;
+  font-style:italic;font-size:13px;color:var(--mute);font-variant-numeric:tabular-nums}
+.rank.r1{color:var(--volt)}.rank.r2{color:var(--cyan)}.rank.r3{color:var(--tan)}
+.play{cursor:pointer;flex-wrap:wrap}
+.sim{flex-basis:100%;margin-top:11px;padding-top:11px;border-top:1px dashed var(--line)}
+.sim-head{font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--mute);margin-bottom:8px;display:flex;justify-content:space-between}
+.sim-head b{color:var(--volt)}
+.sim-row{display:flex;align-items:center;gap:9px;margin-bottom:6px;font-size:12px}
+.sim-lab{width:42px;flex:none;color:var(--mute);font-weight:600;font-variant-numeric:tabular-nums}
+.sim-bar{flex:1;height:11px;border-radius:6px;background:var(--panel-hi);overflow:hidden}
+.sim-fill{height:100%;border-radius:6px;background:var(--volt);transition:width .5s cubic-bezier(.2,.8,.2,1)}
+.sim-pct{width:44px;flex:none;text-align:right;font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink);font-size:12px}
+@keyframes rise{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+.game,.play,.hr-strip{animation:rise .28s ease both}
+.slate-label{font-size:11.5px;font-weight:700;color:var(--mute);letter-spacing:.14em;
+  text-transform:uppercase;margin:2px 2px 12px}
+/* game cards */
+.game{border-radius:var(--r);padding:16px 15px 14px;margin-bottom:11px;position:relative;overflow:hidden;
+  background:var(--panel);border:1px solid var(--line)}
+.g-accent{position:absolute;top:0;left:0;right:0;height:3px}
+.g-top{display:flex;justify-content:space-between;align-items:center;font-size:11.5px;color:var(--mute);font-weight:600;margin-bottom:11px}
+.g-top .team-chip img{width:15px;height:15px}
+.g-badges{display:inline-flex;align-items:center;gap:6px;flex:none}
+.state{font-size:9.5px;font-weight:700;letter-spacing:.05em;padding:4px 8px;border-radius:7px;
+  display:inline-flex;align-items:center;line-height:1.2}
+.state.live{color:#161616;background:var(--red);animation:pulse 2s infinite}
+.state.final{color:var(--mute);background:var(--panel-hi)}
+.state.preview{color:var(--mute);background:var(--panel-hi)}
+@keyframes pulse{50%{opacity:.65}}
+.tier{font-size:9.5px;font-weight:700;letter-spacing:.05em;padding:4px 8px;border-radius:7px;
+  display:inline-flex;align-items:center;gap:4px;line-height:1.2}
+.tier img{width:13px;height:13px;object-fit:contain}
+.tier.ELITE{color:#161616;background:var(--volt)}
+.tier.STRONG{color:#161616;background:var(--volt)}
+.tier.LEAN{color:var(--tan);background:rgba(224,168,96,.14);border:1px solid rgba(224,168,96,.32)}
+.tier.PASS{color:var(--mute);background:var(--panel-hi)}
+.team{display:flex;align-items:center;justify-content:space-between;padding:4px 0}
+.t-name{display:flex;align-items:center;gap:10px;font-weight:600;font-size:14.5px;min-width:0}
+.t-abbr{font-family:'Archivo',sans-serif;font-weight:700;font-size:11px;
+  border-radius:9px;padding:3px;width:34px;height:34px;
+  display:grid;place-items:center;text-align:center;flex:none;overflow:hidden}
+.t-abbr img{width:26px;height:26px;object-fit:contain;display:block}
+.t-abbr:not(:has(img))::before{content:attr(data-ab)}
+.p-avatar{width:44px;height:44px;border-radius:50%;flex:none;overflow:hidden;position:relative;
+  display:grid;place-items:center;font-family:'Archivo',sans-serif;font-weight:700;font-size:12px}
+.p-avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
+.p-avatar:not(:has(img))::before{content:attr(data-in)}
+.hr-avatar{width:32px;height:32px;border-radius:50%;overflow:hidden;flex:none;position:relative;
+  display:grid;place-items:center;font-size:9px;font-weight:700}
+.hr-avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
+.hr-left{display:flex;align-items:center;gap:9px;min-width:0}
+.t-city{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.t-num{font-variant-numeric:tabular-nums;font-weight:600;font-size:13.5px;color:var(--mute);flex:none;margin-left:8px}
+.t-num.fav{color:var(--ink)}
+.t-score{font-family:'Archivo',sans-serif;font-weight:800;font-style:italic;font-size:17px;color:var(--ink);flex:none;margin-left:8px}
+.prob-track{height:6px;border-radius:99px;background:var(--panel-hi);margin:11px 0 9px;overflow:hidden;display:flex;gap:2px}
+.prob-away{height:100%;transition:width .6s ease}
+.prob-home{height:100%;flex:1}
+.g-stats{display:flex;gap:6px;margin-top:10px}
+.stat{flex:1;border-radius:10px;padding:8px 6px;text-align:center;background:var(--panel-hi)}
+.stat .v{font-family:'Archivo',sans-serif;font-weight:800;font-style:italic;font-size:13.5px;color:var(--ink);font-variant-numeric:tabular-nums}
+.stat .v.hot{color:var(--volt)}
+.stat .l{font-size:9.5px;color:var(--mute);font-weight:600;margin-top:2px;letter-spacing:.03em}
+.pitchers{font-size:11.5px;color:var(--mute);margin-top:10px;padding-top:9px;border-top:1px solid var(--line);line-height:1.5}
+.pitchers b{color:var(--ink);font-weight:600}
+/* plays */
+.chips{display:flex;gap:7px;overflow-x:auto;padding:2px 2px 12px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;font-size:12px;font-weight:600;color:var(--mute);background:var(--panel);
+  border:1px solid var(--line);border-radius:9px;padding:7px 12px;cursor:pointer;user-select:none;white-space:nowrap;line-height:1.2}
+.chip.on{color:#161616;background:linear-gradient(135deg,#D8FF4D,#FFC93C);border-color:transparent;font-weight:700}
+.hr-strip{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:13px 15px;margin-bottom:11px}
+.hr-title{font-family:'Archivo',sans-serif;font-weight:700;font-size:11px;letter-spacing:.12em;color:var(--volt);margin-bottom:9px}
+.hr-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;font-size:13px}
+.hr-row .nm{font-weight:600}
+.hr-row .tm{color:var(--mute);font-size:11px;font-weight:500;margin-left:7px}
+.hr-row .pct{font-family:'Archivo',sans-serif;font-weight:700;font-style:italic;color:var(--volt);font-variant-numeric:tabular-nums}
+.play{border-radius:var(--r);padding:13px 15px;margin-bottom:9px;display:flex;align-items:center;gap:11px;
+  background:var(--panel);border:1px solid var(--line)}
+.p-main{flex:1;min-width:0}
+.p-player{font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.p-meta{font-size:11.5px;color:var(--mute);margin-top:3px}
+.p-meta b{color:var(--cyan);font-weight:600}
+.p-edge-col{text-align:right;flex:none}
+.edge-val{font-family:'Archivo',sans-serif;font-weight:800;font-style:italic;font-size:15px;font-variant-numeric:tabular-nums;color:var(--ink)}
+.p-odds{font-size:10.5px;color:var(--mute);margin-top:3px;font-variant-numeric:tabular-nums}
+.more{width:100%;text-align:center;font-size:13px;font-weight:600;color:var(--mute);
+  background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;cursor:pointer;font-family:inherit}
+.more:focus-visible{outline:2px solid var(--volt);outline-offset:2px}
+/* edge score badge — the premium analytics feature, kept small and clean */
+.edge-badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:800;
+  padding:4px 8px;border-radius:99px;margin-top:5px;line-height:1.2;
+  color:var(--tc,var(--mute));background:color-mix(in srgb, var(--tc,var(--mute)) 14%, transparent);
+  border:1px solid color-mix(in srgb, var(--tc,var(--mute)) 34%, transparent)}
+.edge-badge.none{color:var(--faint);background:var(--panel-hi);border:1px solid var(--line);font-weight:700}
+.edge-detail{background:var(--panel-hi);border-radius:12px;padding:11px 13px;margin-top:4px}
+.edge-detail-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}
+.edge-detail-score{font-family:'Archivo',sans-serif;font-weight:900;font-style:italic;font-size:26px;color:var(--tc)}
+.edge-detail-label{font-size:11px;font-weight:800;color:var(--tc)}
+.edge-rows{display:flex;gap:8px}
+.edge-cell{flex:1;text-align:center;background:var(--panel);border-radius:9px;padding:8px 4px}
+.edge-cell .v{font-family:'Archivo',sans-serif;font-weight:700;font-size:13px;color:var(--ink);font-variant-numeric:tabular-nums}
+.edge-cell .l{font-size:8px;color:var(--mute);font-weight:700;margin-top:2px;letter-spacing:.04em}
+.conf{display:flex;align-items:center;gap:11px;margin:4px 0 2px}
+.conf-ring{--v:0;--c:var(--volt);width:42px;height:42px;border-radius:50%;flex:none;position:relative;
+  background:conic-gradient(var(--c) calc(var(--v)*1%), var(--panel-hi) 0);display:grid;place-items:center}
+.conf-ring::before{content:'';position:absolute;inset:4px;border-radius:50%;background:var(--panel)}
+.conf-num{position:relative;font-family:'Archivo',sans-serif;font-weight:800;font-size:13px;font-variant-numeric:tabular-nums}
+.conf-meta{min-width:0}
+.conf-label{font-size:9px;font-weight:700;letter-spacing:.09em;color:var(--mute)}
+.conf-word{font-family:'Archivo',sans-serif;font-weight:700;font-size:12.5px}
+.factors{margin-top:4px}
+.factor{display:flex;align-items:center;gap:8px;margin-bottom:5px;font-size:10.5px}
+.factor-l{width:96px;flex:none;color:var(--mute);font-weight:600}
+.factor-bar{flex:1;height:6px;border-radius:4px;background:var(--panel-hi);overflow:hidden}
+.factor-fill{height:100%;border-radius:4px;background:var(--volt)}
+.factor-v{width:30px;flex:none;text-align:right;font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink)}
+.news{font-size:10px;font-weight:700;margin-top:4px;line-height:1.4}
+.news.up{color:var(--volt)}
+.news.dn{color:var(--red)}
+.d-sec{font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--mute);margin:10px 0 7px}
+.d-match{font-size:12px;color:var(--ink);background:var(--panel-hi);border-radius:9px;padding:8px 11px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.team-chip{display:inline-flex;align-items:center;gap:4px;vertical-align:middle}
+.grade{font-family:'Archivo',sans-serif;font-weight:800;font-size:9.5px;letter-spacing:.02em;
+  padding:2px 6px;border-radius:6px;border:1px solid;margin-left:5px;line-height:1.3;display:inline-block}
+.team-chip img{width:15px;height:15px;object-fit:contain;display:block}
+.read{font-size:11.5px;line-height:1.5;color:var(--ink);background:var(--panel-hi);border:1px solid var(--line);border-radius:10px;padding:9px 12px;margin-top:4px}
+.read b{font-weight:700}
+.wx-chip{font-size:9px;font-weight:700;letter-spacing:.02em;color:var(--cyan);background:rgba(111,216,232,.10);
+  border:1px solid rgba(111,216,232,.28);border-radius:6px;padding:2px 7px;display:inline-flex;align-items:center;gap:3px}
+.src-pill{font-size:8.5px;font-weight:700;letter-spacing:.05em;color:var(--mute);background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:2px 7px}
+.fmc{display:flex;gap:6px;margin-top:4px}
+.fmc-cell{flex:1;text-align:center;background:var(--panel-hi);border-radius:10px;padding:9px 4px}
+.fmc-cell .v{font-family:'Archivo',sans-serif;font-weight:800;font-style:italic;font-size:15px;font-variant-numeric:tabular-nums;color:var(--ink)}
+.fmc-cell .l{font-size:8px;color:var(--mute);font-weight:700;margin-top:2px;letter-spacing:.06em}
+.fmc-cell.mid .v{color:var(--volt)}
+.d-line{display:flex;gap:5px;flex-wrap:wrap}
+.d-cell{flex:1;min-width:42px;background:var(--panel-hi);border-radius:9px;padding:7px 3px;text-align:center;border-bottom:2px solid transparent}
+.d-cell.hot{border-bottom-color:var(--volt)}
+.d-cell.warm{border-bottom-color:var(--mute)}
+.d-cell .v{font-family:'Archivo',sans-serif;font-weight:700;font-size:12px;font-variant-numeric:tabular-nums}
+.d-cell .l{font-size:8px;color:var(--mute);font-weight:700;margin-top:2px;letter-spacing:.03em}
+.rankchips{display:flex;gap:6px;flex-wrap:wrap}
+.rk{font-size:10px;font-weight:700;padding:4px 9px;border-radius:99px;background:var(--panel-hi);color:var(--mute)}
+.rk.on{color:#161616;background:var(--volt)}
+.rk.top{color:var(--volt);border:1px solid rgba(216,255,77,.4);background:rgba(216,255,77,.08)}
+.pctile{height:7px;border-radius:5px;background:var(--panel-hi);overflow:hidden;margin-top:8px}
+.pctile-fill{height:100%;border-radius:5px;background:var(--volt)}
+.pctile-lab{display:flex;justify-content:space-between;font-size:9px;color:var(--mute);font-weight:600;margin-top:4px}
+.empty{text-align:center;color:var(--mute);font-size:13px;padding:60px 20px}
+.hide{display:none}
+@media (prefers-reduced-motion:reduce){.prob-away,.sim-fill{transition:none}.state.live,.game,.play,.hr-strip{animation:none}}
+</style>
+</head>
+<body>
+<header>
+  <a class="back" href="../">←</a>
+  <h1>MLB Board</h1>
+  <span class="updated" id="updated">…</span>
+  <button class="refresh" id="refresh" aria-label="Refresh data" title="Refresh">↻</button>
+</header>
+
+<div class="tabs">
+  <div class="tab on" data-tab="games">Slate</div>
+  <div class="tab" data-tab="plays">Numbers</div>
+</div>
+
+<div class="slate-label" id="slate"></div>
+<div id="games"></div>
+<div id="plays" class="hide"></div>
+
+<script>
+const $ = id => document.getElementById(id);
+const ABBR = {"Arizona Diamondbacks":"ARI","Athletics":"ATH","Oakland Athletics":"ATH","Atlanta Braves":"ATL","Baltimore Orioles":"BAL","Boston Red Sox":"BOS","Chicago Cubs":"CHC","Chicago White Sox":"CWS","Cincinnati Reds":"CIN","Cleveland Guardians":"CLE","Colorado Rockies":"COL","Detroit Tigers":"DET","Houston Astros":"HOU","Kansas City Royals":"KC","Los Angeles Angels":"LAA","Los Angeles Dodgers":"LAD","Miami Marlins":"MIA","Milwaukee Brewers":"MIL","Minnesota Twins":"MIN","New York Mets":"NYM","New York Yankees":"NYY","Philadelphia Phillies":"PHI","Pittsburgh Pirates":"PIT","San Diego Padres":"SD","San Francisco Giants":"SF","Seattle Mariners":"SEA","St. Louis Cardinals":"STL","Tampa Bay Rays":"TB","Texas Rangers":"TEX","Toronto Blue Jays":"TOR","Washington Nationals":"WSH"};
+const ab = n => ABBR[n] || (n||'').split(' ').map(w=>w[0]).join('').slice(0,3).toUpperCase();
+const TEAMID = {"ARI":109,"ATH":133,"ATL":144,"BAL":110,"BOS":111,"CHC":112,"CWS":145,"CIN":113,"CLE":114,"COL":115,"DET":116,"HOU":117,"KC":118,"LAA":108,"LAD":119,"MIA":146,"MIL":158,"MIN":142,"NYM":121,"NYY":147,"PHI":143,"PIT":134,"SD":135,"SF":137,"SEA":136,"STL":138,"TB":139,"TEX":140,"TOR":141,"WSH":120};
+const TC = {ARI:'#D53A4C',ATH:'#EFB21E',ATL:'#CE1141',BAL:'#DF4601',BOS:'#BD3039',CHC:'#3E7CD6',CWS:'#C4CED4',CIN:'#E0142E',CLE:'#E31937',COL:'#8A63D2',DET:'#FA4616',HOU:'#EB6E1F',KC:'#3E8EDE',LAA:'#D01432',LAD:'#2F7DE1',MIA:'#00A3E0',MIL:'#FFC52F',MIN:'#4F9FE0',NYM:'#FF5910',NYY:'#8A9BC4',PHI:'#E81828',PIT:'#FDB827',SD:'#FFC425',SF:'#FD5A1E',SEA:'#2FBDB3',STL:'#D02543',TB:'#8FBCE6',TEX:'#D01A28',TOR:'#3D7EDB',WSH:'#D22B33'};
+const tc = a => TC[a] || '#8B8F7A';
+const abSpan = a => `<b style="color:${tc(a)}">${a}</b>`;
+const teamChip = a => `<span class="team-chip">${logo(a) ? `<img src="${logo(a)}" alt="" loading="lazy" onerror="this.style.display='none'">` : ''}<b style="color:${tc(a)}">${a}</b></span>`;
+const logo = a => TEAMID[a] ? `https://www.mlbstatic.com/team-logos/${TEAMID[a]}.svg` : '';
+const mug = id => `https://img.mlbstatic.com/mlb-photos/image/upload/w_120,q_auto:best/v1/people/${id}/headshot/67/current`;
+const initials = n => (n||'').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+const badge = a => `<span class="t-abbr" data-ab="${a}" style="color:${tc(a)};background:${tc(a)}1E;border:1px solid ${tc(a)}55">${logo(a) ? `<img src="${logo(a)}" alt="" loading="lazy" onerror="this.remove()">` : ''}</span>`;
+let NAMEID = {};
+function buildIds(d){
+  NAMEID = {};
+  for (const g of d.games){
+    if (g.away_pitcher_id) NAMEID[g.away_pitcher] = g.away_pitcher_id;
+    if (g.home_pitcher_id) NAMEID[g.home_pitcher] = g.home_pitcher_id;
+    for (const s of ['away_lineup','home_lineup'])
+      for (const p of (g[s]||[])) if (p.player_id) NAMEID[p.name] = p.player_id;
+  }
+}
+const AV = {ARI:['#A71930','#E3D4AD'],ATH:['#003831','#EFB21E'],ATL:['#CE1141','#EAAA00'],BAL:['#DF4601','#F5F0E1'],BOS:['#BD3039','#0C2340'],CHC:['#0E3386','#CC3433'],CWS:['#27251F','#C4CED4'],CIN:['#C6011F','#F5F0E1'],CLE:['#00385D','#E31937'],COL:['#33006F','#C4CED4'],DET:['#0C2340','#FA4616'],HOU:['#002D62','#EB6E1F'],KC:['#004687','#BD9B60'],LAA:['#BA0021','#003263'],LAD:['#005A9C','#F5F0E1'],MIA:['#00A3E0','#EF3340'],MIL:['#12284B','#FFC52F'],MIN:['#002B5C','#D31145'],NYM:['#002D72','#FF5910'],NYY:['#0C2340','#C4CED3'],PHI:['#E81828','#002D72'],PIT:['#27251F','#FDB827'],SD:['#2F241D','#FFC425'],SF:['#27251F','#FD5A1E'],SEA:['#0C2C56','#2FBDB3'],STL:['#C41E3A','#0C2340'],TB:['#092C5C','#8FBCE6'],TEX:['#003278','#C0111F'],TOR:['#134A8E','#E8291C'],WSH:['#AB0003','#14225A']};
+const avColors = a => AV[a] || ['#1B1D15','#8B8F7A'];
+const avatar = (name, team, cls='p-avatar') => {
+  const id = NAMEID[name];
+  const [bg, ring] = avColors(team);
+  return `<span class="${cls}" data-in="${initials(name)}" style="background:${bg};border:2.5px solid ${ring};color:#F5F0E1">${id ? `<img src="${mug(id)}" alt="" loading="lazy" onerror="this.remove()">` : ''}</span>`;
+};
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const rel = iso => {
+  const m = Math.round((Date.now() - new Date(iso)) / 60000);
+  if (isNaN(m)) return '';
+  if (m < 1) return 'just now';
+  if (m < 60) return m + 'm ago';
+  const h = Math.round(m/60);
+  return h < 24 ? h + 'h ago' : Math.round(h/24) + 'd ago';
+};
+const gameTime = iso => new Date(iso).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+const odds = v => v > 0 ? '+' + v : String(v);
+const pct = v => (v*100).toFixed(0) + '%';
+
+let DATA = null, marketFilter = 'All', shown = 60;
+
+function tierPill(g, hasModel, aFav){
+  if (!g.tier) return '';
+  const fav = hasModel ? ab(aFav ? g.away_team : g.home_team) : null;
+  const ico = (fav && logo(fav)) ? `<img src="${logo(fav)}" alt="" loading="lazy" onerror="this.remove()">` : '';
+  return `<span class="tier ${g.tier}">${ico}${g.tier}</span>`;
+}
+
+function stateBadge(g){
+  if (g.game_state === 'Live') {
+    const half = g.inning_half === 'Top' ? '▲' : '▼';
+    return `<span class="state live">LIVE ${half}${g.inning ?? ''}</span>`;
+  }
+  if (g.game_state === 'Final') return `<span class="state final">FINAL</span>`;
+  return `<span class="state preview">${esc(gameTime(g.game_time))}</span>`;
+}
+
+function gameCard(g){
+  const hasModel = typeof g.away_win_pct === 'number';
+  const done = g.game_state === 'Final' || g.game_state === 'Live';
+  const aFav = hasModel && g.away_win_pct >= g.home_win_pct;
+  const rows = ['away','home'].map(s => {
+    const num = done
+      ? `<span class="t-score">${g[s+'_score'] ?? '–'}</span>`
+      : hasModel
+        ? `<span class="t-num ${((s==='away')===aFav)?'fav':''}">${g[s+'_runs']?.toFixed(1) ?? '–'} · ${pct(g[s+'_win_pct'])}</span>`
+        : `<span class="t-num">–</span>`;
+    return `<div class="team">
+      <span class="t-name">${badge(ab(g[s+'_team']))}<span class="t-city">${esc(g[s+'_team'])}</span></span>
+      ${num}</div>`;
+  }).join('');
+  const stats = hasModel ? `<div class="g-stats">
+      <div class="stat sb"><div class="v ${g.p_over_8_5>=.6?'hot':''}">${pct(g.p_over_8_5)}</div><div class="l">O8.5</div></div>
+      <div class="stat st"><div class="v">${pct(g.p_any_hr)}</div><div class="l">ANY HR</div></div>
+      <div class="stat sy"><div class="v ${g.target_score>=70?'hot':''}">${g.target_score ?? '–'}</div><div class="l">TARGET</div></div>
+    </div>` : '';
+  const cA = tc(ab(g.away_team)), cH = tc(ab(g.home_team));
+  const prob = (hasModel && !done) ? `<div class="prob-track"><div class="prob-away" style="width:${g.away_win_pct*100}%;background:${cA}"></div><div class="prob-home" style="background:${cH}"></div></div>` : '';
+  const pitch = g.away_pitcher ? `<div class="pitchers"><b>${esc(g.away_pitcher)}</b> vs <b>${esc(g.home_pitcher)}</b>${g.home_plate_ump ? ` · Ump: ${esc(g.home_plate_ump)}` : ''}</div>` : '';
+  return `<div class="game">
+    <div class="g-accent" style="background:linear-gradient(90deg,${cA},${cH})"></div>
+    <div class="g-top">
+      <span>${teamChip(ab(g.away_team))} @ ${teamChip(ab(g.home_team))} · ${esc(g.venue ?? '')}</span>
+      <span class="g-badges">${stateBadge(g)}${tierPill(g, hasModel, aFav)}</span>
+    </div>
+    ${rows}${prob}${stats}${pitch}</div>`;
+}
+
+function renderGames(d){
+  const order = {Live:0, Preview:1, Final:2};
+  const gs = [...d.games].sort((a,b) =>
+    (order[a.game_state] ?? 1) - (order[b.game_state] ?? 1) ||
+    new Date(a.game_time) - new Date(b.game_time));
+  $('games').innerHTML = gs.map(gameCard).join('') || '<div class="empty">No games today.</div>';
+}
+
+
+function teamRuns(p, allGames){
+  for (const g of allGames){
+    if (ab(g.away_team) === p.team) return g.away_runs;
+    if (ab(g.home_team) === p.team) return g.home_runs;
+  }
+  return null;
+}
+function matchupGrade(runs){
+  if (runs == null) return null;
+  const t = [[5.5,'A+'],[5.0,'A'],[4.6,'B+'],[4.2,'B'],[3.9,'C+'],[3.5,'C'],[0,'D']];
+  for (const [thr,g] of t) if (runs >= thr) return g;
+  return 'D';
+}
+const gradeColor = g => {
+  if (g === 'A+' || g === 'A') return '#D8FF4D';
+  if (g === 'B+' || g === 'B') return '#9FD13E';
+  if (g === 'C+' || g === 'C') return '#E0A860';
+  return '#8B8F7A';
+};
+const gradeChip = g => g ? `<span class="grade" style="color:${gradeColor(g)};border-color:${gradeColor(g)}55;background:${gradeColor(g)}18">${g}</span>` : '';
+
+function collectProjections(d){
+  const bat = [], arm = [];
+  for (const g of d.games) {
+    if (g.game_state === 'Final') continue;
+    const matchup = `${ab(g.away_team)}@${ab(g.home_team)}`;
+    for (const [side, opp] of [['away', ab(g.home_team)], ['home', ab(g.away_team)]]) {
+      const team = ab(g[side + '_team']);
+      const oppP = g[(side === 'away' ? 'home' : 'away') + '_pitcher'];
+      for (const p of (g[side + '_lineup'] || []))
+        bat.push({...p, team, opp, matchup, opp_pitcher: oppP, venue: g.venue, _wx: g.weather, _wx_note: g.weather_note, _wx_hr: g.weather_hr_factor});
+      const pp = g[side + '_pitcher_proj'];
+      if (pp) arm.push({...pp, player_id: g[side + '_pitcher_id'], team, opp, matchup});
+    }
+  }
+  return {bat, arm};
+}
+
+function collectPropPlays(d){
+  const out = [];
+  for (const g of d.games) out.push(...(g.prop_plays || []));
+  return out;
+}
+
+const STATS = {
+  'H+R+RBI': {pool:'bat', v:p=>(p.expected_hits??0)+(p.expected_runs??0)+(p.expected_rbi??0), fmt:v=>v.toFixed(2),
+             sub:p=>`${(p.expected_hits??0).toFixed(1)}H · ${(p.expected_runs??0).toFixed(1)}R · ${(p.expected_rbi??0).toFixed(1)}RBI`, market:'H+R+RBI'},
+  'HR':    {pool:'bat', v:p=>p.expected_hr,   fmt:v=>v.toFixed(2), sub:p=>`${(p.hr_prob*100).toFixed(1)}% HR · ${(p.pa??0).toFixed(1)} PA`, market:'Home Run'},
+  'Hits':  {pool:'bat', v:p=>p.expected_hits, fmt:v=>v.toFixed(2), sub:p=>`${(p.hit_rate*100).toFixed(0)}% per PA · ${(p.pa??0).toFixed(1)} PA`, market:'Hits'},
+  'Bases': {pool:'bat', v:p=>p.expected_tb,   fmt:v=>v.toFixed(2), sub:p=>`${(p.expected_hits??0).toFixed(2)} H · ${(p.expected_hr??0).toFixed(2)} HR`, market:'Total Bases'},
+  'RBI':   {pool:'bat', v:p=>p.expected_rbi,  fmt:v=>v.toFixed(2), sub:p=>`${(p.expected_runs??0).toFixed(2)} R proj`, market:'RBI'},
+  'Runs':  {pool:'bat', v:p=>p.expected_runs, fmt:v=>v.toFixed(2), sub:p=>`${(p.expected_rbi??0).toFixed(2)} RBI proj`, market:null},
+  'Ks':    {pool:'arm', v:p=>p.expected_k,    fmt:v=>v.toFixed(1), sub:p=>`${(p.expected_ip??0).toFixed(1)} IP · ${(p.expected_er??0).toFixed(1)} ER proj`, market:'Pitcher Ks'}
+};
+
+const clamp01 = x => Math.max(0, Math.min(1, x));
+const confWord = s => s >= 85 ? 'Elite' : s >= 72 ? 'Strong' : s >= 58 ? 'Solid' : s >= 44 ? 'Moderate' : 'Volatile';
+const confColor = s => s >= 72 ? 'var(--volt)' : s >= 55 ? 'var(--cyan)' : 'var(--tan)';
+
+function mlbConfidence(p, isArm){
+  const f = [];
+  if (isArm){
+    if (p.expected_ip != null) f.push(['Sample size', clamp01((p.expected_ip - 3.5) / 3.0)]);
+    if (p.expected_k != null)  f.push(['Strikeout floor', clamp01((p.expected_k - 3) / 6)]);
+    if (p.expected_er != null) f.push(['Matchup quality', clamp01(1 - (p.expected_er - 1.5) / 4)]);
+  } else {
+    if (p.pa != null)              f.push(['Sample size', clamp01((p.pa - 3.2) / 1.6)]);
+    if (p.offense_quality != null) f.push(['Bat quality', clamp01(p.offense_quality / 100)]);
+    if (p.xwoba != null)           f.push(['Consistency', clamp01((p.xwoba - .280) / .120)]);
+    if (p.k_rate != null)          f.push(['Contact (low K)', clamp01(1 - (p.k_rate - .12) / .22)]);
+    if (p.order != null)           f.push(['Lineup spot', clamp01(1 - (p.order - 1) / 8)]);
+  }
+  if (p.status === 'Q') f.push(['Health', 0.45]);
+  if (!f.length) return null;
+  const score = Math.round(f.reduce((s,[,v]) => s + v, 0) / f.length * 100);
+  return {score, factors: f};
+}
+
+function confBlock(c){
+  if (!c) return '';
+  const bars = c.factors.map(([l,v]) =>
+    `<div class="factor"><span class="factor-l">${l}</span>
+      <div class="factor-bar"><div class="factor-fill" style="width:${(v*100).toFixed(0)}%"></div></div>
+      <span class="factor-v">${Math.round(v*100)}</span></div>`).join('');
+  return `<div class="d-sec">CONFIDENCE · ${c.factors.length} factors</div>
+    <div class="factors">${bars}</div>`;
+}
+
+function edgeFor(name, statFilter, plays){
+  const market = STATS[statFilter]?.market;
+  if (!market) return null;
+  const matches = plays.filter(pl => pl.name === name && pl.market === market);
+  if (!matches.length) return null;
+  return matches.reduce((a,b) => (b.edge > a.edge ? b : a));
+}
+function americanProfit(o){ return o > 0 ? o/100 : 100/Math.abs(o); }
+function computeEdgeScore(entry, confScore){
+  if (!entry) return null;
+  const modelP = entry.model_prob / 100;
+  const profit = americanProfit(entry.book_odds);
+  const evPct = (modelP * profit - (1 - modelP)) * 100;
+  const edgeSub = Math.max(0, Math.min(100, ((entry.edge - 4) / 20) * 100));
+  const evSub = Math.max(0, Math.min(100, (evPct / 22) * 100));
+  const conf = confScore ?? 50;
+  const score = Math.max(0, Math.min(100, Math.round(0.45*edgeSub + 0.30*evSub + 0.25*conf)));
+  return {score, edge: entry.edge, evPct, entry};
+}
+function edgeTier(score){
+  if (score >= 85) return {label:'Elite Edge', emoji:'🔥', color:'#D8FF4D'};
+  if (score >= 70) return {label:'Strong Edge', emoji:'✅', color:'#6FD8E8'};
+  if (score >= 50) return {label:'Lean', emoji:'⚠️', color:'#E0A860'};
+  return {label:'No Edge', emoji:'', color:'#5C6050'};
+}
+function edgeBadgeCompact(name, statFilter, plays, confScore){
+  const entry = edgeFor(name, statFilter, plays);
+  const es = computeEdgeScore(entry, confScore);
+  if (!es) return `<span class="edge-badge none">No Edge</span>`;
+  const tier = edgeTier(es.score);
+  return `<span class="edge-badge" style="--tc:${tier.color}">${tier.emoji} ${tier.label} · ${es.score}</span>`;
+}
+function edgeDetailPanel(name, statFilter, plays, confScore){
+  const entry = edgeFor(name, statFilter, plays);
+  const es = computeEdgeScore(entry, confScore);
+  if (!es) return '';
+  const tier = edgeTier(es.score);
+  return `<div class="edge-detail">
+    <div class="edge-detail-top">
+      <div><div class="edge-detail-score" style="--tc:${tier.color}">${es.score}</div><div class="edge-detail-label" style="color:${tier.color}">${tier.emoji} ${tier.label}</div></div>
+    </div>
+    <div class="edge-rows">
+      <div class="edge-cell"><div class="v">${es.entry.model_prob}%</div><div class="l">MODEL PROB</div></div>
+      <div class="edge-cell"><div class="v">${es.entry.book_prob}%</div><div class="l">BOOK PROB</div></div>
+      <div class="edge-cell"><div class="v">+${es.edge.toFixed(1)}%</div><div class="l">EDGE</div></div>
+      <div class="edge-cell"><div class="v">${es.evPct>=0?'+':''}${es.evPct.toFixed(1)}%</div><div class="l">EV</div></div>
+    </div>
+  </div>`;
+}
+
+function tagsFor(p, pool){
+  const t = [];
+  if (pool === 'arm') {
+    if ((p.expected_k ?? 0) >= 6.5 && (p.expected_er ?? 9) <= 2.6) t.push(['ACE','#FDE047']);
+    if ((p.expected_k ?? 0) >= 7.0) t.push(['STRIKEOUT ARTIST','#8B8F7A']);
+  } else {
+    if ((p.hr_prob ?? 0) >= .07) t.push(['HOME RUN THREAT','#FF6B5E']);
+    if ((p.xwoba ?? 0) >= .380) t.push(['BARREL KING','#FDE047']);
+    if ((p.offense_quality ?? 0) >= 75) t.push(['HARD HIT','#E0A860']);
+    if ((p.k_rate ?? 1) <= .15) t.push(['CONTACT HITTER','#6FD8E8']);
+    if ((p.order ?? 9) === 4) t.push(['CLEANUP HITTER','#A78BFA']);
+    if ((p.order ?? 9) <= 2 && (p.hit_rate ?? 0) >= .26) t.push(['SPEEDSTER','#D8FF4D']);
+  }
+  return t.slice(0,3).map(([n,c]) =>
+    `<span class="tag" style="color:${c};background:${c}1C;border:1px solid ${c}44">${n}</span>`).join('');
+}
+
+const pois = l => { const L = Math.exp(-l); let k = 0, p = 1; do { k++; p *= Math.random(); } while (p > L); return k - 1; };
+const BUCKETS = {
+  'H+R+RBI': [['0-1',v=>v<=1],['2',v=>v===2],['3',v=>v===3],['4+',v=>v>=4]],
+  'HR':    [['0',v=>v===0],['1',v=>v===1],['2+',v=>v>=2]],
+  'Hits':  [['0',v=>v===0],['1',v=>v===1],['2',v=>v===2],['3+',v=>v>=3]],
+  'Bases': [['0-1',v=>v<=1],['2-3',v=>v<=3],['4-5',v=>v<=5],['6+',v=>v>=6]],
+  'RBI':   [['0',v=>v===0],['1',v=>v===1],['2+',v=>v>=2]],
+  'Runs':  [['0',v=>v===0],['1',v=>v===1],['2+',v=>v>=2]],
+  'Ks':    [['≤4',v=>v<=4],['5-6',v=>v<=6],['7-8',v=>v<=8],['9+',v=>v>=9]]
+};
+let openSim = null;
+const SIMCACHE = {};
+function simDrawsPois(key, lambda){
+  if (SIMCACHE['d'+key]) return SIMCACHE['d'+key];
+  const N = 10000, draws = new Array(N);
+  for (let i = 0; i < N; i++) draws[i] = pois(lambda);
+  draws.sort((a,b)=>a-b);
+  return SIMCACHE['d'+key] = draws;
+}
+const pctileArr = (draws, q) => draws[Math.min(draws.length-1, Math.floor(q*draws.length))];
+function runSim(stat, lambda){
+  const key = stat + ':' + lambda.toFixed(3);
+  if (SIMCACHE[key]) return SIMCACHE[key];
+  const N = 10000, draws = new Array(N);
+  for (let i = 0; i < N; i++) draws[i] = pois(lambda);
+  let rem = [...draws];
+  const out = BUCKETS[stat].map(([lab, test]) => {
+    const hit = rem.filter(test).length;
+    rem = rem.filter(v => !test(v));
+    return [lab, hit / N];
+  });
+  return SIMCACHE[key] = out;
+}
+
+let statFilter = 'HR', shownP = 40;
+
+function renderPlays(d){
+  const {bat, arm} = collectProjections(d);
+  const allPlays = collectPropPlays(d);
+  const cfg = STATS[statFilter];
+  const pool = (cfg.pool === 'arm' ? arm : bat)
+    .filter(p => typeof cfg.v(p) === 'number')
+    .sort((a,b) => cfg.v(b) - cfg.v(a));
+
+  const RANKS = {};
+  for (const [m, c] of Object.entries(STATS)) {
+    const pl = (c.pool === 'arm' ? arm : bat)
+      .filter(p => typeof c.v(p) === 'number')
+      .sort((a,b) => c.v(b) - c.v(a));
+    const mp = new Map();
+    pl.forEach((p, i) => mp.set(p.name + '|' + p.matchup, i + 1));
+    RANKS[m] = {map: mp, n: pl.length};
+  }
+
+  const DELTA_FIELD = {'HR':'expected_hr','Hits':'expected_hits','Bases':'expected_tb','RBI':'expected_rbi','Runs':'expected_runs'};
+  const arrowLine = (a, b, dp, unit='') => {
+    const up = b >= a;
+    return `<div class="news ${up?'up':'dn'}">${up?'↑':'↓'} Projection ${up?'increased':'decreased'} · ${a.toFixed(dp)} → ${b.toFixed(dp)}${unit}</div>`;
+  };
+  function newsLine(p){
+    if (statFilter === 'H+R+RBI') {
+      const ks = ['expected_hits','expected_runs','expected_rbi'];
+      if (!ks.some(k => p['prev_'+k] != null)) return '';
+      const prev = ks.reduce((s,k) => s + (p['prev_'+k] ?? p[k] ?? 0), 0);
+      const cur = ks.reduce((s,k) => s + (p[k] ?? 0), 0);
+      return arrowLine(prev, cur, 2);
+    }
+    const f = DELTA_FIELD[statFilter];
+    if (!f || p['prev_'+f] == null) return '';
+    return arrowLine(p['prev_'+f], p[f], 2);
+  }
+
+  function tileClass(statKey, val, poolArr){
+    if (val == null) return '';
+    const vals = poolArr.map(x => x[statKey]).filter(v => typeof v === 'number').sort((a,b)=>a-b);
+    if (vals.length < 4) return '';
+    const rank = vals.filter(v => v <= val).length / vals.length;
+    return rank >= 0.85 ? 'hot' : rank >= 0.6 ? 'warm' : '';
+  }
+  function readLine(p, conf){
+    if (!conf) return '';
+    const sorted = [...conf.factors].sort((a,b)=>b[1]-a[1]);
+    const hi = sorted[0], lo = sorted[sorted.length-1];
+    const phr = { 'Sample size':'a strong sample','Bat quality':'elite bat quality','Consistency':'consistent contact quality',
+      'Contact (low K)':'excellent bat-to-ball','Lineup spot':'a premium lineup spot',
+      'Strikeout floor':'a high strikeout floor','Matchup quality':'a favorable matchup','Health':'an injury flag' };
+    const up = phr[hi[0]] || hi[0].toLowerCase();
+    const dn = phr[lo[0]] || lo[0].toLowerCase();
+    return `<div class="read">Powered by <b>${up}</b> vs ${p.opp}, held back by <b>${dn}</b>.</div>`;
+  }
+
+  function weatherChip(p){
+    if (!p._wx) return '';
+    if (p._wx.indoor) return ` <span class="wx-chip">🏟 DOME</span>`;
+    if (p._wx_note) return ` <span class="wx-chip">🌤 ${esc(p._wx_note)}</span>`;
+    return '';
+  }
+  function detailPanel(p){
+    const isArm = cfg.pool === 'arm';
+    const poolArr = isArm ? arm : bat;
+    const cellDefs = (isArm
+      ? [['K','expected_k',1], ['IP','expected_ip',1], ['ER','expected_er',1]]
+      : [['H','expected_hits',2], ['R','expected_runs',2], ['RBI','expected_rbi',2],
+         ['HR','expected_hr',2], ['TB','expected_tb',2], ['BB','expected_bb',2], ['K','expected_k',2]]);
+    const cells = cellDefs.map(([l,k,dp]) =>
+      `<div class="d-cell ${tileClass(k, p[k], poolArr)}"><div class="v">${(p[k] ?? 0).toFixed(dp)}</div><div class="l">${l}</div></div>`).join('');
+    const key = p.name + '|' + p.matchup;
+    const rankChips = Object.entries(STATS)
+      .filter(([, c]) => c.pool === cfg.pool)
+      .map(([m]) => {
+        const r = RANKS[m].map.get(key);
+        return r ? `<span class="rk ${m === statFilter ? 'on' : (r <= 3 ? 'top' : '')}">${m} #${r}</span>` : '';
+      }).join('');
+    const r = RANKS[statFilter].map.get(key) ?? 1, n = RANKS[statFilter].n || 1;
+
+    const lambda = Math.max(.01, cfg.v(p));
+    const draws = simDrawsPois(statFilter + key, lambda);
+    const floor = pctileArr(draws, 0.25), med = pctileArr(draws, 0.50), ceil = pctileArr(draws, 0.90);
+    const simRows = runSim(statFilter, lambda).map(([lab, pr]) =>
+      `<div class="sim-row"><span class="sim-lab">${lab}</span>
+        <div class="sim-bar"><div class="sim-fill" style="width:${(pr*100).toFixed(1)}%"></div></div>
+        <span class="sim-pct">${(pr*100).toFixed(1)}%</span></div>`).join('');
+    const conf = mlbConfidence(p, isArm);
+    const srcPill = `<span class="src-pill">${p.opp_pitcher ? esc(p.opp_pitcher) : 'SP TBD'}</span>`;
+    return `<div class="sim">
+      ${edgeDetailPanel(p.name, statFilter, allPlays, conf?.score)}
+      ${conf ? `<div class="conf"><div class="conf-ring" style="--v:${conf.score};--c:${confColor(conf.score)}"><span class="conf-num">${conf.score}</span></div><div class="conf-meta"><div class="conf-label">CONFIDENCE</div><div class="conf-word" style="color:${confColor(conf.score)}">${confWord(conf.score)} · ${conf.score}/100</div></div></div>` : ''}
+      ${confBlock(conf)}
+      ${readLine(p, conf)}
+      <div class="d-sec">MATCHUP</div>
+      <div class="d-match">vs ${teamChip(p.opp)}${p.matchup_grade ? gradeChip(p.matchup_grade) : ''}${weatherChip(p)} ${srcPill}${p.venue ? `<span class="src-pill">${esc(p.venue)}</span>` : ''}</div>
+      <div class="d-sec">PROJECTED LINE vs ${p.opp}</div>
+      <div class="d-line">${cells}</div>
+      <div class="d-sec">RANGE OF OUTCOMES · ${statFilter}</div>
+      <div class="fmc">
+        <div class="fmc-cell"><div class="v">${floor}</div><div class="l">FLOOR</div></div>
+        <div class="fmc-cell mid"><div class="v">${med}</div><div class="l">MEDIAN</div></div>
+        <div class="fmc-cell"><div class="v">${ceil}</div><div class="l">CEILING</div></div>
+      </div>
+      <div class="d-sec">SLATE RANKS</div>
+      <div class="rankchips">${rankChips}</div>
+      <div class="pctile"><div class="pctile-fill" style="width:${Math.round((1-(r-1)/n)*100)}%"></div></div>
+      <div class="pctile-lab"><span>#${r} of ${n} in ${statFilter}</span><span>top ${Math.max(1, Math.round(r / n * 100))}%</span></div>
+      <div class="sim-head" style="margin-top:12px"><span>MONTE CARLO · ${statFilter.toUpperCase()}</span><b>10,000 SIMS</b></div>${simRows}
+    </div>`;
+  }
+
+  const chips = Object.keys(STATS).map(s =>
+    `<div class="chip ${s===statFilter?'on':''}" data-m="${s}">${s}</div>`).join('');
+  const list = pool.slice(0, shownP).map((p,i) => {
+    const key = statFilter + '|' + p.name + '|' + p.matchup;
+    const open = openSim === key;
+    const conf = mlbConfidence(p, cfg.pool === 'arm');
+    return `<div class="play" data-key="${esc(key)}">
+      <span class="rank ${i<3?'r'+(i+1):''}">${i+1}</span>
+      ${avatar(p.name, p.team)}
+      <div class="p-main">
+        <div class="p-player">${esc(p.name)}</div>
+        <div class="p-meta">${abSpan(p.team)} vs ${teamChip(p.opp)}${gradeChip(p.matchup_grade || matchupGrade(teamRuns(p, DATA.games)))}${p.order ? ` · #${p.order}` : ''}</div>
+        <div>${tagsFor(p, cfg.pool)}</div>
+        ${newsLine(p)}
+      </div>
+      <div class="p-edge-col">
+        <div class="edge-val">${cfg.fmt(cfg.v(p))}</div>
+        ${edgeBadgeCompact(p.name, statFilter, allPlays, conf?.score)}
+        <div class="sim-hint" style="font-size:9.5px;font-weight:700;letter-spacing:.06em;color:var(--mute);margin-top:5px">${open ? '▾ CLOSE' : '▸ DETAILS'}</div>
+      </div>
+      ${open ? detailPanel(p) : ''}
+    </div>`;
+  }).join('');
+  const hr = (d.standouts?.top_hr || []).slice(0,5).map(h =>
+    `<div class="hr-row"><span class="hr-left">${avatar(h.name, ab(h.team), 'hr-avatar')}<span class="nm">${esc(h.name)}</span><span class="tm">${abSpan(ab(h.team))}</span></span>
+     <span class="pct">${(h.hr_prob*100).toFixed(1)}%</span></div>`).join('');
+  $('plays').innerHTML =
+    (hr ? `<div class="hr-strip"><div class="hr-title">HR WATCH</div>${hr}</div>` : '') +
+    `<div class="chips">${chips}</div>` +
+    (list || '<div class="empty">No lineups posted yet for this slate.</div>') +
+    (pool.length > shownP ? `<button class="more" id="more">Show ${Math.min(40, pool.length-shownP)} more</button>` : '');
+  document.querySelectorAll('.chip').forEach(c => c.onclick = () => { statFilter = c.dataset.m; shownP = 40; openSim = null; renderPlays(DATA); });
+  const mb = $('more'); if (mb) mb.onclick = () => { shownP += 40; renderPlays(DATA); };
+  document.querySelectorAll('.play[data-key]').forEach(el => el.onclick = () => {
+    openSim = (openSim === el.dataset.key) ? null : el.dataset.key;
+    renderPlays(DATA);
+  });
+}
+
+async function load(){
+  try {
+    const r = await fetch(`../data/mlb_slate.json?t=${Date.now()}`);
+    DATA = await r.json();
+    buildIds(DATA);
+    $('updated').textContent = 'Updated ' + rel(DATA.generated_at);
+    const live = DATA.games.filter(g=>g.game_state==='Live').length;
+    const strong = DATA.games.filter(g=>g.tier==='STRONG'||g.tier==='ELITE').length;
+    $('slate').className = 'summary';
+    $('slate').innerHTML =
+      `<span class="sum-chip"><span class="dot" style="background:var(--mute)"></span>${DATA.games.length} games</span>` +
+      (live ? `<span class="sum-chip"><span class="dot" style="background:var(--red)"></span>${live} live</span>` : '') +
+      (strong ? `<span class="sum-chip"><span class="dot" style="background:var(--volt)"></span>${strong} strong</span>` : '') +
+      `<span class="sum-chip"><span class="dot" style="background:var(--cyan)"></span>${DATA.date}</span>`;
+    renderGames(DATA);
+    renderPlays(DATA);
+  } catch(e){ $('updated').textContent = 'Offline'; }
+}
+load();
+const refreshBtn = document.getElementById('refresh');
+if (refreshBtn) refreshBtn.onclick = async () => {
+  refreshBtn.classList.add('spin');
+  const started = Date.now();
+  await load();
+  const wait = Math.max(0, 500 - (Date.now() - started));
+  setTimeout(() => refreshBtn.classList.remove('spin'), wait);
+};
+setInterval(load, 10*60*1000);
+document.addEventListener('visibilitychange', () => { if (!document.hidden) load(); });
+
+document.querySelectorAll('.tab').forEach(t => t.onclick = () => {
+  document.querySelectorAll('.tab').forEach(x => x.classList.remove('on'));
+  t.classList.add('on');
+  $('games').classList.toggle('hide', t.dataset.tab !== 'games');
+  $('plays').classList.toggle('hide', t.dataset.tab !== 'plays');
+});
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('../sw.js');
+</script>
+</body>
+</html>
