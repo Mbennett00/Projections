@@ -52,6 +52,7 @@ jobs:
         env:
           SGO_API_KEY: ${{ secrets.SGO_API_KEY }}
           OWM_API_KEY: ${{ secrets.OWM_API_KEY }}
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
         continue-on-error: true
 
       - name: Run NFL model
