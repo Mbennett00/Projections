@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-26T16:31",
+  "generated_at": "2026-07-26T16:49",
   "date": "2026-07-26",
   "games": [
     {
@@ -13,8 +13,8 @@
       "game_time": "2026-07-26T16:15:00Z",
       "game_state": "Live",
       "game_detail": "In Progress",
-      "inning": 2,
-      "inning_half": "Top",
+      "inning": 3,
+      "inning_half": "Bottom",
       "away_score": 0,
       "home_score": 0,
       "confirmed": true,
@@ -32,7 +32,7 @@
       "home_win_pct": 0.4936,
       "p_over_8_5": 0.5853,
       "p_both_score": 0.9811,
-      "p_any_hr": 0.8054,
+      "p_any_hr": 0.8051,
       "target_score": 74,
       "tier": "LEAN",
       "away_pitcher_proj": {
@@ -89,15 +89,15 @@
           "hr_prob": 0.0183,
           "k_rate": 0.1287,
           "bb_rate": 0.2685,
-          "hit_rate": 0.2341,
+          "hit_rate": 0.2319,
           "expected_hr": 0.083,
-          "expected_hits": 1.065,
+          "expected_hits": 1.055,
           "expected_bb": 1.221,
           "expected_k": 0.586,
-          "expected_tb": 1.58,
+          "expected_tb": 1.567,
           "expected_rbi": 0.3,
           "expected_runs": 0.77,
-          "expected_hrr": 2.13,
+          "expected_hrr": 2.12,
           "pa": 4.55
         },
         {
@@ -196,15 +196,15 @@
           "offense_quality": 71,
           "matchup_grade": "B",
           "xwoba": 0.289,
-          "hr_prob": 0.0362,
+          "hr_prob": 0.0358,
           "k_rate": 0.2791,
           "bb_rate": 0.1976,
-          "hit_rate": 0.2073,
-          "expected_hr": 0.147,
-          "expected_hits": 0.84,
+          "hit_rate": 0.2069,
+          "expected_hr": 0.145,
+          "expected_hits": 0.838,
           "expected_bb": 0.8,
           "expected_k": 1.13,
-          "expected_tb": 1.466,
+          "expected_tb": 1.459,
           "expected_rbi": 0.37,
           "expected_runs": 0.55,
           "expected_hrr": 1.76,
@@ -333,15 +333,15 @@
           "hr_prob": 0.0246,
           "k_rate": 0.2026,
           "bb_rate": 0.095,
-          "hit_rate": 0.255,
+          "hit_rate": 0.252,
           "expected_hr": 0.107,
-          "expected_hits": 1.109,
+          "expected_hits": 1.096,
           "expected_bb": 0.413,
           "expected_k": 0.881,
-          "expected_tb": 1.7,
-          "expected_rbi": 0.58,
+          "expected_tb": 1.683,
+          "expected_rbi": 0.57,
           "expected_runs": 0.37,
-          "expected_hrr": 2.06,
+          "expected_hrr": 2.04,
           "pa": 4.35
         },
         {
@@ -377,15 +377,15 @@
           "hr_prob": 0.0055,
           "k_rate": 0.1832,
           "bb_rate": 0.0839,
-          "hit_rate": 0.2191,
+          "hit_rate": 0.222,
           "expected_hr": 0.023,
-          "expected_hits": 0.909,
+          "expected_hits": 0.921,
           "expected_bb": 0.348,
           "expected_k": 0.76,
-          "expected_tb": 1.216,
+          "expected_tb": 1.231,
           "expected_rbi": 0.38,
           "expected_runs": 0.33,
-          "expected_hrr": 1.62,
+          "expected_hrr": 1.63,
           "pa": 4.15
         },
         {
@@ -457,7 +457,7 @@
       ],
       "edge": {
         "team": "Cleveland Guardians",
-        "edge_pct": 5.31,
+        "edge_pct": 6.59,
         "confidence": "HIGH"
       },
       "prop_plays": [
@@ -612,16 +612,6 @@
           "book_odds": -110
         },
         {
-          "name": "Ben Williamson",
-          "market": "H+R+RBI",
-          "line": 2.5,
-          "side": "UNDER",
-          "model_prob": 77.8,
-          "book_prob": 49.5,
-          "edge": 28.3,
-          "book_odds": -110
-        },
-        {
           "name": "Chandler Simpson",
           "market": "Total Bases",
           "line": 1.5,
@@ -640,6 +630,16 @@
           "book_prob": 53.7,
           "edge": 28.2,
           "book_odds": -130
+        },
+        {
+          "name": "Ben Williamson",
+          "market": "H+R+RBI",
+          "line": 2.5,
+          "side": "UNDER",
+          "model_prob": 77.6,
+          "book_prob": 49.5,
+          "edge": 28.1,
+          "book_odds": -110
         },
         {
           "name": "Richie Palacios",
@@ -682,27 +682,7 @@
           "book_odds": -215
         },
         {
-          "name": "Ben Williamson",
-          "market": "Total Bases",
-          "line": 2.5,
-          "side": "UNDER",
-          "model_prob": 87.6,
-          "book_prob": 60.9,
-          "edge": 26.7,
-          "book_odds": -175
-        },
-        {
           "name": "Angel Mart\u00ednez",
-          "market": "H+R+RBI",
-          "line": 3.5,
-          "side": "UNDER",
-          "model_prob": 91.8,
-          "book_prob": 65.2,
-          "edge": 26.6,
-          "book_odds": -215
-        },
-        {
-          "name": "Ben Williamson",
           "market": "H+R+RBI",
           "line": 3.5,
           "side": "UNDER",
@@ -740,6 +720,26 @@
           "book_prob": 53.7,
           "edge": 26.6,
           "book_odds": -130
+        },
+        {
+          "name": "Ben Williamson",
+          "market": "H+R+RBI",
+          "line": 3.5,
+          "side": "UNDER",
+          "model_prob": 91.7,
+          "book_prob": 65.2,
+          "edge": 26.5,
+          "book_odds": -215
+        },
+        {
+          "name": "Ben Williamson",
+          "market": "Total Bases",
+          "line": 2.5,
+          "side": "UNDER",
+          "model_prob": 87.3,
+          "book_prob": 60.9,
+          "edge": 26.3,
+          "book_odds": -175
         },
         {
           "name": "Petey Halpin",
@@ -912,16 +912,6 @@
           "book_odds": -175
         },
         {
-          "name": "Ben Williamson",
-          "market": "Total Bases",
-          "line": 1.5,
-          "side": "UNDER",
-          "model_prob": 65.7,
-          "book_prob": 43.4,
-          "edge": 22.2,
-          "book_odds": 120
-        },
-        {
           "name": "Nick Fortes",
           "market": "Total Bases",
           "line": 1.5,
@@ -950,6 +940,16 @@
           "book_prob": 59.4,
           "edge": 21.7,
           "book_odds": -165
+        },
+        {
+          "name": "Ben Williamson",
+          "market": "Total Bases",
+          "line": 1.5,
+          "side": "UNDER",
+          "model_prob": 65.1,
+          "book_prob": 43.4,
+          "edge": 21.7,
+          "book_odds": 120
         },
         {
           "name": "Nick Fortes",
@@ -1002,6 +1002,16 @@
           "book_odds": 125
         },
         {
+          "name": "Kyle Manzardo",
+          "market": "Total Bases",
+          "line": 2.5,
+          "side": "UNDER",
+          "model_prob": 81.9,
+          "book_prob": 60.9,
+          "edge": 21.0,
+          "book_odds": -175
+        },
+        {
           "name": "Steven Kwan",
           "market": "Home Run",
           "line": 0.5,
@@ -1010,16 +1020,6 @@
           "book_prob": 77.2,
           "edge": 20.9,
           "book_odds": -420
-        },
-        {
-          "name": "Kyle Manzardo",
-          "market": "Total Bases",
-          "line": 2.5,
-          "side": "UNDER",
-          "model_prob": 81.7,
-          "book_prob": 60.9,
-          "edge": 20.8,
-          "book_odds": -175
         },
         {
           "name": "Petey Halpin",
@@ -1086,9 +1086,9 @@
           "market": "Hits",
           "line": 1.5,
           "side": "UNDER",
-          "model_prob": 79.4,
+          "model_prob": 79.5,
           "book_prob": 59.4,
-          "edge": 20.0,
+          "edge": 20.1,
           "book_odds": -165
         },
         {
@@ -1112,6 +1112,16 @@
           "book_odds": -215
         },
         {
+          "name": "Jonny DeLuca",
+          "market": "H+R+RBI",
+          "line": 3.5,
+          "side": "UNDER",
+          "model_prob": 85.0,
+          "book_prob": 65.2,
+          "edge": 19.7,
+          "book_odds": -215
+        },
+        {
           "name": "Steven Kwan",
           "market": "H+R+RBI",
           "line": 3.5,
@@ -1123,16 +1133,6 @@
         },
         {
           "name": "Austin Hedges",
-          "market": "H+R+RBI",
-          "line": 3.5,
-          "side": "UNDER",
-          "model_prob": 84.6,
-          "book_prob": 65.2,
-          "edge": 19.4,
-          "book_odds": -215
-        },
-        {
-          "name": "Jonny DeLuca",
           "market": "H+R+RBI",
           "line": 3.5,
           "side": "UNDER",
@@ -1193,23 +1193,23 @@
         },
         {
           "name": "Jos\u00e9 Ram\u00edrez",
-          "market": "H+R+RBI",
-          "line": 3.5,
-          "side": "UNDER",
-          "model_prob": 83.3,
-          "book_prob": 65.2,
-          "edge": 18.1,
-          "book_odds": -215
-        },
-        {
-          "name": "Jos\u00e9 Ram\u00edrez",
           "market": "Total Bases",
           "line": 2.5,
           "side": "UNDER",
-          "model_prob": 78.9,
+          "model_prob": 79.2,
           "book_prob": 60.9,
-          "edge": 17.9,
+          "edge": 18.3,
           "book_odds": -175
+        },
+        {
+          "name": "Jos\u00e9 Ram\u00edrez",
+          "market": "H+R+RBI",
+          "line": 3.5,
+          "side": "UNDER",
+          "model_prob": 83.5,
+          "book_prob": 65.2,
+          "edge": 18.2,
+          "book_odds": -215
         },
         {
           "name": "Travis Bazzana",
@@ -1252,16 +1252,6 @@
           "book_odds": -420
         },
         {
-          "name": "Ben Williamson",
-          "market": "Hits",
-          "line": 1.5,
-          "side": "UNDER",
-          "model_prob": 76.9,
-          "book_prob": 59.4,
-          "edge": 17.5,
-          "book_odds": -165
-        },
-        {
           "name": "Travis Bazzana",
           "market": "Total Bases",
           "line": 1.5,
@@ -1270,6 +1260,26 @@
           "book_prob": 43.4,
           "edge": 17.3,
           "book_odds": 120
+        },
+        {
+          "name": "Jonny DeLuca",
+          "market": "H+R+RBI",
+          "line": 2.5,
+          "side": "UNDER",
+          "model_prob": 66.6,
+          "book_prob": 49.5,
+          "edge": 17.1,
+          "book_odds": -110
+        },
+        {
+          "name": "Ben Williamson",
+          "market": "Hits",
+          "line": 1.5,
+          "side": "UNDER",
+          "model_prob": 76.5,
+          "book_prob": 59.4,
+          "edge": 17.1,
+          "book_odds": -165
         },
         {
           "name": "Ben Williamson",
@@ -1330,16 +1340,6 @@
           "book_prob": 53.7,
           "edge": 16.6,
           "book_odds": -130
-        },
-        {
-          "name": "Jonny DeLuca",
-          "market": "H+R+RBI",
-          "line": 2.5,
-          "side": "UNDER",
-          "model_prob": 66.0,
-          "book_prob": 49.5,
-          "edge": 16.6,
-          "book_odds": -110
         },
         {
           "name": "Cedric Mullins",
@@ -1482,6 +1482,16 @@
           "book_odds": -175
         },
         {
+          "name": "Jonny DeLuca",
+          "market": "Total Bases",
+          "line": 2.5,
+          "side": "UNDER",
+          "model_prob": 76.2,
+          "book_prob": 60.9,
+          "edge": 15.2,
+          "book_odds": -175
+        },
+        {
           "name": "Junior Caminero",
           "market": "Total Bases",
           "line": 1.5,
@@ -1493,6 +1503,16 @@
         },
         {
           "name": "Jos\u00e9 Ram\u00edrez",
+          "market": "H+R+RBI",
+          "line": 2.5,
+          "side": "UNDER",
+          "model_prob": 64.4,
+          "book_prob": 49.5,
+          "edge": 14.9,
+          "book_odds": -110
+        },
+        {
+          "name": "Jos\u00e9 Ram\u00edrez",
           "market": "Home Run",
           "line": 0.5,
           "side": "UNDER",
@@ -1500,26 +1520,6 @@
           "book_prob": 77.2,
           "edge": 14.8,
           "book_odds": -420
-        },
-        {
-          "name": "Jonny DeLuca",
-          "market": "Total Bases",
-          "line": 2.5,
-          "side": "UNDER",
-          "model_prob": 75.7,
-          "book_prob": 60.9,
-          "edge": 14.8,
-          "book_odds": -175
-        },
-        {
-          "name": "Jos\u00e9 Ram\u00edrez",
-          "market": "H+R+RBI",
-          "line": 2.5,
-          "side": "UNDER",
-          "model_prob": 64.2,
-          "book_prob": 49.5,
-          "edge": 14.7,
-          "book_odds": -110
         },
         {
           "name": "Ben Williamson",
@@ -1542,6 +1542,16 @@
           "book_odds": -215
         },
         {
+          "name": "Kyle Manzardo",
+          "market": "Total Bases",
+          "line": 1.5,
+          "side": "UNDER",
+          "model_prob": 57.2,
+          "book_prob": 43.4,
+          "edge": 13.7,
+          "book_odds": 120
+        },
+        {
           "name": "Travis Bazzana",
           "market": "Strikeouts",
           "line": 1.5,
@@ -1550,16 +1560,6 @@
           "book_prob": 65.2,
           "edge": 13.6,
           "book_odds": -215
-        },
-        {
-          "name": "Kyle Manzardo",
-          "market": "Total Bases",
-          "line": 1.5,
-          "side": "UNDER",
-          "model_prob": 56.9,
-          "book_prob": 43.4,
-          "edge": 13.5,
-          "book_odds": 120
         },
         {
           "name": "Ryan Vilade",
@@ -1682,6 +1682,16 @@
           "book_odds": -420
         },
         {
+          "name": "Jos\u00e9 Ram\u00edrez",
+          "market": "Hits",
+          "line": 1.5,
+          "side": "UNDER",
+          "model_prob": 71.6,
+          "book_prob": 59.4,
+          "edge": 12.2,
+          "book_odds": -165
+        },
+        {
           "name": "Chase DeLauter",
           "market": "Home Run",
           "line": 0.5,
@@ -1699,16 +1709,6 @@
           "model_prob": 71.4,
           "book_prob": 59.4,
           "edge": 12.0,
-          "book_odds": -165
-        },
-        {
-          "name": "Jos\u00e9 Ram\u00edrez",
-          "market": "Hits",
-          "line": 1.5,
-          "side": "UNDER",
-          "model_prob": 71.2,
-          "book_prob": 59.4,
-          "edge": 11.8,
           "book_odds": -165
         },
         {
@@ -1786,9 +1786,9 @@
           "market": "Hits",
           "line": 1.5,
           "side": "UNDER",
-          "model_prob": 69.6,
+          "model_prob": 70.0,
           "book_prob": 59.4,
-          "edge": 10.2,
+          "edge": 10.6,
           "book_odds": -165
         },
         {
@@ -1800,6 +1800,16 @@
           "book_prob": 34.6,
           "edge": 10.2,
           "book_odds": 175
+        },
+        {
+          "name": "Jos\u00e9 Ram\u00edrez",
+          "market": "Total Bases",
+          "line": 1.5,
+          "side": "UNDER",
+          "model_prob": 53.6,
+          "book_prob": 43.4,
+          "edge": 10.1,
+          "book_odds": 120
         },
         {
           "name": "Travis Bazzana",
@@ -1820,16 +1830,6 @@
           "book_prob": 57.8,
           "edge": 9.9,
           "book_odds": -155
-        },
-        {
-          "name": "Jos\u00e9 Ram\u00edrez",
-          "market": "Total Bases",
-          "line": 1.5,
-          "side": "UNDER",
-          "model_prob": 53.1,
-          "book_prob": 43.4,
-          "edge": 9.7,
-          "book_odds": 120
         },
         {
           "name": "Brayan Rocchio",
@@ -1876,9 +1876,9 @@
           "market": "Home Run",
           "line": 0.5,
           "side": "UNDER",
-          "model_prob": 86.4,
+          "model_prob": 86.5,
           "book_prob": 77.2,
-          "edge": 9.1,
+          "edge": 9.3,
           "book_odds": -420
         },
         {
@@ -1896,9 +1896,9 @@
           "market": "Hits",
           "line": 0.5,
           "side": "UNDER",
-          "model_prob": 43.2,
+          "model_prob": 43.3,
           "book_prob": 34.6,
-          "edge": 8.6,
+          "edge": 8.7,
           "book_odds": 175
         },
         {
@@ -2012,6 +2012,16 @@
           "book_odds": 120
         },
         {
+          "name": "Jonny DeLuca",
+          "market": "Total Bases",
+          "line": 1.5,
+          "side": "UNDER",
+          "model_prob": 49.9,
+          "book_prob": 43.4,
+          "edge": 6.4,
+          "book_odds": 120
+        },
+        {
           "name": "Chase DeLauter",
           "market": "Hits",
           "line": 0.5,
@@ -2032,16 +2042,6 @@
           "book_odds": 175
         },
         {
-          "name": "Jonny DeLuca",
-          "market": "Total Bases",
-          "line": 1.5,
-          "side": "UNDER",
-          "model_prob": 49.3,
-          "book_prob": 43.4,
-          "edge": 5.9,
-          "book_odds": 120
-        },
-        {
           "name": "Travis Bazzana",
           "market": "Hits",
           "line": 0.5,
@@ -2056,9 +2056,9 @@
           "market": "Hits",
           "line": 0.5,
           "side": "UNDER",
-          "model_prob": 40.3,
+          "model_prob": 39.8,
           "book_prob": 34.6,
-          "edge": 5.7,
+          "edge": 5.2,
           "book_odds": 175
         },
         {
@@ -22593,7 +22593,7 @@
       "home_win_pct": 0.5564,
       "p_over_8_5": 0.4407,
       "p_both_score": 0.9671,
-      "p_any_hr": 0.9408,
+      "p_any_hr": 0.941,
       "target_score": 65,
       "tier": "LEAN",
       "away_pitcher_proj": {
@@ -22841,28 +22841,6 @@
         },
         {
           "order": 2,
-          "name": "Iv\u00e1n Herrera",
-          "player_id": 671056,
-          "bat_side": "R",
-          "offense_quality": 69,
-          "matchup_grade": "C+",
-          "xwoba": 0.329,
-          "hr_prob": 0.0172,
-          "k_rate": 0.2176,
-          "bb_rate": 0.0755,
-          "hit_rate": 0.1843,
-          "expected_hr": 0.078,
-          "expected_hits": 0.838,
-          "expected_bb": 0.344,
-          "expected_k": 0.99,
-          "expected_tb": 1.278,
-          "expected_rbi": 0.18,
-          "expected_runs": 0.33,
-          "expected_hrr": 1.35,
-          "pa": 4.55
-        },
-        {
-          "order": 3,
           "name": "Jordan Walker",
           "player_id": 691023,
           "bat_side": "R",
@@ -22873,14 +22851,36 @@
           "k_rate": 0.2743,
           "bb_rate": 0.0519,
           "hit_rate": 0.2744,
-          "expected_hr": 0.223,
-          "expected_hits": 1.221,
-          "expected_bb": 0.231,
-          "expected_k": 1.22,
-          "expected_tb": 2.159,
-          "expected_rbi": 0.41,
-          "expected_runs": 0.37,
-          "expected_hrr": 2.0,
+          "expected_hr": 0.228,
+          "expected_hits": 1.249,
+          "expected_bb": 0.236,
+          "expected_k": 1.248,
+          "expected_tb": 2.207,
+          "expected_rbi": 0.3,
+          "expected_runs": 0.39,
+          "expected_hrr": 1.94,
+          "pa": 4.55
+        },
+        {
+          "order": 3,
+          "name": "Iv\u00e1n Herrera",
+          "player_id": 671056,
+          "bat_side": "R",
+          "offense_quality": 69,
+          "matchup_grade": "C+",
+          "xwoba": 0.329,
+          "hr_prob": 0.0172,
+          "k_rate": 0.2176,
+          "bb_rate": 0.0755,
+          "hit_rate": 0.1843,
+          "expected_hr": 0.076,
+          "expected_hits": 0.82,
+          "expected_bb": 0.336,
+          "expected_k": 0.968,
+          "expected_tb": 1.25,
+          "expected_rbi": 0.27,
+          "expected_runs": 0.3,
+          "expected_hrr": 1.39,
           "pa": 4.45
         },
         {
@@ -22944,9 +22944,9 @@
           "expected_bb": 0.245,
           "expected_k": 1.049,
           "expected_tb": 1.33,
-          "expected_rbi": 0.32,
+          "expected_rbi": 0.3,
           "expected_runs": 0.26,
-          "expected_hrr": 1.37,
+          "expected_hrr": 1.35,
           "pa": 4.15
         },
         {
@@ -22989,8 +22989,8 @@
           "expected_k": 0.998,
           "expected_tb": 1.355,
           "expected_rbi": 0.22,
-          "expected_runs": 0.27,
-          "expected_hrr": 1.33,
+          "expected_runs": 0.29,
+          "expected_hrr": 1.35,
           "pa": 3.95
         },
         {
@@ -23083,17 +23083,7 @@
           "book_odds": -110
         },
         {
-          "name": "Blaze Jordan",
-          "market": "H+R+RBI",
-          "line": 2.5,
-          "side": "UNDER",
-          "model_prob": 85.0,
-          "book_prob": 49.5,
-          "edge": 35.5,
-          "book_odds": -110
-        },
-        {
-          "name": "Iv\u00e1n Herrera",
+          "name": "Jos\u00e9 Ferm\u00edn",
           "market": "H+R+RBI",
           "line": 2.5,
           "side": "UNDER",
@@ -23103,13 +23093,23 @@
           "book_odds": -110
         },
         {
-          "name": "Jos\u00e9 Ferm\u00edn",
+          "name": "Blaze Jordan",
           "market": "H+R+RBI",
           "line": 2.5,
           "side": "UNDER",
-          "model_prob": 84.1,
+          "model_prob": 84.5,
           "book_prob": 49.5,
-          "edge": 34.6,
+          "edge": 35.1,
+          "book_odds": -110
+        },
+        {
+          "name": "Iv\u00e1n Herrera",
+          "market": "H+R+RBI",
+          "line": 2.5,
+          "side": "UNDER",
+          "model_prob": 83.6,
+          "book_prob": 49.5,
+          "edge": 34.1,
           "book_odds": -110
         },
         {
@@ -23223,16 +23223,6 @@
           "book_odds": 120
         },
         {
-          "name": "Blaze Jordan",
-          "market": "H+R+RBI",
-          "line": 3.5,
-          "side": "UNDER",
-          "model_prob": 95.4,
-          "book_prob": 65.2,
-          "edge": 30.1,
-          "book_odds": -215
-        },
-        {
           "name": "Jose Trevino",
           "market": "H+R+RBI",
           "line": 2.5,
@@ -23243,17 +23233,7 @@
           "book_odds": -110
         },
         {
-          "name": "Iv\u00e1n Herrera",
-          "market": "RBI",
-          "line": 0.5,
-          "side": "UNDER",
-          "model_prob": 83.5,
-          "book_prob": 53.7,
-          "edge": 29.9,
-          "book_odds": -130
-        },
-        {
-          "name": "Iv\u00e1n Herrera",
+          "name": "Jos\u00e9 Ferm\u00edn",
           "market": "H+R+RBI",
           "line": 3.5,
           "side": "UNDER",
@@ -23263,13 +23243,23 @@
           "book_odds": -215
         },
         {
-          "name": "Jos\u00e9 Ferm\u00edn",
+          "name": "Blaze Jordan",
           "market": "H+R+RBI",
           "line": 3.5,
           "side": "UNDER",
-          "model_prob": 95.0,
+          "model_prob": 95.2,
           "book_prob": 65.2,
-          "edge": 29.7,
+          "edge": 29.9,
+          "book_odds": -215
+        },
+        {
+          "name": "Iv\u00e1n Herrera",
+          "market": "H+R+RBI",
+          "line": 3.5,
+          "side": "UNDER",
+          "model_prob": 94.7,
+          "book_prob": 65.2,
+          "edge": 29.5,
           "book_odds": -215
         },
         {
@@ -23373,6 +23363,16 @@
           "book_odds": -165
         },
         {
+          "name": "Iv\u00e1n Herrera",
+          "market": "Total Bases",
+          "line": 2.5,
+          "side": "UNDER",
+          "model_prob": 86.8,
+          "book_prob": 60.9,
+          "edge": 25.9,
+          "book_odds": -175
+        },
+        {
           "name": "Masyn Winn",
           "market": "Hits",
           "line": 1.5,
@@ -23391,16 +23391,6 @@
           "book_prob": 43.4,
           "edge": 25.3,
           "book_odds": 120
-        },
-        {
-          "name": "Iv\u00e1n Herrera",
-          "market": "Total Bases",
-          "line": 2.5,
-          "side": "UNDER",
-          "model_prob": 86.2,
-          "book_prob": 60.9,
-          "edge": 25.3,
-          "book_odds": -175
         },
         {
           "name": "Noelvi Marte",
@@ -23503,6 +23493,16 @@
           "book_odds": 120
         },
         {
+          "name": "Iv\u00e1n Herrera",
+          "market": "RBI",
+          "line": 0.5,
+          "side": "UNDER",
+          "model_prob": 76.3,
+          "book_prob": 53.7,
+          "edge": 22.7,
+          "book_odds": -130
+        },
+        {
           "name": "Nelson Vel\u00e1zquez",
           "market": "RBI",
           "line": 0.5,
@@ -23573,6 +23573,16 @@
           "book_odds": -175
         },
         {
+          "name": "Jordan Walker",
+          "market": "H+R+RBI",
+          "line": 3.5,
+          "side": "UNDER",
+          "model_prob": 86.8,
+          "book_prob": 65.2,
+          "edge": 21.5,
+          "book_odds": -215
+        },
+        {
           "name": "Jose Trevino",
           "market": "RBI",
           "line": 0.5,
@@ -23603,6 +23613,16 @@
           "book_odds": -165
         },
         {
+          "name": "Iv\u00e1n Herrera",
+          "market": "Total Bases",
+          "line": 1.5,
+          "side": "UNDER",
+          "model_prob": 64.5,
+          "book_prob": 43.4,
+          "edge": 21.0,
+          "book_odds": 120
+        },
+        {
           "name": "Pedro Pag\u00e9s",
           "market": "Hits",
           "line": 1.5,
@@ -23623,6 +23643,16 @@
           "book_odds": -110
         },
         {
+          "name": "Iv\u00e1n Herrera",
+          "market": "Hits",
+          "line": 1.5,
+          "side": "UNDER",
+          "model_prob": 80.2,
+          "book_prob": 59.4,
+          "edge": 20.8,
+          "book_odds": -165
+        },
+        {
           "name": "Jose Trevino",
           "market": "Total Bases",
           "line": 2.5,
@@ -23634,13 +23664,23 @@
         },
         {
           "name": "Jordan Walker",
-          "market": "H+R+RBI",
-          "line": 3.5,
+          "market": "RBI",
+          "line": 0.5,
           "side": "UNDER",
-          "model_prob": 85.7,
-          "book_prob": 65.2,
-          "edge": 20.5,
-          "book_odds": -215
+          "model_prob": 74.1,
+          "book_prob": 53.7,
+          "edge": 20.4,
+          "book_odds": -130
+        },
+        {
+          "name": "Jos\u00e9 Ferm\u00edn",
+          "market": "RBI",
+          "line": 0.5,
+          "side": "UNDER",
+          "model_prob": 74.1,
+          "book_prob": 53.7,
+          "edge": 20.4,
+          "book_odds": -130
         },
         {
           "name": "JJ Bleday",
@@ -23653,26 +23693,6 @@
           "book_odds": -215
         },
         {
-          "name": "Iv\u00e1n Herrera",
-          "market": "Hits",
-          "line": 1.5,
-          "side": "UNDER",
-          "model_prob": 79.5,
-          "book_prob": 59.4,
-          "edge": 20.1,
-          "book_odds": -165
-        },
-        {
-          "name": "Iv\u00e1n Herrera",
-          "market": "Total Bases",
-          "line": 1.5,
-          "side": "UNDER",
-          "model_prob": 63.5,
-          "book_prob": 43.4,
-          "edge": 20.0,
-          "book_odds": 120
-        },
-        {
           "name": "Blaze Jordan",
           "market": "Hits",
           "line": 1.5,
@@ -23683,14 +23703,14 @@
           "book_odds": -165
         },
         {
-          "name": "Jos\u00e9 Ferm\u00edn",
-          "market": "RBI",
-          "line": 0.5,
+          "name": "Jordan Walker",
+          "market": "H+R+RBI",
+          "line": 2.5,
           "side": "UNDER",
-          "model_prob": 72.6,
-          "book_prob": 53.7,
-          "edge": 18.9,
-          "book_odds": -130
+          "model_prob": 69.3,
+          "book_prob": 49.5,
+          "edge": 19.8,
+          "book_odds": -110
         },
         {
           "name": "Jose Trevino",
@@ -23701,16 +23721,6 @@
           "book_prob": 59.4,
           "edge": 18.6,
           "book_odds": -165
-        },
-        {
-          "name": "Jordan Walker",
-          "market": "H+R+RBI",
-          "line": 2.5,
-          "side": "UNDER",
-          "model_prob": 67.7,
-          "book_prob": 49.5,
-          "edge": 18.2,
-          "book_odds": -110
         },
         {
           "name": "Jos\u00e9 Ferm\u00edn",
@@ -23873,6 +23883,16 @@
           "book_odds": -130
         },
         {
+          "name": "Iv\u00e1n Herrera",
+          "market": "Home Run",
+          "line": 0.5,
+          "side": "UNDER",
+          "model_prob": 92.6,
+          "book_prob": 77.2,
+          "edge": 15.4,
+          "book_odds": -420
+        },
+        {
           "name": "JJ Wetherholt",
           "market": "Hits",
           "line": 1.5,
@@ -23891,16 +23911,6 @@
           "book_prob": 65.2,
           "edge": 15.3,
           "book_odds": -215
-        },
-        {
-          "name": "Iv\u00e1n Herrera",
-          "market": "Home Run",
-          "line": 0.5,
-          "side": "UNDER",
-          "model_prob": 92.5,
-          "book_prob": 77.2,
-          "edge": 15.2,
-          "book_odds": -420
         },
         {
           "name": "Elly De La Cruz",
@@ -23953,6 +23963,16 @@
           "book_odds": -215
         },
         {
+          "name": "Jordan Walker",
+          "market": "Strikeouts",
+          "line": 0.5,
+          "side": "OVER",
+          "model_prob": 71.3,
+          "book_prob": 57.8,
+          "edge": 13.5,
+          "book_odds": -155
+        },
+        {
           "name": "Ke'Bryan Hayes",
           "market": "Home Run",
           "line": 0.5,
@@ -23991,26 +24011,6 @@
           "book_prob": 77.2,
           "edge": 12.8,
           "book_odds": -420
-        },
-        {
-          "name": "Jordan Walker",
-          "market": "Strikeouts",
-          "line": 0.5,
-          "side": "OVER",
-          "model_prob": 70.5,
-          "book_prob": 57.8,
-          "edge": 12.7,
-          "book_odds": -155
-        },
-        {
-          "name": "Jordan Walker",
-          "market": "RBI",
-          "line": 0.5,
-          "side": "UNDER",
-          "model_prob": 66.4,
-          "book_prob": 53.7,
-          "edge": 12.7,
-          "book_odds": -130
         },
         {
           "name": "Eugenio Su\u00e1rez",
@@ -24253,6 +24253,16 @@
           "book_odds": -130
         },
         {
+          "name": "Iv\u00e1n Herrera",
+          "market": "Strikeouts",
+          "line": 1.5,
+          "side": "UNDER",
+          "model_prob": 74.8,
+          "book_prob": 65.2,
+          "edge": 9.5,
+          "book_odds": -215
+        },
+        {
           "name": "Jose Trevino",
           "market": "Strikeouts",
           "line": 1.5,
@@ -24261,6 +24271,16 @@
           "book_prob": 65.2,
           "edge": 9.4,
           "book_odds": -215
+        },
+        {
+          "name": "Iv\u00e1n Herrera",
+          "market": "Hits",
+          "line": 0.5,
+          "side": "UNDER",
+          "model_prob": 44.0,
+          "book_prob": 34.6,
+          "edge": 9.4,
+          "book_odds": 175
         },
         {
           "name": "JJ Wetherholt",
@@ -24291,26 +24311,6 @@
           "book_prob": 53.7,
           "edge": 9.0,
           "book_odds": -130
-        },
-        {
-          "name": "Iv\u00e1n Herrera",
-          "market": "Hits",
-          "line": 0.5,
-          "side": "UNDER",
-          "model_prob": 43.3,
-          "book_prob": 34.6,
-          "edge": 8.7,
-          "book_odds": 175
-        },
-        {
-          "name": "Iv\u00e1n Herrera",
-          "market": "Strikeouts",
-          "line": 1.5,
-          "side": "UNDER",
-          "model_prob": 73.9,
-          "book_prob": 65.2,
-          "edge": 8.7,
-          "book_odds": -215
         },
         {
           "name": "Masyn Winn",
@@ -24373,6 +24373,16 @@
           "book_odds": 120
         },
         {
+          "name": "Jordan Walker",
+          "market": "Total Bases",
+          "line": 1.5,
+          "side": "OVER",
+          "model_prob": 64.7,
+          "book_prob": 56.6,
+          "edge": 8.2,
+          "book_odds": -145
+        },
+        {
           "name": "Dane Myers",
           "market": "Strikeouts",
           "line": 1.5,
@@ -24421,16 +24431,6 @@
           "book_prob": 57.8,
           "edge": 7.0,
           "book_odds": -155
-        },
-        {
-          "name": "Jordan Walker",
-          "market": "Total Bases",
-          "line": 1.5,
-          "side": "OVER",
-          "model_prob": 63.5,
-          "book_prob": 56.6,
-          "edge": 7.0,
-          "book_odds": -145
         },
         {
           "name": "Jose Trevino",
@@ -24505,12 +24505,12 @@
         {
           "name": "Jordan Walker",
           "market": "Hits",
-          "line": 1.5,
-          "side": "UNDER",
-          "model_prob": 65.5,
-          "book_prob": 59.4,
-          "edge": 6.1,
-          "book_odds": -165
+          "line": 0.5,
+          "side": "OVER",
+          "model_prob": 71.3,
+          "book_prob": 65.4,
+          "edge": 5.9,
+          "book_odds": -220
         },
         {
           "name": "JJ Bleday",
@@ -24563,24 +24563,14 @@
           "book_odds": -155
         },
         {
-          "name": "Iv\u00e1n Herrera",
-          "market": "Strikeouts",
-          "line": 0.5,
-          "side": "OVER",
-          "model_prob": 62.8,
-          "book_prob": 57.8,
-          "edge": 5.1,
-          "book_odds": -155
-        },
-        {
           "name": "Jordan Walker",
           "market": "Hits",
-          "line": 0.5,
-          "side": "OVER",
-          "model_prob": 70.5,
-          "book_prob": 65.4,
+          "line": 1.5,
+          "side": "UNDER",
+          "model_prob": 64.5,
+          "book_prob": 59.4,
           "edge": 5.1,
-          "book_odds": -220
+          "book_odds": -165
         },
         {
           "name": "Masyn Winn",
@@ -24620,6 +24610,16 @@
           "model_prob": 62.2,
           "book_prob": 57.8,
           "edge": 4.4,
+          "book_odds": -155
+        },
+        {
+          "name": "Iv\u00e1n Herrera",
+          "market": "Strikeouts",
+          "line": 0.5,
+          "side": "OVER",
+          "model_prob": 62.0,
+          "book_prob": 57.8,
+          "edge": 4.3,
           "book_odds": -155
         },
         {
@@ -26705,7 +26705,7 @@
       "home_pitcher_id": 687931,
       "game_time": "2026-07-26T20:05:00Z",
       "game_state": "Preview",
-      "game_detail": "Scheduled",
+      "game_detail": "Pre-Game",
       "inning": null,
       "inning_half": "",
       "away_score": null,
