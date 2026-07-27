@@ -1,5 +1,5 @@
-const CACHE = 'projex-v1';
-const SHELL = ['/', '/mlb/', '/nfl/', '/nhl/', '/nba/', '/injuries/', '/manifest.webmanifest'];
+const CACHE = 'slate-v1';
+const SHELL = ['/', '/mlb/', '/nfl/', '/manifest.webmanifest'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));

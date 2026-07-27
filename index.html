@@ -3,236 +3,159 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Projex — Model Boards</title>
-<meta name="theme-color" content="#17181B">
+<title>Slate — Model Boards</title>
+<meta name="theme-color" content="#12140E">
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" href="./icon-180.png">
-<link rel="icon" href="./favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#17181B; --panel:#1E2023; --panel-hi:#26282C; --line:#323438;
-  --g1:#93E06E; --g2:#5FA34A; --grad:linear-gradient(135deg,var(--g1),var(--g2));
-  --ink:#F2F3EF; --mute:#8A8D93; --faint:#55585E;
-  --r:16px; --r-sm:11px;
+  --bg:#12140E; --card:#1A1D14; --card-2:#22261A; --line:#33372A;
+  --blue:#8A907C; --yellow:#C6F24E; --teal:#7FB2C4; --orange:#C99A5B;
+  --text:#F2F3EC; --muted:#8A907C; --r:18px;
 }
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+*{margin:0;padding:0;box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{
-  background:var(--bg); color:var(--ink); font-family:'Inter',system-ui,sans-serif;
+  background:var(--bg); color:var(--text); font-family:'Inter',system-ui,sans-serif;
   min-height:100dvh; display:flex; flex-direction:column; position:relative;
-  padding:max(18px,env(safe-area-inset-top)) 16px max(24px,env(safe-area-inset-bottom));
+  padding:max(20px,env(safe-area-inset-top)) 18px max(28px,env(safe-area-inset-bottom));
   max-width:520px; margin:0 auto;
 }
-body::before{
-  content:''; position:fixed; inset:0; z-index:-1; pointer-events:none;
-  background:
-    radial-gradient(560px 320px at 8% -6%, rgba(147,224,110,.09), transparent 60%),
-    radial-gradient(480px 360px at 108% 8%, rgba(95,163,74,.09), transparent 60%);
-}
-
-/* ---------- header ---------- */
-header{display:flex; align-items:center; justify-content:space-between; padding:2px 2px 20px; gap:10px}
-.head-left{display:flex; align-items:center; gap:9px}
-.head-left img.mark{width:30px; height:30px; border-radius:8px; flex:none; display:block}
-.wordmark{
-  font-family:'Sora',sans-serif; font-weight:800; font-size:18px; letter-spacing:.03em; text-transform:uppercase;
-  color:var(--ink); line-height:1;
-}
-.wordmark .x{background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent}
-.head-left .today{font-size:11px; color:var(--mute); font-weight:500; margin-top:3px; font-family:'IBM Plex Mono',monospace}
-.hub-refresh{
-  width:34px; height:34px; border-radius:50%; background:var(--panel); border:1px solid var(--line);
-  display:grid; place-items:center; cursor:pointer; color:var(--mute); font-size:15px;
-  transition:transform .2s, color .2s, border-color .2s; padding:0; flex:none;
-}
-.hub-refresh:active{transform:scale(.88)}
-.hub-refresh:focus-visible{outline:2px solid var(--g1); outline-offset:2px}
-.hub-refresh.spin{animation:spin .7s linear infinite; color:var(--g1); border-color:rgba(147,224,110,.4)}
+body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(640px 340px at 10% -8%,rgba(138,144,124,.18),transparent 60%),
+             radial-gradient(560px 320px at 110% 2%,rgba(198,242,78,.12),transparent 60%),
+             radial-gradient(500px 400px at 50% 115%,rgba(45,212,191,.07),transparent 60%)}
+header{display:flex; align-items:center; justify-content:space-between; padding:6px 2px 24px}
+.wordmark{font-family:'Sora',sans-serif; font-weight:800; font-size:23px; letter-spacing:.5px;
+  background:linear-gradient(100deg,#C6F24E,#EAFF9E); -webkit-background-clip:text;
+  background-clip:text; color:transparent}
+.hub-refresh{width:34px;height:34px;border-radius:50%;background:var(--card);border:1px solid var(--line);
+  display:grid;place-items:center;cursor:pointer;color:var(--blue);font-size:16px;margin-left:8px;
+  transition:transform .2s;-webkit-tap-highlight-color:transparent;padding:0}
+.hub-refresh:active{transform:scale(.9)}
+.hub-refresh.spin{animation:spin .7s linear infinite;color:var(--yellow)}
 @keyframes spin{to{transform:rotate(360deg)}}
-
-/* ---------- section label ---------- */
-.kicker-row{display:flex;align-items:center;gap:9px;margin-bottom:12px}
-.kicker{font-size:10.5px; font-weight:700; color:var(--mute); letter-spacing:.14em; text-transform:uppercase; flex:none; font-family:'IBM Plex Mono',monospace}
-.kicker-line{height:1px; flex:1; background:linear-gradient(90deg, var(--line), transparent)}
-
-/* ---------- board grid ---------- */
-.grid{display:grid; grid-template-columns:1fr 1fr; gap:9px}
-.board{
+.date-chip{
+  font-size:12px; font-weight:600; color:var(--muted); padding:7px 12px; border-radius:99px;
+  background:linear-gradient(var(--card),var(--card)) padding-box,
+             linear-gradient(120deg,rgba(138,144,124,.55),rgba(198,242,78,.55)) border-box;
+  border:1px solid transparent;
+}
+.kicker{font-size:12.5px; font-weight:700; color:var(--muted); letter-spacing:.14em;
+  text-transform:uppercase; margin-bottom:6px}
+.kicker-bar{width:44px;height:3px;border-radius:2px;margin-bottom:16px;
+  background:linear-gradient(90deg,#A8D62E,#C6F24E)}
+.grid{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+.sport-card{
   display:block; text-decoration:none; color:inherit; position:relative; overflow:hidden;
-  border-radius:var(--r); padding:13px 13px 12px;
-  background:var(--panel);
-  border:1px solid var(--line);
-  transition:transform .16s cubic-bezier(.2,.8,.3,1), border-color .2s;
+  border-radius:var(--r); padding:16px 15px 14px;
+  background:linear-gradient(160deg,var(--card-2),var(--card)) padding-box,
+             linear-gradient(150deg, color-mix(in srgb, var(--acc) 55%, transparent), rgba(37,48,78,.6) 60%) border-box;
+  border:1px solid transparent;
+  transition:transform .15s ease;
 }
-.board:active{transform:scale(.97)}
-.board:focus-visible{outline:2px solid var(--g1); outline-offset:2px}
-.board::before{
-  content:''; position:absolute; inset:0; border-radius:inherit; padding:1px;
-  background:linear-gradient(155deg, rgba(147,224,110,.28), transparent 55%);
-  -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite:xor; mask-composite:exclude; pointer-events:none;
+.sport-card:active{transform:scale(.97)}
+.sport-card::after{
+  content:''; position:absolute; inset:auto -26px -26px auto; width:110px; height:110px;
+  border-radius:50%; background:radial-gradient(circle, color-mix(in srgb, var(--acc) 22%, transparent), transparent 70%);
 }
-.board.quiet .board-num, .board.quiet .board-name{opacity:.4}
-.board.quiet::before{opacity:.3}
-
-.board-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.board-tag{font-size:9.5px; font-weight:700; letter-spacing:.1em; color:var(--mute); display:flex; align-items:center; gap:5px; font-family:'IBM Plex Mono',monospace}
-.board-logo{width:13px; height:13px; object-fit:contain; flex:none}
-.live-dot{display:none; align-items:center; gap:4px; font-size:8.5px; font-weight:700; color:#FF6B5E; letter-spacing:.04em; font-family:'IBM Plex Mono',monospace}
-.live-dot.on{display:flex}
-.live-dot i{width:5px;height:5px;border-radius:50%;background:#FF6B5E;animation:pulse 1.4s ease-in-out infinite}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
-
-.board-num{
-  font-family:'Sora',sans-serif; font-weight:800;
-  font-size:30px; line-height:.9; color:var(--ink); letter-spacing:-.01em;
-  margin-bottom:1px; font-variant-numeric:tabular-nums;
+.league-logo{
+  width:46px; height:46px; border-radius:13px; margin-bottom:11px;
+  background:linear-gradient(160deg, color-mix(in srgb, var(--acc) 20%, var(--card)), var(--card));
+  border:1px solid color-mix(in srgb, var(--acc) 35%, transparent);
+  display:grid; place-items:center;
 }
-.board-name{font-size:11px; color:var(--mute); margin-bottom:10px}
-
-.board-edge{display:flex; align-items:center; gap:7px; margin-bottom:10px; min-height:20px}
-.edgebars{display:flex; align-items:flex-end; gap:2px; height:16px; flex:none}
-.edgebars i{width:4px; border-radius:1.5px; background:var(--line); display:block}
-.edgebars.lit i{background:var(--grad)}
-.board-edge-txt{font-size:10px; color:var(--mute); font-family:'IBM Plex Mono',monospace; line-height:1.35}
-.board-edge-txt b{color:var(--ink); font-weight:600}
-
-.board-foot{display:flex; align-items:center; justify-content:space-between; gap:8px}
-.board-updated{font-size:9.5px; font-weight:600; color:var(--faint); font-family:'IBM Plex Mono',monospace}
-.board-arrow{
-  width:23px; height:23px; border-radius:50%; background:var(--panel-hi); flex:none;
-  display:grid; place-items:center; color:var(--g1); font-size:12px; font-weight:700;
-  transition:transform .16s ease;
-}
-.board:active .board-arrow{transform:translateX(2px)}
-
-/* ---------- injuries strip ---------- */
-.injuries{
-  margin-top:9px; display:flex; align-items:center; justify-content:space-between; gap:12px;
-  text-decoration:none; color:inherit; background:var(--panel); border:1px solid var(--line);
-  border-radius:var(--r); padding:12px 14px; transition:transform .16s cubic-bezier(.2,.8,.3,1);
-}
-.injuries:active{transform:scale(.98)}
-.injuries:focus-visible{outline:2px solid var(--g1); outline-offset:2px}
-.injuries-left{display:flex;align-items:center;gap:11px;min-width:0}
-.injuries-icn{
-  width:34px;height:34px;border-radius:10px;flex:none;display:grid;place-items:center;font-size:16px;
-  background:rgba(147,224,110,.10); border:1px solid rgba(147,224,110,.24);
-}
-.injuries-text .board-tag{margin-bottom:2px;display:block}
-.injuries-text .board-name{margin-bottom:0;font-size:13px;font-weight:700;color:var(--ink);font-family:'Sora',sans-serif}
-.injuries-count{font-family:'Sora',sans-serif;font-weight:800;font-size:16px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;flex:none}
-
-/* ---------- footer ---------- */
-footer{margin-top:auto; text-align:center; font-size:11px; color:var(--faint); padding-top:26px; font-weight:500; font-family:'IBM Plex Mono',monospace}
-footer b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent; font-weight:700}
-
-@media (prefers-reduced-motion:reduce){
-  .board, .injuries, .hub-refresh, .board-arrow{transition:none}
-  .live-dot i{animation:none}
-  .hub-refresh.spin{animation:none}
-}
+.league-logo img{width:32px; height:32px; object-fit:contain}
+.sport-tag{font-family:'Sora',sans-serif; font-weight:700; font-size:10.5px; letter-spacing:.13em;
+  color:var(--acc); margin-bottom:4px}
+.sport-name{font-family:'Sora',sans-serif; font-weight:700; font-size:18px; margin-bottom:9px}
+.meta-col{display:flex; flex-direction:column; gap:5px; align-items:flex-start}
+.pill{font-size:10.5px; font-weight:600; padding:4px 9px; border-radius:99px;
+  background:color-mix(in srgb, var(--acc) 13%, transparent);
+  color:var(--acc); border:1px solid color-mix(in srgb, var(--acc) 26%, transparent)}
+.soon .sport-name,.soon .league-logo img{opacity:.75}
+.soon{cursor:default}
+.injuries-card{margin-top:12px;padding:15px}
+.injuries-row{display:flex;align-items:center;gap:11px;margin-bottom:10px}
+.injuries-icon{font-size:20px}
+.arrow{position:absolute; top:15px; right:14px; width:30px; height:30px; border-radius:50%;
+  background:var(--card); border:1px solid var(--line); display:grid; place-items:center;
+  color:var(--acc); font-weight:700; font-size:14px}
+footer{margin-top:auto; text-align:center; font-size:12px; color:var(--muted); padding-top:28px}
+footer b{background:linear-gradient(100deg,#C6F24E,#EAFF9E);
+  -webkit-background-clip:text;background-clip:text;color:transparent;font-weight:700}
+@media (prefers-reduced-motion:reduce){.sport-card{transition:none}}
 </style>
 </head>
 <body>
 <header>
-  <div class="head-left">
-    <img class="mark" src="./icon-192.png" alt="">
-    <div>
-      <div class="wordmark">Proj<span class="x">ex</span></div>
-      <div class="today" id="today"></div>
-    </div>
+  <div class="wordmark">SLATE.</div>
+  <div style="display:flex;align-items:center">
+    <div class="date-chip" id="today"></div>
+    <button class="hub-refresh" id="hub-refresh" aria-label="Refresh" title="Refresh">↻</button>
   </div>
-  <button class="hub-refresh" id="hub-refresh" aria-label="Refresh" title="Refresh">↻</button>
 </header>
 
-<div class="kicker-row">
-  <div class="kicker">Model Boards</div>
-  <div class="kicker-line"></div>
-</div>
+<div class="kicker">Model Boards</div>
+<div class="kicker-bar"></div>
 
 <div class="grid">
-  <a class="board" data-sport="mlb" href="./mlb/">
-    <div class="board-top">
-      <span class="board-tag"><img class="board-logo" src="https://a.espncdn.com/i/teamlogos/leagues/500/mlb.png" alt="" loading="lazy" onerror="this.remove()">MLB · DAILY</span>
-      <span class="live-dot" id="mlb-live"><i></i>LIVE</span>
-    </div>
-    <div class="board-num" id="mlb-games">—</div>
-    <div class="board-name">games today</div>
-    <div class="board-edge" id="mlb-edge-wrap" style="display:none">
-      <div class="edgebars" id="mlb-edge-bars"><i></i><i></i><i></i></div>
-      <div class="board-edge-txt">Top edge<br><b id="mlb-edge-txt">—</b></div>
-    </div>
-    <div class="board-foot">
-      <span class="board-updated" id="mlb-updated">syncing…</span>
-      <span class="board-arrow">→</span>
+  <a class="sport-card" href="./mlb/" style="--acc:var(--yellow)">
+    <div class="arrow">→</div>
+    <div class="league-logo"><img src="https://a.espncdn.com/i/teamlogos/leagues/500/mlb.png" alt="MLB" loading="lazy" onerror="this.remove()"></div>
+    <div class="sport-tag">MLB · DAILY</div>
+    <div class="sport-name">Baseball</div>
+    <div class="meta-col">
+      <span class="pill" id="mlb-games">— games</span>
+      <span class="pill" id="mlb-updated">syncing…</span>
     </div>
   </a>
 
-  <a class="board" data-sport="nfl" href="./nfl/">
-    <div class="board-top">
-      <span class="board-tag"><img class="board-logo" src="https://a.espncdn.com/i/teamlogos/leagues/500/nfl.png" alt="" loading="lazy" onerror="this.remove()">NFL · WEEKLY</span>
-      <span class="live-dot" id="nfl-live"><i></i>LIVE</span>
-    </div>
-    <div class="board-num" id="nfl-games">—</div>
-    <div class="board-name">games today</div>
-    <div class="board-edge" id="nfl-edge-wrap" style="display:none">
-      <div class="edgebars" id="nfl-edge-bars"><i></i><i></i><i></i></div>
-      <div class="board-edge-txt">Top edge<br><b id="nfl-edge-txt">—</b></div>
-    </div>
-    <div class="board-foot">
-      <span class="board-updated" id="nfl-updated">syncing…</span>
-      <span class="board-arrow">→</span>
+  <a class="sport-card" href="./nfl/" style="--acc:var(--yellow)">
+    <div class="arrow">→</div>
+    <div class="league-logo"><img src="https://a.espncdn.com/i/teamlogos/leagues/500/nfl.png" alt="NFL" loading="lazy" onerror="this.remove()"></div>
+    <div class="sport-tag">NFL · WEEKLY</div>
+    <div class="sport-name">Football</div>
+    <div class="meta-col">
+      <span class="pill" id="nfl-games">— games</span>
+      <span class="pill" id="nfl-updated">syncing…</span>
     </div>
   </a>
 
-  <a class="board" data-sport="nhl" href="./nhl/">
-    <div class="board-top">
-      <span class="board-tag"><img class="board-logo" src="https://a.espncdn.com/i/teamlogos/leagues/500/nhl.png" alt="" loading="lazy" onerror="this.remove()">NHL · DAILY</span>
-      <span class="live-dot" id="nhl-live"><i></i>LIVE</span>
-    </div>
-    <div class="board-num" id="nhl-games">—</div>
-    <div class="board-name">games today</div>
-    <div class="board-edge" id="nhl-edge-wrap" style="display:none">
-      <div class="edgebars" id="nhl-edge-bars"><i></i><i></i><i></i></div>
-      <div class="board-edge-txt">Top edge<br><b id="nhl-edge-txt">—</b></div>
-    </div>
-    <div class="board-foot">
-      <span class="board-updated" id="nhl-updated">syncing…</span>
-      <span class="board-arrow">→</span>
+  <a class="sport-card" href="./nhl/" style="--acc:var(--teal)">
+    <div class="arrow">→</div>
+    <div class="league-logo"><img src="https://a.espncdn.com/i/teamlogos/leagues/500/nhl.png" alt="NHL" loading="lazy" onerror="this.remove()"></div>
+    <div class="sport-tag">NHL · DAILY</div>
+    <div class="sport-name">Hockey</div>
+    <div class="meta-col">
+      <span class="pill" id="nhl-games">— games</span>
+      <span class="pill" id="nhl-updated">syncing…</span>
     </div>
   </a>
 
-  <a class="board" data-sport="nba" href="./nba/">
-    <div class="board-top">
-      <span class="board-tag"><img class="board-logo" src="https://a.espncdn.com/i/teamlogos/leagues/500/nba.png" alt="" loading="lazy" onerror="this.remove()">NBA · DAILY</span>
-      <span class="live-dot" id="nba-live"><i></i>LIVE</span>
-    </div>
-    <div class="board-num" id="nba-games">—</div>
-    <div class="board-name">games today</div>
-    <div class="board-edge" id="nba-edge-wrap" style="display:none">
-      <div class="edgebars" id="nba-edge-bars"><i></i><i></i><i></i></div>
-      <div class="board-edge-txt">Top edge<br><b id="nba-edge-txt">—</b></div>
-    </div>
-    <div class="board-foot">
-      <span class="board-updated" id="nba-updated">syncing…</span>
-      <span class="board-arrow">→</span>
-    </div>
+  <a class="sport-card" href="./nba/" style="--acc:var(--orange)">
+    <div class="arrow">→</div>
+    <div class="league-logo"><img src="https://a.espncdn.com/i/teamlogos/leagues/500/nba.png" alt="NBA" loading="lazy" onerror="this.remove()"></div>
+    <div class="sport-tag">NBA · DAILY</div>
+    <div class="sport-name">Basketball</div>
+    <div class="meta-col"><span class="pill" id="nba-games">— games</span>
+      <span class="pill" id="nba-updated">syncing…</span></div>
   </a>
 </div>
 
-<a class="injuries" href="./injuries/">
-  <div class="injuries-left">
-    <div class="injuries-icn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L4 6v6c0 5 3.4 8.4 8 10 4.6-1.6 8-5 8-10V6l-8-4z" stroke="#93E06E" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 8v8M8 12h8" stroke="#93E06E" stroke-width="1.8" stroke-linecap="round"/></svg></div>
-    <div class="injuries-text">
-      <span class="board-tag">ALL LEAGUES</span>
-      <span class="board-name">Injuries</span>
+<a class="sport-card injuries-card" href="./injuries/" style="--acc:var(--yellow)">
+  <div class="arrow">→</div>
+  <div class="injuries-row">
+    <div class="league-logo injuries-icon">🩹</div>
+    <div>
+      <div class="sport-tag">ALL LEAGUES</div>
+      <div class="sport-name">Injuries</div>
     </div>
   </div>
-  <div class="injuries-count" id="inj-count">—</div>
+  <div class="meta-col"><span class="pill" id="inj-count">— reports</span></div>
 </a>
 
 <footer>Auto-updated by the model · <b>Add to Home Screen</b> to install</footer>
@@ -249,48 +172,24 @@ const rel = iso => {
 document.getElementById('today').textContent =
   new Date().toLocaleDateString('en-US', { weekday:'short', month:'short', day:'numeric' });
 
-function setEdgeBars(sport, score){
-  const bars = document.querySelectorAll(`#${sport}-edge-bars i`);
-  const heights = [35, 65, 100];
-  bars.forEach((b, i) => b.style.height = Math.max(18, heights[i] * Math.min(1, score/100)) + '%');
-  document.getElementById(`${sport}-edge-bars`).classList.toggle('lit', score >= 25);
-}
-
 function loadHub(){
   for (const s of ['mlb','nfl','nhl','nba']) {
     fetch(`./data/${s}_slate.json?t=${Date.now()}`)
       .then(r => r.json())
       .then(d => {
-        const games = d.games || [];
-        const count = games.length;
-        const live = games.filter(g => g.game_state === 'Live').length;
-        const card = document.querySelector(`.board[data-sport="${s}"]`);
-        document.getElementById(s+'-games').textContent = count;
+        const live = (d.games || []).filter(g => g.game_state === 'Live').length;
+        document.getElementById(s+'-games').textContent =
+          (d.games?.length ?? 0) + ' games' + (live ? ` · ${live} live` : '');
         document.getElementById(s+'-updated').textContent = d.generated_at ? rel(d.generated_at) : 'preseason';
-        document.getElementById(s+'-live').classList.toggle('on', live > 0);
-        if (card) card.classList.toggle('quiet', count === 0);
-
-        // Best Edge Confidence Score on this slate today
-        const edges = games.map(g => g.edge).filter(Boolean);
-        const wrap = document.getElementById(`${s}-edge-wrap`);
-        if (edges.length) {
-          const best = edges.reduce((a, b) => (b.score ?? 0) > (a.score ?? 0) ? b : a);
-          const team = (best.team || '').split(' ').pop();
-          document.getElementById(`${s}-edge-txt`).textContent = `${team} ${best.score}/100`;
-          setEdgeBars(s, best.score ?? 0);
-          wrap.style.display = 'flex';
-        } else {
-          wrap.style.display = 'none';
-        }
       })
       .catch(() => { document.getElementById(s+'-updated').textContent = 'no data yet'; });
   }
   fetch(`./data/injuries_slate.json?t=${Date.now()}`)
     .then(r => r.json())
     .then(d => {
-      document.getElementById('inj-count').textContent = (d.total_players ?? 0);
+      document.getElementById('inj-count').textContent = (d.total_players ?? 0) + ' reports';
     })
-    .catch(() => { document.getElementById('inj-count').textContent = '—'; });
+    .catch(() => { document.getElementById('inj-count').textContent = 'no data yet'; });
 }
 loadHub();
 const hubRefresh = document.getElementById('hub-refresh');

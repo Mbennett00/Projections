@@ -1,12 +1,12 @@
 {
-  "name": "Projex — Model Boards",
-  "short_name": "Projex",
-  "description": "Daily MLB, NFL, NHL, and NBA model boards with Edge Confidence scoring",
+  "name": "Slate \u2014 Model Boards",
+  "short_name": "Slate",
+  "description": "Daily MLB and NFL model boards",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#17181B",
-  "theme_color": "#17181B",
+  "background_color": "#0B1020",
+  "theme_color": "#0B1020",
   "icons": [
     {
       "src": "/icon-180.png",
