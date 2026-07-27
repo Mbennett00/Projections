@@ -53,7 +53,8 @@
 
     async function loadDataset() {
         try {
-            const res = await fetch('injuries.json');
+            // Points cleanly to your Python output file
+            const res = await fetch('injuries_slate.json');
             rawDataset = await res.json();
             applyFilters();
         } catch(e) {
