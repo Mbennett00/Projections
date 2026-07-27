@@ -318,7 +318,7 @@ def fetch_odds():
     if not ODDS_API_KEY:
         return {}
     url = (f"https://api.the-odds-api.com/v4/sports/basketball_nba/odds"
-           f"?apiKey={ODDS_API_KEY}&regions=us&markets=spreads,totals&oddsFormat=american")
+           f"?apiKey={ODDS_API_KEY}&regions=us&markets=spreads,totals,h2h&oddsFormat=american")
     try:
         rows = get_json(url)
     except Exception as e:
@@ -326,7 +326,7 @@ def fetch_odds():
         return {}
     out = {}
     for ev in rows:
-        totals, spreads = [], []
+        totals, spreads, ml_away, ml_home = [], [], [], []
         for bk in ev.get("bookmakers", []):
             for mk in bk.get("markets", []):
                 for o in mk.get("outcomes", []):
@@ -334,10 +334,17 @@ def fetch_odds():
                         totals.append(o["point"])
                     if mk["key"] == "spreads" and o.get("name") == ev.get("home_team") and o.get("point") is not None:
                         spreads.append(o["point"])
-        if totals:
+                    if mk["key"] == "h2h" and o.get("price") is not None:
+                        if o.get("name") == ev.get("away_team"):
+                            ml_away.append(o["price"])
+                        elif o.get("name") == ev.get("home_team"):
+                            ml_home.append(o["price"])
+        if totals or (ml_away and ml_home):
             out[(ev.get("away_team"), ev.get("home_team"))] = {
-                "total": round(sum(totals) / len(totals), 1),
+                "total": round(sum(totals) / len(totals), 1) if totals else None,
                 "home_spread": round(sum(spreads) / len(spreads), 1) if spreads else None,
+                "ml_away": round(sum(ml_away) / len(ml_away)) if ml_away else None,
+                "ml_home": round(sum(ml_home) / len(ml_home)) if ml_home else None,
             }
     return out
 
@@ -349,6 +356,37 @@ def match_odds(odds_map, away_name, home_name):
         if a and h and a in ak.lower() and h in hk.lower():
             return v
     return None
+
+
+def american_to_implied(price):
+    if price is None:
+        return None
+    if price > 0:
+        return 100 / (price + 100)
+    return abs(price) / (abs(price) + 100)
+
+
+def devig_pair(price_a, price_b):
+    """Two-way devig: normalize implied probs so they sum to 1."""
+    ia, ib = american_to_implied(price_a), american_to_implied(price_b)
+    if ia is None or ib is None:
+        return None, None
+    total = ia + ib
+    if total <= 0:
+        return None, None
+    return ia / total, ib / total
+
+
+# ---------------------------------------------------------------------------
+# EDGE CONFIDENCE SCORE -- shared 0-100 scale across all four sports. See
+# mlb_projections.py for the full rationale.
+# ---------------------------------------------------------------------------
+EDGE_SCORE_K = 6.0
+
+def edge_confidence_score(edge_pts, k=EDGE_SCORE_K):
+    score = round(100 * (1 - math.exp(-abs(edge_pts) / k)))
+    tier = "ELITE" if score >= 75 else "HIGH" if score >= 50 else "MEDIUM" if score >= 25 else "LOW"
+    return score, tier
 
 
 # ── projections ───────────────────────────────────────────────────────────
@@ -508,6 +546,24 @@ def build_game(raw, odds_map, yesterday=None):
     edge = abs(home_win - 0.5)
     tier = "STRONG" if edge >= 0.15 else "LEAN" if edge >= 0.07 else "PASS"
 
+    # Model-vs-market moneyline edge (the "Edge Confidence Score" on the
+    # board). Only computed when a real book moneyline exists to check
+    # against -- comparing the spread-implied win% to the moneyline market's
+    # own devigged win% surfaces real cross-market disagreement.
+    game_edge = None
+    if line and line.get("ml_away") is not None and line.get("ml_home") is not None:
+        market_away, market_home = devig_pair(line["ml_away"], line["ml_home"])
+        if market_home is not None:
+            home_edge = (home_win - market_home) * 100
+            away_edge = ((1 - home_win) - market_away) * 100
+            if abs(home_edge) >= abs(away_edge):
+                best_edge, best_team = home_edge, raw["home_team"]
+            else:
+                best_edge, best_team = away_edge, raw["away_team"]
+            g_score, g_confidence = edge_confidence_score(best_edge)
+            game_edge = {"team": best_team, "edge_pct": round(best_edge, 1),
+                         "score": g_score, "confidence": g_confidence}
+
     game = {
         "away_team": raw["away_team"], "home_team": raw["home_team"],
         "away_abbr": raw["away_abbr"], "home_abbr": raw["home_abbr"],
@@ -515,7 +571,7 @@ def build_game(raw, odds_map, yesterday=None):
         "game_state": raw.get("game_state", "Preview"),
         "away_win_pct": round(1 - home_win, 3), "home_win_pct": round(home_win, 3),
         "total": total, "spread": spread,
-        "tier": tier, "line_source": source, "blowout_risk": round(blowout, 2),
+        "tier": tier, "line_source": source, "blowout_risk": round(blowout, 2), "edge": game_edge,
         "away_players": away_players, "home_players": home_players,
     }
     if raw.get("away_score") is not None:

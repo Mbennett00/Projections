@@ -832,6 +832,23 @@ STANDARD_BOOK_LINES = {
 
 EDGE_THRESHOLD = 4.0  # flag as a play if model edge >= this percentage
 
+# ---------------------------------------------------------------------------
+# EDGE CONFIDENCE SCORE -- shared 0-100 scale across all four sports.
+# Raw edge (model win% minus book win%, in points) is run through a
+# saturating curve so a 2pt edge and a 40pt edge don't both just say "HIGH".
+# `k` is the only sport-specific knob: it's the edge (in points) that scores
+# ~63/100, tuned to each sport's typical moneyline edge range so the same
+# 0-100 score means the same thing everywhere. MLB routinely swings wide on
+# starting-pitcher mismatches, so it gets a much bigger k than the other
+# three sports.
+# ---------------------------------------------------------------------------
+EDGE_SCORE_K = 18.0
+
+def edge_confidence_score(edge_pts, k=EDGE_SCORE_K):
+    score = round(100 * (1 - math.exp(-abs(edge_pts) / k)))
+    tier = "ELITE" if score >= 75 else "HIGH" if score >= 50 else "MEDIUM" if score >= 25 else "LOW"
+    return score, tier
+
 
 def american_to_prob(odds):
     """Convert American odds to implied probability (raw, not devigged)."""
@@ -1089,10 +1106,10 @@ def print_game(game, bat_df, pit_df, odds_lines, all_standouts):
         print(f"  Book ({line['book']}) implied win%: {game['away_team']} {line['away_prob']*100:.1f}%  |  {game['home_team']} {line['home_prob']*100:.1f}%")
         lean_team = game["away_team"] if away_edge > home_edge else game["home_team"]
         lean_edge = max(away_edge, home_edge)
-        confidence = "HIGH" if abs(lean_edge) >= 5 else "MODERATE" if abs(lean_edge) >= 2 else "LOW"
+        score, confidence = edge_confidence_score(lean_edge)
         sign = "+" if lean_edge >= 0 else ""
-        print(f"  EDGE: {lean_team} {sign}{lean_edge:.1f}% vs. book  [{confidence} confidence]")
-        result["edge"] = {"team": lean_team, "edge_pct": round(lean_edge, 2), "confidence": confidence}
+        print(f"  EDGE: {lean_team} {sign}{lean_edge:.1f}% vs. book  [{confidence} confidence, {score}/100]")
+        result["edge"] = {"team": lean_team, "edge_pct": round(lean_edge, 2), "score": score, "confidence": confidence}
     elif ODDS_API_KEY:
         print("  (No matching odds line for this game)")
 

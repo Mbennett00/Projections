@@ -3,124 +3,132 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Slate — Model Boards</title>
-<meta name="theme-color" content="#141510">
+<title>Projex — Model Boards</title>
+<meta name="theme-color" content="#17181B">
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" href="./icon-180.png">
+<link rel="icon" href="./favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,600;0,800;1,800;1,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#141510; --panel:#1B1D15; --panel-hi:#24271C; --line:#33372A;
-  --volt:#D8FF4D; --ink:#F4F3E9; --mute:#8B8F7A; --faint:#5C6050;
-  --r:20px; --r-sm:13px;
+  --bg:#17181B; --panel:#1E2023; --panel-hi:#26282C; --line:#323438;
+  --g1:#93E06E; --g2:#5FA34A; --grad:linear-gradient(135deg,var(--g1),var(--g2));
+  --ink:#F2F3EF; --mute:#8A8D93; --faint:#55585E;
+  --r:16px; --r-sm:11px;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{-webkit-text-size-adjust:100%}
 body{
   background:var(--bg); color:var(--ink); font-family:'Inter',system-ui,sans-serif;
   min-height:100dvh; display:flex; flex-direction:column; position:relative;
-  padding:max(20px,env(safe-area-inset-top)) 18px max(28px,env(safe-area-inset-bottom));
+  padding:max(18px,env(safe-area-inset-top)) 16px max(24px,env(safe-area-inset-bottom));
   max-width:520px; margin:0 auto;
 }
 body::before{
   content:''; position:fixed; inset:0; z-index:-1; pointer-events:none;
   background:
-    radial-gradient(560px 320px at 8% -6%, rgba(216,255,77,.10), transparent 60%),
-    radial-gradient(480px 360px at 108% 8%, rgba(217,122,61,.08), transparent 60%),
-    radial-gradient(520px 420px at 46% 118%, rgba(111,216,232,.06), transparent 60%);
+    radial-gradient(560px 320px at 8% -6%, rgba(147,224,110,.09), transparent 60%),
+    radial-gradient(480px 360px at 108% 8%, rgba(95,163,74,.09), transparent 60%);
 }
 
 /* ---------- header ---------- */
-header{display:flex; align-items:flex-start; justify-content:space-between; padding:4px 2px 26px}
-.head-left .wordmark{
-  font-family:'Archivo',sans-serif; font-weight:800; font-size:22px; letter-spacing:.01em;
-  color:var(--ink); display:flex; align-items:baseline; gap:7px;
+header{display:flex; align-items:center; justify-content:space-between; padding:2px 2px 20px; gap:10px}
+.head-left{display:flex; align-items:center; gap:9px}
+.head-left img.mark{width:30px; height:30px; border-radius:8px; flex:none; display:block}
+.wordmark{
+  font-family:'Sora',sans-serif; font-weight:800; font-size:18px; letter-spacing:.03em; text-transform:uppercase;
+  color:var(--ink); line-height:1;
 }
-.wordmark i{font-style:italic; font-weight:900; color:var(--volt)}
-.head-left .today{font-size:12.5px; color:var(--mute); font-weight:500; margin-top:3px}
+.wordmark .x{background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent}
+.head-left .today{font-size:11px; color:var(--mute); font-weight:500; margin-top:3px; font-family:'IBM Plex Mono',monospace}
 .hub-refresh{
-  width:36px; height:36px; border-radius:50%; background:var(--panel); border:1px solid var(--line);
-  display:grid; place-items:center; cursor:pointer; color:var(--mute); font-size:16px;
+  width:34px; height:34px; border-radius:50%; background:var(--panel); border:1px solid var(--line);
+  display:grid; place-items:center; cursor:pointer; color:var(--mute); font-size:15px;
   transition:transform .2s, color .2s, border-color .2s; padding:0; flex:none;
 }
 .hub-refresh:active{transform:scale(.88)}
-.hub-refresh:focus-visible{outline:2px solid var(--volt); outline-offset:2px}
-.hub-refresh.spin{animation:spin .7s linear infinite; color:var(--volt); border-color:rgba(216,255,77,.4)}
+.hub-refresh:focus-visible{outline:2px solid var(--g1); outline-offset:2px}
+.hub-refresh.spin{animation:spin .7s linear infinite; color:var(--g1); border-color:rgba(147,224,110,.4)}
 @keyframes spin{to{transform:rotate(360deg)}}
 
 /* ---------- section label ---------- */
-.kicker-row{display:flex;align-items:center;gap:10px;margin-bottom:16px}
-.kicker{font-size:11.5px; font-weight:700; color:var(--mute); letter-spacing:.16em; text-transform:uppercase; flex:none}
+.kicker-row{display:flex;align-items:center;gap:9px;margin-bottom:12px}
+.kicker{font-size:10.5px; font-weight:700; color:var(--mute); letter-spacing:.14em; text-transform:uppercase; flex:none; font-family:'IBM Plex Mono',monospace}
 .kicker-line{height:1px; flex:1; background:linear-gradient(90deg, var(--line), transparent)}
 
 /* ---------- board grid ---------- */
-.grid{display:grid; grid-template-columns:1fr 1fr; gap:11px}
+.grid{display:grid; grid-template-columns:1fr 1fr; gap:9px}
 .board{
-  --acc:var(--volt);
   display:block; text-decoration:none; color:inherit; position:relative; overflow:hidden;
-  border-radius:var(--r); padding:16px 16px 15px;
+  border-radius:var(--r); padding:13px 13px 12px;
   background:var(--panel);
   border:1px solid var(--line);
   transition:transform .16s cubic-bezier(.2,.8,.3,1), border-color .2s;
 }
 .board:active{transform:scale(.97)}
-.board:focus-visible{outline:2px solid var(--volt); outline-offset:2px}
+.board:focus-visible{outline:2px solid var(--g1); outline-offset:2px}
 .board::before{
   content:''; position:absolute; inset:0; border-radius:inherit; padding:1px;
-  background:linear-gradient(155deg, color-mix(in srgb, var(--acc) 45%, transparent), transparent 55%);
+  background:linear-gradient(155deg, rgba(147,224,110,.28), transparent 55%);
   -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite:xor; mask-composite:exclude; pointer-events:none;
 }
-.board.quiet{--dim-card:1}
 .board.quiet .board-num, .board.quiet .board-name{opacity:.4}
-.board.quiet::before{opacity:.35}
+.board.quiet::before{opacity:.3}
 
-.board-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
-.board-tag{font-size:10px; font-weight:700; letter-spacing:.12em; color:var(--acc); display:flex; align-items:center; gap:6px}
-.board-logo{width:15px; height:15px; object-fit:contain; flex:none}
-.live-dot{display:none; align-items:center; gap:4px; font-size:9px; font-weight:700; color:#FF6B5E; letter-spacing:.04em}
+.board-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.board-tag{font-size:9.5px; font-weight:700; letter-spacing:.1em; color:var(--mute); display:flex; align-items:center; gap:5px; font-family:'IBM Plex Mono',monospace}
+.board-logo{width:13px; height:13px; object-fit:contain; flex:none}
+.live-dot{display:none; align-items:center; gap:4px; font-size:8.5px; font-weight:700; color:#FF6B5E; letter-spacing:.04em; font-family:'IBM Plex Mono',monospace}
 .live-dot.on{display:flex}
-.live-dot i{width:6px;height:6px;border-radius:50%;background:#FF6B5E;animation:pulse 1.4s ease-in-out infinite}
+.live-dot i{width:5px;height:5px;border-radius:50%;background:#FF6B5E;animation:pulse 1.4s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
 
 .board-num{
-  font-family:'Archivo',sans-serif; font-style:italic; font-weight:900;
-  font-size:40px; line-height:.85; color:var(--ink); letter-spacing:-.01em;
-  margin-bottom:2px; font-variant-numeric:tabular-nums;
+  font-family:'Sora',sans-serif; font-weight:800;
+  font-size:30px; line-height:.9; color:var(--ink); letter-spacing:-.01em;
+  margin-bottom:1px; font-variant-numeric:tabular-nums;
 }
-.board-name{font-size:12.5px; font-weight:600; color:var(--mute); margin-bottom:12px}
+.board-name{font-size:11px; color:var(--mute); margin-bottom:10px}
+
+.board-edge{display:flex; align-items:center; gap:7px; margin-bottom:10px; min-height:20px}
+.edgebars{display:flex; align-items:flex-end; gap:2px; height:16px; flex:none}
+.edgebars i{width:4px; border-radius:1.5px; background:var(--line); display:block}
+.edgebars.lit i{background:var(--grad)}
+.board-edge-txt{font-size:10px; color:var(--mute); font-family:'IBM Plex Mono',monospace; line-height:1.35}
+.board-edge-txt b{color:var(--ink); font-weight:600}
 
 .board-foot{display:flex; align-items:center; justify-content:space-between; gap:8px}
-.board-updated{font-size:10.5px; font-weight:600; color:var(--faint)}
+.board-updated{font-size:9.5px; font-weight:600; color:var(--faint); font-family:'IBM Plex Mono',monospace}
 .board-arrow{
-  width:26px; height:26px; border-radius:50%; background:var(--panel-hi); flex:none;
-  display:grid; place-items:center; color:var(--acc); font-size:13px; font-weight:700;
+  width:23px; height:23px; border-radius:50%; background:var(--panel-hi); flex:none;
+  display:grid; place-items:center; color:var(--g1); font-size:12px; font-weight:700;
   transition:transform .16s ease;
 }
 .board:active .board-arrow{transform:translateX(2px)}
 
 /* ---------- injuries strip ---------- */
 .injuries{
-  margin-top:11px; display:flex; align-items:center; justify-content:space-between; gap:12px;
+  margin-top:9px; display:flex; align-items:center; justify-content:space-between; gap:12px;
   text-decoration:none; color:inherit; background:var(--panel); border:1px solid var(--line);
-  border-radius:var(--r); padding:14px 16px; transition:transform .16s cubic-bezier(.2,.8,.3,1);
+  border-radius:var(--r); padding:12px 14px; transition:transform .16s cubic-bezier(.2,.8,.3,1);
 }
 .injuries:active{transform:scale(.98)}
-.injuries:focus-visible{outline:2px solid var(--volt); outline-offset:2px}
-.injuries-left{display:flex;align-items:center;gap:12px;min-width:0}
+.injuries:focus-visible{outline:2px solid var(--g1); outline-offset:2px}
+.injuries-left{display:flex;align-items:center;gap:11px;min-width:0}
 .injuries-icn{
-  width:38px;height:38px;border-radius:11px;flex:none;display:grid;place-items:center;font-size:17px;
-  background:rgba(216,255,77,.10); border:1px solid rgba(216,255,77,.24);
+  width:34px;height:34px;border-radius:10px;flex:none;display:grid;place-items:center;font-size:16px;
+  background:rgba(147,224,110,.10); border:1px solid rgba(147,224,110,.24);
 }
 .injuries-text .board-tag{margin-bottom:2px;display:block}
-.injuries-text .board-name{margin-bottom:0;font-size:13.5px;font-weight:700;color:var(--ink)}
-.injuries-count{font-family:'Archivo',sans-serif;font-style:italic;font-weight:800;font-size:17px;color:var(--volt);flex:none}
+.injuries-text .board-name{margin-bottom:0;font-size:13px;font-weight:700;color:var(--ink);font-family:'Sora',sans-serif}
+.injuries-count{font-family:'Sora',sans-serif;font-weight:800;font-size:16px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;flex:none}
 
 /* ---------- footer ---------- */
-footer{margin-top:auto; text-align:center; font-size:11.5px; color:var(--faint); padding-top:30px; font-weight:500}
-footer b{color:var(--volt); font-weight:700}
+footer{margin-top:auto; text-align:center; font-size:11px; color:var(--faint); padding-top:26px; font-weight:500; font-family:'IBM Plex Mono',monospace}
+footer b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent; font-weight:700}
 
 @media (prefers-reduced-motion:reduce){
   .board, .injuries, .hub-refresh, .board-arrow{transition:none}
@@ -132,8 +140,11 @@ footer b{color:var(--volt); font-weight:700}
 <body>
 <header>
   <div class="head-left">
-    <div class="wordmark">Slate<i>.</i></div>
-    <div class="today" id="today"></div>
+    <img class="mark" src="./icon-192.png" alt="">
+    <div>
+      <div class="wordmark">Proj<span class="x">ex</span></div>
+      <div class="today" id="today"></div>
+    </div>
   </div>
   <button class="hub-refresh" id="hub-refresh" aria-label="Refresh" title="Refresh">↻</button>
 </header>
@@ -144,52 +155,68 @@ footer b{color:var(--volt); font-weight:700}
 </div>
 
 <div class="grid">
-  <a class="board" data-sport="mlb" href="./mlb/" style="--acc:#D8FF4D">
+  <a class="board" data-sport="mlb" href="./mlb/">
     <div class="board-top">
       <span class="board-tag"><img class="board-logo" src="https://a.espncdn.com/i/teamlogos/leagues/500/mlb.png" alt="" loading="lazy" onerror="this.remove()">MLB · DAILY</span>
       <span class="live-dot" id="mlb-live"><i></i>LIVE</span>
     </div>
     <div class="board-num" id="mlb-games">—</div>
     <div class="board-name">games today</div>
+    <div class="board-edge" id="mlb-edge-wrap" style="display:none">
+      <div class="edgebars" id="mlb-edge-bars"><i></i><i></i><i></i></div>
+      <div class="board-edge-txt">Top edge<br><b id="mlb-edge-txt">—</b></div>
+    </div>
     <div class="board-foot">
       <span class="board-updated" id="mlb-updated">syncing…</span>
       <span class="board-arrow">→</span>
     </div>
   </a>
 
-  <a class="board" data-sport="nfl" href="./nfl/" style="--acc:#D97A3D">
+  <a class="board" data-sport="nfl" href="./nfl/">
     <div class="board-top">
       <span class="board-tag"><img class="board-logo" src="https://a.espncdn.com/i/teamlogos/leagues/500/nfl.png" alt="" loading="lazy" onerror="this.remove()">NFL · WEEKLY</span>
       <span class="live-dot" id="nfl-live"><i></i>LIVE</span>
     </div>
     <div class="board-num" id="nfl-games">—</div>
     <div class="board-name">games today</div>
+    <div class="board-edge" id="nfl-edge-wrap" style="display:none">
+      <div class="edgebars" id="nfl-edge-bars"><i></i><i></i><i></i></div>
+      <div class="board-edge-txt">Top edge<br><b id="nfl-edge-txt">—</b></div>
+    </div>
     <div class="board-foot">
       <span class="board-updated" id="nfl-updated">syncing…</span>
       <span class="board-arrow">→</span>
     </div>
   </a>
 
-  <a class="board" data-sport="nhl" href="./nhl/" style="--acc:#6FD8E8">
+  <a class="board" data-sport="nhl" href="./nhl/">
     <div class="board-top">
       <span class="board-tag"><img class="board-logo" src="https://a.espncdn.com/i/teamlogos/leagues/500/nhl.png" alt="" loading="lazy" onerror="this.remove()">NHL · DAILY</span>
       <span class="live-dot" id="nhl-live"><i></i>LIVE</span>
     </div>
     <div class="board-num" id="nhl-games">—</div>
     <div class="board-name">games today</div>
+    <div class="board-edge" id="nhl-edge-wrap" style="display:none">
+      <div class="edgebars" id="nhl-edge-bars"><i></i><i></i><i></i></div>
+      <div class="board-edge-txt">Top edge<br><b id="nhl-edge-txt">—</b></div>
+    </div>
     <div class="board-foot">
       <span class="board-updated" id="nhl-updated">syncing…</span>
       <span class="board-arrow">→</span>
     </div>
   </a>
 
-  <a class="board" data-sport="nba" href="./nba/" style="--acc:#E0A860">
+  <a class="board" data-sport="nba" href="./nba/">
     <div class="board-top">
       <span class="board-tag"><img class="board-logo" src="https://a.espncdn.com/i/teamlogos/leagues/500/nba.png" alt="" loading="lazy" onerror="this.remove()">NBA · DAILY</span>
       <span class="live-dot" id="nba-live"><i></i>LIVE</span>
     </div>
     <div class="board-num" id="nba-games">—</div>
     <div class="board-name">games today</div>
+    <div class="board-edge" id="nba-edge-wrap" style="display:none">
+      <div class="edgebars" id="nba-edge-bars"><i></i><i></i><i></i></div>
+      <div class="board-edge-txt">Top edge<br><b id="nba-edge-txt">—</b></div>
+    </div>
     <div class="board-foot">
       <span class="board-updated" id="nba-updated">syncing…</span>
       <span class="board-arrow">→</span>
@@ -199,7 +226,7 @@ footer b{color:var(--volt); font-weight:700}
 
 <a class="injuries" href="./injuries/">
   <div class="injuries-left">
-    <div class="injuries-icn"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L4 6v6c0 5 3.4 8.4 8 10 4.6-1.6 8-5 8-10V6l-8-4z" stroke="#D8FF4D" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 8v8M8 12h8" stroke="#D8FF4D" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+    <div class="injuries-icn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L4 6v6c0 5 3.4 8.4 8 10 4.6-1.6 8-5 8-10V6l-8-4z" stroke="#93E06E" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 8v8M8 12h8" stroke="#93E06E" stroke-width="1.8" stroke-linecap="round"/></svg></div>
     <div class="injuries-text">
       <span class="board-tag">ALL LEAGUES</span>
       <span class="board-name">Injuries</span>
@@ -222,18 +249,39 @@ const rel = iso => {
 document.getElementById('today').textContent =
   new Date().toLocaleDateString('en-US', { weekday:'short', month:'short', day:'numeric' });
 
+function setEdgeBars(sport, score){
+  const bars = document.querySelectorAll(`#${sport}-edge-bars i`);
+  const heights = [35, 65, 100];
+  bars.forEach((b, i) => b.style.height = Math.max(18, heights[i] * Math.min(1, score/100)) + '%');
+  document.getElementById(`${sport}-edge-bars`).classList.toggle('lit', score >= 25);
+}
+
 function loadHub(){
   for (const s of ['mlb','nfl','nhl','nba']) {
     fetch(`./data/${s}_slate.json?t=${Date.now()}`)
       .then(r => r.json())
       .then(d => {
-        const count = d.games?.length ?? 0;
-        const live = (d.games || []).filter(g => g.game_state === 'Live').length;
+        const games = d.games || [];
+        const count = games.length;
+        const live = games.filter(g => g.game_state === 'Live').length;
         const card = document.querySelector(`.board[data-sport="${s}"]`);
         document.getElementById(s+'-games').textContent = count;
         document.getElementById(s+'-updated').textContent = d.generated_at ? rel(d.generated_at) : 'preseason';
         document.getElementById(s+'-live').classList.toggle('on', live > 0);
         if (card) card.classList.toggle('quiet', count === 0);
+
+        // Best Edge Confidence Score on this slate today
+        const edges = games.map(g => g.edge).filter(Boolean);
+        const wrap = document.getElementById(`${s}-edge-wrap`);
+        if (edges.length) {
+          const best = edges.reduce((a, b) => (b.score ?? 0) > (a.score ?? 0) ? b : a);
+          const team = (best.team || '').split(' ').pop();
+          document.getElementById(`${s}-edge-txt`).textContent = `${team} ${best.score}/100`;
+          setEdgeBars(s, best.score ?? 0);
+          wrap.style.display = 'flex';
+        } else {
+          wrap.style.display = 'none';
+        }
       })
       .catch(() => { document.getElementById(s+'-updated').textContent = 'no data yet'; });
   }
