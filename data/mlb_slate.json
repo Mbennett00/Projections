@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-27T22:34",
+  "generated_at": "2026-07-27T22:39",
   "date": "2026-07-27",
   "games": [
     {
@@ -2239,7 +2239,7 @@
       "home_pitcher_id": 672456,
       "game_time": "2026-07-27T22:40:00Z",
       "game_state": "Live",
-      "game_detail": "Warmup",
+      "game_detail": "In Progress",
       "inning": 1,
       "inning_half": "Top",
       "away_score": 0,
@@ -6801,7 +6801,7 @@
       "home_pitcher_id": 663969,
       "game_time": "2026-07-27T22:40:00Z",
       "game_state": "Live",
-      "game_detail": "Warmup",
+      "game_detail": "In Progress",
       "inning": 1,
       "inning_half": "Top",
       "away_score": 0,
