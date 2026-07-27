@@ -1,19 +1,21 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Injuries — Slate</title>
-<meta name="theme-color" content="#141510">
+<title>Injuries — Projex</title>
+<meta name="theme-color" content="#17181B">
 <link rel="manifest" href="../manifest.webmanifest">
 <link rel="apple-touch-icon" href="../icon-180.png">
+<link rel="icon" href="../favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,600;0,800;1,800;1,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#141510; --panel:#1B1D15; --panel-hi:#24271C; --line:#33372A;
-  --volt:#D8FF4D; --ink:#F4F3E9; --mute:#8B8F7A; --faint:#5C6050;
+  --bg:#17181B; --panel:#1E2023; --panel-hi:#26282C; --line:#323438;
+  --volt:#93E06E; --ink:#F2F3EF; --mute:#8A8D93; --faint:#55585E;
   --red:#FF6B5E; --orange:#D97A3D; --amber:#F2C14E;
   --r:20px; --r-sm:13px;
 }
@@ -21,21 +23,21 @@
 body{
   background:var(--bg); color:var(--ink); font-family:'Inter',system-ui,sans-serif;
   min-height:100dvh; max-width:520px; margin:0 auto; position:relative;
-  padding:max(18px,env(safe-area-inset-top)) 18px max(28px,env(safe-area-inset-bottom));
+  padding:max(14px,env(safe-area-inset-top)) 14px max(22px,env(safe-area-inset-bottom));
 }
 body::before{
   content:''; position:fixed; inset:0; z-index:-1; pointer-events:none;
-  background:radial-gradient(560px 320px at 10% -6%, rgba(216,255,77,.09), transparent 60%),
-             radial-gradient(480px 300px at 108% 4%, rgba(217,122,61,.07), transparent 60%);
+  background:radial-gradient(560px 320px at 10% -6%, rgba(147,224,110,.09), transparent 60%),
+             radial-gradient(480px 300px at 108% 4%, rgba(95,163,74,.09), transparent 60%);
 }
-header{display:flex; align-items:center; gap:11px; padding:4px 2px 20px}
+header{display:flex; align-items:center; gap:10px; padding:2px 2px 14px}
 .back{
   width:36px;height:36px;border-radius:50%;background:var(--panel);border:1px solid var(--line);
   display:grid;place-items:center;color:var(--ink);text-decoration:none;font-weight:700;flex:none;
   transition:transform .16s ease;
 }
 .back:active{transform:scale(.9)}
-h1{font-family:'Archivo',sans-serif;font-weight:800;font-size:19px;flex:1;color:var(--ink)}
+h1{font-family:'Sora',sans-serif;font-weight:800;font-size:18px;letter-spacing:.02em;text-transform:uppercase;flex:1;color:var(--ink)}
 .refresh{
   width:34px;height:34px;border-radius:50%;background:var(--panel);border:1px solid var(--line);
   display:grid;place-items:center;cursor:pointer;flex:none;color:var(--mute);padding:0;font-size:15px;
@@ -45,9 +47,9 @@ h1{font-family:'Archivo',sans-serif;font-weight:800;font-size:19px;flex:1;color:
 .refresh:focus-visible{outline:2px solid var(--volt);outline-offset:2px}
 .refresh.spin{animation:spin .7s linear infinite;pointer-events:none;color:var(--volt)}
 @keyframes spin{to{transform:rotate(360deg)}}
-.updated{font-size:11.5px;font-weight:600;color:var(--faint);margin:-10px 0 16px 2px}
+.updated{font-size:11.5px;font-weight:600;color:var(--faint);margin:-8px 0 13px 2px}
 
-.tabs{display:flex;gap:7px;margin-bottom:16px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.tabs{display:flex;gap:6px;margin-bottom:12px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .tabs::-webkit-scrollbar{display:none}
 .tab{
   flex:none;font-size:12px;font-weight:700;letter-spacing:.02em;color:var(--mute);
@@ -55,24 +57,24 @@ h1{font-family:'Archivo',sans-serif;font-weight:800;font-size:19px;flex:1;color:
   padding:7px 15px;cursor:pointer;user-select:none;transition:all .15s;line-height:1.3;
 }
 .tab:focus-visible{outline:2px solid var(--volt);outline-offset:2px}
-.tab.on{color:#161616;background:linear-gradient(135deg,#D8FF4D,#FFC93C);border-color:transparent;font-weight:800}
+.tab.on{color:#17181B;background:linear-gradient(135deg,#93E06E,#5FA34A);border-color:transparent;font-weight:800}
 
 .team-card{
   background:var(--panel); border:1px solid var(--line); border-radius:var(--r);
-  padding:14px 15px; margin-bottom:11px; animation:rise .28s ease both;
+  padding:12px 13px; margin-bottom:9px; animation:rise .28s ease both;
 }
 @keyframes rise{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
-.team-head{display:flex;align-items:center;gap:9px;margin-bottom:10px}
+.team-head{display:flex;align-items:center;gap:8px;margin-bottom:8px}
 .team-logo{width:24px;height:24px;object-fit:contain;flex:none}
-.team-name{font-family:'Archivo',sans-serif;font-weight:700;font-size:14px;flex:1;color:var(--ink)}
+.team-name{font-family:'Sora',sans-serif;font-weight:700;font-size:14px;flex:1;color:var(--ink)}
 .team-name .lg{color:var(--faint);font-weight:600;font-family:'Inter',sans-serif}
 .team-count{
-  font-family:'Archivo',sans-serif;font-style:italic;font-weight:800;font-size:13px;color:var(--volt);
+  font-family:'Sora',sans-serif;font-weight:800;font-size:13px;color:var(--volt);
   background:var(--panel-hi);border:1px solid var(--line);border-radius:99px;padding:3px 10px;
 }
 
-.p-row{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;
-  padding:9px 0;border-top:1px dashed var(--line)}
+.p-row{display:flex;align-items:flex-start;justify-content:space-between;gap:9px;
+  padding:8px 0;border-top:1px dashed var(--line)}
 .p-row:first-of-type{border-top:none}
 .p-left{min-width:0}
 .p-name{font-weight:600;font-size:13.5px;color:var(--ink)}
@@ -84,7 +86,7 @@ h1{font-family:'Archivo',sans-serif;font-weight:800;font-size:19px;flex:1;color:
 .status.doubtful{color:var(--orange);background:rgba(217,122,61,.14);border:1px solid rgba(217,122,61,.32)}
 .status.questionable, .status.day-to-day{color:var(--amber);background:rgba(242,193,78,.14);border:1px solid rgba(242,193,78,.32)}
 .status.ir, .status.out-for-season{color:var(--red);background:rgba(255,107,94,.18);border:1px solid rgba(255,107,94,.4)}
-.status.default{color:var(--mute);background:rgba(139,143,122,.14);border:1px solid rgba(139,143,122,.3)}
+.status.default{color:var(--mute);background:rgba(138,141,147,.14);border:1px solid rgba(138,141,147,.3)}
 
 .empty{text-align:center;color:var(--mute);font-size:13px;padding:40px 10px}
 
