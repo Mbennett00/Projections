@@ -9,11 +9,14 @@
             --bg: #17181B; --panel: #1E2023; --panel-hi: #26282C; --line: #323438;
             --g1: #93E06E; --g2: #5FA34A; --grad: linear-gradient(135deg,var(--g1),var(--g2));
             --ink: #F2F3EF; --mute: #8A8D93; --faint: #55585E;
+            /* Injury Severity Colors */
+            --out: #FF6B5E; --quest: #EAB308; --ir: #A855F7;
         }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body { 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
-            background: var(--bg); color: var(--ink); padding: 16px; margin: 0;
-            max-width: 520px; margin: 0 auto;
+            background: var(--bg); color: var(--ink); padding: 16px;
+            max-width: 520px; margin: 0 auto; -webkit-font-smoothing: antialiased;
         }
         
         .kicker-row { display: flex; align-items: center; gap: 9px; margin-bottom: 12px; margin-top: 10px; }
@@ -28,35 +31,57 @@
         h1 { margin: 0; color: var(--ink); font-size: 18px; font-family: 'Sora', sans-serif; font-weight: 800; }
         .back-btn { text-decoration: none; color: var(--g1); font-size: 12px; font-weight: 700; font-family: 'IBM Plex Mono', monospace; }
         
-        .actions { display: flex; gap: 8px; width: 100%; }
-        input, select { 
-            background: var(--bg); color: var(--ink); border: 1px solid var(--line); 
-            padding: 10px; border-radius: 10px; outline: none; font-size: 13px; flex: 1; min-width: 0;
+        .search-wrapper { width: 100%; position: relative; }
+        input { 
+            width: 100%; background: var(--bg); color: var(--ink); border: 1px solid var(--line); 
+            padding: 10px 14px; border-radius: 10px; outline: none; font-size: 13px;
         }
-        select { flex: 0 0 100px; }
         input::placeholder { color: var(--faint); }
 
-        .card-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
-
-        .injury-card {
-            background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 14px;
-            display: flex; flex-direction: column; justify-content: space-between; position: relative;
+        /* ---------- Collapsible League Accordions ---------- */
+        .league-group { margin-bottom: 8px; border-radius: 14px; background: var(--panel); border: 1px solid var(--line); overflow: hidden; }
+        
+        .league-trigger {
+            width: 100%; padding: 14px; display: flex; align-items: center; justify-content: space-between;
+            background: none; border: none; color: var(--ink); font-family: 'Sora', sans-serif;
+            font-size: 14px; font-weight: 700; text-transform: uppercase; cursor: pointer; text-align: left;
         }
-        .card-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-        .league-label { font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--mute); font-family: 'IBM Plex Mono', monospace; }
-        .league-label span { color: var(--g1); margin-right: 3px; }
+        .trigger-left { display: flex; align-items: center; gap: 8px; }
+        .league-dot-indicator { width: 6px; height: 6px; border-radius: 50%; background: var(--g1); }
+        .player-count-badge { font-size: 11px; color: var(--mute); font-family: 'IBM Plex Mono', monospace; background: var(--bg); padding: 2px 6px; border-radius: 6px; }
+        .arrow-icon { font-size: 12px; color: var(--faint); transition: transform 0.2s ease; }
+        
+        .league-content { display: none; padding: 0 12px 12px 12px; flex-direction: column; gap: 8px; border-top: 1px solid transparent; }
+        
+        /* Active open state */
+        .league-group.open .league-content { display: flex; border-top-color: var(--line); }
+        .league-group.open .arrow-icon { transform: rotate(90deg); color: var(--g1); }
 
-        .status-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
-        .dot-danger { background: #FF6B5E; box-shadow: 0 0 8px #FF6B5E; }
-        .dot-warn { background: #EAB308; box-shadow: 0 0 8px #EAB308; }
+        /* ---------- Elegant Card Designs ---------- */
+        .injury-card {
+            background: var(--bg); border: 1px solid var(--line); border-radius: 11px; padding: 12px;
+            display: flex; flex-direction: column; justify-content: space-between; gap: 8px;
+        }
+        .card-main { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+        .player-details { display: flex; align-items: center; gap: 10px; min-width: 0; }
+        
+        /* Dynamic Logo Element */
+        .team-logo { width: 26px; height: 26px; object-fit: contain; background: var(--panel); border-radius: 6px; pading: 2px; flex-none: none; }
+        
+        .text-block { min-width: 0; }
+        .player-headline { color: var(--ink); font-size: 14px; font-weight: 700; font-family: 'Sora', sans-serif; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .meta-description { font-size: 11px; color: var(--mute); font-family: 'IBM Plex Mono', monospace; margin-top: 1px; }
 
-        .player-headline { color: var(--ink); font-size: 17px; font-weight: 700; font-family: 'Sora', sans-serif; margin-bottom: 2px; }
-        .meta-description { font-size: 12px; color: var(--mute); margin-bottom: 10px; }
+        /* Color-Coded Status Tags */
+        .status-badge { 
+            font-size: 9.5px; font-weight: 700; text-transform: uppercase; padding: 3px 7px; 
+            border-radius: 6px; font-family: 'IBM Plex Mono', monospace; flex-shrink: 0;
+        }
+        .badge-out { background: rgba(255,107,94,0.12); color: var(--out); border: 1px solid rgba(255,107,94,0.25); }
+        .badge-ir { background: rgba(168,85,247,0.12); color: var(--ir); border: 1px solid rgba(168,85,247,0.25); }
+        .badge-quest { background: rgba(234,179,8,0.12); color: var(--quest); border: 1px solid rgba(234,179,8,0.25); }
 
-        .card-footer-row { display: flex; justify-content: space-between; align-items: center; padding-top: 8px; border-top: 1px solid var(--line); }
-        .diagnostic-text { font-size: 11px; color: var(--mute); font-family: 'IBM Plex Mono', monospace; }
-        .status-string { font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--faint); }
-
+        .card-footer-row { font-size: 11px; color: var(--faint); padding-top: 6px; border-top: 1px dashed var(--line); }
         .alert-panel { text-align: center; padding: 32px 16px; background: var(--panel); border-radius: 14px; border: 1px solid var(--line); color: var(--mute); font-size: 13px; }
     </style>
 </head>
@@ -72,78 +97,89 @@
             <h1>Injuries</h1>
             <a href="../" class="back-btn">← HUB</a>
         </div>
-        <div class="actions">
-            <select id="leagueSelector" onchange="applyFilters()">
-                <option value="all">All</option>
-                <option value="nfl">NFL</option>
-                <option value="nba">NBA</option>
-                <option value="nhl">NHL</option>
-                <option value="mlb">MLB</option>
-            </select>
-            <input type="text" id="queryBox" placeholder="Search name or team..." onkeyup="applyFilters()">
+        <div class="search-wrapper">
+            <input type="text" id="queryBox" placeholder="Search name, team, or status..." onkeyup="applyFilters()">
         </div>
     </div>
 
-    <div id="datasetGrid" class="card-grid"></div>
+    <!-- Collapsible sport compartments to reduce vertical scroll fatigue -->
+    <div id="accordionContainer">
+        <!-- NFL -->
+        <div class="league-group" id="group-nfl">
+            <button class="league-trigger" onclick="toggleLeague('nfl')">
+                <div class="trigger-left"><i class="league-dot-indicator"></i>NFL Football <span class="player-count-badge" id="count-nfl">0</span></div>
+                <span class="arrow-icon">▶</span>
+            </button>
+            <div class="league-content" id="content-nfl"></div>
+        </div>
+        <!-- NBA -->
+        <div class="league-group" id="group-nba">
+            <button class="league-trigger" onclick="toggleLeague('nba')">
+                <div class="trigger-left"><i class="league-dot-indicator"></i>NBA Basketball <span class="player-count-badge" id="count-nba">0</span></div>
+                <span class="arrow-icon">▶</span>
+            </button>
+            <div class="league-content" id="content-nba"></div>
+        </div>
+        <!-- NHL -->
+        <div class="league-group" id="group-nhl">
+            <button class="league-trigger" onclick="toggleLeague('nhl')">
+                <div class="trigger-left"><i class="league-dot-indicator"></i>NHL Hockey <span class="player-count-badge" id="count-nhl">0</span></div>
+                <span class="arrow-icon">▶</span>
+            </button>
+            <div class="league-content" id="content-nhl"></div>
+        </div>
+        <!-- MLB -->
+        <div class="league-group" id="group-mlb">
+            <button class="league-trigger" onclick="toggleLeague('mlb')">
+                <div class="trigger-left"><i class="league-dot-indicator"></i>MLB Baseball <span class="player-count-badge" id="count-mlb">0</span></div>
+                <span class="arrow-icon">▶</span>
+            </button>
+            <div class="league-content" id="content-mlb"></div>
+        </div>
+    </div>
+    <div id="emptyAlert" class="alert-panel" style="display:none;">No profiles match your search criteria.</div>
 </div>
 
 <script>
     let rawDataset = [];
 
+    // Helper map to clean up team names and point to ESPN CDN logos
+    const logoLeagueMap = { nfl: 'nfl', nba: 'nba', nhl: 'nhl', mlb: 'mlb' };
+
     async function loadDataset() {
         try {
-            // Absolute path ensures Cloudflare points straight to the root data repository folder
             const res = await fetch('/data/injuries_slate.json');
             rawDataset = await res.json();
-            applyFilters();
+            applyFilters(true); // pass true to auto-open the sport with the most injuries
         } catch(e) {
-            document.getElementById('datasetGrid').innerHTML = `
-                <div class="alert-panel">
-                    No active slate metrics found.<br>Verify your automated pipeline run successfully generated the file.
-                </div>`;
+            document.getElementById('accordionContainer').innerHTML = `
+                <div class="alert-panel">No active slate data streams found. Check your automation logs.</div>`;
         }
     }
 
-    function applyFilters() {
-        const sportType = document.getElementById('leagueSelector').value;
-        const textFilter = document.getElementById('queryBox').value.toLowerCase();
-        const output = document.getElementById('datasetGrid');
-
-        let elements = rawDataset.filter(item => {
-            const matchesSport = (sportType === 'all' || item.sport === sportType);
-            const matchesText = item.name.toLowerCase().includes(textFilter) || item.team.toLowerCase().includes(textFilter);
-            return matchesSport && matchesText;
-        });
-
-        if (elements.length === 0) {
-            output.innerHTML = `<div class="alert-panel">No active entries match this criteria.</div>`;
-            return;
-        }
-
-        output.innerHTML = elements.map(item => {
-            const lowerStat = item.injury_status.toLowerCase();
-            const useDanger = (lowerStat.includes('out') || lowerStat.includes('ir') || lowerStat.includes('reserve'));
-            const dotClass = useDanger ? 'dot-danger' : 'dot-warn';
-            
-            return `
-                <div class="injury-card">
-                    <div class="card-header-row">
-                        <div class="league-label"><span>•</span> ${item.sport}</div>
-                        <span class="status-dot ${dotClass}"></span>
-                    </div>
-                    <div>
-                        <div class="player-headline">${item.name}</div>
-                        <div class="meta-description">${item.team} • ${item.position}</div>
-                    </div>
-                    <div class="card-footer-row">
-                        <span class="diagnostic-text">${item.injury_detail}</span>
-                        <span class="status-string">${item.injury_status}</span>
-                    </div>
-                </div>
-            `;
-        }).join('');
+    function toggleLeague(sport) {
+        document.getElementById(`group-${sport}`).classList.toggle('open');
     }
-    window.onload = loadDataset;
-</script>
-</body>
-</html>
+
+    function getLogoUrl(sport, teamName) {
+        // Strip out spaces and format down for the static image path
+        let cleanTeam = teamName.toLowerCase().replace(/[^a-z0-9]/g, '');
+        
+        // Handle common variations to link up ESPN abbreviations correctly
+        if (cleanTeam.includes('mapleleafs')) cleanTeam = 'tor';
+        if (cleanTeam.includes('mavericks')) cleanTeam = 'dal';
+        if (cleanTeam.includes('49ers')) cleanTeam = 'sf';
+        
+        return `https://espncdn.com{logoLeagueMap[sport]}/500/scoreboard/${cleanTeam}.png&h=40&w=40`;
+    }
+
+    function applyFilters(isFirstLoad = false) {
+        const query = document.getElementById('queryBox').value.toLowerCase();
+        const sports = ['nfl', 'nba', 'nhl', 'mlb'];
+        let totalVisible = 0;
+        let maxCount = 0;
+        let largestSport = 'nfl';
+
+        sports.forEach(sport => {
+            const container = document.getElementById(`content-${sport}`);
+            const countBadge = document.getElementById(`count-${sport}`);
