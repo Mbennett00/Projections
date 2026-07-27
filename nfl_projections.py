@@ -499,7 +499,7 @@ def fetch_odds_for_slate():
         return {}
     url = (
         f"{ODDS_API_URL}?apiKey={ODDS_API_KEY}&regions={ODDS_API_REGIONS}"
-        "&markets=h2h,spreads,totals&oddsFormat=american"
+        "&markets=h2h,spreads,totals&bookmakers=fanduel&oddsFormat=american"
     )
     try:
         data = _http_get_json(url)
@@ -514,9 +514,9 @@ def fetch_odds_for_slate():
         if not away_name or not home_name:
             continue
 
-        # Average across books for a simple consensus line rather than
-        # trusting a single book — swap to a preferred book key if you'd
-        # rather pin to one (e.g. "pinnacle" or "draftkings").
+        # Pinned to FanDuel only (see ?bookmakers=fanduel above) rather than
+        # averaging across books, so the edge is measured against the exact
+        # line/price a FanDuel bettor would actually see.
         h2h_away, h2h_home = [], []
         spread_away_pt, spread_home_pt = None, None
         spread_away_price, spread_home_price = [], []
@@ -524,6 +524,8 @@ def fetch_odds_for_slate():
         over_price, under_price = [], []
 
         for bk in event.get("bookmakers", []):
+            if bk.get("key") != "fanduel":
+                continue
             for mkt in bk.get("markets", []):
                 if mkt["key"] == "h2h":
                     for o in mkt["outcomes"]:
@@ -1258,6 +1260,9 @@ def calc_market_fields(away_team, home_team, odds=None, model_home_win_pct=None)
                 "edge_pct": round(best_edge * 100, 1),
                 "score": score,
                 "confidence": confidence,
+                "away_ml": odds.get("ml_away"),
+                "home_ml": odds.get("ml_home"),
+                "book": "FanDuel",
             }
 
     return {
@@ -1269,6 +1274,7 @@ def calc_market_fields(away_team, home_team, odds=None, model_home_win_pct=None)
         "away_pts": round(away_pts, 1),
         "home_pts": round(home_pts, 1),
         "edge": edge,
+        "moneylines": {"away": odds.get("ml_away"), "home": odds.get("ml_home"), "book": "FanDuel"},
         "_lines": {
             "spread": home_spread_pt,
             "total": total_pt,

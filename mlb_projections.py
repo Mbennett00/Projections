@@ -782,7 +782,7 @@ def fetch_moneylines():
         return {}
     try:
         url = (f"https://api.the-odds-api.com/v4/sports/baseball_mlb/odds"
-               f"?apiKey={ODDS_API_KEY}&regions=us&markets=h2h&oddsFormat=american")
+               f"?apiKey={ODDS_API_KEY}&regions=us&markets=h2h&bookmakers=fanduel&oddsFormat=american")
         resp = requests.get(url, timeout=10)
         resp.raise_for_status()
         events = resp.json()
@@ -794,9 +794,10 @@ def fetch_moneylines():
     for event in events:
         away, home = event.get("away_team"), event.get("home_team")
         bms = event.get("bookmakers", [])
-        if not bms:
-            continue
-        market = next((m for m in bms[0].get("markets", []) if m["key"] == "h2h"), None)
+        fd = next((b for b in bms if b.get("key") == "fanduel"), None)
+        if not fd:
+            continue  # FanDuel not offering a line on this game yet -- skip rather than substitute another book
+        market = next((m for m in fd.get("markets", []) if m["key"] == "h2h"), None)
         if not market:
             continue
         outcomes = {o["name"]: o["price"] for o in market["outcomes"]}
@@ -808,8 +809,69 @@ def fetch_moneylines():
 
         a, h = implied(outcomes[away]), implied(outcomes[home])
         total = a + h
-        lines[(away, home)] = {"away_prob": a / total, "home_prob": h / total, "book": bms[0].get("title", "book")}
+        lines[(away, home)] = {
+            "away_prob": a / total, "home_prob": h / total, "book": "FanDuel",
+            "event_id": event.get("id"),
+            "away_ml": outcomes[away], "home_ml": outcomes[home],
+        }
     return lines
+
+
+# ---------------------------------------------------------------------------
+# STEP 5b: FanDuel player prop odds (per-event, costs extra API quota)
+# ---------------------------------------------------------------------------
+# Maps our internal prop market keys to The Odds API's player-prop market
+# keys. Only markets with a direct Odds API equivalent are listed here --
+# "k_batter" and "hrr" have no matching book market, so those two always
+# fall back to STANDARD_BOOK_LINES.
+ODDS_API_PROP_MARKETS = {
+    "hits": "batter_hits",
+    "tb": "batter_total_bases",
+    "hr": "batter_home_runs",
+    "rbi": "batter_rbis",
+    "k_pitcher": "pitcher_strikeouts",
+}
+
+def fetch_player_prop_odds(event_id):
+    """Fetch FanDuel player-prop lines for one event.
+    Returns {(internal_market_key, player_name): {"line": float, "over": odds, "under": odds}}.
+    Costs one Odds API request per game -- only called when ODDS_API_KEY is set
+    and a FanDuel moneyline was found for that game."""
+    if not ODDS_API_KEY or not event_id:
+        return {}
+    api_markets = ",".join(sorted(set(ODDS_API_PROP_MARKETS.values())))
+    try:
+        url = (f"https://api.the-odds-api.com/v4/sports/baseball_mlb/events/{event_id}/odds"
+               f"?apiKey={ODDS_API_KEY}&regions=us&markets={api_markets}&bookmakers=fanduel&oddsFormat=american")
+        resp = requests.get(url, timeout=10)
+        resp.raise_for_status()
+        data = resp.json()
+    except Exception as e:
+        print(f"  (FanDuel prop odds request failed: {e})")
+        return {}
+
+    fd = next((b for b in data.get("bookmakers", []) if b.get("key") == "fanduel"), None)
+    if not fd:
+        return {}
+
+    api_to_internal = {v: k for k, v in ODDS_API_PROP_MARKETS.items()}
+    out = {}
+    for mkt in fd.get("markets", []):
+        internal_key = api_to_internal.get(mkt.get("key"))
+        if not internal_key:
+            continue
+        for oc in mkt.get("outcomes", []):
+            player = oc.get("description")  # Odds API puts the player name here for prop markets
+            line, side, price = oc.get("point"), oc.get("name"), oc.get("price")
+            if player is None or line is None:
+                continue
+            key = (internal_key, player, line)
+            out.setdefault(key, {"line": line})
+            if side == "Over":
+                out[key]["over"] = price
+            elif side == "Under":
+                out[key]["under"] = price
+    return out
 
 
 # ---------------------------------------------------------------------------
@@ -875,20 +937,33 @@ def poisson_over(mean, line):
     return max(0.001, min(0.999, 1 - p_at_most_k))
 
 
-def evaluate_props(name, bat_side, proj, pitcher_proj=None):
+def evaluate_props(name, bat_side, proj, pitcher_proj=None, live_props=None):
     """Evaluate all prop markets for one batter (and optionally their pitcher).
+    live_props: {(market_key, player_name, line): {"line","over","under"}} pulled
+    from FanDuel via The Odds API. When a real FanDuel line exists for a given
+    market it's used in place of STANDARD_BOOK_LINES; otherwise we fall back
+    to the synthetic table so the section still populates in the offseason
+    or when the quota/plan doesn't cover player props.
     Returns a list of value plays: {market, line, side, model_prob, book_prob, edge}"""
     plays = []
+    live_props = live_props or {}
 
-    def check(market, line, model_mean, book_key=None):
+    def book_price(internal_key, player_name, line):
+        live = live_props.get((internal_key, player_name, line))
+        if live and "over" in live and "under" in live:
+            return live["over"], live["under"], "FanDuel"
+        table = STANDARD_BOOK_LINES.get(internal_key, {}).get(line)
+        if table:
+            return table["over"], table["under"], "est."
+        return None, None, None
+
+    def check(market, line, model_mean, book_key=None, player_name=None):
         book_key = book_key or market
-        if book_key not in STANDARD_BOOK_LINES:
+        over_odds, under_odds, src = book_price(book_key, player_name or name, line)
+        if over_odds is None:
             return
-        if line not in STANDARD_BOOK_LINES[book_key]:
-            return
-        book = STANDARD_BOOK_LINES[book_key][line]
         model_over = poisson_over(model_mean, line - 0.001)  # over X.5 → P(>=X+1)
-        book_over_prob, book_under_prob = devig_prob(book["over"], book["under"])
+        book_over_prob, book_under_prob = devig_prob(over_odds, under_odds)
         over_edge = (model_over - book_over_prob) * 100
         under_edge = ((1 - model_over) - book_under_prob) * 100
         if over_edge >= EDGE_THRESHOLD:
@@ -896,13 +971,13 @@ def evaluate_props(name, bat_side, proj, pitcher_proj=None):
                           "model_prob": round(model_over * 100, 1),
                           "book_prob": round(book_over_prob * 100, 1),
                           "edge": round(over_edge, 1),
-                          "book_odds": book["over"]})
+                          "book_odds": over_odds, "book_src": src})
         if under_edge >= EDGE_THRESHOLD:
             plays.append({"name": name, "market": market, "line": line, "side": "UNDER",
                           "model_prob": round((1 - model_over) * 100, 1),
                           "book_prob": round(book_under_prob * 100, 1),
                           "edge": round(under_edge, 1),
-                          "book_odds": book["under"]})
+                          "book_odds": under_odds, "book_src": src})
 
     # Batter props -- only run if this is a batter call (proj has expected_hits)
     if proj.get("expected_hits") is not None:
@@ -919,25 +994,25 @@ def evaluate_props(name, bat_side, proj, pitcher_proj=None):
 
     # Pitcher K props (if a pitcher projection was passed in)
     if pitcher_proj:
+        pname = pitcher_proj.get("name", "Pitcher")
         for line in [4.5, 5.5, 6.5]:
-            book = STANDARD_BOOK_LINES["k_pitcher"].get(line)
-            if not book:
+            over_odds, under_odds, src = book_price("k_pitcher", pname, line)
+            if over_odds is None:
                 continue
             model_over = poisson_over(pitcher_proj["expected_k"], line - 0.001)
-            book_over_prob, book_under_prob = devig_prob(book["over"], book["under"])
+            book_over_prob, book_under_prob = devig_prob(over_odds, under_odds)
             over_edge = (model_over - book_over_prob) * 100
             under_edge = ((1 - model_over) - book_under_prob) * 100
-            pname = pitcher_proj.get("name", "Pitcher")
             if over_edge >= EDGE_THRESHOLD:
                 plays.append({"name": pname, "market": "Pitcher Ks", "line": line, "side": "OVER",
                               "model_prob": round(model_over * 100, 1),
                               "book_prob": round(book_over_prob * 100, 1),
-                              "edge": round(over_edge, 1), "book_odds": book["over"]})
+                              "edge": round(over_edge, 1), "book_odds": over_odds, "book_src": src})
             if under_edge >= EDGE_THRESHOLD:
                 plays.append({"name": pname, "market": "Pitcher Ks", "line": line, "side": "UNDER",
                               "model_prob": round((1 - model_over) * 100, 1),
                               "book_prob": round(book_under_prob * 100, 1),
-                              "edge": round(under_edge, 1), "book_odds": book["under"]})
+                              "edge": round(under_edge, 1), "book_odds": under_odds, "book_src": src})
 
     return plays
 
@@ -1100,6 +1175,7 @@ def print_game(game, bat_df, pit_df, odds_lines, all_standouts):
     })
 
     line = odds_lines.get((game["away_team"], game["home_team"]))
+    live_props = {}
     if line:
         away_edge = (away_win - line["away_prob"]) * 100
         home_edge = (home_win - line["home_prob"]) * 100
@@ -1109,9 +1185,17 @@ def print_game(game, bat_df, pit_df, odds_lines, all_standouts):
         score, confidence = edge_confidence_score(lean_edge)
         sign = "+" if lean_edge >= 0 else ""
         print(f"  EDGE: {lean_team} {sign}{lean_edge:.1f}% vs. book  [{confidence} confidence, {score}/100]")
-        result["edge"] = {"team": lean_team, "edge_pct": round(lean_edge, 2), "score": score, "confidence": confidence}
+        result["edge"] = {
+            "team": lean_team, "edge_pct": round(lean_edge, 2), "score": score, "confidence": confidence,
+            "away_ml": line["away_ml"], "home_ml": line["home_ml"], "book": "FanDuel",
+        }
+        result["moneylines"] = {"away": line["away_ml"], "home": line["home_ml"], "book": "FanDuel"}
+        live_props = fetch_player_prop_odds(line.get("event_id"))
+        if live_props:
+            n_players = len({k[1] for k in live_props})
+            print(f"  FanDuel player props: {n_players} players across {len(live_props)} lines")
     elif ODDS_API_KEY:
-        print("  (No matching odds line for this game)")
+        print("  (No FanDuel line posted for this game yet)")
 
     # --- Prop Value Section (after score/win% so all context is available) ---
     all_prop_plays = []
@@ -1123,15 +1207,15 @@ def print_game(game, bat_df, pit_df, odds_lines, all_standouts):
             if proj is None:
                 continue
             bat_side = slot.get("bat_side", "R")
-            plays = evaluate_props(slot["name"], bat_side, proj)
+            plays = evaluate_props(slot["name"], bat_side, proj, live_props=live_props)
             all_prop_plays.extend(plays)
         if opp_pitcher_proj:
-            pitcher_plays = evaluate_props("", "", {}, pitcher_proj=opp_pitcher_proj)
+            pitcher_plays = evaluate_props("", "", {}, pitcher_proj=opp_pitcher_proj, live_props=live_props)
             all_prop_plays.extend(pitcher_plays)
 
     all_prop_plays.sort(key=lambda x: -x["edge"])
     if all_prop_plays:
-        print(f"\n  PROP VALUE  (model edge vs. standard book pricing, >{EDGE_THRESHOLD}% threshold)")
+        print(f"\n  PROP VALUE  (model edge vs. FanDuel where posted, else estimated book pricing, >{EDGE_THRESHOLD}% threshold)")
         print(f"  {'Player':<22}{'Market':<16}{'Line':>5}{'Side':>6}{'Model%':>8}{'Book%':>7}{'Edge':>7}{'Odds':>7}")
         for p in all_prop_plays:
             psign = "+" if p["book_odds"] > 0 else ""

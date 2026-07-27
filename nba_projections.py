@@ -318,7 +318,7 @@ def fetch_odds():
     if not ODDS_API_KEY:
         return {}
     url = (f"https://api.the-odds-api.com/v4/sports/basketball_nba/odds"
-           f"?apiKey={ODDS_API_KEY}&regions=us&markets=spreads,totals,h2h&oddsFormat=american")
+           f"?apiKey={ODDS_API_KEY}&regions=us&markets=spreads,totals,h2h&bookmakers=fanduel&oddsFormat=american")
     try:
         rows = get_json(url)
     except Exception as e:
@@ -328,6 +328,8 @@ def fetch_odds():
     for ev in rows:
         totals, spreads, ml_away, ml_home = [], [], [], []
         for bk in ev.get("bookmakers", []):
+            if bk.get("key") != "fanduel":
+                continue
             for mk in bk.get("markets", []):
                 for o in mk.get("outcomes", []):
                     if mk["key"] == "totals" and o.get("name") == "Over" and o.get("point") is not None:
@@ -562,7 +564,8 @@ def build_game(raw, odds_map, yesterday=None):
                 best_edge, best_team = away_edge, raw["away_team"]
             g_score, g_confidence = edge_confidence_score(best_edge)
             game_edge = {"team": best_team, "edge_pct": round(best_edge, 1),
-                         "score": g_score, "confidence": g_confidence}
+                         "score": g_score, "confidence": g_confidence,
+                         "away_ml": line["ml_away"], "home_ml": line["ml_home"], "book": "FanDuel"}
 
     game = {
         "away_team": raw["away_team"], "home_team": raw["home_team"],
@@ -572,6 +575,7 @@ def build_game(raw, odds_map, yesterday=None):
         "away_win_pct": round(1 - home_win, 3), "home_win_pct": round(home_win, 3),
         "total": total, "spread": spread,
         "tier": tier, "line_source": source, "blowout_risk": round(blowout, 2), "edge": game_edge,
+        "moneylines": {"away": line.get("ml_away"), "home": line.get("ml_home"), "book": "FanDuel"} if line else None,
         "away_players": away_players, "home_players": home_players,
     }
     if raw.get("away_score") is not None:

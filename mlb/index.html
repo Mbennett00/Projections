@@ -290,7 +290,9 @@ function tierPill(g, hasModel, aFav){
 function edgePill(g){
   if (!g.edge) return '';
   const e = g.edge;
-  return `<span class="edge-pill ${e.confidence}" title="${esc(e.team)} +${e.edge_pct}% vs. book">EDGE ${e.score}</span>`;
+  const eAbbr = ab(e.team);
+  const ico = logo(eAbbr) ? `<img src="${logo(eAbbr)}" alt="" loading="lazy" onerror="this.remove()" style="width:13px;height:13px;object-fit:contain">` : '';
+  return `<span class="edge-pill ${e.confidence}" title="${esc(e.team)} +${e.edge_pct}% vs. ${e.book || 'book'}">${ico}EDGE ${e.score}</span>`;
 }
 
 function stateBadge(g){
@@ -307,11 +309,9 @@ function gameCard(g){
   const done = g.game_state === 'Final' || g.game_state === 'Live';
   const aFav = hasModel && g.away_win_pct >= g.home_win_pct;
   const rows = ['away','home'].map(s => {
-    const num = done
-      ? `<span class="t-score">${g[s+'_score'] ?? '–'}</span>`
-      : hasModel
-        ? `<span class="t-num ${((s==='away')===aFav)?'fav':''}">${g[s+'_runs']?.toFixed(1) ?? '–'} · ${pct(g[s+'_win_pct'])}</span>`
-        : `<span class="t-num">–</span>`;
+    const num = hasModel
+      ? `<span class="t-num ${((s==='away')===aFav)?'fav':''}">${g[s+'_runs']?.toFixed(1) ?? '–'} · ${pct(g[s+'_win_pct'])}</span>`
+      : `<span class="t-num">–</span>`;
     return `<div class="team">
       <span class="t-name">${badge(ab(g[s+'_team']))}<span class="t-city">${esc(g[s+'_team'])}</span></span>
       ${num}</div>`;
@@ -603,11 +603,35 @@ function renderPlays(d){
     </div>`;
   }
 
-  const chips = Object.keys(STATS).map(s =>
+const PROP_MARKET_LABEL = {'Hits':'Hits','Bases':'Total Bases','HR':'Home Run','RBI':'RBI','H+R+RBI':'H+R+RBI','Ks':'Pitcher Ks'};
+function findPropPlay(games, playerName, statLabel){
+  const target = PROP_MARKET_LABEL[statLabel];
+  if (!target) return null;
+  let best = null;
+  for (const g of (games || [])) {
+    for (const p of (g.prop_plays || [])) {
+      if (p.name === playerName && p.market === target) {
+        if (!best || p.edge > best.edge) best = p;
+      }
+    }
+  }
+  return best;
+}
+function propBadge(play){
+  if (!play) return '';
+  const live = play.book_src === 'FanDuel';
+  const oddsTxt = play.book_odds > 0 ? `+${play.book_odds}` : play.book_odds;
+  const label = live ? 'FANDUEL' : 'EST. LINE';
+  const color = live ? 'var(--yellow)' : 'var(--muted)';
+  return `<span title="${play.side} ${play.line} · model ${play.model_prob}% vs book ${play.book_prob}%" style="display:inline-flex;align-items:center;gap:4px;font-size:9px;font-weight:700;letter-spacing:.04em;color:${color};background:${color}14;border:1px solid ${color}44;border-radius:6px;padding:2px 6px;margin-top:5px;white-space:nowrap">${label} · ${play.side} ${play.line} ${oddsTxt}</span>`;
+}
+
+const chips = Object.keys(STATS).map(s =>
     `<div class="chip ${s===statFilter?'on':''}" data-m="${s}">${s}</div>`).join('');
   const list = pool.slice(0, shownP).map((p,i) => {
     const key = statFilter + '|' + p.name + '|' + p.matchup;
     const open = openSim === key;
+    const prop = findPropPlay(DATA.games, p.name, statFilter);
     return `<div class="play" data-key="${esc(key)}">
       <span class="rank ${i<3?'r'+(i+1):''}">${i+1}</span>
       ${avatar(p.name, p.team)}
@@ -616,10 +640,11 @@ function renderPlays(d){
         <div class="p-meta">${abSpan(p.team)} vs ${teamChip(p.opp)}${gradeChip(p.matchup_grade || matchupGrade(teamRuns(p, DATA.games)))}${p.order ? ` · #${p.order}` : ''}</div>
         <div>${tagsFor(p, cfg.pool)}</div>
         ${newsLine(p)}
+        ${propBadge(prop)}
       </div>
       <div class="p-edge">
         <div class="edge-val">${cfg.fmt(cfg.v(p))}</div>
-        ${(() => { const c = mlbConfidence(p, cfg.pool === 'arm'); return c ? `<div class="conf" style="justify-content:flex-end"><div class="conf-ring" style="--v:${c.score};--c:${confColor(c.score)}"><span class="conf-num">${c.score}</span></div></div>` : ''; })()}
+        ${(() => { const c = mlbConfidence(p, cfg.pool === 'arm'); return c ? `<div class="conf" style="justify-content:flex-end;flex-direction:column;align-items:flex-end;gap:2px"><div class="conf-ring" style="--v:${c.score};--c:${confColor(c.score)}"><span class="conf-num">${c.score}</span></div><span style="font-size:8px;font-weight:700;letter-spacing:.06em;color:var(--muted)">EDGE</span></div>` : ''; })()}
         <div class="sim-hint">${open ? '▾ CLOSE' : '▸ DETAILS'}</div>
       </div>
       ${open ? detailPanel(p) : ''}

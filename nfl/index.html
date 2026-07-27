@@ -266,7 +266,9 @@ function stateBadge(g){
 function edgePill(g){
   if (!g.edge) return '';
   const e = g.edge;
-  return `<span class="edge-pill ${e.confidence}" title="${esc(e.team)} +${e.edge_pct}% vs. book">EDGE ${e.score}</span>`;
+  const eAbbr = ab(e.team);
+  const ico = logo(eAbbr) ? `<img src="${logo(eAbbr)}" alt="" loading="lazy" onerror="this.remove()" style="width:13px;height:13px;object-fit:contain">` : '';
+  return `<span class="edge-pill ${e.confidence}" title="${esc(e.team)} +${e.edge_pct}% vs. ${e.book || 'book'}">${ico}EDGE ${e.score}</span>`;
 }
 
 function gameCard(g){
@@ -477,7 +479,7 @@ function confBlock(c){
       <span class="factor-v">${Math.round(v*100)}</span></div>`).join('');
   return `<div class="d-sec">CONFIDENCE · ${c.factors.length} factors</div><div class="factors">${bars}</div>`;
 }
-const confRing = c => c ? `<div class="conf" style="justify-content:flex-end"><div class="conf-ring" style="--v:${c.score};--c:${confColor(c.score)}"><span class="conf-num">${c.score}</span></div></div>` : '';
+const confRing = c => c ? `<div class="conf" style="justify-content:flex-end;flex-direction:column;align-items:flex-end;gap:2px"><div class="conf-ring" style="--v:${c.score};--c:${confColor(c.score)}"><span class="conf-num">${c.score}</span></div><span style="font-size:8px;font-weight:700;letter-spacing:.06em;color:var(--muted)">EDGE</span></div>` : '';
 const confHeader = c => c ? `<div class="conf"><div class="conf-ring" style="--v:${c.score};--c:${confColor(c.score)}"><span class="conf-num">${c.score}</span></div><div class="conf-meta"><div class="conf-label">CONFIDENCE</div><div class="conf-word" style="color:${confColor(c.score)}">${confWord(c.score)} · ${c.score}/100</div></div></div>` : '';
 function nflConfidence(p, isQB){
   // NFL preseason runs on priors -- score only what's real, lower ceiling honestly

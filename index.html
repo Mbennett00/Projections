@@ -59,74 +59,73 @@ header{display:flex; align-items:center; justify-content:space-between; padding:
 .kicker{font-size:11px; font-weight:700; color:var(--mute); letter-spacing:.14em; text-transform:uppercase; flex:none; font-family:'IBM Plex Mono',monospace}
 .kicker-line{height:1px; flex:1; background:linear-gradient(90deg, var(--line), transparent)}
 
-/* ---------- board grid ---------- */
+/* ---------- board stack (single column) ---------- */
 .grid{
-  display:grid; grid-template-columns:1fr 1fr; gap:12px;
+  display:flex; flex-direction:column; gap:12px;
   flex:1; margin-bottom:16px;
-  align-content:start;
 }
 .board{
   display:flex; flex-direction:column;
   text-decoration:none; color:inherit; position:relative; overflow:hidden;
-  border-radius:var(--r); padding:15px;
+  border-radius:var(--r); padding:16px 17px;
   background:var(--panel);
   border:1px solid rgba(147,224,110,.32);
   transition:transform .16s cubic-bezier(.2,.8,.3,1), border-color .2s;
 }
-.board:active{transform:scale(.97)}
+.board:active{transform:scale(.98)}
 .board:focus-visible{outline:2px solid var(--g1); outline-offset:2px}
 .board.quiet{border-color:rgba(147,224,110,.14)}
 
-.board-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;gap:6px}
-.board-tag{font-size:9.5px; font-weight:700; letter-spacing:.07em; color:var(--mute); display:flex; align-items:center; gap:5px; font-family:'IBM Plex Mono',monospace; flex:none}
-.board-logo{width:14px; height:14px; object-fit:contain; flex:none}
+.board-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:8px}
+.board-tag{font-size:10px; font-weight:700; letter-spacing:.07em; color:var(--mute); display:flex; align-items:center; gap:6px; font-family:'IBM Plex Mono',monospace; flex:none}
+.board-logo{width:15px; height:15px; object-fit:contain; flex:none}
 .board-badge{
-  font-size:8.5px; font-weight:700; letter-spacing:.05em; padding:3px 7px; border-radius:99px;
-  font-family:'IBM Plex Mono',monospace; white-space:nowrap; line-height:1.5;
+  font-size:9.5px; font-weight:700; letter-spacing:.05em; padding:5px 11px; border-radius:99px;
+  font-family:'IBM Plex Mono',monospace; white-space:nowrap; line-height:1.4;
   background:rgba(147,224,110,.12); color:var(--g1); border:1px solid rgba(147,224,110,.25);
 }
 .board.quiet .board-badge{background:transparent; color:var(--faint); border-color:var(--line)}
 
+.board-mid{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:14px}
 .board-num{
   font-family:'Sora',sans-serif; font-weight:800;
-  font-size:40px; line-height:.95; color:var(--ink); letter-spacing:-.02em;
-  margin-bottom:2px; font-variant-numeric:tabular-nums;
+  font-size:42px; line-height:.9; color:var(--ink); letter-spacing:-.02em;
+  font-variant-numeric:tabular-nums;
 }
 .board.quiet .board-num{color:var(--faint)}
-.board-name{font-size:11.5px; color:var(--mute); font-weight:500; margin-bottom:12px}
+.board-name{font-size:11.5px; color:var(--mute); font-weight:500; margin-top:4px}
 
-.board-stats{display:grid; grid-template-columns:1fr 1fr 1fr; gap:4px; padding:11px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); margin-bottom:12px}
+.board-stats{display:flex; gap:22px; flex:none}
 .stat{text-align:center}
-.stat b{display:block; font-family:'Sora',sans-serif; font-weight:800; font-size:15px; line-height:1.1; margin-bottom:3px; font-variant-numeric:tabular-nums}
+.stat b{display:block; font-family:'Sora',sans-serif; font-weight:800; font-size:20px; line-height:1.1; margin-bottom:4px; font-variant-numeric:tabular-nums}
 .stat.c-green b{color:var(--g1)}
 .stat.c-gold b{color:var(--gold)}
 .board.quiet .stat b{color:var(--faint)}
-.stat span{font-size:8.5px; color:var(--mute); font-weight:600; line-height:1.25; display:block}
+.stat span{font-size:9.5px; color:var(--mute); font-weight:600; line-height:1.25; display:block; white-space:nowrap}
 
-.matchup-label{font-size:9px; font-weight:700; letter-spacing:.1em; color:var(--faint); font-family:'IBM Plex Mono',monospace; margin-bottom:8px}
-.matchup-row{display:flex; align-items:center; justify-content:space-between; gap:4px; margin-bottom:8px}
-.mu-team{display:flex; align-items:center; gap:6px; min-width:0}
-.mu-team.right{flex-direction:row-reverse; text-align:right}
-.mu-logo{width:20px; height:20px; object-fit:contain; flex:none; border-radius:4px}
-.mu-name{font-family:'Sora',sans-serif; font-weight:700; font-size:12.5px; line-height:1.15}
-.mu-odds{font-size:10px; color:var(--mute); font-family:'IBM Plex Mono',monospace; font-weight:600}
-.mu-time{font-size:9.5px; color:var(--faint); font-family:'IBM Plex Mono',monospace; text-align:center; flex:none; padding:0 4px}
-
-.best-edge{display:flex; align-items:center; gap:6px; font-size:10.5px; color:var(--g1); font-weight:700; padding-top:8px; border-top:1px solid var(--line); margin-bottom:auto}
+.matchup-label{font-size:9.5px; font-weight:700; letter-spacing:.1em; color:var(--faint); font-family:'IBM Plex Mono',monospace; margin-bottom:10px; padding-top:12px; border-top:1px solid var(--line)}
+.matchup-row{display:flex; align-items:center; gap:12px}
+.mu-team{display:flex; align-items:center; gap:7px; flex:none}
+.mu-logo{width:22px; height:22px; object-fit:contain; flex:none; border-radius:5px}
+.mu-name{font-family:'Sora',sans-serif; font-weight:700; font-size:14px; line-height:1.2}
+.mu-odds{font-size:10px; color:var(--mute); font-weight:600; font-family:'IBM Plex Mono',monospace; margin-top:1px}
+.mu-time{font-size:10px; color:var(--faint); font-family:'IBM Plex Mono',monospace; text-align:center; flex:none; line-height:1.3}
+.mu-edge{display:flex; align-items:center; gap:6px; font-size:11.5px; color:var(--g1); font-weight:700; flex:1; min-width:0; justify-content:flex-end; text-align:right; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.mu-edge img{width:16px; height:16px; object-fit:contain; border-radius:3px; flex:none}
 
 .next-box{
   display:flex; align-items:center; gap:10px; background:rgba(147,224,110,.06);
-  border:1px solid rgba(147,224,110,.18); border-radius:var(--r-sm); padding:10px 12px; margin-bottom:auto;
+  border:1px solid rgba(147,224,110,.18); border-radius:var(--r-sm); padding:11px 13px;
 }
 .next-box .cal-icon{width:22px; height:22px; flex:none; color:var(--g1)}
 .next-box .cal-label{font-size:9.5px; color:var(--mute); font-weight:600; margin-bottom:2px}
-.next-box .cal-date{font-family:'Sora',sans-serif; font-weight:700; font-size:13px; color:var(--ink)}
+.next-box .cal-date{font-family:'Sora',sans-serif; font-weight:700; font-size:13.5px; color:var(--ink)}
 
-.board-foot{display:flex; align-items:center; justify-content:space-between; gap:8px; margin-top:12px; padding-top:10px; border-top:1px solid var(--line)}
+.board-foot{display:flex; align-items:center; justify-content:space-between; gap:8px; margin-top:14px}
 .board-updated{font-size:10px; font-weight:600; color:var(--faint); font-family:'IBM Plex Mono',monospace}
 .board-arrow{
-  width:26px; height:26px; border-radius:50%; background:var(--panel-hi); flex:none;
-  display:grid; place-items:center; color:var(--g1); font-size:13px; font-weight:700;
+  width:28px; height:28px; border-radius:50%; background:var(--panel-hi); flex:none;
+  display:grid; place-items:center; color:var(--g1); font-size:14px; font-weight:700;
   transition:transform .16s ease;
 }
 .board:active .board-arrow{transform:translateX(2px)}
@@ -164,16 +163,17 @@ footer b{background:var(--grad);-webkit-background-clip:text;background-clip:tex
       <span class="board-tag"><img class="board-logo" src="https://a.espncdn.com/i/teamlogos/leagues/500/mlb.png" alt="" loading="lazy" onerror="this.remove()">MLB · DAILY</span>
       <span class="board-badge" id="mlb-badge">—</span>
     </div>
-    <div class="board-num" id="mlb-games">—</div>
-    <div class="board-name" id="mlb-games-label">games today</div>
-    <div class="board-stats">
-      <div class="stat c-green"><b id="mlb-stat1">—</b><span>Predicted<br>Edges</span></div>
-      <div class="stat c-gold"><b id="mlb-stat2">—</b><span>Top<br>Plays</span></div>
-      <div class="stat c-green"><b id="mlb-stat3">—</b><span id="mlb-stat3-label">High<br>Confidence</span></div>
+    <div class="board-mid">
+      <div><div class="board-num" id="mlb-games">—</div><div class="board-name" id="mlb-games-label">games today</div></div>
+      <div class="board-stats">
+        <div class="stat c-green"><b id="mlb-stat1">—</b><span>Predicted<br>Edges</span></div>
+        <div class="stat c-gold"><b id="mlb-stat2">—</b><span>Top<br>Plays</span></div>
+        <div class="stat c-green"><b id="mlb-stat3">—</b><span id="mlb-stat3-label">High<br>Confidence</span></div>
+      </div>
     </div>
     <div id="mlb-body"></div>
-    <div class="board-foot">
-      <span class="board-updated" id="mlb-updated">syncing…</span>
+    <div class="board-foot" id="mlb-foot" style="display:none">
+      <span class="board-updated" id="mlb-updated-alt">syncing…</span>
       <span class="board-arrow">→</span>
     </div>
   </a>
@@ -183,16 +183,17 @@ footer b{background:var(--grad);-webkit-background-clip:text;background-clip:tex
       <span class="board-tag"><img class="board-logo" src="https://a.espncdn.com/i/teamlogos/leagues/500/nfl.png" alt="" loading="lazy" onerror="this.remove()">NFL · WEEKLY</span>
       <span class="board-badge" id="nfl-badge">—</span>
     </div>
-    <div class="board-num" id="nfl-games">—</div>
-    <div class="board-name" id="nfl-games-label">games today</div>
-    <div class="board-stats">
-      <div class="stat c-green"><b id="nfl-stat1">—</b><span>Predicted<br>Edges</span></div>
-      <div class="stat c-gold"><b id="nfl-stat2">—</b><span>Top<br>Play</span></div>
-      <div class="stat c-green"><b id="nfl-stat3">—</b><span id="nfl-stat3-label">Win<br>Probability</span></div>
+    <div class="board-mid">
+      <div><div class="board-num" id="nfl-games">—</div><div class="board-name" id="nfl-games-label">games today</div></div>
+      <div class="board-stats">
+        <div class="stat c-green"><b id="nfl-stat1">—</b><span>Predicted<br>Edges</span></div>
+        <div class="stat c-gold"><b id="nfl-stat2">—</b><span>Top<br>Play</span></div>
+        <div class="stat c-green"><b id="nfl-stat3">—</b><span id="nfl-stat3-label">Win<br>Probability</span></div>
+      </div>
     </div>
     <div id="nfl-body"></div>
-    <div class="board-foot">
-      <span class="board-updated" id="nfl-updated">syncing…</span>
+    <div class="board-foot" id="nfl-foot" style="display:none">
+      <span class="board-updated" id="nfl-updated-alt">syncing…</span>
       <span class="board-arrow">→</span>
     </div>
   </a>
@@ -202,16 +203,17 @@ footer b{background:var(--grad);-webkit-background-clip:text;background-clip:tex
       <span class="board-tag"><img class="board-logo" src="https://a.espncdn.com/i/teamlogos/leagues/500/nhl.png" alt="" loading="lazy" onerror="this.remove()">NHL · DAILY</span>
       <span class="board-badge" id="nhl-badge">—</span>
     </div>
-    <div class="board-num" id="nhl-games">—</div>
-    <div class="board-name" id="nhl-games-label">games today</div>
-    <div class="board-stats">
-      <div class="stat c-green"><b id="nhl-stat1">—</b><span>Predicted<br>Edges</span></div>
-      <div class="stat c-gold"><b id="nhl-stat2">—</b><span>Top<br>Plays</span></div>
-      <div class="stat c-green"><b id="nhl-stat3">—</b><span id="nhl-stat3-label">High<br>Confidence</span></div>
+    <div class="board-mid">
+      <div><div class="board-num" id="nhl-games">—</div><div class="board-name" id="nhl-games-label">games today</div></div>
+      <div class="board-stats">
+        <div class="stat c-green"><b id="nhl-stat1">—</b><span>Predicted<br>Edges</span></div>
+        <div class="stat c-gold"><b id="nhl-stat2">—</b><span>Top<br>Plays</span></div>
+        <div class="stat c-green"><b id="nhl-stat3">—</b><span id="nhl-stat3-label">High<br>Confidence</span></div>
+      </div>
     </div>
     <div id="nhl-body"></div>
-    <div class="board-foot">
-      <span class="board-updated" id="nhl-updated">syncing…</span>
+    <div class="board-foot" id="nhl-foot" style="display:none">
+      <span class="board-updated" id="nhl-updated-alt">syncing…</span>
       <span class="board-arrow">→</span>
     </div>
   </a>
@@ -221,16 +223,17 @@ footer b{background:var(--grad);-webkit-background-clip:text;background-clip:tex
       <span class="board-tag"><img class="board-logo" src="https://a.espncdn.com/i/teamlogos/leagues/500/nba.png" alt="" loading="lazy" onerror="this.remove()">NBA · DAILY</span>
       <span class="board-badge" id="nba-badge">—</span>
     </div>
-    <div class="board-num" id="nba-games">—</div>
-    <div class="board-name" id="nba-games-label">games today</div>
-    <div class="board-stats">
-      <div class="stat c-green"><b id="nba-stat1">—</b><span>Predicted<br>Edges</span></div>
-      <div class="stat c-gold"><b id="nba-stat2">—</b><span>Top<br>Plays</span></div>
-      <div class="stat c-green"><b id="nba-stat3">—</b><span id="nba-stat3-label">High<br>Confidence</span></div>
+    <div class="board-mid">
+      <div><div class="board-num" id="nba-games">—</div><div class="board-name" id="nba-games-label">games today</div></div>
+      <div class="board-stats">
+        <div class="stat c-green"><b id="nba-stat1">—</b><span>Predicted<br>Edges</span></div>
+        <div class="stat c-gold"><b id="nba-stat2">—</b><span>Top<br>Plays</span></div>
+        <div class="stat c-green"><b id="nba-stat3">—</b><span id="nba-stat3-label">High<br>Confidence</span></div>
+      </div>
     </div>
     <div id="nba-body"></div>
-    <div class="board-foot">
-      <span class="board-updated" id="nba-updated">syncing…</span>
+    <div class="board-foot" id="nba-foot" style="display:none">
+      <span class="board-updated" id="nba-updated-alt">syncing…</span>
       <span class="board-arrow">→</span>
     </div>
   </a>
@@ -257,7 +260,6 @@ function logoUrl(sport, name){
   return a ? `https://a.espncdn.com/i/teamlogos/${sport}/500/${a}.png` : '';
 }
 function shortName(name){ return (name || '').split(' ').pop(); }
-function fmtOdds(n){ return n == null ? '' : (n > 0 ? `+${n}` : `${n}`); }
 function fmtTime(iso){
   try{ return new Date(iso).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}); }
   catch(e){ return ''; }
@@ -281,11 +283,9 @@ function gameEdgeScore(g){
   return 0;
 }
 
-function renderMatchupBody(sport, mode, games){
+function renderMatchupBody(sport, games, updatedTxt){
   if (!games.length) return '';
-  // pick the game with the strongest edge score, falling back to the soonest game
-  let top = games[0];
-  let bestScore = -1;
+  let top = games[0], bestScore = -1;
   for (const g of games){
     const s = gameEdgeScore(g);
     if (s > bestScore){ bestScore = s; top = g; }
@@ -293,35 +293,31 @@ function renderMatchupBody(sport, mode, games){
   const awayLogo = logoUrl(sport, top.away_team);
   const homeLogo = logoUrl(sport, top.home_team);
   const edge = top.edge;
+  const ml = top.moneylines || {};
+  const fmtMl = v => v == null ? '' : (v > 0 ? `+${v}` : `${v}`);
   const timeTxt = top.game_time ? fmtTime(top.game_time) : '';
 
-  let edgeLine = '';
+  const edgeIco = edge && edge.team ? (logoUrl(sport, edge.team) ? `<img src="${logoUrl(sport, edge.team)}" onerror="this.remove()">` : '') : '';
+  let edgeTxt = '';
   if (edge && edge.team){
-    const line = edge.line != null ? `${edge.line > 0 ? '+' : ''}${edge.line} ` : '';
-    const odds = edge.odds != null ? `(${fmtOdds(edge.odds)})` : '';
-    edgeLine = `<div class="best-edge">🔥 Best Edge: ${shortName(edge.team)} ${line}${odds}</div>`;
+    const edgeMl = edge.team === top.away_team ? edge.away_ml : edge.team === top.home_team ? edge.home_ml : null;
+    edgeTxt = `🔥 Best Edge: ${shortName(edge.team)}${edgeMl != null ? ` (${fmtMl(edgeMl)})` : ''}`;
   }
 
   return `
-    <div class="matchup-label">TOP MATCHUP</div>
+    <div class="matchup-label">TOP MATCHUP${ml.book ? ` · ${ml.book}` : ''}</div>
     <div class="matchup-row">
       <div class="mu-team">
         ${awayLogo ? `<img class="mu-logo" src="${awayLogo}" onerror="this.remove()">` : ''}
-        <div>
-          <div class="mu-name">${abbr(sport, top.away_team)}</div>
-          <div class="mu-odds">${edge && edge.away_ml != null ? fmtOdds(edge.away_ml) : ''}</div>
-        </div>
+        <div><div class="mu-name">${abbr(sport, top.away_team)}</div>${ml.away != null ? `<div class="mu-odds">${fmtMl(ml.away)}</div>` : ''}</div>
       </div>
       <div class="mu-time">${timeTxt}<br>@</div>
-      <div class="mu-team right">
+      <div class="mu-team">
         ${homeLogo ? `<img class="mu-logo" src="${homeLogo}" onerror="this.remove()">` : ''}
-        <div>
-          <div class="mu-name">${abbr(sport, top.home_team)}</div>
-          <div class="mu-odds">${edge && edge.home_ml != null ? fmtOdds(edge.home_ml) : ''}</div>
-        </div>
+        <div><div class="mu-name">${abbr(sport, top.home_team)}</div>${ml.home != null ? `<div class="mu-odds">${fmtMl(ml.home)}</div>` : ''}</div>
       </div>
+      <div class="mu-edge">${edgeIco}${edgeTxt}</div>
     </div>
-    ${edgeLine}
   `;
 }
 
@@ -351,20 +347,17 @@ function loadHub(){
         const live = games.filter(g => g.game_state === 'Live').length;
         const mode = document.querySelector(`.board[data-sport="${s}"]`).dataset.mode;
         const card = document.querySelector(`.board[data-sport="${s}"]`);
+        const updatedTxt = d.generated_at ? rel(d.generated_at) : 'syncing…';
 
         document.getElementById(s+'-games').textContent = count;
-        document.getElementById(s+'-games-label').textContent = mode === 'weekly'
-          ? (count === 1 ? 'game today' : 'games today')
-          : (count === 1 ? 'game today' : 'games today');
-        document.getElementById(s+'-updated').textContent = d.generated_at ? rel(d.generated_at) : 'syncing…';
+        document.getElementById(s+'-games-label').textContent = count === 1 ? 'game today' : 'games today';
         card.classList.toggle('quiet', count === 0);
 
         // status badge
         let badge;
-        if (live > 0) badge = `${live} GAMES LIVE`;
+        if (live > 0) badge = `${live} GAME${live===1?'':'S'} LIVE`;
         else if (count > 0) badge = `${count} GAME${count===1?'':'S'} TODAY`;
-        else badge = mode === 'weekly' ? 'NO GAMES SCHEDULED' : (NEXT_START[s] ? `${count} GAMES TODAY` : 'OFFSEASON');
-        if (count === 0 && NEXT_START[s]) badge = 'OFFSEASON';
+        else badge = NEXT_START[s] ? 'OFFSEASON' : 'NO GAMES SCHEDULED';
         document.getElementById(s+'-badge').textContent = badge;
 
         // stat 1 & 2: predicted edges / top plays, derived from each game's edge score
@@ -388,9 +381,23 @@ function loadHub(){
 
         // body: matchup panel if games exist, otherwise a next-start box for offseason sports
         const bodyEl = document.getElementById(s+'-body');
-        bodyEl.innerHTML = count > 0 ? renderMatchupBody(s, mode, games) : renderNextStart(s);
+        const footEl = document.getElementById(s+'-foot');
+        if (count > 0){
+          bodyEl.innerHTML = renderMatchupBody(s, games, updatedTxt);
+          footEl.style.display = 'none';
+          // timestamp sits alone under the matchup row when there's a live arrow inline
+          bodyEl.insertAdjacentHTML('beforeend', `<div class="board-updated" style="margin-top:8px">${updatedTxt}</div>`);
+        } else {
+          bodyEl.innerHTML = renderNextStart(s);
+          footEl.style.display = 'flex';
+          document.getElementById(s+'-updated-alt').textContent = updatedTxt;
+        }
       })
-      .catch(() => { document.getElementById(s+'-updated').textContent = 'no data yet'; });
+      .catch(() => {
+        const footEl = document.getElementById(s+'-foot');
+        footEl.style.display = 'flex';
+        document.getElementById(s+'-updated-alt').textContent = 'no data yet';
+      });
   }
 }
 loadHub();
