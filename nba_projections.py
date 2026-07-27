@@ -84,7 +84,7 @@ def fetch_schedule(day):
         data = get_json(f"{ESPN}/scoreboard?dates={ymd}")
     except Exception as e:
         print(f"Schedule fetch failed: {e}")
-        return None
+        return []
     games = []
     for ev in data.get("events", []):
         comp = (ev.get("competitions") or [{}])[0]
@@ -318,7 +318,7 @@ def fetch_odds():
     if not ODDS_API_KEY:
         return {}
     url = (f"https://api.the-odds-api.com/v4/sports/basketball_nba/odds"
-           f"?apiKey={ODDS_API_KEY}&regions=us&markets=spreads,totals&oddsFormat=american")
+           f"?apiKey={ODDS_API_KEY}&regions=us&markets=spreads,totals,h2h&oddsFormat=american")
     try:
         rows = get_json(url)
     except Exception as e:
@@ -326,7 +326,7 @@ def fetch_odds():
         return {}
     out = {}
     for ev in rows:
-        totals, spreads = [], []
+        totals, spreads, ml_away, ml_home = [], [], [], []
         for bk in ev.get("bookmakers", []):
             for mk in bk.get("markets", []):
                 for o in mk.get("outcomes", []):
@@ -334,11 +334,17 @@ def fetch_odds():
                         totals.append(o["point"])
                     if mk["key"] == "spreads" and o.get("name") == ev.get("home_team") and o.get("point") is not None:
                         spreads.append(o["point"])
-        if totals:
+                    if mk["key"] == "h2h" and o.get("price") is not None:
+                        if o.get("name") == ev.get("away_team"):
+                            ml_away.append(o["price"])
+                        elif o.get("name") == ev.get("home_team"):
+                            ml_home.append(o["price"])
+        if totals or (ml_away and ml_home):
             out[(ev.get("away_team"), ev.get("home_team"))] = {
-                "total": round(sum(totals) / len(totals), 1),
+                "total": round(sum(totals) / len(totals), 1) if totals else None,
                 "home_spread": round(sum(spreads) / len(spreads), 1) if spreads else None,
-                "event_id": ev.get("id"),
+                "ml_away": round(sum(ml_away) / len(ml_away)) if ml_away else None,
+                "ml_home": round(sum(ml_home) / len(ml_home)) if ml_home else None,
             }
     return out
 
@@ -350,6 +356,37 @@ def match_odds(odds_map, away_name, home_name):
         if a and h and a in ak.lower() and h in hk.lower():
             return v
     return None
+
+
+def american_to_implied(price):
+    if price is None:
+        return None
+    if price > 0:
+        return 100 / (price + 100)
+    return abs(price) / (abs(price) + 100)
+
+
+def devig_pair(price_a, price_b):
+    """Two-way devig: normalize implied probs so they sum to 1."""
+    ia, ib = american_to_implied(price_a), american_to_implied(price_b)
+    if ia is None or ib is None:
+        return None, None
+    total = ia + ib
+    if total <= 0:
+        return None, None
+    return ia / total, ib / total
+
+
+# ---------------------------------------------------------------------------
+# EDGE CONFIDENCE SCORE -- shared 0-100 scale across all four sports. See
+# mlb_projections.py for the full rationale.
+# ---------------------------------------------------------------------------
+EDGE_SCORE_K = 6.0
+
+def edge_confidence_score(edge_pts, k=EDGE_SCORE_K):
+    score = round(100 * (1 - math.exp(-abs(edge_pts) / k)))
+    tier = "ELITE" if score >= 75 else "HIGH" if score >= 50 else "MEDIUM" if score >= 25 else "LOW"
+    return score, tier
 
 
 # ── projections ───────────────────────────────────────────────────────────
@@ -428,149 +465,6 @@ def project_team(talent_players, pace_factor, b2b=False, blowout=0.0):
     return out[:10]
 
 
-# ---------------------------------------------------------------------------
-# PROP VALUE ENGINE
-# ---------------------------------------------------------------------------
-# Player props are pulled live, per event, from The Odds API -- real posted
-# lines and prices. internal key -> real API market key:
-PROP_MARKET_MAP = {
-    "pts": "player_points",
-    "reb": "player_rebounds",
-    "ast": "player_assists",
-    "tpm": "player_threes",
-    "pra": "player_points_rebounds_assists",
-}
-PROP_LABELS = {"pts": "Points", "reb": "Rebounds", "ast": "Assists", "tpm": "Threes Made", "pra": "Pts+Reb+Ast"}
-EDGE_THRESHOLD = 4.0  # flag as a play if model edge >= this percentage
-
-
-def poisson_pmf(k, lam):
-    return (lam ** k) * math.exp(-lam) / math.factorial(k)
-
-
-def poisson_over(mean, line):
-    """P(stat > line) using Poisson around the projected mean -- same
-    approximation already used across this app's other sports; counting
-    stats like points/rebounds/assists are overdispersed vs true Poisson,
-    but it's a reasonable, transparent approximation for a real model mean."""
-    k = int(math.floor(line))
-    p_at_most_k = sum(poisson_pmf(i, max(0.001, mean)) for i in range(k + 1))
-    return max(0.001, min(0.999, 1 - p_at_most_k))
-
-
-def american_to_prob(odds):
-    if odds > 0:
-        return 100 / (odds + 100)
-    else:
-        return -odds / (-odds + 100)
-
-
-def devig_prob(over_odds, under_odds):
-    over_raw = american_to_prob(over_odds)
-    under_raw = american_to_prob(under_odds)
-    total = over_raw + under_raw
-    return over_raw / total, under_raw / total
-
-
-def american_to_decimal(odds):
-    return (odds / 100 + 1) if odds > 0 else (100 / -odds + 1)
-
-
-def edge_tier(score):
-    if score >= 85: return "elite"
-    if score >= 70: return "strong"
-    if score >= 50: return "lean"
-    return "none"
-
-
-def edge_score(edge_pct, model_prob_pct, book_odds):
-    """0-100 Edge Score from three real, already-computed signals:
-      - edge_pct: how far the model's probability beats the market's
-      - model_prob_pct: the model's own conviction (distance from a 50/50 coin flip)
-      - the resulting expected value of actually betting it at the posted price
-    Weights (40% edge / 25% confidence / 35% EV) match the MLB engine exactly,
-    so a score means the same thing across sports."""
-    edge_component = max(0, min(100, (edge_pct / 15) * 100))
-    confidence_component = max(0, min(100, (abs(model_prob_pct - 50) / 25) * 100))
-    dec = american_to_decimal(book_odds)
-    ev_pct = (model_prob_pct / 100 * dec - 1) * 100
-    ev_component = max(0, min(100, (ev_pct / 20) * 100))
-    score = round(0.40 * edge_component + 0.25 * confidence_component + 0.35 * ev_component)
-    return score, round(ev_pct, 1)
-
-
-def _make_play(name, market, line, side, model_prob, book_prob, edge, book_odds):
-    score, ev_pct = edge_score(edge, model_prob, book_odds)
-    return {"name": name, "market": market, "line": line, "side": side,
-            "model_prob": round(model_prob, 1), "book_prob": round(book_prob, 1),
-            "edge": round(edge, 1), "book_odds": book_odds,
-            "ev_pct": ev_pct, "edge_score": score, "edge_tier": edge_tier(score)}
-
-
-def fetch_player_props(event_id):
-    """Pull every player prop for one live NBA event in a single call.
-    Returns {player_name: {internal_key: {"line": float, "over": odds, "under": odds}}}."""
-    if not ODDS_API_KEY or not event_id:
-        return {}
-    markets_param = ",".join(sorted(set(PROP_MARKET_MAP.values())))
-    url = (f"https://api.the-odds-api.com/v4/sports/basketball_nba/events/{event_id}/odds"
-           f"?apiKey={ODDS_API_KEY}&regions=us&markets={markets_param}&oddsFormat=american")
-    try:
-        data = get_json(url)
-    except Exception as e:
-        print(f"  (props fetch failed for event {event_id}: {e})")
-        return {}
-
-    reverse_map = {v: k for k, v in PROP_MARKET_MAP.items()}
-    bms = data.get("bookmakers", [])
-    if not bms:
-        return {}
-    book = bms[0]
-    out = {}
-    for m in book.get("markets", []):
-        internal_key = reverse_map.get(m.get("key"))
-        if not internal_key:
-            continue
-        by_player_line = {}
-        for oc in m.get("outcomes", []):
-            player, side, point, price = oc.get("description"), oc.get("name"), oc.get("point"), oc.get("price")
-            if not player or side not in ("Over", "Under") or point is None:
-                continue
-            by_player_line.setdefault((player, point), {})[side.lower()] = price
-        for (player, line), sides in by_player_line.items():
-            if "over" not in sides or "under" not in sides:
-                continue
-            out.setdefault(player, {})[internal_key] = {"line": line, "over": sides["over"], "under": sides["under"]}
-    return out
-
-
-def evaluate_props(name, proj, live_props):
-    """Check this player's projected pts/reb/ast/tpm/pra against LIVE lines
-    for this game. Returns a list of value plays with Edge Score attached."""
-    plays = []
-    player_lines = live_props.get(name, {})
-    for stat_key, book_key in PROP_MARKET_MAP.items():
-        market_line = player_lines.get(stat_key)
-        if not market_line:
-            continue
-        model_mean = proj.get(stat_key)
-        if not model_mean:
-            continue
-        line = market_line["line"]
-        model_over = poisson_over(model_mean, line - 0.001)
-        book_over_prob, book_under_prob = devig_prob(market_line["over"], market_line["under"])
-        over_edge = (model_over - book_over_prob) * 100
-        under_edge = ((1 - model_over) - book_under_prob) * 100
-        label = PROP_LABELS[stat_key]
-        if over_edge >= EDGE_THRESHOLD:
-            plays.append(_make_play(name, label, line, "OVER",
-                                     model_over * 100, book_over_prob * 100, over_edge, market_line["over"]))
-        if under_edge >= EDGE_THRESHOLD:
-            plays.append(_make_play(name, label, line, "UNDER",
-                                     (1 - model_over) * 100, book_under_prob * 100, under_edge, market_line["under"]))
-    return plays
-
-
 def pace_factor_from_total(total):
     if not total:
         return 1.0
@@ -635,13 +529,6 @@ def build_game(raw, odds_map, yesterday=None):
     away_players = project_team(away_talent, away_f, b2b=away_b2b, blowout=blowout)
     home_players = project_team(home_talent, home_f, b2b=home_b2b, blowout=blowout)
 
-    # --- Prop Value: live per-event odds, evaluated against every roster player ---
-    live_props = fetch_player_props((line or {}).get("event_id"))
-    all_prop_plays = []
-    for p in away_players + home_players:
-        all_prop_plays.extend(evaluate_props(p["name"], p, live_props))
-    all_prop_plays.sort(key=lambda x: -x["edge_score"])
-
     # defense grades (each side graded vs the opponent's points allowed)
     away_def = fetch_def_rating(raw["away_id"], CUR_SEASON) or fetch_def_rating(raw["away_id"], PRIOR_SEASON)
     home_def = fetch_def_rating(raw["home_id"], CUR_SEASON) or fetch_def_rating(raw["home_id"], PRIOR_SEASON)
@@ -659,6 +546,24 @@ def build_game(raw, odds_map, yesterday=None):
     edge = abs(home_win - 0.5)
     tier = "STRONG" if edge >= 0.15 else "LEAN" if edge >= 0.07 else "PASS"
 
+    # Model-vs-market moneyline edge (the "Edge Confidence Score" on the
+    # board). Only computed when a real book moneyline exists to check
+    # against -- comparing the spread-implied win% to the moneyline market's
+    # own devigged win% surfaces real cross-market disagreement.
+    game_edge = None
+    if line and line.get("ml_away") is not None and line.get("ml_home") is not None:
+        market_away, market_home = devig_pair(line["ml_away"], line["ml_home"])
+        if market_home is not None:
+            home_edge = (home_win - market_home) * 100
+            away_edge = ((1 - home_win) - market_away) * 100
+            if abs(home_edge) >= abs(away_edge):
+                best_edge, best_team = home_edge, raw["home_team"]
+            else:
+                best_edge, best_team = away_edge, raw["away_team"]
+            g_score, g_confidence = edge_confidence_score(best_edge)
+            game_edge = {"team": best_team, "edge_pct": round(best_edge, 1),
+                         "score": g_score, "confidence": g_confidence}
+
     game = {
         "away_team": raw["away_team"], "home_team": raw["home_team"],
         "away_abbr": raw["away_abbr"], "home_abbr": raw["home_abbr"],
@@ -666,9 +571,8 @@ def build_game(raw, odds_map, yesterday=None):
         "game_state": raw.get("game_state", "Preview"),
         "away_win_pct": round(1 - home_win, 3), "home_win_pct": round(home_win, 3),
         "total": total, "spread": spread,
-        "tier": tier, "line_source": source, "blowout_risk": round(blowout, 2),
+        "tier": tier, "line_source": source, "blowout_risk": round(blowout, 2), "edge": game_edge,
         "away_players": away_players, "home_players": home_players,
-        "prop_plays": all_prop_plays,
     }
     if raw.get("away_score") is not None:
         game["away_score"] = raw["away_score"]
@@ -681,9 +585,6 @@ def main():
     print(f"NBA Projections for {day}  (season {CUR_SEASON}, prior {PRIOR_SEASON})")
 
     games_raw = fetch_schedule(day)
-    if games_raw is None:
-        print("Schedule fetch failed — leaving last good data/nba_slate.json untouched, not overwriting with an empty slate.")
-        sys.exit(0)
     print(f"{len(games_raw)} games on the slate")
 
     games = []

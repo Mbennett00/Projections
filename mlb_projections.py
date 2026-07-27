@@ -298,13 +298,9 @@ def log5(a_rate, b_rate, league_rate):
 # ---------------------------------------------------------------------------
 def get_todays_games(date_str):
     url = f"https://statsapi.mlb.com/api/v1/schedule?sportId=1&date={date_str}&hydrate=probablePitcher,lineups,linescore"
-    try:
-        resp = requests.get(url, timeout=10)
-        resp.raise_for_status()
-        data = resp.json()
-    except Exception as e:
-        print(f"⚠️  MLB schedule fetch failed ({e})")
-        return None
+    resp = requests.get(url, timeout=10)
+    resp.raise_for_status()
+    data = resp.json()
     games = []
     dates = data.get("dates", [])
     if not dates:
@@ -812,103 +808,46 @@ def fetch_moneylines():
 
         a, h = implied(outcomes[away]), implied(outcomes[home])
         total = a + h
-        lines[(away, home)] = {"away_prob": a / total, "home_prob": h / total,
-                                "book": bms[0].get("title", "book"), "event_id": event.get("id")}
+        lines[(away, home)] = {"away_prob": a / total, "home_prob": h / total, "book": bms[0].get("title", "book")}
     return lines
 
 
 # ---------------------------------------------------------------------------
 # PROP VALUE ENGINE
 # ---------------------------------------------------------------------------
-# Player props are pulled live, per event, from The Odds API -- real posted
-# lines and prices, not a static table. internal key -> real API market key:
-PROP_MARKET_MAP = {
-    "hits": "batter_hits",
-    "tb": "batter_total_bases",
-    "hr": "batter_home_runs",
-    "k_batter": "batter_strikeouts",
-    "rbi": "batter_rbis",
-    "hrr": "batter_hits_runs_rbis",
-    "k_pitcher": "pitcher_strikeouts",
+# Standard MLB book pricing for common prop lines, expressed as American odds.
+# These are typical mid-market prices observed across DraftKings/FanDuel --
+# they vary game-to-game and player-to-player, but these are reasonable
+# starting-point expectations for devig comparison.
+# Format: {market: {line: {"over": american_odds, "under": american_odds}}}
+STANDARD_BOOK_LINES = {
+    "hits":      {0.5: {"over": -220, "under": +175}, 1.5: {"over": +135, "under": -165}},
+    "tb":        {1.5: {"over": -145, "under": +120}, 2.5: {"over": +145, "under": -175}},
+    "hr":        {0.5: {"over": +320, "under": -420}},
+    "k_batter":  {0.5: {"over": -155, "under": +125}, 1.5: {"over": +175, "under": -215}},
+    "rbi":       {0.5: {"over": +105, "under": -130}},
+    "hrr":       {2.5: {"over": -115, "under": -110}, 3.5: {"over": +175, "under": -215}},
+    "k_pitcher": {4.5: {"over": -130, "under": +105}, 5.5: {"over": +105, "under": -130}, 6.5: {"over": +190, "under": -235}},
 }
 
 EDGE_THRESHOLD = 4.0  # flag as a play if model edge >= this percentage
 
+# ---------------------------------------------------------------------------
+# EDGE CONFIDENCE SCORE -- shared 0-100 scale across all four sports.
+# Raw edge (model win% minus book win%, in points) is run through a
+# saturating curve so a 2pt edge and a 40pt edge don't both just say "HIGH".
+# `k` is the only sport-specific knob: it's the edge (in points) that scores
+# ~63/100, tuned to each sport's typical moneyline edge range so the same
+# 0-100 score means the same thing everywhere. MLB routinely swings wide on
+# starting-pitcher mismatches, so it gets a much bigger k than the other
+# three sports.
+# ---------------------------------------------------------------------------
+EDGE_SCORE_K = 18.0
 
-def fetch_player_props(event_id):
-    """Pull every player prop for one live event in a single call.
-    Returns {player_name: {internal_key: {"line": float, "over": odds, "under": odds}}}.
-    Uses the first bookmaker returned, matching the existing single-book
-    convention already used for game moneylines above."""
-    if not ODDS_API_KEY or not event_id:
-        return {}
-    markets_param = ",".join(sorted(set(PROP_MARKET_MAP.values())))
-    url = (f"https://api.the-odds-api.com/v4/sports/baseball_mlb/events/{event_id}/odds"
-           f"?apiKey={ODDS_API_KEY}&regions=us&markets={markets_param}&oddsFormat=american")
-    try:
-        resp = requests.get(url, timeout=10)
-        resp.raise_for_status()
-        data = resp.json()
-    except Exception as e:
-        print(f"  (props fetch failed for event {event_id}: {e})")
-        return {}
-
-    reverse_map = {v: k for k, v in PROP_MARKET_MAP.items()}
-    bms = data.get("bookmakers", [])
-    if not bms:
-        return {}
-    book = bms[0]
-    out = {}
-    for m in book.get("markets", []):
-        internal_key = reverse_map.get(m.get("key"))
-        if not internal_key:
-            continue
-        by_player_line = {}
-        for oc in m.get("outcomes", []):
-            player, side, point, price = oc.get("description"), oc.get("name"), oc.get("point"), oc.get("price")
-            if not player or side not in ("Over", "Under") or point is None:
-                continue
-            by_player_line.setdefault((player, point), {})[side.lower()] = price
-        for (player, line), sides in by_player_line.items():
-            if "over" not in sides or "under" not in sides:
-                continue
-            out.setdefault(player, {})[internal_key] = {"line": line, "over": sides["over"], "under": sides["under"]}
-    return out
-
-
-def american_to_decimal(odds):
-    return (odds / 100 + 1) if odds > 0 else (100 / -odds + 1)
-
-
-def edge_tier(score):
-    if score >= 85: return "elite"
-    if score >= 70: return "strong"
-    if score >= 50: return "lean"
-    return "none"
-
-
-def edge_score(edge_pct, model_prob_pct, book_odds):
-    """0-100 Edge Score from three real, already-computed signals:
-      - edge_pct: how far the model's probability beats the market's
-      - model_prob_pct: the model's own conviction (distance from a 50/50 coin flip)
-      - the resulting expected value of actually betting it at the posted price
-    Weights (40% edge / 25% confidence / 35% EV) are a disclosed design
-    choice, not hidden magic -- nothing here is fabricated per-pick."""
-    edge_component = max(0, min(100, (edge_pct / 15) * 100))
-    confidence_component = max(0, min(100, (abs(model_prob_pct - 50) / 25) * 100))
-    dec = american_to_decimal(book_odds)
-    ev_pct = (model_prob_pct / 100 * dec - 1) * 100
-    ev_component = max(0, min(100, (ev_pct / 20) * 100))
-    score = round(0.40 * edge_component + 0.25 * confidence_component + 0.35 * ev_component)
-    return score, round(ev_pct, 1)
-
-
-def _make_play(name, market, line, side, model_prob, book_prob, edge, book_odds):
-    score, ev_pct = edge_score(edge, model_prob, book_odds)
-    return {"name": name, "market": market, "line": line, "side": side,
-            "model_prob": round(model_prob, 1), "book_prob": round(book_prob, 1),
-            "edge": round(edge, 1), "book_odds": book_odds,
-            "ev_pct": ev_pct, "edge_score": score, "edge_tier": edge_tier(score)}
+def edge_confidence_score(edge_pts, k=EDGE_SCORE_K):
+    score = round(100 * (1 - math.exp(-abs(edge_pts) / k)))
+    tier = "ELITE" if score >= 75 else "HIGH" if score >= 50 else "MEDIUM" if score >= 25 else "LOW"
+    return score, tier
 
 
 def american_to_prob(odds):
@@ -936,49 +875,69 @@ def poisson_over(mean, line):
     return max(0.001, min(0.999, 1 - p_at_most_k))
 
 
-def evaluate_props(name, bat_side, proj, live_props, pitcher_proj=None):
-    """Evaluate all prop markets for one batter (and optionally their pitcher)
-    against LIVE odds pulled for this game (live_props = fetch_player_props(event_id)).
-    Returns a list of value plays with edge_score/edge_tier/ev_pct attached."""
+def evaluate_props(name, bat_side, proj, pitcher_proj=None):
+    """Evaluate all prop markets for one batter (and optionally their pitcher).
+    Returns a list of value plays: {market, line, side, model_prob, book_prob, edge}"""
     plays = []
 
-    def check(market, line_wanted, model_mean, book_key, player_name):
-        market_lines = live_props.get(player_name, {}).get(book_key)
-        if not market_lines:
+    def check(market, line, model_mean, book_key=None):
+        book_key = book_key or market
+        if book_key not in STANDARD_BOOK_LINES:
             return
-        # live odds may not post exactly the line we're evaluating (e.g. 1.5 vs 2.5) --
-        # only act on it if the book's actual posted line matches what we're checking.
-        if market_lines["line"] != line_wanted:
+        if line not in STANDARD_BOOK_LINES[book_key]:
             return
-        model_over = poisson_over(model_mean, line_wanted - 0.001)  # over X.5 → P(>=X+1)
-        book_over_prob, book_under_prob = devig_prob(market_lines["over"], market_lines["under"])
+        book = STANDARD_BOOK_LINES[book_key][line]
+        model_over = poisson_over(model_mean, line - 0.001)  # over X.5 → P(>=X+1)
+        book_over_prob, book_under_prob = devig_prob(book["over"], book["under"])
         over_edge = (model_over - book_over_prob) * 100
         under_edge = ((1 - model_over) - book_under_prob) * 100
         if over_edge >= EDGE_THRESHOLD:
-            plays.append(_make_play(player_name, market, line_wanted, "OVER",
-                                     model_over * 100, book_over_prob * 100, over_edge, market_lines["over"]))
+            plays.append({"name": name, "market": market, "line": line, "side": "OVER",
+                          "model_prob": round(model_over * 100, 1),
+                          "book_prob": round(book_over_prob * 100, 1),
+                          "edge": round(over_edge, 1),
+                          "book_odds": book["over"]})
         if under_edge >= EDGE_THRESHOLD:
-            plays.append(_make_play(player_name, market, line_wanted, "UNDER",
-                                     (1 - model_over) * 100, book_under_prob * 100, under_edge, market_lines["under"]))
+            plays.append({"name": name, "market": market, "line": line, "side": "UNDER",
+                          "model_prob": round((1 - model_over) * 100, 1),
+                          "book_prob": round(book_under_prob * 100, 1),
+                          "edge": round(under_edge, 1),
+                          "book_odds": book["under"]})
 
     # Batter props -- only run if this is a batter call (proj has expected_hits)
     if proj.get("expected_hits") is not None:
-        check("Hits", 0.5, proj["expected_hits"], "hits", name)
-        check("Hits", 1.5, proj["expected_hits"], "hits", name)
-        check("Total Bases", 1.5, proj["expected_tb"], "tb", name)
-        check("Total Bases", 2.5, proj["expected_tb"], "tb", name)
-        check("Home Run", 0.5, proj["hr_prob"] * proj["pa"], "hr", name)
-        check("Strikeouts", 0.5, proj["expected_k"], "k_batter", name)
-        check("Strikeouts", 1.5, proj["expected_k"], "k_batter", name)
-        check("RBI", 0.5, proj["expected_rbi"], "rbi", name)
-        check("H+R+RBI", 2.5, proj["expected_hrr"], "hrr", name)
-        check("H+R+RBI", 3.5, proj["expected_hrr"], "hrr", name)
+        check("Hits", 0.5, proj["expected_hits"], "hits")
+        check("Hits", 1.5, proj["expected_hits"], "hits")
+        check("Total Bases", 1.5, proj["expected_tb"], "tb")
+        check("Total Bases", 2.5, proj["expected_tb"], "tb")
+        check("Home Run", 0.5, proj["hr_prob"] * proj["pa"], "hr")
+        check("Strikeouts", 0.5, proj["expected_k"], "k_batter")
+        check("Strikeouts", 1.5, proj["expected_k"], "k_batter")
+        check("RBI", 0.5, proj["expected_rbi"], "rbi")
+        check("H+R+RBI", 2.5, proj["expected_hrr"], "hrr")
+        check("H+R+RBI", 3.5, proj["expected_hrr"], "hrr")
 
     # Pitcher K props (if a pitcher projection was passed in)
     if pitcher_proj:
-        pname = pitcher_proj.get("name", "Pitcher")
-        for line_wanted in [4.5, 5.5, 6.5]:
-            check("Pitcher Ks", line_wanted, pitcher_proj["expected_k"], "k_pitcher", pname)
+        for line in [4.5, 5.5, 6.5]:
+            book = STANDARD_BOOK_LINES["k_pitcher"].get(line)
+            if not book:
+                continue
+            model_over = poisson_over(pitcher_proj["expected_k"], line - 0.001)
+            book_over_prob, book_under_prob = devig_prob(book["over"], book["under"])
+            over_edge = (model_over - book_over_prob) * 100
+            under_edge = ((1 - model_over) - book_under_prob) * 100
+            pname = pitcher_proj.get("name", "Pitcher")
+            if over_edge >= EDGE_THRESHOLD:
+                plays.append({"name": pname, "market": "Pitcher Ks", "line": line, "side": "OVER",
+                              "model_prob": round(model_over * 100, 1),
+                              "book_prob": round(book_over_prob * 100, 1),
+                              "edge": round(over_edge, 1), "book_odds": book["over"]})
+            if under_edge >= EDGE_THRESHOLD:
+                plays.append({"name": pname, "market": "Pitcher Ks", "line": line, "side": "UNDER",
+                              "model_prob": round((1 - model_over) * 100, 1),
+                              "book_prob": round(book_under_prob * 100, 1),
+                              "edge": round(under_edge, 1), "book_odds": book["under"]})
 
     return plays
 
@@ -1147,16 +1106,15 @@ def print_game(game, bat_df, pit_df, odds_lines, all_standouts):
         print(f"  Book ({line['book']}) implied win%: {game['away_team']} {line['away_prob']*100:.1f}%  |  {game['home_team']} {line['home_prob']*100:.1f}%")
         lean_team = game["away_team"] if away_edge > home_edge else game["home_team"]
         lean_edge = max(away_edge, home_edge)
-        confidence = "HIGH" if abs(lean_edge) >= 5 else "MODERATE" if abs(lean_edge) >= 2 else "LOW"
+        score, confidence = edge_confidence_score(lean_edge)
         sign = "+" if lean_edge >= 0 else ""
-        print(f"  EDGE: {lean_team} {sign}{lean_edge:.1f}% vs. book  [{confidence} confidence]")
-        result["edge"] = {"team": lean_team, "edge_pct": round(lean_edge, 2), "confidence": confidence}
+        print(f"  EDGE: {lean_team} {sign}{lean_edge:.1f}% vs. book  [{confidence} confidence, {score}/100]")
+        result["edge"] = {"team": lean_team, "edge_pct": round(lean_edge, 2), "score": score, "confidence": confidence}
     elif ODDS_API_KEY:
         print("  (No matching odds line for this game)")
 
     # --- Prop Value Section (after score/win% so all context is available) ---
     all_prop_plays = []
-    live_props = fetch_player_props(line["event_id"]) if line else {}
     for label, lineup, store, opp_pitcher_proj in [
         (game["away_team"], away_lineup, away_projs, home_pitcher_proj),
         (game["home_team"], home_lineup, home_projs, away_pitcher_proj),
@@ -1165,21 +1123,20 @@ def print_game(game, bat_df, pit_df, odds_lines, all_standouts):
             if proj is None:
                 continue
             bat_side = slot.get("bat_side", "R")
-            plays = evaluate_props(slot["name"], bat_side, proj, live_props)
+            plays = evaluate_props(slot["name"], bat_side, proj)
             all_prop_plays.extend(plays)
         if opp_pitcher_proj:
-            pitcher_plays = evaluate_props("", "", {}, live_props, pitcher_proj=opp_pitcher_proj)
+            pitcher_plays = evaluate_props("", "", {}, pitcher_proj=opp_pitcher_proj)
             all_prop_plays.extend(pitcher_plays)
 
-    all_prop_plays.sort(key=lambda x: -x["edge_score"])
+    all_prop_plays.sort(key=lambda x: -x["edge"])
     if all_prop_plays:
-        print(f"\n  PROP VALUE  (model edge vs. live book pricing, >{EDGE_THRESHOLD}% threshold)")
-        print(f"  {'Player':<22}{'Market':<16}{'Line':>5}{'Side':>6}{'Model%':>8}{'Book%':>7}{'Edge':>7}{'Odds':>7}{'Score':>7}")
+        print(f"\n  PROP VALUE  (model edge vs. standard book pricing, >{EDGE_THRESHOLD}% threshold)")
+        print(f"  {'Player':<22}{'Market':<16}{'Line':>5}{'Side':>6}{'Model%':>8}{'Book%':>7}{'Edge':>7}{'Odds':>7}")
         for p in all_prop_plays:
             psign = "+" if p["book_odds"] > 0 else ""
             print(f"  {p['name']:<22}{p['market']:<16}{p['line']:>5.1f}{p['side']:>6}"
-                  f"{p['model_prob']:>7.1f}%{p['book_prob']:>6.1f}%{p['edge']:>6.1f}%{psign}{p['book_odds']:>6}"
-                  f"{p['edge_score']:>6}  {p['edge_tier']}")
+                  f"{p['model_prob']:>7.1f}%{p['book_prob']:>6.1f}%{p['edge']:>6.1f}%{psign}{p['book_odds']:>6}")
     else:
         print(f"\n  No prop edges found above {EDGE_THRESHOLD}% threshold for this game.")
 

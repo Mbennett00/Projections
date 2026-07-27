@@ -19,6 +19,7 @@ Output:
 """
 
 import json
+import math
 import re
 import sys
 from datetime import datetime, timezone
@@ -412,8 +413,8 @@ def fetch_schedule(week=None, season=None, seasontype=2):
     try:
         data = _http_get_json(url)
     except Exception as e:
-        print(f"⚠️  ESPN scoreboard pull failed ({e})")
-        return None
+        print(f"⚠️  ESPN scoreboard pull failed ({e}) — using fallback game.")
+        return FALLBACK_GAMES
 
     games = []
     for event in data.get("events", []):
@@ -463,8 +464,8 @@ def fetch_schedule(week=None, season=None, seasontype=2):
         games.append(game)
 
     if not games:
-        print("ESPN returned no games for this query (likely a bye week/offseason) — writing an empty slate.")
-        return []
+        print("⚠️  ESPN returned no games for this query — using fallback game.")
+        return FALLBACK_GAMES
 
     return games
 
@@ -1178,6 +1179,20 @@ def project_skill_players(team_abbr, opponent_abbr=None, vegas_factor=None, game
 
 
 # ──────────────────────────────────────────────────────────────────────────
+# EDGE CONFIDENCE SCORE -- shared 0-100 scale across all four sports. See
+# mlb_projections.py for the full rationale; `k` is tuned per sport so a
+# score of, say, 60 means the same strength of signal everywhere. NFL/NBA/
+# NHL moneyline edges run much tighter than MLB's, so they share a smaller k.
+# ──────────────────────────────────────────────────────────────────────────
+EDGE_SCORE_K = 6.0
+
+def edge_confidence_score(edge_pts, k=EDGE_SCORE_K):
+    score = round(100 * (1 - math.exp(-abs(edge_pts) / k)))
+    tier = "ELITE" if score >= 75 else "HIGH" if score >= 50 else "MEDIUM" if score >= 25 else "LOW"
+    return score, tier
+
+
+# ──────────────────────────────────────────────────────────────────────────
 # STEP 4 — MARKET / EDGE CALC
 # away_win_pct/home_win_pct/p_cover/p_over are still the devigged MARKET
 # probability — there's no independent spread/total model yet, so those
@@ -1236,11 +1251,12 @@ def calc_market_fields(away_team, home_team, odds=None, model_home_win_pct=None)
             best_edge, best_team = away_edge, away_team
 
         p_ml_edge = round(abs(best_edge), 3)
-        confidence = "HIGH" if p_ml_edge >= 0.07 else "MODERATE" if p_ml_edge >= 0.03 else "LOW"
+        score, confidence = edge_confidence_score(best_edge * 100)
         if p_ml_edge >= 0.01:
             edge = {
                 "team": best_team,
                 "edge_pct": round(best_edge * 100, 1),
+                "score": score,
                 "confidence": confidence,
             }
 
@@ -1401,9 +1417,6 @@ def main():
             print(f"Ignoring unrecognized arg '{sys.argv[1]}' — expected a week number.")
 
     raw_games = fetch_schedule(week=week)
-    if raw_games is None:
-        print("Leaving last good data/nfl_slate.json untouched, not overwriting with a fallback/placeholder game.")
-        sys.exit(0)
     print("Fetching odds...")
     odds_map = fetch_odds_for_slate()
     if odds_map:

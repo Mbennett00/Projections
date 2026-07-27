@@ -360,7 +360,7 @@ def fetch_nhl_odds():
     if not ODDS_API_KEY:
         return {}
     url = (f"https://api.the-odds-api.com/v4/sports/icehockey_nhl/odds"
-           f"?apiKey={ODDS_API_KEY}&regions=us&markets=spreads,totals&oddsFormat=american")
+           f"?apiKey={ODDS_API_KEY}&regions=us&markets=spreads,totals,h2h&oddsFormat=american")
     try:
         rows = get_json(url)
     except Exception as e:
@@ -368,7 +368,7 @@ def fetch_nhl_odds():
         return {}
     out = {}
     for ev in rows:
-        totals, spreads = [], []
+        totals, spreads, ml_away, ml_home = [], [], [], []
         for bk in ev.get("bookmakers", []):
             for mk in bk.get("markets", []):
                 for o in mk.get("outcomes", []):
@@ -376,12 +376,51 @@ def fetch_nhl_odds():
                         totals.append(o["point"])
                     if mk["key"] == "spreads" and o.get("name") == ev.get("home_team") and o.get("point") is not None:
                         spreads.append(o["point"])
-        if totals:
+                    if mk["key"] == "h2h" and o.get("price") is not None:
+                        if o.get("name") == ev.get("away_team"):
+                            ml_away.append(o["price"])
+                        elif o.get("name") == ev.get("home_team"):
+                            ml_home.append(o["price"])
+        if totals or (ml_away and ml_home):
             out[(ev.get("away_team"), ev.get("home_team"))] = {
-                "total": round(sum(totals) / len(totals), 2),
+                "total": round(sum(totals) / len(totals), 2) if totals else None,
                 "home_spread": round(sum(spreads) / len(spreads), 2) if spreads else None,
+                "ml_away": round(sum(ml_away) / len(ml_away)) if ml_away else None,
+                "ml_home": round(sum(ml_home) / len(ml_home)) if ml_home else None,
             }
     return out
+
+
+def american_to_implied(price):
+    if price is None:
+        return None
+    if price > 0:
+        return 100 / (price + 100)
+    return abs(price) / (abs(price) + 100)
+
+
+def devig_pair(price_a, price_b):
+    """Two-way devig: normalize implied probs so they sum to 1."""
+    ia, ib = american_to_implied(price_a), american_to_implied(price_b)
+    if ia is None or ib is None:
+        return None, None
+    total = ia + ib
+    if total <= 0:
+        return None, None
+    return ia / total, ib / total
+
+
+# ---------------------------------------------------------------------------
+# EDGE CONFIDENCE SCORE -- shared 0-100 scale across all four sports. See
+# mlb_projections.py for the full rationale; NHL shares NFL/NBA's tighter k
+# since moneyline edges here run in the same low-teens range at most.
+# ---------------------------------------------------------------------------
+EDGE_SCORE_K = 6.0
+
+def edge_confidence_score(edge_pts, k=EDGE_SCORE_K):
+    score = round(100 * (1 - math.exp(-abs(edge_pts) / k)))
+    tier = "ELITE" if score >= 75 else "HIGH" if score >= 50 else "MEDIUM" if score >= 25 else "LOW"
+    return score, tier
 
 
 def match_odds(odds_map, away_name, home_name):
@@ -532,6 +571,24 @@ def build_game(talent, raw, odds_map):
     tier = "STRONG" if edge >= 0.12 else "LEAN" if edge >= 0.06 else "PASS"
     target = round(50 + edge * 200 + (p_over - 0.5) * 40)
 
+    # Model-vs-market moneyline edge (the "Edge Confidence Score" you see on
+    # the board). Only computed when we have a real book price to check the
+    # model against -- otherwise the model IS the market (Vegas-anchored)
+    # and there's nothing to disagree with.
+    game_edge = None
+    if line and line.get("ml_away") is not None and line.get("ml_home") is not None:
+        market_away, market_home = devig_pair(line["ml_away"], line["ml_home"])
+        if market_home is not None:
+            home_edge = (p_home - market_home) * 100
+            away_edge = ((1 - p_home) - market_away) * 100
+            if abs(home_edge) >= abs(away_edge):
+                best_edge, best_team = home_edge, raw["home_name"]
+            else:
+                best_edge, best_team = away_edge, raw["away_name"]
+            score, confidence = edge_confidence_score(best_edge)
+            game_edge = {"team": best_team, "edge_pct": round(best_edge, 1),
+                         "score": score, "confidence": confidence}
+
     fa, fh = matchup_factor(la), matchup_factor(lh)
     ta_def, th_def = talent.team(away), talent.team(home)
     away_xga = (th_def or {}).get("xga_pg")   # away skaters face home defense
@@ -568,7 +625,7 @@ def build_game(talent, raw, odds_map):
         "away_win_pct": round(p_away, 3), "home_win_pct": round(p_home, 3),
         "p_over_6_5": round(p_over, 3),
         "tier": tier, "target_score": max(0, min(100, target)),
-        "line_source": source,
+        "line_source": source, "edge": game_edge,
         "away_goalie": away_goalie, "home_goalie": home_goalie,
         "away_goalie_card": goalie_card(away_goalie),
         "home_goalie_card": goalie_card(home_goalie),
@@ -588,8 +645,7 @@ def main():
         games_raw = fetch_schedule(day)
     except Exception as e:
         print(f"Schedule fetch failed: {e}")
-        print("Leaving last good data/nhl_slate.json untouched, not overwriting with an empty slate.")
-        sys.exit(0)
+        games_raw = []
     print(f"{len(games_raw)} games on the slate")
 
     games = []
