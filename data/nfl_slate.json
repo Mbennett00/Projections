@@ -1,6 +1,6 @@
 {
   "date": "2026-07-26",
-  "generated_at": "2026-07-27 03:12 UTC",
+  "generated_at": "2026-07-27 03:18 UTC",
   "games": [
     {
       "away_team": "New England Patriots",
@@ -190,9 +190,9 @@
           "src": "form"
         }
       ],
-      "away_win_pct": 0.356,
-      "home_win_pct": 0.644,
-      "p_cover": 0.498,
+      "away_win_pct": 0.357,
+      "home_win_pct": 0.643,
+      "p_cover": 0.499,
       "p_over": 0.5,
       "p_ml_edge": 0.0,
       "away_pts": 20.0,
@@ -201,8 +201,8 @@
       "_lines": {
         "spread": -4.0,
         "total": 44.0,
-        "ml_away": 169.1818181818182,
-        "ml_home": -204.36363636363637,
+        "ml_away": 168.6,
+        "ml_home": -203.8,
         "books": 11
       }
     },
@@ -394,8 +394,8 @@
           "src": "form"
         }
       ],
-      "away_win_pct": 0.367,
-      "home_win_pct": 0.633,
+      "away_win_pct": 0.368,
+      "home_win_pct": 0.632,
       "p_cover": 0.5,
       "p_over": 0.499,
       "p_ml_edge": 0.0,
@@ -405,8 +405,8 @@
       "_lines": {
         "spread": -3.5,
         "total": 48.5,
-        "ml_away": 161.2,
-        "ml_home": -193.7,
+        "ml_away": 160.22222222222223,
+        "ml_home": -193.0,
         "books": 10
       }
     },
