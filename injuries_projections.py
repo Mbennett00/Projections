@@ -53,18 +53,30 @@ LEAGUES = [
 
 ESPN_INJURIES = "https://site.api.espn.com/apis/site/v2/sports/{sport}/{league}/injuries"
 
+# ESPN's site.api.espn.com occasionally 403s requests that don't look like a
+# browser hit -- a plain "Accept" header alone isn't always enough.
+REQUEST_HEADERS = {
+    "Accept": "application/json",
+    "User-Agent": (
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
+    ),
+}
+
 TIMEOUT = 15
+DEBUG = "--debug" in sys.argv
 
 
 def _get_json(url):
     """GET url and return parsed JSON, or None on any failure."""
     try:
         if requests:
-            r = requests.get(url, timeout=TIMEOUT, headers={"Accept": "application/json"})
+            r = requests.get(url, timeout=TIMEOUT, headers=REQUEST_HEADERS)
             r.raise_for_status()
             return r.json()
         else:
-            with urllib.request.urlopen(url, timeout=TIMEOUT) as r:
+            req = urllib.request.Request(url, headers=REQUEST_HEADERS)
+            with urllib.request.urlopen(req, timeout=TIMEOUT) as r:
                 return json.loads(r.read().decode("utf-8"))
     except Exception as e:
         print(f"  ! fetch failed for {url}: {e}", file=sys.stderr)
@@ -76,6 +88,28 @@ def _pick(*vals):
         if v:
             return v
     return ""
+
+
+def _extract_status(status):
+    """Safely pull a display string out of `status`, whatever shape it's in.
+
+    ESPN's `status` field for an injury entry can show up as a plain string
+    ("Day-To-Day") or as a nested object with a `type` sub-object. Never
+    assume it's a dict just because the string branch didn't match --
+    guard every .get() call individually so a surprise type (None, int,
+    list) can't throw and take the whole team/league down with it.
+    """
+    if isinstance(status, str):
+        return status
+    if not isinstance(status, dict):
+        return "Unknown"
+    name = status.get("name")
+    if name:
+        return name
+    itype = status.get("type")
+    if isinstance(itype, dict):
+        return _pick(itype.get("name"), itype.get("description"), "Unknown")
+    return "Unknown"
 
 
 def _parse_team_block(block):
@@ -103,16 +137,11 @@ def _parse_team_block(block):
                 pid = str(athlete["id"])
                 if pid not in seen_ids:
                     seen_ids.add(pid)
-                    s = status if isinstance(status, str) else (
-                        (status.get("name") if isinstance(status, dict) else None)
-                        or (status.get("type", {}) or {}).get("name")
-                        or (status.get("type", {}) or {}).get("description")
-                    )
                     itype = node.get("type", {}) if isinstance(node.get("type"), dict) else {}
                     players.append({
                         "name": _pick(athlete.get("displayName"), athlete.get("shortName"), "Unknown"),
                         "position": (athlete.get("position") or {}).get("abbreviation", ""),
-                        "status": _pick(s, "Unknown"),
+                        "status": _extract_status(status),
                         "detail": _pick(node.get("detail"), node.get("shortComment"),
                                          node.get("longComment"), itype.get("description"), ""),
                         "location": _pick(node.get("location"), itype.get("name"), ""),
@@ -142,13 +171,31 @@ def fetch_league(cfg):
         return {"key": cfg["key"], "label": cfg["label"], "teams": [], "error": "fetch_failed"}
 
     raw_teams = data.get("injuries", []) or []
-    teams = [_parse_team_block(b) for b in raw_teams]
+    if DEBUG:
+        print(f"  [debug] {cfg['label']}: {len(raw_teams)} raw team blocks in response", file=sys.stderr)
+        if raw_teams:
+            print(f"  [debug] {cfg['label']} first block keys: {list(raw_teams[0].keys())}", file=sys.stderr)
+
+    teams = []
+    parse_errors = 0
+    for b in raw_teams:
+        try:
+            teams.append(_parse_team_block(b))
+        except Exception as e:
+            # One malformed team block should never take the whole league
+            # (or the other three leagues, via ThreadPoolExecutor) down with it.
+            parse_errors += 1
+            print(f"  ! failed to parse a {cfg['label']} team block: {e}", file=sys.stderr)
+
     # drop teams that came back with no players (nothing to show)
     teams = [t for t in teams if t["players"]]
     # sort by most players out first, alphabetical after that — most useful teams surface first
     teams.sort(key=lambda t: (-len(t["players"]), t["team"]))
 
-    return {"key": cfg["key"], "label": cfg["label"], "teams": teams}
+    result = {"key": cfg["key"], "label": cfg["label"], "teams": teams}
+    if parse_errors:
+        result["parse_errors"] = parse_errors
+    return result
 
 
 def main():
