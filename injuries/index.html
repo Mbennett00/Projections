@@ -182,7 +182,7 @@
 
     async function loadDataset() {
         try {
-            const res = await fetch('injuries_slate.json');
+            const res = await fetch('data/injuries_slate.json');
             rawDataset = await res.json();
             applyFilters();
         } catch(e) {
