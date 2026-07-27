@@ -161,17 +161,22 @@
         document.getElementById(`group-${sport}`).classList.toggle('open');
     }
 
-    function getLogoUrl(sport, teamName) {
-        // Strip out spaces and format down for the static image path
+       function getLogoUrl(sport, teamName) {
         let cleanTeam = teamName.toLowerCase().replace(/[^a-z0-9]/g, '');
         
-        // Handle common variations to link up ESPN abbreviations correctly
-        if (cleanTeam.includes('mapleleafs')) cleanTeam = 'tor';
-        if (cleanTeam.includes('mavericks')) cleanTeam = 'dal';
-        if (cleanTeam.includes('49ers')) cleanTeam = 'sf';
+        // Comprehensive dictionary to transform full names into official ESPN acronyms
+        if (cleanTeam.includes('mapleleafs') || cleanTeam.includes('toronto')) cleanTeam = 'tor';
+        if (cleanTeam.includes('mavericks') || cleanTeam.includes('dallas')) cleanTeam = 'dal';
+        if (cleanTeam.includes('49ers') || cleanTeam.includes('francisco')) cleanTeam = 'sf';
+        if (cleanTeam.includes('lakers')) cleanTeam = 'lal';
+        if (cleanTeam.includes('celtics')) cleanTeam = 'bos';
+        if (cleanTeam.includes('yankees')) cleanTeam = 'nyy';
+        if (cleanTeam.includes('redsox')) cleanTeam = 'bos';
+        if (cleanTeam.includes('chiefs')) cleanTeam = 'kc';
         
         return `https://espncdn.com{logoLeagueMap[sport]}/500/scoreboard/${cleanTeam}.png&h=40&w=40`;
     }
+
 
     function applyFilters(isFirstLoad = false) {
         const query = document.getElementById('queryBox').value.toLowerCase();
