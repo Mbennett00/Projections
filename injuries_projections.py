@@ -108,7 +108,7 @@ def run_pipeline():
         combined_injuries.extend(data)
         time.sleep(1)  # Space calls politely
 
-    with open("injuries.json", "w", encoding="utf-8") as f:
+        with open("injuries_slate.json", "w", encoding="utf-8") as f:
         json.dump(combined_injuries, f, indent=2)
 
     print(
