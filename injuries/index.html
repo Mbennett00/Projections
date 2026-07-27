@@ -2,165 +2,76 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Injuries - Projex</title>
     <style>
-        /* Base Projex Workspace Theme Overrides */
+        :root {
+            --bg: #17181B; --panel: #1E2023; --panel-hi: #26282C; --line: #323438;
+            --g1: #93E06E; --g2: #5FA34A; --grad: linear-gradient(135deg,var(--g1),var(--g2));
+            --ink: #F2F3EF; --mute: #8A8D93; --faint: #55585E;
+        }
         body { 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
-            background: #11141b; 
-            color: #727b8e; 
-            padding: 16px; 
-            margin: 0;
-            -webkit-font-smoothing: antialiased;
+            background: var(--bg); color: var(--ink); padding: 16px; margin: 0;
+            max-width: 520px; margin: 0 auto;
         }
-        .wrapper { max-width: 950px; margin: 0 auto; }
         
-        /* Model Boards Hierarchy Label Elements */
-        .section-label {
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: #4a5468;
-            margin-bottom: 14px;
-            margin-left: 4px;
-        }
+        .kicker-row { display: flex; align-items: center; gap: 9px; margin-bottom: 12px; margin-top: 10px; }
+        .kicker { font-size: 10.5px; font-weight: 700; color: var(--mute); letter-spacing: .14em; text-transform: uppercase; font-family: 'IBM Plex Mono', monospace; }
+        .kicker-line { height: 1px; flex: 1; background: linear-gradient(90deg, var(--line), transparent); }
 
-        /* Clean Header Utility Hub Container */
         .control-row { 
-            display: flex; 
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 20px; 
-            background: #181d26; 
-            padding: 16px; 
-            border-radius: 14px; 
-            border: 1px solid #222936; 
+            display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; 
+            background: var(--panel); padding: 14px; border-radius: 14px; border: 1px solid var(--line); 
         }
-        h1 { margin: 0; color: #ffffff; font-size: 20px; font-weight: 700; letter-spacing: -0.02em; }
+        .header-title-block { display: flex; justify-content: space-between; align-items: center; }
+        h1 { margin: 0; color: var(--ink); font-size: 18px; font-family: 'Sora', sans-serif; font-weight: 800; }
+        .back-btn { text-decoration: none; color: var(--g1); font-size: 12px; font-weight: 700; font-family: 'IBM Plex Mono', monospace; }
         
-        .actions { display: flex; gap: 10px; width: 100%; }
+        .actions { display: flex; gap: 8px; width: 100%; }
         input, select { 
-            background: #11141b; 
-            color: #ffffff; 
-            border: 1px solid #222936; 
-            padding: 10px 12px; 
-            border-radius: 10px; 
-            outline: none;
-            font-size: 13px;
-            flex: 1;
-            min-width: 0; /* Prevents input overflow on small screens */
+            background: var(--bg); color: var(--ink); border: 1px solid var(--line); 
+            padding: 10px; border-radius: 10px; outline: none; font-size: 13px; flex: 1; min-width: 0;
         }
-        select { flex: 0 0 110px; } /* Gives selection elements stable mobile sizing */
-        input::placeholder { color: #3e4859; }
+        select { flex: 0 0 100px; }
+        input::placeholder { color: var(--faint); }
 
-        /* Mobile-First Grid System */
-        .card-grid {
-            display: grid;
-            grid-template-columns: 1fr; /* Single column on phones */
-            gap: 12px;
-        }
+        .card-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
 
-        /* Projex Model Block Design Structure */
         .injury-card {
-            background: #181d26;
-            border: 1px solid #222936;
-            border-radius: 14px;
-            padding: 16px;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            min-height: 110px;
+            background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 14px;
+            display: flex; flex-direction: column; justify-content: space-between; position: relative;
         }
+        .card-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .league-label { font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--mute); font-family: 'IBM Plex Mono', monospace; }
+        .league-label span { color: var(--g1); margin-right: 3px; }
 
-        /* Upper Row Context Elements */
-        .card-header-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-        .league-label {
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: #4a5468;
-        }
-        .league-label span { color: #52a3ff; margin-right: 4px; }
+        .status-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+        .dot-danger { background: #FF6B5E; box-shadow: 0 0 8px #FF6B5E; }
+        .dot-warn { background: #EAB308; box-shadow: 0 0 8px #EAB308; }
 
-        /* Status Dot Indicator Placement */
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            display: inline-block;
-        }
-        .dot-danger { background: #ef4444; box-shadow: 0 0 8px rgba(239, 68, 68, 0.4); }
-        .dot-warn { background: #eab308; box-shadow: 0 0 8px rgba(234, 179, 8, 0.4); }
+        .player-headline { color: var(--ink); font-size: 17px; font-weight: 700; font-family: 'Sora', sans-serif; margin-bottom: 2px; }
+        .meta-description { font-size: 12px; color: var(--mute); margin-bottom: 10px; }
 
-        /* Center Content Typography - Scaled Down for Mobile Devices */
-        .player-headline {
-            color: #ffffff;
-            font-size: 18px;
-            font-weight: 700;
-            margin: 0 0 2px 0;
-            letter-spacing: -0.02em;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis; /* Adds dot-dot-dot if text hits edge */
-        }
-        .meta-description {
-            font-size: 13px;
-            color: #4b5569;
-            margin-bottom: 12px;
-        }
+        .card-footer-row { display: flex; justify-content: space-between; align-items: center; padding-top: 8px; border-top: 1px solid var(--line); }
+        .diagnostic-text { font-size: 11px; color: var(--mute); font-family: 'IBM Plex Mono', monospace; }
+        .status-string { font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--faint); }
 
-        /* Bottom Row Diagnostics block */
-        .card-footer-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 10px;
-            border-top: 1px solid #1f2735;
-        }
-        .diagnostic-text { font-size: 12px; color: #727b8e; font-weight: 500; }
-        .status-string { font-size: 11px; font-weight: 700; text-transform: uppercase; color: #4a5468; }
-
-        /* Handling Empty Pipeline States */
-        .alert-panel {
-            grid-column: 1 / -1;
-            text-align: center;
-            padding: 32px 16px;
-            background: #181d26;
-            border-radius: 14px;
-            border: 1px solid #222936;
-            color: #4b5569;
-            font-size: 13px;
-            line-height: 1.5;
-        }
-
-        /* Responsive Tablet and Desktop Breakpoints */
-        @media (min-width: 600px) {
-            body { padding: 24px; }
-            .control-row { flex-direction: row; padding: 14px 20px; }
-            .actions { width: auto; }
-            input, select { font-size: 13px; }
-            select { flex: none; width: 130px; }
-            input { width: 220px; }
-            .card-grid { grid-template-columns: repeat(auto-fill, minmax(285px, 1fr)); gap: 16px; }
-            .player-headline { font-size: 22px; }
-            .injury-card { padding: 20px; min-height: 125px; }
-        }
+        .alert-panel { text-align: center; padding: 32px 16px; background: var(--panel); border-radius: 14px; border: 1px solid var(--line); color: var(--mute); font-size: 13px; }
     </style>
 </head>
 <body>
 <div class="wrapper">
-    <div class="section-label">Model Boards</div>
+    <div class="kicker-row">
+        <div class="kicker">Model Boards</div>
+        <div class="kicker-line"></div>
+    </div>
+    
     <div class="control-row">
-        <h1>Injuries</h1>
+        <div class="header-title-block">
+            <h1>Injuries</h1>
+            <a href="../" class="back-btn">← HUB</a>
+        </div>
         <div class="actions">
             <select id="leagueSelector" onchange="applyFilters()">
                 <option value="all">All</option>
@@ -173,7 +84,6 @@
         </div>
     </div>
 
-    <!-- Mobile-optimized view layout grid -->
     <div id="datasetGrid" class="card-grid"></div>
 </div>
 
@@ -182,13 +92,14 @@
 
     async function loadDataset() {
         try {
+            // Absolute path ensures Cloudflare points straight to the root data repository folder
             const res = await fetch('/data/injuries_slate.json');
             rawDataset = await res.json();
             applyFilters();
         } catch(e) {
             document.getElementById('datasetGrid').innerHTML = `
                 <div class="alert-panel">
-                    Missing structured data slate.<br>Run your updated data_pipeline.py locally to generate injuries_slate.json.
+                    No active slate metrics found.<br>Verify your automated pipeline run successfully generated the file.
                 </div>`;
         }
     }
@@ -205,7 +116,7 @@
         });
 
         if (elements.length === 0) {
-            output.innerHTML = `<div class="alert-panel">No active player variables reported for this selection.</div>`;
+            output.innerHTML = `<div class="alert-panel">No active entries match this criteria.</div>`;
             return;
         }
 
@@ -217,7 +128,7 @@
             return `
                 <div class="injury-card">
                     <div class="card-header-row">
-                        <div class="league-label"><span>•</span> ${item.sport} — Slate</div>
+                        <div class="league-label"><span>•</span> ${item.sport}</div>
                         <span class="status-dot ${dotClass}"></span>
                     </div>
                     <div>
