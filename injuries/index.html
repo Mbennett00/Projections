@@ -1,214 +1,92 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Injuries — Projex</title>
-<meta name="theme-color" content="#17181B">
-<link rel="manifest" href="../manifest.webmanifest">
-<link rel="apple-touch-icon" href="../icon-180.png">
-<link rel="icon" href="../favicon-32.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-:root{
-  --bg:#17181B; --panel:#1E2023; --panel-hi:#26282C; --line:#323438;
-  --volt:#93E06E; --ink:#F2F3EF; --mute:#8A8D93; --faint:#55585E;
-  --red:#FF6B5E; --orange:#D97A3D; --amber:#F2C14E;
-  --r:20px; --r-sm:13px;
-}
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{
-  background:var(--bg); color:var(--ink); font-family:'Inter',system-ui,sans-serif;
-  min-height:100dvh; max-width:520px; margin:0 auto; position:relative;
-  padding:max(14px,env(safe-area-inset-top)) 14px max(22px,env(safe-area-inset-bottom));
-}
-body::before{
-  content:''; position:fixed; inset:0; z-index:-1; pointer-events:none;
-  background:radial-gradient(560px 320px at 10% -6%, rgba(147,224,110,.09), transparent 60%),
-             radial-gradient(480px 300px at 108% 4%, rgba(95,163,74,.09), transparent 60%);
-}
-header{display:flex; align-items:center; gap:10px; padding:2px 2px 14px}
-.back{
-  width:36px;height:36px;border-radius:50%;background:var(--panel);border:1px solid var(--line);
-  display:grid;place-items:center;color:var(--ink);text-decoration:none;font-weight:700;flex:none;
-  transition:transform .16s ease;
-}
-.back:active{transform:scale(.9)}
-h1{font-family:'Sora',sans-serif;font-weight:800;font-size:18px;letter-spacing:.02em;text-transform:uppercase;flex:1;color:var(--ink)}
-.refresh{
-  width:34px;height:34px;border-radius:50%;background:var(--panel);border:1px solid var(--line);
-  display:grid;place-items:center;cursor:pointer;flex:none;color:var(--mute);padding:0;font-size:15px;
-  transition:transform .2s, color .2s;
-}
-.refresh:active{transform:scale(.9)}
-.refresh:focus-visible{outline:2px solid var(--volt);outline-offset:2px}
-.refresh.spin{animation:spin .7s linear infinite;pointer-events:none;color:var(--volt)}
-@keyframes spin{to{transform:rotate(360deg)}}
-.updated{font-size:11.5px;font-weight:600;color:var(--faint);margin:-8px 0 13px 2px}
-
-.tabs{display:flex;gap:6px;margin-bottom:12px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-.tabs::-webkit-scrollbar{display:none}
-.tab{
-  flex:none;font-size:12px;font-weight:700;letter-spacing:.02em;color:var(--mute);
-  background:var(--panel);border:1px solid var(--line);border-radius:99px;
-  padding:7px 15px;cursor:pointer;user-select:none;transition:all .15s;line-height:1.3;
-}
-.tab:focus-visible{outline:2px solid var(--volt);outline-offset:2px}
-.tab.on{color:#17181B;background:linear-gradient(135deg,#93E06E,#5FA34A);border-color:transparent;font-weight:800}
-
-.team-card{
-  background:var(--panel); border:1px solid var(--line); border-radius:var(--r);
-  padding:12px 13px; margin-bottom:9px; animation:rise .28s ease both;
-}
-@keyframes rise{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
-.team-head{display:flex;align-items:center;gap:8px;margin-bottom:8px}
-.team-logo{width:24px;height:24px;object-fit:contain;flex:none}
-.team-name{font-family:'Sora',sans-serif;font-weight:700;font-size:14px;flex:1;color:var(--ink)}
-.team-name .lg{color:var(--faint);font-weight:600;font-family:'Inter',sans-serif}
-.team-count{
-  font-family:'Sora',sans-serif;font-weight:800;font-size:13px;color:var(--volt);
-  background:var(--panel-hi);border:1px solid var(--line);border-radius:99px;padding:3px 10px;
-}
-
-.p-row{display:flex;align-items:flex-start;justify-content:space-between;gap:9px;
-  padding:8px 0;border-top:1px dashed var(--line)}
-.p-row:first-of-type{border-top:none}
-.p-left{min-width:0}
-.p-name{font-weight:600;font-size:13.5px;color:var(--ink)}
-.p-name .pos{color:var(--faint);font-weight:500}
-.p-meta{font-size:11.5px;color:var(--mute);margin-top:2px}
-.status{flex:none;font-size:10px;font-weight:800;letter-spacing:.04em;padding:4px 9px;
-  border-radius:99px;white-space:nowrap;margin-top:1px}
-.status.out{color:var(--red);background:rgba(255,107,94,.12);border:1px solid rgba(255,107,94,.3)}
-.status.doubtful{color:var(--orange);background:rgba(217,122,61,.14);border:1px solid rgba(217,122,61,.32)}
-.status.questionable, .status.day-to-day{color:var(--amber);background:rgba(242,193,78,.14);border:1px solid rgba(242,193,78,.32)}
-.status.ir, .status.out-for-season{color:var(--red);background:rgba(255,107,94,.18);border:1px solid rgba(255,107,94,.4)}
-.status.default{color:var(--mute);background:rgba(138,141,147,.14);border:1px solid rgba(138,141,147,.3)}
-
-.empty{text-align:center;color:var(--mute);font-size:13px;padding:40px 10px}
-
-@media (prefers-reduced-motion:reduce){
-  .back, .refresh, .tab{transition:none}
-  .team-card{animation:none}
-  .refresh.spin{animation:none}
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Injuries - Projex</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #0b0f19; color: #e2e8f0; padding: 24px; }
+        .wrapper { max-width: 950px; margin: 0 auto; }
+        .control-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; background: #1e293b; padding: 16px; border-radius: 8px; border: 1px solid #334155; }
+        h2 { margin: 0; color: #38bdf8; font-size: 20px; }
+        .actions { display: flex; gap: 12px; }
+        input, select { background: #0f172a; color: white; border: 1px solid #475569; padding: 10px; border-radius: 6px; outline: none; }
+        table { width: 100%; border-collapse: collapse; background: #1e293b; border-radius: 8px; overflow: hidden; border: 1px solid #334155; }
+        th, td { padding: 14px; text-align: left; border-bottom: 1px solid #334155; }
+        th { background: #334155; color: #38bdf8; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; }
+        .sport-tag { font-size: 10px; font-weight: bold; background: #475569; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; }
+        .badge { padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 11px; text-transform: uppercase; }
+        .status-danger { background: #7f1d1d; color: #fca5a5; }
+        .status-warn { background: #78350f; color: #fde68a; }
+    </style>
 </head>
 <body>
-<header>
-  <a class="back" href="../">←</a>
-  <h1>Injuries</h1>
-  <button class="refresh" id="refresh" aria-label="Refresh" title="Refresh">↻</button>
-</header>
-<div class="updated" id="updated">syncing…</div>
-
-<div class="tabs" id="tabs">
-  <div class="tab on" data-league="all">All</div>
-  <div class="tab" data-league="nfl">NFL</div>
-  <div class="tab" data-league="nba">NBA</div>
-  <div class="tab" data-league="mlb">MLB</div>
-  <div class="tab" data-league="nhl">NHL</div>
+<div class="wrapper">
+    <div class="control-row">
+        <h2>App Projection Pipeline</h2>
+        <div class="actions">
+            <select id="leagueSelector" onchange="applyFilters()">
+                <option value="all">All Leagues</option>
+                <option value="nfl">NFL</option>
+                <option value="nba">NBA</option>
+                <option value="nhl">NHL</option>
+            </select>
+            <input type="text" id="queryBox" placeholder="Search name or team..." onkeyup="applyFilters()">
+        </div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>League</th>
+                <th>Player</th>
+                <th>Team & Position</th>
+                <th>Status</th>
+                <th>Detail</th>
+            </tr>
+        </thead>
+        <tbody id="datasetGrid"></tbody>
+    </table>
 </div>
 
-<div id="list"></div>
-
 <script>
-const rel = iso => {
-  const m = Math.round((Date.now() - new Date(iso)) / 60000);
-  if (isNaN(m)) return '';
-  if (m < 1) return 'just now';
-  if (m < 60) return m + 'm ago';
-  const h = Math.round(m / 60);
-  return h < 24 ? h + 'h ago' : Math.round(h / 24) + 'd ago';
-};
+    let rawDataset = [];
 
-function statusClass(status){
-  const s = (status || '').toLowerCase();
-  if (s.includes('out for season') || s.includes('ir')) return 'out-for-season';
-  if (s === 'out') return 'out';
-  if (s.includes('doubtful')) return 'doubtful';
-  if (s.includes('questionable')) return 'questionable';
-  if (s.includes('day-to-day') || s.includes('day to day')) return 'day-to-day';
-  return 'default';
-}
+    async function loadDataset() {
+        try {
+            const res = await fetch('injuries.json');
+            rawDataset = await res.json();
+            applyFilters();
+        } catch(e) {
+            document.getElementById('datasetGrid').innerHTML = `<tr><td colspan="5" style="text-align:center;">Missing dataset. Execute data_pipeline.py locally.</td></tr>`;
+        }
+    }
 
-let DATA = null;
-let activeLeague = 'all';
+    function applyFilters() {
+        const sportType = document.getElementById('leagueSelector').value;
+        const textFilter = document.getElementById('queryBox').value.toLowerCase();
+        const output = document.getElementById('datasetGrid');
 
-function render(){
-  const list = document.getElementById('list');
-  if (!DATA){ list.innerHTML = '<div class="empty">No data yet.</div>'; return; }
+        let rows = rawDataset.filter(item => {
+            const matchesSport = (sportType === 'all' || item.sport === sportType);
+            const matchesText = item.name.toLowerCase().includes(textFilter) || item.team.toLowerCase().includes(textFilter);
+            return matchesSport && matchesText;
+        });
 
-  const leagues = activeLeague === 'all'
-    ? DATA.leagues
-    : DATA.leagues.filter(l => l.key === activeLeague);
-
-  const teams = [];
-  for (const lg of leagues) {
-    for (const t of (lg.teams || [])) teams.push({ ...t, leagueLabel: lg.label });
-  }
-
-  if (!teams.length){
-    list.innerHTML = '<div class="empty">No injuries reported right now.</div>';
-    return;
-  }
-
-  list.innerHTML = teams.map(t => `
-    <div class="team-card">
-      <div class="team-head">
-        ${t.logo ? `<img class="team-logo" src="${t.logo}" loading="lazy" onerror="this.remove()">` : ''}
-        <div class="team-name">${t.team}${activeLeague === 'all' ? ` <span class="lg">· ${t.leagueLabel}</span>` : ''}</div>
-        <div class="team-count">${t.players.length}</div>
-      </div>
-      ${t.players.map(p => `
-        <div class="p-row">
-          <div class="p-left">
-            <div class="p-name">${p.name}${p.position ? ` <span class="pos">· ${p.position}</span>` : ''}</div>
-            <div class="p-meta">${[p.location, p.detail].filter(Boolean).join(' — ') || '—'}</div>
-          </div>
-          <div class="status ${statusClass(p.status)}">${p.status || 'Unknown'}</div>
-        </div>
-      `).join('')}
-    </div>
-  `).join('');
-}
-
-function load(){
-  fetch(`../data/injuries_slate.json?t=${Date.now()}`)
-    .then(r => r.json())
-    .then(d => {
-      DATA = d;
-      document.getElementById('updated').textContent =
-        d.generated_at ? `Updated ${rel(d.generated_at)} · ${d.total_players ?? 0} players` : 'no data yet';
-      render();
-    })
-    .catch(() => {
-      document.getElementById('updated').textContent = 'no data yet';
-      document.getElementById('list').innerHTML = '<div class="empty">Couldn\'t load injury data.</div>';
-    });
-}
-
-document.getElementById('tabs').addEventListener('click', e => {
-  const tab = e.target.closest('.tab');
-  if (!tab) return;
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
-  tab.classList.add('on');
-  activeLeague = tab.dataset.league;
-  render();
-});
-
-const refreshBtn = document.getElementById('refresh');
-refreshBtn.onclick = () => {
-  refreshBtn.classList.add('spin');
-  load();
-  setTimeout(() => refreshBtn.classList.remove('spin'), 700);
-};
-
-load();
-if ('serviceWorker' in navigator) navigator.serviceWorker.register('../sw.js');
+        output.innerHTML = rows.map(item => {
+            const lowerStat = item.injury_status.toLowerCase();
+            const badgeClass = (lowerStat.includes('out') || lowerStat.includes('ir') || lowerStat.includes('reserve')) ? 'status-danger' : 'status-warn';
+            return `
+                <tr>
+                    <td><span class="sport-tag">${item.sport}</span></td>
+                    <td><strong>${item.name}</strong></td>
+                    <td>${item.team} (${item.position})</td>
+                    <td><span class="badge ${badgeClass}">${item.injury_status}</span></td>
+                    <td>${item.injury_detail}</td>
+                </tr>
+            `;
+        }).join('');
+    }
+    window.onload = loadDataset;
 </script>
 </body>
 </html>
