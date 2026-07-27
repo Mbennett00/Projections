@@ -16,15 +16,15 @@
   --bg:#17181B; --panel:#1E2023; --panel-hi:#26282C; --line:#323438;
   --g1:#93E06E; --g2:#5FA34A; --grad:linear-gradient(135deg,var(--g1),var(--g2));
   --ink:#F2F3EF; --mute:#8A8D93; --faint:#55585E;
-  --r:16px; --r-sm:11px;
+  --r:20px; --r-sm:12px;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html{-webkit-text-size-adjust:100%}
+html{-webkit-text-size-adjust:100%; height:100%}
 body{
   background:var(--bg); color:var(--ink); font-family:'Inter',system-ui,sans-serif;
   min-height:100dvh; display:flex; flex-direction:column; position:relative;
-  padding:max(18px,env(safe-area-inset-top)) 16px max(24px,env(safe-area-inset-bottom));
-  max-width:520px; margin:0 auto;
+  padding:max(16px,env(safe-area-inset-top)) 16px max(16px,env(safe-area-inset-bottom));
+  max-width:560px; margin:0 auto;
 }
 body::before{
   content:''; position:fixed; inset:0; z-index:-1; pointer-events:none;
@@ -34,18 +34,18 @@ body::before{
 }
 
 /* ---------- header ---------- */
-header{display:flex; align-items:center; justify-content:space-between; padding:2px 2px 20px; gap:10px}
-.head-left{display:flex; align-items:center; gap:9px}
-.head-left img.mark{width:30px; height:30px; border-radius:8px; flex:none; display:block}
+header{display:flex; align-items:center; justify-content:space-between; padding:4px 2px 18px; gap:10px; flex:none}
+.head-left{display:flex; align-items:center; gap:10px}
+.head-left img.mark{width:34px; height:34px; border-radius:10px; flex:none; display:block}
 .wordmark{
-  font-family:'Sora',sans-serif; font-weight:800; font-size:18px; letter-spacing:.03em; text-transform:uppercase;
+  font-family:'Sora',sans-serif; font-weight:800; font-size:20px; letter-spacing:.03em; text-transform:uppercase;
   color:var(--ink); line-height:1;
 }
 .wordmark .x{background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent}
-.head-left .today{font-size:11px; color:var(--mute); font-weight:500; margin-top:3px; font-family:'IBM Plex Mono',monospace}
+.head-left .today{font-size:11.5px; color:var(--mute); font-weight:500; margin-top:3px; font-family:'IBM Plex Mono',monospace}
 .hub-refresh{
-  width:34px; height:34px; border-radius:50%; background:var(--panel); border:1px solid var(--line);
-  display:grid; place-items:center; cursor:pointer; color:var(--mute); font-size:15px;
+  width:38px; height:38px; border-radius:50%; background:var(--panel); border:1px solid var(--line);
+  display:grid; place-items:center; cursor:pointer; color:var(--mute); font-size:16px;
   transition:transform .2s, color .2s, border-color .2s; padding:0; flex:none;
 }
 .hub-refresh:active{transform:scale(.88)}
@@ -54,15 +54,21 @@ header{display:flex; align-items:center; justify-content:space-between; padding:
 @keyframes spin{to{transform:rotate(360deg)}}
 
 /* ---------- section label ---------- */
-.kicker-row{display:flex;align-items:center;gap:9px;margin-bottom:12px}
-.kicker{font-size:10.5px; font-weight:700; color:var(--mute); letter-spacing:.14em; text-transform:uppercase; flex:none; font-family:'IBM Plex Mono',monospace}
+.kicker-row{display:flex;align-items:center;gap:10px;margin-bottom:14px; flex:none}
+.kicker{font-size:11px; font-weight:700; color:var(--mute); letter-spacing:.14em; text-transform:uppercase; flex:none; font-family:'IBM Plex Mono',monospace}
 .kicker-line{height:1px; flex:1; background:linear-gradient(90deg, var(--line), transparent)}
 
 /* ---------- board grid ---------- */
-.grid{display:grid; grid-template-columns:1fr 1fr; gap:9px}
+.grid{
+  display:grid; grid-template-columns:1fr 1fr; gap:12px;
+  flex:1; margin-bottom:16px;
+  align-content:stretch;
+}
 .board{
-  display:block; text-decoration:none; color:inherit; position:relative; overflow:hidden;
-  border-radius:var(--r); padding:13px 13px 12px;
+  display:flex; flex-direction:column; justify-content:space-between;
+  text-decoration:none; color:inherit; position:relative; overflow:hidden;
+  border-radius:var(--r); padding:16px;
+  min-height:clamp(160px, 22vh, 230px);
   background:var(--panel);
   border:1px solid var(--line);
   transition:transform .16s cubic-bezier(.2,.8,.3,1), border-color .2s;
@@ -78,39 +84,40 @@ header{display:flex; align-items:center; justify-content:space-between; padding:
 .board.quiet .board-num, .board.quiet .board-name{opacity:.4}
 .board.quiet::before{opacity:.3}
 
-.board-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.board-tag{font-size:9.5px; font-weight:700; letter-spacing:.1em; color:var(--mute); display:flex; align-items:center; gap:5px; font-family:'IBM Plex Mono',monospace}
-.board-logo{width:13px; height:13px; object-fit:contain; flex:none}
-.live-dot{display:none; align-items:center; gap:4px; font-size:8.5px; font-weight:700; color:#FF6B5E; letter-spacing:.04em; font-family:'IBM Plex Mono',monospace}
+.board-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.board-tag{font-size:10px; font-weight:700; letter-spacing:.08em; color:var(--mute); display:flex; align-items:center; gap:6px; font-family:'IBM Plex Mono',monospace}
+.board-logo{width:15px; height:15px; object-fit:contain; flex:none}
+.live-dot{display:none; align-items:center; gap:4px; font-size:9px; font-weight:700; color:#FF6B5E; letter-spacing:.04em; font-family:'IBM Plex Mono',monospace}
 .live-dot.on{display:flex}
-.live-dot i{width:5px;height:5px;border-radius:50%;background:#FF6B5E;animation:pulse 1.4s ease-in-out infinite}
+.live-dot i{width:6px;height:6px;border-radius:50%;background:#FF6B5E;animation:pulse 1.4s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
 
+.board-center{display:flex; flex-direction:column; justify-content:center; flex:1; margin:6px 0}
 .board-num{
   font-family:'Sora',sans-serif; font-weight:800;
-  font-size:30px; line-height:.9; color:var(--ink); letter-spacing:-.01em;
-  margin-bottom:1px; font-variant-numeric:tabular-nums;
+  font-size:clamp(36px, 10vw, 48px); line-height:.95; color:var(--ink); letter-spacing:-.02em;
+  margin-bottom:4px; font-variant-numeric:tabular-nums;
 }
-.board-name{font-size:11px; color:var(--mute); margin-bottom:10px}
+.board-name{font-size:12px; color:var(--mute); font-weight:500}
 
-.board-edge{display:flex; align-items:center; gap:7px; margin-bottom:10px; min-height:20px}
-.edgebars{display:flex; align-items:flex-end; gap:2px; height:16px; flex:none}
-.edgebars i{width:4px; border-radius:1.5px; background:var(--line); display:block}
+.board-edge{display:flex; align-items:center; gap:8px; margin-top:8px; min-height:22px}
+.edgebars{display:flex; align-items:flex-end; gap:2.5px; height:18px; flex:none}
+.edgebars i{width:4px; border-radius:2px; background:var(--line); display:block}
 .edgebars.lit i{background:var(--grad)}
-.board-edge-txt{font-size:10px; color:var(--mute); font-family:'IBM Plex Mono',monospace; line-height:1.35}
+.board-edge-txt{font-size:10.5px; color:var(--mute); font-family:'IBM Plex Mono',monospace; line-height:1.3}
 .board-edge-txt b{color:var(--ink); font-weight:600}
 
-.board-foot{display:flex; align-items:center; justify-content:space-between; gap:8px}
-.board-updated{font-size:9.5px; font-weight:600; color:var(--faint); font-family:'IBM Plex Mono',monospace}
+.board-foot{display:flex; align-items:center; justify-content:space-between; gap:8px; margin-top: auto; padding-top:10px}
+.board-updated{font-size:10px; font-weight:600; color:var(--faint); font-family:'IBM Plex Mono',monospace}
 .board-arrow{
-  width:23px; height:23px; border-radius:50%; background:var(--panel-hi); flex:none;
-  display:grid; place-items:center; color:var(--g1); font-size:12px; font-weight:700;
+  width:28px; height:28px; border-radius:50%; background:var(--panel-hi); flex:none;
+  display:grid; place-items:center; color:var(--g1); font-size:14px; font-weight:700;
   transition:transform .16s ease;
 }
 .board:active .board-arrow{transform:translateX(2px)}
 
 /* ---------- footer ---------- */
-footer{margin-top:auto; text-align:center; font-size:11px; color:var(--faint); padding-top:26px; font-weight:500; font-family:'IBM Plex Mono',monospace}
+footer{margin-top:auto; text-align:center; font-size:11px; color:var(--faint); padding:8px 0 4px; font-weight:500; font-family:'IBM Plex Mono',monospace; flex:none}
 footer b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent; font-weight:700}
 
 @media (prefers-reduced-motion:reduce){
@@ -143,11 +150,13 @@ footer b{background:var(--grad);-webkit-background-clip:text;background-clip:tex
       <span class="board-tag"><img class="board-logo" src="https://a.espncdn.com/i/teamlogos/leagues/500/mlb.png" alt="" loading="lazy" onerror="this.remove()">MLB · DAILY</span>
       <span class="live-dot" id="mlb-live"><i></i>LIVE</span>
     </div>
-    <div class="board-num" id="mlb-games">—</div>
-    <div class="board-name">games today</div>
-    <div class="board-edge" id="mlb-edge-wrap" style="display:none">
-      <div class="edgebars" id="mlb-edge-bars"><i></i><i></i><i></i></div>
-      <div class="board-edge-txt">Top edge<br><b id="mlb-edge-txt">—</b></div>
+    <div class="board-center">
+      <div class="board-num" id="mlb-games">—</div>
+      <div class="board-name">games today</div>
+      <div class="board-edge" id="mlb-edge-wrap" style="display:none">
+        <div class="edgebars" id="mlb-edge-bars"><i></i><i></i><i></i></div>
+        <div class="board-edge-txt">Top edge<br><b id="mlb-edge-txt">—</b></div>
+      </div>
     </div>
     <div class="board-foot">
       <span class="board-updated" id="mlb-updated">syncing…</span>
@@ -160,11 +169,13 @@ footer b{background:var(--grad);-webkit-background-clip:text;background-clip:tex
       <span class="board-tag"><img class="board-logo" src="https://a.espncdn.com/i/teamlogos/leagues/500/nfl.png" alt="" loading="lazy" onerror="this.remove()">NFL · WEEKLY</span>
       <span class="live-dot" id="nfl-live"><i></i>LIVE</span>
     </div>
-    <div class="board-num" id="nfl-games">—</div>
-    <div class="board-name">games today</div>
-    <div class="board-edge" id="nfl-edge-wrap" style="display:none">
-      <div class="edgebars" id="nfl-edge-bars"><i></i><i></i><i></i></div>
-      <div class="board-edge-txt">Top edge<br><b id="nfl-edge-txt">—</b></div>
+    <div class="board-center">
+      <div class="board-num" id="nfl-games">—</div>
+      <div class="board-name">games today</div>
+      <div class="board-edge" id="nfl-edge-wrap" style="display:none">
+        <div class="edgebars" id="nfl-edge-bars"><i></i><i></i><i></i></div>
+        <div class="board-edge-txt">Top edge<br><b id="nfl-edge-txt">—</b></div>
+      </div>
     </div>
     <div class="board-foot">
       <span class="board-updated" id="nfl-updated">syncing…</span>
@@ -177,11 +188,13 @@ footer b{background:var(--grad);-webkit-background-clip:text;background-clip:tex
       <span class="board-tag"><img class="board-logo" src="https://a.espncdn.com/i/teamlogos/leagues/500/nhl.png" alt="" loading="lazy" onerror="this.remove()">NHL · DAILY</span>
       <span class="live-dot" id="nhl-live"><i></i>LIVE</span>
     </div>
-    <div class="board-num" id="nhl-games">—</div>
-    <div class="board-name">games today</div>
-    <div class="board-edge" id="nhl-edge-wrap" style="display:none">
-      <div class="edgebars" id="nhl-edge-bars"><i></i><i></i><i></i></div>
-      <div class="board-edge-txt">Top edge<br><b id="nhl-edge-txt">—</b></div>
+    <div class="board-center">
+      <div class="board-num" id="nhl-games">—</div>
+      <div class="board-name">games today</div>
+      <div class="board-edge" id="nhl-edge-wrap" style="display:none">
+        <div class="edgebars" id="nhl-edge-bars"><i></i><i></i><i></i></div>
+        <div class="board-edge-txt">Top edge<br><b id="nhl-edge-txt">—</b></div>
+      </div>
     </div>
     <div class="board-foot">
       <span class="board-updated" id="nhl-updated">syncing…</span>
@@ -194,11 +207,13 @@ footer b{background:var(--grad);-webkit-background-clip:text;background-clip:tex
       <span class="board-tag"><img class="board-logo" src="https://a.espncdn.com/i/teamlogos/leagues/500/nba.png" alt="" loading="lazy" onerror="this.remove()">NBA · DAILY</span>
       <span class="live-dot" id="nba-live"><i></i>LIVE</span>
     </div>
-    <div class="board-num" id="nba-games">—</div>
-    <div class="board-name">games today</div>
-    <div class="board-edge" id="nba-edge-wrap" style="display:none">
-      <div class="edgebars" id="nba-edge-bars"><i></i><i></i><i></i></div>
-      <div class="board-edge-txt">Top edge<br><b id="nba-edge-txt">—</b></div>
+    <div class="board-center">
+      <div class="board-num" id="nba-games">—</div>
+      <div class="board-name">games today</div>
+      <div class="board-edge" id="nba-edge-wrap" style="display:none">
+        <div class="edgebars" id="nba-edge-bars"><i></i><i></i><i></i></div>
+        <div class="board-edge-txt">Top edge<br><b id="nba-edge-txt">—</b></div>
+      </div>
     </div>
     <div class="board-foot">
       <span class="board-updated" id="nba-updated">syncing…</span>
