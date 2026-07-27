@@ -107,13 +107,14 @@ def run_pipeline():
         data = fetch_cbs_injuries(sport)
         combined_injuries.extend(data)
         time.sleep(1)  # Space calls politely
-
-        with open("injuries_slate.json", "w", encoding="utf-8") as f:
-        json.dump(combined_injuries, f, indent=2)
+        
+    with open("injuries_slate.json", "w", encoding="utf-8") as f:
+            json.dump(combined_injuries, f, indent=2)
 
     print(
-        f"\nPipeline Finished! Saved {len(combined_injuries)} profiles across 3 leagues to injuries.json"
+         f"\nPipeline Finished! Saved {len(combined_injuries)} profiles across 3 leagues to injuries_slate.json"
     )
+
 
 
 if __name__ == "__main__":
