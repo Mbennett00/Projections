@@ -1,26 +1,7142 @@
-{
-  "generated_at": "2026-07-27T08:51:14.382676-04:00",
-  "leagues": [
-    {
-      "key": "nfl",
-      "label": "NFL",
-      "teams": []
-    },
-    {
-      "key": "nba",
-      "label": "NBA",
-      "teams": []
-    },
-    {
-      "key": "mlb",
-      "label": "MLB",
-      "teams": []
-    },
-    {
-      "key": "nhl",
-      "label": "NHL",
-      "teams": []
-    }
-  ],
-  "total_players": 0
-}
+[
+  {
+    "player_id": "a.-baccelliaandre-baccellia",
+    "name": "A. BaccelliaAndre Baccellia",
+    "sport": "nfl",
+    "team": "Arizona",
+    "position": "WR",
+    "injury_status": "Neck",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "v.-sennvalentin-senn",
+    "name": "V. SennValentin Senn",
+    "sport": "nfl",
+    "team": "Arizona",
+    "position": "OL",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "g.-williamsgarrett-williams",
+    "name": "G. WilliamsGarrett Williams",
+    "sport": "nfl",
+    "team": "Arizona",
+    "position": "CB",
+    "injury_status": "Achilles",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "k.-proctorkaleb-proctor",
+    "name": "K. ProctorKaleb Proctor",
+    "sport": "nfl",
+    "team": "Arizona",
+    "position": "DT",
+    "injury_status": "Knee - Meniscus",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "t.-reimantip-reiman",
+    "name": "T. ReimanTip Reiman",
+    "sport": "nfl",
+    "team": "Arizona",
+    "position": "TE",
+    "injury_status": "Ankle",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "k.-crawfordkitan-crawford",
+    "name": "K. CrawfordKitan Crawford",
+    "sport": "nfl",
+    "team": "Arizona",
+    "position": "SAF",
+    "injury_status": "Ankle",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "k.-shararkarson-sharar",
+    "name": "K. ShararKarson Sharar",
+    "sport": "nfl",
+    "team": "Arizona",
+    "position": "LB",
+    "injury_status": "Hamstring",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-sweatjosh-sweat",
+    "name": "J. SweatJosh Sweat",
+    "sport": "nfl",
+    "team": "Arizona",
+    "position": "LB",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-jonesjustin-jones",
+    "name": "J. JonesJustin Jones",
+    "sport": "nfl",
+    "team": "Arizona",
+    "position": "DT",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "b.-nicholsbilal-nichols",
+    "name": "B. NicholsBilal Nichols",
+    "sport": "nfl",
+    "team": "Arizona",
+    "position": "DT",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-williamsjonah-williams",
+    "name": "J. WilliamsJonah Williams",
+    "sport": "nfl",
+    "team": "Arizona",
+    "position": "OT",
+    "injury_status": "Shoulder",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "z.-joneszay-jones",
+    "name": "Z. JonesZay Jones",
+    "sport": "nfl",
+    "team": "Arizona",
+    "position": "WR",
+    "injury_status": "Achilles",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "w.-hernandezwill-hernandez",
+    "name": "W. HernandezWill Hernandez",
+    "sport": "nfl",
+    "team": "Arizona",
+    "position": "G",
+    "injury_status": "Hip",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-russelljj-russell",
+    "name": "J. RussellJJ Russell",
+    "sport": "nfl",
+    "team": "Arizona",
+    "position": "ILB",
+    "injury_status": "Concussion",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "m.-wilsonmack-wilson",
+    "name": "M. WilsonMack Wilson",
+    "sport": "nfl",
+    "team": "Arizona",
+    "position": "LB",
+    "injury_status": "Ribs",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-blountjoey-blount",
+    "name": "J. BlountJoey Blount",
+    "sport": "nfl",
+    "team": "Arizona",
+    "position": "SAF",
+    "injury_status": "Neck",
+    "injury_detail": "Tue, Apr 14",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "a.-thompsonanterio-thompson",
+    "name": "A. ThompsonAnterio Thompson",
+    "sport": "nfl",
+    "team": "Atlanta",
+    "position": "DT",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Sat, Jul 25",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "x.-wattsxavier-watts",
+    "name": "X. WattsXavier Watts",
+    "sport": "nfl",
+    "team": "Atlanta",
+    "position": "SAF",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-hellamsdemarcco-hellams",
+    "name": "D. HellamsDeMarcco Hellams",
+    "sport": "nfl",
+    "team": "Atlanta",
+    "position": "SAF",
+    "injury_status": "Hamstring",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-londondrake-london",
+    "name": "D. LondonDrake London",
+    "sport": "nfl",
+    "team": "Atlanta",
+    "position": "WR",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "c.-bryantcobee-bryant",
+    "name": "C. BryantCobee Bryant",
+    "sport": "nfl",
+    "team": "Atlanta",
+    "position": "CB",
+    "injury_status": "Concussion",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "b.-bowman-jr.billy-bowman-jr.",
+    "name": "B. Bowman Jr.Billy Bowman Jr.",
+    "sport": "nfl",
+    "team": "Atlanta",
+    "position": "CB",
+    "injury_status": "Achilles",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "m.-hughesmike-hughes",
+    "name": "M. HughesMike Hughes",
+    "sport": "nfl",
+    "team": "Atlanta",
+    "position": "CB",
+    "injury_status": "Ankle",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "t.-siemiantrevor-siemian",
+    "name": "T. SiemianTrevor Siemian",
+    "sport": "nfl",
+    "team": "Atlanta",
+    "position": "QB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "k.-mcgarykaleb-mcgary",
+    "name": "K. McGaryKaleb McGary",
+    "sport": "nfl",
+    "team": "Atlanta",
+    "position": "OT",
+    "injury_status": "Leg",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-taylorjawaan-taylor",
+    "name": "J. TaylorJawaan Taylor",
+    "sport": "nfl",
+    "team": "Atlanta",
+    "position": "OT",
+    "injury_status": "Elbow",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "t.-wheatley-jr.tyrone-wheatley-jr.",
+    "name": "T. Wheatley Jr.Tyrone Wheatley Jr.",
+    "sport": "nfl",
+    "team": "Atlanta",
+    "position": "OT",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "c.-levincorey-levin",
+    "name": "C. LevinCorey Levin",
+    "sport": "nfl",
+    "team": "Atlanta",
+    "position": "G",
+    "injury_status": "Biceps",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "k.-kingkevin-king",
+    "name": "K. KingKevin King",
+    "sport": "nfl",
+    "team": "Atlanta",
+    "position": "CB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "m.-penix-jr.michael-penix-jr.",
+    "name": "M. Penix Jr.Michael Penix Jr.",
+    "sport": "nfl",
+    "team": "Atlanta",
+    "position": "QB",
+    "injury_status": "Knee - ACL",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "k.-hodgekhadarel-hodge",
+    "name": "K. HodgeKhadarel Hodge",
+    "sport": "nfl",
+    "team": "Atlanta",
+    "position": "WR",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "t.-andersentroy-andersen",
+    "name": "T. AndersenTroy Andersen",
+    "sport": "nfl",
+    "team": "Atlanta",
+    "position": "LB",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "s.-nortonstorm-norton",
+    "name": "S. NortonStorm Norton",
+    "sport": "nfl",
+    "team": "Atlanta",
+    "position": "OT",
+    "injury_status": "Foot",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-agnewjamal-agnew",
+    "name": "J. AgnewJamal Agnew",
+    "sport": "nfl",
+    "team": "Atlanta",
+    "position": "WR",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "c.-bullockcorey-bullock",
+    "name": "C. BullockCorey Bullock",
+    "sport": "nfl",
+    "team": "Baltimore",
+    "position": "G",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Sat, Jul 25",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "b.-konebilhal-kone",
+    "name": "B. KoneBilhal Kone",
+    "sport": "nfl",
+    "team": "Baltimore",
+    "position": "CB",
+    "injury_status": "Knee",
+    "injury_detail": "Sat, Jul 25",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "t.-buchananteddye-buchanan",
+    "name": "T. BuchananTeddye Buchanan",
+    "sport": "nfl",
+    "team": "Baltimore",
+    "position": "LB",
+    "injury_status": "Knee - ACL",
+    "injury_detail": "Sat, Jul 25",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "t.-jonestravis-jones",
+    "name": "T. JonesTravis Jones",
+    "sport": "nfl",
+    "team": "Baltimore",
+    "position": "DT",
+    "injury_status": "Pectoral",
+    "injury_detail": "Sat, Jul 25",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-jenkinsjohn-jenkins",
+    "name": "J. JenkinsJohn Jenkins",
+    "sport": "nfl",
+    "team": "Baltimore",
+    "position": "DT",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Sat, Jul 25",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "n.-madubuikennamdi-madubuike",
+    "name": "N. MadubuikeNnamdi Madubuike",
+    "sport": "nfl",
+    "team": "Baltimore",
+    "position": "DT",
+    "injury_status": "Neck",
+    "injury_detail": "Sat, Jul 25",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "a.-isaacadisa-isaac",
+    "name": "A. IsaacAdisa Isaac",
+    "sport": "nfl",
+    "team": "Baltimore",
+    "position": "LB",
+    "injury_status": "Elbow",
+    "injury_detail": "Sat, Jul 25",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-hartydeonte-harty",
+    "name": "D. HartyDeonte Harty",
+    "sport": "nfl",
+    "team": "Baltimore",
+    "position": "WR",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "t.-bryantaven-bryan",
+    "name": "T. BryanTaven Bryan",
+    "sport": "nfl",
+    "team": "Baltimore",
+    "position": "DT",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "a.-vorheesandrew-vorhees",
+    "name": "A. VorheesAndrew Vorhees",
+    "sport": "nfl",
+    "team": "Baltimore",
+    "position": "G",
+    "injury_status": "Foot",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "w.-owenswande-owens",
+    "name": "W. OwensWande Owens",
+    "sport": "nfl",
+    "team": "Buffalo",
+    "position": "SAF",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "m.-hoechtmike-hoecht",
+    "name": "M. HoechtMike Hoecht",
+    "sport": "nfl",
+    "team": "Buffalo",
+    "position": "LB",
+    "injury_status": "Achilles",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "c.-lundtchase-lundt",
+    "name": "C. LundtChase Lundt",
+    "sport": "nfl",
+    "team": "Buffalo",
+    "position": "OT",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-williamsdorian-williams",
+    "name": "D. WilliamsDorian Williams",
+    "sport": "nfl",
+    "team": "Buffalo",
+    "position": "LB",
+    "injury_status": "Lower Body",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "g.-dubosegrant-dubose",
+    "name": "G. DuBoseGrant DuBose",
+    "sport": "nfl",
+    "team": "Buffalo",
+    "position": "WR",
+    "injury_status": "Shoulder",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-reiddesmond-reid",
+    "name": "D. ReidDesmond Reid",
+    "sport": "nfl",
+    "team": "Buffalo",
+    "position": "RB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "c.-bishopcole-bishop",
+    "name": "C. BishopCole Bishop",
+    "sport": "nfl",
+    "team": "Buffalo",
+    "position": "SAF",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-strongdorian-strong",
+    "name": "D. StrongDorian Strong",
+    "sport": "nfl",
+    "team": "Buffalo",
+    "position": "CB",
+    "injury_status": "Neck",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "b.-vansumerenben-vansumeren",
+    "name": "B. VanSumerenBen VanSumeren",
+    "sport": "nfl",
+    "team": "Buffalo",
+    "position": "RB",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "l.-jacksonlandon-jackson",
+    "name": "L. JacksonLandon Jackson",
+    "sport": "nfl",
+    "team": "Buffalo",
+    "position": "DE",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-hollinsjustin-hollins",
+    "name": "J. HollinsJustin Hollins",
+    "sport": "nfl",
+    "team": "Buffalo",
+    "position": "LB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "t.-rapptaylor-rapp",
+    "name": "T. RappTaylor Rapp",
+    "sport": "nfl",
+    "team": "Buffalo",
+    "position": "SAF",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "t.-basstyler-bass",
+    "name": "T. BassTyler Bass",
+    "sport": "nfl",
+    "team": "Buffalo",
+    "position": "K",
+    "injury_status": "Pelvis",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-phillipsjordan-phillips",
+    "name": "J. PhillipsJordan Phillips",
+    "sport": "nfl",
+    "team": "Buffalo",
+    "position": "DT",
+    "injury_status": "Ankle",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-slaydarius-slay",
+    "name": "D. SlayDarius Slay",
+    "sport": "nfl",
+    "team": "Buffalo",
+    "position": "CB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-poyerjordan-poyer",
+    "name": "J. PoyerJordan Poyer",
+    "sport": "nfl",
+    "team": "Buffalo",
+    "position": "FS",
+    "injury_status": "Hamstring",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "g.-davisgabe-davis",
+    "name": "G. DavisGabe Davis",
+    "sport": "nfl",
+    "team": "Buffalo",
+    "position": "WR",
+    "injury_status": "Knee - ACL",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "t.-shaverstyrell-shavers",
+    "name": "T. ShaversTyrell Shavers",
+    "sport": "nfl",
+    "team": "Buffalo",
+    "position": "WR",
+    "injury_status": "Knee - ACL",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "c.-brazzell-iichris-brazzell-ii",
+    "name": "C. Brazzell IIChris Brazzell II",
+    "sport": "nfl",
+    "team": "Carolina",
+    "position": "WR",
+    "injury_status": "Knee",
+    "injury_detail": "Sun, Jul 26",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-chisenadan-chisena",
+    "name": "D. ChisenaDan Chisena",
+    "sport": "nfl",
+    "team": "Carolina",
+    "position": "WR",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Sun, Jul 26",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "n.-scourtonnic-scourton",
+    "name": "N. ScourtonNic Scourton",
+    "sport": "nfl",
+    "team": "Carolina",
+    "position": "LB",
+    "injury_status": "Knee - ACL",
+    "injury_detail": "Fri, Jul 24",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "c.-thorntoncorey-thornton",
+    "name": "C. ThorntonCorey Thornton",
+    "sport": "nfl",
+    "team": "Carolina",
+    "position": "CB",
+    "injury_status": "Lower Leg",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "t.-mabrytyler-mabry",
+    "name": "T. MabryTyler Mabry",
+    "sport": "nfl",
+    "team": "Carolina",
+    "position": "TE",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "t.-whartontershawn-wharton",
+    "name": "T. WhartonTershawn Wharton",
+    "sport": "nfl",
+    "team": "Carolina",
+    "position": "DE",
+    "injury_status": "Neck",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "a.-barnoamare-barno",
+    "name": "A. BarnoAmare Barno",
+    "sport": "nfl",
+    "team": "Carolina",
+    "position": "LB",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "i.-ekwonuikem-ekwonu",
+    "name": "I. EkwonuIkem Ekwonu",
+    "sport": "nfl",
+    "team": "Carolina",
+    "position": "OT",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-guilbeaujaylon-guilbeau",
+    "name": "J. GuilbeauJaylon Guilbeau",
+    "sport": "nfl",
+    "team": "Carolina",
+    "position": "CB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "t.-incoomthomas-incoom",
+    "name": "T. IncoomThomas Incoom",
+    "sport": "nfl",
+    "team": "Carolina",
+    "position": "LB",
+    "injury_status": "Shoulder",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "b.-pierrebryce-pierre",
+    "name": "B. PierreBryce Pierre",
+    "sport": "nfl",
+    "team": "Carolina",
+    "position": "TE",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "c.-zavalachandler-zavala",
+    "name": "C. ZavalaChandler Zavala",
+    "sport": "nfl",
+    "team": "Carolina",
+    "position": "G",
+    "injury_status": "Calf",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "t.-wallacetrevin-wallace",
+    "name": "T. WallaceTrevin Wallace",
+    "sport": "nfl",
+    "team": "Carolina",
+    "position": "LB",
+    "injury_status": "Shoulder",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "m.-johnson-jr.montrell-johnson-jr.",
+    "name": "M. Johnson Jr.Montrell Johnson Jr.",
+    "sport": "nfl",
+    "team": "Carolina",
+    "position": "RB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "t.-motontaylor-moton",
+    "name": "T. MotonTaylor Moton",
+    "sport": "nfl",
+    "team": "Carolina",
+    "position": "OT",
+    "injury_status": "Illness",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "w.-grierwill-grier",
+    "name": "W. GrierWill Grier",
+    "sport": "nfl",
+    "team": "Carolina",
+    "position": "QB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-jewelljosey-jewell",
+    "name": "J. JewellJosey Jewell",
+    "sport": "nfl",
+    "team": "Carolina",
+    "position": "ILB",
+    "injury_status": "Concussion",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "b.-brown-iiibobby-brown-iii",
+    "name": "B. Brown IIIBobby Brown III",
+    "sport": "nfl",
+    "team": "Carolina",
+    "position": "DT",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-hornjaycee-horn",
+    "name": "J. HornJaycee Horn",
+    "sport": "nfl",
+    "team": "Carolina",
+    "position": "CB",
+    "injury_status": "Foot",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "k.-elliottkeyshaun-elliott",
+    "name": "K. ElliottKeyshaun Elliott",
+    "sport": "nfl",
+    "team": "Chicago",
+    "position": "LB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Sun, Jul 26",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "n.-sewellnoah-sewell",
+    "name": "N. SewellNoah Sewell",
+    "sport": "nfl",
+    "team": "Chicago",
+    "position": "LB",
+    "injury_status": "Achilles",
+    "injury_detail": "Sat, Jul 25",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "k.-gordonkyler-gordon",
+    "name": "K. GordonKyler Gordon",
+    "sport": "nfl",
+    "team": "Chicago",
+    "position": "CB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Sat, Jul 25",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "s.-turnershemar-turner",
+    "name": "S. TurnerShemar Turner",
+    "sport": "nfl",
+    "team": "Chicago",
+    "position": "DT",
+    "injury_status": "Knee - ACL",
+    "injury_detail": "Sat, Jul 25",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "t.-edwardst.j.-edwards",
+    "name": "T. EdwardsT.J. Edwards",
+    "sport": "nfl",
+    "team": "Chicago",
+    "position": "LB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Sat, Jul 25",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "o.-trapiloozzy-trapilo",
+    "name": "O. TrapiloOzzy Trapilo",
+    "sport": "nfl",
+    "team": "Chicago",
+    "position": "OT",
+    "injury_status": "Knee",
+    "injury_detail": "Sat, Jul 25",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "r.-strombergricky-stromberg",
+    "name": "R. StrombergRicky Stromberg",
+    "sport": "nfl",
+    "team": "Chicago",
+    "position": "OL",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "k.-amegadjiekiran-amegadjie",
+    "name": "K. AmegadjieKiran Amegadjie",
+    "sport": "nfl",
+    "team": "Chicago",
+    "position": "OT",
+    "injury_status": "Elbow",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "n.-mccloudnick-mccloud",
+    "name": "N. McCloudNick McCloud",
+    "sport": "nfl",
+    "team": "Chicago",
+    "position": "CB",
+    "injury_status": "Groin",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "t.-summersty-summers",
+    "name": "T. SummersTy Summers",
+    "sport": "nfl",
+    "team": "Chicago",
+    "position": "LB",
+    "injury_status": "Foot",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "t.-smithterell-smith",
+    "name": "T. SmithTerell Smith",
+    "sport": "nfl",
+    "team": "Chicago",
+    "position": "CB",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-willsjedrick-wills",
+    "name": "J. WillsJedrick Wills",
+    "sport": "nfl",
+    "team": "Chicago",
+    "position": "OT",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-dalmandrew-dalman",
+    "name": "D. DalmanDrew Dalman",
+    "sport": "nfl",
+    "team": "Chicago",
+    "position": "C",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-odeyingbodayo-odeyingbo",
+    "name": "D. OdeyingboDayo Odeyingbo",
+    "sport": "nfl",
+    "team": "Chicago",
+    "position": "DE",
+    "injury_status": "Achilles",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "b.-hillb.j.-hill",
+    "name": "B. HillB.J. Hill",
+    "sport": "nfl",
+    "team": "Cincinnati",
+    "position": "DE",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Sat, Jul 25",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-kattusjosh-kattus",
+    "name": "J. KattusJosh Kattus",
+    "sport": "nfl",
+    "team": "Cincinnati",
+    "position": "TE",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Sat, Jul 25",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-turnerdj-turner",
+    "name": "D. TurnerDJ Turner",
+    "sport": "nfl",
+    "team": "Cincinnati",
+    "position": "CB",
+    "injury_status": "Calf",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "e.-allerick-all",
+    "name": "E. AllErick All",
+    "sport": "nfl",
+    "team": "Cincinnati",
+    "position": "TE",
+    "injury_status": "Knee - ACL",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "c.-grandycam-grandy",
+    "name": "C. GrandyCam Grandy",
+    "sport": "nfl",
+    "team": "Cincinnati",
+    "position": "TE",
+    "injury_status": "Chest",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "c.-lewconnor-lew",
+    "name": "C. LewConnor Lew",
+    "sport": "nfl",
+    "team": "Cincinnati",
+    "position": "C",
+    "injury_status": "Knee - ACL",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "k.-jenkinskris-jenkins",
+    "name": "K. JenkinsKris Jenkins",
+    "sport": "nfl",
+    "team": "Cincinnati",
+    "position": "DT",
+    "injury_status": "Ankle",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "z.-mosszack-moss",
+    "name": "Z. MossZack Moss",
+    "sport": "nfl",
+    "team": "Cincinnati",
+    "position": "RB",
+    "injury_status": "Neck",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-newtonjosh-newton",
+    "name": "J. NewtonJosh Newton",
+    "sport": "nfl",
+    "team": "Cincinnati",
+    "position": "CB",
+    "injury_status": "Hamstring",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "b.-asamoahbrian-asamoah",
+    "name": "B. AsamoahBrian Asamoah",
+    "sport": "nfl",
+    "team": "Cincinnati",
+    "position": "LB",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "c.-jonescharlie-jones",
+    "name": "C. JonesCharlie Jones",
+    "sport": "nfl",
+    "team": "Cincinnati",
+    "position": "WR",
+    "injury_status": "Ankle",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-kirklandjaxson-kirkland",
+    "name": "J. KirklandJaxson Kirkland",
+    "sport": "nfl",
+    "team": "Cincinnati",
+    "position": "OG",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "l.-wyplerluke-wypler",
+    "name": "L. WyplerLuke Wypler",
+    "sport": "nfl",
+    "team": "Cleveland",
+    "position": "C",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-jonesdom-jones",
+    "name": "D. JonesDom Jones",
+    "sport": "nfl",
+    "team": "Cleveland",
+    "position": "CB",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "k.-eguakunkingsley-eguakun",
+    "name": "K. EguakunKingsley Eguakun",
+    "sport": "nfl",
+    "team": "Cleveland",
+    "position": "C",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "m.-wattsmarkees-watts",
+    "name": "M. WattsMarkees Watts",
+    "sport": "nfl",
+    "team": "Cleveland",
+    "position": "LB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-jonesdawand-jones",
+    "name": "D. JonesDawand Jones",
+    "sport": "nfl",
+    "team": "Cleveland",
+    "position": "OT",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "m.-grahammason-graham",
+    "name": "M. GrahamMason Graham",
+    "sport": "nfl",
+    "team": "Cleveland",
+    "position": "DT",
+    "injury_status": "Lower Leg",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "c.-schwesingercarson-schwesinger",
+    "name": "C. SchwesingerCarson Schwesinger",
+    "sport": "nfl",
+    "team": "Cleveland",
+    "position": "LB",
+    "injury_status": "Ankle",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "a.-kendallanthony-kendall",
+    "name": "A. KendallAnthony Kendall",
+    "sport": "nfl",
+    "team": "Cleveland",
+    "position": "CB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "h.-fannin-jr.harold-fannin-jr.",
+    "name": "H. Fannin Jr.Harold Fannin Jr.",
+    "sport": "nfl",
+    "team": "Cleveland",
+    "position": "TE",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "m.-hall-jr.michael-hall-jr.",
+    "name": "M. Hall Jr.Michael Hall Jr.",
+    "sport": "nfl",
+    "team": "Cleveland",
+    "position": "DT",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-carterdeandre-carter",
+    "name": "D. CarterDeAndre Carter",
+    "sport": "nfl",
+    "team": "Cleveland",
+    "position": "WR",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-warddenzel-ward",
+    "name": "D. WardDenzel Ward",
+    "sport": "nfl",
+    "team": "Cleveland",
+    "position": "CB",
+    "injury_status": "Neck",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "e.-jenkinselgton-jenkins",
+    "name": "E. JenkinsElgton Jenkins",
+    "sport": "nfl",
+    "team": "Cleveland",
+    "position": "C",
+    "injury_status": "Lower Leg",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "m.-collinsmaliek-collins",
+    "name": "M. CollinsMaliek Collins",
+    "sport": "nfl",
+    "team": "Cleveland",
+    "position": "DT",
+    "injury_status": "Quadriceps",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-owusu-koramoahjeremiah-owusu-koramoah",
+    "name": "J. Owusu-KoramoahJeremiah Owusu-Koramoah",
+    "sport": "nfl",
+    "team": "Cleveland",
+    "position": "LB",
+    "injury_status": "Neck",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "n.-watsonnathaniel-watson",
+    "name": "N. WatsonNathaniel Watson",
+    "sport": "nfl",
+    "team": "Cleveland",
+    "position": "LB",
+    "injury_status": "Biceps",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-jeudyjerry-jeudy",
+    "name": "J. JeudyJerry Jeudy",
+    "sport": "nfl",
+    "team": "Cleveland",
+    "position": "WR",
+    "injury_status": "Hamstring",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "t.-keegantrevor-keegan",
+    "name": "T. KeeganTrevor Keegan",
+    "sport": "nfl",
+    "team": "Dallas",
+    "position": "G",
+    "injury_status": "Neck",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "t.-smithtyler-smith",
+    "name": "T. SmithTyler Smith",
+    "sport": "nfl",
+    "team": "Dallas",
+    "position": "OT",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "b.-harmonbruce-harmon",
+    "name": "B. HarmonBruce Harmon",
+    "sport": "nfl",
+    "team": "Dallas",
+    "position": "CB",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-mingojonathan-mingo",
+    "name": "J. MingoJonathan Mingo",
+    "sport": "nfl",
+    "team": "Dallas",
+    "position": "WR",
+    "injury_status": "Groin",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-thompsonjalen-thompson",
+    "name": "J. ThompsonJalen Thompson",
+    "sport": "nfl",
+    "team": "Dallas",
+    "position": "DB",
+    "injury_status": "Pectoral",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-ezeiruakudonovan-ezeiruaku",
+    "name": "D. EzeiruakuDonovan Ezeiruaku",
+    "sport": "nfl",
+    "team": "Dallas",
+    "position": "DE",
+    "injury_status": "Hip",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "a.-corneliusajani-cornelius",
+    "name": "A. CorneliusAjani Cornelius",
+    "sport": "nfl",
+    "team": "Dallas",
+    "position": "OT",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-prescottdak-prescott",
+    "name": "D. PrescottDak Prescott",
+    "sport": "nfl",
+    "team": "Dallas",
+    "position": "QB",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "m.-hookermalik-hooker",
+    "name": "M. HookerMalik Hooker",
+    "sport": "nfl",
+    "team": "Dallas",
+    "position": "FS",
+    "injury_status": "Back",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "p.-campbellparris-campbell",
+    "name": "P. CampbellParris Campbell",
+    "sport": "nfl",
+    "team": "Dallas",
+    "position": "WR",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-shepleydakoda-shepley",
+    "name": "D. ShepleyDakoda Shepley",
+    "sport": "nfl",
+    "team": "Dallas",
+    "position": "OG",
+    "injury_status": "Ankle",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "m.-sandersmiles-sanders",
+    "name": "M. SandersMiles Sanders",
+    "sport": "nfl",
+    "team": "Dallas",
+    "position": "RB",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-houstonjames-houston",
+    "name": "J. HoustonJames Houston",
+    "sport": "nfl",
+    "team": "Dallas",
+    "position": "DE",
+    "injury_status": "Back",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "m.-hennessymatt-hennessy",
+    "name": "M. HennessyMatt Hennessy",
+    "sport": "nfl",
+    "team": "Dallas",
+    "position": "C",
+    "injury_status": "Neck",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-blanddaron-bland",
+    "name": "D. BlandDaRon Bland",
+    "sport": "nfl",
+    "team": "Dallas",
+    "position": "CB",
+    "injury_status": "Foot",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "n.-gargiulonick-gargiulo",
+    "name": "N. GargiuloNick Gargiulo",
+    "sport": "nfl",
+    "team": "Denver",
+    "position": "G",
+    "injury_status": "Knee",
+    "injury_detail": "Sun, Jul 26",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-turnerjordan-turner",
+    "name": "J. TurnerJordan Turner",
+    "sport": "nfl",
+    "team": "Denver",
+    "position": "LB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Sun, Jul 26",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-sandersdrew-sanders",
+    "name": "D. SandersDrew Sanders",
+    "sport": "nfl",
+    "team": "Denver",
+    "position": "LB",
+    "injury_status": "Ankle",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "b.-nixbo-nix",
+    "name": "B. NixBo Nix",
+    "sport": "nfl",
+    "team": "Denver",
+    "position": "QB",
+    "injury_status": "Ankle",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "c.-lohnercaleb-lohner",
+    "name": "C. LohnerCaleb Lohner",
+    "sport": "nfl",
+    "team": "Denver",
+    "position": "TE",
+    "injury_status": "Lower Body",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "b.-jonesbrandon-jones",
+    "name": "B. JonesBrandon Jones",
+    "sport": "nfl",
+    "team": "Denver",
+    "position": "SAF",
+    "injury_status": "Pectoral",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "m.-peartmatt-peart",
+    "name": "M. PeartMatt Peart",
+    "sport": "nfl",
+    "team": "Denver",
+    "position": "OT",
+    "injury_status": "Knee - MCL",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-turner-yelldelarrin-turner-yell",
+    "name": "D. Turner-YellDelarrin Turner-Yell",
+    "sport": "nfl",
+    "team": "Denver",
+    "position": "SAF",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "m.-woods-iimichael-woods-ii",
+    "name": "M. Woods IIMichael Woods II",
+    "sport": "nfl",
+    "team": "Denver",
+    "position": "WR",
+    "injury_status": "Leg",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "a.-forsythalex-forsyth",
+    "name": "A. ForsythAlex Forsyth",
+    "sport": "nfl",
+    "team": "Denver",
+    "position": "C",
+    "injury_status": "Ankle",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "p.-manningpaul-manning",
+    "name": "P. ManningPaul Manning",
+    "sport": "nfl",
+    "team": "Denver",
+    "position": "CB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "t.-conklintyler-conklin",
+    "name": "T. ConklinTyler Conklin",
+    "sport": "nfl",
+    "team": "Detroit",
+    "position": "TE",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Sun, Jul 26",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "k.-josephkerby-joseph",
+    "name": "K. JosephKerby Joseph",
+    "sport": "nfl",
+    "team": "Detroit",
+    "position": "SAF",
+    "injury_status": "Knee",
+    "injury_detail": "Sun, Jul 26",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "b.-branchbrian-branch",
+    "name": "B. BranchBrian Branch",
+    "sport": "nfl",
+    "team": "Detroit",
+    "position": "CB",
+    "injury_status": "Achilles",
+    "injury_detail": "Sun, Jul 26",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-jacksondan-jackson",
+    "name": "D. JacksonDan Jackson",
+    "sport": "nfl",
+    "team": "Detroit",
+    "position": "SAF",
+    "injury_status": "Leg",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "e.-rakestraw-jr.ennis-rakestraw-jr.",
+    "name": "E. Rakestraw Jr.Ennis Rakestraw Jr.",
+    "sport": "nfl",
+    "team": "Detroit",
+    "position": "CB",
+    "injury_status": "Shoulder",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "l.-dealluke-deal",
+    "name": "L. DealLuke Deal",
+    "sport": "nfl",
+    "team": "Detroit",
+    "position": "TE",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "t.-harperthomas-harper",
+    "name": "T. HarperThomas Harper",
+    "sport": "nfl",
+    "team": "Detroit",
+    "position": "SAF",
+    "injury_status": "Concussion",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "k.-lawkendrick-law",
+    "name": "K. LawKendrick Law",
+    "sport": "nfl",
+    "team": "Detroit",
+    "position": "WR",
+    "injury_status": "Knee - ACL",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "m.-norris-jr.morice-norris-jr.",
+    "name": "M. Norris Jr.Morice Norris Jr.",
+    "sport": "nfl",
+    "team": "Detroit",
+    "position": "SAF",
+    "injury_status": "Concussion",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "k.-robichauxkye-robichaux",
+    "name": "K. RobichauxKye Robichaux",
+    "sport": "nfl",
+    "team": "Detroit",
+    "position": "RB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "g.-manugiovanni-manu",
+    "name": "G. ManuGiovanni Manu",
+    "sport": "nfl",
+    "team": "Detroit",
+    "position": "OL",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-bootledicaprio-bootle",
+    "name": "D. BootleDicaprio Bootle",
+    "sport": "nfl",
+    "team": "Detroit",
+    "position": "CB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "g.-glasgowgraham-glasgow",
+    "name": "G. GlasgowGraham Glasgow",
+    "sport": "nfl",
+    "team": "Detroit",
+    "position": "C",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-jonesjamarco-jones",
+    "name": "J. JonesJamarco Jones",
+    "sport": "nfl",
+    "team": "Detroit",
+    "position": "OT",
+    "injury_status": "Achilles",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "e.-moseleyemmanuel-moseley",
+    "name": "E. MoseleyEmmanuel Moseley",
+    "sport": "nfl",
+    "team": "Detroit",
+    "position": "DB",
+    "injury_status": "Illness",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "z.-cunninghamzach-cunningham",
+    "name": "Z. CunninghamZach Cunningham",
+    "sport": "nfl",
+    "team": "Detroit",
+    "position": "ILB",
+    "injury_status": "Hamstring",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "c.-sorsdalcolby-sorsdal",
+    "name": "C. SorsdalColby Sorsdal",
+    "sport": "nfl",
+    "team": "Detroit",
+    "position": "G",
+    "injury_status": "Leg",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "z.-turnerzeke-turner",
+    "name": "Z. TurnerZeke Turner",
+    "sport": "nfl",
+    "team": "Detroit",
+    "position": "LB",
+    "injury_status": "Foot",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "a.-mcneillalim-mcneill",
+    "name": "A. McNeillAlim McNeill",
+    "sport": "nfl",
+    "team": "Detroit",
+    "position": "DT",
+    "injury_status": "Abdomen",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-wilsondivaad-wilson",
+    "name": "D. WilsonDivaad Wilson",
+    "sport": "nfl",
+    "team": "Detroit",
+    "position": "CB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "b.-wrightbrock-wright",
+    "name": "B. WrightBrock Wright",
+    "sport": "nfl",
+    "team": "Detroit",
+    "position": "TE",
+    "injury_status": "Neck",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "l.-musgraveluke-musgrave",
+    "name": "L. MusgraveLuke Musgrave",
+    "sport": "nfl",
+    "team": "Green Bay",
+    "position": "TE",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "t.-krafttucker-kraft",
+    "name": "T. KraftTucker Kraft",
+    "sport": "nfl",
+    "team": "Green Bay",
+    "position": "TE",
+    "injury_status": "Knee - ACL",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-monkjacob-monk",
+    "name": "J. MonkJacob Monk",
+    "sport": "nfl",
+    "team": "Green Bay",
+    "position": "C",
+    "injury_status": "Biceps",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-fitzpatrickjohn-fitzpatrick",
+    "name": "J. FitzPatrickJohn FitzPatrick",
+    "sport": "nfl",
+    "team": "Green Bay",
+    "position": "TE",
+    "injury_status": "Achilles",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "k.-randolph-jr.keith-randolph-jr.",
+    "name": "K. Randolph Jr.Keith Randolph Jr.",
+    "sport": "nfl",
+    "team": "Green Bay",
+    "position": "DT",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "k.-haddenkamal-hadden",
+    "name": "K. HaddenKamal Hadden",
+    "sport": "nfl",
+    "team": "Green Bay",
+    "position": "DB",
+    "injury_status": "Lower Leg",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "e.-cooperedgerrin-cooper",
+    "name": "E. CooperEdgerrin Cooper",
+    "sport": "nfl",
+    "team": "Green Bay",
+    "position": "LB",
+    "injury_status": "Ankle",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-dumas-johnsonjamon-dumas-johnson",
+    "name": "J. Dumas-JohnsonJamon Dumas-Johnson",
+    "sport": "nfl",
+    "team": "Green Bay",
+    "position": "LB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-williamsjohn-williams",
+    "name": "J. WilliamsJohn Williams",
+    "sport": "nfl",
+    "team": "Green Bay",
+    "position": "OG",
+    "injury_status": "Back",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "m.-parsonsmicah-parsons",
+    "name": "M. ParsonsMicah Parsons",
+    "sport": "nfl",
+    "team": "Green Bay",
+    "position": "DE",
+    "injury_status": "Knee - ACL",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-wyattdevonte-wyatt",
+    "name": "D. WyattDevonte Wyatt",
+    "sport": "nfl",
+    "team": "Green Bay",
+    "position": "DT",
+    "injury_status": "Ankle",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-jenningsdonovan-jennings",
+    "name": "D. JenningsDonovan Jennings",
+    "sport": "nfl",
+    "team": "Green Bay",
+    "position": "OT",
+    "injury_status": "Neck",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "t.-glovertravis-glover",
+    "name": "T. GloverTravis Glover",
+    "sport": "nfl",
+    "team": "Green Bay",
+    "position": "OT",
+    "injury_status": "Shoulder",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-rileyjordon-riley",
+    "name": "J. RileyJordon Riley",
+    "sport": "nfl",
+    "team": "Green Bay",
+    "position": "DT",
+    "injury_status": "Achilles",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "z.-tomzach-tom",
+    "name": "Z. TomZach Tom",
+    "sport": "nfl",
+    "team": "Green Bay",
+    "position": "G",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "i.-dunnisaiah-dunn",
+    "name": "I. DunnIsaiah Dunn",
+    "sport": "nfl",
+    "team": "Green Bay",
+    "position": "CB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "e.-speede.j.-speed",
+    "name": "E. SpeedE.J. Speed",
+    "sport": "nfl",
+    "team": "Houston",
+    "position": "LB",
+    "injury_status": "Quadriceps",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "l.-pryorlayne-pryor",
+    "name": "L. PryorLayne Pryor",
+    "sport": "nfl",
+    "team": "Houston",
+    "position": "TE",
+    "injury_status": "Quadriceps",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "k.-hamiltonkyonte-hamilton",
+    "name": "K. HamiltonKyonte Hamilton",
+    "sport": "nfl",
+    "team": "Houston",
+    "position": "DT",
+    "injury_status": "Ankle",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "m.-kleinmarlin-klein",
+    "name": "M. KleinMarlin Klein",
+    "sport": "nfl",
+    "team": "Houston",
+    "position": "TE",
+    "injury_status": "Hamstring",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "a.-al-shaairazeez-al-shaair",
+    "name": "A. Al-ShaairAzeez Al-Shaair",
+    "sport": "nfl",
+    "team": "Houston",
+    "position": "LB",
+    "injury_status": "Thumb",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-hansenjake-hansen",
+    "name": "J. HansenJake Hansen",
+    "sport": "nfl",
+    "team": "Houston",
+    "position": "LB",
+    "injury_status": "Chest",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "m.-edwardsmario-edwards",
+    "name": "M. EdwardsMario Edwards",
+    "sport": "nfl",
+    "team": "Houston",
+    "position": "DE",
+    "injury_status": "Pectoral",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-wardjimmie-ward",
+    "name": "J. WardJimmie Ward",
+    "sport": "nfl",
+    "team": "Houston",
+    "position": "CB",
+    "injury_status": "Foot",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-mixonjoe-mixon",
+    "name": "J. MixonJoe Mixon",
+    "sport": "nfl",
+    "team": "Houston",
+    "position": "RB",
+    "injury_status": "Foot",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "f.-fatukasifoley-fatukasi",
+    "name": "F. FatukasiFoley Fatukasi",
+    "sport": "nfl",
+    "team": "Houston",
+    "position": "DT",
+    "injury_status": "Shoulder",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "l.-halllogan-hall",
+    "name": "L. HallLogan Hall",
+    "sport": "nfl",
+    "team": "Houston",
+    "position": "DE",
+    "injury_status": "Leg",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "x.-thomasxavier-thomas",
+    "name": "X. ThomasXavier Thomas",
+    "sport": "nfl",
+    "team": "Houston",
+    "position": "LB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "b.-jordanbrevin-jordan",
+    "name": "B. JordanBrevin Jordan",
+    "sport": "nfl",
+    "team": "Houston",
+    "position": "TE",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "t.-delltank-dell",
+    "name": "T. DellTank Dell",
+    "sport": "nfl",
+    "team": "Houston",
+    "position": "WR",
+    "injury_status": "Knee - ACL + MCL",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "k.-hinishkurt-hinish",
+    "name": "K. HinishKurt Hinish",
+    "sport": "nfl",
+    "team": "Houston",
+    "position": "DT",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "i.-smithirv-smith",
+    "name": "I. SmithIrv Smith",
+    "sport": "nfl",
+    "team": "Houston",
+    "position": "TE",
+    "injury_status": "Ankle",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "s.-shraderspencer-shrader",
+    "name": "S. ShraderSpencer Shrader",
+    "sport": "nfl",
+    "team": "Indianapolis",
+    "position": "K",
+    "injury_status": "Knee - ACL + MCL",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "b.-freelandblake-freeland",
+    "name": "B. FreelandBlake Freeland",
+    "sport": "nfl",
+    "team": "Indianapolis",
+    "position": "OT",
+    "injury_status": "Leg",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "r.-lowery-iiireuben-lowery-iii",
+    "name": "R. Lowery IIIReuben Lowery III",
+    "sport": "nfl",
+    "team": "Indianapolis",
+    "position": "DB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "h.-wohlerhunter-wohler",
+    "name": "H. WohlerHunter Wohler",
+    "sport": "nfl",
+    "team": "Indianapolis",
+    "position": "SAF",
+    "injury_status": "Foot",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-jonesdaniel-jones",
+    "name": "D. JonesDaniel Jones",
+    "sport": "nfl",
+    "team": "Indianapolis",
+    "position": "QB",
+    "injury_status": "Achilles",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "c.-lammonschris-lammons",
+    "name": "C. LammonsChris Lammons",
+    "sport": "nfl",
+    "team": "Indianapolis",
+    "position": "DB",
+    "injury_status": "Foot",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "m.-hiltonmike-hilton",
+    "name": "M. HiltonMike Hilton",
+    "sport": "nfl",
+    "team": "Indianapolis",
+    "position": "CB",
+    "injury_status": "Shoulder",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-bucknerdeforest-buckner",
+    "name": "D. BucknerDeForest Buckner",
+    "sport": "nfl",
+    "team": "Indianapolis",
+    "position": "DT",
+    "injury_status": "Neck",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-wilsonjack-wilson",
+    "name": "J. WilsonJack Wilson",
+    "sport": "nfl",
+    "team": "Indianapolis",
+    "position": "OT",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "c.-wardcharvarius-ward",
+    "name": "C. WardCharvarius Ward",
+    "sport": "nfl",
+    "team": "Indianapolis",
+    "position": "CB",
+    "injury_status": "Back",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "a.-piercealec-pierce",
+    "name": "A. PierceAlec Pierce",
+    "sport": "nfl",
+    "team": "Indianapolis",
+    "position": "WR",
+    "injury_status": "Ankle",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-phillipsjacob-phillips",
+    "name": "J. PhillipsJacob Phillips",
+    "sport": "nfl",
+    "team": "Indianapolis",
+    "position": "LB",
+    "injury_status": "Biceps",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "c.-van-lanencole-van-lanen",
+    "name": "C. Van LanenCole Van Lanen",
+    "sport": "nfl",
+    "team": "Jacksonville",
+    "position": "G",
+    "injury_status": "Knee",
+    "injury_detail": "Sun, Jul 26",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "g.-digiorgiogarrett-digiorgio",
+    "name": "G. DiGiorgioGarrett DiGiorgio",
+    "sport": "nfl",
+    "team": "Jacksonville",
+    "position": "OT",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Sun, Jul 26",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-kiserjack-kiser",
+    "name": "J. KiserJack Kiser",
+    "sport": "nfl",
+    "team": "Jacksonville",
+    "position": "LB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "t.-huntertravis-hunter",
+    "name": "T. HunterTravis Hunter",
+    "sport": "nfl",
+    "team": "Jacksonville",
+    "position": "CB",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-striggowdanny-striggow",
+    "name": "D. StriggowDanny Striggow",
+    "sport": "nfl",
+    "team": "Jacksonville",
+    "position": "DE",
+    "injury_status": "Ankle",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-mcleodjalen-mcleod",
+    "name": "J. McLeodJalen McLeod",
+    "sport": "nfl",
+    "team": "Jacksonville",
+    "position": "LB",
+    "injury_status": "Ankle",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "c.-ransawcaleb-ransaw",
+    "name": "C. RansawCaleb Ransaw",
+    "sport": "nfl",
+    "team": "Jacksonville",
+    "position": "CB",
+    "injury_status": "Lower Body",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-lewisjourdan-lewis",
+    "name": "J. LewisJourdan Lewis",
+    "sport": "nfl",
+    "team": "Jacksonville",
+    "position": "CB",
+    "injury_status": "Foot",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "c.-rodriguez-jr.chris-rodriguez-jr.",
+    "name": "C. Rodriguez Jr.Chris Rodriguez Jr.",
+    "sport": "nfl",
+    "team": "Jacksonville",
+    "position": "RB",
+    "injury_status": "Foot",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "k.-taylorkeith-taylor",
+    "name": "K. TaylorKeith Taylor",
+    "sport": "nfl",
+    "team": "Jacksonville",
+    "position": "CB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-gyllenborgjohn-michael-gyllenborg",
+    "name": "J. GyllenborgJohn Michael Gyllenborg",
+    "sport": "nfl",
+    "team": "Kansas City",
+    "position": "TE",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Sat, Jul 25",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "o.-norman-lottomarr-norman-lott",
+    "name": "O. Norman-LottOmarr Norman-Lott",
+    "sport": "nfl",
+    "team": "Kansas City",
+    "position": "DT",
+    "injury_status": "Knee - ACL",
+    "injury_detail": "Sat, Jul 25",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "e.-driskellethan-driskell",
+    "name": "E. DriskellEthan Driskell",
+    "sport": "nfl",
+    "team": "Kansas City",
+    "position": "OT",
+    "injury_status": "Appendix",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "c.-roland-wallacechristian-roland-wallace",
+    "name": "C. Roland-WallaceChristian Roland-Wallace",
+    "sport": "nfl",
+    "team": "Kansas City",
+    "position": "CB",
+    "injury_status": "Back",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "m.-delanemansoor-delane",
+    "name": "M. DelaneMansoor Delane",
+    "sport": "nfl",
+    "team": "Kansas City",
+    "position": "CB",
+    "injury_status": "Shoulder",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "x.-worthyxavier-worthy",
+    "name": "X. WorthyXavier Worthy",
+    "sport": "nfl",
+    "team": "Kansas City",
+    "position": "WR",
+    "injury_status": "Shoulder - Labrum",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "f.-anudike-uzomahfelix-anudike-uzomah",
+    "name": "F. Anudike-UzomahFelix Anudike-Uzomah",
+    "sport": "nfl",
+    "team": "Kansas City",
+    "position": "DE",
+    "injury_status": "Hamstring",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-briningstooljake-briningstool",
+    "name": "J. BriningstoolJake Briningstool",
+    "sport": "nfl",
+    "team": "Kansas City",
+    "position": "TE",
+    "injury_status": "Hamstring",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "p.-mahomespatrick-mahomes",
+    "name": "P. MahomesPatrick Mahomes",
+    "sport": "nfl",
+    "team": "Kansas City",
+    "position": "QB",
+    "injury_status": "Knee - ACL",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-bushdeon-bush",
+    "name": "D. BushDeon Bush",
+    "sport": "nfl",
+    "team": "Kansas City",
+    "position": "DB",
+    "injury_status": "Achilles",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "t.-smithtrey-smith",
+    "name": "T. SmithTrey Smith",
+    "sport": "nfl",
+    "team": "Kansas City",
+    "position": "G",
+    "injury_status": "Ankle",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "e.-scott,-jr.eric-scott,-jr.",
+    "name": "E. Scott, Jr.Eric Scott, Jr.",
+    "sport": "nfl",
+    "team": "Kansas City",
+    "position": "CB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "c.-ruckercorey-rucker",
+    "name": "C. RuckerCorey Rucker",
+    "sport": "nfl",
+    "team": "Las Vegas",
+    "position": "WR",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "k.-kellykyu-blu-kelly",
+    "name": "K. KellyKyu Blu Kelly",
+    "sport": "nfl",
+    "team": "Las Vegas",
+    "position": "CB",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-mccoyjermod-mccoy",
+    "name": "J. McCoyJermod McCoy",
+    "sport": "nfl",
+    "team": "Las Vegas",
+    "position": "CB",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "c.-wilkinschristian-wilkins",
+    "name": "C. WilkinsChristian Wilkins",
+    "sport": "nfl",
+    "team": "Las Vegas",
+    "position": "DT",
+    "injury_status": "Foot",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "r.-mostertraheem-mostert",
+    "name": "R. MostertRaheem Mostert",
+    "sport": "nfl",
+    "team": "Las Vegas",
+    "position": "RB",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "m.-crosbymaxx-crosby",
+    "name": "M. CrosbyMaxx Crosby",
+    "sport": "nfl",
+    "team": "Las Vegas",
+    "position": "DE",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-milesjoshua-miles",
+    "name": "J. MilesJoshua Miles",
+    "sport": "nfl",
+    "team": "Las Vegas",
+    "position": "OT",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "b.-martinbrodric-martin",
+    "name": "B. MartinBrodric Martin",
+    "sport": "nfl",
+    "team": "Las Vegas",
+    "position": "DT",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-shorterjustin-shorter",
+    "name": "J. ShorterJustin Shorter",
+    "sport": "nfl",
+    "team": "Las Vegas",
+    "position": "TE",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "a.-butleradam-butler",
+    "name": "A. ButlerAdam Butler",
+    "sport": "nfl",
+    "team": "Las Vegas",
+    "position": "DT",
+    "injury_status": "Biceps",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "i.-worldisaiah-world",
+    "name": "I. WorldIsaiah World",
+    "sport": "nfl",
+    "team": "L.A. Chargers",
+    "position": "OT",
+    "injury_status": "Knee",
+    "injury_detail": "Fri, Jul 24",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "l.-mcconkeyladd-mcconkey",
+    "name": "L. McConkeyLadd McConkey",
+    "sport": "nfl",
+    "team": "L.A. Chargers",
+    "position": "WR",
+    "injury_status": "Hamstring",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "n.-reednikko-reed",
+    "name": "N. ReedNikko Reed",
+    "sport": "nfl",
+    "team": "L.A. Chargers",
+    "position": "DB",
+    "injury_status": "Hamstring",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-altjoe-alt",
+    "name": "J. AltJoe Alt",
+    "sport": "nfl",
+    "team": "L.A. Chargers",
+    "position": "OT",
+    "injury_status": "Ankle",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "e.-rogerseric-rogers",
+    "name": "E. RogersEric Rogers",
+    "sport": "nfl",
+    "team": "L.A. Chargers",
+    "position": "CB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-colsonjunior-colson",
+    "name": "J. ColsonJunior Colson",
+    "sport": "nfl",
+    "team": "L.A. Chargers",
+    "position": "LB",
+    "injury_status": "Shoulder",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "w.-disslywill-dissly",
+    "name": "W. DisslyWill Dissly",
+    "sport": "nfl",
+    "team": "L.A. Chargers",
+    "position": "TE",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "b.-bozemanbradley-bozeman",
+    "name": "B. BozemanBradley Bozeman",
+    "sport": "nfl",
+    "team": "L.A. Chargers",
+    "position": "C",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "m.-williamsmike-williams",
+    "name": "M. WilliamsMike Williams",
+    "sport": "nfl",
+    "team": "L.A. Chargers",
+    "position": "WR",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-fitzpatrickdez-fitzpatrick",
+    "name": "D. FitzpatrickDez Fitzpatrick",
+    "sport": "nfl",
+    "team": "L.A. Chargers",
+    "position": "WR",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "k.-williamsonkendall-williamson",
+    "name": "K. WilliamsonKendall Williamson",
+    "sport": "nfl",
+    "team": "L.A. Chargers",
+    "position": "SAF",
+    "injury_status": "Ankle",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "n.-harrisnajee-harris",
+    "name": "N. HarrisNajee Harris",
+    "sport": "nfl",
+    "team": "L.A. Chargers",
+    "position": "RB",
+    "injury_status": "Achilles",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "r.-slaterrashawn-slater",
+    "name": "R. SlaterRashawn Slater",
+    "sport": "nfl",
+    "team": "L.A. Chargers",
+    "position": "OT",
+    "injury_status": "Kneecap",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "a.-hamiltonal'zillion-hamilton",
+    "name": "A. HamiltonAl'zillion Hamilton",
+    "sport": "nfl",
+    "team": "L.A. Rams",
+    "position": "CB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Sun, Jul 26",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-dedichjustin-dedich",
+    "name": "J. DedichJustin Dedich",
+    "sport": "nfl",
+    "team": "L.A. Rams",
+    "position": "OL",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Sun, Jul 26",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "e.-walls-iiieddie-walls-iii",
+    "name": "E. Walls IIIEddie Walls III",
+    "sport": "nfl",
+    "team": "L.A. Rams",
+    "position": "LB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "s.-dolacshaun-dolac",
+    "name": "S. DolacShaun Dolac",
+    "sport": "nfl",
+    "team": "L.A. Rams",
+    "position": "LB",
+    "injury_status": "Knee - PCL",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "a.-torresanthony-torres",
+    "name": "A. TorresAnthony Torres",
+    "sport": "nfl",
+    "team": "L.A. Rams",
+    "position": "TE",
+    "injury_status": "Ankle",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-williamsdarious-williams",
+    "name": "D. WilliamsDarious Williams",
+    "sport": "nfl",
+    "team": "L.A. Rams",
+    "position": "DB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "k.-turnerkobie-turner",
+    "name": "K. TurnerKobie Turner",
+    "sport": "nfl",
+    "team": "L.A. Rams",
+    "position": "DE",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-salyerjamaree-salyer",
+    "name": "J. SalyerJamaree Salyer",
+    "sport": "nfl",
+    "team": "Miami",
+    "position": "G",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "s.-duckstorm-duck",
+    "name": "S. DuckStorm Duck",
+    "sport": "nfl",
+    "team": "Miami",
+    "position": "CB",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "c.-bellchris-bell",
+    "name": "C. BellChris Bell",
+    "sport": "nfl",
+    "team": "Miami",
+    "position": "WR",
+    "injury_status": "Knee - ACL",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "l.-mossle'veon-moss",
+    "name": "L. MossLe'Veon Moss",
+    "sport": "nfl",
+    "team": "Miami",
+    "position": "RB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "c.-douglascaleb-douglas",
+    "name": "C. DouglasCaleb Douglas",
+    "sport": "nfl",
+    "team": "Miami",
+    "position": "WR",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-achanede'von-achane",
+    "name": "D. AchaneDe'Von Achane",
+    "sport": "nfl",
+    "team": "Miami",
+    "position": "RB",
+    "injury_status": "Shoulder",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "c.-armstrongcornell-armstrong",
+    "name": "C. ArmstrongCornell Armstrong",
+    "sport": "nfl",
+    "team": "Miami",
+    "position": "DB",
+    "injury_status": "Hamstring",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "k.-sheffieldkendall-sheffield",
+    "name": "K. SheffieldKendall Sheffield",
+    "sport": "nfl",
+    "team": "Miami",
+    "position": "DB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "g.-ifedigermain-ifedi",
+    "name": "G. IfediGermain Ifedi",
+    "sport": "nfl",
+    "team": "Miami",
+    "position": "OT",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "a.-burnsartie-burns",
+    "name": "A. BurnsArtie Burns",
+    "sport": "nfl",
+    "team": "Miami",
+    "position": "CB",
+    "injury_status": "Knee - ACL",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-wallerdarren-waller",
+    "name": "D. WallerDarren Waller",
+    "sport": "nfl",
+    "team": "Miami",
+    "position": "TE",
+    "injury_status": "Groin",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "i.-johnsonisaiah-johnson",
+    "name": "I. JohnsonIsaiah Johnson",
+    "sport": "nfl",
+    "team": "Miami",
+    "position": "DB",
+    "injury_status": "Knee - ACL",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "t.-hilltyreek-hill",
+    "name": "T. HillTyreek Hill",
+    "sport": "nfl",
+    "team": "Miami",
+    "position": "WR",
+    "injury_status": "Knee - ACL",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "y.-cajusteyodny-cajuste",
+    "name": "Y. CajusteYodny Cajuste",
+    "sport": "nfl",
+    "team": "Miami",
+    "position": "OT",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-colbertjordan-colbert",
+    "name": "J. ColbertJordan Colbert",
+    "sport": "nfl",
+    "team": "Miami",
+    "position": "SAF",
+    "injury_status": "Neck",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-maitrejason-maitre",
+    "name": "J. MaitreJason Maitre",
+    "sport": "nfl",
+    "team": "Miami",
+    "position": "DB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-brentsjulius-brents",
+    "name": "J. BrentsJulius Brents",
+    "sport": "nfl",
+    "team": "Miami",
+    "position": "CB",
+    "injury_status": "Foot",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "c.-johnsoncaleb-johnson",
+    "name": "C. JohnsonCaleb Johnson",
+    "sport": "nfl",
+    "team": "Miami",
+    "position": "LB",
+    "injury_status": "Shoulder",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "l.-eichenbergliam-eichenberg",
+    "name": "L. EichenbergLiam Eichenberg",
+    "sport": "nfl",
+    "team": "Miami",
+    "position": "OT",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "a.-mattisonalexander-mattison",
+    "name": "A. MattisonAlexander Mattison",
+    "sport": "nfl",
+    "team": "Miami",
+    "position": "RB",
+    "injury_status": "Neck",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-baker-jr.darrell-baker-jr.",
+    "name": "D. Baker Jr.Darrell Baker Jr.",
+    "sport": "nfl",
+    "team": "Miami",
+    "position": "CB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "a.-jacksonaustin-jackson",
+    "name": "A. JacksonAustin Jackson",
+    "sport": "nfl",
+    "team": "Miami",
+    "position": "OT",
+    "injury_status": "Toe",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "o.-ezeobinna-eze",
+    "name": "O. EzeObinna Eze",
+    "sport": "nfl",
+    "team": "Miami",
+    "position": "OT",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "c.-warrencarter-warren",
+    "name": "C. WarrenCarter Warren",
+    "sport": "nfl",
+    "team": "Miami",
+    "position": "OT",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-mcglotherndwight-mcglothern",
+    "name": "D. McGlothernDwight McGlothern",
+    "sport": "nfl",
+    "team": "Minnesota",
+    "position": "CB",
+    "injury_status": "Hip",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "z.-correllzeke-correll",
+    "name": "Z. CorrellZeke Correll",
+    "sport": "nfl",
+    "team": "Minnesota",
+    "position": "C",
+    "injury_status": "Ankle",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "m.-pricemyles-price",
+    "name": "M. PriceMyles Price",
+    "sport": "nfl",
+    "team": "Minnesota",
+    "position": "WR",
+    "injury_status": "Ankle",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "g.-bartholomewgavin-bartholomew",
+    "name": "G. BartholomewGavin Bartholomew",
+    "sport": "nfl",
+    "team": "Minnesota",
+    "position": "TE",
+    "injury_status": "Back",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "e.-williamselijah-williams",
+    "name": "E. WilliamsElijah Williams",
+    "sport": "nfl",
+    "team": "Minnesota",
+    "position": "DE",
+    "injury_status": "Ankle",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "m.-goodwinemonkell-goodwine",
+    "name": "M. GoodwineMonkell Goodwine",
+    "sport": "nfl",
+    "team": "Minnesota",
+    "position": "DT",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "c.-bankscaleb-banks",
+    "name": "C. BanksCaleb Banks",
+    "sport": "nfl",
+    "team": "Minnesota",
+    "position": "DT",
+    "injury_status": "Foot",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "m.-nelsonmatt-nelson",
+    "name": "M. NelsonMatt Nelson",
+    "sport": "nfl",
+    "team": "Minnesota",
+    "position": "OT",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "s.-takitakisione-takitaki",
+    "name": "S. TakitakiSione Takitaki",
+    "sport": "nfl",
+    "team": "Minnesota",
+    "position": "LB",
+    "injury_status": "Hamstring",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "c.-hamc.j.-ham",
+    "name": "C. HamC.J. Ham",
+    "sport": "nfl",
+    "team": "Minnesota",
+    "position": "FB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-oliverjosh-oliver",
+    "name": "J. OliverJosh Oliver",
+    "sport": "nfl",
+    "team": "Minnesota",
+    "position": "TE",
+    "injury_status": "Ankle",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "c.-darrisawchristian-darrisaw",
+    "name": "C. DarrisawChristian Darrisaw",
+    "sport": "nfl",
+    "team": "Minnesota",
+    "position": "OT",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-hutchingsjaylon-hutchings",
+    "name": "J. HutchingsJaylon Hutchings",
+    "sport": "nfl",
+    "team": "Minnesota",
+    "position": "DE",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-okudahjeff-okudah",
+    "name": "J. OkudahJeff Okudah",
+    "sport": "nfl",
+    "team": "Minnesota",
+    "position": "CB",
+    "injury_status": "Concussion",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-metellusjosh-metellus",
+    "name": "J. MetellusJosh Metellus",
+    "sport": "nfl",
+    "team": "Minnesota",
+    "position": "SAF",
+    "injury_status": "Shoulder",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "g.-jacasgabe-jacas",
+    "name": "G. JacasGabe Jacas",
+    "sport": "nfl",
+    "team": "New England",
+    "position": "LB",
+    "injury_status": "Knee",
+    "injury_detail": "Sun, Jul 26",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-webbjeremiah-webb",
+    "name": "J. WebbJeremiah Webb",
+    "sport": "nfl",
+    "team": "New England",
+    "position": "WR",
+    "injury_status": "Arm",
+    "injury_detail": "Sun, Jul 26",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-kibblejimmy-kibble",
+    "name": "J. KibbleJimmy Kibble",
+    "sport": "nfl",
+    "team": "New England",
+    "position": "WR",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Sat, Jul 25",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "b.-schoolerbrenden-schooler",
+    "name": "B. SchoolerBrenden Schooler",
+    "sport": "nfl",
+    "team": "New England",
+    "position": "SAF",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Fri, Jul 24",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "t.-jenningsterrell-jennings",
+    "name": "T. JenningsTerrell Jennings",
+    "sport": "nfl",
+    "team": "New England",
+    "position": "RB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "c.-reynoldscraig-reynolds",
+    "name": "C. ReynoldsCraig Reynolds",
+    "sport": "nfl",
+    "team": "New England",
+    "position": "RB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-harrisdarius-harris",
+    "name": "D. HarrisDarius Harris",
+    "sport": "nfl",
+    "team": "New England",
+    "position": "LB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-jilesjohn-jiles",
+    "name": "J. JilesJohn Jiles",
+    "sport": "nfl",
+    "team": "New England",
+    "position": "WR",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "q.-hutchinsquintayvious-hutchins",
+    "name": "Q. HutchinsQuintayvious Hutchins",
+    "sport": "nfl",
+    "team": "New England",
+    "position": "LB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "c.-dipprecj-dippre",
+    "name": "C. DippreCJ Dippre",
+    "sport": "nfl",
+    "team": "New England",
+    "position": "TE",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-tavaijahlani-tavai",
+    "name": "J. TavaiJahlani Tavai",
+    "sport": "nfl",
+    "team": "New England",
+    "position": "LB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "h.-landryharold-landry",
+    "name": "H. LandryHarold Landry",
+    "sport": "nfl",
+    "team": "New England",
+    "position": "LB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-hilljulian-hill",
+    "name": "J. HillJulian Hill",
+    "sport": "nfl",
+    "team": "New England",
+    "position": "TE",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "a.-gibsonantonio-gibson",
+    "name": "A. GibsonAntonio Gibson",
+    "sport": "nfl",
+    "team": "New England",
+    "position": "RB",
+    "injury_status": "Knee - ACL",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "t.-odukoyathomas-odukoya",
+    "name": "T. OdukoyaThomas Odukoya",
+    "sport": "nfl",
+    "team": "New England",
+    "position": "TE",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "y.-durantyasir-durant",
+    "name": "Y. DurantYasir Durant",
+    "sport": "nfl",
+    "team": "New England",
+    "position": "OT",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "v.-broughtonvernon-broughton",
+    "name": "V. BroughtonVernon Broughton",
+    "sport": "nfl",
+    "team": "New Orleans",
+    "position": "DT",
+    "injury_status": "Hip",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "k.-millerkendre-miller",
+    "name": "K. MillerKendre Miller",
+    "sport": "nfl",
+    "team": "New Orleans",
+    "position": "RB",
+    "injury_status": "Knee - ACL",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "m.-tiptonmason-tipton",
+    "name": "M. TiptonMason Tipton",
+    "sport": "nfl",
+    "team": "New Orleans",
+    "position": "WR",
+    "injury_status": "Groin",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "b.-meansbub-means",
+    "name": "B. MeansBub Means",
+    "sport": "nfl",
+    "team": "New Orleans",
+    "position": "WR",
+    "injury_status": "Lower Leg",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "k.-banks-jr.kelvin-banks-jr.",
+    "name": "K. Banks Jr.Kelvin Banks Jr.",
+    "sport": "nfl",
+    "team": "New Orleans",
+    "position": "OT",
+    "injury_status": "Ankle",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "z.-harriszxavian-harris",
+    "name": "Z. HarrisZxavian Harris",
+    "sport": "nfl",
+    "team": "New Orleans",
+    "position": "DT",
+    "injury_status": "Foot",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "c.-millerchristen-miller",
+    "name": "C. MillerChristen Miller",
+    "sport": "nfl",
+    "team": "New Orleans",
+    "position": "DT",
+    "injury_status": "Hamstring",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-tysonjordyn-tyson",
+    "name": "J. TysonJordyn Tyson",
+    "sport": "nfl",
+    "team": "New Orleans",
+    "position": "WR",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-nealdevin-neal",
+    "name": "D. NealDevin Neal",
+    "sport": "nfl",
+    "team": "New Orleans",
+    "position": "RB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-alforddamien-alford",
+    "name": "D. AlfordDamien Alford",
+    "sport": "nfl",
+    "team": "New Orleans",
+    "position": "WR",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "e.-mccoyerik-mccoy",
+    "name": "E. McCoyErik McCoy",
+    "sport": "nfl",
+    "team": "New Orleans",
+    "position": "C",
+    "injury_status": "Biceps",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-carrderek-carr",
+    "name": "D. CarrDerek Carr",
+    "sport": "nfl",
+    "team": "New Orleans",
+    "position": "QB",
+    "injury_status": "Personal",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "n.-saldiverinick-saldiveri",
+    "name": "N. SaldiveriNick Saldiveri",
+    "sport": "nfl",
+    "team": "New Orleans",
+    "position": "G",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "n.-shepherdnathan-shepherd",
+    "name": "N. ShepherdNathan Shepherd",
+    "sport": "nfl",
+    "team": "New Orleans",
+    "position": "DE",
+    "injury_status": "Ankle",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "m.-davismichael-davis",
+    "name": "M. DavisMichael Davis",
+    "sport": "nfl",
+    "team": "New Orleans",
+    "position": "CB",
+    "injury_status": "Shoulder",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "g.-ganograham-gano",
+    "name": "G. GanoGraham Gano",
+    "sport": "nfl",
+    "team": "N.Y. Giants",
+    "position": "K",
+    "injury_status": "Neck",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "g.-olszewskigunner-olszewski",
+    "name": "G. OlszewskiGunner Olszewski",
+    "sport": "nfl",
+    "team": "N.Y. Giants",
+    "position": "WR",
+    "injury_status": "Achilles",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "s.-robertssam-roberts",
+    "name": "S. RobertsSam Roberts",
+    "sport": "nfl",
+    "team": "N.Y. Giants",
+    "position": "DT",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "t.-dixonthaddeus-dixon",
+    "name": "T. DixonThaddeus Dixon",
+    "sport": "nfl",
+    "team": "N.Y. Giants",
+    "position": "CB",
+    "injury_status": "Achilles",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "a.-carterabdul-carter",
+    "name": "A. CarterAbdul Carter",
+    "sport": "nfl",
+    "team": "N.Y. Giants",
+    "position": "LB",
+    "injury_status": "Ankle",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-terry-iijermaine-terry-ii",
+    "name": "J. Terry IIJermaine Terry II",
+    "sport": "nfl",
+    "team": "N.Y. Giants",
+    "position": "TE",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "t.-fidone-iithomas-fidone-ii",
+    "name": "T. Fidone IIThomas Fidone II",
+    "sport": "nfl",
+    "team": "N.Y. Giants",
+    "position": "TE",
+    "injury_status": "Foot",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "m.-nabersmalik-nabers",
+    "name": "M. NabersMalik Nabers",
+    "sport": "nfl",
+    "team": "N.Y. Giants",
+    "position": "WR",
+    "injury_status": "Knee - ACL",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "c.-skattebocam-skattebo",
+    "name": "C. SkatteboCam Skattebo",
+    "sport": "nfl",
+    "team": "N.Y. Giants",
+    "position": "RB",
+    "injury_status": "Ankle",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "b.-collinsbeaux-collins",
+    "name": "B. CollinsBeaux Collins",
+    "sport": "nfl",
+    "team": "N.Y. Giants",
+    "position": "WR",
+    "injury_status": "Concussion",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-hollandjevon-holland",
+    "name": "J. HollandJevon Holland",
+    "sport": "nfl",
+    "team": "N.Y. Giants",
+    "position": "SAF",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-slaytondarius-slayton",
+    "name": "D. SlaytonDarius Slayton",
+    "sport": "nfl",
+    "team": "N.Y. Giants",
+    "position": "WR",
+    "injury_status": "Abdomen",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "r.-robertson-harrisroy-robertson-harris",
+    "name": "R. Robertson-HarrisRoy Robertson-Harris",
+    "sport": "nfl",
+    "team": "N.Y. Giants",
+    "position": "DE",
+    "injury_status": "Achilles",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "c.-boardchris-board",
+    "name": "C. BoardChris Board",
+    "sport": "nfl",
+    "team": "N.Y. Giants",
+    "position": "LB",
+    "injury_status": "Chest",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "r.-paytonrico-payton",
+    "name": "R. PaytonRico Payton",
+    "sport": "nfl",
+    "team": "N.Y. Giants",
+    "position": "CB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "a.-thomasandrew-thomas",
+    "name": "A. ThomasAndrew Thomas",
+    "sport": "nfl",
+    "team": "N.Y. Giants",
+    "position": "OT",
+    "injury_status": "Foot",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "b.-ford-wheatonbryce-ford-wheaton",
+    "name": "B. Ford-WheatonBryce Ford-Wheaton",
+    "sport": "nfl",
+    "team": "N.Y. Giants",
+    "position": "WR",
+    "injury_status": "Achilles",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "v.-dimukejevictor-dimukeje",
+    "name": "V. DimukejeVictor Dimukeje",
+    "sport": "nfl",
+    "team": "N.Y. Giants",
+    "position": "LB",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "t.-barontyler-baron",
+    "name": "T. BaronTyler Baron",
+    "sport": "nfl",
+    "team": "N.Y. Jets",
+    "position": "DE",
+    "injury_status": "Knee",
+    "injury_detail": "Sat, Jul 25",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "t.-patricktim-patrick",
+    "name": "T. PatrickTim Patrick",
+    "sport": "nfl",
+    "team": "N.Y. Jets",
+    "position": "WR",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Sat, Jul 25",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "t.-sweatt'vondre-sweat",
+    "name": "T. SweatT'Vondre Sweat",
+    "sport": "nfl",
+    "team": "N.Y. Jets",
+    "position": "DT",
+    "injury_status": "Hamstring",
+    "injury_detail": "Sat, Jul 25",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "g.-hartwiggus-hartwig",
+    "name": "G. HartwigGus Hartwig",
+    "sport": "nfl",
+    "team": "N.Y. Jets",
+    "position": "C",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-feltonda'quan-felton",
+    "name": "D. FeltonDa'Quan Felton",
+    "sport": "nfl",
+    "team": "N.Y. Jets",
+    "position": "WR",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-brownlee-jr.jarvis-brownlee-jr.",
+    "name": "J. Brownlee Jr.Jarvis Brownlee Jr.",
+    "sport": "nfl",
+    "team": "N.Y. Jets",
+    "position": "DB",
+    "injury_status": "Hip",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "k.-robinsonkeilan-robinson",
+    "name": "K. RobinsonKeilan Robinson",
+    "sport": "nfl",
+    "team": "N.Y. Jets",
+    "position": "RB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "c.-yorkcade-york",
+    "name": "C. YorkCade York",
+    "sport": "nfl",
+    "team": "N.Y. Jets",
+    "position": "K",
+    "injury_status": "Groin",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "c.-smithchristopher-smith",
+    "name": "C. SmithChristopher Smith",
+    "sport": "nfl",
+    "team": "N.Y. Jets",
+    "position": "S",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "f.-mauigoafrancisco-mauigoa",
+    "name": "F. MauigoaFrancisco Mauigoa",
+    "sport": "nfl",
+    "team": "N.Y. Jets",
+    "position": "LB",
+    "injury_status": "Neck",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "l.-wiegandleander-wiegand",
+    "name": "L. WiegandLeander Wiegand",
+    "sport": "nfl",
+    "team": "N.Y. Jets",
+    "position": "OT",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "q.-stiggersqwan'tez-stiggers",
+    "name": "Q. StiggersQwan'tez Stiggers",
+    "sport": "nfl",
+    "team": "N.Y. Jets",
+    "position": "DB",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "k.-sadiqkenyon-sadiq",
+    "name": "K. SadiqKenyon Sadiq",
+    "sport": "nfl",
+    "team": "N.Y. Jets",
+    "position": "TE",
+    "injury_status": "Abdomen",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "k.-kingkobe-king",
+    "name": "K. KingKobe King",
+    "sport": "nfl",
+    "team": "N.Y. Jets",
+    "position": "LB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "b.-cowartbyron-cowart",
+    "name": "B. CowartByron Cowart",
+    "sport": "nfl",
+    "team": "N.Y. Jets",
+    "position": "DT",
+    "injury_status": "Ankle",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "k.-boydkris-boyd",
+    "name": "K. BoydKris Boyd",
+    "sport": "nfl",
+    "team": "N.Y. Jets",
+    "position": "DB",
+    "injury_status": "Abdomen",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "g.-zuerleingreg-zuerlein",
+    "name": "G. ZuerleinGreg Zuerlein",
+    "sport": "nfl",
+    "team": "N.Y. Jets",
+    "position": "K",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-reynoldsjosh-reynolds",
+    "name": "J. ReynoldsJosh Reynolds",
+    "sport": "nfl",
+    "team": "N.Y. Jets",
+    "position": "WR",
+    "injury_status": "Hip",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "a.-ciscoandre-cisco",
+    "name": "A. CiscoAndre Cisco",
+    "sport": "nfl",
+    "team": "N.Y. Jets",
+    "position": "SAF",
+    "injury_status": "Pectoral",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "b.-stephensbrandon-stephens",
+    "name": "B. StephensBrandon Stephens",
+    "sport": "nfl",
+    "team": "N.Y. Jets",
+    "position": "CB",
+    "injury_status": "Neck",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "l.-felix-fualaloluke-felix-fualalo",
+    "name": "L. Felix-FualaloLuke Felix-Fualalo",
+    "sport": "nfl",
+    "team": "Philadelphia",
+    "position": "OT",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-campbelljihaad-campbell",
+    "name": "J. CampbellJihaad Campbell",
+    "sport": "nfl",
+    "team": "Philadelphia",
+    "position": "LB",
+    "injury_status": "Shoulder",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "t.-largetucker-large",
+    "name": "T. LargeTucker Large",
+    "sport": "nfl",
+    "team": "Philadelphia",
+    "position": "S",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "m.-tatemarcus-tate",
+    "name": "M. TateMarcus Tate",
+    "sport": "nfl",
+    "team": "Philadelphia",
+    "position": "G",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "e.-stowerseli-stowers",
+    "name": "E. StowersEli Stowers",
+    "sport": "nfl",
+    "team": "Philadelphia",
+    "position": "TE",
+    "injury_status": "Lower Body",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-greenardjonathan-greenard",
+    "name": "J. GreenardJonathan Greenard",
+    "sport": "nfl",
+    "team": "Philadelphia",
+    "position": "LB",
+    "injury_status": "Shoulder",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "n.-gatesnick-gates",
+    "name": "N. GatesNick Gates",
+    "sport": "nfl",
+    "team": "Philadelphia",
+    "position": "OG",
+    "injury_status": "Groin",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "o.-okoronkwoobo-okoronkwo",
+    "name": "O. OkoronkwoObo Okoronkwo",
+    "sport": "nfl",
+    "team": "Philadelphia",
+    "position": "LB",
+    "injury_status": "Triceps",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-tryon-shoyinkajoe-tryon-shoyinka",
+    "name": "J. Tryon-ShoyinkaJoe Tryon-Shoyinka",
+    "sport": "nfl",
+    "team": "Philadelphia",
+    "position": "LB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "b.-jonesbroderick-jones",
+    "name": "B. JonesBroderick Jones",
+    "sport": "nfl",
+    "team": "Pittsburgh",
+    "position": "OT",
+    "injury_status": "Neck",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-hardydaequan-hardy",
+    "name": "D. HardyDaequan Hardy",
+    "sport": "nfl",
+    "team": "Pittsburgh",
+    "position": "CB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "m.-lemonious-craigmontana-lemonious-craig",
+    "name": "M. Lemonious-CraigMontana Lemonious-Craig",
+    "sport": "nfl",
+    "team": "Pittsburgh",
+    "position": "WR",
+    "injury_status": "Lower Body",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "c.-tricecory-trice",
+    "name": "C. TriceCory Trice",
+    "sport": "nfl",
+    "team": "Pittsburgh",
+    "position": "CB",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-parham-jr.donald-parham-jr.",
+    "name": "D. Parham Jr.Donald Parham Jr.",
+    "sport": "nfl",
+    "team": "Pittsburgh",
+    "position": "TE",
+    "injury_status": "Achilles",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-elliottdeshon-elliott",
+    "name": "D. ElliottDeShon Elliott",
+    "sport": "nfl",
+    "team": "Pittsburgh",
+    "position": "SAF",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "m.-scharpingmax-scharping",
+    "name": "M. ScharpingMax Scharping",
+    "sport": "nfl",
+    "team": "Pittsburgh",
+    "position": "G",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "a.-thielenadam-thielen",
+    "name": "A. ThielenAdam Thielen",
+    "sport": "nfl",
+    "team": "Pittsburgh",
+    "position": "WR",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "r.-woodsrobert-woods",
+    "name": "R. WoodsRobert Woods",
+    "sport": "nfl",
+    "team": "Pittsburgh",
+    "position": "WR",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-sladejacob-slade",
+    "name": "J. SladeJacob Slade",
+    "sport": "nfl",
+    "team": "Pittsburgh",
+    "position": "DL",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-ekualedaniel-ekuale",
+    "name": "D. EkualeDaniel Ekuale",
+    "sport": "nfl",
+    "team": "Pittsburgh",
+    "position": "DT",
+    "injury_status": "Knee - ACL",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "i.-guerendoisaac-guerendo",
+    "name": "I. GuerendoIsaac Guerendo",
+    "sport": "nfl",
+    "team": "San Francisco",
+    "position": "RB",
+    "injury_status": "Pectoral",
+    "injury_detail": "Sun, Jul 26",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "m.-williamsmykel-williams",
+    "name": "M. WilliamsMykel Williams",
+    "sport": "nfl",
+    "team": "San Francisco",
+    "position": "DE",
+    "injury_status": "Knee - ACL",
+    "injury_detail": "Sun, Jul 26",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "a.-collinsalfred-collins",
+    "name": "A. CollinsAlfred Collins",
+    "sport": "nfl",
+    "team": "San Francisco",
+    "position": "DT",
+    "injury_status": "Shoulder",
+    "injury_detail": "Sun, Jul 26",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "g.-kittlegeorge-kittle",
+    "name": "G. KittleGeorge Kittle",
+    "sport": "nfl",
+    "team": "San Francisco",
+    "position": "TE",
+    "injury_status": "Achilles",
+    "injury_detail": "Sun, Jul 26",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "c.-kirkchristian-kirk",
+    "name": "C. KirkChristian Kirk",
+    "sport": "nfl",
+    "team": "San Francisco",
+    "position": "WR",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Sun, Jul 26",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "v.-lowevederian-lowe",
+    "name": "V. LoweVederian Lowe",
+    "sport": "nfl",
+    "team": "San Francisco",
+    "position": "OT",
+    "injury_status": "Ankle",
+    "injury_detail": "Sun, Jul 26",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "n.-bosanick-bosa",
+    "name": "N. BosaNick Bosa",
+    "sport": "nfl",
+    "team": "San Francisco",
+    "position": "DE",
+    "injury_status": "Knee - ACL",
+    "injury_detail": "Sat, Jul 25",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "k.-dinkinskhalil-dinkins",
+    "name": "K. DinkinsKhalil Dinkins",
+    "sport": "nfl",
+    "team": "San Francisco",
+    "position": "TE",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Sat, Jul 25",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "t.-bethunetatum-bethune",
+    "name": "T. BethuneTatum Bethune",
+    "sport": "nfl",
+    "team": "San Francisco",
+    "position": "LB",
+    "injury_status": "Groin",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-brownji'ayir-brown",
+    "name": "J. BrownJi'Ayir Brown",
+    "sport": "nfl",
+    "team": "San Francisco",
+    "position": "SAF",
+    "injury_status": "Hamstring",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-robinsonjakob-robinson",
+    "name": "J. RobinsonJakob Robinson",
+    "sport": "nfl",
+    "team": "San Francisco",
+    "position": "CB",
+    "injury_status": "Forearm",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "i.-princeisaiah-prince",
+    "name": "I. PrinceIsaiah Prince",
+    "sport": "nfl",
+    "team": "San Francisco",
+    "position": "OT",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "a.-isabellaandy-isabella",
+    "name": "A. IsabellaAndy Isabella",
+    "sport": "nfl",
+    "team": "San Francisco",
+    "position": "WR",
+    "injury_status": "Ankle",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "e.-st.-brownequanimeous-st.-brown",
+    "name": "E. St. BrownEquanimeous St. Brown",
+    "sport": "nfl",
+    "team": "San Francisco",
+    "position": "WR",
+    "injury_status": "Foot",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-tongesjake-tonges",
+    "name": "J. TongesJake Tonges",
+    "sport": "nfl",
+    "team": "San Francisco",
+    "position": "TE",
+    "injury_status": "Foot",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "b.-aiyukbrandon-aiyuk",
+    "name": "B. AiyukBrandon Aiyuk",
+    "sport": "nfl",
+    "team": "San Francisco",
+    "position": "WR",
+    "injury_status": "Knee - ACL + MCL",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "m.-jonesmac-jones",
+    "name": "M. JonesMac Jones",
+    "sport": "nfl",
+    "team": "San Francisco",
+    "position": "QB",
+    "injury_status": "Shoulder",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "t.-jacksontarron-jackson",
+    "name": "T. JacksonTarron Jackson",
+    "sport": "nfl",
+    "team": "San Francisco",
+    "position": "DE",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "o.-odighizuwaosa-odighizuwa",
+    "name": "O. OdighizuwaOsa Odighizuwa",
+    "sport": "nfl",
+    "team": "San Francisco",
+    "position": "DT",
+    "injury_status": "Elbow",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-forrestdarrick-forrest",
+    "name": "D. ForrestDarrick Forrest",
+    "sport": "nfl",
+    "team": "San Francisco",
+    "position": "SAF",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "n.-hobbsnate-hobbs",
+    "name": "N. HobbsNate Hobbs",
+    "sport": "nfl",
+    "team": "San Francisco",
+    "position": "CB",
+    "injury_status": "Knee - MCL",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "k.-whitekeion-white",
+    "name": "K. WhiteKeion White",
+    "sport": "nfl",
+    "team": "San Francisco",
+    "position": "DE",
+    "injury_status": "Ankle",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "t.-brodentyrone-broden",
+    "name": "T. BrodenTyrone Broden",
+    "sport": "nfl",
+    "team": "Seattle",
+    "position": "CB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Fri, Jul 24",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "k.-mcintoshkenny-mcintosh",
+    "name": "K. McIntoshKenny McIntosh",
+    "sport": "nfl",
+    "team": "Seattle",
+    "position": "RB",
+    "injury_status": "Knee - ACL",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "a.-finleyaj-finley",
+    "name": "A. FinleyAJ Finley",
+    "sport": "nfl",
+    "team": "Seattle",
+    "position": "SAF",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "z.-charbonnetzach-charbonnet",
+    "name": "Z. CharbonnetZach Charbonnet",
+    "sport": "nfl",
+    "team": "Seattle",
+    "position": "RB",
+    "injury_status": "Knee - ACL",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "n.-emmanworinick-emmanwori",
+    "name": "N. EmmanworiNick Emmanwori",
+    "sport": "nfl",
+    "team": "Seattle",
+    "position": "SAF",
+    "injury_status": "Ankle",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-easterndeven-eastern",
+    "name": "D. EasternDeven Eastern",
+    "sport": "nfl",
+    "team": "Seattle",
+    "position": "DT",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "s.-lemieuxshane-lemieux",
+    "name": "S. LemieuxShane Lemieux",
+    "sport": "nfl",
+    "team": "Seattle",
+    "position": "OG",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "h.-bryantharrison-bryant",
+    "name": "H. BryantHarrison Bryant",
+    "sport": "nfl",
+    "team": "Seattle",
+    "position": "TE",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-hankinsjohnathan-hankins",
+    "name": "J. HankinsJohnathan Hankins",
+    "sport": "nfl",
+    "team": "Seattle",
+    "position": "DT",
+    "injury_status": "Back",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "m.-wileymichael-wiley",
+    "name": "M. WileyMichael Wiley",
+    "sport": "nfl",
+    "team": "Tampa Bay",
+    "position": "RB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "a.-grierantonio-grier",
+    "name": "A. GrierAntonio Grier",
+    "sport": "nfl",
+    "team": "Tampa Bay",
+    "position": "LB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-williamsdj-williams",
+    "name": "D. WilliamsDJ Williams",
+    "sport": "nfl",
+    "team": "Tampa Bay",
+    "position": "RB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-walkerdavid-walker",
+    "name": "D. WalkerDavid Walker",
+    "sport": "nfl",
+    "team": "Tampa Bay",
+    "position": "LB",
+    "injury_status": "Knee - ACL",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "b.-morrisonbenjamin-morrison",
+    "name": "B. MorrisonBenjamin Morrison",
+    "sport": "nfl",
+    "team": "Tampa Bay",
+    "position": "CB",
+    "injury_status": "Leg",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-robertsj.j.-roberts",
+    "name": "J. RobertsJ.J. Roberts",
+    "sport": "nfl",
+    "team": "Tampa Bay",
+    "position": "DB",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "b.-irvingbucky-irving",
+    "name": "B. IrvingBucky Irving",
+    "sport": "nfl",
+    "team": "Tampa Bay",
+    "position": "RB",
+    "injury_status": "Shoulder",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "k.-kieftko-kieft",
+    "name": "K. KieftKo Kieft",
+    "sport": "nfl",
+    "team": "Tampa Bay",
+    "position": "TE",
+    "injury_status": "Leg",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "m.-harrismarcus-harris",
+    "name": "M. HarrisMarcus Harris",
+    "sport": "nfl",
+    "team": "Tennessee",
+    "position": "CB",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "b.-hanceblake-hance",
+    "name": "B. HanceBlake Hance",
+    "sport": "nfl",
+    "team": "Tennessee",
+    "position": "OL",
+    "injury_status": "Shoulder",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "a.-orjianfernee-orji",
+    "name": "A. OrjiAnfernee Orji",
+    "sport": "nfl",
+    "team": "Tennessee",
+    "position": "LB",
+    "injury_status": "Knee - ACL",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "o.-oladejooluwafemi-oladejo",
+    "name": "O. OladejoOluwafemi Oladejo",
+    "sport": "nfl",
+    "team": "Tennessee",
+    "position": "DE",
+    "injury_status": "Hamstring",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-lathamjc-latham",
+    "name": "J. LathamJC Latham",
+    "sport": "nfl",
+    "team": "Tennessee",
+    "position": "OT",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "a.-hookeramani-hooker",
+    "name": "A. HookerAmani Hooker",
+    "sport": "nfl",
+    "team": "Tennessee",
+    "position": "SAF",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-simmonsjeffery-simmons",
+    "name": "J. SimmonsJeffery Simmons",
+    "sport": "nfl",
+    "team": "Tennessee",
+    "position": "DT",
+    "injury_status": "Elbow",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "b.-watsonblake-watson",
+    "name": "B. WatsonBlake Watson",
+    "sport": "nfl",
+    "team": "Tennessee",
+    "position": "RB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-armour-davisjalyn-armour-davis",
+    "name": "J. Armour-DavisJalyn Armour-Davis",
+    "sport": "nfl",
+    "team": "Tennessee",
+    "position": "CB",
+    "injury_status": "Achilles",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "k.-zeitlerkevin-zeitler",
+    "name": "K. ZeitlerKevin Zeitler",
+    "sport": "nfl",
+    "team": "Tennessee",
+    "position": "G",
+    "injury_status": "Quadriceps",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-hardeejustin-hardee",
+    "name": "J. HardeeJustin Hardee",
+    "sport": "nfl",
+    "team": "Tennessee",
+    "position": "DB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-armstrongdorance-armstrong",
+    "name": "D. ArmstrongDorance Armstrong",
+    "sport": "nfl",
+    "team": "Washington",
+    "position": "DE",
+    "injury_status": "Knee",
+    "injury_detail": "Sat, Jul 25",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "t.-amostrey-amos",
+    "name": "T. AmosTrey Amos",
+    "sport": "nfl",
+    "team": "Washington",
+    "position": "CB",
+    "injury_status": "Lower Leg",
+    "injury_detail": "Sat, Jul 25",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "f.-davis-iifred-davis-ii",
+    "name": "F. Davis IIFred Davis II",
+    "sport": "nfl",
+    "team": "Washington",
+    "position": "CB",
+    "injury_status": "Illness",
+    "injury_detail": "Sat, Jul 25",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "d.-wise-jr.deatrich-wise-jr.",
+    "name": "D. Wise Jr.Deatrich Wise Jr.",
+    "sport": "nfl",
+    "team": "Washington",
+    "position": "DE",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Sat, Jul 25",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "f.-cypress-iifentrell-cypress-ii",
+    "name": "F. Cypress IIFentrell Cypress II",
+    "sport": "nfl",
+    "team": "Washington",
+    "position": "CB",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-brooksja'corey-brooks",
+    "name": "J. BrooksJa'Corey Brooks",
+    "sport": "nfl",
+    "team": "Washington",
+    "position": "WR",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "j.-jean-baptistejavontae-jean-baptiste",
+    "name": "J. Jean-BaptisteJavontae Jean-Baptiste",
+    "sport": "nfl",
+    "team": "Washington",
+    "position": "LB",
+    "injury_status": "Pectoral",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "l.-nianglucas-niang",
+    "name": "L. NiangLucas Niang",
+    "sport": "nfl",
+    "team": "Washington",
+    "position": "OT",
+    "injury_status": "Knee - ACL",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "t.-jacksontyree-jackson",
+    "name": "T. JacksonTyree Jackson",
+    "sport": "nfl",
+    "team": "Washington",
+    "position": "TE",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "z.-ertzzach-ertz",
+    "name": "Z. ErtzZach Ertz",
+    "sport": "nfl",
+    "team": "Washington",
+    "position": "TE",
+    "injury_status": "Knee - ACL",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "m.-lattimoremarshon-lattimore",
+    "name": "M. LattimoreMarshon Lattimore",
+    "sport": "nfl",
+    "team": "Washington",
+    "position": "CB",
+    "injury_status": "Knee - ACL",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "n.-brownnoah-brown",
+    "name": "N. BrownNoah Brown",
+    "sport": "nfl",
+    "team": "Washington",
+    "position": "WR",
+    "injury_status": "Ribs",
+    "injury_detail": "Thu, Jul 23",
+    "last_updated": 1785160337
+  },
+  {
+    "player_id": "a.-newellasa-newell",
+    "name": "A. NewellAsa Newell",
+    "sport": "nba",
+    "team": "Atlanta",
+    "position": "PF",
+    "injury_status": "Rest",
+    "injury_detail": "Sun, Jul 19",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "r.-dennisrayj-dennis",
+    "name": "R. DennisRayJ Dennis",
+    "sport": "nba",
+    "team": "Atlanta",
+    "position": "PG",
+    "injury_status": "Achilles",
+    "injury_detail": "Sat, Jul 18",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "z.-ejioforzuby-ejiofor",
+    "name": "Z. EjioforZuby Ejiofor",
+    "sport": "nba",
+    "team": "Atlanta",
+    "position": "C",
+    "injury_status": "Rest",
+    "injury_detail": "Sat, Jul 18",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "k.-gilbertkeshon-gilbert",
+    "name": "K. GilbertKeshon Gilbert",
+    "sport": "nba",
+    "team": "Atlanta",
+    "position": "PG",
+    "injury_status": "Hip",
+    "injury_detail": "Sat, Jul 18",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "m.-gueyemouhamed-gueye",
+    "name": "M. GueyeMouhamed Gueye",
+    "sport": "nba",
+    "team": "Atlanta",
+    "position": "PF",
+    "injury_status": "Foot",
+    "injury_detail": "Sat, Jul 18",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "k.-flemingskingston-flemings",
+    "name": "K. FlemingsKingston Flemings",
+    "sport": "nba",
+    "team": "Atlanta",
+    "position": "PG",
+    "injury_status": "Rest",
+    "injury_detail": "Sat, Jul 18",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "r.-nembhardryan-nembhard",
+    "name": "R. NembhardRyan Nembhard",
+    "sport": "nba",
+    "team": "Atlanta",
+    "position": "PG",
+    "injury_status": "Illness",
+    "injury_detail": "Fri, Jul 17",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "j.-landalejock-landale",
+    "name": "J. LandaleJock Landale",
+    "sport": "nba",
+    "team": "Atlanta",
+    "position": "C",
+    "injury_status": "Ankle",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "r.-luis-jr.rj-luis-jr.",
+    "name": "R. Luis Jr.RJ Luis Jr.",
+    "sport": "nba",
+    "team": "Boston",
+    "position": "SF",
+    "injury_status": "Not Injury Related",
+    "injury_detail": "Mon, Jul 27",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "h.-gonzalezhugo",
+    "name": "H. GonzalezHugo",
+    "sport": "nba",
+    "team": "Boston",
+    "position": "SG",
+    "injury_status": "Rest",
+    "injury_detail": "Sat, Jul 18",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "c.-cenac-jr.chris-cenac-jr.",
+    "name": "C. Cenac Jr.Chris Cenac Jr.",
+    "sport": "nba",
+    "team": "Boston",
+    "position": "PF",
+    "injury_status": "Rest",
+    "injury_detail": "Sat, Jul 18",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "j.-tatumjayson-tatum",
+    "name": "J. TatumJayson Tatum",
+    "sport": "nba",
+    "team": "Boston",
+    "position": "PF",
+    "injury_status": "Knee",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "m.-brown-jr.mikel-brown-jr.",
+    "name": "M. Brown Jr.Mikel Brown Jr.",
+    "sport": "nba",
+    "team": "Brooklyn",
+    "position": "PG",
+    "injury_status": "Rest",
+    "injury_detail": "Sun, Jul 19",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "t.-bilodeautyler-bilodeau",
+    "name": "T. BilodeauTyler Bilodeau",
+    "sport": "nba",
+    "team": "Brooklyn",
+    "position": "PF",
+    "injury_status": "Rest",
+    "injury_detail": "Sun, Jul 19",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "d.-wolfdanny-wolf",
+    "name": "D. WolfDanny Wolf",
+    "sport": "nba",
+    "team": "Brooklyn",
+    "position": "PF",
+    "injury_status": "Rest",
+    "injury_detail": "Sun, Jul 19",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "c.-johnsonchaney-johnson",
+    "name": "C. JohnsonChaney Johnson",
+    "sport": "nba",
+    "team": "Brooklyn",
+    "position": "SG",
+    "injury_status": "Rest",
+    "injury_detail": "Sun, Jul 19",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "d.-powelldrake-powell",
+    "name": "D. PowellDrake Powell",
+    "sport": "nba",
+    "team": "Brooklyn",
+    "position": "SG",
+    "injury_status": "Rest",
+    "injury_detail": "Sun, Jul 19",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "b.-sarafben-saraf",
+    "name": "B. SarafBen Saraf",
+    "sport": "nba",
+    "team": "Brooklyn",
+    "position": "PG",
+    "injury_status": "Rest",
+    "injury_detail": "Sun, Jul 19",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "e.-deminegor-demin",
+    "name": "E. DeminEgor Demin",
+    "sport": "nba",
+    "team": "Brooklyn",
+    "position": "SG",
+    "injury_status": "Rest",
+    "injury_detail": "Sun, Jul 19",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "n.-traorenolan-traore",
+    "name": "N. TraoreNolan Traore",
+    "sport": "nba",
+    "team": "Brooklyn",
+    "position": "PG",
+    "injury_status": "Knee",
+    "injury_detail": "Tue, Jun 30",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "t.-mannterance-mann",
+    "name": "T. MannTerance Mann",
+    "sport": "nba",
+    "team": "Brooklyn",
+    "position": "SG",
+    "injury_status": "Knee",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "n.-clowneynoah-clowney",
+    "name": "N. ClowneyNoah Clowney",
+    "sport": "nba",
+    "team": "Brooklyn",
+    "position": "PF",
+    "injury_status": "Ankle",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "m.-porter-jr.michael-porter-jr.",
+    "name": "M. Porter Jr.Michael Porter Jr.",
+    "sport": "nba",
+    "team": "Brooklyn",
+    "position": "SF",
+    "injury_status": "Hamstring",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "b.-millerbrandon-miller",
+    "name": "B. MillerBrandon Miller",
+    "sport": "nba",
+    "team": "Charlotte",
+    "position": "SG",
+    "injury_status": "Shoulder",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "p.-hallpj-hall",
+    "name": "P. HallPJ Hall",
+    "sport": "nba",
+    "team": "Charlotte",
+    "position": "C",
+    "injury_status": "Ankle",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "n.-essenguenoa-essengue",
+    "name": "N. EssengueNoa Essengue",
+    "sport": "nba",
+    "team": "Chicago",
+    "position": "PF",
+    "injury_status": "Thumb",
+    "injury_detail": "Fri, Jul 17",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "d.-swaindailyn-swain",
+    "name": "D. SwainDailyn Swain",
+    "sport": "nba",
+    "team": "Chicago",
+    "position": "SF",
+    "injury_status": "Wrist",
+    "injury_detail": "Fri, Jul 17",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "r.-dillinghamrob-dillingham",
+    "name": "R. DillinghamRob Dillingham",
+    "sport": "nba",
+    "team": "Chicago",
+    "position": "PG",
+    "injury_status": "Wrist",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "i.-okoroisaac-okoro",
+    "name": "I. OkoroIsaac Okoro",
+    "sport": "nba",
+    "team": "Chicago",
+    "position": "SF",
+    "injury_status": "Quadriceps",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "j.-smithjalen-smith",
+    "name": "J. SmithJalen Smith",
+    "sport": "nba",
+    "team": "Chicago",
+    "position": "PF",
+    "injury_status": "Calf",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "n.-claxtonnicolas-claxton",
+    "name": "N. ClaxtonNicolas Claxton",
+    "sport": "nba",
+    "team": "Chicago",
+    "position": "C",
+    "injury_status": "Finger",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "z.-collinszach-collins",
+    "name": "Z. CollinsZach Collins",
+    "sport": "nba",
+    "team": "Chicago",
+    "position": "C",
+    "injury_status": "Toe",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "j.-giddeyjosh-giddey",
+    "name": "J. GiddeyJosh Giddey",
+    "sport": "nba",
+    "team": "Chicago",
+    "position": "PG",
+    "injury_status": "Ankle",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "n.-tomlinnae'qwan-tomlin",
+    "name": "N. TomlinNae'Qwan Tomlin",
+    "sport": "nba",
+    "team": "Cleveland",
+    "position": "PF",
+    "injury_status": "Rest",
+    "injury_detail": "Fri, Jul 17",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "t.-enarunatristan-enaruna",
+    "name": "T. EnarunaTristan Enaruna",
+    "sport": "nba",
+    "team": "Cleveland",
+    "position": "SF",
+    "injury_status": "Illness",
+    "injury_detail": "Fri, Jul 17",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "m.-johnson-jr.morez-johnson-jr.",
+    "name": "M. Johnson Jr.Morez Johnson Jr.",
+    "sport": "nba",
+    "team": "Dallas",
+    "position": "PF",
+    "injury_status": "Illness",
+    "injury_detail": "Fri, Jul 17",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "p.-washingtonpj-washington",
+    "name": "P. WashingtonPJ Washington",
+    "sport": "nba",
+    "team": "Dallas",
+    "position": "PF",
+    "injury_status": "Elbow",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "k.-irvingkyrie-irving",
+    "name": "K. IrvingKyrie Irving",
+    "sport": "nba",
+    "team": "Dallas",
+    "position": "PG",
+    "injury_status": "Knee",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "c.-flaggcooper-flagg",
+    "name": "C. FlaggCooper Flagg",
+    "sport": "nba",
+    "team": "Dallas",
+    "position": "SF",
+    "injury_status": "Ankle",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "c.-martincaleb-martin",
+    "name": "C. MartinCaleb Martin",
+    "sport": "nba",
+    "team": "Dallas",
+    "position": "SF",
+    "injury_status": "Heel",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "s.-aldamasanti-aldama",
+    "name": "S. AldamaSanti Aldama",
+    "sport": "nba",
+    "team": "Dallas",
+    "position": "C",
+    "injury_status": "Knee",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "b.-williamsbrandon-williams",
+    "name": "B. WilliamsBrandon Williams",
+    "sport": "nba",
+    "team": "Dallas",
+    "position": "PG",
+    "injury_status": "Illness",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "n.-marshallnaji-marshall",
+    "name": "N. MarshallNaji Marshall",
+    "sport": "nba",
+    "team": "Dallas",
+    "position": "SG",
+    "injury_status": "Hip",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "d.-lively-iidereck-lively-ii",
+    "name": "D. Lively IIDereck Lively II",
+    "sport": "nba",
+    "team": "Dallas",
+    "position": "C",
+    "injury_status": "Foot",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "t.-braziletrevon-brazile",
+    "name": "T. BrazileTrevon Brazile",
+    "sport": "nba",
+    "team": "Denver",
+    "position": "PF",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Sun, Jul 19",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "a.-gordonaaron-gordon",
+    "name": "A. GordonAaron Gordon",
+    "sport": "nba",
+    "team": "Denver",
+    "position": "PF",
+    "injury_status": "Calf",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "p.-watsonpeyton-watson",
+    "name": "P. WatsonPeyton Watson",
+    "sport": "nba",
+    "team": "Denver",
+    "position": "SF",
+    "injury_status": "Hamstring",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "m.-moodymoses-moody",
+    "name": "M. MoodyMoses Moody",
+    "sport": "nba",
+    "team": "Golden St.",
+    "position": "SG",
+    "injury_status": "Knee",
+    "injury_detail": "Tue, Mar 24",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "j.-butlerjimmy-butler",
+    "name": "J. ButlerJimmy Butler",
+    "sport": "nba",
+    "team": "Golden St.",
+    "position": "SF",
+    "injury_status": "Knee",
+    "injury_detail": "Tue, Jan 20",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "s.-adamssteven-adams",
+    "name": "S. AdamsSteven Adams",
+    "sport": "nba",
+    "team": "Houston",
+    "position": "C",
+    "injury_status": "Ankle",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "f.-vanvleetfred-vanvleet",
+    "name": "F. VanVleetFred VanVleet",
+    "sport": "nba",
+    "team": "Houston",
+    "position": "PG",
+    "injury_status": "Knee",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "k.-durantkevin-durant",
+    "name": "K. DurantKevin Durant",
+    "sport": "nba",
+    "team": "Houston",
+    "position": "PF",
+    "injury_status": "Ankle",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "p.-siakampascal-siakam",
+    "name": "P. SiakamPascal Siakam",
+    "sport": "nba",
+    "team": "Indiana",
+    "position": "PF",
+    "injury_status": "Ankle",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "t.-mcconnellt.j.-mcconnell",
+    "name": "T. McConnellT.J. McConnell",
+    "sport": "nba",
+    "team": "Indiana",
+    "position": "PG",
+    "injury_status": "Hamstring",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "j.-walkerjarace-walker",
+    "name": "J. WalkerJarace Walker",
+    "sport": "nba",
+    "team": "Indiana",
+    "position": "PF",
+    "injury_status": "Foot",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "b.-sheppardben-sheppard",
+    "name": "B. SheppardBen Sheppard",
+    "sport": "nba",
+    "team": "Indiana",
+    "position": "SG",
+    "injury_status": "Hip",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "a.-nesmithaaron-nesmith",
+    "name": "A. NesmithAaron Nesmith",
+    "sport": "nba",
+    "team": "Indiana",
+    "position": "SF",
+    "injury_status": "Neck",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "t.-haliburtontyrese-haliburton",
+    "name": "T. HaliburtonTyrese Haliburton",
+    "sport": "nba",
+    "team": "Indiana",
+    "position": "PG",
+    "injury_status": "Achilles",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "j.-furphyjohnny-furphy",
+    "name": "J. FurphyJohnny Furphy",
+    "sport": "nba",
+    "team": "Indiana",
+    "position": "SG",
+    "injury_status": "Knee",
+    "injury_detail": "Mon, Feb 9",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "c.-christiecam-christie",
+    "name": "C. ChristieCam Christie",
+    "sport": "nba",
+    "team": "L.A. Clippers",
+    "position": "SG",
+    "injury_status": "Ankle",
+    "injury_detail": "Sat, Jul 18",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "k.-sanderskobe-sanders",
+    "name": "K. SandersKobe Sanders",
+    "sport": "nba",
+    "team": "L.A. Clippers",
+    "position": "SG",
+    "injury_status": "Rest",
+    "injury_detail": "Sat, Jul 18",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "y.-konan-niederhauseryanic-konan-niederhauser",
+    "name": "Y. Konan NiederhauserYanic Konan Niederhauser",
+    "sport": "nba",
+    "team": "L.A. Clippers",
+    "position": "C",
+    "injury_status": "Foot",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "b.-bealbradley-beal",
+    "name": "B. BealBradley Beal",
+    "sport": "nba",
+    "team": "L.A. Clippers",
+    "position": "SG",
+    "injury_status": "Hip",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "l.-doncicluka-doncic",
+    "name": "L. DoncicLuka Doncic",
+    "sport": "nba",
+    "team": "L.A. Lakers",
+    "position": "PG",
+    "injury_status": "Hamstring",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "z.-williamsziaire-williams",
+    "name": "Z. WilliamsZiaire Williams",
+    "sport": "nba",
+    "team": "L.A. Lakers",
+    "position": "SF",
+    "injury_status": "Foot",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "k.-lopezkarim-lopez",
+    "name": "K. LopezKarim Lopez",
+    "sport": "nba",
+    "team": "Memphis",
+    "position": "PF",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Sun, Jul 19",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "w.-clayton-jr.walter-clayton-jr.",
+    "name": "W. Clayton Jr.Walter Clayton Jr.",
+    "sport": "nba",
+    "team": "Memphis",
+    "position": "PG",
+    "injury_status": "Knee",
+    "injury_detail": "Sun, Jul 19",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "r.-saundersrichie-saunders",
+    "name": "R. SaundersRichie Saunders",
+    "sport": "nba",
+    "team": "Memphis",
+    "position": "SG",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Jun 25",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "g.-jacksongregory-jackson",
+    "name": "G. JacksonGregory Jackson",
+    "sport": "nba",
+    "team": "Memphis",
+    "position": "PF",
+    "injury_status": "Knee",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "j.-wellsjaylen-wells",
+    "name": "J. WellsJaylen Wells",
+    "sport": "nba",
+    "team": "Memphis",
+    "position": "SG",
+    "injury_status": "Toe",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "c.-spencercam-spencer",
+    "name": "C. SpencerCam Spencer",
+    "sport": "nba",
+    "team": "Memphis",
+    "position": "PG",
+    "injury_status": "Back",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "s.-pippen-jr.scotty-pippen-jr.",
+    "name": "S. Pippen Jr.Scotty Pippen Jr.",
+    "sport": "nba",
+    "team": "Memphis",
+    "position": "PG",
+    "injury_status": "Toe",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "t.-jeromety-jerome",
+    "name": "T. JeromeTy Jerome",
+    "sport": "nba",
+    "team": "Memphis",
+    "position": "SG",
+    "injury_status": "Ankle",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "z.-edeyzach-edey",
+    "name": "Z. EdeyZach Edey",
+    "sport": "nba",
+    "team": "Memphis",
+    "position": "C",
+    "injury_status": "Ankle",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "t.-keelstrevor-keels",
+    "name": "T. KeelsTrevor Keels",
+    "sport": "nba",
+    "team": "Miami",
+    "position": "SG",
+    "injury_status": "Knee",
+    "injury_detail": "Fri, Jul 17",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "m.-gardnermyron-gardner",
+    "name": "M. GardnerMyron Gardner",
+    "sport": "nba",
+    "team": "Miami",
+    "position": "SF",
+    "injury_status": "Ankle",
+    "injury_detail": "Wed, Jul 8",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "g.-antetokounmpogiannis-antetokounmpo",
+    "name": "G. AntetokounmpoGiannis Antetokounmpo",
+    "sport": "nba",
+    "team": "Miami",
+    "position": "PF",
+    "injury_status": "Knee",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "d.-smithdru-smith",
+    "name": "D. SmithDru Smith",
+    "sport": "nba",
+    "team": "Miami",
+    "position": "SG",
+    "injury_status": "Foot",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "b.-adebayobam-adebayo",
+    "name": "B. AdebayoBam Adebayo",
+    "sport": "nba",
+    "team": "Miami",
+    "position": "PF",
+    "injury_status": "Back",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "m.-turnermyles-turner",
+    "name": "M. TurnerMyles Turner",
+    "sport": "nba",
+    "team": "Milwaukee",
+    "position": "C",
+    "injury_status": "Ankle",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "t.-herrotyler-herro",
+    "name": "T. HerroTyler Herro",
+    "sport": "nba",
+    "team": "Milwaukee",
+    "position": "PG",
+    "injury_status": "Foot",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "k.-porterkevin-porter",
+    "name": "K. PorterKevin Porter",
+    "sport": "nba",
+    "team": "Milwaukee",
+    "position": "PG",
+    "injury_status": "Knee",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "g.-trent-jr.gary-trent-jr.",
+    "name": "G. Trent Jr.Gary Trent Jr.",
+    "sport": "nba",
+    "team": "Milwaukee",
+    "position": "SF",
+    "injury_status": "Oblique",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "k.-kuzmakyle-kuzma",
+    "name": "K. KuzmaKyle Kuzma",
+    "sport": "nba",
+    "team": "Milwaukee",
+    "position": "PF",
+    "injury_status": "Achilles",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "r.-rollinsryan-rollins",
+    "name": "R. RollinsRyan Rollins",
+    "sport": "nba",
+    "team": "Milwaukee",
+    "position": "SG",
+    "injury_status": "Thumb",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "j.-beringerjoan-beringer",
+    "name": "J. BeringerJoan Beringer",
+    "sport": "nba",
+    "team": "Minnesota",
+    "position": "C",
+    "injury_status": "Back",
+    "injury_detail": "Fri, Jul 17",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "d.-divincenzodonte-divincenzo",
+    "name": "D. DiVincenzoDonte DiVincenzo",
+    "sport": "nba",
+    "team": "Minnesota",
+    "position": "SG",
+    "injury_status": "Achilles",
+    "injury_detail": "Sun, Apr 26",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "m.-peavymicah-peavy",
+    "name": "M. PeavyMicah Peavy",
+    "sport": "nba",
+    "team": "New Orleans",
+    "position": "SF",
+    "injury_status": "Rest",
+    "injury_detail": "Sat, Jul 18",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "y.-missiyves-missi",
+    "name": "Y. MissiYves Missi",
+    "sport": "nba",
+    "team": "New Orleans",
+    "position": "C",
+    "injury_status": "Hand",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "d.-murraydejounte-murray",
+    "name": "D. MurrayDejounte Murray",
+    "sport": "nba",
+    "team": "New Orleans",
+    "position": "PG",
+    "injury_status": "Hand",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "z.-williamsonzion-williamson",
+    "name": "Z. WilliamsonZion Williamson",
+    "sport": "nba",
+    "team": "New Orleans",
+    "position": "PF",
+    "injury_status": "Knee",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "t.-murphy-iiitrey-murphy-iii",
+    "name": "T. Murphy IIITrey Murphy III",
+    "sport": "nba",
+    "team": "New Orleans",
+    "position": "SF",
+    "injury_status": "Ankle",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "k.-matkovickarlo-matkovic",
+    "name": "K. MatkovicKarlo Matkovic",
+    "sport": "nba",
+    "team": "New Orleans",
+    "position": "PF",
+    "injury_status": "Back",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "b.-mcgowensbryce-mcgowens",
+    "name": "B. McGowensBryce McGowens",
+    "sport": "nba",
+    "team": "New Orleans",
+    "position": "SG",
+    "injury_status": "Toe",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "m.-diawaramohamed-diawara",
+    "name": "M. DiawaraMohamed Diawara",
+    "sport": "nba",
+    "team": "New York",
+    "position": "PF",
+    "injury_status": "Finger",
+    "injury_detail": "Fri, Jul 17",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "j.-brunsonjalen-brunson",
+    "name": "J. BrunsonJalen Brunson",
+    "sport": "nba",
+    "team": "New York",
+    "position": "PG",
+    "injury_status": "Wrist",
+    "injury_detail": "Tue, Jul 7",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "o.-owehotega-oweh",
+    "name": "O. OwehOtega Oweh",
+    "sport": "nba",
+    "team": "Oklahoma City",
+    "position": "SG",
+    "injury_status": "Lower Leg",
+    "injury_detail": "Sun, Jul 19",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "a.-maraaday-mara",
+    "name": "A. MaraAday Mara",
+    "sport": "nba",
+    "team": "Oklahoma City",
+    "position": "C",
+    "injury_status": "Rest",
+    "injury_detail": "Thu, Jul 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "t.-sorberthomas-sorber",
+    "name": "T. SorberThomas Sorber",
+    "sport": "nba",
+    "team": "Oklahoma City",
+    "position": "PF",
+    "injury_status": "Knee",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "n.-topicnikola-topic",
+    "name": "N. TopicNikola Topic",
+    "sport": "nba",
+    "team": "Oklahoma City",
+    "position": "PG",
+    "injury_status": "Back",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "j.-williamsjalen-williams",
+    "name": "J. WilliamsJalen Williams",
+    "sport": "nba",
+    "team": "Oklahoma City",
+    "position": "SF",
+    "injury_status": "Hamstring",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "a.-mitchellajay-mitchell",
+    "name": "A. MitchellAjay Mitchell",
+    "sport": "nba",
+    "team": "Oklahoma City",
+    "position": "PG",
+    "injury_status": "Calf",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "i.-nelsonizaiyah-nelson",
+    "name": "I. NelsonIzaiyah Nelson",
+    "sport": "nba",
+    "team": "Orlando",
+    "position": "C",
+    "injury_status": "Ankle",
+    "injury_detail": "Tue, Jul 21",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "j.-richardsonjase-richardson",
+    "name": "J. RichardsonJase Richardson",
+    "sport": "nba",
+    "team": "Orlando",
+    "position": "PG",
+    "injury_status": "Rest",
+    "injury_detail": "Sat, Jul 18",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "n.-pendanoah-penda",
+    "name": "N. PendaNoah Penda",
+    "sport": "nba",
+    "team": "Orlando",
+    "position": "SF",
+    "injury_status": "Rest",
+    "injury_detail": "Sat, Jul 18",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "f.-wagnerfranz-wagner",
+    "name": "F. WagnerFranz Wagner",
+    "sport": "nba",
+    "team": "Orlando",
+    "position": "PF",
+    "injury_status": "Calf",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "j.-isaacjonathan-isaac",
+    "name": "J. IsaacJonathan Isaac",
+    "sport": "nba",
+    "team": "Orlando",
+    "position": "PF",
+    "injury_status": "Knee",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "c.-huntleycj-huntley",
+    "name": "C. HuntleyCJ Huntley",
+    "sport": "nba",
+    "team": "Phoenix",
+    "position": "PF",
+    "injury_status": "Hamstring",
+    "injury_detail": "Sat, Jul 18",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "k.-maluachkhaman-maluach",
+    "name": "K. MaluachKhaman Maluach",
+    "sport": "nba",
+    "team": "Phoenix",
+    "position": "C",
+    "injury_status": "Rest",
+    "injury_detail": "Thu, Jul 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "r.-flemingrasheer-fleming",
+    "name": "R. FlemingRasheer Fleming",
+    "sport": "nba",
+    "team": "Phoenix",
+    "position": "PF",
+    "injury_status": "Not Injury Related",
+    "injury_detail": "Thu, Jul 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "j.-goodwinjordan-goodwin",
+    "name": "J. GoodwinJordan Goodwin",
+    "sport": "nba",
+    "team": "Phoenix",
+    "position": "SG",
+    "injury_status": "Calf",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "m.-williamsmark-williams",
+    "name": "M. WilliamsMark Williams",
+    "sport": "nba",
+    "team": "Phoenix",
+    "position": "C",
+    "injury_status": "Foot",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "d.-lillarddamian-lillard",
+    "name": "D. LillardDamian Lillard",
+    "sport": "nba",
+    "team": "Portland",
+    "position": "PG",
+    "injury_status": "Achilles",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "j.-morantja-morant",
+    "name": "J. MorantJa Morant",
+    "sport": "nba",
+    "team": "Portland",
+    "position": "PG",
+    "injury_status": "Elbow",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "m.-raynaudmaxime-raynaud",
+    "name": "M. RaynaudMaxime Raynaud",
+    "sport": "nba",
+    "team": "Sacramento",
+    "position": "C",
+    "injury_status": "Rest",
+    "injury_detail": "Fri, Jul 17",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "n.-cliffordnique-clifford",
+    "name": "N. CliffordNique Clifford",
+    "sport": "nba",
+    "team": "Sacramento",
+    "position": "SG",
+    "injury_status": "Rest",
+    "injury_detail": "Fri, Jul 17",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "d.-acuff-jr.darius-acuff-jr.",
+    "name": "D. Acuff Jr.Darius Acuff Jr.",
+    "sport": "nba",
+    "team": "Sacramento",
+    "position": "PG",
+    "injury_status": "Rest",
+    "injury_detail": "Fri, Jul 17",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "d.-cardwelldylan-cardwell",
+    "name": "D. CardwellDylan Cardwell",
+    "sport": "nba",
+    "team": "Sacramento",
+    "position": "C",
+    "injury_status": "Thumb",
+    "injury_detail": "Fri, Jul 17",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "z.-lavinezach-lavine",
+    "name": "Z. LaVineZach LaVine",
+    "sport": "nba",
+    "team": "Sacramento",
+    "position": "SG",
+    "injury_status": "Hand",
+    "injury_detail": "Sun, Jun 28",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "d.-sabonisdomantas-sabonis",
+    "name": "D. SabonisDomantas Sabonis",
+    "sport": "nba",
+    "team": "Sacramento",
+    "position": "C",
+    "injury_status": "Knee",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "d.-eubanksdrew-eubanks",
+    "name": "D. EubanksDrew Eubanks",
+    "sport": "nba",
+    "team": "Sacramento",
+    "position": "C",
+    "injury_status": "Thumb",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "d.-hunterde'andre-hunter",
+    "name": "D. HunterDe'Andre Hunter",
+    "sport": "nba",
+    "team": "Sacramento",
+    "position": "SF",
+    "injury_status": "Eye",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "m.-monkmalik-monk",
+    "name": "M. MonkMalik Monk",
+    "sport": "nba",
+    "team": "Sacramento",
+    "position": "SG",
+    "injury_status": "Personal",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "r.-westbrookrussell-westbrook",
+    "name": "R. WestbrookRussell Westbrook",
+    "sport": "nba",
+    "team": "Sacramento",
+    "position": "PG",
+    "injury_status": "Toe",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "k.-murraykeegan-murray",
+    "name": "K. MurrayKeegan Murray",
+    "sport": "nba",
+    "team": "Sacramento",
+    "position": "PF",
+    "injury_status": "Ankle",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "j.-quaintancejayden-quaintance",
+    "name": "J. QuaintanceJayden Quaintance",
+    "sport": "nba",
+    "team": "San Antonio",
+    "position": "C",
+    "injury_status": "Knee",
+    "injury_detail": "Wed, Jul 22",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "t.-reed-jr.tarris-reed-jr.",
+    "name": "T. Reed Jr.Tarris Reed Jr.",
+    "sport": "nba",
+    "team": "San Antonio",
+    "position": "C",
+    "injury_status": "Rest",
+    "injury_detail": "Sat, Jul 18",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "d.-jonesdavid-jones",
+    "name": "D. JonesDavid Jones",
+    "sport": "nba",
+    "team": "San Antonio",
+    "position": "SF",
+    "injury_status": "Ankle",
+    "injury_detail": "Sun, Jul 5",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "c.-murray-boylescollin-murray-boyles",
+    "name": "C. Murray-BoylesCollin Murray-Boyles",
+    "sport": "nba",
+    "team": "Toronto",
+    "position": "PF",
+    "injury_status": "Finger",
+    "injury_detail": "Sun, Jul 19",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "a.-martinalijah-martin",
+    "name": "A. MartinAlijah Martin",
+    "sport": "nba",
+    "team": "Toronto",
+    "position": "SG",
+    "injury_status": "Knee",
+    "injury_detail": "Sun, Jul 19",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "n.-bittlenate-bittle",
+    "name": "N. BittleNate Bittle",
+    "sport": "nba",
+    "team": "Toronto",
+    "position": "C",
+    "injury_status": "Knee",
+    "injury_detail": "Sun, Jul 19",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "c.-hepburnchucky-hepburn",
+    "name": "C. HepburnChucky Hepburn",
+    "sport": "nba",
+    "team": "Toronto",
+    "position": "PG",
+    "injury_status": "Knee",
+    "injury_detail": "Sun, Jul 19",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "a.-gravesallen-graves",
+    "name": "A. GravesAllen Graves",
+    "sport": "nba",
+    "team": "Toronto",
+    "position": "PF",
+    "injury_status": "Rest",
+    "injury_detail": "Sun, Jul 19",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "b.-ingrambrandon-ingram",
+    "name": "B. IngramBrandon Ingram",
+    "sport": "nba",
+    "team": "Toronto",
+    "position": "SF",
+    "injury_status": "Heel",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "i.-quickleyimmanuel-quickley",
+    "name": "I. QuickleyImmanuel Quickley",
+    "sport": "nba",
+    "team": "Toronto",
+    "position": "PG",
+    "injury_status": "Hamstring",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "c.-williamscody-williams",
+    "name": "C. WilliamsCody Williams",
+    "sport": "nba",
+    "team": "Utah",
+    "position": "SF",
+    "injury_status": "Illness",
+    "injury_detail": "Fri, Jul 17",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "a.-baileyace-bailey",
+    "name": "A. BaileyAce Bailey",
+    "sport": "nba",
+    "team": "Utah",
+    "position": "SG",
+    "injury_status": "Back",
+    "injury_detail": "Fri, Jul 17",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "d.-petersondarryn-peterson",
+    "name": "D. PetersonDarryn Peterson",
+    "sport": "nba",
+    "team": "Utah",
+    "position": "PG",
+    "injury_status": "Rest",
+    "injury_detail": "Fri, Jul 17",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "j.-nurkicjusuf-nurkic",
+    "name": "J. NurkicJusuf Nurkic",
+    "sport": "nba",
+    "team": "Utah",
+    "position": "C",
+    "injury_status": "Nose",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "i.-collierisaiah-collier",
+    "name": "I. CollierIsaiah Collier",
+    "sport": "nba",
+    "team": "Utah",
+    "position": "PG",
+    "injury_status": "Hamstring",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "k.-filipowskikyle-filipowski",
+    "name": "K. FilipowskiKyle Filipowski",
+    "sport": "nba",
+    "team": "Utah",
+    "position": "PF",
+    "injury_status": "Back",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "k.-georgekeyonte-george",
+    "name": "K. GeorgeKeyonte George",
+    "sport": "nba",
+    "team": "Utah",
+    "position": "SG",
+    "injury_status": "Hamstring",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "j.-jackson-jr.jaren-jackson-jr.",
+    "name": "J. Jackson Jr.Jaren Jackson Jr.",
+    "sport": "nba",
+    "team": "Utah",
+    "position": "PF",
+    "injury_status": "Knee",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "j.-watkinsjamir-watkins",
+    "name": "J. WatkinsJamir Watkins",
+    "sport": "nba",
+    "team": "Washington",
+    "position": "SF",
+    "injury_status": "Knee",
+    "injury_detail": "Sat, Jul 18",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "w.-rileywill-riley",
+    "name": "W. RileyWill Riley",
+    "sport": "nba",
+    "team": "Washington",
+    "position": "SF",
+    "injury_status": "Rest",
+    "injury_detail": "Tue, Jul 14",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "t.-johnsontre-johnson",
+    "name": "T. JohnsonTre Johnson",
+    "sport": "nba",
+    "team": "Washington",
+    "position": "SG",
+    "injury_status": "Rest",
+    "injury_detail": "Tue, Jul 14",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "a.-dybantsaaj-dybantsa",
+    "name": "A. DybantsaAJ Dybantsa",
+    "sport": "nba",
+    "team": "Washington",
+    "position": "SF",
+    "injury_status": "Rest",
+    "injury_detail": "Tue, Jul 14",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "t.-vukcevictristan-vukcevic",
+    "name": "T. VukcevicTristan Vukcevic",
+    "sport": "nba",
+    "team": "Washington",
+    "position": "PF",
+    "injury_status": "Knee",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "a.-davisanthony-davis",
+    "name": "A. DavisAnthony Davis",
+    "sport": "nba",
+    "team": "Washington",
+    "position": "C",
+    "injury_status": "Finger",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "a.-sarralex-sarr",
+    "name": "A. SarrAlex Sarr",
+    "sport": "nba",
+    "team": "Washington",
+    "position": "C",
+    "injury_status": "Foot",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "c.-whitmorecam-whitmore",
+    "name": "C. WhitmoreCam Whitmore",
+    "sport": "nba",
+    "team": "Washington",
+    "position": "SG",
+    "injury_status": "Shoulder",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "t.-youngtrae-young",
+    "name": "T. YoungTrae Young",
+    "sport": "nba",
+    "team": "Washington",
+    "position": "PG",
+    "injury_status": "Quadriceps",
+    "injury_detail": "Tue, Jun 16",
+    "last_updated": 1785160338
+  },
+  {
+    "player_id": "n.-jensennick-jensen",
+    "name": "N. JensenNick Jensen",
+    "sport": "nhl",
+    "team": "Anaheim",
+    "position": "D",
+    "injury_status": "Knee",
+    "injury_detail": "Sat, Jul 4",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "p.-mrazekpetr-mrazek",
+    "name": "P. MrazekPetr Mrazek",
+    "sport": "nhl",
+    "team": "Anaheim",
+    "position": "G",
+    "injury_status": "Hip",
+    "injury_detail": "Mon, Jun 29",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "t.-terrytroy-terry",
+    "name": "T. TerryTroy Terry",
+    "sport": "nhl",
+    "team": "Anaheim",
+    "position": "RW",
+    "injury_status": "Hip",
+    "injury_detail": "Thu, Jun 18",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "r.-poehlingryan-poehling",
+    "name": "R. PoehlingRyan Poehling",
+    "sport": "nhl",
+    "team": "Anaheim",
+    "position": "C",
+    "injury_status": "Upper Body",
+    "injury_detail": "Fri, May 15",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "d.-hellesondrew-helleson",
+    "name": "D. HellesonDrew Helleson",
+    "sport": "nhl",
+    "team": "Anaheim",
+    "position": "D",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Fri, May 15",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "c.-mcavoycharlie-mcavoy",
+    "name": "C. McAvoyCharlie McAvoy",
+    "sport": "nhl",
+    "team": "Boston",
+    "position": "D",
+    "injury_status": "Suspension",
+    "injury_detail": "Wed, May 13",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "n.-zadorovnikita-zadorov",
+    "name": "N. ZadorovNikita Zadorov",
+    "sport": "nhl",
+    "team": "Boston",
+    "position": "D",
+    "injury_status": "Knee",
+    "injury_detail": "Sat, May 2",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "n.-ostlundnoah-ostlund",
+    "name": "N. OstlundNoah Ostlund",
+    "sport": "nhl",
+    "team": "Buffalo",
+    "position": "C",
+    "injury_status": "Lower Body",
+    "injury_detail": "Tue, May 19",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "j.-danforthjustin-danforth",
+    "name": "J. DanforthJustin Danforth",
+    "sport": "nhl",
+    "team": "Buffalo",
+    "position": "RW",
+    "injury_status": "Kneecap",
+    "injury_detail": "Sun, Apr 19",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "j.-kulichjiri-kulich",
+    "name": "J. KulichJiri Kulich",
+    "sport": "nhl",
+    "team": "Buffalo",
+    "position": "C",
+    "injury_status": "Ear",
+    "injury_detail": "Fri, Mar 6",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "k.-bahlkevin-bahl",
+    "name": "K. BahlKevin Bahl",
+    "sport": "nhl",
+    "team": "Calgary",
+    "position": "D",
+    "injury_status": "Lower Body",
+    "injury_detail": "Thu, Apr 16",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "j.-beanjake-bean",
+    "name": "J. BeanJake Bean",
+    "sport": "nhl",
+    "team": "Calgary",
+    "position": "D",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Apr 16",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "c.-zaryconnor-zary",
+    "name": "C. ZaryConnor Zary",
+    "sport": "nhl",
+    "team": "Calgary",
+    "position": "C",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Apr 16",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "y.-kuznetsovyan-kuznetsov",
+    "name": "Y. KuznetsovYan Kuznetsov",
+    "sport": "nhl",
+    "team": "Calgary",
+    "position": "D",
+    "injury_status": "Upper Body",
+    "injury_detail": "Tue, Apr 14",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "j.-hanleyjoel-hanley",
+    "name": "J. HanleyJoel Hanley",
+    "sport": "nhl",
+    "team": "Calgary",
+    "position": "D",
+    "injury_status": "Upper Body",
+    "injury_detail": "Sat, Mar 28",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "s.-honzeksamuel-honzek",
+    "name": "S. HonzekSamuel Honzek",
+    "sport": "nhl",
+    "team": "Calgary",
+    "position": "LW",
+    "injury_status": "Upper Body",
+    "injury_detail": "Fri, Mar 27",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "j.-huberdeaujonathan-huberdeau",
+    "name": "J. HuberdeauJonathan Huberdeau",
+    "sport": "nhl",
+    "team": "Calgary",
+    "position": "C",
+    "injury_status": "Hip",
+    "injury_detail": "Sat, Feb 21",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "e.-robinsoneric-robinson",
+    "name": "E. RobinsonEric Robinson",
+    "sport": "nhl",
+    "team": "Carolina",
+    "position": "LW",
+    "injury_status": "Knee",
+    "injury_detail": "Fri, Jun 26",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "s.-jarvisseth-jarvis",
+    "name": "S. JarvisSeth Jarvis",
+    "sport": "nhl",
+    "team": "Carolina",
+    "position": "C",
+    "injury_status": "Shoulder",
+    "injury_detail": "Fri, Jun 26",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "c.-bedardconnor-bedard",
+    "name": "C. BedardConnor Bedard",
+    "sport": "nhl",
+    "team": "Chicago",
+    "position": "C",
+    "injury_status": "Shoulder",
+    "injury_detail": "Wed, Jul 8",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "m.-grzelcykmatt-grzelcyk",
+    "name": "M. GrzelcykMatt Grzelcyk",
+    "sport": "nhl",
+    "team": "Chicago",
+    "position": "D",
+    "injury_status": "Upper Body",
+    "injury_detail": "Tue, Mar 31",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "a.-levshunovartyom-levshunov",
+    "name": "A. LevshunovArtyom Levshunov",
+    "sport": "nhl",
+    "team": "Chicago",
+    "position": "D",
+    "injury_status": "Hand",
+    "injury_detail": "Tue, Mar 31",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "j.-schwartzjaden-schwartz",
+    "name": "J. SchwartzJaden Schwartz",
+    "sport": "nhl",
+    "team": "Colorado",
+    "position": "LW",
+    "injury_status": "Upper Body",
+    "injury_detail": "Thu, Apr 16",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "i.-lundestromisac-lundestrom",
+    "name": "I. LundestromIsac Lundestrom",
+    "sport": "nhl",
+    "team": "Columbus",
+    "position": "C",
+    "injury_status": "Achilles",
+    "injury_detail": "Sun, Jul 19",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "v.-nichushkinvaleri-nichushkin",
+    "name": "V. NichushkinValeri Nichushkin",
+    "sport": "nhl",
+    "team": "Columbus",
+    "position": "RW",
+    "injury_status": "Lower Body",
+    "injury_detail": "Wed, May 27",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "d.-voronkovdmitri-voronkov",
+    "name": "D. VoronkovDmitri Voronkov",
+    "sport": "nhl",
+    "team": "Columbus",
+    "position": "LW",
+    "injury_status": "Hand",
+    "injury_detail": "Tue, Apr 14",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "b.-smithbrendan-smith",
+    "name": "B. SmithBrendan Smith",
+    "sport": "nhl",
+    "team": "Columbus",
+    "position": "D",
+    "injury_status": "Knee",
+    "injury_detail": "Tue, Apr 14",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "d.-seversondamon-severson",
+    "name": "D. SeversonDamon Severson",
+    "sport": "nhl",
+    "team": "Columbus",
+    "position": "D",
+    "injury_status": "Shoulder",
+    "injury_detail": "Sat, Apr 4",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "r.-hintzroope-hintz",
+    "name": "R. HintzRoope Hintz",
+    "sport": "nhl",
+    "team": "Dallas",
+    "position": "LW",
+    "injury_status": "Hamstring",
+    "injury_detail": "Mon, May 4",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "n.-lundkvistnils-lundkvist",
+    "name": "N. LundkvistNils Lundkvist",
+    "sport": "nhl",
+    "team": "Dallas",
+    "position": "D",
+    "injury_status": "Face",
+    "injury_detail": "Fri, May 1",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "a.-hyryarttu-hyry",
+    "name": "A. HyryArttu Hyry",
+    "sport": "nhl",
+    "team": "Dallas",
+    "position": "RW",
+    "injury_status": "Lower Body",
+    "injury_detail": "Fri, May 1",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "t.-seguintyler-seguin",
+    "name": "T. SeguinTyler Seguin",
+    "sport": "nhl",
+    "team": "Dallas",
+    "position": "C",
+    "injury_status": "Knee",
+    "injury_detail": "Fri, Feb 27",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "v.-arvidssonviktor-arvidsson",
+    "name": "V. ArvidssonViktor Arvidsson",
+    "sport": "nhl",
+    "team": "Detroit",
+    "position": "LW",
+    "injury_status": "Ribs",
+    "injury_detail": "Sun, May 3",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "m.-appletonmason-appleton",
+    "name": "M. AppletonMason Appleton",
+    "sport": "nhl",
+    "team": "Detroit",
+    "position": "C",
+    "injury_status": "Upper Body",
+    "injury_detail": "Wed, Apr 15",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "m.-rasmussenmichael-rasmussen",
+    "name": "M. RasmussenMichael Rasmussen",
+    "sport": "nhl",
+    "team": "Detroit",
+    "position": "C",
+    "injury_status": "Lower Body",
+    "injury_detail": "Tue, Apr 14",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "a.-henriqueadam-henrique",
+    "name": "A. HenriqueAdam Henrique",
+    "sport": "nhl",
+    "team": "Edmonton",
+    "position": "C",
+    "injury_status": "Lower Body",
+    "injury_detail": "Fri, May 1",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "m.-janmarkmattias-janmark",
+    "name": "M. JanmarkMattias Janmark",
+    "sport": "nhl",
+    "team": "Edmonton",
+    "position": "C",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Fri, Mar 6",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "r.-gudasradko-gudas",
+    "name": "R. GudasRadko Gudas",
+    "sport": "nhl",
+    "team": "Florida",
+    "position": "D",
+    "injury_status": "Ankle",
+    "injury_detail": "Sun, May 17",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "s.-bennettsam-bennett",
+    "name": "S. BennettSam Bennett",
+    "sport": "nhl",
+    "team": "Florida",
+    "position": "C",
+    "injury_status": "Lower Body",
+    "injury_detail": "Wed, Apr 15",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "c.-verhaeghecarter-verhaeghe",
+    "name": "C. VerhaegheCarter Verhaeghe",
+    "sport": "nhl",
+    "team": "Florida",
+    "position": "C",
+    "injury_status": "Lower Body",
+    "injury_detail": "Wed, Apr 15",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "g.-forslinggustav-forsling",
+    "name": "G. ForslingGustav Forsling",
+    "sport": "nhl",
+    "team": "Florida",
+    "position": "D",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Wed, Apr 15",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "t.-nosektomas-nosek",
+    "name": "T. NosekTomas Nosek",
+    "sport": "nhl",
+    "team": "Florida",
+    "position": "LW",
+    "injury_status": "Leg",
+    "injury_detail": "Wed, Apr 15",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "j.-markstromjacob-markstrom",
+    "name": "J. MarkstromJacob Markstrom",
+    "sport": "nhl",
+    "team": "Florida",
+    "position": "G",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Fri, Apr 10",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "s.-jonesseth-jones",
+    "name": "S. JonesSeth Jones",
+    "sport": "nhl",
+    "team": "Florida",
+    "position": "D",
+    "injury_status": "Foot",
+    "injury_detail": "Thu, Apr 9",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "d.-kulikovdmitry-kulikov",
+    "name": "D. KulikovDmitry Kulikov",
+    "sport": "nhl",
+    "team": "Florida",
+    "position": "D",
+    "injury_status": "Finger",
+    "injury_detail": "Tue, Apr 7",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "j.-gadjovichjonah-gadjovich",
+    "name": "J. GadjovichJonah Gadjovich",
+    "sport": "nhl",
+    "team": "Florida",
+    "position": "LW",
+    "injury_status": "Upper Body",
+    "injury_detail": "Tue, Mar 31",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "b.-marchandbrad-marchand",
+    "name": "B. MarchandBrad Marchand",
+    "sport": "nhl",
+    "team": "Florida",
+    "position": "LW",
+    "injury_status": "Lower Body",
+    "injury_detail": "Sat, Mar 28",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "n.-mikkolaniko-mikkola",
+    "name": "N. MikkolaNiko Mikkola",
+    "sport": "nhl",
+    "team": "Florida",
+    "position": "D",
+    "injury_status": "Knee",
+    "injury_detail": "Tue, Mar 24",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "u.-balinskisuvis-balinskis",
+    "name": "U. BalinskisUvis Balinskis",
+    "sport": "nhl",
+    "team": "Florida",
+    "position": "D",
+    "injury_status": "Foot",
+    "injury_detail": "Tue, Mar 24",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "k.-fialakevin-fiala",
+    "name": "K. FialaKevin Fiala",
+    "sport": "nhl",
+    "team": "Los Angeles",
+    "position": "LW",
+    "injury_status": "Lower Leg",
+    "injury_detail": "Fri, Mar 6",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "f.-gustavssonfilip-gustavsson",
+    "name": "F. GustavssonFilip Gustavsson",
+    "sport": "nhl",
+    "team": "Minnesota",
+    "position": "G",
+    "injury_status": "Hip",
+    "injury_detail": "Mon, May 18",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "j.-eriksson-ekjoel-eriksson-ek",
+    "name": "J. Eriksson EkJoel Eriksson Ek",
+    "sport": "nhl",
+    "team": "Minnesota",
+    "position": "C",
+    "injury_status": "Heel",
+    "injury_detail": "Sun, May 17",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "j.-brodinjonas-brodin",
+    "name": "J. BrodinJonas Brodin",
+    "sport": "nhl",
+    "team": "Minnesota",
+    "position": "D",
+    "injury_status": "Foot",
+    "injury_detail": "Sun, May 17",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "z.-bogosianzach-bogosian",
+    "name": "Z. BogosianZach Bogosian",
+    "sport": "nhl",
+    "team": "Minnesota",
+    "position": "D",
+    "injury_status": "Lower Body",
+    "injury_detail": "Wed, May 13",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "n.-hoglandernils-hoglander",
+    "name": "N. HoglanderNils Hoglander",
+    "sport": "nhl",
+    "team": "Nashville",
+    "position": "LW",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Wed, May 6",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "n.-haguenicolas-hague",
+    "name": "N. HagueNicolas Hague",
+    "sport": "nhl",
+    "team": "Nashville",
+    "position": "D",
+    "injury_status": "Upper Body",
+    "injury_detail": "Thu, Apr 16",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "j.-marchessaultjonathan-marchessault",
+    "name": "J. MarchessaultJonathan Marchessault",
+    "sport": "nhl",
+    "team": "Nashville",
+    "position": "C",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Apr 16",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "j.-siegenthalerjonas-siegenthaler",
+    "name": "J. SiegenthalerJonas Siegenthaler",
+    "sport": "nhl",
+    "team": "New Jersey",
+    "position": "D",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Mon, May 4",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "b.-pescebrett-pesce",
+    "name": "B. PesceBrett Pesce",
+    "sport": "nhl",
+    "team": "New Jersey",
+    "position": "D",
+    "injury_status": "Lower Body",
+    "injury_detail": "Mon, Apr 13",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "l.-hughesluke-hughes",
+    "name": "L. HughesLuke Hughes",
+    "sport": "nhl",
+    "team": "New Jersey",
+    "position": "D",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Apr 9",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "e.-rodriguesevan-rodrigues",
+    "name": "E. RodriguesEvan Rodrigues",
+    "sport": "nhl",
+    "team": "New Jersey",
+    "position": "C",
+    "injury_status": "Finger",
+    "injury_detail": "Sat, Apr 4",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "a.-gritsyukarseny-gritsyuk",
+    "name": "A. GritsyukArseny Gritsyuk",
+    "sport": "nhl",
+    "team": "New Jersey",
+    "position": "RW",
+    "injury_status": "Upper Body",
+    "injury_detail": "Thu, Apr 2",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "s.-noesenstefan-noesen",
+    "name": "S. NoesenStefan Noesen",
+    "sport": "nhl",
+    "team": "New Jersey",
+    "position": "RW",
+    "injury_status": "Knee",
+    "injury_detail": "Sun, Mar 22",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "m.-barzalmathew-barzal",
+    "name": "M. BarzalMathew Barzal",
+    "sport": "nhl",
+    "team": "N.Y. Islanders",
+    "position": "C",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Tue, May 12",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "a.-romanovalexander-romanov",
+    "name": "A. RomanovAlexander Romanov",
+    "sport": "nhl",
+    "team": "N.Y. Islanders",
+    "position": "D",
+    "injury_status": "Shoulder",
+    "injury_detail": "Sat, Apr 18",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "r.-pulockryan-pulock",
+    "name": "R. PulockRyan Pulock",
+    "sport": "nhl",
+    "team": "N.Y. Islanders",
+    "position": "D",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Tue, Apr 14",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "s.-varlamovsemyon-varlamov",
+    "name": "S. VarlamovSemyon Varlamov",
+    "sport": "nhl",
+    "team": "N.Y. Islanders",
+    "position": "G",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Mar 12",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "k.-palmierikyle-palmieri",
+    "name": "K. PalmieriKyle Palmieri",
+    "sport": "nhl",
+    "team": "N.Y. Islanders",
+    "position": "RW",
+    "injury_status": "Knee",
+    "injury_detail": "Sun, Nov 30",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "p.-engvallpierre-engvall",
+    "name": "P. EngvallPierre Engvall",
+    "sport": "nhl",
+    "team": "N.Y. Islanders",
+    "position": "LW",
+    "injury_status": "Ankle",
+    "injury_detail": "Thu, Oct 23",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "m.-rempematt-rempe",
+    "name": "M. RempeMatt Rempe",
+    "sport": "nhl",
+    "team": "N.Y. Rangers",
+    "position": "C",
+    "injury_status": "Thumb",
+    "injury_detail": "Mon, Mar 23",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "r.-greigridly-greig",
+    "name": "R. GreigRidly Greig",
+    "sport": "nhl",
+    "team": "Ottawa",
+    "position": "C",
+    "injury_status": "Suspension",
+    "injury_detail": "Mon, May 4",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "a.-zubartem-zub",
+    "name": "A. ZubArtem Zub",
+    "sport": "nhl",
+    "team": "Ottawa",
+    "position": "D",
+    "injury_status": "Lower Body",
+    "injury_detail": "Mon, Apr 27",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "j.-sandersonjake-sanderson",
+    "name": "J. SandersonJake Sanderson",
+    "sport": "nhl",
+    "team": "Ottawa",
+    "position": "D",
+    "injury_status": "Concussion",
+    "injury_detail": "Sun, Apr 26",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "n.-catesnoah",
+    "name": "N. CatesNoah",
+    "sport": "nhl",
+    "team": "Philadelphia",
+    "position": "LW",
+    "injury_status": "Foot",
+    "injury_detail": "Tue, May 12",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "o.-tippettowen-tippett",
+    "name": "O. TippettOwen Tippett",
+    "sport": "nhl",
+    "team": "Philadelphia",
+    "position": "RW",
+    "injury_status": "Abdomen",
+    "injury_detail": "Tue, May 12",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "f.-hallanderfilip-hallander",
+    "name": "F. HallanderFilip Hallander",
+    "sport": "nhl",
+    "team": "Pittsburgh",
+    "position": "C",
+    "injury_status": "Leg",
+    "injury_detail": "Sat, Apr 25",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "c.-jonescaleb-jones",
+    "name": "C. JonesCaleb Jones",
+    "sport": "nhl",
+    "team": "Pittsburgh",
+    "position": "D",
+    "injury_status": "Shoulder",
+    "injury_detail": "Sun, Apr 5",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "r.-reavesryan-reaves",
+    "name": "R. ReavesRyan Reaves",
+    "sport": "nhl",
+    "team": "San Jose",
+    "position": "RW",
+    "injury_status": "Hand",
+    "injury_detail": "Tue, Apr 14",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "j.-daccordjoey-daccord",
+    "name": "J. DaccordJoey Daccord",
+    "sport": "nhl",
+    "team": "Seattle",
+    "position": "G",
+    "injury_status": "Lower Body",
+    "injury_detail": "Thu, Apr 16",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "j.-mccannjared-mccann",
+    "name": "J. McCannJared McCann",
+    "sport": "nhl",
+    "team": "Seattle",
+    "position": "C",
+    "injury_status": "Lower Body",
+    "injury_detail": "Mon, Apr 13",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "t.-krugtorey-krug",
+    "name": "T. KrugTorey Krug",
+    "sport": "nhl",
+    "team": "St. Louis",
+    "position": "D",
+    "injury_status": "Ankle",
+    "injury_detail": "Sat, Jul 11",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "b.-carlobrandon-carlo",
+    "name": "B. CarloBrandon Carlo",
+    "sport": "nhl",
+    "team": "St. Louis",
+    "position": "D",
+    "injury_status": "Lower Body",
+    "injury_detail": "Sat, Apr 11",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "p.-holmbergpontus-holmberg",
+    "name": "P. HolmbergPontus Holmberg",
+    "sport": "nhl",
+    "team": "Tampa Bay",
+    "position": "RW",
+    "injury_status": "Collarbone",
+    "injury_detail": "Tue, May 5",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "m.-domimax-domi",
+    "name": "M. DomiMax Domi",
+    "sport": "nhl",
+    "team": "Toronto",
+    "position": "C",
+    "injury_status": "Back",
+    "injury_detail": "Sun, May 31",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "c.-jarnkrokcalle-jarnkrok",
+    "name": "C. JarnkrokCalle Jarnkrok",
+    "sport": "nhl",
+    "team": "Toronto",
+    "position": "C",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Wed, Apr 15",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "d.-joshuadakota-joshua",
+    "name": "D. JoshuaDakota Joshua",
+    "sport": "nhl",
+    "team": "Toronto",
+    "position": "C",
+    "injury_status": "Upper Body",
+    "injury_detail": "Sat, Apr 11",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "a.-matthewsauston-matthews",
+    "name": "A. MatthewsAuston Matthews",
+    "sport": "nhl",
+    "team": "Toronto",
+    "position": "C",
+    "injury_status": "Knee",
+    "injury_detail": "Fri, Mar 13",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "c.-tanevchristopher-tanev",
+    "name": "C. TanevChristopher Tanev",
+    "sport": "nhl",
+    "team": "Toronto",
+    "position": "D",
+    "injury_status": "Abdomen",
+    "injury_detail": "Wed, Mar 4",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "z.-macewenzack-macewen",
+    "name": "Z. MacEwenZack MacEwen",
+    "sport": "nhl",
+    "team": "Toronto",
+    "position": "C",
+    "injury_status": "Knee",
+    "injury_detail": "Sun, Jan 11",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "b.-haytonbarrett-hayton",
+    "name": "B. HaytonBarrett Hayton",
+    "sport": "nhl",
+    "team": "Utah",
+    "position": "C",
+    "injury_status": "Upper Body",
+    "injury_detail": "Sat, May 2",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "d.-forbortderek-forbort",
+    "name": "D. ForbortDerek Forbort",
+    "sport": "nhl",
+    "team": "Vancouver",
+    "position": "D",
+    "injury_status": "Hip",
+    "injury_detail": "Mon, Jun 22",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "f.-chytilfilip-chytil",
+    "name": "F. ChytilFilip Chytil",
+    "sport": "nhl",
+    "team": "Vancouver",
+    "position": "C",
+    "injury_status": "Face",
+    "injury_detail": "Thu, Apr 16",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "e.-kaneevander-kane",
+    "name": "E. KaneEvander Kane",
+    "sport": "nhl",
+    "team": "Vancouver",
+    "position": "LW",
+    "injury_status": "Upper Body",
+    "injury_detail": "Tue, Apr 14",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "t.-demkothatcher-demko",
+    "name": "T. DemkoThatcher Demko",
+    "sport": "nhl",
+    "team": "Vancouver",
+    "position": "G",
+    "injury_status": "Hip",
+    "injury_detail": "Tue, Mar 3",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "a.-pietrangeloalex-pietrangelo",
+    "name": "A. PietrangeloAlex Pietrangelo",
+    "sport": "nhl",
+    "team": "Vegas",
+    "position": "D",
+    "injury_status": "Hip",
+    "injury_detail": "Sat, Jul 11",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "w.-karlssonwilliam-karlsson",
+    "name": "W. KarlssonWilliam Karlsson",
+    "sport": "nhl",
+    "team": "Vegas",
+    "position": "C",
+    "injury_status": "Wrist",
+    "injury_detail": "Wed, Jun 17",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "j.-kyroujordan-kyrou",
+    "name": "J. KyrouJordan Kyrou",
+    "sport": "nhl",
+    "team": "Washington",
+    "position": "C",
+    "injury_status": "Knee",
+    "injury_detail": "Thu, Apr 23",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "r.-sandinrasmus-sandin",
+    "name": "R. SandinRasmus Sandin",
+    "sport": "nhl",
+    "team": "Washington",
+    "position": "D",
+    "injury_status": "Knee",
+    "injury_detail": "Wed, Apr 22",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "p.-duboispierre-luc-dubois",
+    "name": "P. DuboisPierre-Luc Dubois",
+    "sport": "nhl",
+    "team": "Washington",
+    "position": "LW",
+    "injury_status": "Hand",
+    "injury_detail": "Thu, Apr 16",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "c.-lindgrencharlie-lindgren",
+    "name": "C. LindgrenCharlie Lindgren",
+    "sport": "nhl",
+    "team": "Washington",
+    "position": "G",
+    "injury_status": "Upper Body",
+    "injury_detail": "Tue, Apr 14",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "v.-namestnikovvladislav-namestnikov",
+    "name": "V. NamestnikovVladislav Namestnikov",
+    "sport": "nhl",
+    "team": "Winnipeg",
+    "position": "C",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Apr 16",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "g.-nyquistgustav-nyquist",
+    "name": "G. NyquistGustav Nyquist",
+    "sport": "nhl",
+    "team": "Winnipeg",
+    "position": "RW",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Apr 16",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "n.-pionkneal-pionk",
+    "name": "N. PionkNeal Pionk",
+    "sport": "nhl",
+    "team": "Winnipeg",
+    "position": "D",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Apr 16",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "a.-iafalloalex-iafallo",
+    "name": "A. IafalloAlex Iafallo",
+    "sport": "nhl",
+    "team": "Winnipeg",
+    "position": "LW",
+    "injury_status": "Undisclosed",
+    "injury_detail": "Thu, Apr 16",
+    "last_updated": 1785160340
+  },
+  {
+    "player_id": "m.-barronmorgan-barron",
+    "name": "M. BarronMorgan Barron",
+    "sport": "nhl",
+    "team": "Winnipeg",
+    "position": "C",
+    "injury_status": "Lower Body",
+    "injury_detail": "Tue, Apr 14",
+    "last_updated": 1785160340
+  }
+]
