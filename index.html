@@ -473,7 +473,7 @@ loadHub();
 // forwards a workflow_dispatch request. See /worker/README.md for setup —
 // until TRIGGER_URL below is filled in, the button just refreshes the
 // currently-saved data, same as before.
-const TRIGGER_URL = ''; // e.g. 'https://projex-refresh.<your-subdomain>.workers.dev'
+const TRIGGER_URL = 'projex-refresh.mikebennettmedia.workers.dev'; // e.g. 'https://projex-refresh.<your-subdomain>.workers.dev'
 
 const hubRefresh = document.getElementById('hub-refresh');
 const hubStatus = document.getElementById('hub-status');
@@ -488,10 +488,10 @@ function showStatus(msg, isError){
 async function triggerRun(){
   if (!TRIGGER_URL) return { ok:false, skipped:true };
   try {
-    const r = await fetch(TRIGGER_URL, { method: 'POST' });
-    return { ok: r.ok };
-  } catch (e) {
-    return { ok:false };
+    const r = await fetch(TRIGGER_URL, {
+  method: 'POST',
+  headers: { 'X-Trigger-Secret': 'xk92-refresh-please-7f2' }
+});
   }
 }
 
