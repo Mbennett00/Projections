@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -344,7 +345,7 @@ function renderMatchupBody(sport, games, updatedTxt){
       </div>
       <div class="mu-edge">${edgeIco}${edgeTxt}</div>
     </div>
-    ${edgeTxt ? `<button class="pick-btn" type="button" data-pick-sport="${sport}" data-pick-label="${abbr(sport, top.away_team)} @ ${abbr(sport, top.home_team)}" data-pick-detail="${edgeTxt.replace(/"/g,'&quot;')}" style="margin-top:9px;width:100%;font-size:10.5px;font-weight:700;padding:7px;border-radius:8px;border:1px solid rgba(147,224,110,.35);background:rgba(147,224,110,.1);color:var(--g1);cursor:pointer;font-family:inherit">+ Log This Pick</button>` : ''}
+    ${edgeTxt ? `<button class="pick-btn" type="button" data-pick-sport="${sport}" data-pick-label="${abbr(sport, top.away_team)} @ ${abbr(sport, top.home_team)}" data-pick-detail="${edgeTxt.replace(/"/g,'&quot;')}" data-pick-logo="${edge && edge.team ? logoUrl(sport, edge.team) : ''}" style="margin-top:9px;width:100%;font-size:10.5px;font-weight:700;padding:7px;border-radius:8px;border:1px solid rgba(147,224,110,.35);background:rgba(147,224,110,.1);color:var(--g1);cursor:pointer;font-family:inherit">+ Log This Pick</button>` : ''}
   `;
 }
 
@@ -476,6 +477,7 @@ document.getElementById('grid').addEventListener('click', (e) => {
     sport: btn.dataset.pickSport,
     label: btn.dataset.pickLabel,
     detail: btn.dataset.pickDetail,
+    logo: btn.dataset.pickLogo || '',
   });
   btn.textContent = '✓ Logged';
   btn.disabled = true;
