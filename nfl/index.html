@@ -96,7 +96,7 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
   background:linear-gradient(160deg,var(--card-2),var(--card)) padding-box,
              linear-gradient(150deg,rgba(147,224,110,.28),rgba(51,55,42,.6) 55%,rgba(147,224,110,.12)) border-box;
   border:1px solid transparent}
-.g-accent{position:absolute;top:0;left:0;right:0;height:3px}
+.g-accent{position:absolute;top:0;left:0;right:0;height:3px;opacity:.85;transition:background .25s ease}
 .g-top{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted);font-weight:600;margin-bottom:11px}
 .g-top .team-chip img{width:15px;height:15px}
 .g-badges{display:inline-flex;align-items:center;gap:6px;flex:none}
@@ -236,6 +236,12 @@ const ABBR = {"Arizona Cardinals":"ARI","Atlanta Falcons":"ATL","Baltimore Raven
 const ab = n => ABBR[n] || (n||'').split(' ').map(w=>w[0]).join('').slice(0,3).toUpperCase();
 const TC = {ARI:'#B0325B',ATL:'#C8283C',BAL:'#7A5FD0',BUF:'#3B6EDC',CAR:'#0085CA',CHI:'#E05A2B',CIN:'#FB4F14',CLE:'#FF3C00',DAL:'#4A7CD6',DEN:'#FB4F14',DET:'#0076B6',GB:'#57A05C',HOU:'#C42B45',IND:'#3F76D2',JAX:'#12A5BC',KC:'#E31837',LV:'#B8C4CA',LAC:'#0080C6',LAR:'#3F6FE0',MIA:'#00A5A0',MIN:'#8A63D2',NE:'#C8102E',NO:'#D3BC8D',NYG:'#4A6FD6',NYJ:'#1FA37A',PHI:'#1FA394',PIT:'#FFB612',SF:'#C42B2B',SEA:'#69BE28',TB:'#D50A0A',TEN:'#4B92DB',WSH:'#B04545'};
 const tc = a => TC[a] || '#8A8D93';
+// Dynamic card colour: the top accent bar reflects the model's edge
+// confidence tier instead of team colours -- grey (no/weak edge) -> blue
+// (medium) -> green (high) -> gold (elite). Same 4-stage scale everywhere.
+const EDGE_TIER_COLOR = {LOW:'#6B6E74', MEDIUM:'#4F9FE0', HIGH:'#93E06E', ELITE:'#E0B84A'};
+const edgeAccent = g => (g.edge && EDGE_TIER_COLOR[g.edge.confidence]) || '#3A3D42';
+
 const abSpan = a => `<b style="color:${tc(a)}">${a}</b>`;
 // opponent chip: tiny logo + coloured abbr, used everywhere a matchup shows
 const teamChip = a => `<span class="team-chip"><img src="${logo(a)}" alt="" loading="lazy" onerror="this.style.display='none'"><b style="color:${tc(a)}">${a}</b></span>`;
@@ -288,7 +294,7 @@ function gameCard(g){
   const favLogo = (aFav ? ab(g.away_team) : ab(g.home_team));
   const tierHtml = g.tier ? `<span class="tier ${g.tier}"><img src="${logo(favLogo)}" alt="" loading="lazy" onerror="this.remove()">${g.tier}</span>` : '';
   return `<div class="game">
-    <div class="g-accent" style="background:linear-gradient(90deg,${cA},${cH})"></div>
+    <div class="g-accent" style="background:${edgeAccent(g)}"></div>
     <div class="g-top">
       <span>${teamChip(ab(g.away_team))} @ ${teamChip(ab(g.home_team))}</span>
       <span class="g-badges">${stateBadge(g)}${tierHtml}${edgePill(g)}</span>

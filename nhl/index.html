@@ -54,7 +54,7 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
   background:linear-gradient(160deg,var(--card-2),var(--card)) padding-box,
              linear-gradient(150deg,rgba(147,224,110,.28),rgba(51,55,42,.6) 55%,rgba(147,224,110,.12)) border-box;
   border:1px solid transparent}
-.g-accent{position:absolute;top:0;left:0;right:0;height:3px}
+.g-accent{position:absolute;top:0;left:0;right:0;height:3px;opacity:.85;transition:background .25s ease}
 .g-top{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted);font-weight:600;margin-bottom:11px}
 .g-top .team-chip img{width:15px;height:15px}
 .g-badges{display:inline-flex;align-items:center;gap:6px;flex:none}
@@ -224,6 +224,12 @@ const $ = id => document.getElementById(id);
 const TC = {ANA:'#F47A38',BOS:'#FFB81C',BUF:'#3E6FD8',CGY:'#D2001C',CAR:'#CE1126',CHI:'#CF0A2C',COL:'#B5485F',CBJ:'#4A6FD0',DAL:'#0FA36B',DET:'#E31837',EDM:'#FF4C00',FLA:'#C8102E',LAK:'#A2AAAD',MIN:'#37A169',MTL:'#AF1E2D',NSH:'#FFB81C',NJD:'#CE0E2D',NYI:'#F47D30',NYR:'#3E6FD8',OTT:'#DA1A32',PHI:'#F74902',PIT:'#FCB514',SJS:'#12A5AD',SEA:'#99D9D9',STL:'#4C7CE0',TBL:'#4169CF',TOR:'#4179D8',UTA:'#6CACE4',VAN:'#14A85A',VGK:'#B4975A',WSH:'#D22B33',WPG:'#5578C8'};
 const AV = {ANA:['#F47A38','#B9975B'],BOS:['#000000','#FFB81C'],BUF:['#003087','#FFB81C'],CGY:['#D2001C','#FAAF19'],CAR:['#CE1126','#A4A9AD'],CHI:['#CF0A2C','#FFD100'],COL:['#6F263D','#236192'],CBJ:['#002654','#CE1126'],DAL:['#006847','#8F8F8C'],DET:['#CE1126','#F5F0E1'],EDM:['#041E42','#FF4C00'],FLA:['#041E42','#C8102E'],LAK:['#111111','#A2AAAD'],MIN:['#154734','#A6192E'],MTL:['#AF1E2D','#192168'],NSH:['#FFB81C','#041E42'],NJD:['#CE0E2D','#101820'],NYI:['#00539B','#F47D30'],NYR:['#0038A8','#CE1126'],OTT:['#000000','#DA1A32'],PHI:['#F74902','#101820'],PIT:['#000000','#FCB514'],SJS:['#006D75','#EA7200'],SEA:['#001628','#99D9D9'],STL:['#002F87','#FCB514'],TBL:['#00205B','#F5F0E1'],TOR:['#00205B','#F5F0E1'],UTA:['#010101','#6CACE4'],VAN:['#00205B','#00843D'],VGK:['#333F42','#B4975A'],WSH:['#041E42','#C8102E'],WPG:['#041E42','#AC162C']};
 const tc = a => TC[a] || '#8A8D93';
+// Dynamic card colour: the top accent bar reflects the model's edge
+// confidence tier instead of team colours -- grey (no/weak edge) -> blue
+// (medium) -> green (high) -> gold (elite). Same 4-stage scale everywhere.
+const EDGE_TIER_COLOR = {LOW:'#6B6E74', MEDIUM:'#4F9FE0', HIGH:'#93E06E', ELITE:'#E0B84A'};
+const edgeAccent = g => (g.edge && EDGE_TIER_COLOR[g.edge.confidence]) || '#3A3D42';
+
 const abSpan = a => `<b style="color:${tc(a)}">${a}</b>`;
 const teamChip = a => `<span class="team-chip"><img src="${logo(a)}" alt="" loading="lazy" onerror="this.style.display='none'"><b style="color:${tc(a)}">${a}</b></span>`;
 const logo = a => `https://a.espncdn.com/i/teamlogos/nhl/500/${(a||'').toLowerCase()}.png`;
@@ -360,7 +366,7 @@ function gameCard(g){
   }).join('');
   const total = (g.away_goals ?? 0) + (g.home_goals ?? 0);
   return `<div class="game">
-    <div class="g-accent" style="background:linear-gradient(90deg,${cA},${cH})"></div>
+    <div class="g-accent" style="background:${edgeAccent(g)}"></div>
     <div class="g-top">
       <span>${teamChip(g.away_abbr)} @ ${teamChip(g.home_abbr)} · ${esc(g.venue ?? '')}</span>
       <span class="g-badges">${stateBadge(g)}${tierHtml}${edgePill(g)}</span>

@@ -22,7 +22,8 @@
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{-webkit-text-size-adjust:100%; height:100%}
 body{
-  background:var(--bg); color:var(--ink); font-family:'Inter',system-ui,sans-serif;
+  background:linear-gradient(165deg, #0B0C0E 0%, #0E1210 40%, #0F1712 68%, #0B0C0E 100%);
+  color:var(--ink); font-family:'Inter',system-ui,sans-serif;
   min-height:100dvh; display:flex; flex-direction:column; position:relative;
   padding:max(16px,env(safe-area-inset-top)) 16px max(16px,env(safe-area-inset-bottom));
   max-width:560px; margin:0 auto;
@@ -30,8 +31,10 @@ body{
 body::before{
   content:''; position:fixed; inset:0; z-index:-1; pointer-events:none;
   background:
-    radial-gradient(560px 320px at 8% -6%, rgba(147,224,110,.08), transparent 60%),
-    radial-gradient(480px 360px at 108% 8%, rgba(95,163,74,.08), transparent 60%);
+    radial-gradient(720px 440px at 10% -8%, rgba(147,224,110,.17), transparent 62%),
+    radial-gradient(620px 440px at 105% 6%, rgba(95,163,74,.15), transparent 62%),
+    radial-gradient(900px 620px at 50% 115%, rgba(147,224,110,.09), transparent 68%),
+    linear-gradient(165deg, rgba(147,224,110,.05) 0%, transparent 45%);
 }
 
 /* ---------- header ---------- */
@@ -53,6 +56,16 @@ header{display:flex; align-items:center; justify-content:space-between; padding:
 .hub-refresh:focus-visible{outline:2px solid var(--g1); outline-offset:2px}
 .hub-refresh.spin{animation:spin .7s linear infinite; color:var(--g1); border-color:rgba(147,224,110,.4)}
 @keyframes spin{to{transform:rotate(360deg)}}
+
+/* ---------- storylines strip ---------- */
+#storylines{margin-bottom:16px}
+.story-label{font-size:11px; font-weight:700; color:var(--mute); letter-spacing:.1em; text-transform:uppercase; font-family:'IBM Plex Mono',monospace; margin-bottom:8px}
+.story-row{display:flex; gap:8px; overflow-x:auto; padding-bottom:2px; scrollbar-width:none}
+.story-row::-webkit-scrollbar{display:none}
+.story-chip{
+  flex:none; font-size:12px; font-weight:600; color:var(--ink); white-space:nowrap;
+  background:var(--panel); border:1px solid var(--line); border-radius:99px; padding:8px 13px;
+}
 
 /* ---------- section label ---------- */
 .kicker-row{display:flex;align-items:center;gap:10px;margin-bottom:14px; flex:none}
@@ -151,6 +164,8 @@ footer b{background:var(--grad);-webkit-background-clip:text;background-clip:tex
   </div>
   <button class="hub-refresh" id="hub-refresh" aria-label="Refresh" title="Refresh">↻</button>
 </header>
+
+<div id="storylines" style="display:none"></div>
 
 <div class="kicker-row">
   <div class="kicker">Model Boards</div>
@@ -337,68 +352,106 @@ function renderNextStart(sport){
   `;
 }
 
-function loadHub(){
-  for (const s of ['mlb','nfl','nhl','nba']) {
-    fetch(`./data/${s}_slate.json?t=${Date.now()}`)
-      .then(r => r.json())
-      .then(d => {
-        const games = d.games || [];
-        const count = games.length;
-        const live = games.filter(g => g.game_state === 'Live').length;
-        const mode = document.querySelector(`.board[data-sport="${s}"]`).dataset.mode;
-        const card = document.querySelector(`.board[data-sport="${s}"]`);
-        const updatedTxt = d.generated_at ? rel(d.generated_at) : 'syncing…';
-
-        document.getElementById(s+'-games').textContent = count;
-        document.getElementById(s+'-games-label').textContent = count === 1 ? 'game today' : 'games today';
-        card.classList.toggle('quiet', count === 0);
-
-        // status badge
-        let badge;
-        if (live > 0) badge = `${live} GAME${live===1?'':'S'} LIVE`;
-        else if (count > 0) badge = `${count} GAME${count===1?'':'S'} TODAY`;
-        else badge = NEXT_START[s] ? 'OFFSEASON' : 'NO GAMES SCHEDULED';
-        document.getElementById(s+'-badge').textContent = badge;
-
-        // stat 1 & 2: predicted edges / top plays, derived from each game's edge score
-        const scores = games.map(gameEdgeScore);
-        const predictedEdges = scores.filter(x => x > 0).length;
-        const topPlays = scores.filter(x => x >= 70).length;
-        document.getElementById(s+'-stat1').textContent = predictedEdges;
-        document.getElementById(s+'-stat2').textContent = topPlays;
-
-        // stat 3: win probability (weekly boards) or high-confidence count (daily boards)
-        if (mode === 'weekly'){
-          let bestPct = 0;
-          for (const g of games){
-            const p = Math.max(g.home_win_pct ?? 0, g.away_win_pct ?? 0, g.p_cover ?? 0);
-            if (p > bestPct) bestPct = p;
-          }
-          document.getElementById(s+'-stat3').textContent = games.length ? `${Math.round(bestPct*100)}%` : '0%';
-        } else {
-          document.getElementById(s+'-stat3').textContent = scores.filter(x => x >= 80).length;
-        }
-
-        // body: matchup panel if games exist, otherwise a next-start box for offseason sports
-        const bodyEl = document.getElementById(s+'-body');
-        const footEl = document.getElementById(s+'-foot');
-        if (count > 0){
-          bodyEl.innerHTML = renderMatchupBody(s, games, updatedTxt);
-          footEl.style.display = 'none';
-          // timestamp sits alone under the matchup row when there's a live arrow inline
-          bodyEl.insertAdjacentHTML('beforeend', `<div class="board-updated" style="margin-top:8px">${updatedTxt}</div>`);
-        } else {
-          bodyEl.innerHTML = renderNextStart(s);
-          footEl.style.display = 'flex';
-          document.getElementById(s+'-updated-alt').textContent = updatedTxt;
-        }
-      })
-      .catch(() => {
-        const footEl = document.getElementById(s+'-foot');
-        footEl.style.display = 'flex';
-        document.getElementById(s+'-updated-alt').textContent = 'no data yet';
-      });
+// Today's Storylines -- pulls Weather + Revenge Game flags already computed
+// server-side (weather_note / revenge on each game) and surfaces the most
+// interesting 3-5 as chips. No new data needed for these two; other
+// storyline types (injuries, B2B, travel) will slot in the same way once
+// their backend fields exist.
+function buildStorylines(bySport){
+  const chips = [];
+  for (const [sport, games] of Object.entries(bySport)){
+    for (const g of games){
+      const matchup = `${abbr(sport, g.away_team)} @ ${abbr(sport, g.home_team)}`;
+      if (g.weather_note){
+        const cond = /rain|precip|snow/i.test(g.weather_note) ? '🌧️' : /wind/i.test(g.weather_note) ? '💨' : '☀️';
+        chips.push({ icon: cond, text: `${g.weather_note}: ${matchup}`, weight: 1 });
+      }
+      if (g.revenge && g.revenge.team){
+        chips.push({ icon: '🔥', text: `${shortName(g.revenge.team)} revenge game (lost ${g.revenge.score} on ${g.revenge.last_meeting_date})`, weight: 2 });
+      }
+    }
   }
+  chips.sort((a, b) => b.weight - a.weight);
+  return chips.slice(0, 5);
+}
+
+function renderStorylines(chips){
+  const wrap = document.getElementById('storylines');
+  if (!chips.length){ wrap.style.display = 'none'; return; }
+  wrap.style.display = 'block';
+  wrap.innerHTML = `
+    <div class="story-label">Today's Storylines</div>
+    <div class="story-row">
+      ${chips.map(c => `<div class="story-chip">${c.icon} ${c.text}</div>`).join('')}
+    </div>`;
+}
+
+async function loadHub(){
+  const bySport = {};
+  await Promise.all(['mlb','nfl','nhl','nba'].map(async s => {
+    let d;
+    try {
+      const r = await fetch(`./data/${s}_slate.json?t=${Date.now()}`);
+      d = await r.json();
+    } catch (e) {
+      const footEl = document.getElementById(s+'-foot');
+      footEl.style.display = 'flex';
+      document.getElementById(s+'-updated-alt').textContent = 'no data yet';
+      return;
+    }
+    const games = d.games || [];
+    bySport[s] = games;
+    const count = games.length;
+    const live = games.filter(g => g.game_state === 'Live').length;
+    const mode = document.querySelector(`.board[data-sport="${s}"]`).dataset.mode;
+    const card = document.querySelector(`.board[data-sport="${s}"]`);
+    const updatedTxt = d.generated_at ? rel(d.generated_at) : 'syncing…';
+
+    document.getElementById(s+'-games').textContent = count;
+    document.getElementById(s+'-games-label').textContent = count === 1 ? 'game today' : 'games today';
+    card.classList.toggle('quiet', count === 0);
+
+    // status badge
+    let badge;
+    if (live > 0) badge = `${live} GAME${live===1?'':'S'} LIVE`;
+    else if (count > 0) badge = `${count} GAME${count===1?'':'S'} TODAY`;
+    else badge = NEXT_START[s] ? 'OFFSEASON' : 'NO GAMES SCHEDULED';
+    document.getElementById(s+'-badge').textContent = badge;
+
+    // stat 1 & 2: predicted edges / top plays, derived from each game's edge score
+    const scores = games.map(gameEdgeScore);
+    const predictedEdges = scores.filter(x => x > 0).length;
+    const topPlays = scores.filter(x => x >= 70).length;
+    document.getElementById(s+'-stat1').textContent = predictedEdges;
+    document.getElementById(s+'-stat2').textContent = topPlays;
+
+    // stat 3: win probability (weekly boards) or high-confidence count (daily boards)
+    if (mode === 'weekly'){
+      let bestPct = 0;
+      for (const g of games){
+        const p = Math.max(g.home_win_pct ?? 0, g.away_win_pct ?? 0, g.p_cover ?? 0);
+        if (p > bestPct) bestPct = p;
+      }
+      document.getElementById(s+'-stat3').textContent = games.length ? `${Math.round(bestPct*100)}%` : '0%';
+    } else {
+      document.getElementById(s+'-stat3').textContent = scores.filter(x => x >= 80).length;
+    }
+
+    // body: matchup panel if games exist, otherwise a next-start box for offseason sports
+    const bodyEl = document.getElementById(s+'-body');
+    const footEl = document.getElementById(s+'-foot');
+    if (count > 0){
+      bodyEl.innerHTML = renderMatchupBody(s, games, updatedTxt);
+      footEl.style.display = 'none';
+      // timestamp sits alone under the matchup row when there's a live arrow inline
+      bodyEl.insertAdjacentHTML('beforeend', `<div class="board-updated" style="margin-top:8px">${updatedTxt}</div>`);
+    } else {
+      bodyEl.innerHTML = renderNextStart(s);
+      footEl.style.display = 'flex';
+      document.getElementById(s+'-updated-alt').textContent = updatedTxt;
+    }
+  }));
+  renderStorylines(buildStorylines(bySport));
 }
 loadHub();
 const hubRefresh = document.getElementById('hub-refresh');

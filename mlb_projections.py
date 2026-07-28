@@ -314,6 +314,8 @@ def get_todays_games(date_str):
         linescore = g.get("linescore", {})
         games.append({
             "away_team": away["team"]["name"],
+            "away_team_id": away["team"]["id"],
+            "home_team_id": home["team"]["id"],
             "home_team": home["team"]["name"],
             "away_pitcher_name": away.get("probablePitcher", {}).get("fullName"),
             "away_pitcher_id": away.get("probablePitcher", {}).get("id"),
@@ -333,6 +335,37 @@ def get_todays_games(date_str):
             "home_score": home.get("score"),
         })
     return games
+
+
+def fetch_last_meeting(team_id, opp_id, before_date, season):
+    """Most recent completed regular-season game between two teams this
+    season (strictly before `before_date`), or None. Powers the "Revenge
+    Game" storyline -- a team that lost the last meeting is "due" for revenge."""
+    if not team_id or not opp_id:
+        return None
+    url = (f"https://statsapi.mlb.com/api/v1/schedule?sportId=1&teamId={team_id}"
+           f"&opponentId={opp_id}&startDate={season}-01-01&endDate={before_date}&gameType=R")
+    try:
+        resp = requests.get(url, timeout=8)
+        resp.raise_for_status()
+        data = resp.json()
+    except Exception:
+        return None
+    games = [g for d in data.get("dates", []) for g in d.get("games", [])]
+    finals = [g for g in games if g.get("status", {}).get("abstractGameState") == "Final"]
+    if not finals:
+        return None
+    last = max(finals, key=lambda g: g.get("gameDate", ""))
+    away, home = last["teams"]["away"], last["teams"]["home"]
+    if away.get("score") is None or home.get("score") is None:
+        return None
+    winner_id = away["team"]["id"] if away["score"] > home["score"] else home["team"]["id"]
+    return {
+        "date": last.get("gameDate", "")[:10],
+        "winner_id": winner_id,
+        "away_id": away["team"]["id"], "home_id": home["team"]["id"],
+        "away_score": away["score"], "home_score": home["score"],
+    }
 
 
 # ---------------------------------------------------------------------------
@@ -1061,6 +1094,22 @@ def print_game(game, bat_df, pit_df, odds_lines, all_standouts):
     result["weather"] = _wx
     result["weather_note"] = _wx_note
     result["weather_hr_factor"] = _wx_hr
+
+    # Revenge Game storyline — did either team lose the last meeting?
+    game_date = (game.get("game_time") or "")[:10] or _today_et()
+    season = game_date[:4]
+    last_meeting = fetch_last_meeting(game.get("away_team_id"), game.get("home_team_id"), game_date, season)
+    if last_meeting:
+        loser_id = last_meeting["home_id"] if last_meeting["winner_id"] == last_meeting["away_id"] else last_meeting["away_id"]
+        revenge_team = game["away_team"] if loser_id == game.get("away_team_id") else game["home_team"]
+        result["revenge"] = {
+            "team": revenge_team,
+            "last_meeting_date": last_meeting["date"],
+            "score": f"{last_meeting['away_score']}-{last_meeting['home_score']}",
+        }
+        print(f"  Revenge Game: {revenge_team} lost the last meeting {last_meeting['away_score']}-{last_meeting['home_score']} on {last_meeting['date']}")
+    else:
+        result["revenge"] = None
 
     home_prow = pitcher_row(pit_df, game["home_pitcher_id"]) if game["home_pitcher_id"] else None
     away_prow = pitcher_row(pit_df, game["away_pitcher_id"]) if game["away_pitcher_id"] else None

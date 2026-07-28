@@ -78,7 +78,7 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
   background:linear-gradient(160deg,var(--card-2),var(--card)) padding-box,
              linear-gradient(150deg,rgba(147,224,110,.28),rgba(51,55,42,.6) 55%,rgba(147,224,110,.12)) border-box;
   border:1px solid transparent}
-.g-accent{position:absolute;top:0;left:0;right:0;height:3px}
+.g-accent{position:absolute;top:0;left:0;right:0;height:3px;opacity:.85;transition:background .25s ease}
 .g-top{display:flex;justify-content:space-between;align-items:center;font-size:11.5px;color:var(--muted);font-weight:600;margin-bottom:9px}
 .g-top .team-chip img{width:15px;height:15px}
 .g-badges{display:inline-flex;align-items:center;gap:6px;flex:none}
@@ -111,6 +111,8 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
   display:grid;place-items:center;font-family:'Sora',sans-serif;font-weight:700;font-size:12px}
 .p-avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
 .p-avatar:not(:has(img))::before{content:attr(data-in)}
+.p-avatar::after,.hr-avatar::after{content:'';position:absolute;inset:0;background:var(--tint,transparent);
+  mix-blend-mode:color;opacity:.65;pointer-events:none}
 .hr-avatar{width:32px;height:32px;border-radius:50%;overflow:hidden;flex:none;position:relative;
   display:grid;place-items:center;font-size:9px;font-weight:700}
 .hr-avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
@@ -214,6 +216,18 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
 .pctile-lab{display:flex;justify-content:space-between;font-size:9.5px;color:var(--muted);font-weight:600;margin-top:4px}
 .empty{text-align:center;color:var(--muted);font-size:14px;padding:60px 20px}
 .hide{display:none}
+.rank-card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px 18px 18px;margin:2px 0 14px}
+.rank-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.rank-title{font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--muted);font-family:'IBM Plex Mono',monospace;text-transform:uppercase}
+.rank-copy{width:28px;height:28px;border-radius:8px;background:var(--card-2);border:1px solid var(--line);
+  display:grid;place-items:center;color:var(--muted);cursor:pointer;font-size:13px;padding:0}
+.rank-copy:active{transform:scale(.92)}
+.rank-row{display:flex;align-items:center;gap:11px;padding:7px 0;font-family:'IBM Plex Mono',monospace;font-size:14.5px;color:var(--text)}
+.rank-medal{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:800;flex:none;color:#17181B}
+.rank-medal.gold{background:#E0B84A}
+.rank-medal.silver{background:#B9BEC6}
+.rank-medal.bronze{background:#C77B3E}
+.rank-role{color:var(--muted);font-weight:500}
 @media (prefers-reduced-motion:reduce){.prob-away,.sim-fill{transition:none}.state.live,.game,.play,.hr-strip{animation:none}}
 </style>
 </head>
@@ -231,6 +245,7 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
 </div>
 
 <div class="slate-label" id="slate"></div>
+<div id="rankings"></div>
 <div id="games"></div>
 <div id="plays" class="hide"></div>
 
@@ -242,6 +257,12 @@ const ab = n => ABBR[n] || (n||'').split(' ').map(w=>w[0]).join('').slice(0,3).t
 const TEAMID = {"ARI":109,"ATH":133,"ATL":144,"BAL":110,"BOS":111,"CHC":112,"CWS":145,"CIN":113,"CLE":114,"COL":115,"DET":116,"HOU":117,"KC":118,"LAA":108,"LAD":119,"MIA":146,"MIL":158,"MIN":142,"NYM":121,"NYY":147,"PHI":143,"PIT":134,"SD":135,"SF":137,"SEA":136,"STL":138,"TB":139,"TEX":140,"TOR":141,"WSH":120};
 const TC = {ARI:'#D53A4C',ATH:'#EFB21E',ATL:'#CE1141',BAL:'#DF4601',BOS:'#BD3039',CHC:'#3E7CD6',CWS:'#C4CED4',CIN:'#E0142E',CLE:'#E31937',COL:'#8A63D2',DET:'#FA4616',HOU:'#EB6E1F',KC:'#3E8EDE',LAA:'#D01432',LAD:'#2F7DE1',MIA:'#00A3E0',MIL:'#FFC52F',MIN:'#4F9FE0',NYM:'#FF5910',NYY:'#8A9BC4',PHI:'#E81828',PIT:'#FDB827',SD:'#FFC425',SF:'#FD5A1E',SEA:'#2FBDB3',STL:'#D02543',TB:'#8FBCE6',TEX:'#D01A28',TOR:'#3D7EDB',WSH:'#D22B33'};
 const tc = a => TC[a] || '#8A8D93';
+// Dynamic card colour: the top accent bar reflects the model's edge
+// confidence tier instead of team colours -- grey (no/weak edge) -> blue
+// (medium) -> green (high) -> gold (elite). Same 4-stage scale everywhere.
+const EDGE_TIER_COLOR = {LOW:'#6B6E74', MEDIUM:'#4F9FE0', HIGH:'#93E06E', ELITE:'#E0B84A'};
+const edgeAccent = g => (g.edge && EDGE_TIER_COLOR[g.edge.confidence]) || '#3A3D42';
+
 const abSpan = a => `<b style="color:${tc(a)}">${a}</b>`;
 const teamChip = a => `<span class="team-chip">${logo(a) ? `<img src="${logo(a)}" alt="" loading="lazy" onerror="this.style.display='none'">` : ''}<b style="color:${tc(a)}">${a}</b></span>`;
 const logo = a => TEAMID[a] ? `https://www.mlbstatic.com/team-logos/${TEAMID[a]}.svg` : '';
@@ -263,7 +284,8 @@ const avColors = a => AV[a] || ['#26282C','#8A8D93'];
 const avatar = (name, team, cls='p-avatar') => {
   const id = NAMEID[name];
   const [bg, ring] = avColors(team);
-  return `<span class="${cls}" data-in="${initials(name)}" style="background:${bg};border:2.5px solid ${ring};color:#F5F0E1">${id ? `<img src="${mug(id)}" alt="" loading="lazy" onerror="this.remove()">` : ''}</span>`;
+  const tint = tc(team);
+  return `<span class="${cls}" data-in="${initials(name)}" style="background:${bg};border:2.5px solid ${ring};color:#F5F0E1;--tint:${tint}">${id ? `<img src="${mug(id)}" alt="" loading="lazy" onerror="this.remove()">` : ''}</span>`;
 };
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const rel = iso => {
@@ -325,7 +347,7 @@ function gameCard(g){
   const prob = (hasModel && !done) ? `<div class="prob-track"><div class="prob-away" style="width:${g.away_win_pct*100}%;background:${cA}"></div><div class="prob-home" style="background:${cH}"></div></div>` : '';
   const pitch = g.away_pitcher ? `<div class="pitchers"><b>${esc(g.away_pitcher)}</b> vs <b>${esc(g.home_pitcher)}</b>${g.home_plate_ump ? ` · Ump: ${esc(g.home_plate_ump)}` : ''}</div>` : '';
   return `<div class="game">
-    <div class="g-accent" style="background:linear-gradient(90deg,${cA},${cH})"></div>
+    <div class="g-accent" style="background:${edgeAccent(g)}"></div>
     <div class="g-top">
       <span>${teamChip(ab(g.away_team))} @ ${teamChip(ab(g.home_team))} · ${esc(g.venue ?? '')}</span>
       <span class="g-badges">${stateBadge(g)}${tierPill(g, hasModel, aFav)}${edgePill(g)}</span>
@@ -666,6 +688,52 @@ const chips = Object.keys(STATS).map(s =>
   });
 }
 
+const mascot = n => (n || '').split(' ').pop();
+
+// Ranks each team's Hitters (projected runs, scaled to a 0-100 band around
+// league-average scoring) and Pitchers (the pitcher "quality" score already
+// computed from xwOBA against) matchups on one shared scale, then shows the
+// top 3. Simple v1 -- all inputs already exist in the slate JSON.
+function buildTeamRankings(d){
+  const games = d.games || [];
+  const runsScore = r => Math.max(0, Math.min(100, ((r - 3) / (7 - 3)) * 100));
+  const entries = [];
+  for (const g of games){
+    if (g.away_runs != null) entries.push({ team: g.away_team, role: 'Hitters', score: runsScore(g.away_runs) });
+    if (g.home_runs != null) entries.push({ team: g.home_team, role: 'Hitters', score: runsScore(g.home_runs) });
+    if (g.away_pitcher_proj?.quality != null) entries.push({ team: g.away_team, role: 'Pitchers', score: g.away_pitcher_proj.quality });
+    if (g.home_pitcher_proj?.quality != null) entries.push({ team: g.home_team, role: 'Pitchers', score: g.home_pitcher_proj.quality });
+  }
+  entries.sort((a, b) => b.score - a.score);
+  return entries.slice(0, 3);
+}
+
+function renderRankings(d){
+  const el = $('rankings');
+  const top = buildTeamRankings(d);
+  if (!top.length){ el.innerHTML = ''; return; }
+  const medals = ['gold', 'silver', 'bronze'];
+  el.innerHTML = `
+    <div class="rank-card">
+      <div class="rank-head">
+        <div class="rank-title">🏆 Best Matchups Today</div>
+        <button class="rank-copy" id="rank-copy" title="Copy">⧉</button>
+      </div>
+      ${top.map((t, i) => `
+        <div class="rank-row">
+          <span class="rank-medal ${medals[i]}">${i + 1}</span>
+          <span>${esc(mascot(t.team))} <span class="rank-role">${t.role}</span></span>
+        </div>`).join('')}
+    </div>`;
+  const copyBtn = $('rank-copy');
+  if (copyBtn) copyBtn.onclick = () => {
+    const text = 'Best Matchups Today\n' + top.map((t, i) => `${i + 1}. ${mascot(t.team)} ${t.role}`).join('\n');
+    if (navigator.clipboard) navigator.clipboard.writeText(text).catch(() => {});
+    copyBtn.textContent = '✓';
+    setTimeout(() => { copyBtn.innerHTML = '⧉'; }, 1200);
+  };
+}
+
 async function load(){
   try {
     const r = await fetch(`../data/mlb_slate.json?t=${Date.now()}`);
@@ -681,6 +749,7 @@ async function load(){
       (strong ? `<span class="sum-chip"><span class="dot" style="background:var(--yellow)"></span>${strong} strong</span>` : '') +
       `<span class="sum-chip"><span class="dot" style="background:#2DD4BF"></span>${DATA.date}</span>`;
     renderGames(DATA);
+    renderRankings(DATA);
     renderPlays(DATA);
   } catch(e){ $('updated').textContent = 'Offline'; }
 }
