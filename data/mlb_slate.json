@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-28T18:02",
+  "generated_at": "2026-07-28T18:59",
   "date": "2026-07-28",
   "games": [
     {
@@ -13,10 +13,10 @@
       "game_time": "2026-07-28T17:40:00Z",
       "game_state": "Live",
       "game_detail": "In Progress",
-      "inning": 1,
+      "inning": 4,
       "inning_half": "Bottom",
       "away_score": 4,
-      "home_score": 0,
+      "home_score": 2,
       "confirmed": true,
       "home_plate_ump": "Alfonso M\u00e1rquez",
       "weather": null,
@@ -86,15 +86,15 @@
           "hr_prob": 0.023,
           "k_rate": 0.1024,
           "bb_rate": 0.1193,
-          "hit_rate": 0.2581,
+          "hit_rate": 0.2556,
           "expected_hr": 0.105,
-          "expected_hits": 1.175,
+          "expected_hits": 1.163,
           "expected_bb": 0.543,
           "expected_k": 0.466,
-          "expected_tb": 1.777,
+          "expected_tb": 1.762,
           "expected_rbi": 0.33,
           "expected_runs": 0.51,
-          "expected_hrr": 2.02,
+          "expected_hrr": 2.0,
           "pa": 4.55
         },
         {
@@ -108,15 +108,15 @@
           "hr_prob": 0.0259,
           "k_rate": 0.1082,
           "bb_rate": 0.0846,
-          "hit_rate": 0.2843,
+          "hit_rate": 0.2811,
           "expected_hr": 0.115,
-          "expected_hits": 1.265,
+          "expected_hits": 1.251,
           "expected_bb": 0.376,
           "expected_k": 0.481,
-          "expected_tb": 1.921,
+          "expected_tb": 1.903,
           "expected_rbi": 0.5,
-          "expected_runs": 0.47,
-          "expected_hrr": 2.23,
+          "expected_runs": 0.46,
+          "expected_hrr": 2.21,
           "pa": 4.45
         },
         {
@@ -149,18 +149,18 @@
           "offense_quality": 75,
           "matchup_grade": "B+",
           "xwoba": 0.287,
-          "hr_prob": 0.0154,
+          "hr_prob": 0.0153,
           "k_rate": 0.112,
           "bb_rate": 0.0494,
-          "hit_rate": 0.2116,
-          "expected_hr": 0.066,
-          "expected_hits": 0.899,
+          "hit_rate": 0.2096,
+          "expected_hr": 0.065,
+          "expected_hits": 0.891,
           "expected_bb": 0.21,
           "expected_k": 0.476,
-          "expected_tb": 1.321,
-          "expected_rbi": 0.44,
+          "expected_tb": 1.308,
+          "expected_rbi": 0.43,
           "expected_runs": 0.32,
-          "expected_hrr": 1.66,
+          "expected_hrr": 1.64,
           "pa": 4.25
         },
         {
@@ -174,15 +174,15 @@
           "hr_prob": 0.0563,
           "k_rate": 0.2269,
           "bb_rate": 0.0837,
-          "hit_rate": 0.2439,
+          "hit_rate": 0.2415,
           "expected_hr": 0.234,
-          "expected_hits": 1.012,
+          "expected_hits": 1.002,
           "expected_bb": 0.347,
           "expected_k": 0.941,
-          "expected_tb": 1.923,
-          "expected_rbi": 0.49,
+          "expected_tb": 1.91,
+          "expected_rbi": 0.48,
           "expected_runs": 0.39,
-          "expected_hrr": 1.89,
+          "expected_hrr": 1.87,
           "pa": 4.15
         },
         {
@@ -218,15 +218,15 @@
           "hr_prob": 0.0399,
           "k_rate": 0.158,
           "bb_rate": 0.074,
-          "hit_rate": 0.2812,
+          "hit_rate": 0.2742,
           "expected_hr": 0.158,
-          "expected_hits": 1.111,
+          "expected_hits": 1.083,
           "expected_bb": 0.292,
           "expected_k": 0.624,
-          "expected_tb": 1.841,
-          "expected_rbi": 0.34,
-          "expected_runs": 0.47,
-          "expected_hrr": 1.92,
+          "expected_tb": 1.806,
+          "expected_rbi": 0.33,
+          "expected_runs": 0.46,
+          "expected_hrr": 1.87,
           "pa": 3.95
         },
         {
@@ -240,15 +240,15 @@
           "hr_prob": 0.0399,
           "k_rate": 0.158,
           "bb_rate": 0.074,
-          "hit_rate": 0.2554,
+          "hit_rate": 0.262,
           "expected_hr": 0.154,
-          "expected_hits": 0.983,
+          "expected_hits": 1.009,
           "expected_bb": 0.285,
           "expected_k": 0.608,
-          "expected_tb": 1.668,
+          "expected_tb": 1.7,
           "expected_rbi": 0.31,
           "expected_runs": 0.43,
-          "expected_hrr": 1.72,
+          "expected_hrr": 1.75,
           "pa": 3.85
         }
       ],
@@ -286,15 +286,15 @@
           "hr_prob": 0.0799,
           "k_rate": 0.2623,
           "bb_rate": 0.115,
-          "hit_rate": 0.265,
+          "hit_rate": 0.2723,
           "expected_hr": 0.363,
-          "expected_hits": 1.206,
+          "expected_hits": 1.239,
           "expected_bb": 0.523,
           "expected_k": 1.194,
-          "expected_tb": 2.523,
-          "expected_rbi": 0.4,
-          "expected_runs": 0.58,
-          "expected_hrr": 2.19,
+          "expected_tb": 2.565,
+          "expected_rbi": 0.41,
+          "expected_runs": 0.59,
+          "expected_hrr": 2.24,
           "pa": 4.55
         },
         {
@@ -308,15 +308,15 @@
           "hr_prob": 0.0496,
           "k_rate": 0.2576,
           "bb_rate": 0.1698,
-          "hit_rate": 0.2453,
+          "hit_rate": 0.2411,
           "expected_hr": 0.221,
-          "expected_hits": 1.091,
+          "expected_hits": 1.073,
           "expected_bb": 0.756,
           "expected_k": 1.146,
-          "expected_tb": 1.988,
+          "expected_tb": 1.965,
           "expected_rbi": 0.49,
-          "expected_runs": 0.61,
-          "expected_hrr": 2.19,
+          "expected_runs": 0.6,
+          "expected_hrr": 2.16,
           "pa": 4.45
         },
         {
@@ -330,15 +330,15 @@
           "hr_prob": 0.0526,
           "k_rate": 0.3946,
           "bb_rate": 0.0935,
-          "hit_rate": 0.1774,
+          "hit_rate": 0.1747,
           "expected_hr": 0.229,
-          "expected_hits": 0.772,
+          "expected_hits": 0.76,
           "expected_bb": 0.407,
           "expected_k": 1.717,
-          "expected_tb": 1.605,
-          "expected_rbi": 0.51,
-          "expected_runs": 0.4,
-          "expected_hrr": 1.68,
+          "expected_tb": 1.589,
+          "expected_rbi": 0.5,
+          "expected_runs": 0.39,
+          "expected_hrr": 1.65,
           "pa": 4.35
         },
         {
@@ -352,15 +352,15 @@
           "hr_prob": 0.0556,
           "k_rate": 0.2967,
           "bb_rate": 0.1195,
-          "hit_rate": 0.266,
+          "hit_rate": 0.27,
           "expected_hr": 0.236,
-          "expected_hits": 1.13,
+          "expected_hits": 1.148,
           "expected_bb": 0.508,
           "expected_k": 1.261,
-          "expected_tb": 2.08,
-          "expected_rbi": 0.65,
-          "expected_runs": 0.52,
-          "expected_hrr": 2.3,
+          "expected_tb": 2.102,
+          "expected_rbi": 0.66,
+          "expected_runs": 0.53,
+          "expected_hrr": 2.34,
           "pa": 4.25
         },
         {
@@ -374,15 +374,15 @@
           "hr_prob": 0.0642,
           "k_rate": 0.2955,
           "bb_rate": 0.1127,
-          "hit_rate": 0.2828,
+          "hit_rate": 0.2835,
           "expected_hr": 0.267,
-          "expected_hits": 1.173,
+          "expected_hits": 1.177,
           "expected_bb": 0.468,
           "expected_k": 1.227,
-          "expected_tb": 2.218,
+          "expected_tb": 2.222,
           "expected_rbi": 0.63,
           "expected_runs": 0.43,
-          "expected_hrr": 2.23,
+          "expected_hrr": 2.24,
           "pa": 4.15
         },
         {
@@ -396,15 +396,15 @@
           "hr_prob": 0.0314,
           "k_rate": 0.2687,
           "bb_rate": 0.098,
-          "hit_rate": 0.2176,
+          "hit_rate": 0.2262,
           "expected_hr": 0.127,
-          "expected_hits": 0.881,
+          "expected_hits": 0.916,
           "expected_bb": 0.397,
           "expected_k": 1.088,
-          "expected_tb": 1.466,
-          "expected_rbi": 0.38,
-          "expected_runs": 0.39,
-          "expected_hrr": 1.65,
+          "expected_tb": 1.51,
+          "expected_rbi": 0.39,
+          "expected_runs": 0.4,
+          "expected_hrr": 1.71,
           "pa": 4.05
         },
         {
@@ -418,15 +418,15 @@
           "hr_prob": 0.0314,
           "k_rate": 0.2687,
           "bb_rate": 0.098,
-          "hit_rate": 0.2029,
+          "hit_rate": 0.2003,
           "expected_hr": 0.124,
-          "expected_hits": 0.801,
+          "expected_hits": 0.791,
           "expected_bb": 0.387,
           "expected_k": 1.061,
-          "expected_tb": 1.356,
+          "expected_tb": 1.343,
           "expected_rbi": 0.32,
           "expected_runs": 0.39,
-          "expected_hrr": 1.51,
+          "expected_hrr": 1.5,
           "pa": 3.95
         },
         {
@@ -560,9 +560,9 @@
           "market": "H+R+RBI",
           "line": 2.5,
           "side": "UNDER",
-          "model_prob": 80.6,
+          "model_prob": 80.9,
           "book_prob": 49.5,
-          "edge": 31.2,
+          "edge": 31.4,
           "book_odds": -110,
           "book_src": "est."
         },
@@ -615,9 +615,9 @@
           "market": "H+R+RBI",
           "line": 3.5,
           "side": "UNDER",
-          "model_prob": 93.3,
+          "model_prob": 93.4,
           "book_prob": 65.2,
-          "edge": 28.1,
+          "edge": 28.2,
           "book_odds": -215,
           "book_src": "est."
         },
@@ -633,6 +633,17 @@
           "book_src": "est."
         },
         {
+          "name": "Brayan Rocchio",
+          "market": "H+R+RBI",
+          "line": 2.5,
+          "side": "UNDER",
+          "model_prob": 77.3,
+          "book_prob": 49.5,
+          "edge": 27.8,
+          "book_odds": -110,
+          "book_src": "est."
+        },
+        {
           "name": "Angel Mart\u00ednez",
           "market": "H+R+RBI",
           "line": 3.5,
@@ -644,24 +655,13 @@
           "book_src": "est."
         },
         {
-          "name": "Dane Myers",
+          "name": "Eugenio Su\u00e1rez",
           "market": "H+R+RBI",
           "line": 2.5,
           "side": "UNDER",
           "model_prob": 77.0,
           "book_prob": 49.5,
           "edge": 27.6,
-          "book_odds": -110,
-          "book_src": "est."
-        },
-        {
-          "name": "Brayan Rocchio",
-          "market": "H+R+RBI",
-          "line": 2.5,
-          "side": "UNDER",
-          "model_prob": 76.8,
-          "book_prob": 49.5,
-          "edge": 27.3,
           "book_odds": -110,
           "book_src": "est."
         },
@@ -685,17 +685,6 @@
           "book_prob": 65.2,
           "edge": 26.8,
           "book_odds": -215,
-          "book_src": "est."
-        },
-        {
-          "name": "Eugenio Su\u00e1rez",
-          "market": "H+R+RBI",
-          "line": 2.5,
-          "side": "UNDER",
-          "model_prob": 76.2,
-          "book_prob": 49.5,
-          "edge": 26.8,
-          "book_odds": -110,
           "book_src": "est."
         },
         {
@@ -732,6 +721,17 @@
           "book_src": "est."
         },
         {
+          "name": "Brayan Rocchio",
+          "market": "H+R+RBI",
+          "line": 3.5,
+          "side": "UNDER",
+          "model_prob": 91.6,
+          "book_prob": 65.2,
+          "edge": 26.3,
+          "book_odds": -215,
+          "book_src": "est."
+        },
+        {
           "name": "Chase Burns",
           "market": "Pitcher Ks",
           "line": 4.5,
@@ -743,7 +743,7 @@
           "book_src": "est."
         },
         {
-          "name": "Dane Myers",
+          "name": "Eugenio Su\u00e1rez",
           "market": "H+R+RBI",
           "line": 3.5,
           "side": "UNDER",
@@ -754,13 +754,24 @@
           "book_src": "est."
         },
         {
-          "name": "Brayan Rocchio",
+          "name": "Dane Myers",
+          "market": "H+R+RBI",
+          "line": 2.5,
+          "side": "UNDER",
+          "model_prob": 75.5,
+          "book_prob": 49.5,
+          "edge": 26.0,
+          "book_odds": -110,
+          "book_src": "est."
+        },
+        {
+          "name": "Dane Myers",
           "market": "H+R+RBI",
           "line": 3.5,
           "side": "UNDER",
-          "model_prob": 91.3,
+          "model_prob": 90.5,
           "book_prob": 65.2,
-          "edge": 26.0,
+          "edge": 25.3,
           "book_odds": -215,
           "book_src": "est."
         },
@@ -769,21 +780,10 @@
           "market": "H+R+RBI",
           "line": 2.5,
           "side": "UNDER",
-          "model_prob": 75.2,
+          "model_prob": 74.4,
           "book_prob": 49.5,
-          "edge": 25.7,
+          "edge": 24.9,
           "book_odds": -110,
-          "book_src": "est."
-        },
-        {
-          "name": "Eugenio Su\u00e1rez",
-          "market": "H+R+RBI",
-          "line": 3.5,
-          "side": "UNDER",
-          "model_prob": 91.0,
-          "book_prob": 65.2,
-          "edge": 25.7,
-          "book_odds": -215,
           "book_src": "est."
         },
         {
@@ -791,10 +791,21 @@
           "market": "H+R+RBI",
           "line": 3.5,
           "side": "UNDER",
-          "model_prob": 90.4,
+          "model_prob": 89.9,
           "book_prob": 65.2,
-          "edge": 25.1,
+          "edge": 24.7,
           "book_odds": -215,
+          "book_src": "est."
+        },
+        {
+          "name": "Brayan Rocchio",
+          "market": "Total Bases",
+          "line": 2.5,
+          "side": "UNDER",
+          "model_prob": 85.5,
+          "book_prob": 60.9,
+          "edge": 24.6,
+          "book_odds": -175,
           "book_src": "est."
         },
         {
@@ -806,17 +817,6 @@
           "book_prob": 39.1,
           "edge": 24.6,
           "book_odds": 145,
-          "book_src": "est."
-        },
-        {
-          "name": "Brayan Rocchio",
-          "market": "Total Bases",
-          "line": 2.5,
-          "side": "UNDER",
-          "model_prob": 85.2,
-          "book_prob": 60.9,
-          "edge": 24.3,
-          "book_odds": -175,
           "book_src": "est."
         },
         {
@@ -835,9 +835,9 @@
           "market": "Total Bases",
           "line": 2.5,
           "side": "UNDER",
-          "model_prob": 84.4,
+          "model_prob": 84.7,
           "book_prob": 60.9,
-          "edge": 23.5,
+          "edge": 23.8,
           "book_odds": -175,
           "book_src": "est."
         },
@@ -857,9 +857,9 @@
           "market": "Hits",
           "line": 1.5,
           "side": "UNDER",
-          "model_prob": 81.9,
+          "model_prob": 82.3,
           "book_prob": 59.4,
-          "edge": 22.5,
+          "edge": 22.9,
           "book_odds": -165,
           "book_src": "est."
         },
@@ -868,9 +868,20 @@
           "market": "H+R+RBI",
           "line": 3.5,
           "side": "UNDER",
-          "model_prob": 87.6,
+          "model_prob": 88.0,
           "book_prob": 65.2,
-          "edge": 22.4,
+          "edge": 22.7,
+          "book_odds": -215,
+          "book_src": "est."
+        },
+        {
+          "name": "Patrick Bailey",
+          "market": "H+R+RBI",
+          "line": 3.5,
+          "side": "UNDER",
+          "model_prob": 88.0,
+          "book_prob": 65.2,
+          "edge": 22.7,
           "book_odds": -215,
           "book_src": "est."
         },
@@ -909,17 +920,6 @@
         },
         {
           "name": "Patrick Bailey",
-          "market": "H+R+RBI",
-          "line": 3.5,
-          "side": "UNDER",
-          "model_prob": 87.1,
-          "book_prob": 65.2,
-          "edge": 21.9,
-          "book_odds": -215,
-          "book_src": "est."
-        },
-        {
-          "name": "Patrick Bailey",
           "market": "Strikeouts",
           "line": 1.5,
           "side": "UNDER",
@@ -934,9 +934,9 @@
           "market": "Hits",
           "line": 1.5,
           "side": "UNDER",
-          "model_prob": 80.8,
+          "model_prob": 81.2,
           "book_prob": 59.4,
-          "edge": 21.4,
+          "edge": 21.8,
           "book_odds": -165,
           "book_src": "est."
         },
@@ -945,9 +945,20 @@
           "market": "H+R+RBI",
           "line": 2.5,
           "side": "UNDER",
-          "model_prob": 70.6,
+          "model_prob": 71.2,
           "book_prob": 49.5,
-          "edge": 21.2,
+          "edge": 21.7,
+          "book_odds": -110,
+          "book_src": "est."
+        },
+        {
+          "name": "Patrick Bailey",
+          "market": "H+R+RBI",
+          "line": 2.5,
+          "side": "UNDER",
+          "model_prob": 71.2,
+          "book_prob": 49.5,
+          "edge": 21.7,
           "book_odds": -110,
           "book_src": "est."
         },
@@ -960,17 +971,6 @@
           "book_prob": 65.2,
           "edge": 21.1,
           "book_odds": -215,
-          "book_src": "est."
-        },
-        {
-          "name": "Dane Myers",
-          "market": "Total Bases",
-          "line": 2.5,
-          "side": "UNDER",
-          "model_prob": 81.7,
-          "book_prob": 60.9,
-          "edge": 20.8,
-          "book_odds": -175,
           "book_src": "est."
         },
         {
@@ -996,6 +996,17 @@
           "book_src": "est."
         },
         {
+          "name": "Jos\u00e9 Ram\u00edrez",
+          "market": "H+R+RBI",
+          "line": 3.5,
+          "side": "UNDER",
+          "model_prob": 85.7,
+          "book_prob": 65.2,
+          "edge": 20.5,
+          "book_odds": -215,
+          "book_src": "est."
+        },
+        {
           "name": "Steven Kwan",
           "market": "Home Run",
           "line": 0.5,
@@ -1004,28 +1015,6 @@
           "book_prob": 77.2,
           "edge": 20.4,
           "book_odds": -420,
-          "book_src": "est."
-        },
-        {
-          "name": "Patrick Bailey",
-          "market": "H+R+RBI",
-          "line": 2.5,
-          "side": "UNDER",
-          "model_prob": 69.8,
-          "book_prob": 49.5,
-          "edge": 20.4,
-          "book_odds": -110,
-          "book_src": "est."
-        },
-        {
-          "name": "Jos\u00e9 Ram\u00edrez",
-          "market": "H+R+RBI",
-          "line": 3.5,
-          "side": "UNDER",
-          "model_prob": 85.3,
-          "book_prob": 65.2,
-          "edge": 20.1,
-          "book_odds": -215,
           "book_src": "est."
         },
         {
@@ -1073,6 +1062,17 @@
           "book_src": "est."
         },
         {
+          "name": "Dane Myers",
+          "market": "Total Bases",
+          "line": 2.5,
+          "side": "UNDER",
+          "model_prob": 80.6,
+          "book_prob": 60.9,
+          "edge": 19.7,
+          "book_odds": -175,
+          "book_src": "est."
+        },
+        {
           "name": "Chase DeLauter",
           "market": "Strikeouts",
           "line": 0.5,
@@ -1092,6 +1092,17 @@
           "book_prob": 57.8,
           "edge": 19.1,
           "book_odds": -155,
+          "book_src": "est."
+        },
+        {
+          "name": "Brayan Rocchio",
+          "market": "Total Bases",
+          "line": 1.5,
+          "side": "UNDER",
+          "model_prob": 62.4,
+          "book_prob": 43.4,
+          "edge": 19.0,
+          "book_odds": 120,
           "book_src": "est."
         },
         {
@@ -1117,28 +1128,6 @@
           "book_src": "est."
         },
         {
-          "name": "Brayan Rocchio",
-          "market": "Total Bases",
-          "line": 1.5,
-          "side": "UNDER",
-          "model_prob": 61.9,
-          "book_prob": 43.4,
-          "edge": 18.5,
-          "book_odds": 120,
-          "book_src": "est."
-        },
-        {
-          "name": "Dane Myers",
-          "market": "Hits",
-          "line": 1.5,
-          "side": "UNDER",
-          "model_prob": 77.9,
-          "book_prob": 59.4,
-          "edge": 18.5,
-          "book_odds": -165,
-          "book_src": "est."
-        },
-        {
           "name": "Angel Mart\u00ednez",
           "market": "Hits",
           "line": 1.5,
@@ -1161,6 +1150,39 @@
           "book_src": "est."
         },
         {
+          "name": "Jos\u00e9 Ram\u00edrez",
+          "market": "H+R+RBI",
+          "line": 2.5,
+          "side": "UNDER",
+          "model_prob": 67.7,
+          "book_prob": 49.5,
+          "edge": 18.2,
+          "book_odds": -110,
+          "book_src": "est."
+        },
+        {
+          "name": "Brayan Rocchio",
+          "market": "Hits",
+          "line": 1.5,
+          "side": "UNDER",
+          "model_prob": 77.6,
+          "book_prob": 59.4,
+          "edge": 18.2,
+          "book_odds": -165,
+          "book_src": "est."
+        },
+        {
+          "name": "Patrick Bailey",
+          "market": "RBI",
+          "line": 0.5,
+          "side": "UNDER",
+          "model_prob": 71.9,
+          "book_prob": 53.7,
+          "edge": 18.2,
+          "book_odds": -130,
+          "book_src": "est."
+        },
+        {
           "name": "TJ Friedl",
           "market": "Home Run",
           "line": 0.5,
@@ -1169,17 +1191,6 @@
           "book_prob": 77.2,
           "edge": 18.1,
           "book_odds": -420,
-          "book_src": "est."
-        },
-        {
-          "name": "Brayan Rocchio",
-          "market": "Hits",
-          "line": 1.5,
-          "side": "UNDER",
-          "model_prob": 77.3,
-          "book_prob": 59.4,
-          "edge": 17.9,
-          "book_odds": -165,
           "book_src": "est."
         },
         {
@@ -1194,14 +1205,25 @@
           "book_src": "est."
         },
         {
-          "name": "Jos\u00e9 Ram\u00edrez",
-          "market": "H+R+RBI",
+          "name": "Eugenio Su\u00e1rez",
+          "market": "Total Bases",
           "line": 2.5,
           "side": "UNDER",
-          "model_prob": 67.1,
-          "book_prob": 49.5,
-          "edge": 17.6,
-          "book_odds": -110,
+          "model_prob": 78.6,
+          "book_prob": 60.9,
+          "edge": 17.7,
+          "book_odds": -175,
+          "book_src": "est."
+        },
+        {
+          "name": "Edwin Arroyo",
+          "market": "Total Bases",
+          "line": 1.5,
+          "side": "UNDER",
+          "model_prob": 61.2,
+          "book_prob": 43.4,
+          "edge": 17.7,
+          "book_odds": 120,
           "book_src": "est."
         },
         {
@@ -1216,58 +1238,47 @@
           "book_src": "est."
         },
         {
-          "name": "Patrick Bailey",
-          "market": "RBI",
-          "line": 0.5,
-          "side": "UNDER",
-          "model_prob": 71.2,
-          "book_prob": 53.7,
-          "edge": 17.5,
-          "book_odds": -130,
-          "book_src": "est."
-        },
-        {
-          "name": "Eugenio Su\u00e1rez",
-          "market": "Total Bases",
-          "line": 2.5,
-          "side": "UNDER",
-          "model_prob": 78.2,
-          "book_prob": 60.9,
-          "edge": 17.3,
-          "book_odds": -175,
-          "book_src": "est."
-        },
-        {
-          "name": "Edwin Arroyo",
-          "market": "Total Bases",
-          "line": 1.5,
-          "side": "UNDER",
-          "model_prob": 60.7,
-          "book_prob": 43.4,
-          "edge": 17.3,
-          "book_odds": 120,
-          "book_src": "est."
-        },
-        {
-          "name": "Sal Stewart",
-          "market": "H+R+RBI",
-          "line": 3.5,
-          "side": "UNDER",
-          "model_prob": 82.1,
-          "book_prob": 65.2,
-          "edge": 16.9,
-          "book_odds": -215,
-          "book_src": "est."
-        },
-        {
           "name": "JJ Bleday",
           "market": "H+R+RBI",
           "line": 3.5,
           "side": "UNDER",
-          "model_prob": 82.1,
+          "model_prob": 82.7,
           "book_prob": 65.2,
-          "edge": 16.9,
+          "edge": 17.5,
           "book_odds": -215,
+          "book_src": "est."
+        },
+        {
+          "name": "Dane Myers",
+          "market": "Hits",
+          "line": 1.5,
+          "side": "UNDER",
+          "model_prob": 76.7,
+          "book_prob": 59.4,
+          "edge": 17.3,
+          "book_odds": -165,
+          "book_src": "est."
+        },
+        {
+          "name": "Chase DeLauter",
+          "market": "H+R+RBI",
+          "line": 3.5,
+          "side": "UNDER",
+          "model_prob": 81.7,
+          "book_prob": 65.2,
+          "edge": 16.5,
+          "book_odds": -215,
+          "book_src": "est."
+        },
+        {
+          "name": "Brayan Rocchio",
+          "market": "Home Run",
+          "line": 0.5,
+          "side": "UNDER",
+          "model_prob": 93.7,
+          "book_prob": 77.2,
+          "edge": 16.5,
+          "book_odds": -420,
           "book_src": "est."
         },
         {
@@ -1282,17 +1293,6 @@
           "book_src": "est."
         },
         {
-          "name": "Brayan Rocchio",
-          "market": "Home Run",
-          "line": 0.5,
-          "side": "UNDER",
-          "model_prob": 93.7,
-          "book_prob": 77.2,
-          "edge": 16.4,
-          "book_odds": -420,
-          "book_src": "est."
-        },
-        {
           "name": "Eugenio Su\u00e1rez",
           "market": "Strikeouts",
           "line": 1.5,
@@ -1304,13 +1304,24 @@
           "book_src": "est."
         },
         {
-          "name": "Chase DeLauter",
+          "name": "Sal Stewart",
+          "market": "Total Bases",
+          "line": 1.5,
+          "side": "OVER",
+          "model_prob": 72.6,
+          "book_prob": 56.6,
+          "edge": 16.0,
+          "book_odds": -145,
+          "book_src": "est."
+        },
+        {
+          "name": "Sal Stewart",
           "market": "H+R+RBI",
           "line": 3.5,
           "side": "UNDER",
-          "model_prob": 81.3,
+          "model_prob": 81.1,
           "book_prob": 65.2,
-          "edge": 16.1,
+          "edge": 15.9,
           "book_odds": -215,
           "book_src": "est."
         },
@@ -1319,32 +1330,10 @@
           "market": "H+R+RBI",
           "line": 3.5,
           "side": "UNDER",
-          "model_prob": 81.3,
+          "model_prob": 81.1,
           "book_prob": 65.2,
-          "edge": 16.1,
+          "edge": 15.9,
           "book_odds": -215,
-          "book_src": "est."
-        },
-        {
-          "name": "Petey Halpin",
-          "market": "Total Bases",
-          "line": 2.5,
-          "side": "UNDER",
-          "model_prob": 76.6,
-          "book_prob": 60.9,
-          "edge": 15.6,
-          "book_odds": -175,
-          "book_src": "est."
-        },
-        {
-          "name": "Sal Stewart",
-          "market": "Total Bases",
-          "line": 1.5,
-          "side": "OVER",
-          "model_prob": 71.7,
-          "book_prob": 56.6,
-          "edge": 15.2,
-          "book_odds": -145,
           "book_src": "est."
         },
         {
@@ -1360,13 +1349,13 @@
         },
         {
           "name": "Petey Halpin",
-          "market": "Hits",
-          "line": 1.5,
+          "market": "Total Bases",
+          "line": 2.5,
           "side": "UNDER",
-          "model_prob": 74.2,
-          "book_prob": 59.4,
+          "model_prob": 75.7,
+          "book_prob": 60.9,
           "edge": 14.8,
-          "book_odds": -165,
+          "book_odds": -175,
           "book_src": "est."
         },
         {
@@ -1381,14 +1370,14 @@
           "book_src": "est."
         },
         {
-          "name": "Nathaniel Lowe",
-          "market": "H+R+RBI",
-          "line": 3.5,
+          "name": "Kyle Manzardo",
+          "market": "Hits",
+          "line": 1.5,
           "side": "UNDER",
-          "model_prob": 79.9,
-          "book_prob": 65.2,
-          "edge": 14.7,
-          "book_odds": -215,
+          "model_prob": 73.5,
+          "book_prob": 59.4,
+          "edge": 14.1,
+          "book_odds": -165,
           "book_src": "est."
         },
         {
@@ -1396,10 +1385,21 @@
           "market": "RBI",
           "line": 0.5,
           "side": "UNDER",
-          "model_prob": 68.4,
+          "model_prob": 67.7,
           "book_prob": 53.7,
-          "edge": 14.7,
+          "edge": 14.0,
           "book_odds": -130,
+          "book_src": "est."
+        },
+        {
+          "name": "JJ Bleday",
+          "market": "H+R+RBI",
+          "line": 2.5,
+          "side": "UNDER",
+          "model_prob": 63.3,
+          "book_prob": 49.5,
+          "edge": 13.9,
+          "book_odds": -110,
           "book_src": "est."
         },
         {
@@ -1414,13 +1414,24 @@
           "book_src": "est."
         },
         {
-          "name": "Kyle Manzardo",
+          "name": "Nathaniel Lowe",
+          "market": "H+R+RBI",
+          "line": 3.5,
+          "side": "UNDER",
+          "model_prob": 79.1,
+          "book_prob": 65.2,
+          "edge": 13.9,
+          "book_odds": -215,
+          "book_src": "est."
+        },
+        {
+          "name": "Petey Halpin",
           "market": "Hits",
           "line": 1.5,
           "side": "UNDER",
-          "model_prob": 73.1,
+          "model_prob": 73.2,
           "book_prob": 59.4,
-          "edge": 13.7,
+          "edge": 13.8,
           "book_odds": -165,
           "book_src": "est."
         },
@@ -1436,17 +1447,6 @@
           "book_src": "est."
         },
         {
-          "name": "Dane Myers",
-          "market": "Total Bases",
-          "line": 1.5,
-          "side": "UNDER",
-          "model_prob": 56.9,
-          "book_prob": 43.4,
-          "edge": 13.5,
-          "book_odds": 120,
-          "book_src": "est."
-        },
-        {
           "name": "Elly De La Cruz",
           "market": "Home Run",
           "line": 0.5,
@@ -1458,36 +1458,14 @@
           "book_src": "est."
         },
         {
-          "name": "Sal Stewart",
-          "market": "RBI",
-          "line": 0.5,
-          "side": "UNDER",
-          "model_prob": 67.0,
-          "book_prob": 53.7,
-          "edge": 13.4,
-          "book_odds": -130,
-          "book_src": "est."
-        },
-        {
-          "name": "Sal Stewart",
-          "market": "H+R+RBI",
+          "name": "Jos\u00e9 Ram\u00edrez",
+          "market": "Total Bases",
           "line": 2.5,
           "side": "UNDER",
-          "model_prob": 62.5,
-          "book_prob": 49.5,
-          "edge": 13.1,
-          "book_odds": -110,
-          "book_src": "est."
-        },
-        {
-          "name": "JJ Bleday",
-          "market": "H+R+RBI",
-          "line": 2.5,
-          "side": "UNDER",
-          "model_prob": 62.5,
-          "book_prob": 49.5,
-          "edge": 13.1,
-          "book_odds": -110,
+          "model_prob": 74.1,
+          "book_prob": 60.9,
+          "edge": 13.2,
+          "book_odds": -175,
           "book_src": "est."
         },
         {
@@ -1503,17 +1481,6 @@
         },
         {
           "name": "Jos\u00e9 Ram\u00edrez",
-          "market": "Total Bases",
-          "line": 2.5,
-          "side": "UNDER",
-          "model_prob": 73.7,
-          "book_prob": 60.9,
-          "edge": 12.8,
-          "book_odds": -175,
-          "book_src": "est."
-        },
-        {
-          "name": "Jos\u00e9 Ram\u00edrez",
           "market": "Home Run",
           "line": 0.5,
           "side": "UNDER",
@@ -1521,6 +1488,28 @@
           "book_prob": 77.2,
           "edge": 12.8,
           "book_odds": -420,
+          "book_src": "est."
+        },
+        {
+          "name": "Sal Stewart",
+          "market": "RBI",
+          "line": 0.5,
+          "side": "UNDER",
+          "model_prob": 66.4,
+          "book_prob": 53.7,
+          "edge": 12.7,
+          "book_odds": -130,
+          "book_src": "est."
+        },
+        {
+          "name": "Chase DeLauter",
+          "market": "H+R+RBI",
+          "line": 2.5,
+          "side": "UNDER",
+          "model_prob": 62.0,
+          "book_prob": 49.5,
+          "edge": 12.5,
+          "book_odds": -110,
           "book_src": "est."
         },
         {
@@ -1546,25 +1535,36 @@
           "book_src": "est."
         },
         {
-          "name": "Chase DeLauter",
-          "market": "H+R+RBI",
-          "line": 2.5,
+          "name": "Eugenio Su\u00e1rez",
+          "market": "Hits",
+          "line": 0.5,
           "side": "UNDER",
-          "model_prob": 61.5,
-          "book_prob": 49.5,
-          "edge": 12.0,
-          "book_odds": -110,
+          "model_prob": 46.8,
+          "book_prob": 34.6,
+          "edge": 12.2,
+          "book_odds": 175,
           "book_src": "est."
         },
         {
-          "name": "Tyler Stephenson",
-          "market": "H+R+RBI",
+          "name": "Patrick Bailey",
+          "market": "Total Bases",
           "line": 2.5,
           "side": "UNDER",
-          "model_prob": 61.5,
-          "book_prob": 49.5,
+          "model_prob": 72.9,
+          "book_prob": 60.9,
           "edge": 12.0,
-          "book_odds": -110,
+          "book_odds": -175,
+          "book_src": "est."
+        },
+        {
+          "name": "Dane Myers",
+          "market": "Total Bases",
+          "line": 1.5,
+          "side": "UNDER",
+          "model_prob": 55.4,
+          "book_prob": 43.4,
+          "edge": 12.0,
+          "book_odds": 120,
           "book_src": "est."
         },
         {
@@ -1590,14 +1590,47 @@
           "book_src": "est."
         },
         {
-          "name": "Eugenio Su\u00e1rez",
+          "name": "Sal Stewart",
+          "market": "H+R+RBI",
+          "line": 2.5,
+          "side": "UNDER",
+          "model_prob": 61.2,
+          "book_prob": 49.5,
+          "edge": 11.7,
+          "book_odds": -110,
+          "book_src": "est."
+        },
+        {
+          "name": "Tyler Stephenson",
+          "market": "H+R+RBI",
+          "line": 2.5,
+          "side": "UNDER",
+          "model_prob": 61.2,
+          "book_prob": 49.5,
+          "edge": 11.7,
+          "book_odds": -110,
+          "book_src": "est."
+        },
+        {
+          "name": "JJ Bleday",
           "market": "Hits",
+          "line": 1.5,
+          "side": "UNDER",
+          "model_prob": 70.9,
+          "book_prob": 59.4,
+          "edge": 11.5,
+          "book_odds": -165,
+          "book_src": "est."
+        },
+        {
+          "name": "Brayan Rocchio",
+          "market": "RBI",
           "line": 0.5,
           "side": "UNDER",
-          "model_prob": 46.2,
-          "book_prob": 34.6,
-          "edge": 11.6,
-          "book_odds": 175,
+          "model_prob": 65.1,
+          "book_prob": 53.7,
+          "edge": 11.4,
+          "book_odds": -130,
           "book_src": "est."
         },
         {
@@ -1609,6 +1642,17 @@
           "book_prob": 42.2,
           "edge": 11.3,
           "book_odds": 125,
+          "book_src": "est."
+        },
+        {
+          "name": "Patrick Bailey",
+          "market": "Hits",
+          "line": 1.5,
+          "side": "UNDER",
+          "model_prob": 70.5,
+          "book_prob": 59.4,
+          "edge": 11.1,
+          "book_odds": -165,
           "book_src": "est."
         },
         {
@@ -1634,28 +1678,6 @@
           "book_src": "est."
         },
         {
-          "name": "Patrick Bailey",
-          "market": "Total Bases",
-          "line": 2.5,
-          "side": "UNDER",
-          "model_prob": 72.0,
-          "book_prob": 60.9,
-          "edge": 11.0,
-          "book_odds": -175,
-          "book_src": "est."
-        },
-        {
-          "name": "JJ Bleday",
-          "market": "Hits",
-          "line": 1.5,
-          "side": "UNDER",
-          "model_prob": 70.2,
-          "book_prob": 59.4,
-          "edge": 10.8,
-          "book_odds": -165,
-          "book_src": "est."
-        },
-        {
           "name": "Dane Myers",
           "market": "Home Run",
           "line": 0.5,
@@ -1667,14 +1689,14 @@
           "book_src": "est."
         },
         {
-          "name": "Brayan Rocchio",
-          "market": "RBI",
+          "name": "Edwin Arroyo",
+          "market": "Hits",
           "line": 0.5,
           "side": "UNDER",
-          "model_prob": 64.4,
-          "book_prob": 53.7,
+          "model_prob": 45.3,
+          "book_prob": 34.6,
           "edge": 10.7,
-          "book_odds": -130,
+          "book_odds": 175,
           "book_src": "est."
         },
         {
@@ -1711,39 +1733,6 @@
           "book_src": "est."
         },
         {
-          "name": "Edwin Arroyo",
-          "market": "Hits",
-          "line": 0.5,
-          "side": "UNDER",
-          "model_prob": 44.9,
-          "book_prob": 34.6,
-          "edge": 10.3,
-          "book_odds": 175,
-          "book_src": "est."
-        },
-        {
-          "name": "Patrick Bailey",
-          "market": "Hits",
-          "line": 1.5,
-          "side": "UNDER",
-          "model_prob": 69.5,
-          "book_prob": 59.4,
-          "edge": 10.1,
-          "book_odds": -165,
-          "book_src": "est."
-        },
-        {
-          "name": "Nathaniel Lowe",
-          "market": "H+R+RBI",
-          "line": 2.5,
-          "side": "UNDER",
-          "model_prob": 59.6,
-          "book_prob": 49.5,
-          "edge": 10.1,
-          "book_odds": -110,
-          "book_src": "est."
-        },
-        {
           "name": "Elly De La Cruz",
           "market": "H+R+RBI",
           "line": 3.5,
@@ -1766,24 +1755,13 @@
           "book_src": "est."
         },
         {
-          "name": "Nathaniel Lowe",
-          "market": "Hits",
-          "line": 1.5,
-          "side": "UNDER",
-          "model_prob": 68.8,
-          "book_prob": 59.4,
-          "edge": 9.4,
-          "book_odds": -165,
-          "book_src": "est."
-        },
-        {
           "name": "Chase DeLauter",
           "market": "Total Bases",
           "line": 2.5,
           "side": "UNDER",
-          "model_prob": 69.8,
+          "model_prob": 70.3,
           "book_prob": 60.9,
-          "edge": 8.9,
+          "edge": 9.4,
           "book_odds": -175,
           "book_src": "est."
         },
@@ -1792,9 +1770,9 @@
           "market": "Total Bases",
           "line": 1.5,
           "side": "UNDER",
-          "model_prob": 52.3,
+          "model_prob": 52.8,
           "book_prob": 43.4,
-          "edge": 8.9,
+          "edge": 9.4,
           "book_odds": 120,
           "book_src": "est."
         },
@@ -1803,10 +1781,32 @@
           "market": "Total Bases",
           "line": 2.5,
           "side": "UNDER",
-          "model_prob": 69.8,
+          "model_prob": 70.1,
           "book_prob": 60.9,
-          "edge": 8.8,
+          "edge": 9.2,
           "book_odds": -175,
+          "book_src": "est."
+        },
+        {
+          "name": "Nathaniel Lowe",
+          "market": "H+R+RBI",
+          "line": 2.5,
+          "side": "UNDER",
+          "model_prob": 58.5,
+          "book_prob": 49.5,
+          "edge": 9.1,
+          "book_odds": -110,
+          "book_src": "est."
+        },
+        {
+          "name": "Nathaniel Lowe",
+          "market": "Hits",
+          "line": 1.5,
+          "side": "UNDER",
+          "model_prob": 68.1,
+          "book_prob": 59.4,
+          "edge": 8.7,
+          "book_odds": -165,
           "book_src": "est."
         },
         {
@@ -1843,6 +1843,17 @@
           "book_src": "est."
         },
         {
+          "name": "Tyler Stephenson",
+          "market": "Total Bases",
+          "line": 1.5,
+          "side": "OVER",
+          "model_prob": 65.1,
+          "book_prob": 56.6,
+          "edge": 8.5,
+          "book_odds": -145,
+          "book_src": "est."
+        },
+        {
           "name": "Dane Myers",
           "market": "Strikeouts",
           "line": 0.5,
@@ -1854,17 +1865,6 @@
           "book_src": "est."
         },
         {
-          "name": "Tyler Stephenson",
-          "market": "Total Bases",
-          "line": 1.5,
-          "side": "OVER",
-          "model_prob": 65.0,
-          "book_prob": 56.6,
-          "edge": 8.4,
-          "book_odds": -145,
-          "book_src": "est."
-        },
-        {
           "name": "Travis Bazzana",
           "market": "Strikeouts",
           "line": 0.5,
@@ -1873,6 +1873,28 @@
           "book_prob": 42.2,
           "edge": 8.3,
           "book_odds": 125,
+          "book_src": "est."
+        },
+        {
+          "name": "Jos\u00e9 Ram\u00edrez",
+          "market": "Hits",
+          "line": 1.5,
+          "side": "UNDER",
+          "model_prob": 67.6,
+          "book_prob": 59.4,
+          "edge": 8.2,
+          "book_odds": -165,
+          "book_src": "est."
+        },
+        {
+          "name": "Kyle Manzardo",
+          "market": "RBI",
+          "line": 0.5,
+          "side": "UNDER",
+          "model_prob": 61.9,
+          "book_prob": 53.7,
+          "edge": 8.2,
+          "book_odds": -130,
           "book_src": "est."
         },
         {
@@ -1898,25 +1920,14 @@
           "book_src": "est."
         },
         {
-          "name": "Jos\u00e9 Ram\u00edrez",
-          "market": "Hits",
-          "line": 1.5,
-          "side": "UNDER",
-          "model_prob": 67.2,
-          "book_prob": 59.4,
-          "edge": 7.8,
-          "book_odds": -165,
-          "book_src": "est."
-        },
-        {
-          "name": "Tyler Stephenson",
-          "market": "Hits",
-          "line": 1.5,
-          "side": "UNDER",
-          "model_prob": 67.2,
-          "book_prob": 59.4,
-          "edge": 7.8,
-          "book_odds": -165,
+          "name": "Sal Stewart",
+          "market": "Total Bases",
+          "line": 2.5,
+          "side": "OVER",
+          "model_prob": 47.3,
+          "book_prob": 39.1,
+          "edge": 8.2,
+          "book_odds": 145,
           "book_src": "est."
         },
         {
@@ -1931,14 +1942,25 @@
           "book_src": "est."
         },
         {
-          "name": "Kyle Manzardo",
-          "market": "RBI",
-          "line": 0.5,
+          "name": "JJ Bleday",
+          "market": "Total Bases",
+          "line": 2.5,
           "side": "UNDER",
-          "model_prob": 61.3,
-          "book_prob": 53.7,
-          "edge": 7.6,
-          "book_odds": -130,
+          "model_prob": 68.6,
+          "book_prob": 60.9,
+          "edge": 7.7,
+          "book_odds": -175,
+          "book_src": "est."
+        },
+        {
+          "name": "Tyler Stephenson",
+          "market": "Hits",
+          "line": 1.5,
+          "side": "UNDER",
+          "model_prob": 67.1,
+          "book_prob": 59.4,
+          "edge": 7.7,
+          "book_odds": -165,
           "book_src": "est."
         },
         {
@@ -1986,29 +2008,18 @@
           "book_src": "est."
         },
         {
-          "name": "Sal Stewart",
-          "market": "Total Bases",
-          "line": 2.5,
-          "side": "OVER",
-          "model_prob": 46.2,
-          "book_prob": 39.1,
-          "edge": 7.1,
-          "book_odds": 145,
-          "book_src": "est."
-        },
-        {
-          "name": "JJ Bleday",
-          "market": "Total Bases",
-          "line": 2.5,
-          "side": "UNDER",
-          "model_prob": 68.0,
-          "book_prob": 60.9,
-          "edge": 7.1,
-          "book_odds": -175,
-          "book_src": "est."
-        },
-        {
           "name": "Chase DeLauter",
+          "market": "RBI",
+          "line": 0.5,
+          "side": "UNDER",
+          "model_prob": 60.7,
+          "book_prob": 53.7,
+          "edge": 7.0,
+          "book_odds": -130,
+          "book_src": "est."
+        },
+        {
+          "name": "Eugenio Su\u00e1rez",
           "market": "RBI",
           "line": 0.5,
           "side": "UNDER",
@@ -2030,28 +2041,6 @@
           "book_src": "est."
         },
         {
-          "name": "Petey Halpin",
-          "market": "Total Bases",
-          "line": 1.5,
-          "side": "UNDER",
-          "model_prob": 50.3,
-          "book_prob": 43.4,
-          "edge": 6.9,
-          "book_odds": 120,
-          "book_src": "est."
-        },
-        {
-          "name": "Dane Myers",
-          "market": "Hits",
-          "line": 0.5,
-          "side": "UNDER",
-          "model_prob": 41.4,
-          "book_prob": 34.6,
-          "edge": 6.8,
-          "book_odds": 175,
-          "book_src": "est."
-        },
-        {
           "name": "Angel Mart\u00ednez",
           "market": "Hits",
           "line": 0.5,
@@ -2060,28 +2049,6 @@
           "book_prob": 34.6,
           "edge": 6.7,
           "book_odds": 175,
-          "book_src": "est."
-        },
-        {
-          "name": "Sal Stewart",
-          "market": "Hits",
-          "line": 1.5,
-          "side": "UNDER",
-          "model_prob": 66.0,
-          "book_prob": 59.4,
-          "edge": 6.6,
-          "book_odds": -165,
-          "book_src": "est."
-        },
-        {
-          "name": "Chase DeLauter",
-          "market": "Hits",
-          "line": 0.5,
-          "side": "OVER",
-          "model_prob": 71.8,
-          "book_prob": 65.4,
-          "edge": 6.4,
-          "book_odds": -220,
           "book_src": "est."
         },
         {
@@ -2096,24 +2063,13 @@
           "book_src": "est."
         },
         {
-          "name": "Eugenio Su\u00e1rez",
-          "market": "RBI",
-          "line": 0.5,
-          "side": "UNDER",
-          "model_prob": 60.0,
-          "book_prob": 53.7,
-          "edge": 6.4,
-          "book_odds": -130,
-          "book_src": "est."
-        },
-        {
           "name": "Brayan Rocchio",
           "market": "Hits",
           "line": 0.5,
           "side": "UNDER",
-          "model_prob": 40.7,
+          "model_prob": 41.0,
           "book_prob": 34.6,
-          "edge": 6.1,
+          "edge": 6.4,
           "book_odds": 175,
           "book_src": "est."
         },
@@ -2129,6 +2085,72 @@
           "book_src": "est."
         },
         {
+          "name": "Chase DeLauter",
+          "market": "Hits",
+          "line": 0.5,
+          "side": "OVER",
+          "model_prob": 71.4,
+          "book_prob": 65.4,
+          "edge": 6.0,
+          "book_odds": -220,
+          "book_src": "est."
+        },
+        {
+          "name": "Petey Halpin",
+          "market": "Total Bases",
+          "line": 1.5,
+          "side": "UNDER",
+          "model_prob": 49.3,
+          "book_prob": 43.4,
+          "edge": 5.9,
+          "book_odds": 120,
+          "book_src": "est."
+        },
+        {
+          "name": "Sal Stewart",
+          "market": "Hits",
+          "line": 0.5,
+          "side": "OVER",
+          "model_prob": 71.0,
+          "book_prob": 65.4,
+          "edge": 5.6,
+          "book_odds": -220,
+          "book_src": "est."
+        },
+        {
+          "name": "Sal Stewart",
+          "market": "Hits",
+          "line": 1.5,
+          "side": "UNDER",
+          "model_prob": 64.9,
+          "book_prob": 59.4,
+          "edge": 5.5,
+          "book_odds": -165,
+          "book_src": "est."
+        },
+        {
+          "name": "Nathaniel Lowe",
+          "market": "Total Bases",
+          "line": 1.5,
+          "side": "OVER",
+          "model_prob": 62.1,
+          "book_prob": 56.6,
+          "edge": 5.5,
+          "book_odds": -145,
+          "book_src": "est."
+        },
+        {
+          "name": "Dane Myers",
+          "market": "Hits",
+          "line": 0.5,
+          "side": "UNDER",
+          "model_prob": 40.0,
+          "book_prob": 34.6,
+          "edge": 5.4,
+          "book_odds": 175,
+          "book_src": "est."
+        },
+        {
           "name": "Dane Myers",
           "market": "Strikeouts",
           "line": 1.5,
@@ -2140,14 +2162,14 @@
           "book_src": "est."
         },
         {
-          "name": "Nathaniel Lowe",
-          "market": "Total Bases",
+          "name": "Chase DeLauter",
+          "market": "Hits",
           "line": 1.5,
-          "side": "OVER",
-          "model_prob": 61.5,
-          "book_prob": 56.6,
+          "side": "UNDER",
+          "model_prob": 64.4,
+          "book_prob": 59.4,
           "edge": 5.0,
-          "book_odds": -145,
+          "book_odds": -165,
           "book_src": "est."
         },
         {
@@ -2173,28 +2195,6 @@
           "book_src": "est."
         },
         {
-          "name": "Sal Stewart",
-          "market": "Hits",
-          "line": 0.5,
-          "side": "OVER",
-          "model_prob": 70.1,
-          "book_prob": 65.4,
-          "edge": 4.7,
-          "book_odds": -220,
-          "book_src": "est."
-        },
-        {
-          "name": "Nathaniel Lowe",
-          "market": "Total Bases",
-          "line": 2.5,
-          "side": "UNDER",
-          "model_prob": 65.5,
-          "book_prob": 60.9,
-          "edge": 4.6,
-          "book_odds": -175,
-          "book_src": "est."
-        },
-        {
           "name": "Steven Kwan",
           "market": "Hits",
           "line": 0.5,
@@ -2203,17 +2203,6 @@
           "book_prob": 65.4,
           "edge": 4.5,
           "book_odds": -220,
-          "book_src": "est."
-        },
-        {
-          "name": "Chase DeLauter",
-          "market": "Hits",
-          "line": 1.5,
-          "side": "UNDER",
-          "model_prob": 63.9,
-          "book_prob": 59.4,
-          "edge": 4.5,
-          "book_odds": -165,
           "book_src": "est."
         }
       ]
@@ -2264,7 +2253,7 @@
       "home_pitcher_id": 696149,
       "game_time": "2026-07-28T22:40:00Z",
       "game_state": "Preview",
-      "game_detail": "Scheduled",
+      "game_detail": "Pre-Game",
       "inning": null,
       "inning_half": "",
       "away_score": null,
@@ -2282,7 +2271,7 @@
       "home_pitcher_id": 643377,
       "game_time": "2026-07-28T22:40:00Z",
       "game_state": "Preview",
-      "game_detail": "Scheduled",
+      "game_detail": "Pre-Game",
       "inning": null,
       "inning_half": "",
       "away_score": null,
@@ -2300,7 +2289,7 @@
       "home_pitcher_id": 645261,
       "game_time": "2026-07-28T22:40:00Z",
       "game_state": "Preview",
-      "game_detail": "Scheduled",
+      "game_detail": "Pre-Game",
       "inning": null,
       "inning_half": "",
       "away_score": null,
@@ -2522,16 +2511,16 @@
         "hr_prob": 0.0799,
         "k_rate": 0.2623,
         "bb_rate": 0.115,
-        "hit_rate": 0.265,
+        "hit_rate": 0.2723,
         "pa": 4.55,
         "expected_hr": 0.363,
-        "expected_hits": 1.206,
+        "expected_hits": 1.239,
         "expected_bb": 0.523,
         "expected_k": 1.194,
-        "expected_tb": 2.523,
-        "expected_rbi": 0.4,
-        "expected_runs": 0.58,
-        "expected_hrr": 2.19
+        "expected_tb": 2.565,
+        "expected_rbi": 0.41,
+        "expected_runs": 0.59,
+        "expected_hrr": 2.24
       },
       {
         "name": "Tyler Stephenson",
@@ -2543,16 +2532,16 @@
         "hr_prob": 0.0642,
         "k_rate": 0.2955,
         "bb_rate": 0.1127,
-        "hit_rate": 0.2828,
+        "hit_rate": 0.2835,
         "pa": 4.15,
         "expected_hr": 0.267,
-        "expected_hits": 1.173,
+        "expected_hits": 1.177,
         "expected_bb": 0.468,
         "expected_k": 1.227,
-        "expected_tb": 2.218,
+        "expected_tb": 2.222,
         "expected_rbi": 0.63,
         "expected_runs": 0.43,
-        "expected_hrr": 2.23
+        "expected_hrr": 2.24
       },
       {
         "name": "Kyle Manzardo",
@@ -2564,16 +2553,16 @@
         "hr_prob": 0.0563,
         "k_rate": 0.2269,
         "bb_rate": 0.0837,
-        "hit_rate": 0.2439,
+        "hit_rate": 0.2415,
         "pa": 4.15,
         "expected_hr": 0.234,
-        "expected_hits": 1.012,
+        "expected_hits": 1.002,
         "expected_bb": 0.347,
         "expected_k": 0.941,
-        "expected_tb": 1.923,
-        "expected_rbi": 0.49,
+        "expected_tb": 1.91,
+        "expected_rbi": 0.48,
         "expected_runs": 0.39,
-        "expected_hrr": 1.89
+        "expected_hrr": 1.87
       },
       {
         "name": "Nathaniel Lowe",
@@ -2585,16 +2574,16 @@
         "hr_prob": 0.0556,
         "k_rate": 0.2967,
         "bb_rate": 0.1195,
-        "hit_rate": 0.266,
+        "hit_rate": 0.27,
         "pa": 4.25,
         "expected_hr": 0.236,
-        "expected_hits": 1.13,
+        "expected_hits": 1.148,
         "expected_bb": 0.508,
         "expected_k": 1.261,
-        "expected_tb": 2.08,
-        "expected_rbi": 0.65,
-        "expected_runs": 0.52,
-        "expected_hrr": 2.3
+        "expected_tb": 2.102,
+        "expected_rbi": 0.66,
+        "expected_runs": 0.53,
+        "expected_hrr": 2.34
       },
       {
         "name": "Eugenio Su\u00e1rez",
@@ -2606,16 +2595,16 @@
         "hr_prob": 0.0526,
         "k_rate": 0.3946,
         "bb_rate": 0.0935,
-        "hit_rate": 0.1774,
+        "hit_rate": 0.1747,
         "pa": 4.35,
         "expected_hr": 0.229,
-        "expected_hits": 0.772,
+        "expected_hits": 0.76,
         "expected_bb": 0.407,
         "expected_k": 1.717,
-        "expected_tb": 1.605,
-        "expected_rbi": 0.51,
-        "expected_runs": 0.4,
-        "expected_hrr": 1.68
+        "expected_tb": 1.589,
+        "expected_rbi": 0.5,
+        "expected_runs": 0.39,
+        "expected_hrr": 1.65
       },
       {
         "name": "JJ Bleday",
@@ -2627,16 +2616,16 @@
         "hr_prob": 0.0496,
         "k_rate": 0.2576,
         "bb_rate": 0.1698,
-        "hit_rate": 0.2453,
+        "hit_rate": 0.2411,
         "pa": 4.45,
         "expected_hr": 0.221,
-        "expected_hits": 1.091,
+        "expected_hits": 1.073,
         "expected_bb": 0.756,
         "expected_k": 1.146,
-        "expected_tb": 1.988,
+        "expected_tb": 1.965,
         "expected_rbi": 0.49,
-        "expected_runs": 0.61,
-        "expected_hrr": 2.19
+        "expected_runs": 0.6,
+        "expected_hrr": 2.16
       },
       {
         "name": "Patrick Bailey",
@@ -2648,16 +2637,16 @@
         "hr_prob": 0.0399,
         "k_rate": 0.158,
         "bb_rate": 0.074,
-        "hit_rate": 0.2812,
+        "hit_rate": 0.2742,
         "pa": 3.95,
         "expected_hr": 0.158,
-        "expected_hits": 1.111,
+        "expected_hits": 1.083,
         "expected_bb": 0.292,
         "expected_k": 0.624,
-        "expected_tb": 1.841,
-        "expected_rbi": 0.34,
-        "expected_runs": 0.47,
-        "expected_hrr": 1.92
+        "expected_tb": 1.806,
+        "expected_rbi": 0.33,
+        "expected_runs": 0.46,
+        "expected_hrr": 1.87
       },
       {
         "name": "Petey Halpin",
@@ -2669,16 +2658,16 @@
         "hr_prob": 0.0399,
         "k_rate": 0.158,
         "bb_rate": 0.074,
-        "hit_rate": 0.2554,
+        "hit_rate": 0.262,
         "pa": 3.85,
         "expected_hr": 0.154,
-        "expected_hits": 0.983,
+        "expected_hits": 1.009,
         "expected_bb": 0.285,
         "expected_k": 0.608,
-        "expected_tb": 1.668,
+        "expected_tb": 1.7,
         "expected_rbi": 0.31,
         "expected_runs": 0.43,
-        "expected_hrr": 1.72
+        "expected_hrr": 1.75
       },
       {
         "name": "Angel Mart\u00ednez",
