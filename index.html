@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Projex — Model Boards</title>
-<meta name="theme-color" content="#0B0C0E">
+<meta name="theme-color" content="#16532E">
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" href="./icon-180.png">
 <link rel="icon" href="./favicon-32.png">
@@ -20,9 +20,9 @@
   --r:20px; --r-sm:12px;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html{-webkit-text-size-adjust:100%; height:100%}
+html{-webkit-text-size-adjust:100%; height:100%; background:#0F3B22}
 body{
-  background:linear-gradient(165deg, #0B0C0E 0%, #0E1210 40%, #0F1712 68%, #0B0C0E 100%);
+  background:linear-gradient(165deg, #123A22 0%, #16532E 32%, #1C6B38 60%, #123A22 100%);
   color:var(--ink); font-family:'Inter',system-ui,sans-serif;
   min-height:100dvh; display:flex; flex-direction:column; position:relative;
   padding:max(16px,env(safe-area-inset-top)) 16px max(16px,env(safe-area-inset-bottom));
@@ -31,10 +31,10 @@ body{
 body::before{
   content:''; position:fixed; inset:0; z-index:-1; pointer-events:none;
   background:
-    radial-gradient(720px 440px at 10% -8%, rgba(147,224,110,.17), transparent 62%),
-    radial-gradient(620px 440px at 105% 6%, rgba(95,163,74,.15), transparent 62%),
-    radial-gradient(900px 620px at 50% 115%, rgba(147,224,110,.09), transparent 68%),
-    linear-gradient(165deg, rgba(147,224,110,.05) 0%, transparent 45%);
+    radial-gradient(720px 440px at 10% -8%, rgba(147,224,110,.32), transparent 62%),
+    radial-gradient(620px 440px at 105% 6%, rgba(95,163,74,.30), transparent 62%),
+    radial-gradient(900px 620px at 50% 115%, rgba(147,224,110,.16), transparent 68%),
+    linear-gradient(165deg, rgba(147,224,110,.10) 0%, transparent 45%);
 }
 
 /* ---------- header ---------- */
@@ -56,6 +56,13 @@ header{display:flex; align-items:center; justify-content:space-between; padding:
 .hub-refresh:focus-visible{outline:2px solid var(--g1); outline-offset:2px}
 .hub-refresh.spin{animation:spin .7s linear infinite; color:var(--g1); border-color:rgba(147,224,110,.4)}
 @keyframes spin{to{transform:rotate(360deg)}}
+
+.hub-status{
+  font-size:11.5px; font-weight:600; color:var(--g1); background:rgba(147,224,110,.1);
+  border:1px solid rgba(147,224,110,.25); border-radius:var(--r-sm); padding:9px 12px;
+  margin-bottom:14px; font-family:'IBM Plex Mono',monospace;
+}
+.hub-status.error{ color:#E0A64A; background:rgba(224,166,74,.1); border-color:rgba(224,166,74,.3) }
 
 /* ---------- storylines strip ---------- */
 #storylines{margin-bottom:16px}
@@ -162,8 +169,10 @@ footer b{background:var(--grad);-webkit-background-clip:text;background-clip:tex
       <div class="today" id="today"></div>
     </div>
   </div>
-  <button class="hub-refresh" id="hub-refresh" aria-label="Refresh" title="Refresh">↻</button>
+  <button class="hub-refresh" id="hub-refresh" aria-label="Run now" title="Run now">↻</button>
 </header>
+
+<div id="hub-status" class="hub-status" style="display:none"></div>
 
 <div id="storylines" style="display:none"></div>
 
@@ -454,12 +463,66 @@ async function loadHub(){
   renderStorylines(buildStorylines(bySport));
 }
 loadHub();
+
+// ---------- Run Now ----------
+// Tapping the header button both re-fetches the current JSON *and* asks the
+// GitHub Action to run the models immediately, instead of waiting for the
+// next scheduled cron. The Action can't be triggered directly from this
+// static page (that would mean shipping a GitHub token to every visitor's
+// browser), so this calls a tiny Cloudflare Worker that holds the token and
+// forwards a workflow_dispatch request. See /worker/README.md for setup —
+// until TRIGGER_URL below is filled in, the button just refreshes the
+// currently-saved data, same as before.
+const TRIGGER_URL = ''; // e.g. 'https://projex-refresh.<your-subdomain>.workers.dev'
+
 const hubRefresh = document.getElementById('hub-refresh');
-if (hubRefresh) hubRefresh.onclick = () => {
+const hubStatus = document.getElementById('hub-status');
+
+function showStatus(msg, isError){
+  if (!hubStatus) return;
+  hubStatus.textContent = msg;
+  hubStatus.classList.toggle('error', !!isError);
+  hubStatus.style.display = 'block';
+}
+
+async function triggerRun(){
+  if (!TRIGGER_URL) return { ok:false, skipped:true };
+  try {
+    const r = await fetch(TRIGGER_URL, { method: 'POST' });
+    return { ok: r.ok };
+  } catch (e) {
+    return { ok:false };
+  }
+}
+
+if (hubRefresh) hubRefresh.onclick = async () => {
   hubRefresh.classList.add('spin');
-  loadHub();
-  setTimeout(() => hubRefresh.classList.remove('spin'), 700);
+  hubRefresh.disabled = true;
+
+  const result = await triggerRun();
+  if (result.skipped){
+    // No worker configured yet — silent, matches old refresh-only behavior.
+  } else if (result.ok){
+    showStatus('Run triggered — fresh data in ~1–2 min. Refreshing…');
+  } else {
+    showStatus('Could not start a run — showing latest saved data.', true);
+  }
+
+  await loadHub();
+  hubRefresh.classList.remove('spin');
+  hubRefresh.disabled = false;
+
+  // The Action takes a little while to run and commit; keep checking for
+  // the new data without making the user tap again.
+  if (result.ok){
+    [20000, 45000, 75000, 110000].forEach(ms => setTimeout(async () => {
+      await loadHub();
+      showStatus('Updated with the latest run.');
+      setTimeout(() => { hubStatus.style.display = 'none'; }, 4000);
+    }, ms));
+  }
 };
+
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');
 </script>
 </body>
