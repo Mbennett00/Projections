@@ -59,6 +59,13 @@ function decoratePicks(sport){
     const edgeVal = (el.querySelector('.edge-val')?.textContent || '').trim();
     if (!player) return;
 
+    // Best-effort: grab whatever image is already rendered on the card
+    // (team logo, headshot, etc.) so it can be shown later in the tracker.
+    // Prefers an explicit .p-logo/.p-headshot if the page provides one,
+    // otherwise falls back to the first <img> found on the card.
+    const logoImg = el.querySelector('.p-logo img, .p-headshot img, .p-logo, .p-headshot, img');
+    const logo = logoImg ? (logoImg.currentSrc || logoImg.src || '') : '';
+
     const btn = document.createElement('button');
     btn.className = 'pick-btn';
     btn.type = 'button';
@@ -68,7 +75,7 @@ function decoratePicks(sport){
       'color:#93E06E;cursor:pointer;font-family:inherit;';
     btn.onclick = (e) => {
       e.stopPropagation();
-      Picks.log({ sport, label: player, detail: meta, line: edgeVal });
+      Picks.log({ sport, label: player, detail: meta, line: edgeVal, logo });
       btn.textContent = '✓ Logged';
       btn.disabled = true;
       btn.style.opacity = '.6';
