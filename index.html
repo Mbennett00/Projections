@@ -169,6 +169,7 @@ footer b{background:var(--grad);-webkit-background-clip:text;background-clip:tex
       <div class="today" id="today"></div>
     </div>
   </div>
+  <a class="hub-refresh" href="./picks/" aria-label="My Picks" title="My Picks" style="text-decoration:none;font-size:14px">📋</a>
   <button class="hub-refresh" id="hub-refresh" aria-label="Run now" title="Run now">↻</button>
 </header>
 
@@ -265,6 +266,7 @@ footer b{background:var(--grad);-webkit-background-clip:text;background-clip:tex
 
 <footer>Auto-updated by the model · <b>Add to Home Screen</b> to install</footer>
 
+<script src="./picks.js"></script>
 <script>
 const LOGO = {
   mlb:{"Arizona Diamondbacks":"ari","Atlanta Braves":"atl","Baltimore Orioles":"bal","Boston Red Sox":"bos","Chicago Cubs":"chc","Chicago White Sox":"chw","Cincinnati Reds":"cin","Cleveland Guardians":"cle","Colorado Rockies":"col","Detroit Tigers":"det","Houston Astros":"hou","Kansas City Royals":"kc","Los Angeles Angels":"laa","Los Angeles Dodgers":"lad","Miami Marlins":"mia","Milwaukee Brewers":"mil","Minnesota Twins":"min","New York Mets":"nym","New York Yankees":"nyy","Athletics":"ath","Philadelphia Phillies":"phi","Pittsburgh Pirates":"pit","San Diego Padres":"sd","San Francisco Giants":"sf","Seattle Mariners":"sea","St. Louis Cardinals":"stl","Tampa Bay Rays":"tb","Texas Rangers":"tex","Toronto Blue Jays":"tor","Washington Nationals":"wsh"},
@@ -342,6 +344,7 @@ function renderMatchupBody(sport, games, updatedTxt){
       </div>
       <div class="mu-edge">${edgeIco}${edgeTxt}</div>
     </div>
+    ${edgeTxt ? `<button class="pick-btn" type="button" data-pick-sport="${sport}" data-pick-label="${abbr(sport, top.away_team)} @ ${abbr(sport, top.home_team)}" data-pick-detail="${edgeTxt.replace(/"/g,'&quot;')}" style="margin-top:9px;width:100%;font-size:10.5px;font-weight:700;padding:7px;border-radius:8px;border:1px solid rgba(147,224,110,.35);background:rgba(147,224,110,.1);color:var(--g1);cursor:pointer;font-family:inherit">+ Log This Pick</button>` : ''}
   `;
 }
 
@@ -462,6 +465,23 @@ async function loadHub(){
   }));
   renderStorylines(buildStorylines(bySport));
 }
+
+// Event delegation: one listener handles every "+ Log This Pick" button,
+// including ones added by future re-renders (no rebinding needed).
+document.getElementById('grid').addEventListener('click', (e) => {
+  const btn = e.target.closest('[data-pick-sport]');
+  if (!btn) return;
+  e.preventDefault();
+  Picks.log({
+    sport: btn.dataset.pickSport,
+    label: btn.dataset.pickLabel,
+    detail: btn.dataset.pickDetail,
+  });
+  btn.textContent = '✓ Logged';
+  btn.disabled = true;
+  btn.style.opacity = '.6';
+});
+
 loadHub();
 
 // ---------- Run Now ----------
@@ -473,7 +493,7 @@ loadHub();
 // forwards a workflow_dispatch request. See /worker/README.md for setup —
 // until TRIGGER_URL below is filled in, the button just refreshes the
 // currently-saved data, same as before.
-const TRIGGER_URL = 'projex-refresh.mikebennettmedia.workers.dev'; // e.g. 'https://projex-refresh.<your-subdomain>.workers.dev'
+const TRIGGER_URL = ''; // e.g. 'https://projex-refresh.<your-subdomain>.workers.dev'
 
 const hubRefresh = document.getElementById('hub-refresh');
 const hubStatus = document.getElementById('hub-status');
@@ -488,10 +508,10 @@ function showStatus(msg, isError){
 async function triggerRun(){
   if (!TRIGGER_URL) return { ok:false, skipped:true };
   try {
-    const r = await fetch(TRIGGER_URL, {
-  method: 'POST',
-  headers: { 'X-Trigger-Secret': 'xk92-refresh-please-7f2' }
-});
+    const r = await fetch(TRIGGER_URL, { method: 'POST' });
+    return { ok: r.ok };
+  } catch (e) {
+    return { ok:false };
   }
 }
 
