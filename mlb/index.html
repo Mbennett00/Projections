@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -707,9 +708,21 @@ function propBadge(play){
   if (!play) return '';
   const live = play.book_src === 'FanDuel';
   const oddsTxt = play.book_odds > 0 ? `+${play.book_odds}` : play.book_odds;
-  const label = live ? 'FANDUEL' : 'EST. LINE';
+  const label = live ? 'FANDUEL' : 'NO MARKET';
   const color = live ? 'var(--yellow)' : 'var(--muted)';
-  return `<span title="${play.side} ${play.line} · model ${play.model_prob}% vs book ${play.book_prob}%" style="display:inline-flex;align-items:center;gap:4px;font-size:9px;font-weight:700;letter-spacing:.04em;color:${color};background:${color}14;border:1px solid ${color}44;border-radius:6px;padding:2px 6px;margin-top:5px;white-space:nowrap">${label} · ${play.side} ${play.line} ${oddsTxt}</span>`;
+  const tip = live
+    ? `${play.side} ${play.line} · model ${play.model_prob}% vs FanDuel ${play.book_prob}%`
+    : `${play.side} ${play.line} · FanDuel hasn't posted this prop; the price shown is a generic placeholder, so no edge can be measured`;
+  const badge = `<span title="${tip}" style="display:inline-flex;align-items:center;gap:4px;font-size:9px;font-weight:700;letter-spacing:.04em;color:${color};background:${color}14;border:1px solid ${color}44;border-radius:6px;padding:2px 6px;margin-top:5px;white-space:nowrap">${label} · ${play.side} ${play.line} ${oddsTxt}</span>`;
+
+  // The edge pill is shown ONLY against a real FanDuel price. Comparing the
+  // model to STANDARD_BOOK_LINES compares it to an assumption, which is how
+  // every prop on this board came to imply a 40-point edge.
+  if (!live || play.edge == null) return badge;
+  const band = edgeBand(play.edge);
+  const sign = play.edge > 0 ? '+' : '';
+  const pill = `<span title="${band.label}: ${band.note}" style="display:inline-flex;align-items:center;font-size:9px;font-weight:800;letter-spacing:.03em;color:${band.color};background:${band.color}1A;border:1px solid ${band.color}55;border-radius:6px;padding:2px 6px;margin-top:5px;margin-left:4px;white-space:nowrap">${sign}${Number(play.edge).toFixed(1)}%</span>`;
+  return badge + pill;
 }
 
 const chips = Object.keys(STATS).map(s =>
