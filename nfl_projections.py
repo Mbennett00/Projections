@@ -1203,6 +1203,27 @@ def edge_confidence_score(edge_pts, k=EDGE_SCORE_K):
 # market's devigged win probability. When the two disagree, that's an
 # actual signal, not market-vs-itself noise.
 # ──────────────────────────────────────────────────────────────────────────
+LEAGUE_AVG_GAME_TOTAL = 44.5   # combined points, both teams
+
+
+def scoring_environment(market):
+    """TARGET score and tier for a game, from its projected combined total.
+
+    Mirrors the other three sports: 50 is a league-average scoring environment,
+    higher is friendlier to overs and skill-position props. Tier bands match
+    MLB and NHL so the badge means the same thing across boards.
+    """
+    away = (market or {}).get("away_pts")
+    home = (market or {}).get("home_pts")
+    if away is None or home is None:
+        return {"tier": "PASS", "target_score": 50}
+    proj_total = away + home
+    score = int(round(max(0, min(100, 50 + (proj_total - LEAGUE_AVG_GAME_TOTAL) * 3.0))))
+    tier = ("ELITE" if score >= 90 else "STRONG" if score >= 75
+            else "LEAN" if score >= 60 else "PASS")
+    return {"tier": tier, "target_score": score}
+
+
 def calc_market_fields(away_team, home_team, odds=None, model_home_win_pct=None):
     if not odds:
         return {
@@ -1214,6 +1235,12 @@ def calc_market_fields(away_team, home_team, odds=None, model_home_win_pct=None)
             "away_pts": 21.0,
             "home_pts": 21.0,
             "edge": None,
+            # Emitted as None rather than omitted, so every game object has the
+            # same shape whether or not odds were available. The boards guard
+            # against missing keys, but a consistent contract means a genuinely
+            # absent field is distinguishable from an unpriced game.
+            "_lines": None,
+            "moneylines": None,
         }
 
     market_away_win, market_home_win = devig_pair(odds.get("ml_away"), odds.get("ml_home"))
@@ -1401,8 +1428,11 @@ def build_game(raw, odds_map=None):
         "game_time": raw["game_time"],
         "game_state": raw.get("game_state", "Preview"),
         "confirmed": True,
-        "tier": "LEAN",
-        "target_score": 50,
+        # tier/target_score were hardcoded to "LEAN" and 50 for every single
+        # game, so both badges carried no information at all on the NFL board.
+        # They are now computed from the game's projected scoring environment,
+        # matching how MLB, NHL and NBA derive theirs.
+        **scoring_environment(market),
         "referee": None,
         "away_qb": away_qb_proj.get("name"),
         "home_qb": home_qb_proj.get("name"),
