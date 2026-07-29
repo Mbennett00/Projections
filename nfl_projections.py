@@ -401,6 +401,18 @@ def _http_get_json(url):
 # of whatever ESPN considers "current":
 #   python3 nfl_projections.py 3
 # ──────────────────────────────────────────────────────────────────────────
+def _has_upcoming(games):
+    """True if any game hasn't finished yet.
+
+    A week whose games are all Final is a week in the past -- showing it is
+    the same as showing nothing, but harder to notice.
+    """
+    for g in games or []:
+        if (g.get("game_state") or "").lower() not in ("final", "post", "postponed"):
+            return True
+    return False
+
+
 def fetch_schedule(week=None, season=None, seasontype=2):
     url = ESPN_SCOREBOARD
     params = []
@@ -1470,17 +1482,26 @@ def main():
             print(f"Ignoring unrecognized arg '{sys.argv[1]}' — expected a week number.")
 
     raw_games = fetch_schedule(week=week)
-    if not week and len(raw_games) <= 1:
-        # Out of season ESPN's default view returns an empty or near-empty
-        # scoreboard, which left the board blank all summer even though the
-        # schedule and early lines are published. Walk forward to the first
-        # week with a real slate.
+    if not week and not _has_upcoming(raw_games):
+        # Out of season ESPN's default scoreboard is empty or shows a week
+        # that's already finished, which left the board blank all summer even
+        # though the schedule and early lines are published.
+        #
+        # The trigger is "nothing left to play", not a game count -- a single
+        # real upcoming game (the Hall of Fame game, a standalone opener) is a
+        # legitimate slate and must not be skipped over.
+        #
+        # Probed in chronological order, preseason before regular season, so
+        # what appears is genuinely the NEXT slate rather than the next one
+        # that happens to be a regular-season week.
         import datetime as _dt
         season = _dt.date.today().year
-        for wk in range(1, 4):
-            probe = fetch_schedule(week=wk, season=season, seasontype=2)
-            if len(probe) > 1:
-                print(f"  off-season: showing Week {wk} of {season} "
+        probes = [(1, wk) for wk in range(1, 5)] + [(2, wk) for wk in range(1, 4)]
+        for stype, wk in probes:
+            probe = fetch_schedule(week=wk, season=season, seasontype=stype)
+            if _has_upcoming(probe):
+                label = "Preseason" if stype == 1 else "Week"
+                print(f"  off-season: showing {label} {wk} of {season} "
                       f"({len(probe)} games)")
                 raw_games = probe
                 break
