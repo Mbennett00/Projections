@@ -1,4 +1,4 @@
-const CACHE = 'projex-v1';
+const CACHE = 'projex-v2';
 const SHELL = ['/', '/mlb/', '/nfl/', '/nhl/', '/nba/', '/injuries/', '/picks/', '/picks.js', '/manifest.webmanifest'];
 
 self.addEventListener('install', e => {
