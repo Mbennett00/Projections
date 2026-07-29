@@ -1,6 +1,6 @@
 {
   "date": "2026-07-29",
-  "generated_at": "2026-07-29 08:02 UTC",
+  "generated_at": "2026-07-29 13:50 UTC",
   "games": [
     {
       "away_team": "Carolina Panthers",
@@ -11,8 +11,8 @@
       "game_time": "2026-08-07T00:00Z",
       "game_state": "Preview",
       "confirmed": true,
-      "tier": "LEAN",
-      "target_score": 50,
+      "tier": "PASS",
+      "target_score": 42,
       "referee": null,
       "away_qb": "Bryce Young",
       "home_qb": "Jacoby Brissett",
@@ -155,7 +155,9 @@
       "p_ml_edge": 0.0,
       "away_pts": 21.0,
       "home_pts": 21.0,
-      "edge": null
+      "edge": null,
+      "_lines": null,
+      "moneylines": null
     }
   ]
 }
