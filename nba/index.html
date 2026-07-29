@@ -495,12 +495,13 @@ function renderPlays(d){
   }
   const statusTag = p => p.status === 'Q'
     ? `<span class="tag" style="color:#FBBF24;background:#FBBF241C;border:1px solid #FBBF2444">DAY-TO-DAY</span>` : '';
+  // Was copied wholesale from the NHL board and read p.news, p.xg_pg and
+  // p.xg_prev -- expected-goals fields that no basketball model emits, so this
+  // never rendered anything. Rebuilt around what the NBA model does produce:
+  // minutes redistribution from injuries, which is the real signal here.
   function newsLine(p){
-    if (p.news) return `<div class="news up">↑ ${esc(p.news.reason)} · ${(p.news.prob_from*100).toFixed(0)}% → ${(p.news.prob_to*100).toFixed(0)}% anytime</div>`;
-    if (p.xg_prev != null) {
-      const up = (p.xg_pg ?? 0) >= p.xg_prev;
-      return `<div class="news ${up?'up':'dn'}">${up?'↑':'↓'} xG ${up?'up':'down'} since last run · ${p.xg_prev.toFixed(2)} → ${(p.xg_pg??0).toFixed(2)}</div>`;
-    }
+    if (p.usage_note) return `<div class="news up">↑ ${esc(p.usage_note)}</div>`;
+    if (p.status === 'Q') return `<div class="news dn">↓ Day-to-day \u2014 minutes at risk</div>`;
     return '';
   }
 
