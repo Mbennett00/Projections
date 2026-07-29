@@ -1,6 +1,6 @@
 {
   "date": "2026-07-29",
-  "generated_at": "2026-07-29 18:03 UTC",
+  "generated_at": "2026-07-29 18:17 UTC",
   "games": [
     {
       "away_team": "New England Patriots",
@@ -1667,8 +1667,7 @@
           "rush_att": 8.6,
           "td_prob": 0.27,
           "fpts": 8.5,
-          "src": "form",
-          "fpts_prev": 9.7
+          "src": "form"
         },
         {
           "name": "Tetairoa McMillan",
@@ -1682,8 +1681,7 @@
           "rush_att": 0.0,
           "td_prob": 0.29,
           "fpts": 12.0,
-          "src": "form",
-          "fpts_prev": 13.3
+          "src": "form"
         },
         {
           "name": "Tommy Tremble",
@@ -2910,8 +2908,7 @@
           "rush_att": 7.4,
           "td_prob": 0.23,
           "fpts": 5.5,
-          "src": "form",
-          "fpts_prev": 6.4
+          "src": "form"
         },
         {
           "name": "Marvin Harrison Jr.",
@@ -2925,8 +2922,7 @@
           "rush_att": 0.0,
           "td_prob": 0.23,
           "fpts": 9.2,
-          "src": "form",
-          "fpts_prev": 10.0
+          "src": "form"
         },
         {
           "name": "Trey McBride",
@@ -2940,8 +2936,7 @@
           "rush_att": 0.0,
           "td_prob": 0.37,
           "fpts": 16.9,
-          "src": "form",
-          "fpts_prev": 18.1
+          "src": "form"
         }
       ],
       "home_skill": [
