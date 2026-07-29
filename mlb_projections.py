@@ -199,10 +199,44 @@ def load_bullpen_quality():
 
 
 # map full team names -> the abbreviations pybaseball uses
+# The comment below used to promise "a small map when needed" and there wasn't
+# one -- it took the first three letters of the team name, which is wrong for a
+# third of the league (CHI vs CHW, NEW vs NYY, LOS vs LAD, ST. vs STL). Every
+# one of those silently fell back to a league-average bullpen.
+MLB_TEAM_ABBR = {
+    "Arizona Diamondbacks": "ARI", "Athletics": "OAK", "Oakland Athletics": "OAK",
+    "Atlanta Braves": "ATL", "Baltimore Orioles": "BAL", "Boston Red Sox": "BOS",
+    "Chicago Cubs": "CHC", "Chicago White Sox": "CHW", "Cincinnati Reds": "CIN",
+    "Cleveland Guardians": "CLE", "Colorado Rockies": "COL", "Detroit Tigers": "DET",
+    "Houston Astros": "HOU", "Kansas City Royals": "KCR", "Los Angeles Angels": "LAA",
+    "Los Angeles Dodgers": "LAD", "Miami Marlins": "MIA", "Milwaukee Brewers": "MIL",
+    "Minnesota Twins": "MIN", "New York Mets": "NYM", "New York Yankees": "NYY",
+    "Philadelphia Phillies": "PHI", "Pittsburgh Pirates": "PIT",
+    "San Diego Padres": "SDP", "San Francisco Giants": "SFG", "Seattle Mariners": "SEA",
+    "St. Louis Cardinals": "STL", "Tampa Bay Rays": "TBR", "Texas Rangers": "TEX",
+    "Toronto Blue Jays": "TOR", "Washington Nationals": "WSN",
+}
+
+# pybaseball has used a few spellings for these over the years; accept all.
+_ABBR_ALIASES = {
+    "KCR": ("KCR", "KC"), "SDP": ("SDP", "SD"), "SFG": ("SFG", "SF"),
+    "TBR": ("TBR", "TB"), "WSN": ("WSN", "WSH", "WAS"), "OAK": ("OAK", "ATH"),
+}
+
+
 def _team_abbr_for_bullpen(team_name):
-    # pybaseball team_pitching uses standard abbreviations; do a loose match
-    # on the last word of the city/nickname via a small map when needed.
-    return (team_name or "")[:3].upper()
+    return MLB_TEAM_ABBR.get((team_name or "").strip())
+
+
+def bullpen_factor_for(team_name, pen):
+    """Bullpen multiplier for a team, tolerating abbreviation spellings."""
+    ab = _team_abbr_for_bullpen(team_name)
+    if not ab or not pen:
+        return 1.0
+    for cand in _ABBR_ALIASES.get(ab, (ab,)):
+        if cand in pen:
+            return pen[cand]
+    return 1.0
 
 
 def platoon_factor(bat_side, pitch_hand):
@@ -458,6 +492,30 @@ def get_val(row, col):
 # Pull and convert a batter/pitcher's key percentile stats into real rates
 # in one place, so every caller gets the same converted numbers.
 # ---------------------------------------------------------------------------
+# Regression toward league average.
+#
+# Nothing in this model regressed anything. A pitcher with a rough handful of
+# starts was taken at face value, and because a team's projected runs are
+# driven mostly by the OPPOSING starter, one bad sample handed the other side a
+# full extra run -- worth ~13 win% points at 1.3 points per 0.1 run. That is a
+# strong candidate for why model win probabilities have been anti-correlated
+# with the market.
+#
+# These weights are priors, not fitted values. Season-to-date rates are a weak
+# predictor of any single game, so a single-game projection should lean on them
+# only partially. calibration_log.py is accumulating the results needed to
+# replace these with fitted numbers.
+PITCHER_REGRESSION = 0.55   # weight on the pitcher's own rate; rest league avg
+BATTER_REGRESSION = 0.75    # batters stabilise faster and get more weight
+
+
+def regress(rate, league_avg, weight):
+    """Pull a rate toward league average. Returns None unchanged."""
+    if rate is None or league_avg is None:
+        return rate
+    return weight * rate + (1.0 - weight) * league_avg
+
+
 def get_converted_stats(row):
     xwoba_pctl = get_val(row, "xwoba")
     brl_pctl = get_val(row, "brl_percent")
@@ -568,7 +626,7 @@ def recent_form_factor(player_id, season=None):
     return hit_f, hr_f
 
 
-def project_batter_simple(brow, prow, order, park_hr_factor=1.0, weather_factor=1.0, platoon_factor=1.0, form_hit=1.0, form_hr=1.0):
+def project_batter_simple(brow, prow, order, park_hr_factor=1.0, weather_factor=1.0, platoon_factor=1.0, form_hit=1.0, form_hr=1.0, bullpen_factor=1.0):
     bstats = get_converted_stats(brow)
     xwoba = bstats["xwoba"] or LEAGUE_AVG_XWOBA
     brl_pct = bstats["brl_pct"]
@@ -590,8 +648,15 @@ def project_batter_simple(brow, prow, order, park_hr_factor=1.0, weather_factor=
         # all nine innings overstates his suppression by roughly 40%, which
         # feeds straight through to the run projection -- and at ~1.3 win%
         # points per 0.1 run, small errors here become large phantom edges.
-        effective_p_xwoba = (STARTER_PA_SHARE * p_xwoba_against
-                             + (1 - STARTER_PA_SHARE) * LEAGUE_AVG_BULLPEN_XWOBA)
+        # Regress the starter's own rate first, then blend in the bullpen.
+        # load_bullpen_quality() has always computed a per-team factor from
+        # team ERA and nothing ever called it, so every bullpen in the league
+        # was treated as identical. The ~40% of plate appearances that don't
+        # face the starter now reflect who is actually pitching them.
+        regressed_p = regress(p_xwoba_against, LEAGUE_AVG_XWOBA, PITCHER_REGRESSION)
+        pen_xwoba = LEAGUE_AVG_BULLPEN_XWOBA * (bullpen_factor or 1.0)
+        effective_p_xwoba = (STARTER_PA_SHARE * regressed_p
+                             + (1 - STARTER_PA_SHARE) * pen_xwoba)
         matchup_xwoba = log5(xwoba, effective_p_xwoba, LEAGUE_AVG_XWOBA)
     else:
         matchup_xwoba = log5(xwoba, LEAGUE_AVG_XWOBA, LEAGUE_AVG_XWOBA)
@@ -906,6 +971,27 @@ ODDS_API_PROP_MARKETS = {
     "k_pitcher": "pitcher_strikeouts",
 }
 
+def _norm_name(n):
+    """Normalise a player name for cross-source matching.
+
+    Lineups come from MLB StatsAPI and prop odds from The Odds API, and the two
+    disagree on accents, punctuation and suffixes -- "Jesus Luzardo" vs
+    "Jes\u00fas Luzardo", "Ronald Acuna Jr." vs "Ronald Acu\u00f1a Jr". An exact
+    match silently fails on those, and every failure falls back to a placeholder
+    price, so the mismatch is invisible in the output.
+    """
+    import unicodedata
+    if not n:
+        return ""
+    n = unicodedata.normalize("NFKD", str(n))
+    n = "".join(c for c in n if not unicodedata.combining(c))
+    n = n.lower().replace(".", "").replace("'", "").replace("-", " ")
+    for suf in (" jr", " sr", " ii", " iii", " iv"):
+        if n.endswith(suf):
+            n = n[: -len(suf)]
+    return " ".join(n.split())
+
+
 def fetch_player_prop_odds(event_id):
     """Fetch FanDuel player-prop lines for one event.
     Returns {(internal_market_key, player_name): {"line": float, "over": odds, "under": odds}}.
@@ -939,7 +1025,7 @@ def fetch_player_prop_odds(event_id):
             line, side, price = oc.get("point"), oc.get("name"), oc.get("price")
             if player is None or line is None:
                 continue
-            key = (internal_key, player, line)
+            key = (internal_key, _norm_name(player), line)
             out.setdefault(key, {"line": line})
             if side == "Over":
                 out[key]["over"] = price
@@ -1036,11 +1122,15 @@ def evaluate_props(name, bat_side, proj, pitcher_proj=None, live_props=None):
     live_props = live_props or {}
 
     def book_price(internal_key, player_name, line):
-        live = live_props.get((internal_key, player_name, line))
+        live = live_props.get((internal_key, _norm_name(player_name), line))
         if live and "over" in live and "under" in live:
             return live["over"], live["under"], "FanDuel"
         table = STANDARD_BOOK_LINES.get(internal_key, {}).get(line)
         if table:
+            # A generic placeholder, NOT a quote. An "edge" measured against it
+            # is model-vs-assumption, which is how every prop on the board came
+            # to show a 40-point edge. Flagged so nothing downstream treats it
+            # as a real market price.
             return table["over"], table["under"], "est."
         return None, None, None
 
@@ -1190,9 +1280,13 @@ def print_game(game, bat_df, pit_df, odds_lines, all_standouts):
 
     away_projs, home_projs = [], []
     away_names, home_names = [], []
-    for label, lineup, opp_prow, opp_pitch_hand, store, names in [
-        (game["away_team"], away_lineup, home_prow, game.get("home_pitcher_hand"), away_projs, away_names),
-        (game["home_team"], home_lineup, away_prow, game.get("away_pitcher_hand"), home_projs, home_names),
+    # Bullpen quality of the team DOING the pitching, not the one batting.
+    _pen = load_bullpen_quality()
+    for label, lineup, opp_prow, opp_pitch_hand, store, names, opp_team_name in [
+        (game["away_team"], away_lineup, home_prow, game.get("home_pitcher_hand"),
+         away_projs, away_names, game["home_team"]),
+        (game["home_team"], home_lineup, away_prow, game.get("away_pitcher_hand"),
+         home_projs, home_names, game["away_team"]),
     ]:
         for slot in lineup:
             brow = batter_row(bat_df, slot["player_id"])
@@ -1206,7 +1300,8 @@ def print_game(game, bat_df, pit_df, odds_lines, all_standouts):
                 park_hr_factor=get_park_factor(venue, slot.get("bat_side", "R")),
                 weather_factor=_wx_hr,
                 platoon_factor=platoon_factor(slot.get("bat_side", "R"), opp_pitch_hand),
-                form_hit=_fhit, form_hr=_fhr
+                form_hit=_fhit, form_hr=_fhr,
+                bullpen_factor=bullpen_factor_for(opp_team_name, _pen),
             )
             store.append(proj)
             names.append(slot["name"])
@@ -1309,11 +1404,22 @@ def print_game(game, bat_df, pit_df, odds_lines, all_standouts):
         if live_props:
             n_players = len({k[1] for k in live_props})
             print(f"  FanDuel player props: {n_players} players across {len(live_props)} lines")
+            # Every prop on the board previously fell back to a placeholder
+            # price, and there was no way to tell whether the API returned
+            # nothing or the returned names never matched the lineup. Log both.
+            markets = sorted({k[0] for k in live_props})
+            print(f"    markets returned: {', '.join(markets)}")
+            sample = sorted({k[1] for k in live_props})[:3]
+            print(f"    sample names from book: {sample}")
+        elif ODDS_API_KEY:
+            print("  (FanDuel returned no player props for this event -- "
+                  "props usually post a few hours before first pitch)")
     elif ODDS_API_KEY:
         print("  (No FanDuel line posted for this game yet)")
 
     # --- Prop Value Section (after score/win% so all context is available) ---
     all_prop_plays = []
+    _prop_src_counts = {}
     for label, lineup, store, opp_pitcher_proj in [
         (game["away_team"], away_lineup, away_projs, home_pitcher_proj),
         (game["home_team"], home_lineup, home_projs, away_pitcher_proj),
