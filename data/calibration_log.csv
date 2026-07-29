@@ -1,9 +1,9 @@
 date,sport,away,home,start,model_away_win,book_away_win,ml_away,ml_home,edge_pts,away_score,home_score,winner,state,logged_at,settled_at
 2026-07-29,mlb,Philadelphia Phillies,Miami Marlins,2026-07-29T16:10:00Z,0.4078,0.5289,-128,100,-12.11,6,8,home,Final,2026-07-29T13:50:04+00:00,2026-07-29T18:45:17+00:00
-2026-07-29,mlb,Arizona Diamondbacks,Pittsburgh Pirates,2026-07-29T16:35:00Z,0.539,0.8642,-1000,600,-32.52,,,,Live,2026-07-29T13:50:04+00:00,
-2026-07-29,mlb,Toronto Blue Jays,Washington Nationals,2026-07-29T17:05:00Z,0.3124,0.575,-156,122,-26.26,,,,Live,2026-07-29T13:50:04+00:00,
-2026-07-29,mlb,Baltimore Orioles,Detroit Tigers,2026-07-29T17:10:00Z,0.469,0.0596,1500,-7000,40.94,,,,Live,2026-07-29T13:50:04+00:00,
-2026-07-29,mlb,Atlanta Braves,New York Mets,2026-07-29T17:10:00Z,0.4822,0.5934,-162,136,-11.12,,,,Live,2026-07-29T13:50:04+00:00,
+2026-07-29,mlb,Arizona Diamondbacks,Pittsburgh Pirates,2026-07-29T16:35:00Z,0.539,0.8642,-1000,600,-32.52,3,0,away,Final,2026-07-29T13:50:04+00:00,2026-07-29T19:02:22+00:00
+2026-07-29,mlb,Toronto Blue Jays,Washington Nationals,2026-07-29T17:05:00Z,0.3124,0.5289,-128,100,-21.65,,,,Live,2026-07-29T13:50:04+00:00,
+2026-07-29,mlb,Baltimore Orioles,Detroit Tigers,2026-07-29T17:10:00Z,0.469,0.1473,540,-950,32.17,,,,Live,2026-07-29T13:50:04+00:00,
+2026-07-29,mlb,Atlanta Braves,New York Mets,2026-07-29T17:10:00Z,0.4737,0.5934,-162,136,-11.97,,,,Live,2026-07-29T13:50:04+00:00,
 2026-07-29,mlb,Milwaukee Brewers,San Francisco Giants,2026-07-29T19:45:00Z,0.4589,0.4846,-102,-116,-2.57,,,,Preview,2026-07-29T13:50:04+00:00,
 2026-07-29,mlb,Colorado Rockies,San Diego Padres,2026-07-29T20:10:00Z,,,,,,,,,Preview,2026-07-29T13:50:04+00:00,
 2026-07-29,mlb,Texas Rangers,Tampa Bay Rays,2026-07-29T22:40:00Z,,,,,,,,,Preview,2026-07-29T13:50:04+00:00,

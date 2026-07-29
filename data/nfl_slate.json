@@ -1,6 +1,6 @@
 {
   "date": "2026-07-29",
-  "generated_at": "2026-07-29 18:45 UTC",
+  "generated_at": "2026-07-29 19:02 UTC",
   "games": [
     {
       "away_team": "Carolina Panthers",
@@ -59,8 +59,7 @@
           "rush_att": 8.9,
           "td_prob": 0.31,
           "fpts": 9.7,
-          "src": "form",
-          "fpts_prev": 8.5
+          "src": "form"
         },
         {
           "name": "Tetairoa McMillan",
@@ -74,8 +73,7 @@
           "rush_att": 0.0,
           "td_prob": 0.33,
           "fpts": 13.3,
-          "src": "form",
-          "fpts_prev": 12.0
+          "src": "form"
         },
         {
           "name": "Tommy Tremble",
@@ -119,8 +117,7 @@
           "rush_att": 8.4,
           "td_prob": 0.27,
           "fpts": 6.4,
-          "src": "form",
-          "fpts_prev": 5.5
+          "src": "form"
         },
         {
           "name": "Marvin Harrison Jr.",
@@ -134,8 +131,7 @@
           "rush_att": 0.0,
           "td_prob": 0.25,
           "fpts": 10.0,
-          "src": "form",
-          "fpts_prev": 9.2
+          "src": "form"
         },
         {
           "name": "Trey McBride",
@@ -149,8 +145,7 @@
           "rush_att": 0.0,
           "td_prob": 0.4,
           "fpts": 18.1,
-          "src": "form",
-          "fpts_prev": 16.9
+          "src": "form"
         }
       ],
       "away_win_pct": 0.5,
