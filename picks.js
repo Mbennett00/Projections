@@ -81,6 +81,12 @@ try { console.log('picks.js ' + PICKS_VERSION + ' loaded \u2014 add-to-slip butt
 
 const PICK_GREEN = '#93E06E';
 
+// American odds: +108 / -126. Returns '' when a price isn't available.
+function fmtOdds(v){
+  if (v == null || typeof v !== 'number' || isNaN(v)) return '';
+  return v > 0 ? '+' + v : String(v);
+}
+
 function pickAttrEsc(s){
   return String(s == null ? '' : s)
     .replace(/&/g, '&amp;').replace(/"/g, '&quot;')
@@ -117,6 +123,50 @@ function pickBtn(o){
     ` data-pick-logo="${pickAttrEsc(o.logo || '')}"` +
     ` data-pick-face="${pickAttrEsc(face)}"` +
     ` aria-label="Add to slip">${face}</button>`;
+}
+
+/**
+ * Builds the spread and total chips from a game's canonical `_lines` block.
+ * Both sides of each market are offered, the way a sportsbook grid would.
+ * Returns '' when the slate has no priced lines, so callers can fall back to
+ * their model-derived chip instead.
+ *
+ *   sport, away, home — abbreviations used for chip faces
+ *   lines             — the game's `_lines` object (may be null)
+ *   gkey              — stable per-game id for toggling
+ *   logoFor           — optional abbr -> logo URL function
+ */
+function lineChips(o){
+  const L = o.lines || {};
+  const book = L.book ? ' \u00b7 ' + L.book : '';
+  const matchup = `${o.away} @ ${o.home}`;
+  let html = '';
+
+  if (L.spread != null){
+    // `spread` is always the HOME number; the away side is its mirror.
+    [['away', o.away, -L.spread, L.spread_away_price],
+     ['home', o.home,  L.spread, L.spread_home_price]].forEach(([side, team, pts, price]) => {
+      const face = `${team} ${pts > 0 ? '+' : ''}${pts}`;
+      const px = fmtOdds(price);
+      html += pickBtn({
+        sport:o.sport, variant:'chip', text:face, label:face,
+        detail:`${matchup} \u00b7 spread`, line: px ? px + book : 'spread' + book,
+        logo: o.logoFor ? o.logoFor(team) : '',
+        key:`${o.sport}|spread|${side}|${o.gkey}`});
+    });
+  }
+
+  if (L.total != null){
+    [['over', 'Over', L.over_price], ['under', 'Under', L.under_price]].forEach(([side, word, price]) => {
+      const face = `${word} ${L.total}`;
+      const px = fmtOdds(price);
+      html += pickBtn({
+        sport:o.sport, variant:'chip', text:face, label:face,
+        detail:`${matchup} \u00b7 total`, line: px ? px + book : 'total' + book,
+        key:`${o.sport}|total|${side}|${o.gkey}`});
+    });
+  }
+  return html;
 }
 
 /** Wraps a set of pickBtn() calls in the footer strip used on game cards. */

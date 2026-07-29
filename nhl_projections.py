@@ -369,15 +369,30 @@ def fetch_nhl_odds():
     out = {}
     for ev in rows:
         totals, spreads, ml_away, ml_home = [], [], [], []
+        # Prices, not just the points. The boards show a real priced market
+        # (e.g. "TOR -1.5 (+124)"), which needs the odds on each side too.
+        over_px, under_px, sp_away_px, sp_home_px = [], [], [], []
         for bk in ev.get("bookmakers", []):
             if bk.get("key") != "fanduel":
                 continue
             for mk in bk.get("markets", []):
                 for o in mk.get("outcomes", []):
-                    if mk["key"] == "totals" and o.get("name") == "Over" and o.get("point") is not None:
-                        totals.append(o["point"])
-                    if mk["key"] == "spreads" and o.get("name") == ev.get("home_team") and o.get("point") is not None:
-                        spreads.append(o["point"])
+                    if mk["key"] == "totals":
+                        if o.get("name") == "Over":
+                            if o.get("point") is not None:
+                                totals.append(o["point"])
+                            if o.get("price") is not None:
+                                over_px.append(o["price"])
+                        elif o.get("name") == "Under" and o.get("price") is not None:
+                            under_px.append(o["price"])
+                    if mk["key"] == "spreads":
+                        if o.get("name") == ev.get("home_team"):
+                            if o.get("point") is not None:
+                                spreads.append(o["point"])
+                            if o.get("price") is not None:
+                                sp_home_px.append(o["price"])
+                        elif o.get("name") == ev.get("away_team") and o.get("price") is not None:
+                            sp_away_px.append(o["price"])
                     if mk["key"] == "h2h" and o.get("price") is not None:
                         if o.get("name") == ev.get("away_team"):
                             ml_away.append(o["price"])
@@ -389,6 +404,10 @@ def fetch_nhl_odds():
                 "home_spread": round(sum(spreads) / len(spreads), 2) if spreads else None,
                 "ml_away": round(sum(ml_away) / len(ml_away)) if ml_away else None,
                 "ml_home": round(sum(ml_home) / len(ml_home)) if ml_home else None,
+                "over_price": round(sum(over_px) / len(over_px)) if over_px else None,
+                "under_price": round(sum(under_px) / len(under_px)) if under_px else None,
+                "spread_away_price": round(sum(sp_away_px) / len(sp_away_px)) if sp_away_px else None,
+                "spread_home_price": round(sum(sp_home_px) / len(sp_home_px)) if sp_home_px else None,
             }
     return out
 
@@ -630,6 +649,19 @@ def build_game(talent, raw, odds_map):
         "tier": tier, "target_score": max(0, min(100, target)),
         "line_source": source, "edge": game_edge,
         "moneylines": {"away": line.get("ml_away"), "home": line.get("ml_home"), "book": "FanDuel"} if line else None,
+        # Canonical betting-line block every board reads. Same key names across
+        # all four sports so the front end has one shape to handle. `spread` is
+        # always the HOME number (negative = home favoured).
+        "_lines": {
+            "book": "FanDuel",
+            "ml_away": line.get("ml_away"), "ml_home": line.get("ml_home"),
+            "spread": line.get("home_spread"),
+            "spread_away_price": line.get("spread_away_price"),
+            "spread_home_price": line.get("spread_home_price"),
+            "total": line.get("total"),
+            "over_price": line.get("over_price"),
+            "under_price": line.get("under_price"),
+        } if line else None,
         "away_goalie": away_goalie, "home_goalie": home_goalie,
         "away_goalie_card": goalie_card(away_goalie),
         "home_goalie_card": goalie_card(home_goalie),

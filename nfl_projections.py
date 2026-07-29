@@ -1276,10 +1276,17 @@ def calc_market_fields(away_team, home_team, odds=None, model_home_win_pct=None)
         "edge": edge,
         "moneylines": {"away": odds.get("ml_away"), "home": odds.get("ml_home"), "book": "FanDuel"},
         "_lines": {
+            "book": "FanDuel",
             "spread": home_spread_pt,
             "total": total_pt,
             "ml_away": odds.get("ml_away"),
             "ml_home": odds.get("ml_home"),
+            # Prices on each side, so the boards can show a priced market
+            # rather than a bare number.
+            "spread_away_price": odds.get("spread_away_price"),
+            "spread_home_price": odds.get("spread_home_price"),
+            "over_price": odds.get("over_price"),
+            "under_price": odds.get("under_price"),
             "books": odds.get("book_count"),
         },
     }

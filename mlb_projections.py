@@ -815,7 +815,7 @@ def fetch_moneylines():
         return {}
     try:
         url = (f"https://api.the-odds-api.com/v4/sports/baseball_mlb/odds"
-               f"?apiKey={ODDS_API_KEY}&regions=us&markets=h2h&bookmakers=fanduel&oddsFormat=american")
+               f"?apiKey={ODDS_API_KEY}&regions=us&markets=h2h,spreads,totals&bookmakers=fanduel&oddsFormat=american")
         resp = requests.get(url, timeout=10)
         resp.raise_for_status()
         events = resp.json()
@@ -837,6 +837,27 @@ def fetch_moneylines():
         if away not in outcomes or home not in outcomes:
             continue
 
+        # Run line + total, same FanDuel pull. The h2h block above still gates
+        # the game (no moneyline = no line at all), so these are additive and
+        # stay None whenever FanDuel hasn't posted them yet.
+        run_line = total_pt = None
+        rl_away_px = rl_home_px = over_px = under_px = None
+        for m in fd.get("markets", []):
+            if m["key"] == "spreads":
+                for o in m.get("outcomes", []):
+                    if o.get("name") == home:
+                        run_line = o.get("point", run_line)
+                        rl_home_px = o.get("price", rl_home_px)
+                    elif o.get("name") == away:
+                        rl_away_px = o.get("price", rl_away_px)
+            elif m["key"] == "totals":
+                for o in m.get("outcomes", []):
+                    if o.get("name") == "Over":
+                        total_pt = o.get("point", total_pt)
+                        over_px = o.get("price", over_px)
+                    elif o.get("name") == "Under":
+                        under_px = o.get("price", under_px)
+
         def implied(odds):
             return 100 / (odds + 100) if odds > 0 else -odds / (-odds + 100)
 
@@ -846,6 +867,9 @@ def fetch_moneylines():
             "away_prob": a / total, "home_prob": h / total, "book": "FanDuel",
             "event_id": event.get("id"),
             "away_ml": outcomes[away], "home_ml": outcomes[home],
+            "home_spread": run_line, "spread_away_price": rl_away_px,
+            "spread_home_price": rl_home_px, "total": total_pt,
+            "over_price": over_px, "under_price": under_px,
         }
     return lines
 
@@ -1239,6 +1263,18 @@ def print_game(game, bat_df, pit_df, odds_lines, all_standouts):
             "away_ml": line["away_ml"], "home_ml": line["home_ml"], "book": "FanDuel",
         }
         result["moneylines"] = {"away": line["away_ml"], "home": line["home_ml"], "book": "FanDuel"}
+        # Canonical betting-line block, identical shape across all four sports.
+        # `spread` is the HOME run line (negative = home favoured).
+        result["_lines"] = {
+            "book": "FanDuel",
+            "ml_away": line["away_ml"], "ml_home": line["home_ml"],
+            "spread": line.get("home_spread"),
+            "spread_away_price": line.get("spread_away_price"),
+            "spread_home_price": line.get("spread_home_price"),
+            "total": line.get("total"),
+            "over_price": line.get("over_price"),
+            "under_price": line.get("under_price"),
+        }
         live_props = fetch_player_prop_odds(line.get("event_id"))
         if live_props:
             n_players = len({k[1] for k in live_props})
