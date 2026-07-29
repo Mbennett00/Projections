@@ -57,6 +57,8 @@ ODDS_API_URL = f"https://api.the-odds-api.com/v4/sports/{ODDS_API_SPORT}/odds"
 # region "us" = DK/FD/MGM etc. Add "eu" if you want Pinnacle included
 # (matches the pattern from your WC2026 live betting tool), e.g. "us,eu"
 ODDS_API_REGIONS = "us"
+# How far ahead to accept odds. Wide enough to reach Week 1 from the preseason.
+ODDS_LOOKAHEAD_DAYS = 60
 
 # ESPN's internal numeric team IDs — needed for roster/athlete endpoints
 # (the scoreboard endpoint uses abbreviations, but roster/stats need these).
@@ -497,9 +499,17 @@ def fetch_odds_for_slate():
     """Returns {(away_full_name, home_full_name): {...lines...}} or {} on failure."""
     if not ODDS_API_KEY:
         return {}
+    # The Odds API only returns imminent games unless a window is given. Week 1
+    # lines are posted long before Week 1, so without this the preseason board
+    # shows a schedule with no prices against it.
+    import datetime as _dt
+    _now = _dt.datetime.now(_dt.timezone.utc)
+    _from = _now.strftime("%Y-%m-%dT%H:%M:%SZ")
+    _to = (_now + _dt.timedelta(days=ODDS_LOOKAHEAD_DAYS)).strftime("%Y-%m-%dT%H:%M:%SZ")
     url = (
         f"{ODDS_API_URL}?apiKey={ODDS_API_KEY}&regions={ODDS_API_REGIONS}"
         "&markets=h2h,spreads,totals&bookmakers=fanduel&oddsFormat=american"
+        f"&commenceTimeFrom={_from}&commenceTimeTo={_to}"
     )
     try:
         data = _http_get_json(url)
@@ -1460,6 +1470,20 @@ def main():
             print(f"Ignoring unrecognized arg '{sys.argv[1]}' — expected a week number.")
 
     raw_games = fetch_schedule(week=week)
+    if not week and len(raw_games) <= 1:
+        # Out of season ESPN's default view returns an empty or near-empty
+        # scoreboard, which left the board blank all summer even though the
+        # schedule and early lines are published. Walk forward to the first
+        # week with a real slate.
+        import datetime as _dt
+        season = _dt.date.today().year
+        for wk in range(1, 4):
+            probe = fetch_schedule(week=wk, season=season, seasontype=2)
+            if len(probe) > 1:
+                print(f"  off-season: showing Week {wk} of {season} "
+                      f"({len(probe)} games)")
+                raw_games = probe
+                break
     print("Fetching odds...")
     odds_map = fetch_odds_for_slate()
     if odds_map:
