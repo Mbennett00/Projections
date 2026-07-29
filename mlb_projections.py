@@ -585,7 +585,14 @@ def project_batter_simple(brow, prow, order, park_hr_factor=1.0, weather_factor=
         p_xwoba_against, p_k, p_bb = None, None, None
 
     if p_xwoba_against is not None:
-        matchup_xwoba = log5(xwoba, p_xwoba_against, LEAGUE_AVG_XWOBA)
+        # Blend the starter toward league average by the share of plate
+        # appearances he actually covers. Applying an ace's xwOBA-against to
+        # all nine innings overstates his suppression by roughly 40%, which
+        # feeds straight through to the run projection -- and at ~1.3 win%
+        # points per 0.1 run, small errors here become large phantom edges.
+        effective_p_xwoba = (STARTER_PA_SHARE * p_xwoba_against
+                             + (1 - STARTER_PA_SHARE) * LEAGUE_AVG_BULLPEN_XWOBA)
+        matchup_xwoba = log5(xwoba, effective_p_xwoba, LEAGUE_AVG_XWOBA)
     else:
         matchup_xwoba = log5(xwoba, LEAGUE_AVG_XWOBA, LEAGUE_AVG_XWOBA)
 
@@ -752,13 +759,23 @@ def estimate_runs_rbi(lineup_projs):
     return lineup_projs
 
 
-def estimate_team_runs(lineup_projs):
+def estimate_team_runs(lineup_projs, is_home=False):
+    """Projected runs for one side.
+
+    `is_home` applies MLB home-field advantage, which the model previously had
+    no term for at all. Home teams win ~54% of games; with the Poisson
+    conversion running at ~1.3 win% points per 0.1 run, that is worth about
+    0.15 runs a side. It is applied symmetrically (home up, away down) so the
+    game total is unchanged and only the split moves.
+    """
     if not lineup_projs:
-        return 4.3
-    avg_quality = sum(p["offense_quality"] for p in lineup_projs) / len(lineup_projs)
-    league_avg_quality = (LEAGUE_AVG_XWOBA / 0.450) * 100
-    runs = 4.3 * (avg_quality / league_avg_quality)
-    return max(1.5, min(12, runs))
+        base = 4.3
+    else:
+        avg_quality = sum(p["offense_quality"] for p in lineup_projs) / len(lineup_projs)
+        league_avg_quality = (LEAGUE_AVG_XWOBA / 0.450) * 100
+        base = 4.3 * (avg_quality / league_avg_quality)
+    base *= HOME_FIELD_RUN_MULT if is_home else (2.0 - HOME_FIELD_RUN_MULT)
+    return max(1.5, min(12, base))
 
 
 def poisson_pmf(k, lam):
@@ -961,6 +978,19 @@ EDGE_THRESHOLD = 4.0  # flag as a play if model edge >= this percentage
 # starting-pitcher mismatches, so it gets a much bigger k than the other
 # three sports.
 # ---------------------------------------------------------------------------
+# A starter covers roughly 60% of the plate appearances a lineup takes; the
+# balance is bullpen, which sits near league average across the sport.
+STARTER_PA_SHARE = 0.60
+LEAGUE_AVG_BULLPEN_XWOBA = 0.315
+# ~0.15 runs a side, i.e. about 54% for two otherwise even teams.
+HOME_FIELD_RUN_MULT = 1.035
+
+# NOTE (unfixed, deliberately): win_probability() treats the two teams' runs as
+# independent Poissons, which runs ~2-3 points hotter than reality -- at a
+# 1-run projected edge it says 63.2% where Pythagorean expectation says 60.5%.
+# Correcting that needs a variance parameter fitted to real results, not a
+# guess. calibration_log.py is accumulating the data to do it properly.
+
 EDGE_SCORE_K = 18.0
 
 def edge_confidence_score(edge_pts, k=EDGE_SCORE_K):
@@ -1200,8 +1230,8 @@ def print_game(game, bat_df, pit_df, odds_lines, all_standouts):
                   f"{proj['expected_runs']:>5.2f}{proj['expected_rbi']:>5.2f}{proj['expected_hrr']:>8.2f}{proj['hr_prob']*100:>5.1f}%{flag}")
             all_standouts.append({"name": name, "team": label, "bat_side": bat_side, **proj})
 
-    away_runs = estimate_team_runs([p for p in away_projs if p is not None])
-    home_runs = estimate_team_runs([p for p in home_projs if p is not None])
+    away_runs = estimate_team_runs([p for p in away_projs if p is not None], is_home=False)
+    home_runs = estimate_team_runs([p for p in home_projs if p is not None], is_home=True)
     away_win = win_probability(away_runs, home_runs)
     home_win = 1 - away_win
 
