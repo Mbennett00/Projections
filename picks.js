@@ -209,6 +209,19 @@ function edgeBand(pts){
   return EDGE_BANDS.find(b => v < b.max) || EDGE_BANDS[EDGE_BANDS.length - 1];
 }
 
+/**
+ * Class for a game card based on how far along the game is. Boards sort
+ * upcoming first, then live, then final; this fades the ones you can no longer
+ * bet normally so the actionable slate reads first. Live is only lightly faded
+ * -- it still has slip chips and a moving score.
+ */
+function gameDimClass(g){
+  const st = g && g.game_state;
+  if (st === 'Final') return 'is-final';
+  if (st === 'Live') return 'is-live';
+  return '';
+}
+
 /** Wraps a set of pickBtn() calls in the footer strip used on game cards. */
 function pickStrip(html){
   return `<div class="pick-strip">${html}</div>`;
@@ -331,6 +344,13 @@ function mountSlipBar(href){
     background:${PICK_GREEN};color:#0B1210;font-size:11px;font-weight:800;
   }
   @media (max-width:420px){ #slip-bar{right:11px;bottom:12px;padding:9px 13px} }
+
+  /* Games already under way or over: present, de-emphasised, still tappable. */
+  .game.is-live{ opacity:.74; }
+  .game.is-final{ opacity:.42; }
+  .game.is-live:hover, .game.is-final:hover,
+  .game.is-live:active, .game.is-final:active{ opacity:1; }
+  .game.is-live .pick-btn, .game.is-final .pick-btn{ opacity:1; }
 
   #board-error{
     position:sticky;top:0;z-index:80;cursor:pointer;
