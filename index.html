@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -124,15 +123,6 @@ header{display:flex; align-items:center; justify-content:space-between; padding:
 .board.quiet .stat b{color:var(--faint)}
 .stat span{font-size:9.5px; color:var(--mute); font-weight:600; line-height:1.25; display:block; white-space:nowrap}
 
-.matchup-label{font-size:9.5px; font-weight:700; letter-spacing:.1em; color:var(--faint); font-family:'IBM Plex Mono',monospace; margin-bottom:10px; padding-top:12px; border-top:1px solid var(--line)}
-.matchup-row{display:flex; align-items:center; gap:12px}
-.mu-team{display:flex; align-items:center; gap:7px; flex:none}
-.mu-logo{width:22px; height:22px; object-fit:contain; flex:none; border-radius:5px}
-.mu-name{font-family:'Sora',sans-serif; font-weight:700; font-size:14px; line-height:1.2}
-.mu-odds{font-size:10px; color:var(--mute); font-weight:600; font-family:'IBM Plex Mono',monospace; margin-top:1px}
-.mu-time{font-size:10px; color:var(--faint); font-family:'IBM Plex Mono',monospace; text-align:center; flex:none; line-height:1.3}
-.mu-edge{display:flex; align-items:center; gap:6px; font-size:11.5px; color:var(--g1); font-weight:700; flex:1; min-width:0; justify-content:flex-end; text-align:right; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
-.mu-edge img{width:16px; height:16px; object-fit:contain; border-radius:3px; flex:none}
 
 .next-box{
   display:flex; align-items:center; gap:10px; background:rgba(147,224,110,.06);
@@ -281,10 +271,6 @@ if (typeof mountSlipBar !== 'function') {
   var mountSlipBar = () => {};
   console.warn('picks.js unavailable — hub still live, pick logging disabled');
 }
-function hubPicks(){
-  try { return (typeof Picks !== 'undefined' && Picks) ? Picks : null; }
-  catch (e){ return null; }
-}
 const LOGO = {
   mlb:{"Arizona Diamondbacks":"ari","Atlanta Braves":"atl","Baltimore Orioles":"bal","Boston Red Sox":"bos","Chicago Cubs":"chc","Chicago White Sox":"chw","Cincinnati Reds":"cin","Cleveland Guardians":"cle","Colorado Rockies":"col","Detroit Tigers":"det","Houston Astros":"hou","Kansas City Royals":"kc","Los Angeles Angels":"laa","Los Angeles Dodgers":"lad","Miami Marlins":"mia","Milwaukee Brewers":"mil","Minnesota Twins":"min","New York Mets":"nym","New York Yankees":"nyy","Athletics":"ath","Philadelphia Phillies":"phi","Pittsburgh Pirates":"pit","San Diego Padres":"sd","San Francisco Giants":"sf","Seattle Mariners":"sea","St. Louis Cardinals":"stl","Tampa Bay Rays":"tb","Texas Rangers":"tex","Toronto Blue Jays":"tor","Washington Nationals":"wsh"},
   nfl:{"Arizona Cardinals":"ari","Atlanta Falcons":"atl","Baltimore Ravens":"bal","Buffalo Bills":"buf","Carolina Panthers":"car","Chicago Bears":"chi","Cincinnati Bengals":"cin","Cleveland Browns":"cle","Dallas Cowboys":"dal","Denver Broncos":"den","Detroit Lions":"det","Green Bay Packers":"gb","Houston Texans":"hou","Indianapolis Colts":"ind","Jacksonville Jaguars":"jax","Kansas City Chiefs":"kc","Las Vegas Raiders":"lv","Los Angeles Chargers":"lac","Los Angeles Rams":"lar","Miami Dolphins":"mia","Minnesota Vikings":"min","New England Patriots":"ne","New Orleans Saints":"no","New York Giants":"nyg","New York Jets":"nyj","Philadelphia Eagles":"phi","Pittsburgh Steelers":"pit","San Francisco 49ers":"sf","Seattle Seahawks":"sea","Tampa Bay Buccaneers":"tb","Tennessee Titans":"ten","Washington Commanders":"wsh"},
@@ -324,45 +310,6 @@ function gameEdgeScore(g){
   if (g.edge && typeof g.edge.score === 'number') return g.edge.score;
   if (typeof g.p_ml_edge === 'number' && g.p_ml_edge) return Math.round(Math.abs(g.p_ml_edge) * 100);
   return 0;
-}
-
-function renderMatchupBody(sport, games, updatedTxt){
-  if (!games.length) return '';
-  let top = games[0], bestScore = -1;
-  for (const g of games){
-    const s = gameEdgeScore(g);
-    if (s > bestScore){ bestScore = s; top = g; }
-  }
-  const awayLogo = logoUrl(sport, top.away_team);
-  const homeLogo = logoUrl(sport, top.home_team);
-  const edge = top.edge;
-  const ml = top.moneylines || {};
-  const fmtMl = v => v == null ? '' : (v > 0 ? `+${v}` : `${v}`);
-  const timeTxt = top.game_time ? fmtTime(top.game_time) : '';
-
-  const edgeIco = edge && edge.team ? (logoUrl(sport, edge.team) ? `<img src="${logoUrl(sport, edge.team)}" onerror="this.remove()">` : '') : '';
-  let edgeTxt = '';
-  if (edge && edge.team){
-    const edgeMl = edge.team === top.away_team ? edge.away_ml : edge.team === top.home_team ? edge.home_ml : null;
-    edgeTxt = `🔥 Best Edge: ${shortName(edge.team)}${edgeMl != null ? ` (${fmtMl(edgeMl)})` : ''}`;
-  }
-
-  return `
-    <div class="matchup-label">TOP MATCHUP${ml.book ? ` · ${ml.book}` : ''}</div>
-    <div class="matchup-row">
-      <div class="mu-team">
-        ${awayLogo ? `<img class="mu-logo" src="${awayLogo}" onerror="this.remove()">` : ''}
-        <div><div class="mu-name">${abbr(sport, top.away_team)}</div>${ml.away != null ? `<div class="mu-odds">${fmtMl(ml.away)}</div>` : ''}</div>
-      </div>
-      <div class="mu-time">${timeTxt}<br>@</div>
-      <div class="mu-team">
-        ${homeLogo ? `<img class="mu-logo" src="${homeLogo}" onerror="this.remove()">` : ''}
-        <div><div class="mu-name">${abbr(sport, top.home_team)}</div>${ml.home != null ? `<div class="mu-odds">${fmtMl(ml.home)}</div>` : ''}</div>
-      </div>
-      <div class="mu-edge">${edgeIco}${edgeTxt}</div>
-    </div>
-    ${edgeTxt ? `<button class="pick-btn" type="button" data-pick-sport="${sport}" data-pick-label="${abbr(sport, top.away_team)} @ ${abbr(sport, top.home_team)}" data-pick-detail="${edgeTxt.replace(/"/g,'&quot;')}" data-pick-logo="${edge && edge.team ? logoUrl(sport, edge.team) : ''}" style="margin-top:9px;width:100%;font-size:10.5px;font-weight:700;padding:7px;border-radius:8px;border:1px solid rgba(147,224,110,.35);background:rgba(147,224,110,.1);color:var(--g1);cursor:pointer;font-family:inherit">+ Log This Pick</button>` : ''}
-  `;
 }
 
 function renderNextStart(sport){
@@ -466,14 +413,18 @@ async function loadHub(){
       document.getElementById(s+'-stat3').textContent = scores.filter(x => x >= 80).length;
     }
 
-    // body: matchup panel if games exist, otherwise a next-start box for offseason sports
+    // body: timestamp when there are games, otherwise a next-start box
     const bodyEl = document.getElementById(s+'-body');
     const footEl = document.getElementById(s+'-foot');
     if (count > 0){
-      bodyEl.innerHTML = renderMatchupBody(s, games, updatedTxt);
+      // The TOP MATCHUP panel used to live here: one game's moneylines plus a
+      // "best edge" pick. It was picked by the same edge score that turned out
+      // to be unreliable, and its odds were whatever the last model run saw --
+      // so a stale price sat on the landing page looking authoritative. The
+      // sport boards show every game with live prices; this only competed with
+      // them. Removed rather than patched.
+      bodyEl.innerHTML = `<div class="board-updated" style="margin-top:8px">${updatedTxt}</div>`;
       footEl.style.display = 'none';
-      // timestamp sits alone under the matchup row when there's a live arrow inline
-      bodyEl.insertAdjacentHTML('beforeend', `<div class="board-updated" style="margin-top:8px">${updatedTxt}</div>`);
     } else {
       bodyEl.innerHTML = renderNextStart(s);
       footEl.style.display = 'flex';
@@ -482,25 +433,6 @@ async function loadHub(){
   }));
   renderStorylines(buildStorylines(bySport));
 }
-
-// Event delegation: one listener handles every "+ Log This Pick" button,
-// including ones added by future re-renders (no rebinding needed).
-document.getElementById('grid').addEventListener('click', (e) => {
-  const btn = e.target.closest('[data-pick-sport]');
-  if (!btn) return;
-  e.preventDefault();
-  const P = hubPicks();
-  if (!P) return;
-  P.log({
-    sport: btn.dataset.pickSport,
-    label: btn.dataset.pickLabel,
-    detail: btn.dataset.pickDetail,
-    logo: btn.dataset.pickLogo || '',
-  });
-  btn.textContent = '✓ Logged';
-  btn.disabled = true;
-  btn.style.opacity = '.6';
-});
 
 mountSlipBar('./picks/');
 loadHub();
