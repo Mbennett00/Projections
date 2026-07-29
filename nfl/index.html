@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -244,7 +242,7 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
 if (typeof pickBtn !== 'function') {
   var pickBtn = () => '', pickStrip = () => '', lineChips = () => '',
       fmtOdds = () => '', edgeBand = () => ({color:'#8A8D93', label:'', note:''}),
-      gameDimClass = () => '',
+      gameDimClass = () => '', isPregame = () => true,
       syncPickButtons = () => {}, mountSlipBar = () => {},
       boardError = (err, context) => {
         const msg = (err && (err.message || err)) || 'unknown error';
@@ -351,7 +349,7 @@ function gameCard(g){
     <div class="g-accent" style="background:${edgeAccent(g)}"></div>
     <div class="g-top">
       <span>${teamChip(ab(g.away_team))} @ ${teamChip(ab(g.home_team))}</span>
-      <span class="g-badges">${stateBadge(g)}${tierHtml}${edgePill(g)}</span>
+      <span class="g-badges">${stateBadge(g)}${isPregame(g) ? tierHtml + edgePill(g) : ''}</span>
     </div>
     ${rows}
     <div class="prob-track"><div class="prob-away" style="width:${(g.away_win_pct ?? .5)*100}%;background:${cA}"></div><div class="prob-home" style="background:${cH}"></div></div>
