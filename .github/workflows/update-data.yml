@@ -84,6 +84,13 @@ jobs:
       # hand-rolled diff — the old timestamp-stripping compare was throwing
       # away real lineup updates, leaving the app stuck on stale data.
       # Cloudflare Pages auto-deploys on every push to main, same as Netlify did.
+      # Records model prediction vs devigged market price vs actual result,
+      # one row per game, appended across runs. This is the evidence base for
+      # whether the model's edges are real -- a single slate can't tell you.
+      - name: Update calibration log
+        run: python calibration_log.py --report
+        continue-on-error: true
+
       # Every model step above is continue-on-error, so a crash produces no
       # commit, no alert, and a site still showing yesterday's numbers under a
       # plausible timestamp -- indistinguishable from a quiet slate. This makes
@@ -109,7 +116,7 @@ jobs:
           git config user.name "slate-bot"
           git config user.email "actions@github.com"
 
-          git add data/*.json
+          git add data/*.json data/calibration_log.csv
 
           if git diff --cached --quiet; then
             echo "No file changes — nothing to commit."
