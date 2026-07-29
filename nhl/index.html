@@ -230,7 +230,8 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
 // failure this guard exists to prevent.
 if (typeof pickBtn !== 'function') {
   var pickBtn = () => '', pickStrip = () => '', lineChips = () => '',
-      fmtOdds = () => '', syncPickButtons = () => {}, mountSlipBar = () => {},
+      fmtOdds = () => '', edgeBand = () => ({color:'#8A8D93', label:'', note:''}),
+      syncPickButtons = () => {}, mountSlipBar = () => {},
       boardError = (err, context) => {
         const msg = (err && (err.message || err)) || 'unknown error';
         console.error('[board] ' + (context || 'error') + ':', err);
@@ -377,7 +378,11 @@ function edgePill(g){
   const e = g.edge;
   const eAbbr = e.team === g.away_team ? g.away_abbr : e.team === g.home_team ? g.home_abbr : null;
   const ico = eAbbr ? `<img src="${logo(eAbbr)}" alt="" loading="lazy" onerror="this.remove()" style="width:13px;height:13px;object-fit:contain">` : '';
-  return `<span class="edge-pill ${e.confidence}" title="${esc(e.team)} +${e.edge_pct}% vs. ${e.book || 'book'}">${ico}EDGE ${e.score}</span>`;
+  const pts = Number(e.edge_pct) || 0;
+  const band = edgeBand(pts);
+  const sign = pts > 0 ? '+' : '';
+  const tip = `${e.team} ${sign}${pts.toFixed(1)} pts vs ${e.book || 'book'} \u2014 ${band.label}: ${band.note}`;
+  return `<span class="edge-pill" style="color:${band.color};background:${band.color}1A;border:1px solid ${band.color}55" title="${esc(tip)}">${ico}${sign}${pts.toFixed(1)}%</span>`;
 }
 
 // Slip line for a moneyline chip: real book price when the slate carries one
