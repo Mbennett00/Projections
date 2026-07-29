@@ -269,6 +269,22 @@ footer b{background:var(--grad);-webkit-background-clip:text;background-clip:tex
 
 <script src="./picks.js"></script>
 <script>
+// ── picks.js guard ──────────────────────────────────────────────────────────
+// If picks.js is missing, 404s, or fails to PARSE, every name it exports is
+// undefined. This page calls mountSlipBar() at top level, so that would throw
+// and stop the script before loadHub() ran -- leaving every stat showing its
+// "—" placeholder and looking like a data outage rather than a broken file.
+// NOTE: Picks is a `const` in picks.js, so it must never be re-declared with
+// `var` here -- that throws on its own when the file DID load. It's read
+// through an accessor instead.
+if (typeof mountSlipBar !== 'function') {
+  var mountSlipBar = () => {};
+  console.warn('picks.js unavailable — hub still live, pick logging disabled');
+}
+function hubPicks(){
+  try { return (typeof Picks !== 'undefined' && Picks) ? Picks : null; }
+  catch (e){ return null; }
+}
 const LOGO = {
   mlb:{"Arizona Diamondbacks":"ari","Atlanta Braves":"atl","Baltimore Orioles":"bal","Boston Red Sox":"bos","Chicago Cubs":"chc","Chicago White Sox":"chw","Cincinnati Reds":"cin","Cleveland Guardians":"cle","Colorado Rockies":"col","Detroit Tigers":"det","Houston Astros":"hou","Kansas City Royals":"kc","Los Angeles Angels":"laa","Los Angeles Dodgers":"lad","Miami Marlins":"mia","Milwaukee Brewers":"mil","Minnesota Twins":"min","New York Mets":"nym","New York Yankees":"nyy","Athletics":"ath","Philadelphia Phillies":"phi","Pittsburgh Pirates":"pit","San Diego Padres":"sd","San Francisco Giants":"sf","Seattle Mariners":"sea","St. Louis Cardinals":"stl","Tampa Bay Rays":"tb","Texas Rangers":"tex","Toronto Blue Jays":"tor","Washington Nationals":"wsh"},
   nfl:{"Arizona Cardinals":"ari","Atlanta Falcons":"atl","Baltimore Ravens":"bal","Buffalo Bills":"buf","Carolina Panthers":"car","Chicago Bears":"chi","Cincinnati Bengals":"cin","Cleveland Browns":"cle","Dallas Cowboys":"dal","Denver Broncos":"den","Detroit Lions":"det","Green Bay Packers":"gb","Houston Texans":"hou","Indianapolis Colts":"ind","Jacksonville Jaguars":"jax","Kansas City Chiefs":"kc","Las Vegas Raiders":"lv","Los Angeles Chargers":"lac","Los Angeles Rams":"lar","Miami Dolphins":"mia","Minnesota Vikings":"min","New England Patriots":"ne","New Orleans Saints":"no","New York Giants":"nyg","New York Jets":"nyj","Philadelphia Eagles":"phi","Pittsburgh Steelers":"pit","San Francisco 49ers":"sf","Seattle Seahawks":"sea","Tampa Bay Buccaneers":"tb","Tennessee Titans":"ten","Washington Commanders":"wsh"},
@@ -473,7 +489,9 @@ document.getElementById('grid').addEventListener('click', (e) => {
   const btn = e.target.closest('[data-pick-sport]');
   if (!btn) return;
   e.preventDefault();
-  Picks.log({
+  const P = hubPicks();
+  if (!P) return;
+  P.log({
     sport: btn.dataset.pickSport,
     label: btn.dataset.pickLabel,
     detail: btn.dataset.pickDetail,
