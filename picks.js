@@ -1,4 +1,4 @@
-// picks.js — shared, local-only pick tracker used across every page.
+shared, local-only pick tracker used across every page.
 // Everything lives in this browser's localStorage; nothing is sent anywhere,
 // so your picks are private to whichever device/browser you log them on.
 const Picks = (() => {
