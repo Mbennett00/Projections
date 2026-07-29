@@ -359,8 +359,15 @@ def skater_status(name):
 def fetch_nhl_odds():
     if not ODDS_API_KEY:
         return {}
+    # Without a window The Odds API only returns imminent games, so a slate a
+    # few weeks out comes back unpriced even when the book has posted lines.
+    import datetime as _dt
+    _from = _dt.datetime.now(_dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    _to = (_dt.datetime.now(_dt.timezone.utc)
+           + _dt.timedelta(days=LOOKAHEAD_DAYS + 1)).strftime("%Y-%m-%dT%H:%M:%SZ")
     url = (f"https://api.the-odds-api.com/v4/sports/icehockey_nhl/odds"
-           f"?apiKey={ODDS_API_KEY}&regions=us&markets=spreads,totals,h2h&bookmakers=fanduel&oddsFormat=american")
+           f"?apiKey={ODDS_API_KEY}&regions=us&markets=spreads,totals,h2h&bookmakers=fanduel&oddsFormat=american"
+           f"&commenceTimeFrom={_from}&commenceTimeTo={_to}")
     try:
         rows = get_json(url)
     except Exception as e:
@@ -673,12 +680,51 @@ def build_game(talent, raw, odds_map):
     return game
 
 
+# How far ahead to look when today is empty.
+#
+# Deliberately short. The NHL schedule is published months out, so this could
+# reach opening night from mid-summer -- but books don't post NHL game lines
+# that far ahead, and without a total and spread this model falls back to its
+# unanchored xGF/xGA path. That is exactly the configuration that produced
+# double-digit phantom edges on the MLB board. A blank offseason board is
+# better than a full one built on no market.
+#
+# At 14 days it stays empty through the summer and lights up as preseason
+# approaches, by which point FanDuel has prices. Raise it only if you want the
+# schedule visible and accept that the numbers won't mean much until lines
+# exist.
+LOOKAHEAD_DAYS = 14
+
+
+def next_slate_day(start_day, max_days=LOOKAHEAD_DAYS):
+    """First date from start_day with games on it. Returns (day, games)."""
+    import datetime as _dt
+    d0 = _dt.date.fromisoformat(start_day)
+    for i in range(max_days + 1):
+        day = (d0 + _dt.timedelta(days=i)).isoformat()
+        try:
+            games = fetch_schedule(day)
+        except Exception as e:
+            print(f"  schedule fetch failed for {day}: {e}")
+            continue
+        if games:
+            if i:
+                print(f"  no games today; next slate is {day} ({i} days out)")
+            return day, games
+    return start_day, []
+
+
 def main():
-    day = sys.argv[1] if len(sys.argv) > 1 else _today_et()
+    explicit = len(sys.argv) > 1
+    day = sys.argv[1] if explicit else _today_et()
     print(f"NHL Projections for {day}")
 
     try:
         games_raw = fetch_schedule(day)
+        # An explicit date is honoured exactly; only the automatic run looks
+        # ahead, so a manual backfill never silently reports a different day.
+        if not games_raw and not explicit:
+            day, games_raw = next_slate_day(day)
     except Exception as e:
         print(f"Schedule fetch failed: {e}")
         games_raw = []
