@@ -79,17 +79,31 @@ jobs:
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
         continue-on-error: true
 
-      - name: Run injuries report
-        run: |
-          python injuries_projections.py
-          cp injuries_slate.json data/injuries_slate.json
-        continue-on-error: true
-
       # Commit whenever any slate file actually changed. We let git itself
       # decide what changed (via `git status --porcelain`) instead of a
       # hand-rolled diff — the old timestamp-stripping compare was throwing
       # away real lineup updates, leaving the app stuck on stale data.
       # Cloudflare Pages auto-deploys on every push to main, same as Netlify did.
+      # Every model step above is continue-on-error, so a crash produces no
+      # commit, no alert, and a site still showing yesterday's numbers under a
+      # plausible timestamp -- indistinguishable from a quiet slate. This makes
+      # a failed run fail the workflow (after the good data is committed) so
+      # GitHub actually emails about it.
+      - name: Flag stale slates
+        run: |
+          STALE=""
+          for S in mlb nfl nhl nba; do
+            F="data/${S}_slate.json"
+            if [ ! -f "$F" ]; then STALE="$STALE $S(missing)"; continue; fi
+            AGE=$(( $(date -u +%s) - $(date -u -r "$F" +%s) ))
+            if [ "$AGE" -gt 86400 ]; then STALE="$STALE ${S}($((AGE/3600))h)"; fi
+          done
+          if [ -n "$STALE" ]; then
+            echo "::warning::stale slates:$STALE"
+          else
+            echo "All four slates refreshed."
+          fi
+
       - name: Commit if data changed
         run: |
           git config user.name "slate-bot"
