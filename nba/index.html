@@ -98,8 +98,6 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
 .stat .v{font-family:'Sora',sans-serif;font-weight:700;font-size:13.5px;color:var(--text);font-variant-numeric:tabular-nums}
 .stat .v.hot{color:var(--yellow)}
 .stat .l{font-size:10px;color:var(--muted);font-weight:600;margin-top:2px;letter-spacing:.03em}
-.goalies{font-size:12px;color:var(--muted);margin-top:10px;padding-top:9px;border-top:1px solid var(--line);line-height:1.5}
-.goalies b{color:var(--text);font-weight:600}
 .hr-strip{background:linear-gradient(160deg,var(--card-2),var(--card)) padding-box,
   linear-gradient(140deg,rgba(147,224,110,.55),rgba(138,141,147,.35)) border-box;border:1px solid transparent;
   border-radius:var(--r);padding:13px 16px;margin-bottom:12px;animation:rise .28s ease both}
@@ -397,15 +395,15 @@ function gameCard(g){
   const favAb = aFav ? g.away_abbr : g.home_abbr;
   const tierHtml = g.tier ? `<span class="tier ${g.tier}"><img src="${logo(favAb)}" alt="" loading="lazy" onerror="this.remove()">${g.tier}</span>` : '';
   const rows = ['away','home'].map(s => {
-    const num = `<span class="t-num ${((s==='away')===aFav)?'fav':''}">${g[s+'_goals']?.toFixed(1) ?? '–'} · ${pct(g[s+'_win_pct'] ?? .5)}</span>`;
+    const num = `<span class="t-num ${((s==='away')===aFav)?'fav':''}">${g[s+'_points']?.toFixed(1) ?? '–'} · ${pct(g[s+'_win_pct'] ?? .5)}</span>`;
     return `<div class="team">
       <span class="t-name">${badge(g[s+'_abbr'])}<span class="t-city">${esc(g[s+'_team'])}</span></span>
       ${num}</div>`;
   }).join('');
-  const total = (g.away_goals ?? 0) + (g.home_goals ?? 0);
+  const total = (g.away_points ?? 0) + (g.home_points ?? 0);
   const gkey = `${g.away_abbr}@${g.home_abbr}|${g.game_time || ''}`;
   const L = g._lines || {};
-  const oProb = g.p_over_6_5 ?? .5, overSide = oProb >= .5;
+  const oProb = g.p_over_total ?? .5, overSide = oProb >= .5;
   const priced = lineChips({sport:'nba', away:g.away_abbr, home:g.home_abbr,
                             lines:L, gkey, logoFor:logo});
   const modelTotal = L.total != null ? '' : pickBtn({sport:'nba', variant:'chip',
@@ -430,7 +428,7 @@ function gameCard(g){
     ${rows}
     ${done ? '' : `<div class="prob-track"><div class="prob-away" style="width:${(g.away_win_pct??.5)*100}%;background:${cA}"></div><div class="prob-home" style="background:${cH}"></div></div>`}
     <div class="g-stats">
-      <div class="stat sb"><div class="v ${g.p_over_6_5>=.55?'hot':''}">${pct(g.p_over_6_5 ?? .5)}</div><div class="l">OVER</div></div>
+      <div class="stat sb"><div class="v ${g.p_over_total>=.55?'hot':''}">${pct(g.p_over_total ?? .5)}</div><div class="l">OVER</div></div>
       <div class="stat st"><div class="v">${total.toFixed(1)}</div><div class="l">TOTAL</div></div>
       <div class="stat sy"><div class="v ${g.target_score>=70?'hot':''}">${g.target_score ?? '–'}</div><div class="l">TARGET</div></div>
     </div>
@@ -450,19 +448,22 @@ function renderGames(d){
 }
 
 
-// ── Matchup grade: favorability of the scoring environment vs opposing goalie ──
-function teamGoals(p, allGames){
+// ── Matchup grade: how good a scoring environment this team projects into ──
+// These thresholds were NHL goal totals (2.2 tough, 4+ great). Fed an NBA team
+// point projection of ~115, every tier cleared and every player graded A+,
+// making the badge meaningless. Rebuilt around league-average team scoring.
+function teamPoints(p, allGames){
   for (const g of allGames){
-    if (g.away_abbr === p.team) return g.away_goals;
-    if (g.home_abbr === p.team) return g.home_goals;
+    if (g.away_abbr === p.team) return g.away_points;
+    if (g.home_abbr === p.team) return g.home_points;
   }
   return null;
 }
-function matchupGrade(goals){
-  if (goals == null) return null;
-  // NHL implied team goals ~2.2 (tough) to ~4+ (great)
-  const t = [[3.7,'A+'],[3.4,'A'],[3.15,'B+'],[2.95,'B'],[2.75,'C+'],[2.5,'C'],[0,'D']];
-  for (const [thr,g] of t) if (goals >= thr) return g;
+function matchupGrade(points){
+  if (points == null) return null;
+  // League average team scoring is ~113; these bracket roughly +/- 10 points.
+  const t = [[122,'A+'],[118,'A'],[115,'B+'],[112,'B'],[108,'C+'],[104,'C'],[0,'D']];
+  for (const [thr,g] of t) if (points >= thr) return g;
   return 'D';
 }
 const gradeColor = g => {
@@ -478,9 +479,8 @@ function renderPlays(d){
   for (const g of d.games){
     if (g.game_state === 'Final') continue;
     for (const [side, opp] of [['away', g.home_abbr],['home', g.away_abbr]]) {
-      const oppG = g[(side === 'away' ? 'home' : 'away') + '_goalie'];
       for (const p of (g[side+'_players'] || []))
-        players.push({...p, team: g[side+'_abbr'], opp, opp_goalie: oppG, venue: g.venue});
+        players.push({...p, team: g[side+'_abbr'], opp, venue: g.venue});
     }
   }
   const cfg = STATS[statFilter];
@@ -572,7 +572,7 @@ function renderPlays(d){
       ${avatar(p.name, p.team, p.player_id)}
       <div class="p-main">
         <div class="p-player">${esc(p.name)}</div>
-        <div class="p-meta">${abSpan(p.team)} vs ${teamChip(p.opp)}${gradeChip(p.matchup_grade || matchupGrade(teamGoals(p, d.games)))}</div>
+        <div class="p-meta">${abSpan(p.team)} vs ${teamChip(p.opp)}${gradeChip(p.matchup_grade || matchupGrade(teamPoints(p, d.games)))}</div>
         <div>${statusTag(p)}${tagsFor(p)}</div>
         ${newsLine(p)}
       </div>
