@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -263,6 +261,7 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
 if (typeof pickBtn !== 'function') {
   var pickBtn = () => '', pickStrip = () => '', lineChips = () => '',
       fmtOdds = () => '', edgeBand = () => ({color:'#8A8D93', label:'', note:''}),
+      gameDimClass = () => '',
       syncPickButtons = () => {}, mountSlipBar = () => {},
       boardError = (err, context) => {
         const msg = (err && (err.message || err)) || 'unknown error';
@@ -406,7 +405,7 @@ function gameCard(g){
     priced + modelTotal
   );
   const pitch = g.away_pitcher ? `<div class="pitchers"><b>${esc(g.away_pitcher)}</b> vs <b>${esc(g.home_pitcher)}</b>${g.home_plate_ump ? ` · Ump: ${esc(g.home_plate_ump)}` : ''}</div>` : '';
-  return `<div class="game">
+  return `<div class="game ${gameDimClass(g)}">
     <div class="g-accent" style="background:${edgeAccent(g)}"></div>
     <div class="g-top">
       <span>${teamChip(ab(g.away_team))} @ ${teamChip(ab(g.home_team))} · ${esc(g.venue ?? '')}</span>
@@ -416,7 +415,10 @@ function gameCard(g){
 }
 
 function renderGames(d){
-  const order = {Live:0, Preview:1, Final:2};
+  // Upcoming first, then in-progress, then finished. Live games used to be
+  // pinned to the top, which pushed the games still worth acting on below the
+  // ones already under way.
+  const order = {Preview:0, Live:1, Final:2};
   const gs = [...d.games].sort((a,b) =>
     (order[a.game_state] ?? 1) - (order[b.game_state] ?? 1) ||
     new Date(a.game_time) - new Date(b.game_time));
