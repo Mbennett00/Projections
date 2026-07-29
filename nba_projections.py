@@ -57,6 +57,9 @@ K_GP = 8                     # shrinkage constant (games) for per-game rates
 LEAGUE_PACE_TOTAL = 226.0    # league avg combined game total (both teams)
 LEAGUE_DEF_RTG = 114.0       # league avg defensive rating (pts/100 poss)
 HOME_EDGE = 1.02
+MARGIN_SD = 13.0        # NBA final margins, standard deviation in points
+HOME_COURT_PTS = 2.5    # modern NBA home-court advantage, in points
+TOTAL_SD = 17.0         # combined-score standard deviation
 
 ESPN = "https://site.api.espn.com/apis/site/v2/sports/basketball/nba"
 CORE = "https://sports.core.api.espn.com/v2/sports/basketball/leagues/nba"
@@ -486,6 +489,19 @@ def project_team(talent_players, pace_factor, b2b=False, blowout=0.0):
     return out[:10]
 
 
+def norm_cdf(z):
+    """Standard normal CDF. Used to turn a point margin into a win probability."""
+    return 0.5 * (1.0 + math.erf(z / math.sqrt(2.0)))
+
+
+def prob_over_total(away_pts, home_pts, line, sd=None):
+    """P(combined score clears the posted total). Totals vary more than margins."""
+    if not line:
+        return None
+    sd = sd or TOTAL_SD
+    return 1.0 - norm_cdf((line - (away_pts + home_pts)) / sd)
+
+
 def pace_factor_from_total(total):
     if not total:
         return 1.0
@@ -558,12 +574,40 @@ def build_game(raw, odds_map, yesterday=None):
     for p in home_players:
         p["matchup_grade"] = matchup_grade(away_def)
 
-    # win prob from spread if we have it, else pace-neutral
+    # Projected team totals from the roster projections. The board reads these
+    # directly, and the no-spread fallback below needs a margin to work from.
+    away_pts = round(sum((p.get("pts") or 0) for p in away_players), 1)
+    home_pts = round(sum((p.get("pts") or 0) for p in home_players), 1)
+
+    # Win probability.
+    #
+    # Previously: 1 / (1 + 10 ** (spread / 8.0)), which put an 8-point favourite
+    # at 90.9%. Real NBA is ~73%. That divisor manufactured ~17 points of
+    # spurious edge on every non-close game. NBA margins are approximately
+    # normal with a standard deviation around 13 points, so the normal CDF is
+    # the standard mapping and is used here instead.
+    #
+    # The old fallback (0.5 * HOME_EDGE) returned the same number for every
+    # game regardless of who was playing. Against a real moneyline that
+    # produced a full slate of fictional edges whenever FanDuel had a price up
+    # but no spread posted -- common early in the season. It now falls back to
+    # the projected margin plus home court.
     if spread is not None:
-        home_win = 1 / (1 + 10 ** (spread / 8.0))    # rough spread->win map
+        margin = -spread                      # spread is the HOME number
+        source_wp = "spread"
     else:
-        home_win = 0.5 * HOME_EDGE
+        margin = (home_pts - away_pts) + HOME_COURT_PTS
+        source_wp = "projection"
+    home_win = norm_cdf(margin / MARGIN_SD)
     home_win = max(0.05, min(0.95, home_win))
+
+    # P(over) against the posted total, and an offence rating comparable to the
+    # other sports' TARGET: how strong a scoring environment this game projects.
+    p_over = prob_over_total(away_pts, home_pts, total)
+    proj_total = away_pts + home_pts
+    target_score = int(round(max(0, min(100,
+        50 + (proj_total - LEAGUE_PACE_TOTAL) * 1.6))))
+
     edge = abs(home_win - 0.5)
     tier = "STRONG" if edge >= 0.15 else "LEAN" if edge >= 0.07 else "PASS"
 
@@ -592,6 +636,12 @@ def build_game(raw, odds_map, yesterday=None):
         "venue": raw.get("venue"), "game_time": raw.get("game_time"),
         "game_state": raw.get("game_state", "Preview"),
         "away_win_pct": round(1 - home_win, 3), "home_win_pct": round(home_win, 3),
+        # Basketball scores points, not goals. These field names were copied
+        # from the NHL board when this model was written; the slate is empty
+        # in the offseason, so renaming them now costs nothing.
+        "away_points": away_pts, "home_points": home_pts,
+        "p_over_total": None if p_over is None else round(p_over, 3),
+        "target_score": target_score,
         "total": total, "spread": spread,
         "tier": tier, "line_source": source, "blowout_risk": round(blowout, 2), "edge": game_edge,
         "moneylines": {"away": line.get("ml_away"), "home": line.get("ml_home"), "book": "FanDuel"} if line else None,
