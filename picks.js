@@ -79,6 +79,20 @@ const Picks = (() => {
 const PICKS_VERSION = 'betslip-v1';
 try { console.log('picks.js ' + PICKS_VERSION + ' loaded \u2014 add-to-slip buttons active'); } catch(e){}
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Manual "Run now" trigger
+//
+// PASTE YOUR CLOUDFLARE WORKER URL HERE. Leave it empty to disable the button.
+//
+//   const RUN_TRIGGER_URL = 'https://projex-refresh.your-name.workers.dev';
+//
+// The GitHub token cannot live in this file -- it is served to every visitor.
+// The Worker holds the token and forwards a workflow_dispatch to the Action.
+// See worker/README.md. It lives here rather than in each page so there is a
+// single line to edit instead of five.
+// ─────────────────────────────────────────────────────────────────────────────
+const RUN_TRIGGER_URL = 'https://projex-refresh.mikebennettmedia.workers.dev';
+
 const PICK_GREEN = '#93E06E';
 
 // American odds: +108 / -126. Returns '' when a price isn't available.
