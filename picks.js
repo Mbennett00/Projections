@@ -169,6 +169,32 @@ function lineChips(o){
   return html;
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Edge bands
+//
+// Deliberately NOT a "bigger number, greener pill" gradient. The edge is the
+// gap in percentage points between the model's win probability and the book's
+// devigged price. Against a sharp book, real edges are small: 1-3 points on a
+// minority of games. A double-digit gap is far more often a stale line, a
+// scratched starter, or a lineup priced before news broke than genuine value.
+//
+// So the scale peaks in the middle and warns at the top. Green means "this is
+// the size a real edge looks like", red means "verify this before trusting it".
+// If the model's calibration is ever demonstrated (see calibration_log.py),
+// these thresholds are the thing to revisit.
+// ─────────────────────────────────────────────────────────────────────────────
+const EDGE_BANDS = [
+  { max: 2,        color: '#8A8D93', label: 'NO EDGE', note: 'inside the noise' },
+  { max: 4,        color: '#93E06E', label: 'EDGE',    note: 'plausible size for a real edge' },
+  { max: 8,        color: '#E0B84A', label: 'LARGE',   note: 'unusually big \u2014 worth a look' },
+  { max: Infinity, color: '#E06A5A', label: 'CHECK',   note: 'implausible \u2014 likely a stale line or bad data' },
+];
+
+function edgeBand(pts){
+  const v = Math.abs(Number(pts) || 0);
+  return EDGE_BANDS.find(b => v < b.max) || EDGE_BANDS[EDGE_BANDS.length - 1];
+}
+
 /** Wraps a set of pickBtn() calls in the footer strip used on game cards. */
 function pickStrip(html){
   return `<div class="pick-strip">${html}</div>`;
