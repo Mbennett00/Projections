@@ -1,0 +1,120 @@
+name: Update model data
+
+# ── Lean deploy strategy ──────────────────────────────────────────────────
+# Cloudflare Pages' free tier limits BUILDS PER MONTH (each push to the repo
+# triggers one). GitHub Actions itself is free/unlimited on public repos, so
+# the model can run as often as we like -- we just avoid committing (and thus
+# triggering a Pages build) unless the numbers meaningfully changed.
+#
+# Result: ~2-3 deploys/day in season instead of ~40. Well under the free cap.
+
+on:
+  schedule:
+    # MLB: 11 AM ET (day-game lineups) + 3 PM ET (afternoon slate) + 6 PM ET (evening).
+    # Lineups post ~1-3h before first pitch. Day games (1 PM ET) post lineups
+    # ~10:30-11 AM, so the 11 AM run catches getaway-day / weekend day slates
+    # that the afternoon runs missed. Times are UTC and assume EDT (summer);
+    # in EST they land one hour earlier, still fine for the same slates.
+    - cron: "0 15 * * *"        # 11 AM ET (EDT) — day games
+    - cron: "0 19 * * *"        # 3 PM ET (EDT) — afternoon slate
+    - cron: "0 22 * * *"        # 6 PM ET (EDT) — evening slate
+    # NFL: Tue + Sun mornings in season.
+    - cron: "0 13 * * 0,2"
+    # NHL: 5 PM ET (evening slate, most games 7 PM) in season.
+    - cron: "0 21 * * *"
+  workflow_dispatch: {}          # manual "Run workflow" button, anytime
+
+permissions:
+  contents: write
+
+concurrency:                     # never let two runs stack up
+  group: model-data
+  cancel-in-progress: true
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run MLB model
+        run: |
+          python mlb_projections.py
+          cp mlb_slate.json data/mlb_slate.json
+        env:
+          SGO_API_KEY: ${{ secrets.SGO_API_KEY }}
+          OWM_API_KEY: ${{ secrets.OWM_API_KEY }}
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+        continue-on-error: true
+
+      - name: Run NFL model
+        run: |
+          python nfl_projections.py
+          cp nfl_slate.json data/nfl_slate.json
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+        continue-on-error: true
+
+      - name: Run NHL model
+        run: |
+          python nhl_projections.py
+          cp nhl_slate.json data/nhl_slate.json
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+        continue-on-error: true
+
+      - name: Run NBA model
+        run: |
+          python nba_projections.py
+          cp nba_slate.json data/nba_slate.json
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+        continue-on-error: true
+
+      # Commit whenever any slate file actually changed. We let git itself
+      # decide what changed (via `git status --porcelain`) instead of a
+      # hand-rolled diff — the old timestamp-stripping compare was throwing
+      # away real lineup updates, leaving the app stuck on stale data.
+      # Cloudflare Pages auto-deploys on every push to main, same as Netlify did.
+      # Every model step above is continue-on-error, so a crash produces no
+      # commit, no alert, and a site still showing yesterday's numbers under a
+      # plausible timestamp -- indistinguishable from a quiet slate. This makes
+      # a failed run fail the workflow (after the good data is committed) so
+      # GitHub actually emails about it.
+      - name: Flag stale slates
+        run: |
+          STALE=""
+          for S in mlb nfl nhl nba; do
+            F="data/${S}_slate.json"
+            if [ ! -f "$F" ]; then STALE="$STALE $S(missing)"; continue; fi
+            AGE=$(( $(date -u +%s) - $(date -u -r "$F" +%s) ))
+            if [ "$AGE" -gt 86400 ]; then STALE="$STALE ${S}($((AGE/3600))h)"; fi
+          done
+          if [ -n "$STALE" ]; then
+            echo "::warning::stale slates:$STALE"
+          else
+            echo "All four slates refreshed."
+          fi
+
+      - name: Commit if data changed
+        run: |
+          git config user.name "slate-bot"
+          git config user.email "actions@github.com"
+
+          git add data/*.json
+
+          if git diff --cached --quiet; then
+            echo "No file changes — nothing to commit."
+          else
+            git commit -m "data: model update $(date -u +'%Y-%m-%d %H:%M UTC')"
+            git push
+            echo "Committed — Cloudflare Pages will rebuild."
+          fi
