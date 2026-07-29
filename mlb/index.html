@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -466,7 +467,11 @@ function collectProjections(d){
 const STATS = {
   'H+R+RBI': {pool:'bat', v:p=>(p.expected_hits??0)+(p.expected_runs??0)+(p.expected_rbi??0), fmt:v=>v.toFixed(2),
              sub:p=>`${(p.expected_hits??0).toFixed(1)}H · ${(p.expected_runs??0).toFixed(1)}R · ${(p.expected_rbi??0).toFixed(1)}RBI`},
-  'HR':    {pool:'bat', v:p=>p.expected_hr,   fmt:v=>v.toFixed(2), sub:p=>`${(p.hr_prob*100).toFixed(1)}% HR · ${(p.pa??0).toFixed(1)} PA`},
+  // hr_prob is a PER-PLATE-APPEARANCE rate, and showing it raw read as
+  // "2.8% to homer" when the real game probability is ~11%. An anytime-HR
+  // prop is settled per game, so the per-game figure is what belongs here.
+  'HR':    {pool:'bat', v:p=>p.expected_hr,   fmt:v=>v.toFixed(2),
+            sub:p=>`${((1-Math.pow(1-(p.hr_prob??0), p.pa??0))*100).toFixed(1)}% anytime · ${(p.pa??0).toFixed(1)} PA`},
   'Hits':  {pool:'bat', v:p=>p.expected_hits, fmt:v=>v.toFixed(2), sub:p=>`${(p.hit_rate*100).toFixed(0)}% per PA · ${(p.pa??0).toFixed(1)} PA`},
   'Bases': {pool:'bat', v:p=>p.expected_tb,   fmt:v=>v.toFixed(2), sub:p=>`${(p.expected_hits??0).toFixed(2)} H · ${(p.expected_hr??0).toFixed(2)} HR`},
   'RBI':   {pool:'bat', v:p=>p.expected_rbi,  fmt:v=>v.toFixed(2), sub:p=>`${(p.expected_runs??0).toFixed(2)} R proj`},
