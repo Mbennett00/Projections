@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Projex — My Picks</title>
+<meta name="theme-color" content="#16532E">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="apple-touch-icon" href="../icon-180.png">
+<link rel="icon" href="../favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0B0C0E; --panel:#151619; --panel-hi:#1C1E22; --line:#2A2C30;
+  --g1:#93E06E; --g2:#5FA34A; --grad:linear-gradient(135deg,var(--g1),var(--g2));
+  --gold:#E0B84A; --red:#E0716E;
+  --ink:#F2F3EF; --mute:#8A8D93; --faint:#55585E;
+  --r:20px; --r-sm:12px;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%; height:100%; background:#0F3B22}
+body{
+  background:linear-gradient(165deg, #123A22 0%, #16532E 32%, #1C6B38 60%, #123A22 100%);
+  color:var(--ink); font-family:'Inter',system-ui,sans-serif;
+  min-height:100dvh; display:flex; flex-direction:column; position:relative;
+  padding:max(16px,env(safe-area-inset-top)) 16px max(16px,env(safe-area-inset-bottom));
+  max-width:560px; margin:0 auto;
+}
+body::before{
+  content:''; position:fixed; inset:0; z-index:-1; pointer-events:none;
+  background:
+    radial-gradient(720px 440px at 10% -8%, rgba(147,224,110,.32), transparent 62%),
+    radial-gradient(620px 440px at 105% 6%, rgba(95,163,74,.30), transparent 62%),
+    radial-gradient(900px 620px at 50% 115%, rgba(147,224,110,.16), transparent 68%),
+    linear-gradient(165deg, rgba(147,224,110,.10) 0%, transparent 45%);
+}
+
+/* ---------- header ---------- */
+header{display:flex; align-items:center; justify-content:space-between; padding:4px 2px 18px; gap:10px; flex:none}
+.head-left{display:flex; align-items:center; gap:10px}
+.back-btn{
+  width:38px; height:38px; border-radius:50%; background:var(--panel); border:1px solid var(--line);
+  display:grid; place-items:center; color:var(--ink); font-size:16px; text-decoration:none; flex:none;
+}
+.back-btn:active{transform:scale(.9)}
+.wordmark{font-family:'Sora',sans-serif; font-weight:800; font-size:19px; letter-spacing:.02em; color:var(--ink); line-height:1}
+.wordmark span{color:var(--g1)}
+.clear-btn{
+  font-size:11px; font-weight:700; color:var(--mute); background:var(--panel); border:1px solid var(--line);
+  border-radius:99px; padding:9px 14px; font-family:'IBM Plex Mono',monospace; cursor:pointer;
+}
+.clear-btn:active{transform:scale(.95)}
+
+/* ---------- record summary ---------- */
+.record-card{
+  background:var(--panel); border:1px solid rgba(147,224,110,.32); border-radius:var(--r);
+  padding:18px 17px; margin-bottom:16px; display:flex; align-items:center; justify-content:space-between; flex:none;
+}
+.record-main{display:flex; align-items:baseline; gap:8px}
+.record-num{font-family:'Sora',sans-serif; font-weight:800; font-size:34px; letter-spacing:-.02em; font-variant-numeric:tabular-nums}
+.record-sub{font-size:12px; color:var(--mute); font-weight:600}
+.record-stats{display:flex; gap:18px}
+.rstat{text-align:center}
+.rstat b{display:block; font-family:'Sora',sans-serif; font-weight:800; font-size:18px; line-height:1.1; margin-bottom:3px; font-variant-numeric:tabular-nums; color:var(--g1)}
+.rstat span{font-size:9.5px; color:var(--mute); font-weight:600; text-transform:uppercase; letter-spacing:.05em}
+
+.kicker-row{display:flex;align-items:center;gap:10px;margin-bottom:14px; flex:none}
+.kicker{font-size:11px; font-weight:700; color:var(--mute); letter-spacing:.14em; text-transform:uppercase; flex:none; font-family:'IBM Plex Mono',monospace}
+.kicker-line{height:1px; flex:1; background:linear-gradient(90deg, var(--line), transparent)}
+
+.filter-row{display:flex; gap:8px; overflow-x:auto; padding-bottom:2px; margin-bottom:16px; scrollbar-width:none; flex:none}
+.filter-row::-webkit-scrollbar{display:none}
+.filter-chip{
+  flex:none; font-size:11.5px; font-weight:700; color:var(--mute); white-space:nowrap;
+  background:var(--panel); border:1px solid var(--line); border-radius:99px; padding:8px 13px;
+  cursor:pointer; font-family:'IBM Plex Mono',monospace;
+}
+.filter-chip.active{color:#0B0C0E; background:var(--grad); border-color:transparent}
+
+/* ---------- pick list ---------- */
+.list{display:flex; flex-direction:column; gap:10px; flex:1; margin-bottom:16px}
+.pick-card{
+  background:var(--panel); border:1px solid var(--line); border-radius:var(--r-sm);
+  padding:13px 14px; position:relative;
+}
+.pick-card.win{border-color:rgba(147,224,110,.4)}
+.pick-card.loss{border-color:rgba(224,113,110,.4)}
+.pick-head{display:flex; align-items:center; gap:11px; margin-bottom:11px}
+.pick-avatar{
+  width:38px; height:38px; border-radius:10px; flex:none; object-fit:contain;
+  background:var(--panel-hi); border:1px solid var(--line); padding:4px;
+}
+.pick-avatar-fallback{
+  width:38px; height:38px; border-radius:10px; flex:none; background:var(--panel-hi); border:1px solid var(--line);
+  display:grid; place-items:center; font-size:15px; font-weight:800; color:var(--faint); font-family:'Sora',sans-serif;
+}
+.pick-body{flex:1; min-width:0}
+.pick-top{display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:6px}
+.pick-sport{
+  font-size:9.5px; font-weight:700; letter-spacing:.06em; color:var(--g1); background:rgba(147,224,110,.12);
+  border:1px solid rgba(147,224,110,.25); border-radius:99px; padding:3px 9px; font-family:'IBM Plex Mono',monospace;
+  text-transform:uppercase; flex:none;
+}
+.pick-time{font-size:10px; color:var(--faint); font-family:'IBM Plex Mono',monospace; flex:none}
+.pick-label{font-family:'Sora',sans-serif; font-weight:700; font-size:15px; margin-bottom:2px}
+.pick-detail{font-size:12px; color:var(--mute); margin-bottom:11px; line-height:1.35}
+.pick-line{font-size:11px; color:var(--g1); font-weight:600; margin-bottom:11px; font-family:'IBM Plex Mono',monospace}
+
+.pick-actions{display:flex; gap:7px; align-items:center}
+.result-btn{
+  flex:1; font-size:11px; font-weight:700; padding:8px; border-radius:8px; cursor:pointer;
+  font-family:'IBM Plex Mono',monospace; border:1px solid var(--line); background:transparent; color:var(--mute);
+}
+.result-btn.win-btn.is-set{background:rgba(147,224,110,.16); border-color:rgba(147,224,110,.4); color:var(--g1)}
+.result-btn.loss-btn.is-set{background:rgba(224,113,110,.16); border-color:rgba(224,113,110,.4); color:var(--red)}
+.result-btn.push-btn.is-set{background:rgba(224,184,74,.16); border-color:rgba(224,184,74,.4); color:var(--gold)}
+.remove-btn{
+  width:34px; height:34px; flex:none; border-radius:8px; background:transparent; border:1px solid var(--line);
+  color:var(--faint); font-size:14px; cursor:pointer; display:grid; place-items:center;
+}
+.remove-btn:active{transform:scale(.9)}
+
+.empty{
+  text-align:center; padding:60px 20px; color:var(--mute); flex:1; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; gap:10px;
+}
+.empty .ico{font-size:38px; opacity:.5}
+.empty .msg{font-size:13.5px; font-weight:600}
+.empty .sub{font-size:11.5px; color:var(--faint)}
+.empty a{color:var(--g1); text-decoration:none; font-weight:700}
+
+footer{margin-top:auto; text-align:center; font-size:11px; color:var(--faint); padding:8px 0 4px; font-weight:500; font-family:'IBM Plex Mono',monospace; flex:none}
+</style>
+</head>
+<body>
+<header>
+  <div class="head-left">
+    <a class="back-btn" href="../" aria-label="Back to boards">←</a>
+    <div class="wordmark">My <span>Picks</span></div>
+  </div>
+  <button class="clear-btn" id="clear-btn">Clear All</button>
+</header>
+
+<div class="record-card">
+  <div class="record-main">
+    <div class="record-num" id="rec-num">0–0</div>
+    <div class="record-sub">record</div>
+  </div>
+  <div class="record-stats">
+    <div class="rstat"><b id="rec-pct">—</b><span>Win %</span></div>
+    <div class="rstat"><b id="rec-push">0</b><span>Push</span></div>
+    <div class="rstat"><b id="rec-pending">0</b><span>Pending</span></div>
+  </div>
+</div>
+
+<div class="kicker-row">
+  <div class="kicker">Logged Picks</div>
+  <div class="kicker-line"></div>
+</div>
+
+<div class="filter-row" id="filter-row">
+  <div class="filter-chip active" data-filter="all">All</div>
+  <div class="filter-chip" data-filter="pending">Pending</div>
+  <div class="filter-chip" data-filter="win">Wins</div>
+  <div class="filter-chip" data-filter="loss">Losses</div>
+  <div class="filter-chip" data-filter="push">Pushes</div>
+</div>
+
+<div class="list" id="list"></div>
+
+<footer>Picks are stored locally on this device only</footer>
+
+<script src="../picks.js"></script>
+<script>
+// If picks.js didn't load or parse, this page has no store to read. Say so
+// plainly rather than showing an empty tracker, which reads as "no picks yet"
+// and would have someone hunting for lost data that was never unavailable.
+if (typeof Picks === 'undefined') {
+  document.addEventListener('DOMContentLoaded', () => {
+    const l = document.getElementById('list');
+    if (l) l.innerHTML = '<div class="empty"><div class="ico">\u26a0\ufe0f</div>' +
+      '<div class="msg">Pick tracker unavailable</div>' +
+      '<div class="sub">picks.js failed to load \u2014 your saved picks are safe, ' +
+      'this page just can\'t read them right now.</div></div>';
+  });
+  throw new Error('picks.js unavailable');
+}
+let activeFilter = 'all';
+
+function fmtTime(iso){
+  try{
+    const d = new Date(iso);
+    return d.toLocaleDateString('en-US',{month:'short',day:'numeric'}) + ' · ' +
+           d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+  } catch(e){ return ''; }
+}
+
+function render(){
+  const all = Picks.all();
+  const s = Picks.stats(all);
+
+  document.getElementById('rec-num').textContent = `${s.wins}–${s.losses}`;
+  document.getElementById('rec-pct').textContent = s.pct === null ? '—' : `${s.pct}%`;
+  document.getElementById('rec-push').textContent = all.filter(p => p.result === 'push').length;
+  document.getElementById('rec-pending').textContent = all.filter(p => p.result === null).length;
+
+  const list = document.getElementById('list');
+  const filtered = activeFilter === 'all' ? all :
+    activeFilter === 'pending' ? all.filter(p => p.result === null) :
+    all.filter(p => p.result === activeFilter);
+
+  if (!filtered.length){
+    list.innerHTML = `
+      <div class="empty">
+        <div class="ico">📋</div>
+        <div class="msg">${all.length ? 'Nothing in this filter yet' : 'No picks logged yet'}</div>
+        <div class="sub">${all.length ? 'Try a different filter above' : 'Tap the “+” on any player or game card to add it here'}</div>
+      </div>`;
+    return;
+  }
+
+  list.innerHTML = filtered.map(p => {
+    const initial = (p.label || p.sport || '?').trim().charAt(0).toUpperCase();
+    const avatar = p.logo
+      ? `<img class="pick-avatar" src="${p.logo}" alt="" onerror="this.outerHTML='<div class=&quot;pick-avatar-fallback&quot;>${initial}</div>'">`
+      : `<div class="pick-avatar-fallback">${initial}</div>`;
+    return `
+    <div class="pick-card ${p.result || ''}" data-id="${p.id}">
+      <div class="pick-top">
+        <span class="pick-sport">${(p.sport || '').toUpperCase()}</span>
+        <span class="pick-time">${fmtTime(p.loggedAt)}</span>
+      </div>
+      <div class="pick-head">
+        ${avatar}
+        <div class="pick-body">
+          <div class="pick-label">${p.label || ''}</div>
+          ${p.detail ? `<div class="pick-detail" style="margin-bottom:0">${p.detail}</div>` : ''}
+        </div>
+      </div>
+      ${p.line ? `<div class="pick-line">${p.line}</div>` : ''}
+      <div class="pick-actions">
+        <button class="result-btn win-btn ${p.result==='win'?'is-set':''}" data-result="win">Win</button>
+        <button class="result-btn loss-btn ${p.result==='loss'?'is-set':''}" data-result="loss">Loss</button>
+        <button class="result-btn push-btn ${p.result==='push'?'is-set':''}" data-result="push">Push</button>
+        <button class="remove-btn" aria-label="Remove pick">✕</button>
+      </div>
+    </div>
+  `;
+  }).join('');
+}
+
+document.getElementById('filter-row').addEventListener('click', (e) => {
+  const chip = e.target.closest('.filter-chip');
+  if (!chip) return;
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  chip.classList.add('active');
+  activeFilter = chip.dataset.filter;
+  render();
+});
+
+document.getElementById('list').addEventListener('click', (e) => {
+  const card = e.target.closest('.pick-card');
+  if (!card) return;
+  const id = card.dataset.id;
+
+  const resultBtn = e.target.closest('[data-result]');
+  if (resultBtn){
+    const current = Picks.all().find(p => p.id === id);
+    const next = current && current.result === resultBtn.dataset.result ? null : resultBtn.dataset.result;
+    Picks.setResult(id, next);
+    render();
+    return;
+  }
+  if (e.target.closest('.remove-btn')){
+    Picks.remove(id);
+    render();
+  }
+});
+
+document.getElementById('clear-btn').addEventListener('click', () => {
+  if (!Picks.all().length) return;
+  if (confirm('Clear all logged picks? This can’t be undone.')){
+    Picks.clearAll();
+    render();
+  }
+});
+
+render();
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('../sw.js');
+</script>
+</body>
+</html>
