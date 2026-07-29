@@ -215,6 +215,17 @@ function edgeBand(pts){
  * bet normally so the actionable slate reads first. Live is only lightly faded
  * -- it still has slip chips and a moving score.
  */
+/**
+ * Pre-game reads (edge %, tier) only mean something before first pitch/puck.
+ * Once a game starts they're measured against a line the book has already
+ * moved, and against a game state the model never saw -- so they're not just
+ * stale, they're misleading next to a live score. Hidden from that point on.
+ */
+function isPregame(g){
+  const st = g && g.game_state;
+  return st !== 'Live' && st !== 'Final';
+}
+
 function gameDimClass(g){
   const st = g && g.game_state;
   if (st === 'Final') return 'is-final';
