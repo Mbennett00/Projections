@@ -218,7 +218,16 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
 <div id="games"></div>
 <div id="plays" class="hide"></div>
 
+<script src="../picks.js"></script>
 <script>
+// ── bet-slip shim ───────────────────────────────────────────────────────────
+// The add-to-slip helpers live in ../picks.js. If that request fails — or a
+// stale service-worker cache serves the older, pre-slip copy — fall back to
+// no-ops. A missing button should never take the whole board down with it.
+if (typeof pickBtn !== 'function') {
+  var pickBtn = () => '', pickStrip = () => '', syncPickButtons = () => {}, mountSlipBar = () => {};
+  console.warn('picks.js unavailable — bet-slip buttons disabled, board still live');
+}
 const $ = id => document.getElementById(id);
 // team text colours (brightened for navy bg) and avatar fill/ring pairs
 const TC = {ANA:'#F47A38',BOS:'#FFB81C',BUF:'#3E6FD8',CGY:'#D2001C',CAR:'#CE1126',CHI:'#CF0A2C',COL:'#B5485F',CBJ:'#4A6FD0',DAL:'#0FA36B',DET:'#E31837',EDM:'#FF4C00',FLA:'#C8102E',LAK:'#A2AAAD',MIN:'#37A169',MTL:'#AF1E2D',NSH:'#FFB81C',NJD:'#CE0E2D',NYI:'#F47D30',NYR:'#3E6FD8',OTT:'#DA1A32',PHI:'#F74902',PIT:'#FCB514',SJS:'#12A5AD',SEA:'#99D9D9',STL:'#4C7CE0',TBL:'#4169CF',TOR:'#4179D8',UTA:'#6CACE4',VAN:'#14A85A',VGK:'#B4975A',WSH:'#D22B33',WPG:'#5578C8'};
@@ -365,6 +374,19 @@ function gameCard(g){
       ${num}</div>`;
   }).join('');
   const total = (g.away_goals ?? 0) + (g.home_goals ?? 0);
+  const gkey = `${g.away_abbr}@${g.home_abbr}|${g.game_time || ''}`;
+  const oProb = g.p_over_6_5 ?? .5, overSide = oProb >= .5;
+  const slip = done ? '' : pickStrip(
+    `<span class="pick-slip-lab">Slip</span>` +
+    ['away','home'].map(s => pickBtn({
+      sport:'nhl', variant:'chip', text:`${g[s+'_abbr']} ML`, label:`${g[s+'_abbr']} ML`,
+      detail:`${g.away_abbr} @ ${g.home_abbr}`, line:`${pct(g[s+'_win_pct'] ?? .5)} model win`,
+      logo:logo(g[s+'_abbr']), key:`nhl|ml|${s}|${gkey}`})).join('') +
+    pickBtn({sport:'nhl', variant:'chip', text:`${overSide ? 'Over' : 'Under'} 6.5`,
+      label:`${overSide ? 'Over' : 'Under'} 6.5 goals`,
+      detail:`${g.away_abbr} @ ${g.home_abbr} · proj ${total.toFixed(1)}`,
+      line:`${pct(overSide ? oProb : 1 - oProb)} model`, key:`nhl|total|${gkey}`})
+  );
   return `<div class="game">
     <div class="g-accent" style="background:${edgeAccent(g)}"></div>
     <div class="g-top">
@@ -379,6 +401,7 @@ function gameCard(g){
       <div class="stat sy"><div class="v ${g.target_score>=70?'hot':''}">${g.target_score ?? '–'}</div><div class="l">TARGET</div></div>
     </div>
     ${g.away_goalie ? `<div class="goalies">${goalieChip(g.away_goalie_card)} <b>${esc(g.away_goalie)}</b> vs <b>${esc(g.home_goalie ?? 'TBD')}</b> ${goalieChip(g.home_goalie_card)}${g.line_source==='vegas' ? ' · mkt' : ''}</div>` : ''}
+  ${slip}
   </div>`;
 }
 
@@ -389,6 +412,7 @@ function renderGames(d){
     new Date(a.game_time) - new Date(b.game_time));
   $('games').innerHTML = gs.map(gameCard).join('') ||
     '<div class="empty">No games on the slate.<br>The board lights up automatically when the season starts — first puck drop in October.</div>';
+  syncPickButtons();
 }
 
 
@@ -524,6 +548,9 @@ function renderPlays(d){
         <div class="edge-val">${cfg.fmt(cfg.v(p))}</div>
         ${confRing(nhlConfidence(p))}
         <div class="sim-hint">${open ? '▾ CLOSE' : '▸ DETAILS'}</div>
+        ${pickBtn({sport:'nhl', label:p.name, detail:`${statFilter} · vs ${p.opp}`,
+                   line:cfg.fmt(cfg.v(p)), logo:logo(p.team),
+                   key:`nhl|${statFilter}|${p.name}|${p.team}`})}
       </div>
       ${simHtml}
     </div>`;
@@ -541,6 +568,7 @@ function renderPlays(d){
     openSim = (openSim === el.dataset.key) ? null : el.dataset.key;
     renderPlays(DATA);
   });
+  syncPickButtons();
 }
 
 async function load(){
@@ -559,6 +587,7 @@ async function load(){
     renderPlays(DATA);
   } catch(e){ $('updated').textContent = 'Offline'; }
 }
+mountSlipBar('../picks/');
 load();
 const refreshBtn = document.getElementById('refresh');
 if (refreshBtn) refreshBtn.onclick = async () => {

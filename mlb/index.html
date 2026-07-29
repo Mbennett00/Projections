@@ -249,7 +249,16 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
 <div id="games"></div>
 <div id="plays" class="hide"></div>
 
+<script src="../picks.js"></script>
 <script>
+// ── bet-slip shim ───────────────────────────────────────────────────────────
+// The add-to-slip helpers live in ../picks.js. If that request fails — or a
+// stale service-worker cache serves the older, pre-slip copy — fall back to
+// no-ops. A missing button should never take the whole board down with it.
+if (typeof pickBtn !== 'function') {
+  var pickBtn = () => '', pickStrip = () => '', syncPickButtons = () => {}, mountSlipBar = () => {};
+  console.warn('picks.js unavailable — bet-slip buttons disabled, board still live');
+}
 const $ = id => document.getElementById(id);
 const ABBR = {"Arizona Diamondbacks":"ARI","Athletics":"ATH","Oakland Athletics":"ATH","Atlanta Braves":"ATL","Baltimore Orioles":"BAL","Boston Red Sox":"BOS","Chicago Cubs":"CHC","Chicago White Sox":"CWS","Cincinnati Reds":"CIN","Cleveland Guardians":"CLE","Colorado Rockies":"COL","Detroit Tigers":"DET","Houston Astros":"HOU","Kansas City Royals":"KC","Los Angeles Angels":"LAA","Los Angeles Dodgers":"LAD","Miami Marlins":"MIA","Milwaukee Brewers":"MIL","Minnesota Twins":"MIN","New York Mets":"NYM","New York Yankees":"NYY","Philadelphia Phillies":"PHI","Pittsburgh Pirates":"PIT","San Diego Padres":"SD","San Francisco Giants":"SF","Seattle Mariners":"SEA","St. Louis Cardinals":"STL","Tampa Bay Rays":"TB","Texas Rangers":"TEX","Toronto Blue Jays":"TOR","Washington Nationals":"WSH"};
 const ab = n => ABBR[n] || (n||'').split(' ').map(w=>w[0]).join('').slice(0,3).toUpperCase();
@@ -345,6 +354,20 @@ function gameCard(g){
     </div>` : '';
   const cA = tc(ab(g.away_team)), cH = tc(ab(g.home_team));
   const prob = (hasModel && !done) ? `<div class="prob-track"><div class="prob-away" style="width:${g.away_win_pct*100}%;background:${cA}"></div><div class="prob-home" style="background:${cH}"></div></div>` : '';
+  const gkey = `${ab(g.away_team)}@${ab(g.home_team)}|${g.game_time || ''}`;
+  const oProb = g.p_over_8_5 ?? .5, overSide = oProb >= .5;
+  const projTotal = (g.away_runs ?? 0) + (g.home_runs ?? 0);
+  const slip = (done || !hasModel) ? '' : pickStrip(
+    `<span class="pick-slip-lab">Slip</span>` +
+    ['away','home'].map(s => pickBtn({
+      sport:'mlb', variant:'chip', text:`${ab(g[s+'_team'])} ML`, label:`${ab(g[s+'_team'])} ML`,
+      detail:`${ab(g.away_team)} @ ${ab(g.home_team)}`, line:`${pct(g[s+'_win_pct'])} model win`,
+      logo:logo(ab(g[s+'_team'])), key:`mlb|ml|${s}|${gkey}`})).join('') +
+    pickBtn({sport:'mlb', variant:'chip', text:`${overSide ? 'Over' : 'Under'} 8.5`,
+      label:`${overSide ? 'Over' : 'Under'} 8.5 runs`,
+      detail:`${ab(g.away_team)} @ ${ab(g.home_team)} · proj ${projTotal.toFixed(1)}`,
+      line:`${pct(overSide ? oProb : 1 - oProb)} model`, key:`mlb|total|${gkey}`})
+  );
   const pitch = g.away_pitcher ? `<div class="pitchers"><b>${esc(g.away_pitcher)}</b> vs <b>${esc(g.home_pitcher)}</b>${g.home_plate_ump ? ` · Ump: ${esc(g.home_plate_ump)}` : ''}</div>` : '';
   return `<div class="game">
     <div class="g-accent" style="background:${edgeAccent(g)}"></div>
@@ -352,7 +375,7 @@ function gameCard(g){
       <span>${teamChip(ab(g.away_team))} @ ${teamChip(ab(g.home_team))} · ${esc(g.venue ?? '')}</span>
       <span class="g-badges">${stateBadge(g)}${tierPill(g, hasModel, aFav)}${edgePill(g)}</span>
     </div>
-    ${rows}${prob}${stats}${pitch}</div>`;
+    ${rows}${prob}${stats}${pitch}${slip}</div>`;
 }
 
 function renderGames(d){
@@ -361,6 +384,7 @@ function renderGames(d){
     (order[a.game_state] ?? 1) - (order[b.game_state] ?? 1) ||
     new Date(a.game_time) - new Date(b.game_time));
   $('games').innerHTML = gs.map(gameCard).join('') || '<div class="empty">No games today.</div>';
+  syncPickButtons();
 }
 
 
@@ -668,6 +692,9 @@ const chips = Object.keys(STATS).map(s =>
         <div class="edge-val">${cfg.fmt(cfg.v(p))}</div>
         ${(() => { const c = mlbConfidence(p, cfg.pool === 'arm'); return c ? `<div class="conf" style="justify-content:flex-end;flex-direction:column;align-items:flex-end;gap:2px"><div class="conf-ring" style="--v:${c.score};--c:${confColor(c.score)}"><span class="conf-num">${c.score}</span></div><span style="font-size:8px;font-weight:700;letter-spacing:.06em;color:var(--muted)">EDGE</span></div>` : ''; })()}
         <div class="sim-hint">${open ? '▾ CLOSE' : '▸ DETAILS'}</div>
+        ${pickBtn({sport:'mlb', label:p.name, detail:`${statFilter} · vs ${p.opp}`,
+                   line:cfg.fmt(cfg.v(p)), logo:logo(p.team),
+                   key:`mlb|${statFilter}|${p.name}|${p.team}`})}
       </div>
       ${open ? detailPanel(p) : ''}
     </div>`;
@@ -686,6 +713,7 @@ const chips = Object.keys(STATS).map(s =>
     openSim = (openSim === el.dataset.key) ? null : el.dataset.key;
     renderPlays(DATA);
   });
+  syncPickButtons();
 }
 
 const mascot = n => (n || '').split(' ').pop();
@@ -753,6 +781,7 @@ async function load(){
     renderPlays(DATA);
   } catch(e){ $('updated').textContent = 'Offline'; }
 }
+mountSlipBar('../picks/');
 load();
 const refreshBtn = document.getElementById('refresh');
 if (refreshBtn) refreshBtn.onclick = async () => {

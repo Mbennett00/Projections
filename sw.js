@@ -1,8 +1,19 @@
 const CACHE = 'projex-v2';
-const SHELL = ['/', '/mlb/', '/nfl/', '/nhl/', '/nba/', '/injuries/', '/picks/', '/picks.js', '/manifest.webmanifest'];
+const SHELL = ['/', '/mlb/', '/nfl/', '/nhl/', '/nba/', '/picks/', '/picks.js', '/manifest.webmanifest'];
 
+// Cache each shell URL on its own. caches.addAll() is all-or-nothing: a single
+// 404 anywhere in SHELL rejects the whole thing, which fails the install event,
+// which means the new worker never activates -- and the previous version keeps
+// serving its old cache indefinitely. A stale entry in this list would silently
+// freeze the app on old code, so one missing file is skipped instead.
 self.addEventListener('install', e => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));
+  e.waitUntil(
+    caches.open(CACHE)
+      .then(c => Promise.all(SHELL.map(u =>
+        c.add(u).catch(err => console.warn('sw: skipped ' + u, err))
+      )))
+      .then(() => self.skipWaiting())
+  );
 });
 
 self.addEventListener('activate', e => {

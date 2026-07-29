@@ -218,7 +218,16 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
 <div id="games"></div>
 <div id="plays" class="hide"></div>
 
+<script src="../picks.js"></script>
 <script>
+// ── bet-slip shim ───────────────────────────────────────────────────────────
+// The add-to-slip helpers live in ../picks.js. If that request fails — or a
+// stale service-worker cache serves the older, pre-slip copy — fall back to
+// no-ops. A missing button should never take the whole board down with it.
+if (typeof pickBtn !== 'function') {
+  var pickBtn = () => '', pickStrip = () => '', syncPickButtons = () => {}, mountSlipBar = () => {};
+  console.warn('picks.js unavailable — bet-slip buttons disabled, board still live');
+}
 const $ = id => document.getElementById(id);
 // team text colours (brightened for navy bg) and avatar fill/ring pairs
 const TC = {ATL:'#E03A3E',BOS:'#25A45B',BKN:'#B0B0B0',CHA:'#00788C',CHI:'#CE1141',CLE:'#860038',DAL:'#4A80C4',DEN:'#4FA0DC',DET:'#C8102E',GS:'#FDB927',HOU:'#CE1141',IND:'#FDBB30',LAC:'#C8102E',LAL:'#FDB927',MEM:'#5D76A9',MIA:'#98002E',MIL:'#00471B',MIN:'#4FA0DC',NO:'#B4975A',NY:'#F58426',OKC:'#EF3B24',ORL:'#0077C0',PHI:'#006BB6',PHX:'#E56020',POR:'#E03A3E',SAC:'#5A2D81',SA:'#B0B0B0',TOR:'#CE1141',UTAH:'#F9A01B',WSH:'#E31837'};
@@ -362,6 +371,19 @@ function gameCard(g){
       ${num}</div>`;
   }).join('');
   const total = (g.away_goals ?? 0) + (g.home_goals ?? 0);
+  const gkey = `${g.away_abbr}@${g.home_abbr}|${g.game_time || ''}`;
+  const oProb = g.p_over_6_5 ?? .5, overSide = oProb >= .5;
+  const slip = done ? '' : pickStrip(
+    `<span class="pick-slip-lab">Slip</span>` +
+    ['away','home'].map(s => pickBtn({
+      sport:'nba', variant:'chip', text:`${g[s+'_abbr']} ML`, label:`${g[s+'_abbr']} ML`,
+      detail:`${g.away_abbr} @ ${g.home_abbr}`, line:`${pct(g[s+'_win_pct'] ?? .5)} model win`,
+      logo:logo(g[s+'_abbr']), key:`nba|ml|${s}|${gkey}`})).join('') +
+    pickBtn({sport:'nba', variant:'chip', text:`${overSide ? 'Over' : 'Under'} ${total.toFixed(1)}`,
+      label:`${overSide ? 'Over' : 'Under'} ${total.toFixed(1)}`,
+      detail:`${g.away_abbr} @ ${g.home_abbr} · model total`,
+      line:`${pct(overSide ? oProb : 1 - oProb)} model`, key:`nba|total|${gkey}`})
+  );
   return `<div class="game">
     <div class="g-accent" style="background:${edgeAccent(g)}"></div>
     <div class="g-top">
@@ -376,6 +398,7 @@ function gameCard(g){
       <div class="stat sy"><div class="v ${g.target_score>=70?'hot':''}">${g.target_score ?? '–'}</div><div class="l">TARGET</div></div>
     </div>
     
+  ${slip}
   </div>`;
 }
 
@@ -386,6 +409,7 @@ function renderGames(d){
     new Date(a.game_time) - new Date(b.game_time));
   $('games').innerHTML = gs.map(gameCard).join('') ||
     '<div class="empty">No games on the slate.<br>The board lights up automatically when the season starts — first puck drop in October.</div>';
+  syncPickButtons();
 }
 
 
@@ -519,6 +543,9 @@ function renderPlays(d){
         <div class="edge-val">${cfg.fmt(cfg.v(p))}</div>
         ${confRing(nbaConfidence(p))}
         <div class="sim-hint">${open ? '▾ CLOSE' : '▸ DETAILS'}</div>
+        ${pickBtn({sport:'nba', label:p.name, detail:`${statFilter} · vs ${p.opp}`,
+                   line:cfg.fmt(cfg.v(p)), logo:logo(p.team),
+                   key:`nba|${statFilter}|${p.name}|${p.team}`})}
       </div>
       ${simHtml}
     </div>`;
@@ -536,6 +563,7 @@ function renderPlays(d){
     openSim = (openSim === el.dataset.key) ? null : el.dataset.key;
     renderPlays(DATA);
   });
+  syncPickButtons();
 }
 
 async function load(){
@@ -554,6 +582,7 @@ async function load(){
     renderPlays(DATA);
   } catch(e){ $('updated').textContent = 'Offline'; }
 }
+mountSlipBar('../picks/');
 load();
 const refreshBtn = document.getElementById('refresh');
 if (refreshBtn) refreshBtn.onclick = async () => {
