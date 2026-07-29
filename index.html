@@ -514,7 +514,13 @@ loadHub();
 // forwards a workflow_dispatch request. See /worker/README.md for setup —
 // until TRIGGER_URL below is filled in, the button just refreshes the
 // currently-saved data, same as before.
-const TRIGGER_URL = ''; // e.g. 'https://projex-refresh.<your-subdomain>.workers.dev'
+// Configured in picks.js (RUN_TRIGGER_URL) so there's one line to edit, not
+// five. Read through an accessor -- picks.js declares it as a const, so
+// re-declaring it here would throw whenever that file loaded correctly.
+function triggerUrl(){
+  try { return (typeof RUN_TRIGGER_URL === 'string' && RUN_TRIGGER_URL) || ''; }
+  catch (e){ return ''; }
+}
 
 const hubRefresh = document.getElementById('hub-refresh');
 const hubStatus = document.getElementById('hub-status');
@@ -527,12 +533,16 @@ function showStatus(msg, isError){
 }
 
 async function triggerRun(){
-  if (!TRIGGER_URL) return { ok:false, skipped:true };
+  const url = triggerUrl();
+  if (!url) return { ok:false, skipped:true };
   try {
-    const r = await fetch(TRIGGER_URL, { method: 'POST' });
-    return { ok: r.ok };
+    const r = await fetch(url, { method: 'POST' });
+    // Distinguish an HTTP failure from a blocked request. A Worker missing
+    // CORS headers throws a TypeError here, which previously looked identical
+    // to "no worker configured" -- i.e. nothing happened and nothing was said.
+    return r.ok ? { ok:true } : { ok:false, reason:'HTTP ' + r.status };
   } catch (e) {
-    return { ok:false };
+    return { ok:false, reason:'blocked (check the Worker\u2019s CORS headers)' };
   }
 }
 
@@ -542,11 +552,12 @@ if (hubRefresh) hubRefresh.onclick = async () => {
 
   const result = await triggerRun();
   if (result.skipped){
-    // No worker configured yet — silent, matches old refresh-only behavior.
+    // Previously silent, which made a working button look broken.
+    showStatus('No Run-now URL set \u2014 add RUN_TRIGGER_URL in picks.js. Reloaded saved data.', true);
   } else if (result.ok){
-    showStatus('Run triggered — fresh data in ~1–2 min. Refreshing…');
+    showStatus('Run triggered \u2014 fresh data in ~1\u20132 min. Refreshing\u2026');
   } else {
-    showStatus('Could not start a run — showing latest saved data.', true);
+    showStatus('Could not start a run: ' + (result.reason || 'unknown') + '. Showing saved data.', true);
   }
 
   await loadHub();
