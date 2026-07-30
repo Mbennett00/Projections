@@ -471,6 +471,17 @@ async function fetchLiveState(sport){
   return map;
 }
 
+// A team pair does not identify a game. Baseball is played in series, so the
+// same two teams meet on consecutive days, and ESPN's scoreboard still returns
+// yesterday's completed game early in the morning. Matching on the pair alone
+// stamped last night's FINAL onto tonight's fixture -- a whole slate of games
+// marked finished hours before first pitch.
+//
+// The start time is what disambiguates, and it has to be checked ALWAYS, not
+// only when several candidates turn up. The previous version returned a lone
+// candidate unconditionally, which is exactly the case that broke.
+const LIVE_MATCH_WINDOW_MS = 6 * 60 * 60 * 1000;
+
 function lookupLive(map, g){
   const aways = [g.away_team, g.away_abbr].map(liveKey).filter(Boolean);
   const homes = [g.home_team, g.home_abbr].map(liveKey).filter(Boolean);
@@ -478,19 +489,21 @@ function lookupLive(map, g){
   for (const a of aways) for (const h of homes)
     for (const rec of (map.get(a + '@' + h) || []))
       if (!cands.includes(rec)) cands.push(rec);
-
   if (!cands.length) return null;
-  if (cands.length === 1) return cands[0];
 
-  // Doubleheader: pick the event whose start time is nearest this game's.
   const mine = Date.parse(g.game_time || '');
-  if (!mine) return cands[0];
-  let best = cands[0], bestGap = Infinity;
+  // Without a start time on either side there is no way to tell tonight's game
+  // from last night's. Decline rather than guess: a stale FINAL is far worse
+  // than simply leaving the slate's own state alone.
+  if (!mine) return null;
+
+  let best = null, bestGap = Infinity;
   for (const c of cands){
-    const gap = c.startMs ? Math.abs(c.startMs - mine) : Infinity;
+    if (!c.startMs) continue;
+    const gap = Math.abs(c.startMs - mine);
     if (gap < bestGap){ bestGap = gap; best = c; }
   }
-  return best;
+  return (best && bestGap <= LIVE_MATCH_WINDOW_MS) ? best : null;
 }
 
 // Patches DATA in place. Returns {matched, changed, newlyFinal}.
