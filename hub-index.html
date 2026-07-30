@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Projex — Model Boards</title>
+<meta name="theme-color" content="#16532E">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./icon-180.png">
+<link rel="icon" href="./favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0B0C0E; --panel:#151619; --panel-hi:#1C1E22; --line:#2A2C30;
+  --g1:#93E06E; --g2:#5FA34A; --grad:linear-gradient(135deg,var(--g1),var(--g2));
+  --gold:#E0B84A;
+  --ink:#F2F3EF; --mute:#8A8D93; --faint:#55585E;
+  --r:20px; --r-sm:12px;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%; height:100%; background:#0F3B22}
+body{
+  background:linear-gradient(165deg, #123A22 0%, #16532E 32%, #1C6B38 60%, #123A22 100%);
+  color:var(--ink); font-family:'Inter',system-ui,sans-serif;
+  min-height:100dvh; display:flex; flex-direction:column; position:relative;
+  padding:max(16px,env(safe-area-inset-top)) 16px max(16px,env(safe-area-inset-bottom));
+  max-width:560px; margin:0 auto;
+}
+body::before{
+  content:''; position:fixed; inset:0; z-index:-1; pointer-events:none;
+  background:
+    radial-gradient(720px 440px at 10% -8%, rgba(147,224,110,.32), transparent 62%),
+    radial-gradient(620px 440px at 105% 6%, rgba(95,163,74,.30), transparent 62%),
+    radial-gradient(900px 620px at 50% 115%, rgba(147,224,110,.16), transparent 68%),
+    linear-gradient(165deg, rgba(147,224,110,.10) 0%, transparent 45%);
+}
+
+/* ---------- header ---------- */
+header{display:flex; align-items:center; justify-content:space-between; padding:4px 2px 18px; gap:10px; flex:none}
+.head-left{display:flex; align-items:center; gap:10px}
+.head-left img.mark{width:34px; height:34px; border-radius:10px; flex:none; display:block}
+.wordmark{
+  font-family:'Sora',sans-serif; font-weight:800; font-size:20px; letter-spacing:.03em; text-transform:uppercase;
+  color:var(--ink); line-height:1;
+}
+.wordmark .x{background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent}
+.head-left .today{font-size:11.5px; color:var(--mute); font-weight:500; margin-top:3px; font-family:'IBM Plex Mono',monospace}
+.hub-refresh{
+  width:38px; height:38px; border-radius:50%; background:var(--panel); border:1px solid var(--line);
+  display:grid; place-items:center; cursor:pointer; color:var(--mute); font-size:16px;
+  transition:transform .2s, color .2s, border-color .2s; padding:0; flex:none;
+}
+.hub-refresh:active{transform:scale(.88)}
+.hub-refresh:focus-visible{outline:2px solid var(--g1); outline-offset:2px}
+.hub-refresh.spin{animation:spin .7s linear infinite; color:var(--g1); border-color:rgba(147,224,110,.4)}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.hub-status{
+  font-size:11.5px; font-weight:600; color:var(--g1); background:rgba(147,224,110,.1);
+  border:1px solid rgba(147,224,110,.25); border-radius:var(--r-sm); padding:9px 12px;
+  margin-bottom:14px; font-family:'IBM Plex Mono',monospace;
+}
+.hub-status.error{ color:#E0A64A; background:rgba(224,166,74,.1); border-color:rgba(224,166,74,.3) }
+
+.story-label{font-size:11px; font-weight:700; color:var(--mute); letter-spacing:.1em; text-transform:uppercase; font-family:'IBM Plex Mono',monospace; margin-bottom:8px}
+.story-row{display:flex; gap:8px; overflow-x:auto; padding-bottom:2px; scrollbar-width:none}
+.story-row::-webkit-scrollbar{display:none}
+.story-chip{
+  flex:none; font-size:12px; font-weight:600; color:var(--ink); white-space:nowrap;
+  background:var(--panel); border:1px solid var(--line); border-radius:99px; padding:8px 13px;
+}
+
+/* ---------- section label ---------- */
+.kicker-row{display:flex;align-items:center;gap:10px;margin-bottom:14px; flex:none}
+.kicker{font-size:11px; font-weight:700; color:var(--mute); letter-spacing:.14em; text-transform:uppercase; flex:none; font-family:'IBM Plex Mono',monospace}
+.kicker-line{height:1px; flex:1; background:linear-gradient(90deg, var(--line), transparent)}
+
+/* ---------- board stack (single column) ---------- */
+.grid{
+  display:flex; flex-direction:column; gap:12px;
+  flex:1; margin-bottom:16px;
+}
+.board{
+  display:flex; flex-direction:column;
+  text-decoration:none; color:inherit; position:relative; overflow:hidden;
+  border-radius:var(--r); padding:16px 17px;
+  background:var(--panel);
+  border:1px solid rgba(147,224,110,.32);
+  transition:transform .16s cubic-bezier(.2,.8,.3,1), border-color .2s;
+}
+.board:active{transform:scale(.98)}
+.board:focus-visible{outline:2px solid var(--g1); outline-offset:2px}
+.board.quiet{border-color:rgba(147,224,110,.14)}
+
+.board-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:8px}
+.board-tag{font-size:10px; font-weight:700; letter-spacing:.07em; color:var(--mute); display:flex; align-items:center; gap:6px; font-family:'IBM Plex Mono',monospace; flex:none}
+.board-logo{width:15px; height:15px; object-fit:contain; flex:none}
+.board-badge{
+  font-size:9.5px; font-weight:700; letter-spacing:.05em; padding:5px 11px; border-radius:99px;
+  font-family:'IBM Plex Mono',monospace; white-space:nowrap; line-height:1.4;
+  background:rgba(147,224,110,.12); color:var(--g1); border:1px solid rgba(147,224,110,.25);
+}
+.board.quiet .board-badge{background:transparent; color:var(--faint); border-color:var(--line)}
+
+.board-mid{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:14px}
+.board-num{
+  font-family:'Sora',sans-serif; font-weight:800;
+  font-size:42px; line-height:.9; color:var(--ink); letter-spacing:-.02em;
+  font-variant-numeric:tabular-nums;
+}
+.board.quiet .board-num{color:var(--faint)}
+.board-name{font-size:11.5px; color:var(--mute); font-weight:500; margin-top:4px}
+
+.board-stats{display:flex; gap:22px; flex:none}
+.stat{text-align:center}
+.stat b{display:block; font-family:'Sora',sans-serif; font-weight:800; font-size:20px; line-height:1.1; margin-bottom:4px; font-variant-numeric:tabular-nums}
+.stat.c-green b{color:var(--g1)}
+.stat.c-gold b{color:var(--gold)}
+.board.quiet .stat b{color:var(--faint)}
+.stat span{font-size:9.5px; color:var(--mute); font-weight:600; line-height:1.25; display:block; white-space:nowrap}
+
+
+.next-box{
+  display:flex; align-items:center; gap:10px; background:rgba(147,224,110,.06);
+  border:1px solid rgba(147,224,110,.18); border-radius:var(--r-sm); padding:11px 13px;
+}
+.next-box .cal-icon{width:22px; height:22px; flex:none; color:var(--g1)}
+.next-box .cal-label{font-size:9.5px; color:var(--mute); font-weight:600; margin-bottom:2px}
+.next-box .cal-date{font-family:'Sora',sans-serif; font-weight:700; font-size:13.5px; color:var(--ink)}
+
+.board-foot{display:flex; align-items:center; justify-content:space-between; gap:8px; margin-top:14px}
+.board-updated{font-size:10px; font-weight:600; color:var(--faint); font-family:'IBM Plex Mono',monospace}
+.board-arrow{
+  width:28px; height:28px; border-radius:50%; background:var(--panel-hi); flex:none;
+  display:grid; place-items:center; color:var(--g1); font-size:14px; font-weight:700;
+  transition:transform .16s ease;
+}
+.board:active .board-arrow{transform:translateX(2px)}
+
+/* ---------- footer ---------- */
+footer{margin-top:auto; text-align:center; font-size:11px; color:var(--faint); padding:8px 0 4px; font-weight:500; font-family:'IBM Plex Mono',monospace; flex:none}
+footer b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent; font-weight:700}
+
+@media (prefers-reduced-motion:reduce){
+  .board, .hub-refresh, .board-arrow{transition:none}
+  .hub-refresh.spin{animation:none}
+}
+</style>
+<link rel="stylesheet" href="./theme.css">
+</head>
+<body>
+<header>
+  <div class="head-left">
+    <img class="mark" src="./icon-192.png" alt="">
+    <div>
+      <div class="wordmark">Proj<span class="x">ex</span></div>
+      <div class="today" id="today"></div>
+    </div>
+  </div>
+  <a class="hub-refresh" href="./picks/" aria-label="My Picks" title="My Picks" style="text-decoration:none;font-size:14px">📋</a>
+  <button class="hub-refresh" id="hub-refresh" aria-label="Run now" title="Run now">↻</button>
+</header>
+
+<div id="hub-status" class="hub-status" style="display:none"></div>
+
+
+<div class="kicker-row">
+  <div class="kicker">Model Boards</div>
+  <div class="kicker-line"></div>
+</div>
+
+<div class="grid" id="grid">
+  <a class="board" data-sport="mlb" data-mode="daily" href="./mlb/">
+    <div class="board-top">
+      <span class="board-tag"><img class="board-logo" src="https://a.espncdn.com/i/teamlogos/leagues/500/mlb.png" alt="" loading="lazy" onerror="this.remove()">MLB · DAILY</span>
+      <span class="board-badge" id="mlb-badge">—</span>
+    </div>
+    <div class="board-mid">
+      <div><div class="board-num" id="mlb-games">—</div><div class="board-name" id="mlb-games-label">games today</div></div>
+      <div class="board-stats">
+        <div class="stat c-green"><b id="mlb-stat1">—</b><span>Predicted<br>Edges</span></div>
+        <div class="stat c-gold"><b id="mlb-stat2">—</b><span>Top<br>Plays</span></div>
+        <div class="stat c-green"><b id="mlb-stat3">—</b><span id="mlb-stat3-label">High<br>Confidence</span></div>
+      </div>
+    </div>
+    <div id="mlb-body"></div>
+    <div class="board-foot" id="mlb-foot" style="display:none">
+      <span class="board-updated" id="mlb-updated-alt">syncing…</span>
+      <span class="board-arrow">→</span>
+    </div>
+  </a>
+
+  <a class="board" data-sport="nfl" data-mode="weekly" href="./nfl/">
+    <div class="board-top">
+      <span class="board-tag"><img class="board-logo" src="https://a.espncdn.com/i/teamlogos/leagues/500/nfl.png" alt="" loading="lazy" onerror="this.remove()">NFL · WEEKLY</span>
+      <span class="board-badge" id="nfl-badge">—</span>
+    </div>
+    <div class="board-mid">
+      <div><div class="board-num" id="nfl-games">—</div><div class="board-name" id="nfl-games-label">games today</div></div>
+      <div class="board-stats">
+        <div class="stat c-green"><b id="nfl-stat1">—</b><span>Predicted<br>Edges</span></div>
+        <div class="stat c-gold"><b id="nfl-stat2">—</b><span>Top<br>Play</span></div>
+        <div class="stat c-green"><b id="nfl-stat3">—</b><span id="nfl-stat3-label">Win<br>Probability</span></div>
+      </div>
+    </div>
+    <div id="nfl-body"></div>
+    <div class="board-foot" id="nfl-foot" style="display:none">
+      <span class="board-updated" id="nfl-updated-alt">syncing…</span>
+      <span class="board-arrow">→</span>
+    </div>
+  </a>
+
+  <a class="board" data-sport="nhl" data-mode="daily" href="./nhl/">
+    <div class="board-top">
+      <span class="board-tag"><img class="board-logo" src="https://a.espncdn.com/i/teamlogos/leagues/500/nhl.png" alt="" loading="lazy" onerror="this.remove()">NHL · DAILY</span>
+      <span class="board-badge" id="nhl-badge">—</span>
+    </div>
+    <div class="board-mid">
+      <div><div class="board-num" id="nhl-games">—</div><div class="board-name" id="nhl-games-label">games today</div></div>
+      <div class="board-stats">
+        <div class="stat c-green"><b id="nhl-stat1">—</b><span>Predicted<br>Edges</span></div>
+        <div class="stat c-gold"><b id="nhl-stat2">—</b><span>Top<br>Plays</span></div>
+        <div class="stat c-green"><b id="nhl-stat3">—</b><span id="nhl-stat3-label">High<br>Confidence</span></div>
+      </div>
+    </div>
+    <div id="nhl-body"></div>
+    <div class="board-foot" id="nhl-foot" style="display:none">
+      <span class="board-updated" id="nhl-updated-alt">syncing…</span>
+      <span class="board-arrow">→</span>
+    </div>
+  </a>
+
+  <a class="board" data-sport="nba" data-mode="daily" href="./nba/">
+    <div class="board-top">
+      <span class="board-tag"><img class="board-logo" src="https://a.espncdn.com/i/teamlogos/leagues/500/nba.png" alt="" loading="lazy" onerror="this.remove()">NBA · DAILY</span>
+      <span class="board-badge" id="nba-badge">—</span>
+    </div>
+    <div class="board-mid">
+      <div><div class="board-num" id="nba-games">—</div><div class="board-name" id="nba-games-label">games today</div></div>
+      <div class="board-stats">
+        <div class="stat c-green"><b id="nba-stat1">—</b><span>Predicted<br>Edges</span></div>
+        <div class="stat c-gold"><b id="nba-stat2">—</b><span>Top<br>Plays</span></div>
+        <div class="stat c-green"><b id="nba-stat3">—</b><span id="nba-stat3-label">High<br>Confidence</span></div>
+      </div>
+    </div>
+    <div id="nba-body"></div>
+    <div class="board-foot" id="nba-foot" style="display:none">
+      <span class="board-updated" id="nba-updated-alt">syncing…</span>
+      <span class="board-arrow">→</span>
+    </div>
+  </a>
+</div>
+
+<footer>Auto-updated by the model · <b>Add to Home Screen</b> to install</footer>
+
+<script src="./picks.js"></script>
+<script>
+// ── picks.js guard ──────────────────────────────────────────────────────────
+// If picks.js is missing, 404s, or fails to PARSE, every name it exports is
+// undefined. This page calls mountSlipBar() at top level, so that would throw
+// and stop the script before loadHub() ran -- leaving every stat showing its
+// "—" placeholder and looking like a data outage rather than a broken file.
+// NOTE: Picks is a `const` in picks.js, so it must never be re-declared with
+// `var` here -- that throws on its own when the file DID load. It's read
+// through an accessor instead.
+if (typeof mountSlipBar !== 'function') {
+  var mountSlipBar = () => {};
+  console.warn('picks.js unavailable — hub still live, pick logging disabled');
+}
+const LOGO = {
+  mlb:{"Arizona Diamondbacks":"ari","Atlanta Braves":"atl","Baltimore Orioles":"bal","Boston Red Sox":"bos","Chicago Cubs":"chc","Chicago White Sox":"chw","Cincinnati Reds":"cin","Cleveland Guardians":"cle","Colorado Rockies":"col","Detroit Tigers":"det","Houston Astros":"hou","Kansas City Royals":"kc","Los Angeles Angels":"laa","Los Angeles Dodgers":"lad","Miami Marlins":"mia","Milwaukee Brewers":"mil","Minnesota Twins":"min","New York Mets":"nym","New York Yankees":"nyy","Athletics":"ath","Philadelphia Phillies":"phi","Pittsburgh Pirates":"pit","San Diego Padres":"sd","San Francisco Giants":"sf","Seattle Mariners":"sea","St. Louis Cardinals":"stl","Tampa Bay Rays":"tb","Texas Rangers":"tex","Toronto Blue Jays":"tor","Washington Nationals":"wsh"},
+  nfl:{"Arizona Cardinals":"ari","Atlanta Falcons":"atl","Baltimore Ravens":"bal","Buffalo Bills":"buf","Carolina Panthers":"car","Chicago Bears":"chi","Cincinnati Bengals":"cin","Cleveland Browns":"cle","Dallas Cowboys":"dal","Denver Broncos":"den","Detroit Lions":"det","Green Bay Packers":"gb","Houston Texans":"hou","Indianapolis Colts":"ind","Jacksonville Jaguars":"jax","Kansas City Chiefs":"kc","Las Vegas Raiders":"lv","Los Angeles Chargers":"lac","Los Angeles Rams":"lar","Miami Dolphins":"mia","Minnesota Vikings":"min","New England Patriots":"ne","New Orleans Saints":"no","New York Giants":"nyg","New York Jets":"nyj","Philadelphia Eagles":"phi","Pittsburgh Steelers":"pit","San Francisco 49ers":"sf","Seattle Seahawks":"sea","Tampa Bay Buccaneers":"tb","Tennessee Titans":"ten","Washington Commanders":"wsh"},
+  nhl:{"Anaheim Ducks":"ana","Boston Bruins":"bos","Buffalo Sabres":"buf","Calgary Flames":"cgy","Carolina Hurricanes":"car","Chicago Blackhawks":"chi","Colorado Avalanche":"col","Columbus Blue Jackets":"cbj","Dallas Stars":"dal","Detroit Red Wings":"det","Edmonton Oilers":"edm","Florida Panthers":"fla","Los Angeles Kings":"la","Minnesota Wild":"min","Montreal Canadiens":"mtl","Nashville Predators":"nsh","New Jersey Devils":"nj","New York Islanders":"nyi","New York Rangers":"nyr","Ottawa Senators":"ott","Philadelphia Flyers":"phi","Pittsburgh Penguins":"pit","San Jose Sharks":"sj","Seattle Kraken":"sea","St. Louis Blues":"stl","Tampa Bay Lightning":"tb","Toronto Maple Leafs":"tor","Utah Mammoth":"utah","Vancouver Canucks":"van","Vegas Golden Knights":"vgk","Washington Capitals":"wsh","Winnipeg Jets":"wpg"},
+  nba:{"Atlanta Hawks":"atl","Boston Celtics":"bos","Brooklyn Nets":"bkn","Charlotte Hornets":"cha","Chicago Bulls":"chi","Cleveland Cavaliers":"cle","Dallas Mavericks":"dal","Denver Nuggets":"den","Detroit Pistons":"det","Golden State Warriors":"gs","Houston Rockets":"hou","Indiana Pacers":"ind","LA Clippers":"lac","Los Angeles Lakers":"lal","Memphis Grizzlies":"mem","Miami Heat":"mia","Milwaukee Bucks":"mil","Minnesota Timberwolves":"min","New Orleans Pelicans":"no","New York Knicks":"ny","Oklahoma City Thunder":"okc","Orlando Magic":"orl","Philadelphia 76ers":"phi","Phoenix Suns":"phx","Portland Trail Blazers":"por","Sacramento Kings":"sac","San Antonio Spurs":"sa","Toronto Raptors":"tor","Utah Jazz":"utah","Washington Wizards":"wsh"}
+};
+// Best-guess next-season openers, shown only until the pipeline supplies a real schedule date.
+const NEXT_START = { nhl:'2026-10-07', nba:'2026-10-20' };
+
+function abbr(sport, name){
+  const a = (LOGO[sport] || {})[name];
+  return a ? a.toUpperCase() : (name || '').split(' ').pop().slice(0,3).toUpperCase();
+}
+function logoUrl(sport, name){
+  const a = (LOGO[sport] || {})[name];
+  return a ? `https://a.espncdn.com/i/teamlogos/${sport}/500/${a}.png` : '';
+}
+function shortName(name){ return (name || '').split(' ').pop(); }
+function fmtTime(iso){
+  try{ return new Date(iso).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}); }
+  catch(e){ return ''; }
+}
+
+const rel = iso => {
+  const m = Math.round((Date.now() - new Date(iso)) / 60000);
+  if (isNaN(m)) return '';
+  if (m < 1) return 'just now';
+  if (m < 60) return m + 'm ago';
+  const h = Math.round(m / 60);
+  return h < 24 ? h + 'h ago' : Math.round(h / 24) + 'd ago';
+};
+document.getElementById('today').textContent =
+  new Date().toLocaleDateString('en-US', { weekday:'short', month:'short', day:'numeric' });
+
+// Pull a best-effort edge score off a game object regardless of which sport schema it came from.
+function gameEdgeScore(g){
+  if (g.edge && typeof g.edge.score === 'number') return g.edge.score;
+  if (typeof g.p_ml_edge === 'number' && g.p_ml_edge) return Math.round(Math.abs(g.p_ml_edge) * 100);
+  return 0;
+}
+
+function renderNextStart(sport){
+  const iso = NEXT_START[sport];
+  if (!iso) return '';
+  const d = new Date(iso + 'T00:00:00');
+  const label = d.toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+  return `
+    <div class="next-box">
+      <svg class="cal-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="3"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+      <div>
+        <div class="cal-label">Next Games Start</div>
+        <div class="cal-date">${label}</div>
+      </div>
+    </div>
+  `;
+}
+
+async function loadHub(){
+  const bySport = {};
+  await Promise.all(['mlb','nfl','nhl','nba'].map(async s => {
+    let d;
+    try {
+      const r = await fetch(`./data/${s}_slate.json?t=${Date.now()}`);
+      d = await r.json();
+    } catch (e) {
+      const footEl = document.getElementById(s+'-foot');
+      footEl.style.display = 'flex';
+      document.getElementById(s+'-updated-alt').textContent = 'no data yet';
+      return;
+    }
+    const games = d.games || [];
+    bySport[s] = games;
+    const count = games.length;
+    const live = games.filter(g => g.game_state === 'Live').length;
+    const mode = document.querySelector(`.board[data-sport="${s}"]`).dataset.mode;
+    const card = document.querySelector(`.board[data-sport="${s}"]`);
+    const updatedTxt = d.generated_at ? rel(d.generated_at) : 'syncing…';
+
+    document.getElementById(s+'-games').textContent = count;
+    document.getElementById(s+'-games-label').textContent = count === 1 ? 'game today' : 'games today';
+    card.classList.toggle('quiet', count === 0);
+
+    // status badge
+    let badge;
+    if (live > 0) badge = `${live} GAME${live===1?'':'S'} LIVE`;
+    else if (count > 0) badge = `${count} GAME${count===1?'':'S'} TODAY`;
+    else badge = NEXT_START[s] ? 'OFFSEASON' : 'NO GAMES SCHEDULED';
+    document.getElementById(s+'-badge').textContent = badge;
+
+    // stat 1 & 2: predicted edges / top plays, derived from each game's edge score
+    const scores = games.map(gameEdgeScore);
+    const predictedEdges = scores.filter(x => x > 0).length;
+    const topPlays = scores.filter(x => x >= 70).length;
+    document.getElementById(s+'-stat1').textContent = predictedEdges;
+    document.getElementById(s+'-stat2').textContent = topPlays;
+
+    // stat 3: win probability (weekly boards) or high-confidence count (daily boards)
+    if (mode === 'weekly'){
+      let bestPct = 0;
+      for (const g of games){
+        const p = Math.max(g.home_win_pct ?? 0, g.away_win_pct ?? 0, g.p_cover ?? 0);
+        if (p > bestPct) bestPct = p;
+      }
+      document.getElementById(s+'-stat3').textContent = games.length ? `${Math.round(bestPct*100)}%` : '0%';
+    } else {
+      document.getElementById(s+'-stat3').textContent = scores.filter(x => x >= 80).length;
+    }
+
+    // body: timestamp when there are games, otherwise a next-start box
+    const bodyEl = document.getElementById(s+'-body');
+    const footEl = document.getElementById(s+'-foot');
+    if (count > 0){
+      // The TOP MATCHUP panel used to live here: one game's moneylines plus a
+      // "best edge" pick. It was picked by the same edge score that turned out
+      // to be unreliable, and its odds were whatever the last model run saw --
+      // so a stale price sat on the landing page looking authoritative. The
+      // sport boards show every game with live prices; this only competed with
+      // them. Removed rather than patched.
+      bodyEl.innerHTML = `<div class="board-updated" style="margin-top:8px">${updatedTxt}</div>`;
+      footEl.style.display = 'none';
+    } else {
+      bodyEl.innerHTML = renderNextStart(s);
+      footEl.style.display = 'flex';
+      document.getElementById(s+'-updated-alt').textContent = updatedTxt;
+    }
+  }));
+}
+
+mountSlipBar('./picks/');
+loadHub();
+
+// ---------- Run Now ----------
+// Tapping the header button both re-fetches the current JSON *and* asks the
+// GitHub Action to run the models immediately, instead of waiting for the
+// next scheduled cron. The Action can't be triggered directly from this
+// static page (that would mean shipping a GitHub token to every visitor's
+// browser), so this calls a tiny Cloudflare Worker that holds the token and
+// forwards a workflow_dispatch request. See /worker/README.md for setup —
+// until TRIGGER_URL below is filled in, the button just refreshes the
+// currently-saved data, same as before.
+// Configured in picks.js (RUN_TRIGGER_URL) so there's one line to edit, not
+// five. Read through an accessor -- picks.js declares it as a const, so
+// re-declaring it here would throw whenever that file loaded correctly.
+function triggerUrl(){
+  try { return (typeof RUN_TRIGGER_URL === 'string' && RUN_TRIGGER_URL) || ''; }
+  catch (e){ return ''; }
+}
+
+const hubRefresh = document.getElementById('hub-refresh');
+const hubStatus = document.getElementById('hub-status');
+
+function showStatus(msg, isError){
+  if (!hubStatus) return;
+  hubStatus.textContent = msg;
+  hubStatus.classList.toggle('error', !!isError);
+  hubStatus.style.display = 'block';
+}
+
+async function triggerRun(){
+  const url = triggerUrl();
+  if (!url) return { ok:false, skipped:true };
+  try {
+    const r = await fetch(url, { method: 'POST' });
+    // Distinguish an HTTP failure from a blocked request. A Worker missing
+    // CORS headers throws a TypeError here, which previously looked identical
+    // to "no worker configured" -- i.e. nothing happened and nothing was said.
+    return r.ok ? { ok:true } : { ok:false, reason:'HTTP ' + r.status };
+  } catch (e) {
+    return { ok:false, reason:'blocked (check the Worker\u2019s CORS headers)' };
+  }
+}
+
+if (hubRefresh) hubRefresh.onclick = async () => {
+  hubRefresh.classList.add('spin');
+  hubRefresh.disabled = true;
+
+  const result = await triggerRun();
+  if (result.skipped){
+    // Previously silent, which made a working button look broken.
+    showStatus('No Run-now URL set \u2014 add RUN_TRIGGER_URL in picks.js. Reloaded saved data.', true);
+  } else if (result.ok){
+    showStatus('Run triggered \u2014 fresh data in ~1\u20132 min. Refreshing\u2026');
+  } else {
+    showStatus('Could not start a run: ' + (result.reason || 'unknown') + '. Showing saved data.', true);
+  }
+
+  await loadHub();
+  hubRefresh.classList.remove('spin');
+  hubRefresh.disabled = false;
+
+  // The Action takes a little while to run and commit; keep checking for
+  // the new data without making the user tap again.
+  if (result.ok){
+    [20000, 45000, 75000, 110000].forEach(ms => setTimeout(async () => {
+      await loadHub();
+      showStatus('Updated with the latest run.');
+      setTimeout(() => { hubStatus.style.display = 'none'; }, 4000);
+    }, ms));
+  }
+};
+
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');
+</script>
+</body>
+</html>
