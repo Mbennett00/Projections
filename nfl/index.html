@@ -211,6 +211,7 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
 .hide{display:none}
 @media (prefers-reduced-motion:reduce){.prob-away,.sim-fill{transition:none}.state.live,.game,.play{animation:none}}
 </style>
+<link rel="stylesheet" href="../theme.css">
 </head>
 <body>
 <header>
@@ -345,22 +346,28 @@ function gameCard(g){
     priced
   );
   const tierHtml = g.tier ? `<span class="tier ${g.tier}"><img src="${logo(favLogo)}" alt="" loading="lazy" onerror="this.remove()">${g.tier}</span>` : '';
+  const micro = `<div class="gc-micro">
+      <span><i>Cover ${pct(coverP)}</i><b class="${coverP>=.55?'hot':''}">${leanTeam} ${leanNum}</b></span>
+      <span><i>Total ${pct(totP)}</i><b class="${totP>=.55?'hot':''}">${overSide ? 'Ov' : 'Un'} ${L.total ?? '–'}</b></span>
+      <span><i>Proj</i><b>${g.away_pts?.toFixed(0) ?? '–'}\u2013${g.home_pts?.toFixed(0) ?? '–'}</b></span>
+    </div>`;
+  const qbLine = g.away_qb
+    ? `${g.away_qb}${g.away_qb_proj ? ` (${g.away_qb_proj.pass_yds?.toFixed(0)} yds)` : ''} vs ${g.home_qb}${g.home_qb_proj ? ` (${g.home_qb_proj.pass_yds?.toFixed(0)} yds)` : ''}`
+    : '';
+  const meta = [g.venue, qbLine].filter(Boolean).map(esc).join(' \u00b7 ');
+  const metaRow = meta ? `<div class="gc-meta">${meta}</div>` : '';
   return `<div class="game ${gameDimClass(g)}">
     <div class="g-accent" style="background:${edgeAccent(g)}"></div>
-    <div class="g-top">
-      <span>${teamChip(ab(g.away_team))} @ ${teamChip(ab(g.home_team))}</span>
+    <div class="gc-head">
+      <span class="gc-match">${teamChip(ab(g.away_team))} @ ${teamChip(ab(g.home_team))}</span>
       <span class="g-badges">${stateBadge(g)}${isPregame(g) ? tierHtml + edgePill(g) : ''}</span>
     </div>
-    ${rows}
-    <div class="prob-track"><div class="prob-away" style="width:${(g.away_win_pct ?? .5)*100}%;background:${cA}"></div><div class="prob-home" style="background:${cH}"></div></div>
-    <div class="g-stats">
-      <div class="stat sb"><div class="v ${coverP>=.55?'hot':''}">${leanTeam} ${leanNum}</div><div class="l">COVER ${pct(coverP)}</div></div>
-      <div class="stat sy"><div class="v ${totP>=.55?'hot':''}">${overSide ? 'Ov' : 'Un'} ${L.total ?? '–'}</div><div class="l">TOTAL ${pct(totP)}</div></div>
-      <div class="stat st"><div class="v">${g.away_pts?.toFixed(0) ?? '–'}–${g.home_pts?.toFixed(0) ?? '–'}</div><div class="l">PROJ</div></div>
+    <div class="gc-body">
+      ${rows}
+      <div class="prob-track"><div class="prob-away" style="width:${(g.away_win_pct ?? .5)*100}%;background:${cA}"></div><div class="prob-home" style="background:${cH}"></div></div>
+      ${micro}${metaRow}
     </div>
-    ${g.away_qb ? `<div class="qbs"><b>${esc(g.away_qb)}</b> ${g.away_qb_proj ? `(${g.away_qb_proj.pass_yds?.toFixed(0)} yds, ${g.away_qb_proj.pass_td?.toFixed(1)} TD)` : ''} vs <b>${esc(g.home_qb)}</b> ${g.home_qb_proj ? `(${g.home_qb_proj.pass_yds?.toFixed(0)} yds, ${g.home_qb_proj.pass_td?.toFixed(1)} TD)` : ''}</div>` : ''}
-  ${slip}
-  </div>`;
+    ${slip}</div>`;
 }
 
 function renderGames(d){
@@ -687,23 +694,28 @@ function nflConfidence(p, isQB){
     `<div class="chip ${m===marketFilter?'on':''}" data-m="${m}">${m}</div>`).join('');
   const list = pool.slice(0, 40).map((p,i) => {
     const key = marketFilter + '|' + p.name, open = openSim === key;
+    // Matches a leg on the bet slip: identity left, number right, action last.
+    // Tags, news and status moved into one footer row so the top line keeps a
+    // fixed shape instead of wrapping unpredictably.
+    const foot = [statusTag(p), nflTags(p, cfg.pool), newsLine(p)].filter(Boolean).join('');
     return `<div class="play" data-key="${esc(key)}">
-      <span class="rank ${i<3?'r'+(i+1):''}">${i+1}</span>
-      ${avatar(p.name, p.team, p.player_id)}
-      <div class="p-main">
-        <div class="p-player">${esc(p.name)}</div>
-        <div class="p-meta">${abSpan(p.team)} vs ${teamChip(p.opp)}${gradeChip(p.matchup_grade || matchupGrade(teamImplied(p, d.games)))}</div>
-        <div>${statusTag(p)}${nflTags(p, cfg.pool)}</div>
-        ${newsLine(p)}
-      </div>
-      <div class="p-edge">
-        <div class="edge-val">${cfg.fmt(cfg.v(p))}</div>
-        ${confRing(nflConfidence(p, cfg.pool === 'qb'))}
-        <div class="sim-hint">${open ? '▾ CLOSE' : '▸ DETAILS'}</div>
+      <div class="pp-top">
+        <span class="rank ${i<3?'r'+(i+1):''}">${i+1}</span>
+        ${avatar(p.name, p.team, p.player_id)}
+        <div class="p-main">
+          <div class="p-player">${esc(p.name)}</div>
+          <div class="p-meta">${abSpan(p.team)} vs ${teamChip(p.opp)}${gradeChip(p.matchup_grade || matchupGrade(teamImplied(p, d.games)))}</div>
+        </div>
+        <div class="p-edge">
+          <div class="edge-val">${cfg.fmt(cfg.v(p))}</div>
+          ${confRing(nflConfidence(p, cfg.pool === 'qb'))}
+        </div>
         ${pickBtn({sport:'nfl', label:p.name, detail:`${marketFilter} · vs ${p.opp}`,
                    line:cfg.fmt(cfg.v(p)), logo:logo(p.team),
                    key:`nfl|${marketFilter}|${p.name}|${p.team}`})}
       </div>
+      ${foot ? `<div class="pp-foot">${foot}</div>` : ''}
+      <div class="sim-hint">${open ? '\u25be Close' : '\u25b8 Details'}</div>
       ${open ? detailPanel(p) : ''}
     </div>`;
   }).join('');
