@@ -265,7 +265,13 @@ class Talent:
         for tbl in (self.g_cur, self.g_pri):
             if tbl is None or "name" not in tbl.columns:
                 continue
-            m = tbl[tbl["name"].str.lower() == (name or "").lower()]
+            # Raw lowercase compare was the fourth unnormalised name join in
+            # this codebase. MoneyPuck and the NHL API disagree on accents --
+            # Vitek Vanecek, Dan Vladar, Jiri Patera -- so those goalies fell
+            # through to "unknown" and projected at league average. The starting
+            # goalie model depends on this lookup, so a miss quietly neutralises
+            # the single biggest factor in an NHL projection.
+            m = tbl[tbl["name"].map(_inj_norm) == _inj_norm(name)]
             if not m.empty:
                 row = m.iloc[0]
                 def _f(k, d=None):
@@ -359,11 +365,21 @@ def fetch_schedule(day):
     return games
 
 
+_roster_warned = set()
+
+
 def fetch_roster(abbr):
     """Skaters + goalies for a team from the NHL API."""
     try:
         data = get_json(f"https://api-web.nhle.com/v1/roster/{abbr}/current")
-    except Exception:
+    except Exception as e:
+        # Returns ([], []) -- no skaters AND no goalies. The starting-goalie
+        # model then has nothing to pick from and the side projects at league
+        # average, which is indistinguishable from a genuinely average team.
+        if abbr not in _roster_warned:
+            _roster_warned.add(abbr)
+            print(f"  roster fetch failed for {abbr} ({e}) -- no skaters or "
+                  f"goalie for that side; projection falls back to average")
         return [], []
 
     def nm(p):
