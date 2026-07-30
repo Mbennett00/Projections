@@ -303,15 +303,26 @@ def fetch_injuries():
 
 
 def player_status(player_id):
+    """O = out, D = doubtful, Q = questionable, None = expected to play.
+
+    Matched on substrings, not equality. ESPN returns strings like "Out For
+    Season", "Injured Reserve" and "Game Time Decision"; the previous exact
+    match only recognised "out", "injured" and "suspension", so a player ruled
+    out for the season came back as None and was projected to play a full game.
+    That silently broke the injury redistribution for exactly the long-term
+    absences it matters most for.
+    """
     s = fetch_injuries().get(str(player_id))
     if not s:
         return None
-    sl = s.lower()
-    if sl in ("out", "injured", "suspension"):
+    sl = s.lower().strip()
+    if any(k in sl for k in ("out", "injured reserve", " ir", "suspen",
+                             "not with team", "inactive")):
         return "O"
-    if sl in ("doubtful",):
+    if "doubtful" in sl:
         return "D"
-    if sl in ("questionable", "day-to-day", "game-time decision"):
+    if any(k in sl for k in ("questionable", "day-to-day", "day to day",
+                             "game time", "game-time", "probable")):
         return "Q"
     return None
 
@@ -414,6 +425,65 @@ def edge_confidence_score(edge_pts, k=EDGE_SCORE_K):
 
 
 # ── projections ───────────────────────────────────────────────────────────
+# ---------------------------------------------------------------------------
+# Injury impact
+#
+# Vacated minutes and production used to be shared out in proportion to each
+# active player's own minutes, and nothing else. That treats every teammate as
+# interchangeable: with Luka out, a centre absorbed the same share of his
+# assists as the backup point guard, and a guard absorbed the same share of a
+# centre's rebounds.
+#
+# Redistribution is now role-aware, on two axes that need no new data:
+#
+#   minutes    flow toward players at the same position -- a starting guard
+#              sitting frees guard minutes, not centre minutes.
+#   production flows toward players who already produce THAT stat per minute.
+#              Assists go to ball-handlers, rebounds to bigs, because those are
+#              the players already doing it when they're on the floor.
+# ---------------------------------------------------------------------------
+POS_ORDER = {"PG": 0, "G": 0.5, "SG": 1, "GF": 1.5, "SF": 2,
+             "F": 2.5, "PF": 3, "FC": 3.5, "C": 4}
+
+
+def pos_affinity(a, b):
+    """1.0 for the same position, falling away with positional distance."""
+    pa, pb = POS_ORDER.get((a or "").upper()), POS_ORDER.get((b or "").upper())
+    if pa is None or pb is None:
+        return 0.6                      # unknown position: middling, not zero
+    d = abs(pa - pb)
+    if d <= 0.5:
+        return 1.0
+    if d <= 1.5:
+        return 0.65
+    if d <= 2.5:
+        return 0.35
+    return 0.15
+
+
+def _weights(active, out_players, key, stat=None):
+    """Share of a vacated resource each active player should absorb.
+
+    `stat` is None for minutes (weighted by position fit) or a stat name for
+    production (weighted by that player's own per-minute rate). Falls back to
+    minute share whenever the signal is missing, which is the old behaviour.
+    """
+    w = []
+    for r in active:
+        base_min = r["b"].get("min") or 0
+        if stat is None:
+            fit = max(pos_affinity(r["pos"], o["pos"]) for o in out_players) if out_players else 1.0
+            w.append(base_min * fit)
+        else:
+            rate = (r["b"].get(stat) or 0) / base_min if base_min else 0
+            w.append(rate * base_min)   # = the stat itself, i.e. who already does it
+    total = sum(w)
+    if total <= 0:
+        total = sum((r["b"].get("min") or 0) for r in active) or 1.0
+        w = [(r["b"].get("min") or 0) for r in active]
+    return [x / total for x in w]
+
+
 def project_team(talent_players, pace_factor, b2b=False, blowout=0.0):
     """Roster projections with injury-redistribution, pace, usage, B2B fatigue.
 
@@ -443,11 +513,16 @@ def project_team(talent_players, pace_factor, b2b=False, blowout=0.0):
     out_names = ", ".join(r["name"] for r in out_players[:2])
 
     fatigue = 0.96 if b2b else 1.0
+
+    # Role-aware shares: one set for minutes, one per stat.
+    min_share = _weights(active, out_players, "min")
+    stat_share = {k: _weights(active, out_players, "min", k) for k in ("pts", "reb", "ast", "tpm")}
+
     out = []
-    for r in active:
+    for idx, r in enumerate(active):
         b = r["b"]
         base_min = b.get("min") or 0
-        share = base_min / tot_active_min
+        share = min_share[idx]
         # redistribute up to 85% of vacated minutes, capped so nobody exceeds 42
         boost_min = min(42, base_min + vac_min * share * 0.85)
         # blowout risk: in likely blowouts, high-minute starters sit late.
@@ -458,8 +533,9 @@ def project_team(talent_players, pace_factor, b2b=False, blowout=0.0):
 
         def proj(stat):
             base = (b.get(stat) or 0)
-            # redistributed production: own rate scaled by minutes + share of vacated
-            redist = vac[stat] * share * 0.85
+            # Redistributed production now uses the share for THIS stat, so
+            # assists follow ball-handlers and rebounds follow bigs.
+            redist = vac[stat] * stat_share[stat][idx] * 0.85
             return (base * min_scale * 0.6 + (base + redist) * 0.4) * pace_factor * fatigue
 
         pts, reb, ast, tpm = proj("pts"), proj("reb"), proj("ast"), proj("tpm")
@@ -479,11 +555,35 @@ def project_team(talent_players, pace_factor, b2b=False, blowout=0.0):
             p["status"] = r["status"]
         if b2b:
             p["b2b"] = True
-        if out_players and boost_min - base_min >= 1.5:
-            p["news"] = {
-                "reason": f"{out_names} OUT",
-                "min_from": round(base_min, 1), "min_to": round(boost_min, 1),
-            }
+        # Injury impact, written so the card can state it plainly: who is out,
+        # how many minutes this player gains, and how much of the vacated
+        # scoring load he actually absorbs. The usage delta is the part that
+        # matters -- extra minutes for a low-usage big are worth far less than
+        # the same minutes for the guard inheriting the ball.
+        if out_players:
+            d_min = boost_min - base_min
+            base_usage = min(0.45, ((b.get("pts") or 0) + (b.get("ast") or 0) * 0.5)
+                             / max(1, base_min) * 2.4)
+            d_usage = usage - base_usage
+            if d_min >= 1.0 or abs(d_usage) >= 0.01:
+                p["injury_impact"] = {
+                    "out": [o["name"] for o in out_players[:3]],
+                    "min_from": round(base_min, 1), "min_to": round(boost_min, 1),
+                    "min_delta": round(d_min, 1),
+                    "usage_from": round(base_usage, 3), "usage_to": usage,
+                    "usage_delta": round(d_usage, 3),
+                }
+                bits = []
+                if d_min >= 1.0:
+                    bits.append(f"+{d_min:.0f} min")
+                if d_usage >= 0.01:
+                    bits.append(f"+{d_usage*100:.0f}% usage")
+                p["usage_note"] = f"{out_names} OUT \u00b7 " + ", ".join(bits) if bits else None
+            if d_min >= 1.5:
+                p["news"] = {
+                    "reason": f"{out_names} OUT",
+                    "min_from": round(base_min, 1), "min_to": round(boost_min, 1),
+                }
         out.append(p)
     out.sort(key=lambda p: p["min"], reverse=True)
     return out[:10]
