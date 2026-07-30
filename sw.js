@@ -1,5 +1,5 @@
-const CACHE = 'projex-v2';
-const SHELL = ['/', '/mlb/', '/nfl/', '/nhl/', '/nba/', '/picks/', '/picks.js', '/manifest.webmanifest'];
+const CACHE = 'projex-v3';
+const SHELL = ['/', '/mlb/', '/nfl/', '/nhl/', '/nba/', '/picks/', '/picks.js', '/theme.css', '/manifest.webmanifest'];
 
 // Cache each shell URL on its own. caches.addAll() is all-or-nothing: a single
 // 404 anywhere in SHELL rejects the whole thing, which fails the install event,
