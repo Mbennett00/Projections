@@ -398,19 +398,19 @@ const avatar = (name, team, id, cls='p-avatar') => {
 function nflTags(p, pool){
   const t = [];
   if (pool === 'qb') {
-    if ((p.pass_yds ?? 0) >= 250) t.push(['GUNSLINGER','#8A8D93']);
-    if ((p.pass_td ?? 0) >= 1.8) t.push(['TD UPSIDE','#93E06E']);
-    if ((p.rating ?? 0) >= 92) t.push(['EFFICIENT','#2DD4BF']);
+    if ((p.pass_yds ?? 0) >= 250) t.push(['GUNSLINGER','#3DD9F0']);
+    if ((p.pass_td ?? 0) >= 1.8) t.push(['TD UPSIDE','#3DF08B']);
+    if ((p.rating ?? 0) >= 92) t.push(['EFFICIENT','#3DE8D0']);
   } else {
     const pos = (p.pos || '').toUpperCase();
-    if ((p.rush_att ?? 0) >= 15) t.push(['BELLCOW','#FB923C']);
-    if ((p.targets ?? 0) >= 8) t.push(['TARGET HOG','#8A8D93']);
-    if ((p.fpts ?? 0) >= 15) t.push(['FANTASY STUD','#FDE047']);
-    if ((p.td_prob ?? 0) >= .5) t.push(['RED ZONE THREAT','#F87171']);
-    if (pos === 'RB' && (p.td_prob ?? 0) >= .55) t.push(['GOAL LINE BACK','#EF4444']);
-    if (pos === 'RB' && (p.targets ?? 0) >= 5 && (p.rush_att ?? 0) >= 10) t.push(['DUAL THREAT','#2DD4BF']);
-    if ((pos === 'WR' || pos === 'TE') && (p.targets ?? 0) >= 1 && ((p.rec_yds ?? 0) / Math.max(1, p.rec ?? 1)) >= 14) t.push(['DEEP THREAT','#A78BFA']);
-    if (pos === 'WR' && (p.targets ?? 0) >= 9) t.push(['WR1','#93E06E']);
+    if ((p.rush_att ?? 0) >= 15) t.push(['BELLCOW','#FF9A3D']);
+    if ((p.targets ?? 0) >= 8) t.push(['TARGET HOG','#3DD9F0']);
+    if ((p.fpts ?? 0) >= 15) t.push(['FANTASY STUD','#FFE24A']);
+    if ((p.td_prob ?? 0) >= .5) t.push(['RED ZONE THREAT','#FF6B84']);
+    if (pos === 'RB' && (p.td_prob ?? 0) >= .55) t.push(['GOAL LINE BACK','#FF3D5C']);
+    if (pos === 'RB' && (p.targets ?? 0) >= 5 && (p.rush_att ?? 0) >= 10) t.push(['DUAL THREAT','#3DE8D0']);
+    if ((pos === 'WR' || pos === 'TE') && (p.targets ?? 0) >= 1 && ((p.rec_yds ?? 0) / Math.max(1, p.rec ?? 1)) >= 14) t.push(['DEEP THREAT','#9B7CFF']);
+    if (pos === 'WR' && (p.targets ?? 0) >= 9) t.push(['WR1','#3DF08B']);
   }
   return t.slice(0,3).map(([n,c]) =>
     `<span class="tag" style="color:${c};background:${c}1C;border:1px solid ${c}44">${n}</span>`).join('');
@@ -630,6 +630,24 @@ function nflConfidence(p, isQB){
       ? [['CMP%','comp_pct',1], ['YDS','pass_yds',0], ['TD','pass_td',1], ['INT','int',1], ['RATE','rating',0]]
       : [['TGT','targets',1], ['REC','rec',1], ['RC YD','rec_yds',0], ['ATT','rush_att',1],
          ['RU YD','rush_yds',0], ['TD%','td_prob',0], ['FPTS','fpts',1]]);
+
+    // nflverse advanced metrics. Shown with the factor they produced, so the
+    // card explains why a projection moved instead of just showing the result.
+    const a = p.adv;
+    const advRow = !a ? '' : (() => {
+      const f = isQB ? p.eff_factor : p.opp_factor;
+      const items = isQB
+        ? [['EPA+CPOE', (a.dakota ?? 0).toFixed(3)], ['PASS EPA', (a.pass_epa ?? 0).toFixed(1)],
+           ['SACKS', (a.sacks_taken ?? 0).toFixed(1)]]
+        : [['WOPR', (a.wopr ?? 0).toFixed(2)], ['TGT SHARE', ((a.target_share ?? 0)*100).toFixed(0) + '%'],
+           ['REC EPA', (a.rec_epa ?? 0).toFixed(1)], ['AIR YDS', (a.air_yards ?? 0).toFixed(0)]];
+      const chips = items.map(([l,v]) =>
+        `<span class="adv-chip"><i>${l}</i><b>${v}</b></span>`).join('');
+      const dir = f > 1.001 ? 'up' : f < 0.999 ? 'dn' : '';
+      const fx = f == null ? '' :
+        `<span class="adv-factor ${dir}">${f > 1 ? '+' : ''}${((f-1)*100).toFixed(1)}%</span>`;
+      return `<div class="adv-row"><span class="adv-lab">nflverse \u00b7 ${a.weeks}w</span>${chips}${fx}</div>`;
+    })();
     const cells = cellDefs.map(([l,k,dp]) => {
       let v = p[k]; if (k === 'td_prob') v = (v ?? 0) * 100;
       const cls = tileClass(k, p[k], poolArr);
@@ -675,6 +693,7 @@ function nflConfidence(p, isQB){
       <div class="d-match">vs ${teamChip(p.opp)}${p.matchup_grade ? gradeChip(p.matchup_grade) : ''}${weatherChip(p)} ${srcPill}</div>
       <div class="d-sec">PROJECTED LINE vs ${p.opp}</div>
       <div class="d-line">${cells}</div>
+      ${advRow ? `<div class="d-sec">ADVANCED</div>${advRow}` : ''}
       <div class="d-sec">RANGE OF OUTCOMES · ${cfg.lab}</div>
       <div class="fmc">
         <div class="fmc-cell"><div class="v">${fmtN(floor)}</div><div class="l">FLOOR</div></div>
