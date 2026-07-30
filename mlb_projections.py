@@ -252,6 +252,91 @@ def platoon_factor(bat_side, pitch_hand):
     return 1.06              # opposite-handed: batter advantaged
 
 
+# ---------------------------------------------------------------------------
+# Park RUN factors
+#
+# PARK_FACTORS above are HOME RUN factors and are applied only to hr_rate.
+# Nothing has ever adjusted projected RUNS for the park, which is the larger
+# effect: Coors plays around 1.15 on runs and Petco around 0.92. At ~1.3 win%
+# points per 0.1 run that spread is worth roughly 5 win% points.
+#
+# Every venue below is 1.00 -- deliberately neutral, so this changes NOTHING
+# until real values are pasted in. I am not typing park factors from memory
+# and presenting them as authoritative.
+#
+# Source: FanGraphs, 2023-2025 average runs park factor, index / 100.
+# Three years balances sample against staleness -- parks physically change
+# (Camden's left field moved in 2022) and the ball itself has changed, so a
+# ten-year figure describes a stadium that no longer exists.
+#
+# Two carry a caveat:
+#   Sutter Health Park  - the A's temporary minor-league home, tiny sample.
+#   Tropicana Field     - the Rays were displaced after the 2024 damage, so
+#                         this may not describe where they actually play.
+# Both are left at their sourced value; revisit if either looks wrong in
+# results. Anything unknown stays 1.00 -- a neutral factor is a known
+# unknown, a borrowed one is an error in every projection at that venue.
+# ---------------------------------------------------------------------------
+PARK_RUN_FACTORS = {
+    "American Family Field": 0.98,
+    "Angel Stadium": 1.01,
+    "Busch Stadium": 0.99,
+    "Chase Field": 1.00,
+    "Citi Field": 0.98,
+    "Citizens Bank Park": 1.02,
+    "Comerica Park": 1.03,
+    "Coors Field": 1.14,
+    "Daikin Park": 1.00,
+    "Dodger Stadium": 0.98,
+    "Fenway Park": 1.02,
+    "Globe Life Field": 0.97,
+    "Great American Ball Park": 1.02,
+    "Kauffman Stadium": 1.03,
+    "Nationals Park": 1.00,
+    "Oracle Park": 0.96,
+    "Oriole Park at Camden Yards": 0.98,
+    "PNC Park": 1.02,
+    "Petco Park": 0.97,
+    "Progressive Field": 1.00,
+    "Rate Field": 0.98,
+    "Rogers Centre": 1.00,
+    "Sutter Health Park": 1.05,
+    "T-Mobile Park": 0.92,
+    "Target Field": 1.03,
+    "Tropicana Field": 1.02,
+    "Truist Park": 1.00,
+    "Wrigley Field": 0.96,
+    "Yankee Stadium": 0.99,
+    "loanDepot park": 1.02,
+}
+
+
+def get_park_run_factor(venue):
+    """Run-environment multiplier for a venue. 1.0 when unknown or unset."""
+    return PARK_RUN_FACTORS.get(venue, 1.0)
+
+
+# ---------------------------------------------------------------------------
+# Umpire run factors
+#
+# The home plate umpire is already pulled from the officials list, stored on
+# the game and shown on the card -- and has never touched a projection. Zone
+# size moves run environment by a few percent between the tightest and most
+# generous umpires, which is small per game but real and consistently mispriced.
+#
+# Neutral until filled in. Source: Umpire Scorecards (umpscorecards.com)
+# publishes per-umpire runs-above-average; convert to a multiplier around 1.0.
+# ---------------------------------------------------------------------------
+UMPIRE_RUN_FACTORS = {}
+
+
+def get_umpire_run_factor(name):
+    """Run multiplier for a home plate umpire. 1.0 when unknown or unset."""
+    if not name:
+        return 1.0
+    return UMPIRE_RUN_FACTORS.get(name.strip(), 1.0)
+
+
 def get_park_factor(venue, bat_side):
     """HR park factor multiplier for a given venue and batter handedness.
     Falls back to 1.0 (neutral) for unknown venues -- printed in output
@@ -824,7 +909,7 @@ def estimate_runs_rbi(lineup_projs):
     return lineup_projs
 
 
-def estimate_team_runs(lineup_projs, is_home=False):
+def estimate_team_runs(lineup_projs, is_home=False, venue=None, umpire=None):
     """Projected runs for one side.
 
     `is_home` applies MLB home-field advantage, which the model previously had
@@ -832,6 +917,10 @@ def estimate_team_runs(lineup_projs, is_home=False):
     conversion running at ~1.3 win% points per 0.1 run, that is worth about
     0.15 runs a side. It is applied symmetrically (home up, away down) so the
     game total is unchanged and only the split moves.
+
+    `venue` and `umpire` scale the run environment. Both default to 1.0, so
+    until real factors are filled in they are no-ops -- the plumbing is here
+    and tested, the numbers are yours to supply.
     """
     if not lineup_projs:
         base = 4.3
@@ -840,6 +929,8 @@ def estimate_team_runs(lineup_projs, is_home=False):
         league_avg_quality = (LEAGUE_AVG_XWOBA / 0.450) * 100
         base = 4.3 * (avg_quality / league_avg_quality)
     base *= HOME_FIELD_RUN_MULT if is_home else (2.0 - HOME_FIELD_RUN_MULT)
+    base *= get_park_run_factor(venue)
+    base *= get_umpire_run_factor(umpire)
     return max(1.5, min(12, base))
 
 
@@ -1325,8 +1416,10 @@ def print_game(game, bat_df, pit_df, odds_lines, all_standouts):
                   f"{proj['expected_runs']:>5.2f}{proj['expected_rbi']:>5.2f}{proj['expected_hrr']:>8.2f}{proj['hr_prob']*100:>5.1f}%{flag}")
             all_standouts.append({"name": name, "team": label, "bat_side": bat_side, **proj})
 
-    away_runs = estimate_team_runs([p for p in away_projs if p is not None], is_home=False)
-    home_runs = estimate_team_runs([p for p in home_projs if p is not None], is_home=True)
+    away_runs = estimate_team_runs([p for p in away_projs if p is not None], is_home=False,
+                                   venue=venue, umpire=home_plate_ump)
+    home_runs = estimate_team_runs([p for p in home_projs if p is not None], is_home=True,
+                                   venue=venue, umpire=home_plate_ump)
     away_win = win_probability(away_runs, home_runs)
     home_win = 1 - away_win
 
