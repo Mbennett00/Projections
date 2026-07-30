@@ -312,13 +312,13 @@ function nbaConfidence(p){
 
 function tagsFor(p){
   const t = [];
-  if ((p.pts ?? 0) >= 25) t.push(['BUCKET GETTER','#93E06E']);
-  if ((p.tpm ?? 0) >= 3.0) t.push(['SNIPER','#FDE047']);
-  if ((p.ast ?? 0) >= 7) t.push(['FLOOR GENERAL','#A78BFA']);
-  if ((p.reb ?? 0) >= 10) t.push(['GLASS CLEANER','#2DD4BF']);
-  if ((p.pra ?? 0) >= 40) t.push(['TRIPLE THREAT','#FB923C']);
-  if ((p.min ?? 0) >= 34) t.push(['WORKHORSE','#8A8D93']);
-  if ((p.usage ?? 0) >= 0.30) t.push(['HIGH USAGE','#F87171']);
+  if ((p.pts ?? 0) >= 25) t.push(['BUCKET GETTER','#3DF08B']);
+  if ((p.tpm ?? 0) >= 3.0) t.push(['SNIPER','#FFE24A']);
+  if ((p.ast ?? 0) >= 7) t.push(['FLOOR GENERAL','#9B7CFF']);
+  if ((p.reb ?? 0) >= 10) t.push(['GLASS CLEANER','#3DE8D0']);
+  if ((p.pra ?? 0) >= 40) t.push(['TRIPLE THREAT','#FF9A3D']);
+  if ((p.min ?? 0) >= 34) t.push(['WORKHORSE','#3DD9F0']);
+  if ((p.usage ?? 0) >= 0.30) t.push(['HIGH USAGE','#FF6B84']);
   return t.slice(0,3).map(([n,c]) =>
     `<span class="tag" style="color:${c};background:${c}1C;border:1px solid ${c}44">${n}</span>`).join('');
 }
@@ -554,6 +554,13 @@ function renderPlays(d){
       ${readLine(p, conf)}
       <div class="d-sec">MATCHUP</div>
       <div class="d-match">vs ${teamChip(p.opp)}${p.matchup_grade ? gradeChip(p.matchup_grade) : ''} ${gPill}${p.venue ? `<span class="src-pill">${esc(p.venue)}</span>` : ''}</div>
+      ${p.injury_impact ? `<div class="d-sec">INJURY IMPACT</div>
+      <div class="adv-row">
+        <span class="adv-lab">${esc(p.injury_impact.out.join(', '))} out</span>
+        <span class="adv-chip"><i>MIN</i><b>${p.injury_impact.min_from} \u2192 ${p.injury_impact.min_to}</b></span>
+        <span class="adv-chip"><i>USAGE</i><b>${(p.injury_impact.usage_from*100).toFixed(0)}% \u2192 ${(p.injury_impact.usage_to*100).toFixed(0)}%</b></span>
+        <span class="adv-factor ${p.injury_impact.usage_delta>0?'up':p.injury_impact.usage_delta<0?'dn':''}">${p.injury_impact.usage_delta>0?'+':''}${(p.injury_impact.usage_delta*100).toFixed(1)}%</span>
+      </div>` : ''}
       <div class="d-sec">PROJECTED LINE vs ${p.opp}</div>
       <div class="d-line">${cells}</div>
       <div class="d-sec">RANGE OF OUTCOMES · ${statFilter}</div>
