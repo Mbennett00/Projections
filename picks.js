@@ -60,7 +60,56 @@ const Picks = (() => {
   function onChange(fn){ subs.push(fn); }
   function notify(){ subs.forEach(fn => { try { fn(); } catch(e){} }); }
 
-  return { all, log, setResult, remove, clearAll, stats, hasKey, removeByKey, count, pending, onChange, KEY };
+  // ── backup / restore ──────────────────────────────────────────────────
+  // Picks live in this browser's localStorage. A repo deploy never touches
+  // them -- but clearing website data does, and that's exactly what's needed
+  // to force a stuck service worker through. So the history has to be
+  // exportable, or a routine cache clear costs you the record.
+
+  function exportAll(){
+    return JSON.stringify({
+      format: "projex-picks", version: 1,
+      exported_at: new Date().toISOString(),
+      picks: all(),
+    }, null, 2);
+  }
+
+  /**
+   * Merge a backup into what's already here.
+   *
+   * Merge, never replace. Restoring onto a device that has since logged new
+   * picks must not silently discard them -- that would turn a safety net into
+   * a second way to lose data. Existing entries win on conflict, because the
+   * live copy is likelier to carry settled results.
+   */
+  function importAll(text){
+    let data;
+    try { data = JSON.parse(text); }
+    catch (e){ return { ok:false, error:"That file isn't valid JSON." }; }
+
+    const incoming = Array.isArray(data) ? data
+                   : Array.isArray(data && data.picks) ? data.picks : null;
+    if (!incoming) return { ok:false, error:"No picks found in that file." };
+
+    const current = all();
+    const seen = new Set(current.map(p => p.id));
+    let added = 0, skipped = 0;
+    for (const p of incoming){
+      if (!p || typeof p !== "object" || !p.label){ skipped++; continue; }
+      const id = p.id || ("p_" + Math.random().toString(36).slice(2, 10));
+      if (seen.has(id)){ skipped++; continue; }
+      seen.add(id);
+      current.push({ result: null, loggedAt: new Date().toISOString(), ...p, id });
+      added++;
+    }
+    current.sort((a, b) => String(b.loggedAt || "").localeCompare(String(a.loggedAt || "")));
+    save(current);
+    notify();
+    return { ok:true, added, skipped, total: current.length };
+  }
+
+  return { all, log, setResult, remove, clearAll, stats, hasKey, removeByKey,
+           count, pending, onChange, exportAll, importAll, KEY };
 })();
 
 
