@@ -1,5 +1,5 @@
 /* ===========================================================================
-   theme.css — one palette for every page.
+   theme.css â€” one palette for every page.
 
    Loaded AFTER each page's own <style>, so it re-skins by overriding design
    tokens rather than replacing component rules. The boards carry a lot of
@@ -9,7 +9,7 @@
    Direction: neon on near-black, Sleeper-adjacent. One gradient (--sheen)
    runs the whole product and is allowed to show itself in only a few places.
    Each accent is a saturated ink on a low-alpha bed of the same hue with a
-   tight outer glow — never a flood fill, which smears at this density.
+   tight outer glow â€” never a flood fill, which smears at this density.
 
    Token names differ between the hub and the boards for historical reasons,
    so both sets are mapped onto the same underlying palette.
@@ -267,20 +267,30 @@ body::after{
 }
 .board-logo{width:18px !important; height:18px !important}
 
-/* 2. Player prop badges in neon, matching the slip and the game chips. */
-.play .tag, .play .rk, .pp-foot .tag, .pp-foot .rk{
+/* 2. Player prop badges.
+   These already carried a per-badge colour system -- yellow for elite, red for
+   scoring threat, orange for volume, teal for efficiency, violet for role,
+   green for upside. An earlier pass here forced them all to one hue with
+   !important and destroyed that. The hues now come from the boards (pushed to
+   neon values there); this only adds the glow, keyed to each badge's OWN
+   colour via currentColor so every one lights in its own hue. */
+.play .tag, .pp-foot .tag{
   border-radius:5px !important;
   font-weight:700 !important;
-  color:var(--neon-cyan) !important;
-  background:rgba(61,217,240,.10) !important;
-  border:1px solid rgba(61,217,240,.38) !important;
-  box-shadow:0 0 10px rgba(61,217,240,.16);
+  box-shadow:0 0 11px -2px currentColor;
 }
-.pp-foot .tag.hot, .play .tag.hot, .pp-foot .rk.on, .play .rk.on{
+.play .rk, .pp-foot .rk{
+  border-radius:5px !important;
+  font-weight:700 !important;
+  color:var(--paper-mute);
+  background:rgba(142,147,163,.10);
+  border:1px solid rgba(142,147,163,.30);
+}
+.play .rk.on, .pp-foot .rk.on, .play .rk.top, .pp-foot .rk.top{
   color:var(--neon-green) !important;
   background:rgba(61,240,139,.11) !important;
   border-color:rgba(61,240,139,.42) !important;
-  box-shadow:0 0 12px rgba(61,240,139,.22);
+  box-shadow:0 0 12px -2px var(--neon-green);
 }
 .pp-foot .news, .play .news{
   color:var(--neon-cyan) !important;
@@ -306,4 +316,45 @@ header #slip-bar + .refresh, header #slip-bar + #hub-refresh{margin-left:8px}
   font-family:'IBM Plex Mono',monospace; font-size:9.5px; font-weight:700;
   color:var(--neon-cyan); background:rgba(61,217,240,.10);
   border-color:rgba(61,217,240,.30);
+}
+
+
+/* nflverse advanced metrics on the player card. Each chip is a label and a
+   value; the trailing pill is the adjustment those metrics produced, so the
+   card shows the input AND its effect rather than a bare number. */
+.adv-row{
+  display:flex; align-items:center; gap:7px; flex-wrap:wrap;
+  padding:9px 0 2px;
+}
+.adv-lab{
+  font-size:8px; font-weight:700; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--paper-faint); font-family:'IBM Plex Mono',monospace;
+}
+.adv-chip{
+  display:inline-flex; align-items:baseline; gap:5px;
+  padding:4px 8px; border-radius:6px;
+  background:rgba(61,217,240,.08); border:1px solid rgba(61,217,240,.28);
+}
+.adv-chip i{
+  font-style:normal; font-size:8px; font-weight:700; letter-spacing:.09em;
+  text-transform:uppercase; color:var(--paper-mute);
+  font-family:'IBM Plex Mono',monospace;
+}
+.adv-chip b{
+  font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:11.5px;
+  font-variant-numeric:tabular-nums; color:var(--neon-cyan);
+}
+.adv-factor{
+  margin-left:auto; font-family:'IBM Plex Mono',monospace; font-weight:800;
+  font-size:11px; padding:4px 8px; border-radius:6px;
+  color:var(--paper-mute); background:rgba(142,147,163,.10);
+  border:1px solid rgba(142,147,163,.28);
+}
+.adv-factor.up{
+  color:var(--neon-green); background:rgba(61,240,139,.11);
+  border-color:rgba(61,240,139,.42); box-shadow:0 0 12px -2px var(--neon-green);
+}
+.adv-factor.dn{
+  color:var(--neon-red); background:rgba(255,78,106,.11);
+  border-color:rgba(255,78,106,.42); box-shadow:0 0 12px -2px var(--neon-red);
 }
