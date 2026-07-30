@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -64,8 +65,6 @@ header{display:flex; align-items:center; justify-content:space-between; padding:
 }
 .hub-status.error{ color:#E0A64A; background:rgba(224,166,74,.1); border-color:rgba(224,166,74,.3) }
 
-/* ---------- storylines strip ---------- */
-#storylines{margin-bottom:16px}
 .story-label{font-size:11px; font-weight:700; color:var(--mute); letter-spacing:.1em; text-transform:uppercase; font-family:'IBM Plex Mono',monospace; margin-bottom:8px}
 .story-row{display:flex; gap:8px; overflow-x:auto; padding-bottom:2px; scrollbar-width:none}
 .story-row::-webkit-scrollbar{display:none}
@@ -167,7 +166,6 @@ footer b{background:var(--grad);-webkit-background-clip:text;background-clip:tex
 
 <div id="hub-status" class="hub-status" style="display:none"></div>
 
-<div id="storylines" style="display:none"></div>
 
 <div class="kicker-row">
   <div class="kicker">Model Boards</div>
@@ -329,40 +327,6 @@ function renderNextStart(sport){
   `;
 }
 
-// Today's Storylines -- pulls Weather + Revenge Game flags already computed
-// server-side (weather_note / revenge on each game) and surfaces the most
-// interesting 3-5 as chips. No new data needed for these two; other
-// storyline types (injuries, B2B, travel) will slot in the same way once
-// their backend fields exist.
-function buildStorylines(bySport){
-  const chips = [];
-  for (const [sport, games] of Object.entries(bySport)){
-    for (const g of games){
-      const matchup = `${abbr(sport, g.away_team)} @ ${abbr(sport, g.home_team)}`;
-      if (g.weather_note){
-        const cond = /rain|precip|snow/i.test(g.weather_note) ? '🌧️' : /wind/i.test(g.weather_note) ? '💨' : '☀️';
-        chips.push({ icon: cond, text: `${g.weather_note}: ${matchup}`, weight: 1 });
-      }
-      if (g.revenge && g.revenge.team){
-        chips.push({ icon: '🔥', text: `${shortName(g.revenge.team)} revenge game (lost ${g.revenge.score} on ${g.revenge.last_meeting_date})`, weight: 2 });
-      }
-    }
-  }
-  chips.sort((a, b) => b.weight - a.weight);
-  return chips.slice(0, 5);
-}
-
-function renderStorylines(chips){
-  const wrap = document.getElementById('storylines');
-  if (!chips.length){ wrap.style.display = 'none'; return; }
-  wrap.style.display = 'block';
-  wrap.innerHTML = `
-    <div class="story-label">Today's Storylines</div>
-    <div class="story-row">
-      ${chips.map(c => `<div class="story-chip">${c.icon} ${c.text}</div>`).join('')}
-    </div>`;
-}
-
 async function loadHub(){
   const bySport = {};
   await Promise.all(['mlb','nfl','nhl','nba'].map(async s => {
@@ -432,7 +396,6 @@ async function loadHub(){
       document.getElementById(s+'-updated-alt').textContent = updatedTxt;
     }
   }));
-  renderStorylines(buildStorylines(bySport));
 }
 
 mountSlipBar('./picks/');
