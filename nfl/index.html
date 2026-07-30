@@ -578,6 +578,29 @@ function nflConfidence(p, isQB){
   return {score, factors: f};
 }
 
+  // Official injury report: designation, body part, and practice participation.
+  // Practice is the part ESPN doesn't carry -- a Questionable who did not
+  // practice all week is a different bet from one who went full.
+  const practiceFlag = inj => {
+    if (!inj || !inj.practice) return null;
+    const t = inj.practice.toLowerCase();
+    if (t.includes('did not') || t.includes('dnp')) return ['DNP', '#FF4E6A'];
+    if (t.includes('limited')) return ['LTD', '#FFC65C'];
+    if (t.includes('full')) return ['FULL', '#3DF08B'];
+    return null;
+  };
+  const injuryTag = p => {
+    const i = p.injury;
+    if (!i || !(i.status || i.injury)) return '';
+    const st = (i.status || '').toUpperCase();
+    const col = st.startsWith('OUT') ? '#FF4E6A'
+              : st.startsWith('DOUB') ? '#FF9A3D'
+              : st.startsWith('QUES') ? '#FFC65C' : '#8E93A3';
+    const pf = practiceFlag(i);
+    const label = [st || 'LISTED', i.injury].filter(Boolean).join(' \u00b7 ');
+    return `<span class="tag" style="color:${col};background:${col}1A;border:1px solid ${col}55" title="Official injury report, week ${i.week}">${esc(label)}</span>` +
+      (pf ? `<span class="tag" style="color:${pf[1]};background:${pf[1]}14;border:1px solid ${pf[1]}44" title="Practice participation">${pf[0]}</span>` : '');
+  };
   const statusTag = p => {
     if (p.status === 'Q') return `<span class="tag" style="color:#FBBF24;background:#FBBF241C;border:1px solid #FBBF2444">QUESTIONABLE</span>`;
     if (p.status === 'D') return `<span class="tag" style="color:#FB923C;background:#FB923C1C;border:1px solid #FB923C44">DOUBTFUL</span>`;
@@ -716,7 +739,7 @@ function nflConfidence(p, isQB){
     // Matches a leg on the bet slip: identity left, number right, action last.
     // Tags, news and status moved into one footer row so the top line keeps a
     // fixed shape instead of wrapping unpredictably.
-    const foot = [statusTag(p), nflTags(p, cfg.pool), newsLine(p)].filter(Boolean).join('');
+    const foot = [injuryTag(p), statusTag(p), nflTags(p, cfg.pool), newsLine(p)].filter(Boolean).join('');
     return `<div class="play" data-key="${esc(key)}">
       <div class="pp-top">
         <span class="rank ${i<3?'r'+(i+1):''}">${i+1}</span>
