@@ -657,19 +657,23 @@ function nflConfidence(p, isQB){
     // nflverse advanced metrics. Shown with the factor they produced, so the
     // card explains why a projection moved instead of just showing the result.
     const a = p.adv;
+    // One row, no wrapping. Labels sit above values inside each chip so four
+    // metrics plus the factor fit a phone width; the source and sample size
+    // moved into the section heading rather than eating a chip's worth of room.
+    const advLabel = !a ? '' : `ADVANCED \u00b7 nflverse ${a.weeks}w`;
     const advRow = !a ? '' : (() => {
       const f = isQB ? p.eff_factor : p.opp_factor;
       const items = isQB
         ? [['EPA+CPOE', (a.dakota ?? 0).toFixed(3)], ['PASS EPA', (a.pass_epa ?? 0).toFixed(1)],
            ['SACKS', (a.sacks_taken ?? 0).toFixed(1)]]
-        : [['WOPR', (a.wopr ?? 0).toFixed(2)], ['TGT SHARE', ((a.target_share ?? 0)*100).toFixed(0) + '%'],
-           ['REC EPA', (a.rec_epa ?? 0).toFixed(1)], ['AIR YDS', (a.air_yards ?? 0).toFixed(0)]];
+        : [['WOPR', (a.wopr ?? 0).toFixed(2)], ['TGT%', ((a.target_share ?? 0)*100).toFixed(0)],
+           ['EPA', (a.rec_epa ?? 0).toFixed(1)], ['AIR', (a.air_yards ?? 0).toFixed(0)]];
       const chips = items.map(([l,v]) =>
         `<span class="adv-chip"><i>${l}</i><b>${v}</b></span>`).join('');
       const dir = f > 1.001 ? 'up' : f < 0.999 ? 'dn' : '';
       const fx = f == null ? '' :
         `<span class="adv-factor ${dir}">${f > 1 ? '+' : ''}${((f-1)*100).toFixed(1)}%</span>`;
-      return `<div class="adv-row"><span class="adv-lab">nflverse \u00b7 ${a.weeks}w</span>${chips}${fx}</div>`;
+      return `<div class="adv-row">${chips}${fx}</div>`;
     })();
     const cells = cellDefs.map(([l,k,dp]) => {
       let v = p[k]; if (k === 'td_prob') v = (v ?? 0) * 100;
@@ -716,7 +720,7 @@ function nflConfidence(p, isQB){
       <div class="d-match">vs ${teamChip(p.opp)}${p.matchup_grade ? gradeChip(p.matchup_grade) : ''}${weatherChip(p)} ${srcPill}</div>
       <div class="d-sec">PROJECTED LINE vs ${p.opp}</div>
       <div class="d-line">${cells}</div>
-      ${advRow ? `<div class="d-sec">ADVANCED</div>${advRow}` : ''}
+      ${advRow ? `<div class="d-sec">${advLabel}</div>${advRow}` : ''}
       <div class="d-sec">RANGE OF OUTCOMES · ${cfg.lab}</div>
       <div class="fmc">
         <div class="fmc-cell"><div class="v">${fmtN(floor)}</div><div class="l">FLOOR</div></div>
