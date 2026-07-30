@@ -1,6 +1,6 @@
 {
   "date": "2026-07-30",
-  "generated_at": "2026-07-30 16:41 UTC",
+  "generated_at": "2026-07-30 20:06 UTC",
   "games": [
     {
       "away_team": "Carolina Panthers",
@@ -121,6 +121,23 @@
           "rush_att": 0.0,
           "td_prob": 0.33,
           "fpts": 13.3,
+          "adv": null,
+          "opp_factor": 1.0,
+          "injury": null,
+          "src": "form"
+        },
+        {
+          "name": "Jimmy Horn Jr.",
+          "pos": "WR",
+          "player_id": "4708486",
+          "matchup_grade": null,
+          "targets": 1.2,
+          "rec": 0.8,
+          "rec_yds": 9.8,
+          "rush_yds": 5.7,
+          "rush_att": 0.6,
+          "td_prob": 0.08,
+          "fpts": 2.8,
           "adv": null,
           "opp_factor": 1.0,
           "injury": null,
