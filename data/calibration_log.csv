@@ -3,18 +3,18 @@ date,sport,away,home,start,model_away_win,book_away_win,ml_away,ml_home,edge_pts
 2026-07-29,mlb,Arizona Diamondbacks,Pittsburgh Pirates,2026-07-29T16:35:00Z,0.539,0.8642,-1000,600,-32.52,3,0,away,Final,2026-07-29T13:50:04+00:00,2026-07-29T19:02:22+00:00
 2026-07-29,mlb,Toronto Blue Jays,Washington Nationals,2026-07-29T17:05:00Z,0.3124,0.7185,-320,235,-40.61,5,2,away,Final,2026-07-29T13:50:04+00:00,2026-07-29T21:12:20+00:00
 2026-07-29,mlb,Baltimore Orioles,Detroit Tigers,2026-07-29T17:10:00Z,0.4681,0.0968,870,-2500,37.13,10,9,away,Final,2026-07-29T13:50:04+00:00,2026-07-29T21:12:20+00:00
-2026-07-29,mlb,Atlanta Braves,New York Mets,2026-07-29T17:10:00Z,0.4765,0.6126,-176,148,-13.61,2,3,home,Final,2026-07-29T13:50:04+00:00,2026-07-29T21:12:20+00:00
-2026-07-29,mlb,Milwaukee Brewers,San Francisco Giants,2026-07-29T19:45:00Z,0.4828,0.3147,200,-265,14.42,,,,Live,2026-07-29T13:50:04+00:00,
-2026-07-29,mlb,Colorado Rockies,San Diego Padres,2026-07-29T20:10:00Z,0.4436,0.0531,1700,-10000,39.05,,,,Live,2026-07-29T13:50:04+00:00,
+2026-07-29,mlb,Atlanta Braves,New York Mets,2026-07-29T17:10:00Z,0.4765,0.5784,-158,124,-10.19,2,3,home,Final,2026-07-29T13:50:04+00:00,2026-07-29T21:12:20+00:00
+2026-07-29,mlb,Milwaukee Brewers,San Francisco Giants,2026-07-29T19:45:00Z,0.4799,0.3147,200,-265,14.42,3,16,home,Final,2026-07-29T13:50:04+00:00,2026-07-30T00:16:19+00:00
+2026-07-29,mlb,Colorado Rockies,San Diego Padres,2026-07-29T20:10:00Z,0.4493,0.0531,1700,-10000,39.05,1,3,home,Final,2026-07-29T13:50:04+00:00,2026-07-30T00:16:19+00:00
 2026-07-29,mlb,Texas Rangers,Tampa Bay Rays,2026-07-29T22:40:00Z,0.4636,0.463,108,-126,0.06,,,,Live,2026-07-29T13:50:04+00:00,
-2026-07-29,mlb,Cleveland Guardians,Cincinnati Reds,2026-07-29T23:10:00Z,0.419,0.5545,-136,116,-13.55,,,,Preview,2026-07-29T13:50:04+00:00,
-2026-07-29,mlb,Atlanta Braves,New York Mets,2026-07-29T23:10:00Z,0.4522,0.6126,-176,148,-16.04,,,,Preview,2026-07-29T13:50:04+00:00,
-2026-07-29,mlb,New York Yankees,Chicago White Sox,2026-07-29T23:40:00Z,0.3618,0.4911,-104,-112,-12.93,,,,Preview,2026-07-29T13:50:04+00:00,
-2026-07-29,mlb,Kansas City Royals,Minnesota Twins,2026-07-29T23:40:00Z,0.4664,0.4455,116,-136,2.09,,,,Preview,2026-07-29T13:50:04+00:00,
-2026-07-29,mlb,Chicago Cubs,St. Louis Cardinals,2026-07-29T23:45:00Z,0.4529,0.4758,102,-120,-2.29,,,,Preview,2026-07-29T13:50:04+00:00,
-2026-07-29,mlb,Houston Astros,Los Angeles Angels,2026-07-30T01:38:00Z,,,,,,,,,Preview,2026-07-29T13:50:04+00:00,
-2026-07-29,mlb,Boston Red Sox,Athletics,2026-07-30T01:40:00Z,,,,,,,,,Preview,2026-07-29T13:50:04+00:00,
-2026-07-29,mlb,Seattle Mariners,Los Angeles Dodgers,2026-07-30T02:10:00Z,,,,,,,,,Preview,2026-07-29T13:50:04+00:00,
+2026-07-29,mlb,Cleveland Guardians,Cincinnati Reds,2026-07-29T23:10:00Z,0.419,0.4628,104,-132,-4.38,,,,Live,2026-07-29T13:50:04+00:00,
+2026-07-29,mlb,Atlanta Braves,New York Mets,2026-07-29T23:10:00Z,0.4522,0.5784,-158,124,-12.62,,,,Live,2026-07-29T13:50:04+00:00,
+2026-07-29,mlb,New York Yankees,Chicago White Sox,2026-07-29T23:40:00Z,0.3618,0.4911,-104,-112,-12.93,,,,Live,2026-07-29T13:50:04+00:00,
+2026-07-29,mlb,Kansas City Royals,Minnesota Twins,2026-07-29T23:40:00Z,0.4664,0.4455,116,-136,2.09,,,,Live,2026-07-29T13:50:04+00:00,
+2026-07-29,mlb,Chicago Cubs,St. Louis Cardinals,2026-07-29T23:45:00Z,0.4529,0.4758,102,-120,-2.29,,,,Live,2026-07-29T13:50:04+00:00,
+2026-07-29,mlb,Houston Astros,Los Angeles Angels,2026-07-30T01:38:00Z,0.384,0.5507,-134,114,-16.67,,,,Preview,2026-07-29T13:50:04+00:00,
+2026-07-29,mlb,Boston Red Sox,Athletics,2026-07-30T01:40:00Z,0.4696,0.589,-158,134,-11.94,,,,Preview,2026-07-29T13:50:04+00:00,
+2026-07-29,mlb,Seattle Mariners,Los Angeles Dodgers,2026-07-30T02:10:00Z,0.3998,0.4176,130,-154,-1.78,,,,Preview,2026-07-29T13:50:04+00:00,
 2026-07-29,nfl,Carolina Panthers,Arizona Cardinals,2026-08-07T00:00Z,0.5,,,,,,,,Preview,2026-07-29T13:50:04+00:00,
 2026-07-29,nfl,New England Patriots,Seattle Seahawks,2026-09-10T00:20Z,0.339,0.3387,184.0,-220.0,0.03,,,,Preview,2026-07-29T18:03:36+00:00,
 2026-07-29,nfl,San Francisco 49ers,Los Angeles Rams,2026-09-11T00:35Z,0.348,0.3485,176.0,-210.0,-0.05,,,,Preview,2026-07-29T18:03:36+00:00,
