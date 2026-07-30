@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -67,10 +68,12 @@ header{display:flex;align-items:center;justify-content:space-between;gap:10px;pa
    clip a background to glyphs renders `color:transparent` literally and the
    text disappears. Colour first, gradient only where it's supported. */
 .wordmark span{color:var(--win)}
+.head-actions{display:flex;align-items:center;gap:6px}
 .clear-btn{
   font-size:10.5px;font-weight:600;color:var(--faint);background:transparent;border:1px solid var(--line);
-  border-radius:99px;padding:8px 13px;font-family:'IBM Plex Mono',monospace;cursor:pointer;
+  border-radius:99px;padding:8px 11px;font-family:'IBM Plex Mono',monospace;cursor:pointer;
 }
+#backup-btn{color:var(--pending);border-color:rgba(61,217,240,.32)}
 .clear-btn:active{transform:scale(.95)}
 
 /* record — one of only two places the gradient is allowed to show itself */
@@ -268,7 +271,12 @@ footer{margin-top:auto;text-align:center;font-size:10px;color:var(--faint);paddi
     <a class="back-btn" href="../" aria-label="Back to boards">←</a>
     <div class="wordmark">Bet <span>Slip</span></div>
   </div>
-  <button class="clear-btn" id="clear-btn">Clear all</button>
+  <div class="head-actions">
+    <button class="clear-btn" id="backup-btn" title="Download a backup of every play">Backup</button>
+    <button class="clear-btn" id="restore-btn" title="Restore from a backup file">Restore</button>
+    <button class="clear-btn" id="clear-btn">Clear</button>
+  </div>
+  <input type="file" id="restore-file" accept="application/json,.json" hidden>
 </header>
 
 <div class="record">
@@ -494,9 +502,47 @@ document.getElementById('list').addEventListener('click', e => {
   render();
 });
 
+// Backup / restore. Picks survive a deploy, but not a website-data clear --
+// and clearing is the standard fix for a stuck service worker. Without an
+// export, routine maintenance costs you the history.
+document.getElementById('backup-btn').addEventListener('click', () => {
+  const n = Picks.count();
+  if (!n){ alert('Nothing to back up yet.'); return; }
+  const blob = new Blob([Picks.exportAll()], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `projex-picks-${new Date().toISOString().slice(0,10)}.json`;
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 0);
+});
+
+document.getElementById('restore-btn').addEventListener('click', () =>
+  document.getElementById('restore-file').click());
+
+document.getElementById('restore-file').addEventListener('change', e => {
+  const file = e.target.files && e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    const r = Picks.importAll(String(reader.result || ''));
+    if (!r.ok){ alert(r.error); return; }
+    openId = null;
+    render();
+    alert(r.added
+      ? `Restored ${r.added} play${r.added===1?'':'s'}.` +
+        (r.skipped ? ` ${r.skipped} already here.` : '') +
+        `\nSlip now holds ${r.total}.`
+      : 'Everything in that file was already on your slip.');
+  };
+  reader.onerror = () => alert("Couldn't read that file.");
+  reader.readAsText(file);
+  e.target.value = '';       // let the same file be picked again
+});
+
 document.getElementById('clear-btn').addEventListener('click', () => {
   if (!Picks.all().length) return;
-  if (confirm('Clear the whole slip? This can\u2019t be undone.')){
+  if (confirm('Clear the whole slip? This can\u2019t be undone \u2014 use Backup first if you want to keep the record.')){
     Picks.clearAll();
     openId = null;
     render();
