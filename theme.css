@@ -319,34 +319,35 @@ header #slip-bar + .refresh, header #slip-bar + #hub-refresh{margin-left:8px}
 }
 
 
-/* nflverse advanced metrics on the player card. Each chip is a label and a
-   value; the trailing pill is the adjustment those metrics produced, so the
-   card shows the input AND its effect rather than a bare number. */
+/* nflverse advanced metrics on the player card.
+   Single row, no wrapping: each chip stacks its label over its value so four
+   metrics plus the adjustment fit a phone width. Wrapping put the factor pill
+   on its own line and broke the read. */
 .adv-row{
-  display:flex; align-items:center; gap:7px; flex-wrap:wrap;
+  display:flex; align-items:stretch; gap:5px; flex-wrap:nowrap;
   padding:9px 0 2px;
 }
-.adv-lab{
-  font-size:8px; font-weight:700; letter-spacing:.12em; text-transform:uppercase;
-  color:var(--paper-faint); font-family:'IBM Plex Mono',monospace;
-}
 .adv-chip{
-  display:inline-flex; align-items:baseline; gap:5px;
-  padding:4px 8px; border-radius:6px;
+  flex:1 1 0; min-width:0;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:2px; padding:6px 4px; border-radius:7px;
   background:rgba(61,217,240,.08); border:1px solid rgba(61,217,240,.28);
 }
 .adv-chip i{
-  font-style:normal; font-size:8px; font-weight:700; letter-spacing:.09em;
+  font-style:normal; font-size:7.5px; font-weight:700; letter-spacing:.08em;
   text-transform:uppercase; color:var(--paper-mute);
-  font-family:'IBM Plex Mono',monospace;
+  font-family:'IBM Plex Mono',monospace; white-space:nowrap;
+  overflow:hidden; text-overflow:ellipsis; max-width:100%;
 }
 .adv-chip b{
-  font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:11.5px;
+  font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:12px;
   font-variant-numeric:tabular-nums; color:var(--neon-cyan);
+  white-space:nowrap;
 }
 .adv-factor{
-  margin-left:auto; font-family:'IBM Plex Mono',monospace; font-weight:800;
-  font-size:11px; padding:4px 8px; border-radius:6px;
+  flex:none; align-self:stretch; display:flex; align-items:center;
+  font-family:'IBM Plex Mono',monospace; font-weight:800;
+  font-size:11px; padding:0 9px; border-radius:7px;
   color:var(--paper-mute); background:rgba(142,147,163,.10);
   border:1px solid rgba(142,147,163,.28);
 }
