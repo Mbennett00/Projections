@@ -247,3 +247,63 @@ body::after{
   background:var(--sheen) !important; font-weight:700;
   box-shadow:0 0 16px rgba(61,217,240,.26);
 }
+
+
+/* ===========================================================================
+   Late fixes
+   =========================================================================== */
+
+/* Contrast: --paper-faint measured 2.81:1 against the panel, well under the
+   4.5 WCAG needs, and it carries the game meta line and micro-stat labels at
+   8.5-10.5px. Lifted to a value that passes at those sizes. */
+:root{ --paper-faint:#7C8296; }
+
+/* 7. Sport label on the hub cards -- it names the board, so it shouldn't be
+   the smallest thing on the card. */
+.board-tag{
+  font-size:12.5px !important;
+  letter-spacing:.08em !important;
+  color:var(--paper-mute) !important;
+}
+.board-logo{width:18px !important; height:18px !important}
+
+/* 2. Player prop badges in neon, matching the slip and the game chips. */
+.play .tag, .play .rk, .pp-foot .tag, .pp-foot .rk{
+  border-radius:5px !important;
+  font-weight:700 !important;
+  color:var(--neon-cyan) !important;
+  background:rgba(61,217,240,.10) !important;
+  border:1px solid rgba(61,217,240,.38) !important;
+  box-shadow:0 0 10px rgba(61,217,240,.16);
+}
+.pp-foot .tag.hot, .play .tag.hot, .pp-foot .rk.on, .play .rk.on{
+  color:var(--neon-green) !important;
+  background:rgba(61,240,139,.11) !important;
+  border-color:rgba(61,240,139,.42) !important;
+  box-shadow:0 0 12px rgba(61,240,139,.22);
+}
+.pp-foot .news, .play .news{
+  color:var(--neon-cyan) !important;
+  text-shadow:0 0 10px rgba(61,217,240,.25);
+}
+.pp-foot .news.dn, .play .news.dn{
+  color:var(--neon-red) !important;
+  text-shadow:0 0 10px rgba(255,78,106,.25);
+}
+
+/* 1. Header pill sits with the other controls. */
+header #slip-bar{margin-left:auto}
+header #slip-bar + .refresh, header #slip-bar + #hub-refresh{margin-left:8px}
+
+/* 4. Selection art on bet slip legs. */
+.leg-art{
+  width:26px; height:26px; border-radius:7px; flex:none;
+  display:grid; place-items:center; overflow:hidden;
+  background:rgba(255,255,255,.04); border:1px solid var(--hairline);
+}
+.leg-art img{width:20px; height:20px; object-fit:contain}
+.leg-ini{
+  font-family:'IBM Plex Mono',monospace; font-size:9.5px; font-weight:700;
+  color:var(--neon-cyan); background:rgba(61,217,240,.10);
+  border-color:rgba(61,217,240,.30);
+}
