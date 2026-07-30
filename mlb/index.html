@@ -229,6 +229,7 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
 .rank-role{color:var(--muted);font-weight:500}
 @media (prefers-reduced-motion:reduce){.prob-away,.sim-fill{transition:none}.state.live,.game,.play,.hr-strip{animation:none}}
 </style>
+<link rel="stylesheet" href="../theme.css">
 </head>
 <body>
 <header>
@@ -379,10 +380,12 @@ function gameCard(g){
       <span class="t-name">${badge(ab(g[s+'_team']))}<span class="t-city">${esc(g[s+'_team'])}</span></span>
       ${num}</div>`;
   }).join('');
-  const stats = hasModel ? `<div class="g-stats">
-      <div class="stat sb"><div class="v ${g.p_over_8_5>=.6?'hot':''}">${pct(g.p_over_8_5)}</div><div class="l">O8.5</div></div>
-      <div class="stat st"><div class="v">${pct(g.p_any_hr)}</div><div class="l">ANY HR</div></div>
-      <div class="stat sy"><div class="v ${g.target_score>=70?'hot':''}">${g.target_score ?? '–'}</div><div class="l">TARGET</div></div>
+  // Three tall stat tiles became one inline row. Same numbers, a fifth of the
+  // vertical space -- which on a 16-game slate is most of a screen back.
+  const stats = hasModel ? `<div class="gc-micro">
+      <span><i>O8.5</i><b class="${g.p_over_8_5>=.6?'hot':''}">${pct(g.p_over_8_5)}</b></span>
+      <span><i>Any HR</i><b>${pct(g.p_any_hr)}</b></span>
+      <span><i>Target</i><b class="${g.target_score>=70?'hot':''}">${g.target_score ?? '–'}</b></span>
     </div>` : '';
   const cA = tc(ab(g.away_team)), cH = tc(ab(g.home_team));
   const prob = (hasModel && !done) ? `<div class="prob-track"><div class="prob-away" style="width:${g.away_win_pct*100}%;background:${cA}"></div><div class="prob-home" style="background:${cH}"></div></div>` : '';
@@ -404,14 +407,22 @@ function gameCard(g){
       logo:logo(ab(g[s+'_team'])), key:`mlb|ml|${s}|${gkey}`})).join('') +
     priced + modelTotal
   );
-  const pitch = g.away_pitcher ? `<div class="pitchers"><b>${esc(g.away_pitcher)}</b> vs <b>${esc(g.home_pitcher)}</b>${g.home_plate_ump ? ` · Ump: ${esc(g.home_plate_ump)}` : ''}</div>` : '';
+  // Venue used to sit in the header and the pitchers on their own line. Both
+  // are context, not headline, so they share one muted meta row.
+  const meta = [g.venue, g.away_pitcher ? `${g.away_pitcher} vs ${g.home_pitcher}` : '',
+                g.home_plate_ump ? `Ump: ${g.home_plate_ump}` : '']
+    .filter(Boolean).map(esc).join(' \u00b7 ');
+  const metaRow = meta ? `<div class="gc-meta">${meta}</div>` : '';
+  // Three zones: header, body, slip. Everything that was a separate stacked
+  // band is now inside the body, which is what makes a slate scannable.
   return `<div class="game ${gameDimClass(g)}">
     <div class="g-accent" style="background:${edgeAccent(g)}"></div>
-    <div class="g-top">
-      <span>${teamChip(ab(g.away_team))} @ ${teamChip(ab(g.home_team))} · ${esc(g.venue ?? '')}</span>
+    <div class="gc-head">
+      <span class="gc-match">${teamChip(ab(g.away_team))} @ ${teamChip(ab(g.home_team))}</span>
       <span class="g-badges">${stateBadge(g)}${isPregame(g) ? tierPill(g, hasModel, aFav) + edgePill(g) : ''}</span>
     </div>
-    ${rows}${prob}${stats}${pitch}${slip}</div>`;
+    <div class="gc-body">${rows}${prob}${stats}${metaRow}</div>
+    ${slip}</div>`;
 }
 
 function renderGames(d){
@@ -733,24 +744,30 @@ const chips = Object.keys(STATS).map(s =>
     const key = statFilter + '|' + p.name + '|' + p.matchup;
     const open = openSim === key;
     const prop = findPropPlay(DATA.games, p.name, statFilter);
+    // Same anatomy as a leg on the bet slip: identity on the left, the number
+    // on the right, action at the end. Everything that used to stack inside
+    // those two columns -- tags, news, the prop line -- moved to one footer
+    // row, so the top line is always the same shape and never reflows.
+    const conf = mlbConfidence(p, cfg.pool === 'arm');
+    const foot = [tagsFor(p, cfg.pool), newsLine(p), propBadge(prop)].filter(Boolean).join('');
     return `<div class="play" data-key="${esc(key)}">
-      <span class="rank ${i<3?'r'+(i+1):''}">${i+1}</span>
-      ${avatar(p.name, p.team)}
-      <div class="p-main">
-        <div class="p-player">${esc(p.name)}</div>
-        <div class="p-meta">${abSpan(p.team)} vs ${teamChip(p.opp)}${gradeChip(p.matchup_grade || matchupGrade(teamRuns(p, DATA.games)))}${p.order ? ` · #${p.order}` : ''}</div>
-        <div>${tagsFor(p, cfg.pool)}</div>
-        ${newsLine(p)}
-        ${propBadge(prop)}
-      </div>
-      <div class="p-edge">
-        <div class="edge-val">${cfg.fmt(cfg.v(p))}</div>
-        ${(() => { const c = mlbConfidence(p, cfg.pool === 'arm'); return c ? `<div class="conf" style="justify-content:flex-end;flex-direction:column;align-items:flex-end;gap:2px"><div class="conf-ring" style="--v:${c.score};--c:${confColor(c.score)}"><span class="conf-num">${c.score}</span></div><span style="font-size:8px;font-weight:700;letter-spacing:.06em;color:var(--muted)">EDGE</span></div>` : ''; })()}
-        <div class="sim-hint">${open ? '▾ CLOSE' : '▸ DETAILS'}</div>
+      <div class="pp-top">
+        <span class="rank ${i<3?'r'+(i+1):''}">${i+1}</span>
+        ${avatar(p.name, p.team)}
+        <div class="p-main">
+          <div class="p-player">${esc(p.name)}</div>
+          <div class="p-meta">${abSpan(p.team)} vs ${teamChip(p.opp)}${gradeChip(p.matchup_grade || matchupGrade(teamRuns(p, DATA.games)))}${p.order ? ` · #${p.order}` : ''}</div>
+        </div>
+        <div class="p-edge">
+          <div class="edge-val">${cfg.fmt(cfg.v(p))}</div>
+          ${conf ? `<span class="pp-conf" style="--c:${confColor(conf.score)}">${conf.score}</span>` : ''}
+        </div>
         ${pickBtn({sport:'mlb', label:p.name, detail:`${statFilter} · vs ${p.opp}`,
                    line:cfg.fmt(cfg.v(p)), logo:logo(p.team),
                    key:`mlb|${statFilter}|${p.name}|${p.team}`})}
       </div>
+      ${foot ? `<div class="pp-foot">${foot}</div>` : ''}
+      <div class="sim-hint">${open ? '\u25be Close' : '\u25b8 Details'}</div>
       ${open ? detailPanel(p) : ''}
     </div>`;
   }).join('');
