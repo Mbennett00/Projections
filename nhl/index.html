@@ -199,6 +199,7 @@ h1{font-family:'Sora',sans-serif;font-weight:700;font-size:19px;flex:1;
 .hide{display:none}
 @media (prefers-reduced-motion:reduce){.prob-away,.sim-fill{transition:none}.state.live,.game,.play,.hr-strip{animation:none}}
 </style>
+<link rel="stylesheet" href="../theme.css">
 </head>
 <body>
 <header>
@@ -425,22 +426,28 @@ function gameCard(g){
       logo:logo(g[s+'_abbr']), key:`nhl|ml|${s}|${gkey}`})).join('') +
     priced + modelTotal
   );
+  const micro = `<div class="gc-micro">
+      <span><i>O6.5</i><b class="${g.p_over_6_5>=.55?'hot':''}">${pct(g.p_over_6_5 ?? .5)}</b></span>
+      <span><i>Proj total</i><b>${total.toFixed(1)}</b></span>
+      <span><i>Target</i><b class="${g.target_score>=70?'hot':''}">${g.target_score ?? '–'}</b></span>
+    </div>`;
+  const goalieLine = g.away_goalie
+    ? `${g.away_goalie} vs ${g.home_goalie ?? 'TBD'}${g.line_source==='vegas' ? ' \u00b7 mkt' : ''}`
+    : '';
+  const meta = [g.venue, goalieLine].filter(Boolean).map(esc).join(' \u00b7 ');
+  const metaRow = meta ? `<div class="gc-meta">${meta}</div>` : '';
   return `<div class="game ${gameDimClass(g)}">
     <div class="g-accent" style="background:${edgeAccent(g)}"></div>
-    <div class="g-top">
-      <span>${teamChip(g.away_abbr)} @ ${teamChip(g.home_abbr)} · ${esc(g.venue ?? '')}</span>
+    <div class="gc-head">
+      <span class="gc-match">${teamChip(g.away_abbr)} @ ${teamChip(g.home_abbr)}</span>
       <span class="g-badges">${stateBadge(g)}${isPregame(g) ? tierHtml + edgePill(g) : ''}</span>
     </div>
-    ${rows}
-    ${done ? '' : `<div class="prob-track"><div class="prob-away" style="width:${(g.away_win_pct??.5)*100}%;background:${cA}"></div><div class="prob-home" style="background:${cH}"></div></div>`}
-    <div class="g-stats">
-      <div class="stat sb"><div class="v ${g.p_over_6_5>=.55?'hot':''}">${pct(g.p_over_6_5 ?? .5)}</div><div class="l">O6.5</div></div>
-      <div class="stat st"><div class="v">${total.toFixed(1)}</div><div class="l">PROJ TOTAL</div></div>
-      <div class="stat sy"><div class="v ${g.target_score>=70?'hot':''}">${g.target_score ?? '–'}</div><div class="l">TARGET</div></div>
+    <div class="gc-body">
+      ${rows}
+      ${done ? '' : `<div class="prob-track"><div class="prob-away" style="width:${(g.away_win_pct??.5)*100}%;background:${cA}"></div><div class="prob-home" style="background:${cH}"></div></div>`}
+      ${micro}${metaRow}
     </div>
-    ${g.away_goalie ? `<div class="goalies">${goalieChip(g.away_goalie_card)} <b>${esc(g.away_goalie)}</b> vs <b>${esc(g.home_goalie ?? 'TBD')}</b> ${goalieChip(g.home_goalie_card)}${g.line_source==='vegas' ? ' · mkt' : ''}</div>` : ''}
-  ${slip}
-  </div>`;
+    ${slip}</div>`;
 }
 
 function renderGames(d){
@@ -576,23 +583,28 @@ function renderPlays(d){
   const list = pool.map((p,i) => {
     const key = statFilter + '|' + p.name, open = openSim === key;
     const simHtml = open ? detailPanel(p) : '';
+    // Matches a leg on the bet slip: identity left, number right, action last.
+    // Tags, news and status moved into one footer row so the top line keeps a
+    // fixed shape instead of wrapping unpredictably.
+    const foot = [statusTag(p), tagsFor(p), newsLine(p)].filter(Boolean).join('');
     return `<div class="play" data-key="${esc(key)}">
-      <span class="rank ${i<3?'r'+(i+1):''}">${i+1}</span>
-      ${avatar(p.name, p.team, p.player_id)}
-      <div class="p-main">
-        <div class="p-player">${esc(p.name)}</div>
-        <div class="p-meta">${abSpan(p.team)} vs ${teamChip(p.opp)}${gradeChip(p.matchup_grade || matchupGrade(teamGoals(p, d.games)))}</div>
-        <div>${statusTag(p)}${tagsFor(p)}</div>
-        ${newsLine(p)}
-      </div>
-      <div class="p-edge">
-        <div class="edge-val">${cfg.fmt(cfg.v(p))}</div>
-        ${confRing(nhlConfidence(p))}
-        <div class="sim-hint">${open ? '▾ CLOSE' : '▸ DETAILS'}</div>
+      <div class="pp-top">
+        <span class="rank ${i<3?'r'+(i+1):''}">${i+1}</span>
+        ${avatar(p.name, p.team, p.player_id)}
+        <div class="p-main">
+          <div class="p-player">${esc(p.name)}</div>
+          <div class="p-meta">${abSpan(p.team)} vs ${teamChip(p.opp)}${gradeChip(p.matchup_grade || matchupGrade(teamGoals(p, d.games)))}</div>
+        </div>
+        <div class="p-edge">
+          <div class="edge-val">${cfg.fmt(cfg.v(p))}</div>
+          ${confRing(nhlConfidence(p))}
+        </div>
         ${pickBtn({sport:'nhl', label:p.name, detail:`${statFilter} · vs ${p.opp}`,
                    line:cfg.fmt(cfg.v(p)), logo:logo(p.team),
                    key:`nhl|${statFilter}|${p.name}|${p.team}`})}
       </div>
+      ${foot ? `<div class="pp-foot">${foot}</div>` : ''}
+      <div class="sim-hint">${open ? '\u25be Close' : '\u25b8 Details'}</div>
       ${simHtml}
     </div>`;
   }).join('');
