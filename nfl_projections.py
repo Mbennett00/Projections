@@ -432,6 +432,93 @@ def _has_upcoming(games):
 # (40-50MB) would add pressure rate and neutral pace; deliberately not pulled
 # here -- see the note in NFLVERSE_NOT_INCLUDED below.
 # ---------------------------------------------------------------------------
+# The official NFL injury report, via nflverse. Richer than the ESPN feed the
+# model already uses: it carries the body part and, more usefully, practice
+# participation -- a player listed Questionable who did not practice all week
+# is a very different proposition from one who was a full participant.
+#
+# ESPN stays primary because it updates through Sunday morning inactives. This
+# is enrichment on top, not a replacement.
+NFLVERSE_INJURY_URL = ("https://github.com/nflverse/nflverse-data/releases/download/"
+                       "injuries/injuries_{season}.csv")
+
+_injury_report_cache = {}
+
+
+def fetch_nfl_injury_report(season=None):
+    """Latest week's injury report, keyed by normalised player name."""
+    import csv, io as _io, datetime as _dt
+    season = season or _dt.date.today().year
+    if season in _injury_report_cache:
+        return _injury_report_cache[season]
+
+    url = NFLVERSE_INJURY_URL.format(season=season)
+    try:
+        if requests:
+            r = requests.get(url, timeout=45)
+            if r.status_code == 404 and season > 2000:
+                print(f"  injury report: no {season} file yet, using {season-1}")
+                _injury_report_cache[season] = fetch_nfl_injury_report(season - 1)
+                return _injury_report_cache[season]
+            r.raise_for_status()
+            text = r.text
+        else:
+            text = urllib.request.urlopen(url, timeout=45).read().decode("utf-8")
+    except Exception as e:
+        print(f"  injury report unavailable ({e}) -- ESPN statuses only")
+        _injury_report_cache[season] = {}
+        return {}
+
+    rows = [r for r in csv.DictReader(_io.StringIO(text))
+            if (r.get("game_type") or "REG") == "REG"]
+    if not rows:
+        _injury_report_cache[season] = {}
+        return {}
+
+    # Only the most recent week; earlier weeks describe injuries already resolved.
+    try:
+        latest = max(int(r.get("week") or 0) for r in rows)
+    except ValueError:
+        latest = 0
+    out = {}
+    for r in rows:
+        if int(r.get("week") or 0) != latest:
+            continue
+        key = _nfl_norm(r.get("full_name"))
+        status = (r.get("report_status") or "").strip()
+        practice = (r.get("practice_status") or "").strip()
+        if not key or not (status or practice):
+            continue
+        out[key] = {
+            "status": status or None,
+            "injury": (r.get("report_primary_injury") or
+                       r.get("practice_primary_injury") or "").strip() or None,
+            "practice": practice or None,
+            "week": latest,
+        }
+    print(f"  injury report: {len(out)} players listed, week {latest}")
+    _injury_report_cache[season] = out
+    return out
+
+
+def injury_practice_flag(rep):
+    """Short read on practice participation. None when not reported.
+
+    Practice is the part ESPN doesn't give you: a Questionable who did not
+    practice is far likelier to sit than one who went full.
+    """
+    if not rep or not rep.get("practice"):
+        return None
+    p = rep["practice"].lower()
+    if "did not" in p or "dnp" in p:
+        return "DNP"
+    if "limited" in p:
+        return "LTD"
+    if "full" in p:
+        return "FULL"
+    return None
+
+
 NFLVERSE_URL = ("https://github.com/nflverse/nflverse-data/releases/download/"
                 "player_stats/player_stats_{season}.csv")
 
@@ -996,7 +1083,8 @@ def fetch_injuries():
         print(f"  (injury feed unavailable: {e})")
     INJURY_STATUS = out
     if out:
-        n_out = sum(1 for s in out.values() if s.lower() in ("out", "injured reserve", "ir", "doubtful"))
+        n_out = sum(1 for s in out.values()
+                    if any(k in s.lower() for k in ("out", "injured reserve", " ir", "doubtful")))
         print(f"Injuries: {len(out)} statuses loaded ({n_out} out/doubtful)")
     return out
 
@@ -1005,12 +1093,18 @@ def player_status(athlete_id):
     s = fetch_injuries().get(str(athlete_id))
     if not s:
         return None
-    sl = s.lower()
-    if sl in ("out", "injured reserve", "ir", "physically unable to perform", "pup", "suspension"):
+    # Substring matching, not equality. ESPN sends "Out For Season", "Injured
+    # Reserve" and "Game Time Decision"; exact comparison returned None for all
+    # of them, so a player ruled out for the year projected as fully active.
+    # NBA and NHL were fixed for this; NFL was missed on that pass.
+    sl = s.lower().strip()
+    if any(k in sl for k in ("out", "injured reserve", " ir", "physically unable",
+                             "pup", "suspen", "inactive", "non-football")):
         return "O"
-    if sl == "doubtful":
+    if "doubtful" in sl:
         return "D"
-    if sl == "questionable":
+    if any(k in sl for k in ("questionable", "day-to-day", "day to day",
+                             "game time", "game-time", "probable", "limited")):
         return "Q"
     return None
 
@@ -1239,13 +1333,14 @@ def project_qb(team_abbr, opponent_abbr=None, vegas_factor=None, weather=None):
     # show what moved the number rather than just the number.
     _adv = fetch_nflverse_stats().get(_nfl_norm(name), {})
     _eff = nflverse_factor(_adv, "dakota", "dakota")
+    _rep = fetch_nfl_injury_report().get(_nfl_norm(name))
 
     return {
         "name": name,
         "player_id": athlete_id,
         "quality": quality,
         "comp_pct": round(stats.get("comp_pct") or LEAGUE_AVG_QB["comp_pct"], 1),
-        "adv": _adv or None, "eff_factor": round(_eff, 3),
+        "adv": _adv or None, "eff_factor": round(_eff, 3), "injury": _rep,
         "pass_yds": round((stats.get("pass_yds") or LEAGUE_AVG_QB["pass_yds"]) * factor * _wxp * _eff, 1),
         "pass_td": round((stats.get("pass_td") or LEAGUE_AVG_QB["pass_td"]) * factor * _wxp * _eff, 2),
         "int": round(stats.get("int") or LEAGUE_AVG_QB["int"], 2),
@@ -1295,8 +1390,10 @@ def project_skill_players(team_abbr, opponent_abbr=None, vegas_factor=None, game
             b = apply_recent_form(b, recent, ("rec", "rec_yds", "rush_yds", "targets"))
             _src = "form"
         _adv = fetch_nflverse_stats().get(_nfl_norm(name), {})
+        _rep = fetch_nfl_injury_report().get(_nfl_norm(name))
         roster.append({
             "adv": _adv or None,
+            "injury_report": _rep,
             "opp_factor": round(nflverse_factor(_adv, "wopr", "wopr"), 3),
             "name": name, "id": athlete_id, "pos": pos, "b": b,
             "status": player_status(athlete_id),
@@ -1359,10 +1456,17 @@ def project_skill_players(team_abbr, opponent_abbr=None, vegas_factor=None, game
             "rush_att": round(boost_att, 1),
             "td_prob": round(td_prob, 2), "fpts": round(fpts, 1),
             "adv": r.get("adv"), "opp_factor": _of,
+            "injury": r.get("injury_report"),
             "src": r["src"],
         }
         if r["status"]:
             p["status"] = r["status"]           # Q shows a badge on the board
+        elif r.get("injury_report", {}) and (r["injury_report"].get("status") or "").lower().startswith(("out", "doubt", "quest")):
+            # ESPN hadn't flagged him but the official report has. ESPN stays
+            # primary because it updates through Sunday inactives; this catches
+            # players it hasn't picked up yet.
+            st = r["injury_report"]["status"].lower()
+            p["status"] = "O" if st.startswith("out") else ("D" if st.startswith("doubt") else "Q")
         if out_players and (fpts - fpts_base) >= 0.5:
             p["news"] = {
                 "reason": f"{out_names} ruled OUT",
