@@ -450,7 +450,10 @@ def skater_status(name):
     sl = s.lower()
     if any(k in sl for k in ("out", "injured reserve", " ir", "suspen", "inactive")):
         return "O"
-    if "day-to-day" in sl or sl in ("doubtful", "questionable"):
+    # Substring, like NBA and NFL. "Day To Day" without the hyphen and "Game
+    # Time Decision" both slipped through the exact-match version.
+    if any(k in sl for k in ("day-to-day", "day to day", "doubtful",
+                             "questionable", "game time", "game-time")):
         return "Q"
     return None
 
