@@ -1,6 +1,6 @@
 {
   "date": "2026-07-30",
-  "generated_at": "2026-07-30 13:19 UTC",
+  "generated_at": "2026-07-30 14:56 UTC",
   "games": [
     {
       "away_team": "Carolina Panthers",
@@ -36,6 +36,7 @@
           "air_yards": 0.0
         },
         "eff_factor": 0.982,
+        "injury": null,
         "pass_yds": 215.2,
         "pass_td": 1.55,
         "int": 0.69,
@@ -66,6 +67,7 @@
           "air_yards": 0.0
         },
         "eff_factor": 0.946,
+        "injury": null,
         "pass_yds": 224.8,
         "pass_td": 1.68,
         "int": 0.57,
@@ -104,6 +106,7 @@
             "air_yards": -4.3
           },
           "opp_factor": 0.96,
+          "injury": null,
           "src": "form"
         },
         {
@@ -120,6 +123,7 @@
           "fpts": 13.3,
           "adv": null,
           "opp_factor": 1.0,
+          "injury": null,
           "src": "form"
         },
         {
@@ -149,6 +153,7 @@
             "air_yards": 18.2
           },
           "opp_factor": 0.969,
+          "injury": null,
           "src": "form"
         },
         {
@@ -178,6 +183,12 @@
             "air_yards": 17.9
           },
           "opp_factor": 0.973,
+          "injury": {
+            "status": null,
+            "injury": "Fibula",
+            "practice": "Did Not Participate In Practice",
+            "week": 18
+          },
           "src": "form"
         }
       ],
@@ -209,6 +220,7 @@
             "air_yards": -0.3
           },
           "opp_factor": 0.931,
+          "injury": null,
           "src": "form"
         },
         {
@@ -238,6 +250,12 @@
             "air_yards": 92.1
           },
           "opp_factor": 1.065,
+          "injury": {
+            "status": null,
+            "injury": "Foot",
+            "practice": "Did Not Participate In Practice",
+            "week": 18
+          },
           "src": "form"
         },
         {
@@ -267,6 +285,7 @@
             "air_yards": 56.4
           },
           "opp_factor": 1.061,
+          "injury": null,
           "src": "form"
         }
       ],
