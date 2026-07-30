@@ -413,6 +413,162 @@ def _has_upcoming(games):
     return False
 
 
+# ---------------------------------------------------------------------------
+# nflverse advanced metrics
+#
+# ESPN gives season averages -- targets per game, carries per game -- and
+# nothing corrects them for efficiency or for how a player actually earns his
+# usage. nflverse publishes per-week player stats carrying the metrics that do:
+#
+#   dakota          EPA + CPOE composite for passers (this IS the QB
+#                   efficiency rating -- no need to rebuild it from parts)
+#   passing_epa     expected points added passing
+#   receiving_epa   expected points added receiving
+#   target_share    share of the team's targets
+#   wopr            weighted opportunity rating (target share + air yards share)
+#   racr            receiver air conversion ratio
+#
+# One 1.6MB CSV per season, no key, no rate limit. The play-by-play files
+# (40-50MB) would add pressure rate and neutral pace; deliberately not pulled
+# here -- see the note in NFLVERSE_NOT_INCLUDED below.
+# ---------------------------------------------------------------------------
+NFLVERSE_URL = ("https://github.com/nflverse/nflverse-data/releases/download/"
+                "player_stats/player_stats_{season}.csv")
+
+# What this deliberately does NOT fetch, and why:
+#   pressure rate / blitz  -> ftn_charting, 8.3MB, needs aggregating yourself
+#   neutral pace, PROE     -> pbp files, 40-50MB per season
+#   O-line continuity      -> snap_counts, cheap but needs PFR id matching
+# All three are buildable; none is worth the download until the metrics below
+# are shown to move results. calibration_log.py is what answers that.
+NFLVERSE_NOT_INCLUDED = ("pressure rate", "neutral pace", "o-line continuity")
+
+_nflverse_cache = {}
+
+
+def _nfl_norm(name):
+    """Match ESPN names to nflverse names.
+
+    The two sources disagree on suffixes, punctuation and accents -- "Marvin
+    Harrison Jr." vs "Marvin Harrison", "D.K. Metcalf" vs "DK Metcalf". An
+    exact match silently drops those players, and a silent drop looks
+    identical to a player simply having no advanced stats.
+    """
+    import unicodedata
+    if not name:
+        return ""
+    n = unicodedata.normalize("NFKD", str(name))
+    n = "".join(c for c in n if not unicodedata.combining(c))
+    n = n.lower().replace("\u2019", "").replace("'", "").replace(".", "").replace("-", " ")
+    for suf in (" jr", " sr", " ii", " iii", " iv", " v"):
+        if n.endswith(suf):
+            n = n[: -len(suf)]
+    return " ".join(n.split())
+
+
+def fetch_nflverse_stats(season=None):
+    """Season-to-date advanced metrics per player, keyed by normalised name."""
+    import csv, io as _io, datetime as _dt
+    season = season or _dt.date.today().year
+    if season in _nflverse_cache:
+        return _nflverse_cache[season]
+
+    url = NFLVERSE_URL.format(season=season)
+    try:
+        if requests:
+            r = requests.get(url, timeout=45)
+            if r.status_code == 404 and season > 2000:
+                # Early in a new season the file may not exist yet.
+                print(f"  nflverse: no {season} file yet, falling back to {season-1}")
+                _nflverse_cache[season] = fetch_nflverse_stats(season - 1)
+                return _nflverse_cache[season]
+            r.raise_for_status()
+            text = r.text
+        else:
+            text = urllib.request.urlopen(url, timeout=45).read().decode("utf-8")
+    except Exception as e:
+        print(f"  nflverse fetch failed ({e}) -- projections run without advanced metrics")
+        _nflverse_cache[season] = {}
+        return {}
+
+    agg = {}
+    for row in csv.DictReader(_io.StringIO(text)):
+        if (row.get("season_type") or "REG") != "REG":
+            continue
+        key = _nfl_norm(row.get("player_display_name") or row.get("player_name"))
+        if not key:
+            continue
+        a = agg.setdefault(key, {"weeks": 0, "pos": row.get("position"),
+                                 "team": row.get("recent_team")})
+        a["weeks"] += 1
+        for col in ("passing_epa", "rushing_epa", "receiving_epa", "dakota",
+                    "target_share", "wopr", "racr", "pacr", "sacks",
+                    "passing_air_yards", "receiving_air_yards"):
+            try:
+                v = float(row.get(col) or 0)
+            except (TypeError, ValueError):
+                v = 0.0
+            a[col] = a.get(col, 0.0) + v
+
+    # Per-week averages; rate stats are already per-week so they average cleanly.
+    out = {}
+    for k, a in agg.items():
+        w = max(1, a["weeks"])
+        out[k] = {
+            "weeks": a["weeks"], "pos": a.get("pos"), "team": a.get("team"),
+            "dakota": round(a.get("dakota", 0) / w, 4),
+            "pass_epa": round(a.get("passing_epa", 0) / w, 2),
+            "rush_epa": round(a.get("rushing_epa", 0) / w, 2),
+            "rec_epa": round(a.get("receiving_epa", 0) / w, 2),
+            "target_share": round(a.get("target_share", 0) / w, 4),
+            "wopr": round(a.get("wopr", 0) / w, 3),
+            "racr": round(a.get("racr", 0) / w, 3),
+            "sacks_taken": round(a.get("sacks", 0) / w, 2),
+            "air_yards": round(a.get("receiving_air_yards", 0) / w, 1),
+        }
+    print(f"  nflverse: advanced metrics for {len(out)} players ({season})")
+    _nflverse_cache[season] = out
+    return out
+
+
+# League mean and spread for each metric, measured from the 2024 season file
+# rather than guessed. The first version of this used made-up anchors -- the
+# dakota base sat 1.3 SD below the real mean, so EVERY quarterback saturated
+# the clamp and the "efficiency adjustment" applied the same number to Lamar
+# Jackson and Jake Haener. A metric that doesn't discriminate is worse than no
+# metric, because it looks like it's working.
+#
+# Qualified players only (>= 8 weeks):
+#   dakota  n=39   mean 0.098  sd 0.051   range -0.03 to 0.20
+#   wopr    n=204  mean 0.342  sd 0.181   range  0.08 to 0.86
+NFLVERSE_BASE = {"dakota": 0.098, "wopr": 0.342}
+NFLVERSE_SD = {"dakota": 0.051, "wopr": 0.181}
+
+# One standard deviation of edge is worth this much on a projection. An
+# efficiency advantage that genuinely exists is a few percent, not thirty --
+# and these are unvalidated inputs. Widen only once calibration_log.py shows
+# they improve results.
+NFLVERSE_PER_SD = 0.04
+NFLVERSE_MAX_ADJ = 0.08     # hard ceiling at 2 SD
+
+
+def nflverse_factor(adv, metric, base_key, scale=1.0):
+    """Modest, clamped multiplier from an advanced metric. 1.0 when absent.
+
+    Scaled in standard deviations so the adjustment tracks how unusual a
+    player actually is, instead of saturating for everyone.
+    """
+    if not adv or adv.get("weeks", 0) < 3:
+        return 1.0          # too little data to say anything
+    val = adv.get(metric)
+    base, sd = NFLVERSE_BASE[base_key], NFLVERSE_SD[base_key]
+    if val is None or not sd:
+        return 1.0
+    z = (val - base) / sd
+    raw = z * NFLVERSE_PER_SD * scale
+    return 1.0 + max(-NFLVERSE_MAX_ADJ, min(NFLVERSE_MAX_ADJ, raw))
+
+
 def fetch_schedule(week=None, season=None, seasontype=2):
     url = ESPN_SCOREBOARD
     params = []
@@ -1078,13 +1234,20 @@ def project_qb(team_abbr, opponent_abbr=None, vegas_factor=None, weather=None):
     quality = round(max(0, min(50, (rating_adj - 70) / 1.2)))
     epa_db = round((rating_adj - 85) / 100, 2)
 
+    # Advanced metrics: dakota is EPA+CPOE, the QB efficiency rating. Applied
+    # as a clamped multiplier to volume, and carried through so the card can
+    # show what moved the number rather than just the number.
+    _adv = fetch_nflverse_stats().get(_nfl_norm(name), {})
+    _eff = nflverse_factor(_adv, "dakota", "dakota")
+
     return {
         "name": name,
         "player_id": athlete_id,
         "quality": quality,
         "comp_pct": round(stats.get("comp_pct") or LEAGUE_AVG_QB["comp_pct"], 1),
-        "pass_yds": round((stats.get("pass_yds") or LEAGUE_AVG_QB["pass_yds"]) * factor * _wxp, 1),
-        "pass_td": round((stats.get("pass_td") or LEAGUE_AVG_QB["pass_td"]) * factor * _wxp, 2),
+        "adv": _adv or None, "eff_factor": round(_eff, 3),
+        "pass_yds": round((stats.get("pass_yds") or LEAGUE_AVG_QB["pass_yds"]) * factor * _wxp * _eff, 1),
+        "pass_td": round((stats.get("pass_td") or LEAGUE_AVG_QB["pass_td"]) * factor * _wxp * _eff, 2),
         "int": round(stats.get("int") or LEAGUE_AVG_QB["int"], 2),
         "rating": rating_adj,
         "epa_db": epa_db,
@@ -1131,7 +1294,10 @@ def project_skill_players(team_abbr, opponent_abbr=None, vegas_factor=None, game
         if recent:
             b = apply_recent_form(b, recent, ("rec", "rec_yds", "rush_yds", "targets"))
             _src = "form"
+        _adv = fetch_nflverse_stats().get(_nfl_norm(name), {})
         roster.append({
+            "adv": _adv or None,
+            "opp_factor": round(nflverse_factor(_adv, "wopr", "wopr"), 3),
             "name": name, "id": athlete_id, "pos": pos, "b": b,
             "status": player_status(athlete_id),
             "src": _src,
@@ -1181,13 +1347,18 @@ def project_skill_players(team_abbr, opponent_abbr=None, vegas_factor=None, game
         _, _, _, _, fpts_base = compute(b, base_tgt, base_att)
         rec, rec_yds, rush_yds, td_prob, fpts = compute(b, boost_tgt, boost_att)
 
+        # wopr blends target share with air-yards share, so it measures how a
+        # receiver EARNS his looks rather than just how many he got. Applied to
+        # receiving output only -- it says nothing about carries.
+        _of = r.get("opp_factor", 1.0)
         p = {
             "name": r["name"], "pos": r["pos"], "player_id": r["id"],
             "matchup_grade": dvp_grade(opponent_abbr, r["pos"]),
-            "targets": round(boost_tgt, 1), "rec": round(rec, 1),
-            "rec_yds": round(rec_yds, 1), "rush_yds": round(rush_yds, 1),
+            "targets": round(boost_tgt * _of, 1), "rec": round(rec * _of, 1),
+            "rec_yds": round(rec_yds * _of, 1), "rush_yds": round(rush_yds, 1),
             "rush_att": round(boost_att, 1),
             "td_prob": round(td_prob, 2), "fpts": round(fpts, 1),
+            "adv": r.get("adv"), "opp_factor": _of,
             "src": r["src"],
         }
         if r["status"]:
@@ -1496,13 +1667,16 @@ def main():
         # that happens to be a regular-season week.
         import datetime as _dt
         season = _dt.date.today().year
-        probes = [(1, wk) for wk in range(1, 5)] + [(2, wk) for wk in range(1, 4)]
+        # Regular season only. Preseason was probed first because it is
+        # chronologically nearer, but the projections lean on starters and
+        # usage that preseason deliberately scrambles -- the numbers would be
+        # noise wearing a real board's clothes.
+        probes = [(2, wk) for wk in range(1, 4)]
         for stype, wk in probes:
             probe = fetch_schedule(week=wk, season=season, seasontype=stype)
             if _has_upcoming(probe):
-                label = "Preseason" if stype == 1 else "Week"
-                print(f"  off-season: showing {label} {wk} of {season} "
-                      f"({len(probe)} games)")
+                print(f"  off-season: showing Week {wk} of {season} "
+                      f"({len(probe)} games, regular season)")
                 raw_games = probe
                 break
     print("Fetching odds...")
