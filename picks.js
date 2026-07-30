@@ -288,8 +288,17 @@ function mountSlipBar(href){
   const a = document.createElement('a');
   a.id = 'slip-bar';
   a.href = href || './picks/';
-  a.innerHTML = `<span class="slip-ico">🧾</span><span class="slip-txt">Slip</span><span class="slip-count">0</span>`;
-  document.body.appendChild(a);
+  a.innerHTML = `<span class="slip-txt">Picks</span><span class="slip-count">0</span>`;
+
+  // Sits next to the refresh control rather than floating over the board.
+  // A counter that overlaps content is fine on a short page and a nuisance on
+  // a 16-game slate, and it belongs with the other navigation anyway.
+  const header = document.querySelector('header');
+  const refresh = document.getElementById('refresh') || document.getElementById('hub-refresh');
+  if (header && refresh) header.insertBefore(a, refresh);
+  else if (header) header.appendChild(a);
+  else document.body.appendChild(a);
+
   const update = () => {
     const n = Picks.count();
     a.querySelector('.slip-count').textContent = n;
@@ -339,22 +348,18 @@ function mountSlipBar(href){
 
   /* floating counter */
   #slip-bar{
-    position:fixed;right:14px;bottom:16px;z-index:60;
-    display:none;align-items:center;gap:7px;
-    padding:10px 15px;border-radius:99px;text-decoration:none;
-    font-family:inherit;font-size:12.5px;font-weight:700;
-    color:${PICK_GREEN};background:rgba(12,20,17,.93);
-    border:1px solid ${PICK_GREEN}55;
-    box-shadow:0 6px 22px rgba(0,0,0,.45);
-    backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);
+    display:none; align-items:center; gap:6px; flex:none;
+    padding:7px 11px; border-radius:99px; text-decoration:none;
+    font-family:inherit; font-size:11px; font-weight:700; letter-spacing:.02em;
+    color:${PICK_GREEN}; background:rgba(147,224,110,.10);
+    border:1px solid rgba(147,224,110,.42);
   }
-  #slip-bar.show{display:flex}
+  #slip-bar.show{display:inline-flex}
   #slip-bar .slip-count{
-    min-width:19px;height:19px;padding:0 5px;border-radius:99px;
+    min-width:17px;height:17px;padding:0 5px;border-radius:99px;
     display:inline-flex;align-items:center;justify-content:center;
-    background:${PICK_GREEN};color:#0B1210;font-size:11px;font-weight:800;
+    background:${PICK_GREEN};color:#0B1210;font-size:10px;font-weight:800;
   }
-  @media (max-width:420px){ #slip-bar{right:11px;bottom:12px;padding:9px 13px} }
 
   /* Games already under way or over: present, de-emphasised, still tappable. */
   .game.is-live{ opacity:.74; }
