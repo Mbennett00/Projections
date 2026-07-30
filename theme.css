@@ -359,3 +359,17 @@ header #slip-bar + .refresh, header #slip-bar + #hub-refresh{margin-left:8px}
   color:var(--neon-red); background:rgba(255,78,106,.11);
   border-color:rgba(255,78,106,.42); box-shadow:0 0 12px -2px var(--neon-red);
 }
+
+
+/* "How it works" entry point â€” sits with Picks and refresh in the header. */
+.how-btn{
+  width:34px;height:34px;flex:none;border-radius:50%;
+  display:inline-grid;place-items:center;text-decoration:none;
+  font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:700;
+  color:var(--neon-violet);background:rgba(124,92,255,.10);
+  border:1px solid rgba(124,92,255,.40);
+}
+.how-btn:active{transform:scale(.9)}
+
+/* The explainer reuses the app palette but sets its own layout. */
+#s-mlb .anchor, #s-nfl .anchor, #s-nhl .anchor, #s-nba .anchor{font-family:'IBM Plex Mono',monospace}
