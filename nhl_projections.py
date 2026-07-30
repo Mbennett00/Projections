@@ -112,9 +112,35 @@ def mp_skaters(season):
     return df.set_index("player_id")
 
 
+# Columns beyond the proven set, wanted for shot-quality and save-percentage
+# work. MoneyPuck's CSV names differ from the labels on their website, and this
+# container can't reach moneypuck.com to check them, so every one of these is a
+# best guess -- treated as optional and reported on, never assumed.
+#
+# Rather than fail silently the way the MLB prop lookup did (2,379 props fell
+# back to placeholder prices with no indication), a miss prints the columns the
+# file ACTUALLY has. One Action log then tells us the real names.
+MP_GOALIE_OPTIONAL = {
+    "unblocked_shot_attempts": "ufa",
+    "ongoal": "shots_on_goal",
+    "highDangerShots": "hd_shots", "highDangerGoals": "hd_goals",
+    "highDangerxGoals": "hd_xgoals",
+    "mediumDangerShots": "md_shots", "mediumDangerGoals": "md_goals",
+    "lowDangerShots": "ld_shots", "lowDangerGoals": "ld_goals",
+    "rebounds": "rebounds", "freeze": "freezes",
+}
+_mp_goalie_cols_reported = False
+
+
 def mp_goalies(season):
     """Goalie quality: goals saved above expected per 60. The single biggest
-    driver of a game's scoring environment. Higher GSAx = tougher to score on."""
+    driver of a game's scoring environment. Higher GSAx = tougher to score on.
+
+    Also picks up save percentage and high-danger performance when the columns
+    are present. High-danger save% above expected is shot-quality adjusted, so
+    it tends to be steadier than raw GSAx on a short sample.
+    """
+    global _mp_goalie_cols_reported
     df = get_csv(f"{MP_BASE}/{season}/regular/goalies.csv")
     if df is None:
         return None
@@ -122,13 +148,40 @@ def mp_goalies(season):
     keep = {"playerId": "player_id", "name": "name", "team": "team",
             "games_played": "gp", "icetime": "icetime",
             "xGoals": "xg_against", "goals": "goals_against"}
+    found = {k: v for k, v in MP_GOALIE_OPTIONAL.items() if k in df.columns}
+    missing = [k for k in MP_GOALIE_OPTIONAL if k not in df.columns]
+
+    if not _mp_goalie_cols_reported:
+        _mp_goalie_cols_reported = True
+        print(f"  MoneyPuck goalies.csv: {len(found)}/{len(MP_GOALIE_OPTIONAL)} "
+              f"optional columns found")
+        if missing:
+            print(f"    not found: {', '.join(missing)}")
+            print(f"    file actually has: {', '.join(sorted(df.columns))}")
+
+    keep.update(found)
     have = {k: v for k, v in keep.items() if k in df.columns}
     df = df[list(have)].rename(columns=have)
+
     # GSAx = expected goals against - actual goals against (positive = good)
     if "xg_against" in df.columns and "goals_against" in df.columns:
         mins = (df.get("icetime", 0) / 60.0).clip(lower=1)
         df["gsax_60"] = (df["xg_against"] - df["goals_against"]) / mins * 60.0
         df["sv_quality"] = df["xg_against"] / df["goals_against"].clip(lower=1)
+
+    # Save percentage, if the shot columns came through.
+    if "shots_on_goal" in df.columns and "goals_against" in df.columns:
+        sog = df["shots_on_goal"].clip(lower=1)
+        df["sv_pct"] = (sog - df["goals_against"]) / sog
+
+    # High-danger save% versus what the chances were worth. Positive = stopping
+    # more of the hard ones than an average goalie would.
+    if all(c in df.columns for c in ("hd_shots", "hd_goals", "hd_xgoals")):
+        hd = df["hd_shots"].clip(lower=1)
+        df["hd_sv_pct"] = (hd - df["hd_goals"]) / hd
+        df["hd_sv_pct_x"] = (hd - df["hd_xgoals"]) / hd
+        df["hd_sv_above_x"] = df["hd_sv_pct"] - df["hd_sv_pct_x"]
+
     return df.set_index("player_id") if "player_id" in df.columns else None
 
 
@@ -215,8 +268,21 @@ class Talent:
             m = tbl[tbl["name"].str.lower() == (name or "").lower()]
             if not m.empty:
                 row = m.iloc[0]
+                def _f(k, d=None):
+                    v = row.get(k, d)
+                    try:
+                        return None if v is None else float(v)
+                    except (TypeError, ValueError):
+                        return None
                 return {"gsax_60": float(row.get("gsax_60", 0) or 0),
                         "sv_quality": float(row.get("sv_quality", 1) or 1),
+                        # Workload is what separates a starter from a backup;
+                        # it comes from a column already being read.
+                        "gp": float(row.get("gp", 0) or 0),
+                        # Optional -- None whenever the column wasn't in the file.
+                        "sv_pct": _f("sv_pct"),
+                        "hd_sv_pct": _f("hd_sv_pct"),
+                        "hd_sv_above_x": _f("hd_sv_above_x"),
                         "src": "current" if tbl is self.g_cur else "prior"}
         return None
 
@@ -328,7 +394,7 @@ def fetch_injuries():
                 if isinstance(ath, dict) and ath.get("displayName") and status:
                     s = status if isinstance(status, str) else (status.get("name") or "")
                     if s:
-                        out[ath["displayName"].lower()] = s
+                        out[_inj_norm(ath["displayName"])] = s
                 for v in node.values():
                     walk(v)
             elif isinstance(node, list):
@@ -343,12 +409,30 @@ def fetch_injuries():
     return out
 
 
+def _inj_norm(name):
+    """Normalise for injury-feed matching.
+
+    The feed was keyed on raw lowercase names, so any player ESPN spells with
+    an accent -- Tomas Hertl, Ondrej Palat, Elias Lindholm -- silently failed
+    to match and was projected as healthy. The same class of bug as the MLB
+    prop lookup and the nflverse name join.
+    """
+    import unicodedata
+    n = unicodedata.normalize("NFKD", str(name or ""))
+    n = "".join(c for c in n if not unicodedata.combining(c))
+    n = n.lower().replace("\u2019", "").replace("'", "").replace(".", "").replace("-", " ")
+    for suf in (" jr", " sr", " ii", " iii", " iv"):
+        if n.endswith(suf):
+            n = n[: -len(suf)]
+    return " ".join(n.split())
+
+
 def skater_status(name):
-    s = fetch_injuries().get((name or "").lower())
+    s = fetch_injuries().get(_inj_norm(name))
     if not s:
         return None
     sl = s.lower()
-    if sl in ("out", "injured reserve", "ir"):
+    if any(k in sl for k in ("out", "injured reserve", " ir", "suspen", "inactive")):
         return "O"
     if "day-to-day" in sl or sl in ("doubtful", "questionable"):
         return "Q"
@@ -520,6 +604,134 @@ def _def_grade(opp_xga):
     return "F"
 
 
+# ---------------------------------------------------------------------------
+# Starting goalie model
+#
+# The probable starter used to be `goalies[0]` -- literally whoever the NHL
+# roster endpoint listed first. That is alphabetical-ish roster order, not a
+# depth chart, so a team's third-string could be projected to start and the
+# entire scoring environment for that side would be built on his numbers.
+# Goaltending is the single largest swing in an NHL game, so this was the
+# biggest error in the model.
+#
+# Starter is now the goalie with the most games played, which is what a depth
+# chart actually measures. Only columns already being read are used -- I can't
+# reach MoneyPuck from here to verify any new ones, and a wrong column name
+# fails silently.
+# ---------------------------------------------------------------------------
+BACKUP_GP_SHARE = 0.35      # below this share of a team's goalie starts = backup
+BACKUP_REGRESSION = 0.55    # weight kept on a backup's own GSAx
+B2B_GOALIE_PENALTY = 0.35   # GSAx retained on the 2nd night of a back-to-back
+MIN_GP_FOR_TRUST = 8        # below this, regress toward league average anyway
+
+
+_b2b_cache = {}
+
+
+def teams_on_back_to_back(day):
+    """Team abbreviations that also played the previous day.
+
+    Uses the same schedule endpoint the slate is built from, so no new source
+    and no new schema. Returns an empty set on any failure -- a missing rest
+    read should cost nothing, not break the slate.
+    """
+    import datetime as _dt
+    if day in _b2b_cache:
+        return _b2b_cache[day]
+    try:
+        prev = (_dt.date.fromisoformat(day) - _dt.timedelta(days=1)).isoformat()
+        games = fetch_schedule(prev) or []
+    except Exception as e:
+        print(f"  rest check unavailable ({e}) -- treating all teams as rested")
+        _b2b_cache[day] = set()
+        return set()
+    teams = set()
+    for g in games:
+        for k in ("away_abbr", "home_abbr"):
+            if g.get(k):
+                teams.add(g[k])
+    if teams:
+        print(f"  rest: {len(teams)} teams played {prev} (back-to-back tonight)")
+    _b2b_cache[day] = teams
+    return teams
+
+
+# High-danger save% above expected is shot-quality adjusted and steadier than
+# raw GSAx on a short sample, so it is a genuinely useful second opinion.
+#
+# DISABLED (HD_BLEND = 0) on purpose. Blending it into GSAx needs a conversion
+# between two different scales, and I have no data to calibrate that with --
+# moneypuck.com is unreachable from where this was written, so I can't even
+# confirm the columns exist. My first attempt used HD_TO_GSAX = 6.0 and dragged
+# a +0.60 GSAx goalie down to +0.46 despite his high-danger numbers AGREEING
+# with his GSAx. A guessed conversion is worse than none: it moves every
+# projection by an amount nobody chose.
+#
+# The metric is still fetched and shown on the card. To enable: collect a few
+# weeks of both figures, regress hd_sv_above_x on gsax_60, and set HD_TO_GSAX
+# to that slope. Then raise HD_BLEND.
+HD_BLEND = 0.0
+HD_TO_GSAX = 6.0        # placeholder -- NOT calibrated, see above
+
+
+def blend_hd(info):
+    """Pull GSAx toward the high-danger signal when that data is available."""
+    hd = info.get("hd_sv_above_x")
+    if hd is None:
+        return info.get("gsax_60", 0.0)
+    implied = hd * HD_TO_GSAX
+    return (1 - HD_BLEND) * info.get("gsax_60", 0.0) + HD_BLEND * implied
+
+
+def pick_starting_goalie(g_list, talent):
+    """Most-used goalie on the roster, with a starter/backup read.
+
+    Returns (name, info) where info carries gsax_60, whether this looks like a
+    backup, and the share of the team's goalie appearances he owns.
+    """
+    if not g_list:
+        return None, {}
+    scored = []
+    for _pid, name in g_list:
+        q = talent.goalie_by_name(name) if name else None
+        scored.append((float((q or {}).get("gp", 0) or 0), name, q))
+    total_gp = sum(gp for gp, _, _ in scored) or 1.0
+    scored.sort(key=lambda x: -x[0])
+    gp, name, q = scored[0]
+    share = gp / total_gp
+    info = {
+        "gsax_60": (q or {}).get("gsax_60", 0.0),
+        "sv_pct": (q or {}).get("sv_pct"),
+        "hd_sv_pct": (q or {}).get("hd_sv_pct"),
+        "hd_sv_above_x": (q or {}).get("hd_sv_above_x"),
+        "gp": gp, "share": round(share, 3),
+        "is_backup": share < BACKUP_GP_SHARE,
+        "known": q is not None,
+    }
+    if info["known"]:
+        info["gsax_60"] = blend_hd(info)
+    return name, info
+
+
+def effective_gsax(info, b2b=False):
+    """GSAx after backup, small-sample and rest adjustments.
+
+    Every adjustment pulls TOWARD zero (league average) rather than inventing a
+    penalty. A backup isn't necessarily bad -- he's less known, and an unknown
+    should project closer to average than a workhorse with 40 starts behind him.
+    """
+    if not info or not info.get("known"):
+        return 0.0
+    g = float(info.get("gsax_60") or 0.0)
+    if info.get("is_backup"):
+        g *= BACKUP_REGRESSION
+    if float(info.get("gp") or 0) < MIN_GP_FOR_TRUST:
+        g *= 0.5
+    if b2b:
+        g *= B2B_GOALIE_PENALTY
+    return g
+
+
 def goalie_factor(gsax_60):
     """Opposing goalie quality -> scoring multiplier. A goalie saving +0.5
     goals/60 above expected suppresses scoring; a leaky one inflates it.
@@ -530,12 +742,19 @@ def goalie_factor(gsax_60):
     return round(max(0.82, min(1.12, 1 - gsax_60 * 0.14)), 3)
 
 
-def project_skaters(talent, abbr, factor, opp_xga=None, opp_goalie_name=None):
+def project_skaters(talent, abbr, factor, opp_xga=None, opp_goalie_name=None,
+                    opp_goalie_gsax=None):
     skaters, goalies = fetch_roster(abbr)
     grade = _def_grade(opp_xga)
-    # opposing goalie quality scales every skater's goal probability
+    # Opposing goalie quality scales every skater's goal probability. Takes the
+    # BACKUP- AND REST-ADJUSTED GSAx when the caller has it: projecting skaters
+    # against a workhorse's raw number when a tired backup is actually starting
+    # is the error this whole model exists to remove.
     gq = talent.goalie_by_name(opp_goalie_name) if opp_goalie_name else None
-    gfac = goalie_factor(gq["gsax_60"]) if gq else 1.0
+    if opp_goalie_gsax is not None:
+        gfac = goalie_factor(opp_goalie_gsax)
+    else:
+        gfac = goalie_factor(gq["gsax_60"]) if gq else 1.0
     pool = []
     for pid, name, pos in skaters:
         t = talent.skater(pid)
@@ -627,22 +846,41 @@ def build_game(talent, raw, odds_map):
     # the ACTUAL netminder they'll face
     away_g_list = fetch_roster(away)[1]
     home_g_list = fetch_roster(home)[1]
-    away_goalie = away_g_list[0][1] if away_g_list else None
-    home_goalie = home_g_list[0][1] if home_g_list else None
+    # Was goalies[0] -- roster order, not a depth chart. Now the most-used
+    # goalie, with backup and rest adjustments applied to his GSAx.
+    away_goalie, away_ginfo = pick_starting_goalie(away_g_list, talent)
+    home_goalie, home_ginfo = pick_starting_goalie(home_g_list, talent)
+
+    _b2b = teams_on_back_to_back(raw.get("date") or raw.get("game_date") or "")
+    away_ginfo["b2b"] = away in _b2b
+    home_ginfo["b2b"] = home in _b2b
+    away_ginfo["eff_gsax"] = round(effective_gsax(away_ginfo, away_ginfo["b2b"]), 3)
+    home_ginfo["eff_gsax"] = round(effective_gsax(home_ginfo, home_ginfo["b2b"]), 3)
 
     # away skaters face the HOME goalie; home skaters face the AWAY goalie
-    away_skaters, _ = project_skaters(talent, away, fa, away_xga, opp_goalie_name=home_goalie)
-    home_skaters, _ = project_skaters(talent, home, fh, home_xga, opp_goalie_name=away_goalie)
+    away_skaters, _ = project_skaters(talent, away, fa, away_xga, opp_goalie_name=home_goalie,
+                                      opp_goalie_gsax=home_ginfo.get("eff_gsax"))
+    home_skaters, _ = project_skaters(talent, home, fh, home_xga, opp_goalie_name=away_goalie,
+                                      opp_goalie_gsax=away_ginfo.get("eff_gsax"))
 
     # goalie quality + Brick Wall grade for display
-    def goalie_card(name):
+    def goalie_card(name, info=None):
         gq = talent.goalie_by_name(name) if name else None
         if not gq:
             return {"name": name, "grade": None, "gsax": None}
-        gsax = gq["gsax_60"]
+        # Grade the goalie the model is ACTUALLY using -- backup and rest
+        # adjusted -- so the card can't say A+ while the projection used
+        # something softer.
+        gsax = (info or {}).get("eff_gsax", gq["gsax_60"])
         scale = [(0.6,"A+"),(0.35,"A"),(0.15,"B+"),(0.0,"B"),(-0.2,"C+"),(-0.4,"C"),(-0.7,"D"),(-99,"F")]
         grade = next(g for thr,g in scale if gsax >= thr)
         return {"name": name, "grade": grade, "gsax": round(gsax, 2),
+                "raw_gsax": round(gq["gsax_60"], 2),
+                "sv_pct": (round(gq["sv_pct"], 3) if gq.get("sv_pct") is not None else None),
+                "hd_sv_pct": (round(gq["hd_sv_pct"], 3) if gq.get("hd_sv_pct") is not None else None),
+                "gp": int((info or {}).get("gp", 0) or 0),
+                "is_backup": bool((info or {}).get("is_backup")),
+                "b2b": bool((info or {}).get("b2b")),
                 "brick_wall": gsax >= 0.35}
 
     game = {
@@ -670,8 +908,8 @@ def build_game(talent, raw, odds_map):
             "under_price": line.get("under_price"),
         } if line else None,
         "away_goalie": away_goalie, "home_goalie": home_goalie,
-        "away_goalie_card": goalie_card(away_goalie),
-        "home_goalie_card": goalie_card(home_goalie),
+        "away_goalie_card": goalie_card(away_goalie, away_ginfo),
+        "home_goalie_card": goalie_card(home_goalie, home_ginfo),
         "away_skaters": away_skaters, "home_skaters": home_skaters,
     }
     if raw.get("away_score") is not None:
