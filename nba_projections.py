@@ -121,11 +121,27 @@ def _int(v):
 
 
 # ── rosters + player stats ────────────────────────────────────────────────
+# Failures below degrade quietly by design -- one bad player shouldn't kill a
+# slate. But quiet is not the same as invisible: a roster pull returning [] used
+# to look exactly like a team with no players, which is the failure mode that
+# has cost the most time in this codebase. Logged once per kind so a per-player
+# fetch can't flood the output.
+_warned_once = set()
+
+
+def _warn_once(key, msg):
+    if key not in _warned_once:
+        _warned_once.add(key)
+        print(f"  {msg}")
+
+
 def fetch_roster(team_id):
     """Return list of (player_id, name, pos) for a team."""
     try:
         data = get_json(f"{ESPN}/teams/{team_id}/roster")
-    except Exception:
+    except Exception as e:
+        _warn_once("roster", f"roster fetch failed (team {team_id}: {e}) "
+                             f"-- that team will show no players")
         return []
     out = []
     for grp in data.get("athletes", []):
@@ -144,7 +160,9 @@ def fetch_player_stats(player_id, season):
     url = f"{CORE}/seasons/{season}/types/2/athletes/{player_id}/statistics/0"
     try:
         data = get_json(url)
-    except Exception:
+    except Exception as e:
+        _warn_once("player_stats", f"player stats unavailable ({e}) "
+                                   f"-- affected players fall back to priors")
         return None
 
     def stat(cat_names, *names):
@@ -191,7 +209,9 @@ def fetch_recent_form(player_id, n=12):
     Recent form captures role changes the season average lags behind."""
     try:
         data = get_json(f"{CORE}/seasons/{CUR_SEASON}/types/2/athletes/{player_id}/eventlog")
-    except Exception:
+    except Exception as e:
+        _warn_once("recent_form", f"recent-form log unavailable ({e}) "
+                                  f"-- season averages used instead")
         return None
     # eventlog lists recent events; pull box lines if present
     events = (data.get("events", {}) or {}).get("items", [])[:n]
