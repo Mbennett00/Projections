@@ -361,15 +361,25 @@ function priceOf(p){
 function projOf(p){
   return priceOf(p) === null ? (p.line || '') : '';
 }
-const toDec = a => a > 0 ? 1 + a / 100 : 1 + 100 / Math.abs(a);
-const toAm = d => d >= 2 ? Math.round((d - 1) * 100) : -Math.round(100 / (d - 1));
+// Still needed for the leg price even though the parlay stub is gone -- it
+// went out with the parlay helpers on the first pass and broke the page.
 const fmtAm = a => (a > 0 ? '+' : '') + a;
-
-/** Combined price if every leg on the ticket carries one. */
-function parlay(legs){
-  const prices = legs.map(priceOf);
-  if (!prices.length || prices.some(x => x === null)) return null;
-  return toAm(prices.reduce((d, a) => d * toDec(a), 1));
+// A book shows you who you backed, not just the words. Picks logged from a
+// game card carry a team logo; player props don't, so those fall back to
+// initials on a tinted disc rather than an empty slot.
+function initials(name){
+  return String(name||'').trim().split(/\s+/).slice(0,2)
+    .map(w => w[0] || '').join('').toUpperCase() || '?';
+}
+function legArt(p){
+  const sport = esc((p.sport||'').toUpperCase());
+  if (p.logo){
+    return `<span class="leg-art"><img src="${esc(p.logo)}" alt="" loading="lazy"
+             onerror="this.parentNode.className='leg-art leg-ini';this.parentNode.textContent='${esc(initials(p.label))}'"></span>
+            <span class="p-sport">${sport}</span>`;
+  }
+  return `<span class="leg-art leg-ini">${esc(initials(p.label))}</span>
+          <span class="p-sport">${sport}</span>`;
 }
 
 function render(){
@@ -413,7 +423,6 @@ function render(){
       win: legs.filter(l => l.result === 'win').length,
       loss: legs.filter(l => l.result === 'loss').length,
     };
-    const par = parlay(legs);
     const legHtml = legs.map(p => {
       const r = p.result || 'pending';
       const price = priceOf(p), proj = projOf(p);
@@ -421,7 +430,7 @@ function render(){
       return `
       <div class="leg ${r} ${open?'open':''}" data-id="${esc(p.id)}">
         <div class="leg-row">
-          <span class="p-sport">${esc((p.sport||'').toUpperCase())}</span>
+          ${legArt(p)}
           <div class="p-main">
             <div class="p-label">${esc(p.label)}</div>
             ${p.detail ? `<div class="p-detail">${esc(p.detail)}</div>` : ''}
@@ -449,12 +458,7 @@ function render(){
           <span class="ticket-count">${legs.length} leg${legs.length>1?'s':''} \u00b7 ${rec.win}\u2013${rec.loss}</span>
         </div>
         ${legHtml}
-        <div class="stub">
-          <span class="stub-l">If parlayed</span>
-          ${par !== null
-            ? `<span class="stub-r"><span class="stub-lab">${legs.length}-leg</span><span class="stub-odds">${fmtAm(par)}</span></span>`
-            : `<span class="stub-none">needs a price on every leg</span>`}
-        </div>
+
       </div>`;
   }).join('');
 }
