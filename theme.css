@@ -1,5 +1,5 @@
 /* ===========================================================================
-   theme.css â€” one palette for every page.
+   theme.css — one palette for every page.
 
    Loaded AFTER each page's own <style>, so it re-skins by overriding design
    tokens rather than replacing component rules. The boards carry a lot of
@@ -9,7 +9,7 @@
    Direction: neon on near-black, Sleeper-adjacent. One gradient (--sheen)
    runs the whole product and is allowed to show itself in only a few places.
    Each accent is a saturated ink on a low-alpha bed of the same hue with a
-   tight outer glow â€” never a flood fill, which smears at this density.
+   tight outer glow — never a flood fill, which smears at this density.
 
    Token names differ between the hub and the boards for historical reasons,
    so both sets are mapped onto the same underlying palette.
@@ -361,7 +361,7 @@ header #slip-bar + .refresh, header #slip-bar + #hub-refresh{margin-left:8px}
 }
 
 
-/* "How it works" entry point â€” sits with Picks and refresh in the header. */
+/* "How it works" entry point — sits with Picks and refresh in the header. */
 .how-btn{
   width:34px;height:34px;flex:none;border-radius:50%;
   display:inline-grid;place-items:center;text-decoration:none;
@@ -373,3 +373,55 @@ header #slip-bar + .refresh, header #slip-bar + #hub-refresh{margin-left:8px}
 
 /* The explainer reuses the app palette but sets its own layout. */
 #s-mlb .anchor, #s-nfl .anchor, #s-nhl .anchor, #s-nba .anchor{font-family:'IBM Plex Mono',monospace}
+
+
+/* ===========================================================================
+   Player card — hero + matchup rings
+   The projection leads, the book line and gap sit beside it, and confidence
+   is a ring rather than a sentence. Below, the four context factors that
+   actually fed the number get shown as rings so the card explains itself.
+   =========================================================================== */
+.hero{
+  display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+  padding:13px; margin-bottom:4px; border-radius:14px;
+  background:linear-gradient(160deg, rgba(124,92,255,.10), rgba(61,217,240,.05) 60%, transparent);
+  border:1px solid var(--hairline);
+}
+.hero-main{flex:1; min-width:110px}
+.hero-num{
+  font-family:'Sora',sans-serif; font-weight:800; font-size:30px; line-height:1;
+  letter-spacing:-.03em; font-variant-numeric:tabular-nums; color:var(--paper);
+}
+.hero-lab{
+  margin-top:5px; font-family:'IBM Plex Mono',monospace; font-size:8.5px;
+  font-weight:700; letter-spacing:.11em; text-transform:uppercase; color:var(--paper-faint);
+}
+.hero-cell{text-align:center; flex:none; min-width:52px}
+.hero-v{
+  font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:15px;
+  font-variant-numeric:tabular-nums; color:var(--paper);
+}
+.hero-l{
+  margin-top:4px; font-family:'IBM Plex Mono',monospace; font-size:8px;
+  font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--paper-faint);
+}
+.hero-ring{display:flex; flex-direction:column; align-items:center; gap:3px; flex:none}
+.hero-ring .conf-ring{width:42px !important; height:42px !important}
+.hero-ring .conf-num{font-size:13px !important}
+
+.rings{display:flex; gap:6px; padding:4px 0 2px}
+.ring{
+  flex:1 1 0; min-width:0; display:flex; flex-direction:column; align-items:center;
+  gap:1px; padding:9px 4px; border-radius:12px;
+  background:var(--surface); border:1px solid var(--hairline); position:relative;
+}
+.ring svg{display:block}
+.ring-v{
+  position:absolute; top:22px; font-family:'IBM Plex Mono',monospace;
+  font-weight:700; font-size:12px; font-variant-numeric:tabular-nums;
+}
+.ring-l{
+  margin-top:4px; font-family:'IBM Plex Mono',monospace; font-size:7.5px;
+  font-weight:700; letter-spacing:.09em; text-transform:uppercase;
+  color:var(--paper-faint); white-space:nowrap;
+}
