@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Slate — Projections</title>
+<meta name="theme-color" content="#07080D">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="apple-touch-icon" href="../icon-180.png">
+<link rel="icon" href="../favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#07080D; --surface:#101219; --surface-2:#161923; --line:#242836;
+  --green:#3DF08B; --cyan:#3DD9F0; --violet:#7C5CFF; --amber:#FFC65C; --red:#FF4E6A;
+  --ink:#F4F5F8; --mute:#8E93A3; --faint:#7C8296;
+  --nav-h:64px;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%;background:var(--void)}
+body{
+  background:var(--void);color:var(--ink);font-family:'Inter',system-ui,sans-serif;
+  min-height:100dvh;max-width:560px;margin:0 auto;position:relative;
+  padding:max(12px,env(safe-area-inset-top)) 14px
+          calc(var(--nav-h) + max(16px,env(safe-area-inset-bottom)));
+}
+body::before{
+  content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(680px 420px at -10% -10%, rgba(124,92,255,.20), transparent 62%),
+    radial-gradient(620px 460px at 112% 4%, rgba(61,217,240,.13), transparent 60%),
+    radial-gradient(760px 520px at 50% 118%, rgba(61,240,139,.09), transparent 66%);
+}
+
+/* ── top bar ── */
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:4px 0 16px}
+.brand{display:flex;align-items:center;gap:9px}
+.mark{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;
+  background:linear-gradient(150deg,var(--green),var(--cyan) 55%,var(--violet));
+  font-family:'Sora',sans-serif;font-weight:800;font-size:15px;color:var(--void)}
+.brand h1{font-family:'Sora',sans-serif;font-weight:800;font-size:19px;letter-spacing:-.02em}
+.top-actions{display:flex;align-items:center;gap:7px}
+.icon-btn{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;
+  background:var(--surface);border:1px solid var(--line);color:var(--ink);
+  font-size:14px;cursor:pointer;text-decoration:none;flex:none}
+.icon-btn:active{transform:scale(.9)}
+.league{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;
+  background:var(--surface);border:1px solid var(--line);color:var(--ink);
+  border-radius:99px;padding:8px 12px;cursor:pointer}
+
+/* ── shared ── */
+h2{font-family:'IBM Plex Mono',monospace;font-size:9.5px;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--faint);margin:20px 0 10px;display:flex;
+  align-items:center;justify-content:space-between}
+h2 a{color:var(--cyan);text-decoration:none;font-size:9.5px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px}
+.muted{color:var(--mute)}
+
+/* ── dashboard ── */
+.hello{font-family:'Sora',sans-serif;font-weight:700;font-size:20px;letter-spacing:-.02em;margin-bottom:3px}
+.hello-sub{font-size:12px;color:var(--mute);margin-bottom:15px}
+
+.slate-card{padding:16px;display:flex;align-items:center;gap:16px}
+.slate-main{flex:1;min-width:0}
+.slate-lab{font-family:'IBM Plex Mono',monospace;font-size:8.5px;font-weight:700;
+  letter-spacing:.13em;text-transform:uppercase;color:var(--faint);margin-bottom:7px}
+.slate-num{font-family:'Sora',sans-serif;font-weight:800;font-size:40px;line-height:.95;
+  letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.slate-cap{font-size:11.5px;color:var(--mute);margin-top:5px}
+.slate-pill{display:inline-flex;flex-direction:column;align-items:center;gap:2px;
+  padding:9px 13px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line)}
+.slate-pill b{font-family:'Sora',sans-serif;font-weight:800;font-size:17px;color:var(--green)}
+.slate-pill span{font-family:'IBM Plex Mono',monospace;font-size:7.5px;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--faint);white-space:nowrap}
+
+.ringwrap{position:relative;flex:none;display:grid;place-items:center}
+.ringwrap .rv{position:absolute;font-family:'Sora',sans-serif;font-weight:800;font-size:19px;
+  font-variant-numeric:tabular-nums}
+.ringwrap .rl{position:absolute;bottom:-2px;font-family:'IBM Plex Mono',monospace;
+  font-size:7px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+
+/* top edges carousel */
+.edges{display:flex;gap:9px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+.edges::-webkit-scrollbar{display:none}
+.edge-card{flex:none;width:152px;padding:13px;border-radius:14px;
+  background:var(--surface);border:1px solid var(--line);cursor:pointer;position:relative;overflow:hidden}
+.edge-card::before{content:'';position:absolute;inset:0 0 auto 0;height:2px;background:var(--c,var(--green))}
+.edge-score{font-family:'Sora',sans-serif;font-weight:800;font-size:15px;color:var(--c,var(--green));
+  display:inline-block;padding:2px 8px;border-radius:6px;background:color-mix(in srgb,var(--c,var(--green)) 12%,transparent);
+  border:1px solid color-mix(in srgb,var(--c,var(--green)) 40%,transparent);margin-bottom:9px}
+.edge-name{font-family:'Sora',sans-serif;font-weight:700;font-size:13.5px;line-height:1.25;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.edge-prop{font-size:10.5px;color:var(--mute);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.edge-proj{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:15px;margin-top:9px;
+  font-variant-numeric:tabular-nums}
+.edge-proj small{font-size:9px;color:var(--faint);font-weight:600;margin-left:4px}
+
+/* category chips */
+.cats{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.cats::-webkit-scrollbar{display:none}
+.cat{flex:none;display:flex;align-items:center;gap:6px;padding:9px 13px;border-radius:12px;
+  background:var(--surface);border:1px solid var(--line);cursor:pointer;
+  font-size:11.5px;font-weight:600;white-space:nowrap}
+.cat i{font-style:normal;font-size:12px}
+
+/* recently updated */
+.upd{display:flex;align-items:center;gap:11px;padding:12px 13px;border-radius:12px;
+  background:var(--surface);border:1px solid var(--line);margin-bottom:6px}
+.upd-badge{width:30px;height:30px;border-radius:8px;flex:none;display:grid;place-items:center;
+  font-family:'IBM Plex Mono',monospace;font-size:8.5px;font-weight:800;letter-spacing:.02em}
+.upd-b{flex:1;min-width:0}
+.upd-t{font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.upd-s{font-size:10.5px;color:var(--faint);margin-top:2px}
+.upd-time{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--faint);flex:none}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--green);flex:none;
+  box-shadow:0 0 8px var(--green)}
+
+/* ── explore list ── */
+.filters{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;margin-bottom:12px}
+.filters::-webkit-scrollbar{display:none}
+.f{flex:none;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;
+  color:var(--mute);background:var(--surface);border:1px solid var(--line);
+  border-radius:99px;padding:8px 13px;cursor:pointer;white-space:nowrap}
+.f.on{color:var(--void);border-color:transparent;background:var(--violet);font-weight:800}
+
+.thead{display:flex;align-items:center;gap:10px;padding:0 13px 8px;
+  font-family:'IBM Plex Mono',monospace;font-size:7.5px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+.thead .c1{flex:1}
+.thead .c2{width:56px;text-align:right}
+.thead .c3{width:52px;text-align:right}
+.thead .c4{width:38px;text-align:center}
+
+.row{display:flex;align-items:center;gap:10px;padding:11px 13px;border-radius:13px;
+  background:var(--surface);border:1px solid var(--line);margin-bottom:6px;cursor:pointer}
+.row:active{background:var(--surface-2)}
+.av{width:36px;height:36px;border-radius:50%;flex:none;overflow:hidden;background:var(--surface-2);
+  border:1px solid var(--line);display:grid;place-items:center;
+  font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;color:var(--cyan)}
+.av img{width:100%;height:100%;object-fit:cover}
+.who{flex:1;min-width:0}
+.who-n{font-family:'Sora',sans-serif;font-weight:700;font-size:13.5px;line-height:1.25;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.who-m{font-size:10.5px;color:var(--mute);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pv{width:56px;text-align:right;flex:none}
+.pv-n{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:14.5px;
+  font-variant-numeric:tabular-nums}
+.pv-l{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--faint);margin-top:2px}
+.eg{width:52px;text-align:right;flex:none;font-family:'IBM Plex Mono',monospace;
+  font-weight:700;font-size:12.5px;font-variant-numeric:tabular-nums}
+.cf{width:38px;flex:none;display:grid;place-items:center}
+.cf-r{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;
+  font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:700;
+  border:2px solid var(--c,var(--green));color:var(--c,var(--green))}
+.star{width:26px;flex:none;text-align:center;font-size:14px;color:var(--line);cursor:pointer;line-height:1}
+.star.on{color:var(--amber);text-shadow:0 0 10px rgba(255,198,92,.5)}
+
+/* ── detail sheet ── */
+.sheet{position:fixed;inset:0;z-index:80;background:rgba(7,8,13,.72);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:none;
+  align-items:flex-end;justify-content:center}
+.sheet.on{display:flex}
+.sheet-in{width:100%;max-width:560px;max-height:88dvh;overflow-y:auto;
+  background:var(--void);border-top-left-radius:22px;border-top-right-radius:22px;
+  border:1px solid var(--line);padding:8px 14px max(20px,env(safe-area-inset-bottom))}
+.grab{width:38px;height:4px;border-radius:99px;background:var(--line);margin:6px auto 14px}
+.sh-head{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.sh-av{width:52px;height:52px;border-radius:14px;overflow:hidden;flex:none;background:var(--surface-2);
+  border:1px solid var(--line);display:grid;place-items:center;
+  font-family:'IBM Plex Mono',monospace;font-weight:700;color:var(--cyan)}
+.sh-av img{width:100%;height:100%;object-fit:cover}
+.sh-n{font-family:'Sora',sans-serif;font-weight:800;font-size:19px;letter-spacing:-.02em;line-height:1.15}
+.sh-m{font-size:11.5px;color:var(--mute);margin-top:3px}
+.sh-score{margin-left:auto;text-align:center;flex:none;padding:8px 12px;border-radius:12px;
+  background:color-mix(in srgb,var(--c,var(--green)) 10%,transparent);
+  border:1px solid color-mix(in srgb,var(--c,var(--green)) 38%,transparent)}
+.sh-score b{display:block;font-family:'Sora',sans-serif;font-weight:800;font-size:21px;color:var(--c,var(--green))}
+.sh-score span{font-family:'IBM Plex Mono',monospace;font-size:7px;font-weight:700;
+  letter-spacing:.09em;text-transform:uppercase;color:var(--faint)}
+
+.hero{display:flex;align-items:center;gap:14px;padding:15px;border-radius:16px;
+  background:linear-gradient(160deg,rgba(124,92,255,.12),rgba(61,217,240,.05) 60%,transparent);
+  border:1px solid var(--line);margin-bottom:9px}
+.hero-n{font-family:'Sora',sans-serif;font-weight:800;font-size:32px;line-height:1;
+  letter-spacing:-.035em;font-variant-numeric:tabular-nums}
+.hero-l{margin-top:5px;font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:700;
+  letter-spacing:.11em;text-transform:uppercase;color:var(--faint)}
+.hero-c{text-align:center;flex:none;min-width:54px}
+.hero-c b{display:block;font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:16px;
+  font-variant-numeric:tabular-nums}
+
+.cells{display:flex;gap:6px;margin-bottom:9px}
+.cell{flex:1;min-width:0;text-align:center;padding:10px 5px;border-radius:12px;
+  background:var(--surface);border:1px solid var(--line)}
+.cell b{display:block;font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:14px;
+  font-variant-numeric:tabular-nums}
+.cell span{display:block;margin-top:3px;font-family:'IBM Plex Mono',monospace;font-size:7.5px;
+  font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+
+.rings{display:flex;gap:6px}
+.ring{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;
+  padding:10px 4px;border-radius:12px;background:var(--surface);border:1px solid var(--line);position:relative}
+.ring-v{position:absolute;top:24px;font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:12px}
+.ring-l{margin-top:5px;font-family:'IBM Plex Mono',monospace;font-size:7.5px;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+.notes{padding:12px 13px;border-radius:12px;background:var(--surface);border:1px solid var(--line);
+  font-size:12px;line-height:1.6;color:var(--mute)}
+.notes b{color:var(--ink);font-weight:600}
+
+/* ── bottom nav ── */
+nav{position:fixed;left:0;right:0;bottom:0;z-index:70;
+  height:calc(var(--nav-h) + env(safe-area-inset-bottom));
+  padding-bottom:env(safe-area-inset-bottom);
+  background:rgba(12,14,20,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-top:1px solid var(--line);display:flex;align-items:stretch}
+.nav-in{max-width:560px;margin:0 auto;width:100%;display:flex}
+.nb{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  background:none;border:0;cursor:pointer;color:var(--faint);font-family:inherit;padding:0}
+.nb i{font-style:normal;font-size:17px;line-height:1}
+.nb span{font-size:9px;font-weight:600;letter-spacing:.02em}
+.nb.on{color:var(--green)}
+.nb.on i{filter:drop-shadow(0 0 7px rgba(61,240,139,.55))}
+
+/* ── logos ──
+   Team marks sit inline with text at cap height. Every one degrades to its
+   abbreviation rather than a broken-image icon, because a slate with four
+   missing logos should still read cleanly. */
+.tm{display:inline-block;vertical-align:-2px;object-fit:contain;flex:none}
+.tm-t{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;
+  color:var(--faint);letter-spacing:.03em}
+.who-m{display:flex;align-items:center;gap:4px}
+.who-m .vs{color:var(--faint);font-size:9.5px;margin:0 1px}
+.sh-m{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.sh-m .vs{color:var(--faint)}
+.edge-prop{display:flex;align-items:center;gap:4px}
+.av-logo{width:22px;height:22px;object-fit:contain}
+.league{display:inline-flex;align-items:center;gap:6px}
+.league .lg{object-fit:contain;flex:none}
+.upd-badge img{object-fit:contain}
+
+.empty{text-align:center;padding:50px 20px;color:var(--mute)}
+.empty .i{font-size:30px;opacity:.4;margin-bottom:9px}
+.empty .m{font-size:13px;font-weight:600}
+.empty .s{font-size:11.5px;color:var(--faint);margin-top:5px;line-height:1.5}
+.view{display:none}
+.view.on{display:block}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="brand">
+    <div class="mark">S</div>
+    <h1>Slate</h1>
+  </div>
+  <div class="top-actions">
+    <button class="league" id="league-btn">MLB ▾</button>
+    <a class="icon-btn" href="../how/" aria-label="How the models work">?</a>
+    <button class="icon-btn" id="refresh" aria-label="Refresh">↻</button>
+  </div>
+</div>
+
+<div class="view on" id="v-dash"></div>
+<div class="view" id="v-explore"></div>
+<div class="view" id="v-watch"></div>
+<div class="view" id="v-profile"></div>
+
+<div class="sheet" id="sheet"><div class="sheet-in" id="sheet-in"></div></div>
+
+<nav><div class="nav-in">
+  <button class="nb on" data-v="dash"><i>◈</i><span>Dashboard</span></button>
+  <button class="nb" data-v="explore"><i>⌕</i><span>Explore</span></button>
+  <button class="nb" data-v="watch"><i>★</i><span>Watchlist</span></button>
+  <button class="nb" data-v="profile"><i>☰</i><span>Profile</span></button>
+</div></nav>
+
+<script src="../picks.js"></script>
+<script>
+// Guard: this shell borrows the slip store from picks.js. If that file is
+// missing the app should still browse projections rather than die.
+//
+// Read through an accessor -- NEVER `var Picks = ...`. picks.js declares it as
+// a const, and a `var` of the same name hoists into the same global lexical
+// scope and throws "Identifier 'Picks' has already been declared", which kills
+// this entire script before a single view renders.
+const SLIP_FALLBACK = { all:()=>[], log:()=>{}, count:()=>0, onChange:()=>{}, hasKey:()=>false };
+function slip(){
+  try { return (typeof Picks !== 'undefined' && Picks) ? Picks : SLIP_FALLBACK; }
+  catch (e){ return SLIP_FALLBACK; }
+}
+
+// ── team identity ──────────────────────────────────────────────────────────
+// Lifted verbatim from the boards, where these maps are already proven against
+// live data. MLB needs a club id for its logo CDN; the other three key off the
+// abbreviation directly.
+const MLB_TEAMID = {"ARI":109,"ATH":133,"ATL":144,"BAL":110,"BOS":111,"CHC":112,"CWS":145,"CIN":113,"CLE":114,"COL":115,"DET":116,"HOU":117,"KC":118,"LAA":108,"LAD":119,"MIA":146,"MIL":158,"MIN":142,"NYM":121,"NYY":147,"PHI":143,"PIT":134,"SD":135,"SF":137,"SEA":136,"STL":138,"TB":139,"TEX":140,"TOR":141,"WSH":120};
+const MLB_ABBR = {"Arizona Diamondbacks":"ARI","Athletics":"ATH","Oakland Athletics":"ATH","Atlanta Braves":"ATL","Baltimore Orioles":"BAL","Boston Red Sox":"BOS","Chicago Cubs":"CHC","Chicago White Sox":"CWS","Cincinnati Reds":"CIN","Cleveland Guardians":"CLE","Colorado Rockies":"COL","Detroit Tigers":"DET","Houston Astros":"HOU","Kansas City Royals":"KC","Los Angeles Angels":"LAA","Los Angeles Dodgers":"LAD","Miami Marlins":"MIA","Milwaukee Brewers":"MIL","Minnesota Twins":"MIN","New York Mets":"NYM","New York Yankees":"NYY","Philadelphia Phillies":"PHI","Pittsburgh Pirates":"PIT","San Diego Padres":"SD","San Francisco Giants":"SF","Seattle Mariners":"SEA","St. Louis Cardinals":"STL","Tampa Bay Rays":"TB","Texas Rangers":"TEX","Toronto Blue Jays":"TOR","Washington Nationals":"WSH"};
+const NFL_ABBR = {"Arizona Cardinals":"ARI","Atlanta Falcons":"ATL","Baltimore Ravens":"BAL","Buffalo Bills":"BUF","Carolina Panthers":"CAR","Chicago Bears":"CHI","Cincinnati Bengals":"CIN","Cleveland Browns":"CLE","Dallas Cowboys":"DAL","Denver Broncos":"DEN","Detroit Lions":"DET","Green Bay Packers":"GB","Houston Texans":"HOU","Indianapolis Colts":"IND","Jacksonville Jaguars":"JAX","Kansas City Chiefs":"KC","Las Vegas Raiders":"LV","Los Angeles Chargers":"LAC","Los Angeles Rams":"LAR","Miami Dolphins":"MIA","Minnesota Vikings":"MIN","New England Patriots":"NE","New Orleans Saints":"NO","New York Giants":"NYG","New York Jets":"NYJ","Philadelphia Eagles":"PHI","Pittsburgh Steelers":"PIT","San Francisco 49ers":"SF","Seattle Seahawks":"SEA","Tampa Bay Buccaneers":"TB","Tennessee Titans":"TEN","Washington Commanders":"WSH"};
+
+function teamAbbr(sp, name){
+  if (!name) return '';
+  if (sp === 'mlb') return MLB_ABBR[name] || String(name).slice(0,3).toUpperCase();
+  if (sp === 'nfl') return NFL_ABBR[name] || String(name).slice(0,3).toUpperCase();
+  return String(name).toUpperCase();      // NHL and NBA already store abbreviations
+}
+
+function teamLogo(sp, abbr){
+  if (!abbr) return '';
+  if (sp === 'mlb'){
+    const id = MLB_TEAMID[abbr];
+    return id ? `https://www.mlbstatic.com/team-logos/${id}.svg` : '';
+  }
+  const path = {nfl:'nfl', nhl:'nhl', nba:'nba'}[sp];
+  return path ? `https://a.espncdn.com/i/teamlogos/${path}/500/${abbr.toLowerCase()}.png` : '';
+}
+
+// A logo that degrades to the abbreviation rather than a broken image icon.
+function teamMark(sp, abbr, size){
+  const src = teamLogo(sp, abbr);
+  const sz = size || 16;
+  return src
+    ? `<img class="tm" src="${src}" alt="${esc(abbr)}" loading="lazy" width="${sz}" height="${sz}"
+         onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'tm-t',textContent:'${esc(abbr)}'}))">`
+    : `<span class="tm-t">${esc(abbr)}</span>`;
+}
+
+const SPORTS = ['mlb','nfl','nhl','nba'];
+const SPORT_COLOR = {mlb:'#3DF08B', nfl:'#7C5CFF', nhl:'#3DD9F0', nba:'#FFC65C'};
+const LEAGUE_LOGO = {
+  mlb:'https://a.espncdn.com/i/teamlogos/leagues/500/mlb.png',
+  nfl:'https://a.espncdn.com/i/teamlogos/leagues/500/nfl.png',
+  nhl:'https://a.espncdn.com/i/teamlogos/leagues/500/nhl.png',
+  nba:'https://a.espncdn.com/i/teamlogos/leagues/500/nba.png',
+};
+const DATA = {};
+let sport = localStorage.getItem('slate_sport') || 'mlb';
+let market = null;
+let view = 'dash';
+
+const esc = s => String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;')
+  .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const $ = id => document.getElementById(id);
+
+/* ── watchlist ─────────────────────────────────────────────────────────────
+   Kept separate from the bet slip on purpose. A watchlist is "show me this
+   again"; the slip is "I backed this". Merging them would make the record
+   meaningless. */
+const WKEY = 'slate_watchlist_v1';
+const watch = {
+  all: () => { try { return JSON.parse(localStorage.getItem(WKEY)) || []; } catch(e){ return []; } },
+  has: k => watch.all().includes(k),
+  toggle(k){
+    const a = watch.all(), i = a.indexOf(k);
+    if (i >= 0) a.splice(i,1); else a.push(k);
+    try { localStorage.setItem(WKEY, JSON.stringify(a)); } catch(e){}
+    return i < 0;
+  },
+};
+
+/* ── market definitions per sport ── */
+const MARKETS = {
+  mlb: [
+    ['H+R+RBI', p=>p.expected_hrr, 2], ['Total Bases', p=>p.expected_tb, 2],
+    ['Hits', p=>p.expected_hits, 2], ['Home Runs', p=>p.expected_hr, 2],
+    ['RBI', p=>p.expected_rbi, 2], ['Runs', p=>p.expected_runs, 2],
+  ],
+  nfl: [
+    ['Rec Yds', p=>p.rec_yds, 0], ['Rush Yds', p=>p.rush_yds, 0],
+    ['Targets', p=>p.targets, 1], ['Anytime TD', p=>p.td_prob, 2],
+  ],
+  nhl: [
+    ['Shots', p=>p.shots_pg, 1], ['Points', p=>p.pts_pg, 2], ['Goals', p=>p.goal_prob, 2],
+  ],
+  nba: [
+    ['Points', p=>p.pts, 1], ['Rebounds', p=>p.reb, 1],
+    ['Assists', p=>p.ast, 1], ['3-Pointers', p=>p.tpm, 1],
+  ],
+};
+const POOLS = {
+  mlb: ['away_lineup','home_lineup'], nfl: ['away_skill','home_skill'],
+  nhl: ['away_skaters','home_skaters'], nba: ['away_players','home_players'],
+};
+
+function headshot(sp, p){
+  if (!p.player_id) return '';
+  if (sp === 'mlb') return `https://midfield.mlbstatic.com/v1/people/${p.player_id}/spots/60`;
+  const path = {nfl:'nfl', nhl:'nhl', nba:'nba'}[sp];
+  return `https://a.espncdn.com/i/headshots/${path}/players/full/${p.player_id}.png`;
+}
+const initials = n => String(n||'').trim().split(/\s+/).slice(0,2).map(w=>w[0]||'').join('').toUpperCase() || '?';
+
+// Headshot first, then the team logo, then initials. A missing portrait
+// shouldn't leave a grey disc where every other row has a face.
+function avatar(sp, p, cls){
+  const src = headshot(sp, p);
+  const logo = teamLogo(sp, p._tab || teamAbbr(sp, p._team));
+  const fallback = logo
+    ? `<img src='${logo}' alt='' loading='lazy' class='av-logo'>`
+    : initials(p.name);
+  return src
+    ? `<span class="${cls}"><img src="${src}" alt="" loading="lazy"
+         onerror="this.outerHTML=&quot;${fallback.replace(/"/g,'&quot;')}&quot;"></span>`
+    : `<span class="${cls}">${fallback}</span>`;
+}
+
+/* ── build a flat, ranked list of every projection for a sport ── */
+function players(sp){
+  const d = DATA[sp];
+  if (!d || !d.games) return [];
+  const defs = MARKETS[sp] || [];
+  const m = defs.find(x => x[0] === market) || defs[0];
+  if (!m) return [];
+  const out = [];
+  for (const g of d.games){
+    if (g.game_state === 'Final') continue;
+    for (const pool of POOLS[sp]){
+      const away = pool.startsWith('away');
+      const team = sp === 'mlb' || sp === 'nfl'
+        ? (away ? g.away_team : g.home_team) : (away ? g.away_abbr : g.home_abbr);
+      const opp = sp === 'mlb' || sp === 'nfl'
+        ? (away ? g.home_team : g.away_team) : (away ? g.home_abbr : g.away_abbr);
+      for (const p of (g[pool] || [])){
+        const v = m[1](p);
+        if (v == null || isNaN(v)) continue;
+        out.push({...p, _sp:sp, _team:team, _opp:opp,
+                  _tab:teamAbbr(sp, team), _oab:teamAbbr(sp, opp),
+                  _market:m[0], _val:v, _dp:m[2],
+                  _key:`${sp}|${m[0]}|${p.name}`, _game:g});
+      }
+    }
+  }
+  out.sort((a,b) => b._val - a._val);
+  return out;
+}
+
+/* Confidence: a transparent composite, not a black box. Percentile within the
+   slate, nudged by the matchup grade the model already assigns. */
+function confOf(p, arr){
+  const i = arr.indexOf(p);
+  const pct = arr.length > 1 ? 1 - (i / (arr.length - 1)) : 1;
+  let s = 45 + pct * 45;
+  const g = (p.matchup_grade || '')[0];
+  if (g === 'A') s += 8; else if (g === 'B') s += 3; else if (g === 'D') s -= 6;
+  return Math.max(1, Math.min(99, Math.round(s)));
+}
+const confColor = s => s >= 80 ? '#3DF08B' : s >= 65 ? '#3DD9F0' : s >= 50 ? '#FFC65C' : '#FF4E6A';
+
+function ring(v, pct, label, color, size){
+  const sz = size || 52, r = sz/2 - 4, c = 2*Math.PI*r;
+  const off = c * (1 - Math.max(0, Math.min(1, pct)));
+  return `<div class="ring">
+    <svg viewBox="0 0 ${sz} ${sz}" width="${sz}" height="${sz}">
+      <circle cx="${sz/2}" cy="${sz/2}" r="${r}" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="4"/>
+      <circle cx="${sz/2}" cy="${sz/2}" r="${r}" fill="none" stroke="${color}" stroke-width="4"
+        stroke-linecap="round" stroke-dasharray="${c.toFixed(1)}" stroke-dashoffset="${off.toFixed(1)}"
+        transform="rotate(-90 ${sz/2} ${sz/2})"/>
+    </svg>
+    <div class="ring-v" style="color:${color}">${v}</div>
+    <div class="ring-l">${label}</div>
+  </div>`;
+}
+
+/* ── DASHBOARD ── */
+function renderDash(){
+  const arr = players(sport);
+  const d = DATA[sport];
+  const games = (d && d.games || []).filter(g => g.game_state !== 'Final').length;
+  const confs = arr.map(p => confOf(p, arr));
+  const avg = confs.length ? Math.round(confs.reduce((a,b)=>a+b,0)/confs.length) : 0;
+  const elite = confs.filter(c => c >= 80).length;
+  const hour = new Date().getHours();
+  const greet = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
+
+  const top = arr.slice(0, 8).map(p => {
+    const c = confOf(p, arr), col = confColor(c);
+    return `<div class="edge-card" data-key="${esc(p._key)}" style="--c:${col}">
+      <div class="edge-score">${c}</div>
+      <div class="edge-name">${esc(p.name)}</div>
+      <div class="edge-prop">${teamMark(p._sp, p._tab, 12)}${esc(p._market)} · vs ${esc(p._oab)}</div>
+      <div class="edge-proj">${p._val.toFixed(p._dp)}<small>proj</small></div>
+    </div>`;
+  }).join('') || '<div class="empty"><div class="m">No projections yet</div></div>';
+
+  const cats = (MARKETS[sport]||[]).map(m =>
+    `<div class="cat" data-market="${esc(m[0])}"><i>◆</i>${esc(m[0])}</div>`).join('');
+
+  const upd = SPORTS.map(sp => {
+    const dd = DATA[sp];
+    const n = dd && dd.games ? dd.games.length : 0;
+    const when = dd && dd.generated_at ? rel(dd.generated_at) : '—';
+    return `<div class="upd">
+      <div class="upd-badge" style="background:${SPORT_COLOR[sp]}14;border:1px solid ${SPORT_COLOR[sp]}44">
+        <img src="${LEAGUE_LOGO[sp]}" alt="${sp.toUpperCase()}" width="18" height="18" loading="lazy"
+          onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'${sp.toUpperCase()}',style:'color:${SPORT_COLOR[sp]};font-size:8px;font-weight:800'}))"></div>
+      <div class="upd-b">
+        <div class="upd-t">${n} game${n===1?'':'s'} on the slate</div>
+        <div class="upd-s">${n ? 'Projections current' : 'Offseason'}</div>
+      </div>
+      <span class="upd-time">${when}</span>
+      ${n ? '<span class="dot"></span>' : ''}
+    </div>`;
+  }).join('');
+
+  $('v-dash').innerHTML = `
+    <div class="hello">${greet}, Michel 👋</div>
+    <div class="hello-sub">Your models are updated and ready to go.</div>
+
+    <div class="card slate-card">
+      <div class="slate-main">
+        <div class="slate-lab">Today's slate</div>
+        <div class="slate-num">${arr.length}</div>
+        <div class="slate-cap">projections across ${games} game${games===1?'':'s'}</div>
+      </div>
+      <div class="slate-pill"><b>${elite}</b><span>Elite</span></div>
+      <div class="ringwrap">
+        ${ring('', avg/100, '', confColor(avg), 74)}
+        <div class="rv" style="color:${confColor(avg)}">${avg}</div>
+        <div class="rl">Avg conf</div>
+      </div>
+    </div>
+
+    <h2>Top model edges <a href="#" data-goto="explore">View all</a></h2>
+    <div class="edges">${top}</div>
+
+    <h2>Markets</h2>
+    <div class="cats">${cats}</div>
+
+    <h2>Recently updated</h2>
+    ${upd}`;
+}
+function rel(iso){
+  const t = Date.parse(iso.endsWith('Z')||/[+-]\d\d:?\d\d$/.test(iso) ? iso : iso + 'Z');
+  if (!t) return '—';
+  const m = Math.max(0, Math.round((Date.now()-t)/60000));
+  if (m < 1) return 'now';
+  if (m < 60) return m + 'm ago';
+  const h = Math.round(m/60);
+  return h < 24 ? h + 'h ago' : Math.round(h/24) + 'd ago';
+}
+
+/* ── EXPLORE ── */
+function rowHtml(p, arr){
+  const c = confOf(p, arr), col = confColor(c);
+  const starred = watch.has(p._key);
+  return `<div class="row" data-key="${esc(p._key)}">
+    ${avatar(p._sp, p, 'av')}
+    <div class="who">
+      <div class="who-n">${esc(p.name)}</div>
+      <div class="who-m">${teamMark(p._sp, p._tab, 13)}<span>${esc(p._tab)} · ${esc(p._market)}</span>
+        <span class="vs">vs</span>${teamMark(p._sp, p._oab, 13)}<span>${esc(p._oab)}</span></div>
+    </div>
+    <div class="pv"><div class="pv-n">${p._val.toFixed(p._dp)}</div><div class="pv-l">proj</div></div>
+    <div class="cf"><div class="cf-r" style="--c:${col}">${c}</div></div>
+    <span class="star ${starred?'on':''}" data-star="${esc(p._key)}">${starred?'★':'☆'}</span>
+  </div>`;
+}
+function renderExplore(){
+  const arr = players(sport);
+  const defs = MARKETS[sport] || [];
+  const chips = defs.map(m =>
+    `<div class="f ${(market||defs[0][0])===m[0]?'on':''}" data-market="${esc(m[0])}">${esc(m[0])}</div>`).join('');
+  $('v-explore').innerHTML = `
+    <div class="filters">${chips}</div>
+    <div class="thead"><span class="c1">Player / Prop</span><span class="c2">Proj</span>
+      <span class="c3">Conf</span><span class="c4"></span></div>
+    ${arr.length ? arr.slice(0,120).map(p=>rowHtml(p,arr)).join('')
+      : `<div class="empty"><div class="i">◎</div><div class="m">Nothing on the slate</div>
+         <div class="s">${sport.toUpperCase()} has no games right now.</div></div>`}`;
+}
+
+/* ── WATCHLIST ── */
+function renderWatch(){
+  const keys = watch.all();
+  let rows = '';
+  for (const sp of SPORTS){
+    const arr = players(sp);
+    for (const p of arr) if (keys.includes(p._key)) rows += rowHtml(p, arr);
+  }
+  $('v-watch').innerHTML = rows || `<div class="empty"><div class="i">★</div>
+    <div class="m">Nothing starred yet</div>
+    <div class="s">Tap the star on any projection to keep an eye on it.</div></div>`;
+}
+
+/* ── PROFILE ── */
+function renderProfile(){
+  const picks = slip().all();
+  const settled = picks.filter(p => p.result === 'win' || p.result === 'loss');
+  const w = settled.filter(p => p.result === 'win').length;
+  $('v-profile').innerHTML = `
+    <h2>Your record</h2>
+    <div class="card slate-card">
+      <div class="slate-main">
+        <div class="slate-lab">Settled</div>
+        <div class="slate-num">${w}–${settled.length-w}</div>
+        <div class="slate-cap">${picks.length - settled.length} still open</div>
+      </div>
+      <div class="slate-pill"><b>${settled.length ? Math.round(w/settled.length*100) : 0}%</b><span>Win rate</span></div>
+    </div>
+    <h2>Elsewhere</h2>
+    <div class="upd"><div class="upd-b"><div class="upd-t">Bet slip</div>
+      <div class="upd-s">Log and settle your plays</div></div>
+      <a class="icon-btn" href="../picks/">→</a></div>
+    <div class="upd"><div class="upd-b"><div class="upd-t">How the models work</div>
+      <div class="upd-s">Sources and method, per league</div></div>
+      <a class="icon-btn" href="../how/">→</a></div>
+    <div class="upd"><div class="upd-b"><div class="upd-t">Classic boards</div>
+      <div class="upd-s">The original game-card view</div></div>
+      <a class="icon-btn" href="../">→</a></div>`;
+}
+
+/* ── DETAIL SHEET ── */
+function openSheet(key){
+  let found = null, arr = [];
+  for (const sp of SPORTS){
+    const a = players(sp);
+    const p = a.find(x => x._key === key);
+    if (p){ found = p; arr = a; break; }
+  }
+  if (!found) return;
+  const p = found, c = confOf(p, arr), col = confColor(c);
+  const g = p._game, ctx = g && g._context;
+
+  const cells = [];
+  if (p._sp === 'mlb'){
+    if (p.pa != null) cells.push(['PA', p.pa.toFixed(1)]);
+    if (p.xwoba != null) cells.push(['xwOBA', p.xwoba.toFixed(3)]);
+    if (p.hr_prob != null) cells.push(['HR/PA', (p.hr_prob*100).toFixed(1)+'%']);
+    if (p.k_rate != null) cells.push(['K%', (p.k_rate*100).toFixed(0)+'%']);
+  } else if (p._sp === 'nfl'){
+    if (p.targets != null) cells.push(['TGT', p.targets.toFixed(1)]);
+    if (p.rec != null) cells.push(['REC', p.rec.toFixed(1)]);
+    if (p.td_prob != null) cells.push(['TD%', (p.td_prob*100).toFixed(0)+'%']);
+    if (p.fpts != null) cells.push(['FPTS', p.fpts.toFixed(1)]);
+  }
+
+  let rings = '';
+  if (ctx){
+    const away = g && (g.away_team === p._team);
+    const pq = away ? ctx.pitcher_quality : ctx.opp_pitcher_quality;
+    const pen = away ? ctx.bullpen_home : ctx.bullpen_away;
+    const r = [];
+    if (pq != null) r.push(ring(pq, pq/100, 'Pitcher', '#3DF08B'));
+    if (pen != null) r.push(ring(pen.toFixed(2), (pen-0.85)/0.3, 'Bullpen', '#FFC65C'));
+    if (ctx.park_run_factor != null) r.push(ring(Math.round(ctx.park_run_factor*100), (ctx.park_run_factor-0.9)/0.28, 'Park', '#7C5CFF'));
+    if (ctx.weather_hr_factor != null) r.push(ring((ctx.weather_hr_factor>1?'+':'')+Math.round((ctx.weather_hr_factor-1)*100)+'%', Math.abs(ctx.weather_hr_factor-1)/0.25, 'Weather', '#3DD9F0'));
+    if (r.length) rings = `<h2>Matchup analysis</h2><div class="rings">${r.join('')}</div>`;
+  }
+
+  const notes = [];
+  if (p.matchup_grade) notes.push(`Matchup graded <b>${esc(p.matchup_grade)}</b> against ${esc(p._opp)}.`);
+  if (p._sp==='mlb' && p.order) notes.push(`Batting <b>${p.order}${p.order===1?'st':p.order===2?'nd':p.order===3?'rd':'th'}</b>.`);
+  if (ctx && ctx.park_run_factor && ctx.park_run_factor !== 1)
+    notes.push(`Park plays <b>${ctx.park_run_factor > 1 ? 'up' : 'down'}</b> at ${Math.round(Math.abs(ctx.park_run_factor-1)*100)}%.`);
+  if (ctx && ctx.umpire) notes.push(`Home plate: ${esc(ctx.umpire)}.`);
+  notes.push(`Confidence is this projection's rank within today's ${esc(p._market)} board, adjusted for matchup grade \u2014 not a hit-rate.`);
+
+  $('sheet-in').innerHTML = `
+    <div class="grab"></div>
+    <div class="sh-head">
+      ${avatar(p._sp, p, 'sh-av')}
+      <div><div class="sh-n">${esc(p.name)}</div>
+        <div class="sh-m">${teamMark(p._sp, p._tab, 15)}<span>${esc(p._team)}</span>
+          <span class="vs">vs</span>${teamMark(p._sp, p._oab, 15)}<span>${esc(p._opp)}</span></div></div>
+      <div class="sh-score" style="--c:${col}"><b>${c}</b><span>Confidence</span></div>
+    </div>
+    <div class="hero">
+      <div style="flex:1">
+        <div class="hero-n">${p._val.toFixed(p._dp)}</div>
+        <div class="hero-l">Projected ${esc(p._market)}</div>
+      </div>
+    </div>
+    ${cells.length ? `<div class="cells">${cells.map(([l,v])=>`<div class="cell"><b>${v}</b><span>${l}</span></div>`).join('')}</div>` : ''}
+    ${rings}
+    <h2>Model notes</h2>
+    <div class="notes">${notes.join(' ')}</div>`;
+  $('sheet').classList.add('on');
+}
+
+/* ── wiring ── */
+function render(){
+  document.querySelectorAll('.view').forEach(v => v.classList.toggle('on', v.id === 'v-'+view));
+  document.querySelectorAll('.nb').forEach(b => b.classList.toggle('on', b.dataset.v === view));
+  if (view === 'dash') renderDash();
+  else if (view === 'explore') renderExplore();
+  else if (view === 'watch') renderWatch();
+  else renderProfile();
+  $('league-btn').innerHTML = `<img class="lg" src="${LEAGUE_LOGO[sport]}" alt="" width="15" height="15"
+      onerror="this.remove()">${sport.toUpperCase()} \u25be`;
+}
+
+document.querySelector('nav').addEventListener('click', e => {
+  const b = e.target.closest('.nb');
+  if (!b) return;
+  view = b.dataset.v; render(); window.scrollTo({top:0});
+});
+$('league-btn').addEventListener('click', () => {
+  sport = SPORTS[(SPORTS.indexOf(sport)+1) % SPORTS.length];
+  try { localStorage.setItem('slate_sport', sport); } catch(e){}
+  market = null; render();
+});
+document.body.addEventListener('click', e => {
+  const star = e.target.closest('[data-star]');
+  if (star){ e.stopPropagation(); watch.toggle(star.dataset.star); render(); return; }
+  const cat = e.target.closest('[data-market]');
+  if (cat){ market = cat.dataset.market; view = 'explore'; render(); return; }
+  const goto = e.target.closest('[data-goto]');
+  if (goto){ e.preventDefault(); view = goto.dataset.goto; render(); return; }
+  const k = e.target.closest('[data-key]');
+  if (k){ openSheet(k.dataset.key); return; }
+});
+$('sheet').addEventListener('click', e => {
+  if (e.target === $('sheet')) $('sheet').classList.remove('on');
+});
+$('refresh').addEventListener('click', () => load());
+
+async function load(){
+  await Promise.all(SPORTS.map(async sp => {
+    try {
+      const r = await fetch(`../data/${sp}_slate.json?t=${Date.now()}`);
+      DATA[sp] = await r.json();
+    } catch(e){ DATA[sp] = {games:[]}; }
+  }));
+  render();
+}
+load();
+setInterval(load, 10*60*1000);
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('../sw.js');
+</script>
+</body>
+</html>
