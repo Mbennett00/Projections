@@ -49,6 +49,18 @@ body::before{
 .league{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;
   background:var(--surface);border:1px solid var(--line);color:var(--ink);
   border-radius:99px;padding:8px 12px;cursor:pointer}
+.league-wrap{position:relative}
+.league-menu{position:absolute;top:calc(100% + 6px);right:0;min-width:150px;
+  background:var(--surface);border:1px solid var(--line);border-radius:14px;
+  padding:6px;display:none;flex-direction:column;gap:2px;z-index:20;
+  box-shadow:0 12px 28px rgba(0,0,0,.45)}
+.league-menu.on{display:flex}
+.league-opt{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:9px;
+  cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:700;
+  color:var(--ink);background:none;border:none;width:100%;text-align:left}
+.league-opt:active{background:var(--surface-2)}
+.league-opt.on{background:var(--surface-2);color:var(--green)}
+.league-opt img{width:16px;height:16px;flex:none}
 
 /* ── shared ── */
 h2{font-family:'IBM Plex Mono',monospace;font-size:9.5px;font-weight:700;letter-spacing:.14em;
@@ -150,6 +162,23 @@ h2 a{color:var(--cyan);text-decoration:none;font-size:9.5px}
 .pv-l{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--faint);margin-top:2px}
 .eg{width:52px;text-align:right;flex:none;font-family:'IBM Plex Mono',monospace;
   font-weight:700;font-size:12.5px;font-variant-numeric:tabular-nums}
+
+/* ── games list (Explore → Games mode) ── */
+.game-row{display:flex;flex-direction:column;gap:9px;padding:13px;border-radius:14px;
+  background:var(--surface);border:1px solid var(--line);margin-bottom:8px}
+.gr-top{display:flex;justify-content:space-between;align-items:center;font-size:10px;
+  font-family:'IBM Plex Mono',monospace;color:var(--faint);font-weight:700}
+.gr-state{font-size:9px;font-weight:800;letter-spacing:.05em;padding:3px 8px;border-radius:6px;
+  background:rgba(142,147,163,.14);color:var(--mute)}
+.gr-state.LIVE{background:var(--red);color:#07080D}
+.gr-state.FINAL{background:var(--surface-2);color:var(--faint)}
+.gr-teams{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.gt{display:flex;align-items:center;gap:8px;flex:1;min-width:0}
+.gt-n{font-family:'Sora',sans-serif;font-weight:700;font-size:14.5px}
+.gt-ml{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--mute);margin-top:1px}
+.gr-at{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--faint);flex:none}
+.gr-edge{display:flex;align-items:center;gap:6px;font-size:11.5px;font-weight:700;
+  color:var(--green);padding-top:8px;border-top:1px dashed var(--line)}
 .cf{width:38px;flex:none;display:grid;place-items:center}
 .cf-r{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;
   font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:700;
@@ -209,6 +238,18 @@ h2 a{color:var(--cyan);text-decoration:none;font-size:9.5px}
   font-size:12px;line-height:1.6;color:var(--mute)}
 .notes b{color:var(--ink);font-weight:600}
 
+/* neon confidence badge — used on player rows, top-edge cards, and the detail sheet */
+.neon-badge{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:8.5px;font-weight:800;
+  letter-spacing:.07em;padding:3px 8px;border-radius:6px;color:var(--c,var(--green));
+  background:color-mix(in srgb,var(--c,var(--green)) 14%,transparent);
+  border:1px solid color-mix(in srgb,var(--c,var(--green)) 48%,transparent);
+  text-shadow:0 0 8px color-mix(in srgb,var(--c,var(--green)) 75%,transparent);
+  box-shadow:0 0 10px color-mix(in srgb,var(--c,var(--green)) 32%,transparent);white-space:nowrap}
+
+/* floor / median / ceiling range cells — reuses .cells layout, median gets emphasis */
+.cell.mid{background:color-mix(in srgb,var(--green) 10%,var(--surface));border-color:color-mix(in srgb,var(--green) 40%,var(--line))}
+.cell.mid b{color:var(--green)}
+
 /* ── bottom nav ── */
 nav{position:fixed;left:0;right:0;bottom:0;z-index:70;
   height:calc(var(--nav-h) + env(safe-area-inset-bottom));
@@ -257,7 +298,10 @@ nav{position:fixed;left:0;right:0;bottom:0;z-index:70;
     <h1>Slate</h1>
   </div>
   <div class="top-actions">
-    <button class="league" id="league-btn">MLB ▾</button>
+    <div class="league-wrap">
+      <button class="league" id="league-btn" aria-haspopup="true" aria-expanded="false">MLB ▾</button>
+      <div class="league-menu" id="league-menu"></div>
+    </div>
     <a class="icon-btn" href="../how/" aria-label="How the models work">?</a>
     <button class="icon-btn" id="refresh" aria-label="Refresh">↻</button>
   </div>
@@ -338,6 +382,7 @@ const LEAGUE_LOGO = {
 const DATA = {};
 let sport = localStorage.getItem('slate_sport') || 'mlb';
 let market = null;
+let exploreMode = 'props'; // 'props' | 'games' — toggle in the Explore tab
 let view = 'dash';
 
 const esc = s => String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;')
@@ -406,6 +451,69 @@ function avatar(sp, p, cls){
     : `<span class="${cls}">${fallback}</span>`;
 }
 
+/* ── game-level helpers (moneylines, win%, model edge — separate from props) ── */
+function gameEdgeScore(g){
+  if (g.edge && typeof g.edge.score === 'number') return g.edge.score;
+  if (typeof g.p_ml_edge === 'number' && g.p_ml_edge) return Math.round(Math.abs(g.p_ml_edge) * 100);
+  return 0;
+}
+function fmtMl(v){ return v == null ? '' : (v > 0 ? `+${v}` : `${v}`); }
+function gameSides(g, sp){
+  const isFull = sp === 'mlb' || sp === 'nfl';
+  const away = isFull ? g.away_team : g.away_abbr;
+  const home = isFull ? g.home_team : g.home_abbr;
+  return { awayAb: teamAbbr(sp, away), homeAb: teamAbbr(sp, home) };
+}
+function gamesFor(sp){
+  const d = DATA[sp];
+  if (!d || !d.games) return [];
+  return d.games.slice().sort((a,b) => gameEdgeScore(b) - gameEdgeScore(a));
+}
+function gameCardHtml(g, sp){
+  const { awayAb, homeAb } = gameSides(g, sp);
+  const score = gameEdgeScore(g);
+  const col = score >= 55 ? '#3DF08B' : score >= 30 ? '#3DD9F0' : '#8E93A3';
+  const timeTxt = g.game_state === 'Live' ? 'LIVE'
+    : g.game_time ? new Date(g.game_time).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}) : '—';
+  return `<div class="edge-card" data-goto="explore" data-mode="games" style="--c:${col}">
+    <div class="edge-score">${score || '—'}</div>
+    <div class="edge-name">${esc(awayAb)} @ ${esc(homeAb)}</div>
+    <div class="edge-prop">${esc(timeTxt)}${g.tier ? ' · ' + esc(g.tier) : ''}</div>
+    <div class="edge-proj">${g.edge && g.edge.team ? esc(teamAbbr(sp, g.edge.team)) + ' edge' : '—'}</div>
+  </div>`;
+}
+function gameRowHtml(g, sp){
+  const { awayAb, homeAb } = gameSides(g, sp);
+  const ml = g.moneylines || {};
+  const score = gameEdgeScore(g);
+  const edgeTeam = g.edge && g.edge.team ? teamAbbr(sp, g.edge.team) : null;
+  const timeTxt = g.game_time
+    ? new Date(g.game_time).toLocaleString('en-US',{weekday:'short',hour:'numeric',minute:'2-digit'}) : '';
+  const awayPct = ml.away == null && g.away_win_pct != null ? `${Math.round(g.away_win_pct*100)}% win` : null;
+  const homePct = ml.home == null && g.home_win_pct != null ? `${Math.round(g.home_win_pct*100)}% win` : null;
+  const edgeLine = (score > 0 || edgeTeam)
+    ? `<div class="gr-edge">🔥 ${edgeTeam ? `Best edge: ${esc(edgeTeam)}` : 'Model edge'}${score ? ` · ${score}` : ''}${g.weather_note ? ` · ${esc(g.weather_note)}` : ''}</div>`
+    : (g.weather_note ? `<div class="gr-edge" style="color:var(--mute)">${esc(g.weather_note)}</div>` : '');
+  return `<div class="game-row">
+    <div class="gr-top">
+      <span>${esc(timeTxt)}${g.venue ? ' · ' + esc(g.venue) : ''}</span>
+      <span class="gr-state ${esc(g.game_state||'')}">${esc((g.game_state||'').toUpperCase())}</span>
+    </div>
+    <div class="gr-teams">
+      <div class="gt">${teamMark(sp, awayAb, 22)}<div>
+        <div class="gt-n">${esc(awayAb)}</div>
+        ${ml.away != null ? `<div class="gt-ml">${fmtMl(ml.away)}</div>` : awayPct ? `<div class="gt-ml">${awayPct}</div>` : ''}
+      </div></div>
+      <span class="gr-at">@</span>
+      <div class="gt" style="justify-content:flex-end;text-align:right"><div>
+        <div class="gt-n">${esc(homeAb)}</div>
+        ${ml.home != null ? `<div class="gt-ml">${fmtMl(ml.home)}</div>` : homePct ? `<div class="gt-ml">${homePct}</div>` : ''}
+      </div>${teamMark(sp, homeAb, 22)}</div>
+    </div>
+    ${edgeLine}
+  </div>`;
+}
+
 /* ── build a flat, ranked list of every projection for a sport ── */
 function players(sp){
   const d = DATA[sp];
@@ -447,6 +555,33 @@ function confOf(p, arr){
   return Math.max(1, Math.min(99, Math.round(s)));
 }
 const confColor = s => s >= 80 ? '#3DF08B' : s >= 65 ? '#3DD9F0' : s >= 50 ? '#FFC65C' : '#FF4E6A';
+const tierLabel = s => s >= 80 ? 'ELITE' : s >= 65 ? 'HIGH' : s >= 50 ? 'MEDIUM' : 'LOW';
+function neonBadge(score){
+  return `<span class="neon-badge" style="--c:${confColor(score)}">${tierLabel(score)}</span>`;
+}
+
+/* ── outcome distribution: floor / median / ceiling ──
+   A lightweight Monte Carlo around the model's point projection (2,000 draws,
+   right-skewed, spread scaled to the projection). This is a generic stand-in
+   for the per-stat simulators the classic boards used — good for a floor/
+   median/ceiling read without needing a separate sampler per sport/market. */
+const SIMCACHE = {};
+function simDraws(key, mean){
+  if (SIMCACHE[key]) return SIMCACHE[key];
+  const N = 2000, cv = 0.38, shape = 1 / (cv * cv), scale = Math.max(0.0001, mean) / shape;
+  const draws = new Array(N);
+  for (let i = 0; i < N; i++){
+    let s = 0;
+    for (let j = 0; j < Math.floor(shape); j++) s += -Math.log(Math.random());
+    const frac = shape - Math.floor(shape);
+    if (frac > 0) s += -Math.log(Math.random()) * frac;
+    draws[i] = Math.max(0, s * scale);
+  }
+  draws.sort((a, b) => a - b);
+  return SIMCACHE[key] = draws;
+}
+const pctile = (draws, q) => draws[Math.min(draws.length - 1, Math.floor(q * draws.length))];
+
 
 function ring(v, pct, label, color, size){
   const sz = size || 52, r = sz/2 - 4, c = 2*Math.PI*r;
@@ -478,11 +613,15 @@ function renderDash(){
     const c = confOf(p, arr), col = confColor(c);
     return `<div class="edge-card" data-key="${esc(p._key)}" style="--c:${col}">
       <div class="edge-score">${c}</div>
+      ${neonBadge(c)}
       <div class="edge-name">${esc(p.name)}</div>
       <div class="edge-prop">${teamMark(p._sp, p._tab, 12)}${esc(p._market)} · vs ${esc(p._oab)}</div>
       <div class="edge-proj">${p._val.toFixed(p._dp)}<small>proj</small></div>
     </div>`;
   }).join('') || '<div class="empty"><div class="m">No projections yet</div></div>';
+
+  const gameCards = gamesFor(sport).slice(0, 8).map(g => gameCardHtml(g, sport)).join('')
+    || '<div class="empty"><div class="m">No games today</div></div>';
 
   const cats = (MARKETS[sport]||[]).map(m =>
     `<div class="cat" data-market="${esc(m[0])}"><i>◆</i>${esc(m[0])}</div>`).join('');
@@ -522,8 +661,11 @@ function renderDash(){
       </div>
     </div>
 
-    <h2>Top model edges <a href="#" data-goto="explore">View all</a></h2>
+    <h2>Top model edges <a href="#" data-goto="explore" data-mode="props">View all</a></h2>
     <div class="edges">${top}</div>
+
+    <h2>Today's games <a href="#" data-goto="explore" data-mode="games">View all</a></h2>
+    <div class="edges">${gameCards}</div>
 
     <h2>Markets</h2>
     <div class="cats">${cats}</div>
@@ -554,15 +696,30 @@ function rowHtml(p, arr){
     </div>
     <div class="pv"><div class="pv-n">${p._val.toFixed(p._dp)}</div><div class="pv-l">proj</div></div>
     <div class="cf"><div class="cf-r" style="--c:${col}">${c}</div></div>
+    ${neonBadge(c)}
     <span class="star ${starred?'on':''}" data-star="${esc(p._key)}">${starred?'★':'☆'}</span>
   </div>`;
 }
 function renderExplore(){
+  const modeToggle = `<div class="filters" style="margin-bottom:8px">
+      <div class="f ${exploreMode==='props'?'on':''}" data-mode="props">Props</div>
+      <div class="f ${exploreMode==='games'?'on':''}" data-mode="games">Games</div>
+    </div>`;
+
+  if (exploreMode === 'games'){
+    const games = gamesFor(sport);
+    $('v-explore').innerHTML = modeToggle +
+      (games.length ? games.map(g => gameRowHtml(g, sport)).join('')
+        : `<div class="empty"><div class="i">◎</div><div class="m">No games on the slate</div>
+           <div class="s">${sport.toUpperCase()} has no games right now.</div></div>`);
+    return;
+  }
+
   const arr = players(sport);
   const defs = MARKETS[sport] || [];
   const chips = defs.map(m =>
     `<div class="f ${(market||defs[0][0])===m[0]?'on':''}" data-market="${esc(m[0])}">${esc(m[0])}</div>`).join('');
-  $('v-explore').innerHTML = `
+  $('v-explore').innerHTML = modeToggle + `
     <div class="filters">${chips}</div>
     <div class="thead"><span class="c1">Player / Prop</span><span class="c2">Proj</span>
       <span class="c3">Conf</span><span class="c4"></span></div>
@@ -605,10 +762,7 @@ function renderProfile(){
       <a class="icon-btn" href="../picks/">→</a></div>
     <div class="upd"><div class="upd-b"><div class="upd-t">How the models work</div>
       <div class="upd-s">Sources and method, per league</div></div>
-      <a class="icon-btn" href="../how/">→</a></div>
-    <div class="upd"><div class="upd-b"><div class="upd-t">Classic boards</div>
-      <div class="upd-s">The original game-card view</div></div>
-      <a class="icon-btn" href="../">→</a></div>`;
+      <a class="icon-btn" href="../how/">→</a></div>`;
 }
 
 /* ── DETAIL SHEET ── */
@@ -622,6 +776,8 @@ function openSheet(key){
   if (!found) return;
   const p = found, c = confOf(p, arr), col = confColor(c);
   const g = p._game, ctx = g && g._context;
+  const draws = simDraws(p._key, p._val);
+  const floor = pctile(draws, 0.25), med = pctile(draws, 0.50), ceil = pctile(draws, 0.90);
 
   const cells = [];
   if (p._sp === 'mlb'){
@@ -664,13 +820,19 @@ function openSheet(key){
       <div><div class="sh-n">${esc(p.name)}</div>
         <div class="sh-m">${teamMark(p._sp, p._tab, 15)}<span>${esc(p._team)}</span>
           <span class="vs">vs</span>${teamMark(p._sp, p._oab, 15)}<span>${esc(p._opp)}</span></div></div>
-      <div class="sh-score" style="--c:${col}"><b>${c}</b><span>Confidence</span></div>
+      <div class="sh-score" style="--c:${col}"><b>${c}</b><span>Confidence</span>${neonBadge(c)}</div>
     </div>
     <div class="hero">
       <div style="flex:1">
         <div class="hero-n">${p._val.toFixed(p._dp)}</div>
         <div class="hero-l">Projected ${esc(p._market)}</div>
       </div>
+    </div>
+    <h2>Range of outcomes</h2>
+    <div class="cells">
+      <div class="cell"><b>${floor.toFixed(p._dp)}</b><span>Floor</span></div>
+      <div class="cell mid"><b>${med.toFixed(p._dp)}</b><span>Median</span></div>
+      <div class="cell"><b>${ceil.toFixed(p._dp)}</b><span>Ceiling</span></div>
     </div>
     ${cells.length ? `<div class="cells">${cells.map(([l,v])=>`<div class="cell"><b>${v}</b><span>${l}</span></div>`).join('')}</div>` : ''}
     ${rings}
@@ -689,6 +851,10 @@ function render(){
   else renderProfile();
   $('league-btn').innerHTML = `<img class="lg" src="${LEAGUE_LOGO[sport]}" alt="" width="15" height="15"
       onerror="this.remove()">${sport.toUpperCase()} \u25be`;
+  $('league-menu').innerHTML = SPORTS.map(sp => `
+    <button class="league-opt ${sp===sport?'on':''}" data-league="${sp}">
+      <img src="${LEAGUE_LOGO[sp]}" alt="" onerror="this.remove()">${sp.toUpperCase()}
+    </button>`).join('');
 }
 
 document.querySelector('nav').addEventListener('click', e => {
@@ -696,18 +862,36 @@ document.querySelector('nav').addEventListener('click', e => {
   if (!b) return;
   view = b.dataset.v; render(); window.scrollTo({top:0});
 });
-$('league-btn').addEventListener('click', () => {
-  sport = SPORTS[(SPORTS.indexOf(sport)+1) % SPORTS.length];
-  try { localStorage.setItem('slate_sport', sport); } catch(e){}
-  market = null; render();
+$('league-btn').addEventListener('click', e => {
+  e.stopPropagation();
+  const open = $('league-menu').classList.toggle('on');
+  $('league-btn').setAttribute('aria-expanded', open ? 'true' : 'false');
+});
+document.addEventListener('click', e => {
+  if (!e.target.closest('.league-wrap')){
+    $('league-menu').classList.remove('on');
+    $('league-btn').setAttribute('aria-expanded', 'false');
+  }
 });
 document.body.addEventListener('click', e => {
+  const lg = e.target.closest('[data-league]');
+  if (lg){
+    sport = lg.dataset.league;
+    try { localStorage.setItem('slate_sport', sport); } catch(e){}
+    market = null;
+    $('league-menu').classList.remove('on');
+    $('league-btn').setAttribute('aria-expanded', 'false');
+    render();
+    return;
+  }
   const star = e.target.closest('[data-star]');
   if (star){ e.stopPropagation(); watch.toggle(star.dataset.star); render(); return; }
   const cat = e.target.closest('[data-market]');
   if (cat){ market = cat.dataset.market; view = 'explore'; render(); return; }
   const goto = e.target.closest('[data-goto]');
-  if (goto){ e.preventDefault(); view = goto.dataset.goto; render(); return; }
+  if (goto){ e.preventDefault(); view = goto.dataset.goto; if (goto.dataset.mode) exploreMode = goto.dataset.mode; render(); window.scrollTo({top:0}); return; }
+  const modeBtn = e.target.closest('[data-mode]');
+  if (modeBtn){ exploreMode = modeBtn.dataset.mode; render(); return; }
   const k = e.target.closest('[data-key]');
   if (k){ openSheet(k.dataset.key); return; }
 });
