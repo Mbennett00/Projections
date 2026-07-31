@@ -3,475 +3,915 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Projex — Model Boards</title>
-<meta name="theme-color" content="#16532E">
-<link rel="manifest" href="./manifest.webmanifest">
-<link rel="apple-touch-icon" href="./icon-180.png">
-<link rel="icon" href="./favicon-32.png">
+<title>Slate — Projections</title>
+<meta name="theme-color" content="#07080D">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="apple-touch-icon" href="../icon-180.png">
+<link rel="icon" href="../favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#0B0C0E; --panel:#151619; --panel-hi:#1C1E22; --line:#2A2C30;
-  --g1:#93E06E; --g2:#5FA34A; --grad:linear-gradient(135deg,var(--g1),var(--g2));
-  --gold:#E0B84A;
-  --ink:#F2F3EF; --mute:#8A8D93; --faint:#55585E;
-  --r:20px; --r-sm:12px;
+  --void:#07080D; --surface:#101219; --surface-2:#161923; --line:#242836;
+  --green:#3DF08B; --cyan:#3DD9F0; --violet:#7C5CFF; --amber:#FFC65C; --red:#FF4E6A;
+  --ink:#F4F5F8; --mute:#8E93A3; --faint:#7C8296;
+  --nav-h:64px;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html{-webkit-text-size-adjust:100%; height:100%; background:#0F3B22}
+html{-webkit-text-size-adjust:100%;background:var(--void)}
 body{
-  background:linear-gradient(165deg, #123A22 0%, #16532E 32%, #1C6B38 60%, #123A22 100%);
-  color:var(--ink); font-family:'Inter',system-ui,sans-serif;
-  min-height:100dvh; display:flex; flex-direction:column; position:relative;
-  padding:max(16px,env(safe-area-inset-top)) 16px max(16px,env(safe-area-inset-bottom));
-  max-width:560px; margin:0 auto;
+  background:var(--void);color:var(--ink);font-family:'Inter',system-ui,sans-serif;
+  min-height:100dvh;max-width:560px;margin:0 auto;position:relative;
+  padding:max(12px,env(safe-area-inset-top)) 14px
+          calc(var(--nav-h) + max(16px,env(safe-area-inset-bottom)));
 }
 body::before{
-  content:''; position:fixed; inset:0; z-index:-1; pointer-events:none;
+  content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
   background:
-    radial-gradient(720px 440px at 10% -8%, rgba(147,224,110,.32), transparent 62%),
-    radial-gradient(620px 440px at 105% 6%, rgba(95,163,74,.30), transparent 62%),
-    radial-gradient(900px 620px at 50% 115%, rgba(147,224,110,.16), transparent 68%),
-    linear-gradient(165deg, rgba(147,224,110,.10) 0%, transparent 45%);
+    radial-gradient(680px 420px at -10% -10%, rgba(124,92,255,.20), transparent 62%),
+    radial-gradient(620px 460px at 112% 4%, rgba(61,217,240,.13), transparent 60%),
+    radial-gradient(760px 520px at 50% 118%, rgba(61,240,139,.09), transparent 66%);
 }
 
-/* ---------- header ---------- */
-header{display:flex; align-items:center; justify-content:space-between; padding:4px 2px 18px; gap:10px; flex:none}
-.head-left{display:flex; align-items:center; gap:10px}
-.head-left img.mark{width:34px; height:34px; border-radius:10px; flex:none; display:block}
-.wordmark{
-  font-family:'Sora',sans-serif; font-weight:800; font-size:20px; letter-spacing:.03em; text-transform:uppercase;
-  color:var(--ink); line-height:1;
-}
-.wordmark .x{background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent}
-.head-left .today{font-size:11.5px; color:var(--mute); font-weight:500; margin-top:3px; font-family:'IBM Plex Mono',monospace}
-.hub-refresh{
-  width:38px; height:38px; border-radius:50%; background:var(--panel); border:1px solid var(--line);
-  display:grid; place-items:center; cursor:pointer; color:var(--mute); font-size:16px;
-  transition:transform .2s, color .2s, border-color .2s; padding:0; flex:none;
-}
-.hub-refresh:active{transform:scale(.88)}
-.hub-refresh:focus-visible{outline:2px solid var(--g1); outline-offset:2px}
-.hub-refresh.spin{animation:spin .7s linear infinite; color:var(--g1); border-color:rgba(147,224,110,.4)}
-@keyframes spin{to{transform:rotate(360deg)}}
+/* ── top bar ── */
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:4px 0 16px}
+.brand{display:flex;align-items:center;gap:9px}
+.mark{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;
+  background:linear-gradient(150deg,var(--green),var(--cyan) 55%,var(--violet));
+  font-family:'Sora',sans-serif;font-weight:800;font-size:15px;color:var(--void)}
+.brand h1{font-family:'Sora',sans-serif;font-weight:800;font-size:19px;letter-spacing:-.02em}
+.top-actions{display:flex;align-items:center;gap:7px}
+.icon-btn{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;
+  background:var(--surface);border:1px solid var(--line);color:var(--ink);
+  font-size:14px;cursor:pointer;text-decoration:none;flex:none}
+.icon-btn:active{transform:scale(.9)}
+.league{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;
+  background:var(--surface);border:1px solid var(--line);color:var(--ink);
+  border-radius:99px;padding:8px 12px;cursor:pointer}
+.league-wrap{position:relative}
+.league-menu{position:absolute;top:calc(100% + 6px);right:0;min-width:150px;
+  background:var(--surface);border:1px solid var(--line);border-radius:14px;
+  padding:6px;display:none;flex-direction:column;gap:2px;z-index:20;
+  box-shadow:0 12px 28px rgba(0,0,0,.45)}
+.league-menu.on{display:flex}
+.league-opt{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:9px;
+  cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:700;
+  color:var(--ink);background:none;border:none;width:100%;text-align:left}
+.league-opt:active{background:var(--surface-2)}
+.league-opt.on{background:var(--surface-2);color:var(--green)}
+.league-opt img{width:16px;height:16px;flex:none}
 
-.hub-status{
-  font-size:11.5px; font-weight:600; color:var(--g1); background:rgba(147,224,110,.1);
-  border:1px solid rgba(147,224,110,.25); border-radius:var(--r-sm); padding:9px 12px;
-  margin-bottom:14px; font-family:'IBM Plex Mono',monospace;
-}
-.hub-status.error{ color:#E0A64A; background:rgba(224,166,74,.1); border-color:rgba(224,166,74,.3) }
+/* ── shared ── */
+h2{font-family:'IBM Plex Mono',monospace;font-size:9.5px;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--faint);margin:20px 0 10px;display:flex;
+  align-items:center;justify-content:space-between}
+h2 a{color:var(--cyan);text-decoration:none;font-size:9.5px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px}
+.muted{color:var(--mute)}
 
-.story-label{font-size:11px; font-weight:700; color:var(--mute); letter-spacing:.1em; text-transform:uppercase; font-family:'IBM Plex Mono',monospace; margin-bottom:8px}
-.story-row{display:flex; gap:8px; overflow-x:auto; padding-bottom:2px; scrollbar-width:none}
-.story-row::-webkit-scrollbar{display:none}
-.story-chip{
-  flex:none; font-size:12px; font-weight:600; color:var(--ink); white-space:nowrap;
-  background:var(--panel); border:1px solid var(--line); border-radius:99px; padding:8px 13px;
-}
+/* ── dashboard ── */
+.hello{font-family:'Sora',sans-serif;font-weight:700;font-size:20px;letter-spacing:-.02em;margin-bottom:3px}
+.hello-sub{font-size:12px;color:var(--mute);margin-bottom:15px}
 
-/* ---------- section label ---------- */
-.kicker-row{display:flex;align-items:center;gap:10px;margin-bottom:14px; flex:none}
-.kicker{font-size:11px; font-weight:700; color:var(--mute); letter-spacing:.14em; text-transform:uppercase; flex:none; font-family:'IBM Plex Mono',monospace}
-.kicker-line{height:1px; flex:1; background:linear-gradient(90deg, var(--line), transparent)}
+.slate-card{padding:16px;display:flex;align-items:center;gap:16px}
+.slate-main{flex:1;min-width:0}
+.slate-lab{font-family:'IBM Plex Mono',monospace;font-size:8.5px;font-weight:700;
+  letter-spacing:.13em;text-transform:uppercase;color:var(--faint);margin-bottom:7px}
+.slate-num{font-family:'Sora',sans-serif;font-weight:800;font-size:40px;line-height:.95;
+  letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.slate-cap{font-size:11.5px;color:var(--mute);margin-top:5px}
+.slate-pill{display:inline-flex;flex-direction:column;align-items:center;gap:2px;
+  padding:9px 13px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line)}
+.slate-pill b{font-family:'Sora',sans-serif;font-weight:800;font-size:17px;color:var(--green)}
+.slate-pill span{font-family:'IBM Plex Mono',monospace;font-size:7.5px;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--faint);white-space:nowrap}
 
-/* ---------- board stack (single column) ---------- */
-.grid{
-  display:flex; flex-direction:column; gap:12px;
-  flex:1; margin-bottom:16px;
-}
-.board{
-  display:flex; flex-direction:column;
-  text-decoration:none; color:inherit; position:relative; overflow:hidden;
-  border-radius:var(--r); padding:16px 17px;
-  background:var(--panel);
-  border:1px solid rgba(147,224,110,.32);
-  transition:transform .16s cubic-bezier(.2,.8,.3,1), border-color .2s;
-}
-.board:active{transform:scale(.98)}
-.board:focus-visible{outline:2px solid var(--g1); outline-offset:2px}
-.board.quiet{border-color:rgba(147,224,110,.14)}
+.ringwrap{position:relative;flex:none;display:grid;place-items:center}
+.ringwrap .rv{position:absolute;font-family:'Sora',sans-serif;font-weight:800;font-size:19px;
+  font-variant-numeric:tabular-nums}
+.ringwrap .rl{position:absolute;bottom:-2px;font-family:'IBM Plex Mono',monospace;
+  font-size:7px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
 
-.board-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:8px}
-.board-tag{font-size:10px; font-weight:700; letter-spacing:.07em; color:var(--mute); display:flex; align-items:center; gap:6px; font-family:'IBM Plex Mono',monospace; flex:none}
-.board-logo{width:15px; height:15px; object-fit:contain; flex:none}
-.board-badge{
-  font-size:9.5px; font-weight:700; letter-spacing:.05em; padding:5px 11px; border-radius:99px;
-  font-family:'IBM Plex Mono',monospace; white-space:nowrap; line-height:1.4;
-  background:rgba(147,224,110,.12); color:var(--g1); border:1px solid rgba(147,224,110,.25);
-}
-.board.quiet .board-badge{background:transparent; color:var(--faint); border-color:var(--line)}
+/* top edges carousel */
+.edges{display:flex;gap:9px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+.edges::-webkit-scrollbar{display:none}
+.edge-card{flex:none;width:152px;padding:13px;border-radius:14px;
+  background:var(--surface);border:1px solid var(--line);cursor:pointer;position:relative;overflow:hidden}
+.edge-card::before{content:'';position:absolute;inset:0 0 auto 0;height:2px;background:var(--c,var(--green))}
+.edge-score{font-family:'Sora',sans-serif;font-weight:800;font-size:15px;color:var(--c,var(--green));
+  display:inline-block;padding:2px 8px;border-radius:6px;background:color-mix(in srgb,var(--c,var(--green)) 12%,transparent);
+  border:1px solid color-mix(in srgb,var(--c,var(--green)) 40%,transparent);margin-bottom:9px}
+.edge-name{font-family:'Sora',sans-serif;font-weight:700;font-size:13.5px;line-height:1.25;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.edge-prop{font-size:10.5px;color:var(--mute);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.edge-proj{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:15px;margin-top:9px;
+  font-variant-numeric:tabular-nums}
+.edge-proj small{font-size:9px;color:var(--faint);font-weight:600;margin-left:4px}
 
-.board-mid{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:14px}
-.board-num{
-  font-family:'Sora',sans-serif; font-weight:800;
-  font-size:42px; line-height:.9; color:var(--ink); letter-spacing:-.02em;
-  font-variant-numeric:tabular-nums;
-}
-.board.quiet .board-num{color:var(--faint)}
-.board-name{font-size:11.5px; color:var(--mute); font-weight:500; margin-top:4px}
+/* category chips */
+.cats{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.cats::-webkit-scrollbar{display:none}
+.cat{flex:none;display:flex;align-items:center;gap:6px;padding:9px 13px;border-radius:12px;
+  background:var(--surface);border:1px solid var(--line);cursor:pointer;
+  font-size:11.5px;font-weight:600;white-space:nowrap}
+.cat i{font-style:normal;font-size:12px}
 
-.board-stats{display:flex; gap:22px; flex:none}
-.stat{text-align:center}
-.stat b{display:block; font-family:'Sora',sans-serif; font-weight:800; font-size:20px; line-height:1.1; margin-bottom:4px; font-variant-numeric:tabular-nums}
-.stat.c-green b{color:var(--g1)}
-.stat.c-gold b{color:var(--gold)}
-.board.quiet .stat b{color:var(--faint)}
-.stat span{font-size:9.5px; color:var(--mute); font-weight:600; line-height:1.25; display:block; white-space:nowrap}
+/* recently updated */
+.upd{display:flex;align-items:center;gap:11px;padding:12px 13px;border-radius:12px;
+  background:var(--surface);border:1px solid var(--line);margin-bottom:6px}
+.upd-badge{width:30px;height:30px;border-radius:8px;flex:none;display:grid;place-items:center;
+  font-family:'IBM Plex Mono',monospace;font-size:8.5px;font-weight:800;letter-spacing:.02em}
+.upd-b{flex:1;min-width:0}
+.upd-t{font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.upd-s{font-size:10.5px;color:var(--faint);margin-top:2px}
+.upd-time{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--faint);flex:none}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--green);flex:none;
+  box-shadow:0 0 8px var(--green)}
 
+/* ── explore list ── */
+.filters{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;margin-bottom:12px}
+.filters::-webkit-scrollbar{display:none}
+.f{flex:none;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;
+  color:var(--mute);background:var(--surface);border:1px solid var(--line);
+  border-radius:99px;padding:8px 13px;cursor:pointer;white-space:nowrap}
+.f.on{color:var(--void);border-color:transparent;background:var(--violet);font-weight:800}
 
-.next-box{
-  display:flex; align-items:center; gap:10px; background:rgba(147,224,110,.06);
-  border:1px solid rgba(147,224,110,.18); border-radius:var(--r-sm); padding:11px 13px;
-}
-.next-box .cal-icon{width:22px; height:22px; flex:none; color:var(--g1)}
-.next-box .cal-label{font-size:9.5px; color:var(--mute); font-weight:600; margin-bottom:2px}
-.next-box .cal-date{font-family:'Sora',sans-serif; font-weight:700; font-size:13.5px; color:var(--ink)}
+.thead{display:flex;align-items:center;gap:10px;padding:0 13px 8px;
+  font-family:'IBM Plex Mono',monospace;font-size:7.5px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+.thead .c1{flex:1}
+.thead .c2{width:56px;text-align:right}
+.thead .c3{width:52px;text-align:right}
+.thead .c4{width:38px;text-align:center}
 
-.board-foot{display:flex; align-items:center; justify-content:space-between; gap:8px; margin-top:14px}
-.board-updated{font-size:10px; font-weight:600; color:var(--faint); font-family:'IBM Plex Mono',monospace}
-.board-arrow{
-  width:28px; height:28px; border-radius:50%; background:var(--panel-hi); flex:none;
-  display:grid; place-items:center; color:var(--g1); font-size:14px; font-weight:700;
-  transition:transform .16s ease;
-}
-.board:active .board-arrow{transform:translateX(2px)}
+.row{display:flex;align-items:center;gap:10px;padding:11px 13px;border-radius:13px;
+  background:var(--surface);border:1px solid var(--line);margin-bottom:6px;cursor:pointer}
+.row:active{background:var(--surface-2)}
+.av{width:36px;height:36px;border-radius:50%;flex:none;overflow:hidden;background:var(--surface-2);
+  border:1px solid var(--line);display:grid;place-items:center;
+  font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;color:var(--cyan)}
+.av img{width:100%;height:100%;object-fit:cover}
+.who{flex:1;min-width:0}
+.who-n{font-family:'Sora',sans-serif;font-weight:700;font-size:13.5px;line-height:1.25;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.who-m{font-size:10.5px;color:var(--mute);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pv{width:56px;text-align:right;flex:none}
+.pv-n{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:14.5px;
+  font-variant-numeric:tabular-nums}
+.pv-l{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--faint);margin-top:2px}
+.eg{width:52px;text-align:right;flex:none;font-family:'IBM Plex Mono',monospace;
+  font-weight:700;font-size:12.5px;font-variant-numeric:tabular-nums}
 
-/* ---------- footer ---------- */
-footer{margin-top:auto; text-align:center; font-size:11px; color:var(--faint); padding:8px 0 4px; font-weight:500; font-family:'IBM Plex Mono',monospace; flex:none}
-footer b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent; font-weight:700}
+/* ── games list (Explore → Games mode) ── */
+.game-row{display:flex;flex-direction:column;gap:9px;padding:13px;border-radius:14px;
+  background:var(--surface);border:1px solid var(--line);margin-bottom:8px}
+.gr-top{display:flex;justify-content:space-between;align-items:center;font-size:10px;
+  font-family:'IBM Plex Mono',monospace;color:var(--faint);font-weight:700}
+.gr-state{font-size:9px;font-weight:800;letter-spacing:.05em;padding:3px 8px;border-radius:6px;
+  background:rgba(142,147,163,.14);color:var(--mute)}
+.gr-state.LIVE{background:var(--red);color:#07080D}
+.gr-state.FINAL{background:var(--surface-2);color:var(--faint)}
+.gr-teams{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.gt{display:flex;align-items:center;gap:8px;flex:1;min-width:0}
+.gt-n{font-family:'Sora',sans-serif;font-weight:700;font-size:14.5px}
+.gt-ml{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--mute);margin-top:1px}
+.gr-at{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--faint);flex:none}
+.gr-edge{display:flex;align-items:center;gap:6px;font-size:11.5px;font-weight:700;
+  color:var(--green);padding-top:8px;border-top:1px dashed var(--line)}
+.cf{width:38px;flex:none;display:grid;place-items:center}
+.cf-r{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;
+  font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:700;
+  border:2px solid var(--c,var(--green));color:var(--c,var(--green))}
+.star{width:26px;flex:none;text-align:center;font-size:14px;color:var(--line);cursor:pointer;line-height:1}
+.star.on{color:var(--amber);text-shadow:0 0 10px rgba(255,198,92,.5)}
 
-@media (prefers-reduced-motion:reduce){
-  .board, .hub-refresh, .board-arrow{transition:none}
-  .hub-refresh.spin{animation:none}
-}
+/* ── detail sheet ── */
+.sheet{position:fixed;inset:0;z-index:80;background:rgba(7,8,13,.72);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:none;
+  align-items:flex-end;justify-content:center}
+.sheet.on{display:flex}
+.sheet-in{width:100%;max-width:560px;max-height:88dvh;overflow-y:auto;
+  background:var(--void);border-top-left-radius:22px;border-top-right-radius:22px;
+  border:1px solid var(--line);padding:8px 14px max(20px,env(safe-area-inset-bottom))}
+.grab{width:38px;height:4px;border-radius:99px;background:var(--line);margin:6px auto 14px}
+.sh-head{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.sh-av{width:52px;height:52px;border-radius:14px;overflow:hidden;flex:none;background:var(--surface-2);
+  border:1px solid var(--line);display:grid;place-items:center;
+  font-family:'IBM Plex Mono',monospace;font-weight:700;color:var(--cyan)}
+.sh-av img{width:100%;height:100%;object-fit:cover}
+.sh-n{font-family:'Sora',sans-serif;font-weight:800;font-size:19px;letter-spacing:-.02em;line-height:1.15}
+.sh-m{font-size:11.5px;color:var(--mute);margin-top:3px}
+.sh-score{margin-left:auto;text-align:center;flex:none;padding:8px 12px;border-radius:12px;
+  background:color-mix(in srgb,var(--c,var(--green)) 10%,transparent);
+  border:1px solid color-mix(in srgb,var(--c,var(--green)) 38%,transparent)}
+.sh-score b{display:block;font-family:'Sora',sans-serif;font-weight:800;font-size:21px;color:var(--c,var(--green))}
+.sh-score span{font-family:'IBM Plex Mono',monospace;font-size:7px;font-weight:700;
+  letter-spacing:.09em;text-transform:uppercase;color:var(--faint)}
+
+.hero{display:flex;align-items:center;gap:14px;padding:15px;border-radius:16px;
+  background:linear-gradient(160deg,rgba(124,92,255,.12),rgba(61,217,240,.05) 60%,transparent);
+  border:1px solid var(--line);margin-bottom:9px}
+.hero-n{font-family:'Sora',sans-serif;font-weight:800;font-size:32px;line-height:1;
+  letter-spacing:-.035em;font-variant-numeric:tabular-nums}
+.hero-l{margin-top:5px;font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:700;
+  letter-spacing:.11em;text-transform:uppercase;color:var(--faint)}
+.hero-c{text-align:center;flex:none;min-width:54px}
+.hero-c b{display:block;font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:16px;
+  font-variant-numeric:tabular-nums}
+
+.cells{display:flex;gap:6px;margin-bottom:9px}
+.cell{flex:1;min-width:0;text-align:center;padding:10px 5px;border-radius:12px;
+  background:var(--surface);border:1px solid var(--line)}
+.cell b{display:block;font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:14px;
+  font-variant-numeric:tabular-nums}
+.cell span{display:block;margin-top:3px;font-family:'IBM Plex Mono',monospace;font-size:7.5px;
+  font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+
+.rings{display:flex;gap:6px}
+.ring{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;
+  padding:10px 4px;border-radius:12px;background:var(--surface);border:1px solid var(--line);position:relative}
+.ring-v{position:absolute;top:24px;font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:12px}
+.ring-l{margin-top:5px;font-family:'IBM Plex Mono',monospace;font-size:7.5px;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+.notes{padding:12px 13px;border-radius:12px;background:var(--surface);border:1px solid var(--line);
+  font-size:12px;line-height:1.6;color:var(--mute)}
+.notes b{color:var(--ink);font-weight:600}
+
+/* neon confidence badge — used on player rows, top-edge cards, and the detail sheet */
+.neon-badge{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:8.5px;font-weight:800;
+  letter-spacing:.07em;padding:3px 8px;border-radius:6px;color:var(--c,var(--green));
+  background:color-mix(in srgb,var(--c,var(--green)) 14%,transparent);
+  border:1px solid color-mix(in srgb,var(--c,var(--green)) 48%,transparent);
+  text-shadow:0 0 8px color-mix(in srgb,var(--c,var(--green)) 75%,transparent);
+  box-shadow:0 0 10px color-mix(in srgb,var(--c,var(--green)) 32%,transparent);white-space:nowrap}
+
+/* floor / median / ceiling range cells — reuses .cells layout, median gets emphasis */
+.cell.mid{background:color-mix(in srgb,var(--green) 10%,var(--surface));border-color:color-mix(in srgb,var(--green) 40%,var(--line))}
+.cell.mid b{color:var(--green)}
+
+/* ── bottom nav ── */
+nav{position:fixed;left:0;right:0;bottom:0;z-index:70;
+  height:calc(var(--nav-h) + env(safe-area-inset-bottom));
+  padding-bottom:env(safe-area-inset-bottom);
+  background:rgba(12,14,20,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-top:1px solid var(--line);display:flex;align-items:stretch}
+.nav-in{max-width:560px;margin:0 auto;width:100%;display:flex}
+.nb{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  background:none;border:0;cursor:pointer;color:var(--faint);font-family:inherit;padding:0}
+.nb i{font-style:normal;font-size:17px;line-height:1}
+.nb span{font-size:9px;font-weight:600;letter-spacing:.02em}
+.nb.on{color:var(--green)}
+.nb.on i{filter:drop-shadow(0 0 7px rgba(61,240,139,.55))}
+
+/* ── logos ──
+   Team marks sit inline with text at cap height. Every one degrades to its
+   abbreviation rather than a broken-image icon, because a slate with four
+   missing logos should still read cleanly. */
+.tm{display:inline-block;vertical-align:-2px;object-fit:contain;flex:none}
+.tm-t{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;
+  color:var(--faint);letter-spacing:.03em}
+.who-m{display:flex;align-items:center;gap:4px}
+.who-m .vs{color:var(--faint);font-size:9.5px;margin:0 1px}
+.sh-m{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.sh-m .vs{color:var(--faint)}
+.edge-prop{display:flex;align-items:center;gap:4px}
+.av-logo{width:22px;height:22px;object-fit:contain}
+.league{display:inline-flex;align-items:center;gap:6px}
+.league .lg{object-fit:contain;flex:none}
+.upd-badge img{object-fit:contain}
+
+.empty{text-align:center;padding:50px 20px;color:var(--mute)}
+.empty .i{font-size:30px;opacity:.4;margin-bottom:9px}
+.empty .m{font-size:13px;font-weight:600}
+.empty .s{font-size:11.5px;color:var(--faint);margin-top:5px;line-height:1.5}
+.view{display:none}
+.view.on{display:block}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
-<link rel="stylesheet" href="./theme.css">
 </head>
 <body>
-<header>
-  <div class="head-left">
-    <img class="mark" src="./icon-192.png" alt="">
-    <div>
-      <div class="wordmark">Proj<span class="x">ex</span></div>
-      <div class="today" id="today"></div>
-    </div>
+
+<div class="top">
+  <div class="brand">
+    <div class="mark">S</div>
+    <h1>Slate</h1>
   </div>
-  <a class="hub-refresh" href="./picks/" aria-label="My Picks" title="My Picks" style="text-decoration:none;font-size:14px">📋</a>
-  <a class="how-btn" href="./how/" aria-label="How the models work" title="How the models work">?</a>
-  <button class="hub-refresh" id="hub-refresh" aria-label="Run now" title="Run now">↻</button>
-</header>
-
-<div id="hub-status" class="hub-status" style="display:none"></div>
-
-
-<div class="kicker-row">
-  <div class="kicker">Model Boards</div>
-  <div class="kicker-line"></div>
+  <div class="top-actions">
+    <div class="league-wrap">
+      <button class="league" id="league-btn" aria-haspopup="true" aria-expanded="false">MLB ▾</button>
+      <div class="league-menu" id="league-menu"></div>
+    </div>
+    <a class="icon-btn" href="../how/" aria-label="How the models work">?</a>
+    <button class="icon-btn" id="refresh" aria-label="Refresh">↻</button>
+  </div>
 </div>
 
-<div class="grid" id="grid">
-  <a class="board" data-sport="mlb" data-mode="daily" href="./mlb/">
-    <div class="board-top">
-      <span class="board-tag"><img class="board-logo" src="https://a.espncdn.com/i/teamlogos/leagues/500/mlb.png" alt="" loading="lazy" onerror="this.remove()">MLB · DAILY</span>
-      <span class="board-badge" id="mlb-badge">—</span>
-    </div>
-    <div class="board-mid">
-      <div><div class="board-num" id="mlb-games">—</div><div class="board-name" id="mlb-games-label">games today</div></div>
-      <div class="board-stats">
-        <div class="stat c-green"><b id="mlb-stat1">—</b><span>Predicted<br>Edges</span></div>
-        <div class="stat c-gold"><b id="mlb-stat2">—</b><span>Top<br>Plays</span></div>
-        <div class="stat c-green"><b id="mlb-stat3">—</b><span id="mlb-stat3-label">High<br>Confidence</span></div>
-      </div>
-    </div>
-    <div id="mlb-body"></div>
-    <div class="board-foot" id="mlb-foot" style="display:none">
-      <span class="board-updated" id="mlb-updated-alt">syncing…</span>
-      <span class="board-arrow">→</span>
-    </div>
-  </a>
+<div class="view on" id="v-dash"></div>
+<div class="view" id="v-explore"></div>
+<div class="view" id="v-watch"></div>
+<div class="view" id="v-profile"></div>
 
-  <a class="board" data-sport="nfl" data-mode="weekly" href="./nfl/">
-    <div class="board-top">
-      <span class="board-tag"><img class="board-logo" src="https://a.espncdn.com/i/teamlogos/leagues/500/nfl.png" alt="" loading="lazy" onerror="this.remove()">NFL · WEEKLY</span>
-      <span class="board-badge" id="nfl-badge">—</span>
-    </div>
-    <div class="board-mid">
-      <div><div class="board-num" id="nfl-games">—</div><div class="board-name" id="nfl-games-label">games today</div></div>
-      <div class="board-stats">
-        <div class="stat c-green"><b id="nfl-stat1">—</b><span>Predicted<br>Edges</span></div>
-        <div class="stat c-gold"><b id="nfl-stat2">—</b><span>Top<br>Play</span></div>
-        <div class="stat c-green"><b id="nfl-stat3">—</b><span id="nfl-stat3-label">Win<br>Probability</span></div>
-      </div>
-    </div>
-    <div id="nfl-body"></div>
-    <div class="board-foot" id="nfl-foot" style="display:none">
-      <span class="board-updated" id="nfl-updated-alt">syncing…</span>
-      <span class="board-arrow">→</span>
-    </div>
-  </a>
+<div class="sheet" id="sheet"><div class="sheet-in" id="sheet-in"></div></div>
 
-  <a class="board" data-sport="nhl" data-mode="daily" href="./nhl/">
-    <div class="board-top">
-      <span class="board-tag"><img class="board-logo" src="https://a.espncdn.com/i/teamlogos/leagues/500/nhl.png" alt="" loading="lazy" onerror="this.remove()">NHL · DAILY</span>
-      <span class="board-badge" id="nhl-badge">—</span>
-    </div>
-    <div class="board-mid">
-      <div><div class="board-num" id="nhl-games">—</div><div class="board-name" id="nhl-games-label">games today</div></div>
-      <div class="board-stats">
-        <div class="stat c-green"><b id="nhl-stat1">—</b><span>Predicted<br>Edges</span></div>
-        <div class="stat c-gold"><b id="nhl-stat2">—</b><span>Top<br>Plays</span></div>
-        <div class="stat c-green"><b id="nhl-stat3">—</b><span id="nhl-stat3-label">High<br>Confidence</span></div>
-      </div>
-    </div>
-    <div id="nhl-body"></div>
-    <div class="board-foot" id="nhl-foot" style="display:none">
-      <span class="board-updated" id="nhl-updated-alt">syncing…</span>
-      <span class="board-arrow">→</span>
-    </div>
-  </a>
+<nav><div class="nav-in">
+  <button class="nb on" data-v="dash"><i>◈</i><span>Dashboard</span></button>
+  <button class="nb" data-v="explore"><i>⌕</i><span>Explore</span></button>
+  <button class="nb" data-v="watch"><i>★</i><span>Watchlist</span></button>
+  <button class="nb" data-v="profile"><i>☰</i><span>Profile</span></button>
+</div></nav>
 
-  <a class="board" data-sport="nba" data-mode="daily" href="./nba/">
-    <div class="board-top">
-      <span class="board-tag"><img class="board-logo" src="https://a.espncdn.com/i/teamlogos/leagues/500/nba.png" alt="" loading="lazy" onerror="this.remove()">NBA · DAILY</span>
-      <span class="board-badge" id="nba-badge">—</span>
-    </div>
-    <div class="board-mid">
-      <div><div class="board-num" id="nba-games">—</div><div class="board-name" id="nba-games-label">games today</div></div>
-      <div class="board-stats">
-        <div class="stat c-green"><b id="nba-stat1">—</b><span>Predicted<br>Edges</span></div>
-        <div class="stat c-gold"><b id="nba-stat2">—</b><span>Top<br>Plays</span></div>
-        <div class="stat c-green"><b id="nba-stat3">—</b><span id="nba-stat3-label">High<br>Confidence</span></div>
-      </div>
-    </div>
-    <div id="nba-body"></div>
-    <div class="board-foot" id="nba-foot" style="display:none">
-      <span class="board-updated" id="nba-updated-alt">syncing…</span>
-      <span class="board-arrow">→</span>
-    </div>
-  </a>
-</div>
-
-<footer>Auto-updated by the model · <b>Add to Home Screen</b> to install</footer>
-
-<script src="./picks.js"></script>
+<script src="../picks.js"></script>
 <script>
-// ── picks.js guard ──────────────────────────────────────────────────────────
-// If picks.js is missing, 404s, or fails to PARSE, every name it exports is
-// undefined. This page calls mountSlipBar() at top level, so that would throw
-// and stop the script before loadHub() ran -- leaving every stat showing its
-// "—" placeholder and looking like a data outage rather than a broken file.
-// NOTE: Picks is a `const` in picks.js, so it must never be re-declared with
-// `var` here -- that throws on its own when the file DID load. It's read
-// through an accessor instead.
-if (typeof mountSlipBar !== 'function') {
-  var mountSlipBar = () => {};
-  console.warn('picks.js unavailable — hub still live, pick logging disabled');
+// Guard: this shell borrows the slip store from picks.js. If that file is
+// missing the app should still browse projections rather than die.
+//
+// Read through an accessor -- NEVER `var Picks = ...`. picks.js declares it as
+// a const, and a `var` of the same name hoists into the same global lexical
+// scope and throws "Identifier 'Picks' has already been declared", which kills
+// this entire script before a single view renders.
+const SLIP_FALLBACK = { all:()=>[], log:()=>{}, count:()=>0, onChange:()=>{}, hasKey:()=>false };
+function slip(){
+  try { return (typeof Picks !== 'undefined' && Picks) ? Picks : SLIP_FALLBACK; }
+  catch (e){ return SLIP_FALLBACK; }
 }
-const LOGO = {
-  mlb:{"Arizona Diamondbacks":"ari","Atlanta Braves":"atl","Baltimore Orioles":"bal","Boston Red Sox":"bos","Chicago Cubs":"chc","Chicago White Sox":"chw","Cincinnati Reds":"cin","Cleveland Guardians":"cle","Colorado Rockies":"col","Detroit Tigers":"det","Houston Astros":"hou","Kansas City Royals":"kc","Los Angeles Angels":"laa","Los Angeles Dodgers":"lad","Miami Marlins":"mia","Milwaukee Brewers":"mil","Minnesota Twins":"min","New York Mets":"nym","New York Yankees":"nyy","Athletics":"ath","Philadelphia Phillies":"phi","Pittsburgh Pirates":"pit","San Diego Padres":"sd","San Francisco Giants":"sf","Seattle Mariners":"sea","St. Louis Cardinals":"stl","Tampa Bay Rays":"tb","Texas Rangers":"tex","Toronto Blue Jays":"tor","Washington Nationals":"wsh"},
-  nfl:{"Arizona Cardinals":"ari","Atlanta Falcons":"atl","Baltimore Ravens":"bal","Buffalo Bills":"buf","Carolina Panthers":"car","Chicago Bears":"chi","Cincinnati Bengals":"cin","Cleveland Browns":"cle","Dallas Cowboys":"dal","Denver Broncos":"den","Detroit Lions":"det","Green Bay Packers":"gb","Houston Texans":"hou","Indianapolis Colts":"ind","Jacksonville Jaguars":"jax","Kansas City Chiefs":"kc","Las Vegas Raiders":"lv","Los Angeles Chargers":"lac","Los Angeles Rams":"lar","Miami Dolphins":"mia","Minnesota Vikings":"min","New England Patriots":"ne","New Orleans Saints":"no","New York Giants":"nyg","New York Jets":"nyj","Philadelphia Eagles":"phi","Pittsburgh Steelers":"pit","San Francisco 49ers":"sf","Seattle Seahawks":"sea","Tampa Bay Buccaneers":"tb","Tennessee Titans":"ten","Washington Commanders":"wsh"},
-  nhl:{"Anaheim Ducks":"ana","Boston Bruins":"bos","Buffalo Sabres":"buf","Calgary Flames":"cgy","Carolina Hurricanes":"car","Chicago Blackhawks":"chi","Colorado Avalanche":"col","Columbus Blue Jackets":"cbj","Dallas Stars":"dal","Detroit Red Wings":"det","Edmonton Oilers":"edm","Florida Panthers":"fla","Los Angeles Kings":"la","Minnesota Wild":"min","Montreal Canadiens":"mtl","Nashville Predators":"nsh","New Jersey Devils":"nj","New York Islanders":"nyi","New York Rangers":"nyr","Ottawa Senators":"ott","Philadelphia Flyers":"phi","Pittsburgh Penguins":"pit","San Jose Sharks":"sj","Seattle Kraken":"sea","St. Louis Blues":"stl","Tampa Bay Lightning":"tb","Toronto Maple Leafs":"tor","Utah Mammoth":"utah","Vancouver Canucks":"van","Vegas Golden Knights":"vgk","Washington Capitals":"wsh","Winnipeg Jets":"wpg"},
-  nba:{"Atlanta Hawks":"atl","Boston Celtics":"bos","Brooklyn Nets":"bkn","Charlotte Hornets":"cha","Chicago Bulls":"chi","Cleveland Cavaliers":"cle","Dallas Mavericks":"dal","Denver Nuggets":"den","Detroit Pistons":"det","Golden State Warriors":"gs","Houston Rockets":"hou","Indiana Pacers":"ind","LA Clippers":"lac","Los Angeles Lakers":"lal","Memphis Grizzlies":"mem","Miami Heat":"mia","Milwaukee Bucks":"mil","Minnesota Timberwolves":"min","New Orleans Pelicans":"no","New York Knicks":"ny","Oklahoma City Thunder":"okc","Orlando Magic":"orl","Philadelphia 76ers":"phi","Phoenix Suns":"phx","Portland Trail Blazers":"por","Sacramento Kings":"sac","San Antonio Spurs":"sa","Toronto Raptors":"tor","Utah Jazz":"utah","Washington Wizards":"wsh"}
+
+// ── team identity ──────────────────────────────────────────────────────────
+// Lifted verbatim from the boards, where these maps are already proven against
+// live data. MLB needs a club id for its logo CDN; the other three key off the
+// abbreviation directly.
+const MLB_TEAMID = {"ARI":109,"ATH":133,"ATL":144,"BAL":110,"BOS":111,"CHC":112,"CWS":145,"CIN":113,"CLE":114,"COL":115,"DET":116,"HOU":117,"KC":118,"LAA":108,"LAD":119,"MIA":146,"MIL":158,"MIN":142,"NYM":121,"NYY":147,"PHI":143,"PIT":134,"SD":135,"SF":137,"SEA":136,"STL":138,"TB":139,"TEX":140,"TOR":141,"WSH":120};
+const MLB_ABBR = {"Arizona Diamondbacks":"ARI","Athletics":"ATH","Oakland Athletics":"ATH","Atlanta Braves":"ATL","Baltimore Orioles":"BAL","Boston Red Sox":"BOS","Chicago Cubs":"CHC","Chicago White Sox":"CWS","Cincinnati Reds":"CIN","Cleveland Guardians":"CLE","Colorado Rockies":"COL","Detroit Tigers":"DET","Houston Astros":"HOU","Kansas City Royals":"KC","Los Angeles Angels":"LAA","Los Angeles Dodgers":"LAD","Miami Marlins":"MIA","Milwaukee Brewers":"MIL","Minnesota Twins":"MIN","New York Mets":"NYM","New York Yankees":"NYY","Philadelphia Phillies":"PHI","Pittsburgh Pirates":"PIT","San Diego Padres":"SD","San Francisco Giants":"SF","Seattle Mariners":"SEA","St. Louis Cardinals":"STL","Tampa Bay Rays":"TB","Texas Rangers":"TEX","Toronto Blue Jays":"TOR","Washington Nationals":"WSH"};
+const NFL_ABBR = {"Arizona Cardinals":"ARI","Atlanta Falcons":"ATL","Baltimore Ravens":"BAL","Buffalo Bills":"BUF","Carolina Panthers":"CAR","Chicago Bears":"CHI","Cincinnati Bengals":"CIN","Cleveland Browns":"CLE","Dallas Cowboys":"DAL","Denver Broncos":"DEN","Detroit Lions":"DET","Green Bay Packers":"GB","Houston Texans":"HOU","Indianapolis Colts":"IND","Jacksonville Jaguars":"JAX","Kansas City Chiefs":"KC","Las Vegas Raiders":"LV","Los Angeles Chargers":"LAC","Los Angeles Rams":"LAR","Miami Dolphins":"MIA","Minnesota Vikings":"MIN","New England Patriots":"NE","New Orleans Saints":"NO","New York Giants":"NYG","New York Jets":"NYJ","Philadelphia Eagles":"PHI","Pittsburgh Steelers":"PIT","San Francisco 49ers":"SF","Seattle Seahawks":"SEA","Tampa Bay Buccaneers":"TB","Tennessee Titans":"TEN","Washington Commanders":"WSH"};
+
+function teamAbbr(sp, name){
+  if (!name) return '';
+  if (sp === 'mlb') return MLB_ABBR[name] || String(name).slice(0,3).toUpperCase();
+  if (sp === 'nfl') return NFL_ABBR[name] || String(name).slice(0,3).toUpperCase();
+  return String(name).toUpperCase();      // NHL and NBA already store abbreviations
+}
+
+function teamLogo(sp, abbr){
+  if (!abbr) return '';
+  if (sp === 'mlb'){
+    const id = MLB_TEAMID[abbr];
+    return id ? `https://www.mlbstatic.com/team-logos/${id}.svg` : '';
+  }
+  const path = {nfl:'nfl', nhl:'nhl', nba:'nba'}[sp];
+  return path ? `https://a.espncdn.com/i/teamlogos/${path}/500/${abbr.toLowerCase()}.png` : '';
+}
+
+// A logo that degrades to the abbreviation rather than a broken image icon.
+function teamMark(sp, abbr, size){
+  const src = teamLogo(sp, abbr);
+  const sz = size || 16;
+  return src
+    ? `<img class="tm" src="${src}" alt="${esc(abbr)}" loading="lazy" width="${sz}" height="${sz}"
+         onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'tm-t',textContent:'${esc(abbr)}'}))">`
+    : `<span class="tm-t">${esc(abbr)}</span>`;
+}
+
+const SPORTS = ['mlb','nfl','nhl','nba'];
+const SPORT_COLOR = {mlb:'#3DF08B', nfl:'#7C5CFF', nhl:'#3DD9F0', nba:'#FFC65C'};
+const LEAGUE_LOGO = {
+  mlb:'https://a.espncdn.com/i/teamlogos/leagues/500/mlb.png',
+  nfl:'https://a.espncdn.com/i/teamlogos/leagues/500/nfl.png',
+  nhl:'https://a.espncdn.com/i/teamlogos/leagues/500/nhl.png',
+  nba:'https://a.espncdn.com/i/teamlogos/leagues/500/nba.png',
 };
-// Best-guess next-season openers, shown only until the pipeline supplies a real schedule date.
-const NEXT_START = { nhl:'2026-10-07', nba:'2026-10-20' };
+const DATA = {};
+let sport = localStorage.getItem('slate_sport') || 'mlb';
+let market = null;
+let exploreMode = 'props'; // 'props' | 'games' — toggle in the Explore tab
+let view = 'dash';
 
-function abbr(sport, name){
-  const a = (LOGO[sport] || {})[name];
-  return a ? a.toUpperCase() : (name || '').split(' ').pop().slice(0,3).toUpperCase();
-}
-function logoUrl(sport, name){
-  const a = (LOGO[sport] || {})[name];
-  return a ? `https://a.espncdn.com/i/teamlogos/${sport}/500/${a}.png` : '';
-}
-function shortName(name){ return (name || '').split(' ').pop(); }
-function fmtTime(iso){
-  try{ return new Date(iso).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}); }
-  catch(e){ return ''; }
-}
+const esc = s => String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;')
+  .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const $ = id => document.getElementById(id);
 
-const rel = iso => {
-  const m = Math.round((Date.now() - new Date(iso)) / 60000);
-  if (isNaN(m)) return '';
-  if (m < 1) return 'just now';
-  if (m < 60) return m + 'm ago';
-  const h = Math.round(m / 60);
-  return h < 24 ? h + 'h ago' : Math.round(h / 24) + 'd ago';
+/* ── watchlist ─────────────────────────────────────────────────────────────
+   Kept separate from the bet slip on purpose. A watchlist is "show me this
+   again"; the slip is "I backed this". Merging them would make the record
+   meaningless. */
+const WKEY = 'slate_watchlist_v1';
+const watch = {
+  all: () => { try { return JSON.parse(localStorage.getItem(WKEY)) || []; } catch(e){ return []; } },
+  has: k => watch.all().includes(k),
+  toggle(k){
+    const a = watch.all(), i = a.indexOf(k);
+    if (i >= 0) a.splice(i,1); else a.push(k);
+    try { localStorage.setItem(WKEY, JSON.stringify(a)); } catch(e){}
+    return i < 0;
+  },
 };
-document.getElementById('today').textContent =
-  new Date().toLocaleDateString('en-US', { weekday:'short', month:'short', day:'numeric' });
 
-// Pull a best-effort edge score off a game object regardless of which sport schema it came from.
+/* ── market definitions per sport ── */
+const MARKETS = {
+  mlb: [
+    ['H+R+RBI', p=>p.expected_hrr, 2], ['Total Bases', p=>p.expected_tb, 2],
+    ['Hits', p=>p.expected_hits, 2], ['Home Runs', p=>p.expected_hr, 2],
+    ['RBI', p=>p.expected_rbi, 2], ['Runs', p=>p.expected_runs, 2],
+  ],
+  nfl: [
+    ['Rec Yds', p=>p.rec_yds, 0], ['Rush Yds', p=>p.rush_yds, 0],
+    ['Targets', p=>p.targets, 1], ['Anytime TD', p=>p.td_prob, 2],
+  ],
+  nhl: [
+    ['Shots', p=>p.shots_pg, 1], ['Points', p=>p.pts_pg, 2], ['Goals', p=>p.goal_prob, 2],
+  ],
+  nba: [
+    ['Points', p=>p.pts, 1], ['Rebounds', p=>p.reb, 1],
+    ['Assists', p=>p.ast, 1], ['3-Pointers', p=>p.tpm, 1],
+  ],
+};
+const POOLS = {
+  mlb: ['away_lineup','home_lineup'], nfl: ['away_skill','home_skill'],
+  nhl: ['away_skaters','home_skaters'], nba: ['away_players','home_players'],
+};
+
+function headshot(sp, p){
+  if (!p.player_id) return '';
+  if (sp === 'mlb') return `https://midfield.mlbstatic.com/v1/people/${p.player_id}/spots/60`;
+  const path = {nfl:'nfl', nhl:'nhl', nba:'nba'}[sp];
+  return `https://a.espncdn.com/i/headshots/${path}/players/full/${p.player_id}.png`;
+}
+const initials = n => String(n||'').trim().split(/\s+/).slice(0,2).map(w=>w[0]||'').join('').toUpperCase() || '?';
+
+// Headshot first, then the team logo, then initials. A missing portrait
+// shouldn't leave a grey disc where every other row has a face.
+function avatar(sp, p, cls){
+  const src = headshot(sp, p);
+  const logo = teamLogo(sp, p._tab || teamAbbr(sp, p._team));
+  const fallback = logo
+    ? `<img src='${logo}' alt='' loading='lazy' class='av-logo'>`
+    : initials(p.name);
+  return src
+    ? `<span class="${cls}"><img src="${src}" alt="" loading="lazy"
+         onerror="this.outerHTML=&quot;${fallback.replace(/"/g,'&quot;')}&quot;"></span>`
+    : `<span class="${cls}">${fallback}</span>`;
+}
+
+/* ── game-level helpers (moneylines, win%, model edge — separate from props) ── */
 function gameEdgeScore(g){
   if (g.edge && typeof g.edge.score === 'number') return g.edge.score;
   if (typeof g.p_ml_edge === 'number' && g.p_ml_edge) return Math.round(Math.abs(g.p_ml_edge) * 100);
   return 0;
 }
+function fmtMl(v){ return v == null ? '' : (v > 0 ? `+${v}` : `${v}`); }
+function gameSides(g, sp){
+  const isFull = sp === 'mlb' || sp === 'nfl';
+  const away = isFull ? g.away_team : g.away_abbr;
+  const home = isFull ? g.home_team : g.home_abbr;
+  return { awayAb: teamAbbr(sp, away), homeAb: teamAbbr(sp, home) };
+}
+function gamesFor(sp){
+  const d = DATA[sp];
+  if (!d || !d.games) return [];
+  return d.games.slice().sort((a,b) => gameEdgeScore(b) - gameEdgeScore(a));
+}
+function gameCardHtml(g, sp){
+  const { awayAb, homeAb } = gameSides(g, sp);
+  const score = gameEdgeScore(g);
+  const col = score >= 55 ? '#3DF08B' : score >= 30 ? '#3DD9F0' : '#8E93A3';
+  const timeTxt = g.game_state === 'Live' ? 'LIVE'
+    : g.game_time ? new Date(g.game_time).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}) : '—';
+  return `<div class="edge-card" data-goto="explore" data-mode="games" style="--c:${col}">
+    <div class="edge-score">${score || '—'}</div>
+    <div class="edge-name">${esc(awayAb)} @ ${esc(homeAb)}</div>
+    <div class="edge-prop">${esc(timeTxt)}${g.tier ? ' · ' + esc(g.tier) : ''}</div>
+    <div class="edge-proj">${g.edge && g.edge.team ? esc(teamAbbr(sp, g.edge.team)) + ' edge' : '—'}</div>
+  </div>`;
+}
+function gameRowHtml(g, sp){
+  const { awayAb, homeAb } = gameSides(g, sp);
+  const ml = g.moneylines || {};
+  const score = gameEdgeScore(g);
+  const edgeTeam = g.edge && g.edge.team ? teamAbbr(sp, g.edge.team) : null;
+  const timeTxt = g.game_time
+    ? new Date(g.game_time).toLocaleString('en-US',{weekday:'short',hour:'numeric',minute:'2-digit'}) : '';
+  const awayPct = ml.away == null && g.away_win_pct != null ? `${Math.round(g.away_win_pct*100)}% win` : null;
+  const homePct = ml.home == null && g.home_win_pct != null ? `${Math.round(g.home_win_pct*100)}% win` : null;
+  const edgeLine = (score > 0 || edgeTeam)
+    ? `<div class="gr-edge">🔥 ${edgeTeam ? `Best edge: ${esc(edgeTeam)}` : 'Model edge'}${score ? ` · ${score}` : ''}${g.weather_note ? ` · ${esc(g.weather_note)}` : ''}</div>`
+    : (g.weather_note ? `<div class="gr-edge" style="color:var(--mute)">${esc(g.weather_note)}</div>` : '');
+  return `<div class="game-row">
+    <div class="gr-top">
+      <span>${esc(timeTxt)}${g.venue ? ' · ' + esc(g.venue) : ''}</span>
+      <span class="gr-state ${esc(g.game_state||'')}">${esc((g.game_state||'').toUpperCase())}</span>
+    </div>
+    <div class="gr-teams">
+      <div class="gt">${teamMark(sp, awayAb, 22)}<div>
+        <div class="gt-n">${esc(awayAb)}</div>
+        ${ml.away != null ? `<div class="gt-ml">${fmtMl(ml.away)}</div>` : awayPct ? `<div class="gt-ml">${awayPct}</div>` : ''}
+      </div></div>
+      <span class="gr-at">@</span>
+      <div class="gt" style="justify-content:flex-end;text-align:right"><div>
+        <div class="gt-n">${esc(homeAb)}</div>
+        ${ml.home != null ? `<div class="gt-ml">${fmtMl(ml.home)}</div>` : homePct ? `<div class="gt-ml">${homePct}</div>` : ''}
+      </div>${teamMark(sp, homeAb, 22)}</div>
+    </div>
+    ${edgeLine}
+  </div>`;
+}
 
-function renderNextStart(sport){
-  const iso = NEXT_START[sport];
-  if (!iso) return '';
-  const d = new Date(iso + 'T00:00:00');
-  const label = d.toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
-  return `
-    <div class="next-box">
-      <svg class="cal-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="3"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-      <div>
-        <div class="cal-label">Next Games Start</div>
-        <div class="cal-date">${label}</div>
+/* ── build a flat, ranked list of every projection for a sport ── */
+function players(sp){
+  const d = DATA[sp];
+  if (!d || !d.games) return [];
+  const defs = MARKETS[sp] || [];
+  const m = defs.find(x => x[0] === market) || defs[0];
+  if (!m) return [];
+  const out = [];
+  for (const g of d.games){
+    if (g.game_state === 'Final') continue;
+    for (const pool of POOLS[sp]){
+      const away = pool.startsWith('away');
+      const team = sp === 'mlb' || sp === 'nfl'
+        ? (away ? g.away_team : g.home_team) : (away ? g.away_abbr : g.home_abbr);
+      const opp = sp === 'mlb' || sp === 'nfl'
+        ? (away ? g.home_team : g.away_team) : (away ? g.home_abbr : g.away_abbr);
+      for (const p of (g[pool] || [])){
+        const v = m[1](p);
+        if (v == null || isNaN(v)) continue;
+        out.push({...p, _sp:sp, _team:team, _opp:opp,
+                  _tab:teamAbbr(sp, team), _oab:teamAbbr(sp, opp),
+                  _market:m[0], _val:v, _dp:m[2],
+                  _key:`${sp}|${m[0]}|${p.name}`, _game:g});
+      }
+    }
+  }
+  out.sort((a,b) => b._val - a._val);
+  return out;
+}
+
+/* Confidence: a transparent composite, not a black box. Percentile within the
+   slate, nudged by the matchup grade the model already assigns. */
+function confOf(p, arr){
+  const i = arr.indexOf(p);
+  const pct = arr.length > 1 ? 1 - (i / (arr.length - 1)) : 1;
+  let s = 45 + pct * 45;
+  const g = (p.matchup_grade || '')[0];
+  if (g === 'A') s += 8; else if (g === 'B') s += 3; else if (g === 'D') s -= 6;
+  return Math.max(1, Math.min(99, Math.round(s)));
+}
+const confColor = s => s >= 80 ? '#3DF08B' : s >= 65 ? '#3DD9F0' : s >= 50 ? '#FFC65C' : '#FF4E6A';
+const tierLabel = s => s >= 80 ? 'ELITE' : s >= 65 ? 'HIGH' : s >= 50 ? 'MEDIUM' : 'LOW';
+function neonBadge(score){
+  return `<span class="neon-badge" style="--c:${confColor(score)}">${tierLabel(score)}</span>`;
+}
+
+/* ── outcome distribution: floor / median / ceiling ──
+   A lightweight Monte Carlo around the model's point projection (2,000 draws,
+   right-skewed, spread scaled to the projection). This is a generic stand-in
+   for the per-stat simulators the classic boards used — good for a floor/
+   median/ceiling read without needing a separate sampler per sport/market. */
+const SIMCACHE = {};
+function simDraws(key, mean){
+  if (SIMCACHE[key]) return SIMCACHE[key];
+  const N = 2000, cv = 0.38, shape = 1 / (cv * cv), scale = Math.max(0.0001, mean) / shape;
+  const draws = new Array(N);
+  for (let i = 0; i < N; i++){
+    let s = 0;
+    for (let j = 0; j < Math.floor(shape); j++) s += -Math.log(Math.random());
+    const frac = shape - Math.floor(shape);
+    if (frac > 0) s += -Math.log(Math.random()) * frac;
+    draws[i] = Math.max(0, s * scale);
+  }
+  draws.sort((a, b) => a - b);
+  return SIMCACHE[key] = draws;
+}
+const pctile = (draws, q) => draws[Math.min(draws.length - 1, Math.floor(q * draws.length))];
+
+
+function ring(v, pct, label, color, size){
+  const sz = size || 52, r = sz/2 - 4, c = 2*Math.PI*r;
+  const off = c * (1 - Math.max(0, Math.min(1, pct)));
+  return `<div class="ring">
+    <svg viewBox="0 0 ${sz} ${sz}" width="${sz}" height="${sz}">
+      <circle cx="${sz/2}" cy="${sz/2}" r="${r}" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="4"/>
+      <circle cx="${sz/2}" cy="${sz/2}" r="${r}" fill="none" stroke="${color}" stroke-width="4"
+        stroke-linecap="round" stroke-dasharray="${c.toFixed(1)}" stroke-dashoffset="${off.toFixed(1)}"
+        transform="rotate(-90 ${sz/2} ${sz/2})"/>
+    </svg>
+    <div class="ring-v" style="color:${color}">${v}</div>
+    <div class="ring-l">${label}</div>
+  </div>`;
+}
+
+/* ── DASHBOARD ── */
+function renderDash(){
+  const arr = players(sport);
+  const d = DATA[sport];
+  const games = (d && d.games || []).filter(g => g.game_state !== 'Final').length;
+  const confs = arr.map(p => confOf(p, arr));
+  const avg = confs.length ? Math.round(confs.reduce((a,b)=>a+b,0)/confs.length) : 0;
+  const elite = confs.filter(c => c >= 80).length;
+  const hour = new Date().getHours();
+  const greet = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
+
+  const top = arr.slice(0, 8).map(p => {
+    const c = confOf(p, arr), col = confColor(c);
+    return `<div class="edge-card" data-key="${esc(p._key)}" style="--c:${col}">
+      <div class="edge-score">${c}</div>
+      ${neonBadge(c)}
+      <div class="edge-name">${esc(p.name)}</div>
+      <div class="edge-prop">${teamMark(p._sp, p._tab, 12)}${esc(p._market)} · vs ${esc(p._oab)}</div>
+      <div class="edge-proj">${p._val.toFixed(p._dp)}<small>proj</small></div>
+    </div>`;
+  }).join('') || '<div class="empty"><div class="m">No projections yet</div></div>';
+
+  const gameCards = gamesFor(sport).slice(0, 8).map(g => gameCardHtml(g, sport)).join('')
+    || '<div class="empty"><div class="m">No games today</div></div>';
+
+  const cats = (MARKETS[sport]||[]).map(m =>
+    `<div class="cat" data-market="${esc(m[0])}"><i>◆</i>${esc(m[0])}</div>`).join('');
+
+  const upd = SPORTS.map(sp => {
+    const dd = DATA[sp];
+    const n = dd && dd.games ? dd.games.length : 0;
+    const when = dd && dd.generated_at ? rel(dd.generated_at) : '—';
+    return `<div class="upd">
+      <div class="upd-badge" style="background:${SPORT_COLOR[sp]}14;border:1px solid ${SPORT_COLOR[sp]}44">
+        <img src="${LEAGUE_LOGO[sp]}" alt="${sp.toUpperCase()}" width="18" height="18" loading="lazy"
+          onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'${sp.toUpperCase()}',style:'color:${SPORT_COLOR[sp]};font-size:8px;font-weight:800'}))"></div>
+      <div class="upd-b">
+        <div class="upd-t">${n} game${n===1?'':'s'} on the slate</div>
+        <div class="upd-s">${n ? 'Projections current' : 'Offseason'}</div>
+      </div>
+      <span class="upd-time">${when}</span>
+      ${n ? '<span class="dot"></span>' : ''}
+    </div>`;
+  }).join('');
+
+  $('v-dash').innerHTML = `
+    <div class="hello">${greet}, Michel 👋</div>
+    <div class="hello-sub">Your models are updated and ready to go.</div>
+
+    <div class="card slate-card">
+      <div class="slate-main">
+        <div class="slate-lab">Today's slate</div>
+        <div class="slate-num">${arr.length}</div>
+        <div class="slate-cap">projections across ${games} game${games===1?'':'s'}</div>
+      </div>
+      <div class="slate-pill"><b>${elite}</b><span>Elite</span></div>
+      <div class="ringwrap">
+        ${ring('', avg/100, '', confColor(avg), 74)}
+        <div class="rv" style="color:${confColor(avg)}">${avg}</div>
+        <div class="rl">Avg conf</div>
       </div>
     </div>
-  `;
+
+    <h2>Top model edges <a href="#" data-goto="explore" data-mode="props">View all</a></h2>
+    <div class="edges">${top}</div>
+
+    <h2>Today's games <a href="#" data-goto="explore" data-mode="games">View all</a></h2>
+    <div class="edges">${gameCards}</div>
+
+    <h2>Markets</h2>
+    <div class="cats">${cats}</div>
+
+    <h2>Recently updated</h2>
+    ${upd}`;
+}
+function rel(iso){
+  const t = Date.parse(iso.endsWith('Z')||/[+-]\d\d:?\d\d$/.test(iso) ? iso : iso + 'Z');
+  if (!t) return '—';
+  const m = Math.max(0, Math.round((Date.now()-t)/60000));
+  if (m < 1) return 'now';
+  if (m < 60) return m + 'm ago';
+  const h = Math.round(m/60);
+  return h < 24 ? h + 'h ago' : Math.round(h/24) + 'd ago';
 }
 
-async function loadHub(){
-  const bySport = {};
-  await Promise.all(['mlb','nfl','nhl','nba'].map(async s => {
-    let d;
+/* ── EXPLORE ── */
+function rowHtml(p, arr){
+  const c = confOf(p, arr), col = confColor(c);
+  const starred = watch.has(p._key);
+  return `<div class="row" data-key="${esc(p._key)}">
+    ${avatar(p._sp, p, 'av')}
+    <div class="who">
+      <div class="who-n">${esc(p.name)}</div>
+      <div class="who-m">${teamMark(p._sp, p._tab, 13)}<span>${esc(p._tab)} · ${esc(p._market)}</span>
+        <span class="vs">vs</span>${teamMark(p._sp, p._oab, 13)}<span>${esc(p._oab)}</span></div>
+    </div>
+    <div class="pv"><div class="pv-n">${p._val.toFixed(p._dp)}</div><div class="pv-l">proj</div></div>
+    <div class="cf"><div class="cf-r" style="--c:${col}">${c}</div></div>
+    ${neonBadge(c)}
+    <span class="star ${starred?'on':''}" data-star="${esc(p._key)}">${starred?'★':'☆'}</span>
+  </div>`;
+}
+function renderExplore(){
+  const modeToggle = `<div class="filters" style="margin-bottom:8px">
+      <div class="f ${exploreMode==='props'?'on':''}" data-mode="props">Props</div>
+      <div class="f ${exploreMode==='games'?'on':''}" data-mode="games">Games</div>
+    </div>`;
+
+  if (exploreMode === 'games'){
+    const games = gamesFor(sport);
+    $('v-explore').innerHTML = modeToggle +
+      (games.length ? games.map(g => gameRowHtml(g, sport)).join('')
+        : `<div class="empty"><div class="i">◎</div><div class="m">No games on the slate</div>
+           <div class="s">${sport.toUpperCase()} has no games right now.</div></div>`);
+    return;
+  }
+
+  const arr = players(sport);
+  const defs = MARKETS[sport] || [];
+  const chips = defs.map(m =>
+    `<div class="f ${(market||defs[0][0])===m[0]?'on':''}" data-market="${esc(m[0])}">${esc(m[0])}</div>`).join('');
+  $('v-explore').innerHTML = modeToggle + `
+    <div class="filters">${chips}</div>
+    <div class="thead"><span class="c1">Player / Prop</span><span class="c2">Proj</span>
+      <span class="c3">Conf</span><span class="c4"></span></div>
+    ${arr.length ? arr.slice(0,120).map(p=>rowHtml(p,arr)).join('')
+      : `<div class="empty"><div class="i">◎</div><div class="m">Nothing on the slate</div>
+         <div class="s">${sport.toUpperCase()} has no games right now.</div></div>`}`;
+}
+
+/* ── WATCHLIST ── */
+function renderWatch(){
+  const keys = watch.all();
+  let rows = '';
+  for (const sp of SPORTS){
+    const arr = players(sp);
+    for (const p of arr) if (keys.includes(p._key)) rows += rowHtml(p, arr);
+  }
+  $('v-watch').innerHTML = rows || `<div class="empty"><div class="i">★</div>
+    <div class="m">Nothing starred yet</div>
+    <div class="s">Tap the star on any projection to keep an eye on it.</div></div>`;
+}
+
+/* ── PROFILE ── */
+function renderProfile(){
+  const picks = slip().all();
+  const settled = picks.filter(p => p.result === 'win' || p.result === 'loss');
+  const w = settled.filter(p => p.result === 'win').length;
+  $('v-profile').innerHTML = `
+    <h2>Your record</h2>
+    <div class="card slate-card">
+      <div class="slate-main">
+        <div class="slate-lab">Settled</div>
+        <div class="slate-num">${w}–${settled.length-w}</div>
+        <div class="slate-cap">${picks.length - settled.length} still open</div>
+      </div>
+      <div class="slate-pill"><b>${settled.length ? Math.round(w/settled.length*100) : 0}%</b><span>Win rate</span></div>
+    </div>
+    <h2>Elsewhere</h2>
+    <div class="upd"><div class="upd-b"><div class="upd-t">Bet slip</div>
+      <div class="upd-s">Log and settle your plays</div></div>
+      <a class="icon-btn" href="../picks/">→</a></div>
+    <div class="upd"><div class="upd-b"><div class="upd-t">How the models work</div>
+      <div class="upd-s">Sources and method, per league</div></div>
+      <a class="icon-btn" href="../how/">→</a></div>`;
+}
+
+/* ── DETAIL SHEET ── */
+function openSheet(key){
+  let found = null, arr = [];
+  for (const sp of SPORTS){
+    const a = players(sp);
+    const p = a.find(x => x._key === key);
+    if (p){ found = p; arr = a; break; }
+  }
+  if (!found) return;
+  const p = found, c = confOf(p, arr), col = confColor(c);
+  const g = p._game, ctx = g && g._context;
+  const draws = simDraws(p._key, p._val);
+  const floor = pctile(draws, 0.25), med = pctile(draws, 0.50), ceil = pctile(draws, 0.90);
+
+  const cells = [];
+  if (p._sp === 'mlb'){
+    if (p.pa != null) cells.push(['PA', p.pa.toFixed(1)]);
+    if (p.xwoba != null) cells.push(['xwOBA', p.xwoba.toFixed(3)]);
+    if (p.hr_prob != null) cells.push(['HR/PA', (p.hr_prob*100).toFixed(1)+'%']);
+    if (p.k_rate != null) cells.push(['K%', (p.k_rate*100).toFixed(0)+'%']);
+  } else if (p._sp === 'nfl'){
+    if (p.targets != null) cells.push(['TGT', p.targets.toFixed(1)]);
+    if (p.rec != null) cells.push(['REC', p.rec.toFixed(1)]);
+    if (p.td_prob != null) cells.push(['TD%', (p.td_prob*100).toFixed(0)+'%']);
+    if (p.fpts != null) cells.push(['FPTS', p.fpts.toFixed(1)]);
+  }
+
+  let rings = '';
+  if (ctx){
+    const away = g && (g.away_team === p._team);
+    const pq = away ? ctx.pitcher_quality : ctx.opp_pitcher_quality;
+    const pen = away ? ctx.bullpen_home : ctx.bullpen_away;
+    const r = [];
+    if (pq != null) r.push(ring(pq, pq/100, 'Pitcher', '#3DF08B'));
+    if (pen != null) r.push(ring(pen.toFixed(2), (pen-0.85)/0.3, 'Bullpen', '#FFC65C'));
+    if (ctx.park_run_factor != null) r.push(ring(Math.round(ctx.park_run_factor*100), (ctx.park_run_factor-0.9)/0.28, 'Park', '#7C5CFF'));
+    if (ctx.weather_hr_factor != null) r.push(ring((ctx.weather_hr_factor>1?'+':'')+Math.round((ctx.weather_hr_factor-1)*100)+'%', Math.abs(ctx.weather_hr_factor-1)/0.25, 'Weather', '#3DD9F0'));
+    if (r.length) rings = `<h2>Matchup analysis</h2><div class="rings">${r.join('')}</div>`;
+  }
+
+  const notes = [];
+  if (p.matchup_grade) notes.push(`Matchup graded <b>${esc(p.matchup_grade)}</b> against ${esc(p._opp)}.`);
+  if (p._sp==='mlb' && p.order) notes.push(`Batting <b>${p.order}${p.order===1?'st':p.order===2?'nd':p.order===3?'rd':'th'}</b>.`);
+  if (ctx && ctx.park_run_factor && ctx.park_run_factor !== 1)
+    notes.push(`Park plays <b>${ctx.park_run_factor > 1 ? 'up' : 'down'}</b> at ${Math.round(Math.abs(ctx.park_run_factor-1)*100)}%.`);
+  if (ctx && ctx.umpire) notes.push(`Home plate: ${esc(ctx.umpire)}.`);
+  notes.push(`Confidence is this projection's rank within today's ${esc(p._market)} board, adjusted for matchup grade \u2014 not a hit-rate.`);
+
+  $('sheet-in').innerHTML = `
+    <div class="grab"></div>
+    <div class="sh-head">
+      ${avatar(p._sp, p, 'sh-av')}
+      <div><div class="sh-n">${esc(p.name)}</div>
+        <div class="sh-m">${teamMark(p._sp, p._tab, 15)}<span>${esc(p._team)}</span>
+          <span class="vs">vs</span>${teamMark(p._sp, p._oab, 15)}<span>${esc(p._opp)}</span></div></div>
+      <div class="sh-score" style="--c:${col}"><b>${c}</b><span>Confidence</span>${neonBadge(c)}</div>
+    </div>
+    <div class="hero">
+      <div style="flex:1">
+        <div class="hero-n">${p._val.toFixed(p._dp)}</div>
+        <div class="hero-l">Projected ${esc(p._market)}</div>
+      </div>
+    </div>
+    <h2>Range of outcomes</h2>
+    <div class="cells">
+      <div class="cell"><b>${floor.toFixed(p._dp)}</b><span>Floor</span></div>
+      <div class="cell mid"><b>${med.toFixed(p._dp)}</b><span>Median</span></div>
+      <div class="cell"><b>${ceil.toFixed(p._dp)}</b><span>Ceiling</span></div>
+    </div>
+    ${cells.length ? `<div class="cells">${cells.map(([l,v])=>`<div class="cell"><b>${v}</b><span>${l}</span></div>`).join('')}</div>` : ''}
+    ${rings}
+    <h2>Model notes</h2>
+    <div class="notes">${notes.join(' ')}</div>`;
+  $('sheet').classList.add('on');
+}
+
+/* ── wiring ── */
+function render(){
+  document.querySelectorAll('.view').forEach(v => v.classList.toggle('on', v.id === 'v-'+view));
+  document.querySelectorAll('.nb').forEach(b => b.classList.toggle('on', b.dataset.v === view));
+  if (view === 'dash') renderDash();
+  else if (view === 'explore') renderExplore();
+  else if (view === 'watch') renderWatch();
+  else renderProfile();
+  $('league-btn').innerHTML = `<img class="lg" src="${LEAGUE_LOGO[sport]}" alt="" width="15" height="15"
+      onerror="this.remove()">${sport.toUpperCase()} \u25be`;
+  $('league-menu').innerHTML = SPORTS.map(sp => `
+    <button class="league-opt ${sp===sport?'on':''}" data-league="${sp}">
+      <img src="${LEAGUE_LOGO[sp]}" alt="" onerror="this.remove()">${sp.toUpperCase()}
+    </button>`).join('');
+}
+
+document.querySelector('nav').addEventListener('click', e => {
+  const b = e.target.closest('.nb');
+  if (!b) return;
+  view = b.dataset.v; render(); window.scrollTo({top:0});
+});
+$('league-btn').addEventListener('click', e => {
+  e.stopPropagation();
+  const open = $('league-menu').classList.toggle('on');
+  $('league-btn').setAttribute('aria-expanded', open ? 'true' : 'false');
+});
+document.addEventListener('click', e => {
+  if (!e.target.closest('.league-wrap')){
+    $('league-menu').classList.remove('on');
+    $('league-btn').setAttribute('aria-expanded', 'false');
+  }
+});
+document.body.addEventListener('click', e => {
+  const lg = e.target.closest('[data-league]');
+  if (lg){
+    sport = lg.dataset.league;
+    try { localStorage.setItem('slate_sport', sport); } catch(e){}
+    market = null;
+    $('league-menu').classList.remove('on');
+    $('league-btn').setAttribute('aria-expanded', 'false');
+    render();
+    return;
+  }
+  const star = e.target.closest('[data-star]');
+  if (star){ e.stopPropagation(); watch.toggle(star.dataset.star); render(); return; }
+  const cat = e.target.closest('[data-market]');
+  if (cat){ market = cat.dataset.market; view = 'explore'; render(); return; }
+  const goto = e.target.closest('[data-goto]');
+  if (goto){ e.preventDefault(); view = goto.dataset.goto; if (goto.dataset.mode) exploreMode = goto.dataset.mode; render(); window.scrollTo({top:0}); return; }
+  const modeBtn = e.target.closest('[data-mode]');
+  if (modeBtn){ exploreMode = modeBtn.dataset.mode; render(); return; }
+  const k = e.target.closest('[data-key]');
+  if (k){ openSheet(k.dataset.key); return; }
+});
+$('sheet').addEventListener('click', e => {
+  if (e.target === $('sheet')) $('sheet').classList.remove('on');
+});
+$('refresh').addEventListener('click', () => load());
+
+async function load(){
+  await Promise.all(SPORTS.map(async sp => {
     try {
-      const r = await fetch(`./data/${s}_slate.json?t=${Date.now()}`);
-      d = await r.json();
-    } catch (e) {
-      const footEl = document.getElementById(s+'-foot');
-      footEl.style.display = 'flex';
-      document.getElementById(s+'-updated-alt').textContent = 'no data yet';
-      return;
-    }
-    const games = d.games || [];
-    bySport[s] = games;
-    const count = games.length;
-    const live = games.filter(g => g.game_state === 'Live').length;
-    const mode = document.querySelector(`.board[data-sport="${s}"]`).dataset.mode;
-    const card = document.querySelector(`.board[data-sport="${s}"]`);
-    const updatedTxt = d.generated_at ? rel(d.generated_at) : 'syncing…';
-
-    document.getElementById(s+'-games').textContent = count;
-    document.getElementById(s+'-games-label').textContent = count === 1 ? 'game today' : 'games today';
-    card.classList.toggle('quiet', count === 0);
-
-    // status badge
-    let badge;
-    if (live > 0) badge = `${live} GAME${live===1?'':'S'} LIVE`;
-    else if (count > 0) badge = `${count} GAME${count===1?'':'S'} TODAY`;
-    else badge = NEXT_START[s] ? 'OFFSEASON' : 'NO GAMES SCHEDULED';
-    document.getElementById(s+'-badge').textContent = badge;
-
-    // stat 1 & 2: predicted edges / top plays, derived from each game's edge score
-    const scores = games.map(gameEdgeScore);
-    const predictedEdges = scores.filter(x => x > 0).length;
-    const topPlays = scores.filter(x => x >= 70).length;
-    document.getElementById(s+'-stat1').textContent = predictedEdges;
-    document.getElementById(s+'-stat2').textContent = topPlays;
-
-    // stat 3: win probability (weekly boards) or high-confidence count (daily boards)
-    if (mode === 'weekly'){
-      let bestPct = 0;
-      for (const g of games){
-        const p = Math.max(g.home_win_pct ?? 0, g.away_win_pct ?? 0, g.p_cover ?? 0);
-        if (p > bestPct) bestPct = p;
-      }
-      document.getElementById(s+'-stat3').textContent = games.length ? `${Math.round(bestPct*100)}%` : '0%';
-    } else {
-      document.getElementById(s+'-stat3').textContent = scores.filter(x => x >= 80).length;
-    }
-
-    // body: timestamp when there are games, otherwise a next-start box
-    const bodyEl = document.getElementById(s+'-body');
-    const footEl = document.getElementById(s+'-foot');
-    if (count > 0){
-      // The TOP MATCHUP panel used to live here: one game's moneylines plus a
-      // "best edge" pick. It was picked by the same edge score that turned out
-      // to be unreliable, and its odds were whatever the last model run saw --
-      // so a stale price sat on the landing page looking authoritative. The
-      // sport boards show every game with live prices; this only competed with
-      // them. Removed rather than patched.
-      bodyEl.innerHTML = `<div class="board-updated" style="margin-top:8px">${updatedTxt}</div>`;
-      footEl.style.display = 'none';
-    } else {
-      bodyEl.innerHTML = renderNextStart(s);
-      footEl.style.display = 'flex';
-      document.getElementById(s+'-updated-alt').textContent = updatedTxt;
-    }
+      const r = await fetch(`../data/${sp}_slate.json?t=${Date.now()}`);
+      DATA[sp] = await r.json();
+    } catch(e){ DATA[sp] = {games:[]}; }
   }));
+  render();
 }
-
-mountSlipBar('./picks/');
-loadHub();
-
-// ---------- Run Now ----------
-// Tapping the header button both re-fetches the current JSON *and* asks the
-// GitHub Action to run the models immediately, instead of waiting for the
-// next scheduled cron. The Action can't be triggered directly from this
-// static page (that would mean shipping a GitHub token to every visitor's
-// browser), so this calls a tiny Cloudflare Worker that holds the token and
-// forwards a workflow_dispatch request. See /worker/README.md for setup —
-// until TRIGGER_URL below is filled in, the button just refreshes the
-// currently-saved data, same as before.
-// Configured in picks.js (RUN_TRIGGER_URL) so there's one line to edit, not
-// five. Read through an accessor -- picks.js declares it as a const, so
-// re-declaring it here would throw whenever that file loaded correctly.
-function triggerUrl(){
-  try { return (typeof RUN_TRIGGER_URL === 'string' && RUN_TRIGGER_URL) || ''; }
-  catch (e){ return ''; }
-}
-
-const hubRefresh = document.getElementById('hub-refresh');
-const hubStatus = document.getElementById('hub-status');
-
-function showStatus(msg, isError){
-  if (!hubStatus) return;
-  hubStatus.textContent = msg;
-  hubStatus.classList.toggle('error', !!isError);
-  hubStatus.style.display = 'block';
-}
-
-async function triggerRun(){
-  const url = triggerUrl();
-  if (!url) return { ok:false, skipped:true };
-  try {
-    const r = await fetch(url, { method: 'POST' });
-    // Distinguish an HTTP failure from a blocked request. A Worker missing
-    // CORS headers throws a TypeError here, which previously looked identical
-    // to "no worker configured" -- i.e. nothing happened and nothing was said.
-    return r.ok ? { ok:true } : { ok:false, reason:'HTTP ' + r.status };
-  } catch (e) {
-    return { ok:false, reason:'blocked (check the Worker\u2019s CORS headers)' };
-  }
-}
-
-if (hubRefresh) hubRefresh.onclick = async () => {
-  hubRefresh.classList.add('spin');
-  hubRefresh.disabled = true;
-
-  const result = await triggerRun();
-  if (result.skipped){
-    // Previously silent, which made a working button look broken.
-    showStatus('No Run-now URL set \u2014 add RUN_TRIGGER_URL in picks.js. Reloaded saved data.', true);
-  } else if (result.ok){
-    showStatus('Run triggered \u2014 fresh data in ~1\u20132 min. Refreshing\u2026');
-  } else {
-    showStatus('Could not start a run: ' + (result.reason || 'unknown') + '. Showing saved data.', true);
-  }
-
-  await loadHub();
-  hubRefresh.classList.remove('spin');
-  hubRefresh.disabled = false;
-
-  // The Action takes a little while to run and commit; keep checking for
-  // the new data without making the user tap again.
-  if (result.ok){
-    [20000, 45000, 75000, 110000].forEach(ms => setTimeout(async () => {
-      await loadHub();
-      showStatus('Updated with the latest run.');
-      setTimeout(() => { hubStatus.style.display = 'none'; }, 4000);
-    }, ms));
-  }
-};
-
-if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');
+load();
+setInterval(load, 10*60*1000);
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('../sw.js');
 </script>
 </body>
 </html>
