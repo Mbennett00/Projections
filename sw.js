@@ -1,4 +1,4 @@
-const CACHE = 'projex-v5';
+const CACHE = 'projex-v6';
 const SHELL = ['/', '/mlb/', '/nfl/', '/nhl/', '/nba/', '/picks/', '/how/', '/app/', '/picks.js', '/theme.css', '/manifest.webmanifest'];
 
 // Cache each shell URL on its own. caches.addAll() is all-or-nothing: a single
