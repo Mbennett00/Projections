@@ -309,6 +309,9 @@ nav{position:fixed;left:0;right:0;bottom:0;z-index:70;
   color:var(--green);background:rgba(61,240,139,.10);border:1px solid rgba(61,240,139,.40)}
 .addbet.on{background:var(--green);color:var(--void);box-shadow:0 0 12px rgba(61,240,139,.45)}
 .addbet:active{transform:scale(.92)}
+.pr-mb{flex:none;min-width:52px;padding:5px 8px}
+.pr-mb .mb-l{font-size:9px}
+.pr-mb .mb-p{font-size:11.5px}
 
 .bet-sum{display:flex;gap:14px;margin-bottom:11px}
 .bet-sum>div{flex:1;min-width:0}
@@ -343,11 +346,23 @@ nav{position:fixed;left:0;right:0;bottom:0;z-index:70;
 .gc-edge-v{font-variant-numeric:tabular-nums;font-weight:800}
 .gc-edge-l{font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:700;
   letter-spacing:.09em;text-transform:uppercase;color:var(--faint)}
-.gt{position:relative;display:flex;align-items:center;gap:9px;padding:6px 34px 6px 0}
-.gt-add{position:absolute;right:0;top:50%;transform:translateY(-50%);width:26px;height:26px;font-size:13px}
+.gt{display:flex;align-items:center;gap:9px;padding:6px 0}
 .gc-bar{height:5px;border-radius:99px;overflow:hidden;margin:8px 0 11px;background:var(--violet)}
 .gc-bar div{height:100%;border-radius:99px}
 .gc-stats span[title]{cursor:help;border-bottom:1px dotted var(--line)}
+
+/* ── market badges: every priced side, one clean row ── */
+.mkts{display:flex;gap:6px;flex-wrap:wrap;padding-top:11px;margin-top:2px;border-top:1px solid var(--line)}
+.mb{flex:1 1 auto;min-width:64px;display:flex;flex-direction:column;align-items:center;gap:2px;
+  padding:7px 9px;border-radius:9px;cursor:pointer;
+  background:var(--surface);border:1px solid var(--line);color:var(--ink)}
+.mb-l{font-family:'IBM Plex Mono',monospace;font-size:9.5px;font-weight:700;letter-spacing:.03em;
+  color:var(--mute);white-space:nowrap}
+.mb-p{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:800;
+  font-variant-numeric:tabular-nums;color:var(--ink)}
+.mb.on{background:var(--green);border-color:var(--green)}
+.mb.on .mb-l,.mb.on .mb-p{color:var(--void)}
+.mb:active{transform:scale(.96)}
 
 /* ── nfl advanced chips ── */
 .adv-row{display:flex;align-items:stretch;gap:5px;flex-wrap:nowrap;margin-bottom:9px}
@@ -394,6 +409,9 @@ nav{position:fixed;left:0;right:0;bottom:0;z-index:70;
 .gc-m .vs{color:var(--faint);font-weight:600}
 .gc-state{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.07em;
   padding:4px 9px;border-radius:6px;border:1px solid;white-space:nowrap}
+.gc-h-r{display:flex;align-items:center;gap:6px;flex:none}
+.tier-pill{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:800;letter-spacing:.06em;
+  padding:4px 8px;border-radius:6px;border:1px solid;white-space:nowrap}
 
 .gt-n{flex:1;min-width:0;font-size:13.5px;font-weight:600;white-space:nowrap;overflow:hidden;
   text-overflow:ellipsis;color:var(--mute)}
@@ -981,6 +999,26 @@ function rel(iso){
 }
 
 /* ── EXPLORE ── */
+// Same pill treatment as the game-card markets: label above price, one
+// clean control instead of a bare "+". Only ONE side is ever available here
+// -- the model logs whichever side (over or under) it found value on, not
+// both -- so this shows that real side and price rather than inventing the
+// other one.
+function propBadge(p, e, backed){
+  const key = p._key;
+  const label = e && e.side ? `${e.side[0]} ${e.line}` : p._val.toFixed(p._dp);
+  const price = e && e.odds != null ? fmtOdds(e.odds) : '';
+  return `<button class="mb pr-mb ${backed?'on':''}" data-add="${esc(key)}"
+      data-sport="${esc(p._sp)}" data-label="${esc(p.name)}"
+      data-detail="${esc(p._market + ' \u00b7 vs ' + p._oab)}"
+      data-line="${esc(e && e.line != null ? label + (price?' '+price:'') : label)}"
+      data-logo="${esc(teamLogo(p._sp, p._tab))}"
+      aria-label="${backed ? 'Remove bet' : 'Log bet'}">
+    <span class="mb-l">${esc(label)}</span>
+    ${price ? `<span class="mb-p">${esc(price)}</span>` : `<span class="mb-p">${backed?'\u2713':'+'}</span>`}
+  </button>`;
+}
+
 function rowHtml(p, arr){
   const c = confOf(p, arr), col = confColor(c);
   const backed = slip().hasKey(p._key);
@@ -998,12 +1036,7 @@ function rowHtml(p, arr){
       <div class="pv-l">${e && e.line != null ? esc(String(e.line)) + ' line' : 'proj'}</div></div>
     <div class="eg">${edgePill(e)}</div>
     <div class="cf"><div class="cf-r" style="--c:${col}">${c}</div></div>
-    <button class="addbet ${backed?'on':''}" data-add="${esc(p._key)}"
-      data-sport="${esc(p._sp)}" data-label="${esc(p.name)}"
-      data-detail="${esc(p._market + ' · vs ' + p._oab)}"
-      data-line="${esc(e && e.line != null ? e.line + (e.odds ? ' ' + (e.odds>0?'+':'') + e.odds : '') : p._val.toFixed(p._dp))}"
-      data-logo="${esc(teamLogo(p._sp, p._tab))}"
-      aria-label="${backed ? 'Remove bet' : 'Log bet'}">${backed?'✓':'+'}</button>
+    ${propBadge(p, e, backed)}
   </div>`;
 }
 function renderExplore(){
@@ -1046,10 +1079,80 @@ function stateLabel(g){
 }
 // The edge belongs to a side, so it says which. A bare "+6.6%" leaves you
 // working out who it's on from the rest of the card.
+// Every priced market on the game, as one clean row of badges: both
+// moneylines, both sides of the spread, both sides of the total. Same
+// American-odds format the sportsbooks use. Nothing here is invented -- a
+// market only gets a badge when FanDuel has actually posted it, via _lines
+// (spread/total/moneyline together) or the older standalone `moneylines`.
+function fmtOdds(v){ return v == null ? '' : (v > 0 ? '+' + v : String(v)); }
+function marketBadges(sp, g){
+  const L = g._lines || {};
+  const ml = g.moneylines || (L.ml_away != null ? {away:L.ml_away, home:L.ml_home, book:L.book} : null);
+  const aAb = teamAbbr(sp, sp==='mlb'||sp==='nfl' ? g.away_team : g.away_abbr);
+  const hAb = teamAbbr(sp, sp==='mlb'||sp==='nfl' ? g.home_team : g.home_abbr);
+  const gkey = `${aAb}@${hAb}|${g.game_time||''}`;
+  const live = g.game_state !== 'Final';
+  if (!live) return '';
+
+  const badge = (label, key, price, sub) => {
+    const already = slip().hasKey(key);
+    return `<button class="mb ${already?'on':''}" data-add="${esc(key)}"
+        data-sport="${esc(sp)}" data-label="${esc(label)}" data-detail="${esc(sub)}"
+        data-line="${esc(fmtOdds(price))}" data-logo=""
+        aria-label="${already?'Remove bet':'Bet '+label}">
+      <span class="mb-l">${esc(label)}</span>
+      <span class="mb-p">${price!=null?fmtOdds(price):'\u2014'}</span>
+    </button>`;
+  };
+
+  const parts = [];
+  if (ml){
+    parts.push(badge(`${aAb} ML`, `${sp}|ml|away|${gkey}`, ml.away, `${aAb} moneyline`));
+    parts.push(badge(`${hAb} ML`, `${sp}|ml|home|${gkey}`, ml.home, `${hAb} moneyline`));
+  }
+  if (L.spread != null){
+    parts.push(badge(`${aAb} ${(-L.spread>0?'+':'')}${(-L.spread)}`, `${sp}|sp|away|${gkey}`,
+      L.spread_away_price, `${aAb} spread`));
+    parts.push(badge(`${hAb} ${(L.spread>0?'+':'')}${L.spread}`, `${sp}|sp|home|${gkey}`,
+      L.spread_home_price, `${hAb} spread`));
+  }
+  if (L.total != null){
+    parts.push(badge(`O ${L.total}`, `${sp}|tot|over|${gkey}`, L.over_price, `Total \u00b7 over`));
+    parts.push(badge(`U ${L.total}`, `${sp}|tot|under|${gkey}`, L.under_price, `Total \u00b7 under`));
+  }
+  if (!parts.length) return '';
+  return `<div class="mkts">${parts.join('')}</div>`;
+}
+
+// The edge object's `team` field is always a full team name (all four sports
+// agree on that), but NHL and NBA's OWN game fields already use abbreviations
+// everywhere else. Rather than hardcode a second 60-team name map and risk it
+// drifting from the real one, this resolves against the SAME game object's
+// away_team/home_team so it can never disagree with what the card already shows.
+function resolveTeamAbbr(sp, g, name){
+  if (!name) return '';
+  const aFull = sp==='mlb'||sp==='nfl' ? g.away_team : (g.away_team || g.away_abbr);
+  const hFull = sp==='mlb'||sp==='nfl' ? g.home_team : (g.home_team || g.home_abbr);
+  if (name === aFull) return teamAbbr(sp, sp==='mlb'||sp==='nfl' ? g.away_team : g.away_abbr);
+  if (name === hFull) return teamAbbr(sp, sp==='mlb'||sp==='nfl' ? g.home_team : g.home_abbr);
+  return teamAbbr(sp, name);   // fallback: static map (mlb/nfl) or best-effort
+}
+
+// LEAN / STRONG / ELITE / PASS -- the model's own read on how strong a signal
+// this game is, independent of the numeric edge. Shown as its own pill so a
+// LEAN-tier edge doesn't read with the same weight as an ELITE one.
+const TIER_COLOR = { ELITE:'#3DF08B', STRONG:'#3DD9F0', LEAN:'#FFC65C', PASS:'#7C8296' };
+function tierPill(g){
+  const t = (g.tier || '').toUpperCase();
+  if (!t || t === 'PASS') return '';
+  const c = TIER_COLOR[t] || '#7C8296';
+  return `<span class="tier-pill" style="color:${c};background:${c}16;border-color:${c}55">${esc(t)}</span>`;
+}
+
 function edgeTeamPill(sp, g, edge){
   if (!edge || edge.edge_pct == null || g.game_state === 'Final') return '';
   const team = edge.team || '';
-  const ab = teamAbbr(sp, team);
+  const ab = resolveTeamAbbr(sp, g, team);
   const col = appEdgeBand(edge.edge_pct)[1];
   const v = Number(edge.edge_pct);
   return `<div class="gc-edge-row">
@@ -1085,33 +1188,20 @@ function renderGames(){
     const dim = g.game_state === 'Final' ? 'dim' : g.game_state === 'Live' ? 'live' : '';
     const aCol = teamColor(sp, aAb, '#3DF08B'), hCol = teamColor(sp, hAb, '#7C5CFF');
     const edge = g.edge;
-    const gkey = `${aAb}@${hAb}|${g.game_time||''}`;
-    const ml = g.moneylines || (g._lines ? {away:g._lines.ml_away, home:g._lines.ml_home, book:g._lines.book} : null);
-    const live = g.game_state !== 'Final';
-    const row = (ab, name, score, win, fav, side) => {
-      const px = ml ? ml[side] : null;
-      const betKey = `${sp}|ml|${side}|${gkey}`;
-      const already = slip().hasKey(betKey);
-      const line = px != null ? (px>0?'+':'')+px+(ml.book?' \u00b7 '+ml.book:'')
-                 : win != null ? Math.round(win*100)+'% model' : '';
-      return `<div class="gt">
+    const row = (ab, name, score, win, fav) => `
+      <div class="gt">
         ${teamMark(sp, ab, 22)}
         <span class="gt-n ${fav?'fav':''}">${esc(name)}</span>
         <span class="gt-s">${score != null ? Number(score).toFixed(sp==='mlb'||sp==='nhl'?1:0) : '–'}</span>
         <span class="gt-w">${win != null ? Math.round(win*100)+'%' : '–'}</span>
-        ${live ? `<button class="addbet gt-add ${already?'on':''}" data-add="${esc(betKey)}"
-            data-sport="${esc(sp)}" data-label="${esc(ab)} ML" data-detail="${esc(name+' moneyline')}"
-            data-line="${esc(line)}" data-logo="${esc(teamLogo(sp,ab))}"
-            aria-label="${already?'Remove bet':'Bet '+ab+' ML'}">${already?'\u2713':'+'}</button>` : ''}
       </div>`;
-    };
     return `<div class="gc ${dim}">
       <div class="gc-h">
         <span class="gc-m">${teamMark(sp,aAb,15)}${esc(aAb)} <span class="vs">@</span> ${teamMark(sp,hAb,15)}${esc(hAb)}</span>
-        <span class="gc-state" style="color:${lcol};border-color:${lcol}44;background:${lcol}14">${lab}</span>
+        <span class="gc-h-r">${tierPill(g)}<span class="gc-state" style="color:${lcol};border-color:${lcol}44;background:${lcol}14">${lab}</span></span>
       </div>
-      ${row(aAb, sp==='mlb'||sp==='nfl' ? g.away_team : aAb, as, aw, aw>hw, 'away')}
-      ${row(hAb, sp==='mlb'||sp==='nfl' ? g.home_team : hAb, hs, hw, hw>aw, 'home')}
+      ${row(aAb, sp==='mlb'||sp==='nfl' ? g.away_team : aAb, as, aw, aw>hw)}
+      ${row(hAb, sp==='mlb'||sp==='nfl' ? g.home_team : hAb, hs, hw, hw>aw)}
       ${aw != null ? `<div class="gc-bar" style="background:${hCol}">
         <div style="width:${(aw*100).toFixed(0)}%;background:${aCol}"></div></div>` : ''}
       <div class="gc-stats">
@@ -1123,6 +1213,7 @@ function renderGames(){
           ? `<span title="Scoring environment, 0\u2013100. Blends projected runs, the over probability, and how likely both sides are to score. High = a good game for overs and hitter props.">
               <i>Scoring env</i><b>${g.target_score}</b></span>` : ''}
       </div>
+      ${marketBadges(sp, g)}
       ${edgeTeamPill(sp, g, edge)}
       ${gameMeta(sp,g) ? `<div class="gc-meta">${esc(gameMeta(sp,g))}</div>` : ''}
     </div>`;
