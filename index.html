@@ -292,6 +292,59 @@ nav{position:fixed;left:0;right:0;bottom:0;z-index:70;
   font-variant-numeric:tabular-nums}
 .edge-proj{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 
+/* ── run status + bets ── */
+.run-status{max-height:0;overflow:hidden;opacity:0;transition:max-height .2s,opacity .2s;
+  font-family:'IBM Plex Mono',monospace;font-size:10.5px;text-align:center;
+  color:var(--green);border-radius:10px}
+.run-status.show{max-height:60px;opacity:1;padding:9px 11px;margin-bottom:11px;
+  background:rgba(61,240,139,.10);border:1px solid rgba(61,240,139,.35)}
+.run-status.bad{color:var(--amber);background:rgba(255,198,92,.10);border-color:rgba(255,198,92,.35)}
+#refresh.spin{animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+.addbet{width:28px;height:28px;flex:none;border-radius:8px;cursor:pointer;
+  font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:700;line-height:1;
+  color:var(--green);background:rgba(61,240,139,.10);border:1px solid rgba(61,240,139,.40)}
+.addbet.on{background:var(--green);color:var(--void);box-shadow:0 0 12px rgba(61,240,139,.45)}
+.addbet:active{transform:scale(.92)}
+
+.bet-sum{display:flex;gap:14px;margin-bottom:11px}
+.bet-sum>div{flex:1;min-width:0}
+.fn{margin-left:5px;opacity:.6;font-size:9.5px}
+.bet{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--c);
+  border-radius:13px;margin-bottom:7px;overflow:hidden}
+.bet-top{display:flex;align-items:center;gap:10px;padding:11px 12px}
+.bet-logo{width:26px;height:26px;object-fit:contain;flex:none}
+.bet-main{flex:1;min-width:0}
+.bet-l{font-family:'Sora',sans-serif;font-weight:700;font-size:13.5px;line-height:1.25;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bet-d{font-size:10.5px;color:var(--mute);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bet-r{flex:none;text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.bet-line{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--mute);
+  font-variant-numeric:tabular-nums}
+.bet-res{font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:800;letter-spacing:.09em;
+  padding:3px 6px;border-radius:5px;border:1px solid}
+.bet-acts{display:flex;gap:6px;padding:0 12px 11px}
+.ba{flex:1;font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:700;
+  padding:7px 0;border-radius:8px;cursor:pointer;color:var(--mute);
+  background:transparent;border:1px solid var(--line)}
+.ba.on{color:var(--c);background:color-mix(in srgb,var(--c) 14%,transparent);
+  border-color:color-mix(in srgb,var(--c) 45%,transparent)}
+.ba.del{flex:none;width:34px;color:var(--faint)}
+.ba:active{transform:scale(.97)}
+
+.gc-edge-row{display:flex;align-items:center;gap:9px;margin-top:10px;padding-top:10px;
+  border-top:1px solid var(--line)}
+.gc-edge{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:8px;
+  border:1px solid;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700}
+.gc-edge b{font-weight:800;letter-spacing:.03em}
+.gc-edge-v{font-variant-numeric:tabular-nums;font-weight:800}
+.gc-edge-l{font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:700;
+  letter-spacing:.09em;text-transform:uppercase;color:var(--faint)}
+.gc-bar{height:5px;border-radius:99px;overflow:hidden;margin:8px 0 11px}
+.gc-bar div{height:100%;border-radius:99px}
+.gc-stats span[title]{cursor:help;border-bottom:1px dotted var(--line)}
+
 /* ── tags, edge pills, distribution, game cards ── */
 .tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:5px}
 .tag{font-family:'IBM Plex Mono',monospace;font-size:7.5px;font-weight:700;letter-spacing:.06em;
@@ -363,10 +416,11 @@ nav{position:fixed;left:0;right:0;bottom:0;z-index:70;
   </div>
 </div>
 
+<div class="run-status" id="run-status"></div>
 <div class="view on" id="v-dash"></div>
 <div class="view" id="v-explore"></div>
 <div class="view" id="v-games"></div>
-<div class="view" id="v-watch"></div>
+<div class="view" id="v-bets"></div>
 <div class="view" id="v-profile"></div>
 
 <div class="sheet" id="sheet"><div class="sheet-in" id="sheet-in"></div></div>
@@ -375,7 +429,7 @@ nav{position:fixed;left:0;right:0;bottom:0;z-index:70;
   <button class="nb on" data-v="dash"><i>◈</i><span>Dashboard</span></button>
   <button class="nb" data-v="games"><i>◍</i><span>Games</span></button>
   <button class="nb" data-v="explore"><i>⌕</i><span>Props</span></button>
-  <button class="nb" data-v="watch"><i>★</i><span>Watchlist</span></button>
+  <button class="nb" data-v="bets"><i>✓</i><span>Bets</span></button>
   <a class="nb" href="./how/"><i>?</i><span>How</span></a>
 </div></nav>
 
@@ -401,6 +455,26 @@ function slip(){
 const MLB_TEAMID = {"ARI":109,"ATH":133,"ATL":144,"BAL":110,"BOS":111,"CHC":112,"CWS":145,"CIN":113,"CLE":114,"COL":115,"DET":116,"HOU":117,"KC":118,"LAA":108,"LAD":119,"MIA":146,"MIL":158,"MIN":142,"NYM":121,"NYY":147,"PHI":143,"PIT":134,"SD":135,"SF":137,"SEA":136,"STL":138,"TB":139,"TEX":140,"TOR":141,"WSH":120};
 const MLB_ABBR = {"Arizona Diamondbacks":"ARI","Athletics":"ATH","Oakland Athletics":"ATH","Atlanta Braves":"ATL","Baltimore Orioles":"BAL","Boston Red Sox":"BOS","Chicago Cubs":"CHC","Chicago White Sox":"CWS","Cincinnati Reds":"CIN","Cleveland Guardians":"CLE","Colorado Rockies":"COL","Detroit Tigers":"DET","Houston Astros":"HOU","Kansas City Royals":"KC","Los Angeles Angels":"LAA","Los Angeles Dodgers":"LAD","Miami Marlins":"MIA","Milwaukee Brewers":"MIL","Minnesota Twins":"MIN","New York Mets":"NYM","New York Yankees":"NYY","Philadelphia Phillies":"PHI","Pittsburgh Pirates":"PIT","San Diego Padres":"SD","San Francisco Giants":"SF","Seattle Mariners":"SEA","St. Louis Cardinals":"STL","Tampa Bay Rays":"TB","Texas Rangers":"TEX","Toronto Blue Jays":"TOR","Washington Nationals":"WSH"};
 const NFL_ABBR = {"Arizona Cardinals":"ARI","Atlanta Falcons":"ATL","Baltimore Ravens":"BAL","Buffalo Bills":"BUF","Carolina Panthers":"CAR","Chicago Bears":"CHI","Cincinnati Bengals":"CIN","Cleveland Browns":"CLE","Dallas Cowboys":"DAL","Denver Broncos":"DEN","Detroit Lions":"DET","Green Bay Packers":"GB","Houston Texans":"HOU","Indianapolis Colts":"IND","Jacksonville Jaguars":"JAX","Kansas City Chiefs":"KC","Las Vegas Raiders":"LV","Los Angeles Chargers":"LAC","Los Angeles Rams":"LAR","Miami Dolphins":"MIA","Minnesota Vikings":"MIN","New England Patriots":"NE","New Orleans Saints":"NO","New York Giants":"NYG","New York Jets":"NYJ","Philadelphia Eagles":"PHI","Pittsburgh Steelers":"PIT","San Francisco 49ers":"SF","Seattle Seahawks":"SEA","Tampa Bay Buccaneers":"TB","Tennessee Titans":"TEN","Washington Commanders":"WSH"};
+
+// Primary team colours, used for the win-probability bar so a card reads as
+// the two clubs rather than as generic accents. MLB is filled in because it's
+// the live sport; the rest fall back to the app palette until verified. A
+// wrong colour is only cosmetic, but a guessed one still shouldn't ship
+// pretending to be authoritative.
+const TEAM_COLOR = {
+  mlb: {
+    ARI:'#A71930', ATL:'#CE1141', BAL:'#DF4601', BOS:'#BD3039', CHC:'#0E3386',
+    CWS:'#27251F', CIN:'#C6011F', CLE:'#00385D', COL:'#333366', DET:'#0C2340',
+    HOU:'#EB6E1F', KC:'#004687',  LAA:'#BA0021', LAD:'#005A9C', MIA:'#00A3E0',
+    MIL:'#12284B', MIN:'#002B5C', NYM:'#FF5910', NYY:'#003087', ATH:'#003831',
+    PHI:'#E81828', PIT:'#FDB827', SD:'#2F241D',  SF:'#FD5A1E',  SEA:'#0C2C56',
+    STL:'#C41E3A', TB:'#092C5C',  TEX:'#003278', TOR:'#134A8E', WSH:'#AB0003',
+  },
+  nfl: {}, nhl: {}, nba: {},
+};
+function teamColor(sp, abbr, fallback){
+  return (TEAM_COLOR[sp] || {})[abbr] || fallback;
+}
 
 function teamAbbr(sp, name){
   if (!name) return '';
@@ -889,7 +963,7 @@ function rel(iso){
 /* ── EXPLORE ── */
 function rowHtml(p, arr){
   const c = confOf(p, arr), col = confColor(c);
-  const starred = watch.has(p._key);
+  const backed = slip().hasKey(p._key);
   const e = edgeOf(p);
   const tags = tagsFor(p).slice(0, 2);
   return `<div class="row" data-key="${esc(p._key)}">
@@ -904,7 +978,12 @@ function rowHtml(p, arr){
       <div class="pv-l">${e && e.line != null ? esc(String(e.line)) + ' line' : 'proj'}</div></div>
     <div class="eg">${edgePill(e)}</div>
     <div class="cf"><div class="cf-r" style="--c:${col}">${c}</div></div>
-    <span class="star ${starred?'on':''}" data-star="${esc(p._key)}">${starred?'★':'☆'}</span>
+    <button class="addbet ${backed?'on':''}" data-add="${esc(p._key)}"
+      data-sport="${esc(p._sp)}" data-label="${esc(p.name)}"
+      data-detail="${esc(p._market + ' · vs ' + p._oab)}"
+      data-line="${esc(e && e.line != null ? e.line + (e.odds ? ' ' + (e.odds>0?'+':'') + e.odds : '') : p._val.toFixed(p._dp))}"
+      data-logo="${esc(teamLogo(p._sp, p._tab))}"
+      aria-label="${backed ? 'Remove bet' : 'Log bet'}">${backed?'✓':'+'}</button>
   </div>`;
 }
 function renderExplore(){
@@ -945,6 +1024,23 @@ function stateLabel(g){
   const t = g.game_time ? new Date(g.game_time) : null;
   return [t ? t.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}) : '—', '#8E93A3'];
 }
+// The edge belongs to a side, so it says which. A bare "+6.6%" leaves you
+// working out who it's on from the rest of the card.
+function edgeTeamPill(sp, g, edge){
+  if (!edge || edge.edge_pct == null || g.game_state === 'Final') return '';
+  const team = edge.team || '';
+  const ab = teamAbbr(sp, team);
+  const col = appEdgeBand(edge.edge_pct)[1];
+  const v = Number(edge.edge_pct);
+  return `<div class="gc-edge-row">
+    <span class="gc-edge" style="color:${col};background:${col}16;border-color:${col}55">
+      ${teamMark(sp, ab, 14)}<b>${esc(ab)}</b>
+      <span class="gc-edge-v">${v>0?'+':''}${v.toFixed(1)}%</span>
+    </span>
+    <span class="gc-edge-l">model vs market</span>
+  </div>`;
+}
+
 function renderGames(){
   const d = DATA[sport], sp = sport;
   const games = (d && d.games) || [];
@@ -967,6 +1063,7 @@ function renderGames(){
     const aw = g.away_win_pct, hw = g.home_win_pct;
     const total = (as != null && hs != null) ? (as + hs) : null;
     const dim = g.game_state === 'Final' ? 'dim' : g.game_state === 'Live' ? 'live' : '';
+    const aCol = teamColor(sp, aAb, '#3DF08B'), hCol = teamColor(sp, hAb, '#7C5CFF');
     const edge = g.edge;
     const row = (ab, name, score, win, fav) => `
       <div class="gt">
@@ -982,36 +1079,85 @@ function renderGames(){
       </div>
       ${row(aAb, sp==='mlb'||sp==='nfl' ? g.away_team : aAb, as, aw, aw>hw)}
       ${row(hAb, sp==='mlb'||sp==='nfl' ? g.home_team : hAb, hs, hw, hw>aw)}
-      ${aw != null ? `<div class="gc-bar"><div style="width:${(aw*100).toFixed(0)}%"></div></div>` : ''}
+      ${aw != null ? `<div class="gc-bar" style="background:${hCol}">
+        <div style="width:${(aw*100).toFixed(0)}%;background:${aCol}"></div></div>` : ''}
       <div class="gc-stats">
         ${total != null ? `<span><i>Total</i><b>${total.toFixed(1)}</b></span>` : ''}
         ${g.p_over_8_5 != null ? `<span><i>O8.5</i><b>${Math.round(g.p_over_8_5*100)}%</b></span>` : ''}
         ${g.p_over_total != null ? `<span><i>Over</i><b>${Math.round(g.p_over_total*100)}%</b></span>` : ''}
         ${g.p_over_6_5 != null ? `<span><i>O6.5</i><b>${Math.round(g.p_over_6_5*100)}%</b></span>` : ''}
-        ${g.p_any_hr != null ? `<span><i>Any HR</i><b>${Math.round(g.p_any_hr*100)}%</b></span>` : ''}
-        ${g.target_score != null ? `<span><i>Target</i><b>${g.target_score}</b></span>` : ''}
-        ${edge && edge.edge_pct != null && g.game_state !== 'Final'
-          ? `<span class="gc-edge" style="color:${appEdgeBand(edge.edge_pct)[1]}"><i>Edge</i><b>${edge.edge_pct>0?'+':''}${Number(edge.edge_pct).toFixed(1)}%</b></span>` : ''}
+        ${g.target_score != null
+          ? `<span title="Scoring environment, 0\u2013100. Blends projected runs, the over probability, and how likely both sides are to score. High = a good game for overs and hitter props.">
+              <i>Scoring env</i><b>${g.target_score}</b></span>` : ''}
       </div>
+      ${edgeTeamPill(sp, g, edge)}
       ${gameMeta(sp,g) ? `<div class="gc-meta">${esc(gameMeta(sp,g))}</div>` : ''}
     </div>`;
   }).join('');
 }
 
-/* ── WATCHLIST ── */
-function renderWatch(){
-  const keys = watch.all();
-  let rows = '';
-  for (const sp of SPORTS){
-    const arr = players(sp);
-    for (const p of arr) if (keys.includes(p._key)) rows += rowHtml(p, arr);
-  }
-  $('v-watch').innerHTML = rows || `<div class="empty"><div class="i">★</div>
-    <div class="m">Nothing starred yet</div>
-    <div class="s">Tap the star on any projection to keep an eye on it.</div></div>`;
+/* ── BETS ──
+   The slip, in-app. Previously this was a watchlist and the slip lived on a
+   separate page, which meant the one thing you actually do with a projection
+   -- back it and settle it -- was two navigations away. */
+let betFilter = 'open';
+function renderBets(){
+  const picks = slip().all();
+  const rec = recordOf(picks);
+  const counts = {
+    open: picks.filter(p => !p.result).length,
+    win: picks.filter(p => p.result === 'win').length,
+    loss: picks.filter(p => p.result === 'loss').length,
+    all: picks.length,
+  };
+  const shown = betFilter === 'all' ? picks
+    : betFilter === 'open' ? picks.filter(p => !p.result)
+    : picks.filter(p => p.result === betFilter);
+
+  const chips = [['open','Open'],['win','Won'],['loss','Lost'],['all','All']].map(([k,l]) =>
+    `<div class="f ${betFilter===k?'on':''}" data-bet="${k}">${l}<span class="fn">${counts[k]}</span></div>`).join('');
+
+  const rows = shown.map(p => {
+    const r = p.result || 'open';
+    const col = r==='win'?'var(--green)':r==='loss'?'var(--red)':r==='push'?'var(--amber)':'var(--cyan)';
+    return `<div class="bet ${r}" data-bet-id="${esc(p.id)}" style="--c:${col}">
+      <div class="bet-top">
+        ${p.logo ? `<img class="bet-logo" src="${esc(p.logo)}" alt="" loading="lazy" onerror="this.remove()">` : ''}
+        <div class="bet-main">
+          <div class="bet-l">${esc(p.label)}</div>
+          ${p.detail ? `<div class="bet-d">${esc(p.detail)}</div>` : ''}
+        </div>
+        <div class="bet-r">
+          ${p.line ? `<div class="bet-line">${esc(p.line)}</div>` : ''}
+          <span class="bet-res" style="color:${col};background:${col}16;border-color:${col}55">${r==='open'?'OPEN':r.toUpperCase()}</span>
+        </div>
+      </div>
+      <div class="bet-acts">
+        <button class="ba ${r==='win'?'on':''}" data-set="win" style="--c:var(--green)">Won</button>
+        <button class="ba ${r==='loss'?'on':''}" data-set="loss" style="--c:var(--red)">Lost</button>
+        <button class="ba ${r==='push'?'on':''}" data-set="push" style="--c:var(--amber)">Push</button>
+        <button class="ba del" data-del="1">\u2715</button>
+      </div>
+    </div>`;
+  }).join('');
+
+  $('v-bets').innerHTML = `
+    <div class="card pad bet-sum">
+      <div><div class="rec-l">Record</div>
+        <div class="rec-v"><b style="color:var(--green)">${rec.w}</b><span class="sep">–</span>${rec.l}</div></div>
+      <div><div class="rec-l">Win rate</div>
+        <div class="rec-v">${rec.rate==null?'—':(rec.rate*100).toFixed(1)+'%'}</div></div>
+      <div><div class="rec-l">ROI</div>
+        <div class="rec-v" style="color:${rec.roi==null?'var(--faint)':rec.roi>=0?'var(--green)':'var(--red)'}">
+          ${rec.roi==null?'—':(rec.roi>0?'+':'')+(rec.roi*100).toFixed(1)+'%'}</div></div>
+    </div>
+    <div class="filters">${chips}</div>
+    ${rows || `<div class="empty"><div class="i">\u{1F9FE}</div>
+      <div class="m">${counts.all ? 'Nothing here' : 'No bets yet'}</div>
+      <div class="s">${counts.all ? 'Try another filter.' : 'Tap <b>+ Bet</b> on any projection or game to log one.'}</div></div>`}`;
 }
 
-/* ── PROFILE ── */
+/* ── PROFILE ── *//* ── PROFILE ── */
 function renderProfile(){
   const picks = slip().all();
   const settled = picks.filter(p => p.result === 'win' || p.result === 'loss');
@@ -1119,7 +1265,7 @@ function render(){
   if (view === 'dash') renderDash();
   else if (view === 'explore') renderExplore();
   else if (view === 'games') renderGames();
-  else if (view === 'watch') renderWatch();
+  else if (view === 'bets') renderBets();
   else if (view === 'profile') renderProfile();
   $('league-btn').innerHTML = `<img class="lg" src="${LEAGUE_LOGO[sport]}" alt="" width="15" height="15"
       onerror="this.remove()">${sport.toUpperCase()} \u25be`;
@@ -1136,8 +1282,33 @@ $('league-btn').addEventListener('click', () => {
   market = null; render();
 });
 document.body.addEventListener('click', e => {
-  const star = e.target.closest('[data-star]');
-  if (star){ e.stopPropagation(); watch.toggle(star.dataset.star); render(); return; }
+  // settle or remove a logged bet
+  const set = e.target.closest('[data-set]');
+  if (set){
+    e.stopPropagation();
+    const id = set.closest('[data-bet-id]').dataset.betId;
+    const cur = slip().all().find(x => x.id === id);
+    slip().setResult(id, cur && cur.result === set.dataset.set ? null : set.dataset.set);
+    render(); return;
+  }
+  const del = e.target.closest('[data-del]');
+  if (del){
+    e.stopPropagation();
+    slip().remove(del.closest('[data-bet-id]').dataset.betId);
+    render(); return;
+  }
+  const bf = e.target.closest('[data-bet]');
+  if (bf){ betFilter = bf.dataset.bet; render(); return; }
+
+  // log a bet straight from a projection or a game card
+  const add = e.target.closest('[data-add]');
+  if (add){
+    e.stopPropagation();
+    const d = add.dataset;
+    if (slip().hasKey(d.add)) slip().removeByKey(d.add);
+    else slip().log({sport:d.sport, label:d.label, detail:d.detail, line:d.line, logo:d.logo||'', key:d.add});
+    render(); return;
+  }
   const cat = e.target.closest('[data-market]');
   if (cat){ market = cat.dataset.market; view = 'explore'; render(); return; }
   const goto = e.target.closest('[data-goto]');
@@ -1148,7 +1319,46 @@ document.body.addEventListener('click', e => {
 $('sheet').addEventListener('click', e => {
   if (e.target === $('sheet')) $('sheet').classList.remove('on');
 });
-$('refresh').addEventListener('click', () => load());
+// The refresh button only re-fetched the JSON, which never changes between
+// Action runs -- so it looked like it did nothing. It now asks the Cloudflare
+// Worker to dispatch the workflow, then re-polls while the run completes.
+// RUN_TRIGGER_URL lives in picks.js.
+let runTimer = null;
+function runStatus(msg, bad){
+  const el = $('run-status');
+  el.textContent = msg;
+  el.className = 'run-status show' + (bad ? ' bad' : '');
+  clearTimeout(runTimer);
+  runTimer = setTimeout(() => el.classList.remove('show'), 9000);
+}
+async function triggerRun(){
+  let url = '';
+  try { url = (typeof RUN_TRIGGER_URL === 'string' && RUN_TRIGGER_URL) || ''; } catch (e){}
+  if (!url) return { skipped: true };
+  try {
+    const r = await fetch(url, { method: 'POST' });
+    // A Worker without CORS headers throws here, which used to look identical
+    // to "nothing configured" -- i.e. a button that silently does nothing.
+    return r.ok ? { ok: true } : { ok: false, reason: 'HTTP ' + r.status };
+  } catch (e){
+    return { ok: false, reason: 'blocked \u2014 check the Worker\u2019s CORS headers' };
+  }
+}
+$('refresh').addEventListener('click', async () => {
+  const btn = $('refresh');
+  btn.classList.add('spin');
+  const res = await triggerRun();
+  await load();
+  if (res.skipped){
+    runStatus('Reloaded. Set RUN_TRIGGER_URL in picks.js to run the models.', true);
+  } else if (res.ok){
+    runStatus('Run started \u2014 new numbers in 1\u20132 min.');
+    [20, 45, 75, 110].forEach(s => setTimeout(load, s * 1000));
+  } else {
+    runStatus('Couldn\u2019t start a run: ' + res.reason, true);
+  }
+  btn.classList.remove('spin');
+});
 
 async function load(){
   await Promise.all(SPORTS.map(async sp => {
