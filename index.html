@@ -341,9 +341,27 @@ nav{position:fixed;left:0;right:0;bottom:0;z-index:70;
 .gc-edge-v{font-variant-numeric:tabular-nums;font-weight:800}
 .gc-edge-l{font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:700;
   letter-spacing:.09em;text-transform:uppercase;color:var(--faint)}
+.gt{position:relative;padding-right:34px}
+.gt-add{position:absolute;right:0;top:50%;transform:translateY(-50%);width:26px;height:26px;font-size:13px}
 .gc-bar{height:5px;border-radius:99px;overflow:hidden;margin:8px 0 11px}
 .gc-bar div{height:100%;border-radius:99px}
 .gc-stats span[title]{cursor:help;border-bottom:1px dotted var(--line)}
+
+/* ── nfl advanced chips ── */
+.adv-row{display:flex;align-items:stretch;gap:5px;flex-wrap:nowrap;margin-bottom:9px}
+.adv-chip{flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:2px;padding:7px 4px;border-radius:8px;
+  background:var(--surface);border:1px solid var(--line)}
+.adv-chip i{font-style:normal;font-size:7.5px;font-weight:700;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--faint);white-space:nowrap;overflow:hidden;
+  text-overflow:ellipsis;max-width:100%}
+.adv-chip b{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:13px;
+  font-variant-numeric:tabular-nums;color:var(--cyan)}
+.adv-factor{flex:none;align-self:stretch;display:flex;align-items:center;
+  font-family:'IBM Plex Mono',monospace;font-weight:800;font-size:11px;padding:0 10px;
+  border-radius:8px;color:var(--mute);background:var(--surface);border:1px solid var(--line)}
+.adv-factor.up{color:var(--green);background:rgba(61,240,139,.11);border-color:rgba(61,240,139,.42)}
+.adv-factor.dn{color:var(--red);background:rgba(255,78,106,.11);border-color:rgba(255,78,106,.42)}
 
 /* ── tags, edge pills, distribution, game cards ── */
 .tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:5px}
@@ -1065,20 +1083,33 @@ function renderGames(){
     const dim = g.game_state === 'Final' ? 'dim' : g.game_state === 'Live' ? 'live' : '';
     const aCol = teamColor(sp, aAb, '#3DF08B'), hCol = teamColor(sp, hAb, '#7C5CFF');
     const edge = g.edge;
-    const row = (ab, name, score, win, fav) => `
-      <div class="gt">
+    const gkey = `${aAb}@${hAb}|${g.game_time||''}`;
+    const ml = g.moneylines || (g._lines ? {away:g._lines.ml_away, home:g._lines.ml_home, book:g._lines.book} : null);
+    const live = g.game_state !== 'Final';
+    const row = (ab, name, score, win, fav, side) => {
+      const px = ml ? ml[side] : null;
+      const betKey = `${sp}|ml|${side}|${gkey}`;
+      const already = slip().hasKey(betKey);
+      const line = px != null ? (px>0?'+':'')+px+(ml.book?' \u00b7 '+ml.book:'')
+                 : win != null ? Math.round(win*100)+'% model' : '';
+      return `<div class="gt">
         ${teamMark(sp, ab, 22)}
         <span class="gt-n ${fav?'fav':''}">${esc(name)}</span>
         <span class="gt-s">${score != null ? Number(score).toFixed(sp==='mlb'||sp==='nhl'?1:0) : '–'}</span>
         <span class="gt-w">${win != null ? Math.round(win*100)+'%' : '–'}</span>
+        ${live ? `<button class="addbet gt-add ${already?'on':''}" data-add="${esc(betKey)}"
+            data-sport="${esc(sp)}" data-label="${esc(ab)} ML" data-detail="${esc(name+' moneyline')}"
+            data-line="${esc(line)}" data-logo="${esc(teamLogo(sp,ab))}"
+            aria-label="${already?'Remove bet':'Bet '+ab+' ML'}">${already?'\u2713':'+'}</button>` : ''}
       </div>`;
+    };
     return `<div class="gc ${dim}">
       <div class="gc-h">
         <span class="gc-m">${teamMark(sp,aAb,15)}${esc(aAb)} <span class="vs">@</span> ${teamMark(sp,hAb,15)}${esc(hAb)}</span>
         <span class="gc-state" style="color:${lcol};border-color:${lcol}44;background:${lcol}14">${lab}</span>
       </div>
-      ${row(aAb, sp==='mlb'||sp==='nfl' ? g.away_team : aAb, as, aw, aw>hw)}
-      ${row(hAb, sp==='mlb'||sp==='nfl' ? g.home_team : hAb, hs, hw, hw>aw)}
+      ${row(aAb, sp==='mlb'||sp==='nfl' ? g.away_team : aAb, as, aw, aw>hw, 'away')}
+      ${row(hAb, sp==='mlb'||sp==='nfl' ? g.home_team : hAb, hs, hw, hw>aw, 'home')}
       ${aw != null ? `<div class="gc-bar" style="background:${hCol}">
         <div style="width:${(aw*100).toFixed(0)}%;background:${aCol}"></div></div>` : ''}
       <div class="gc-stats">
@@ -1193,6 +1224,24 @@ function openSheet(key){
     if (p){ found = p; arr = a; break; }
   }
   if (!found) return;
+
+// nflverse advanced metrics -- EPA+CPOE for passers, WOPR/target share for
+// receivers. Existed on the old NFL board and was dropped when the app
+// replaced it; the model still emits it, this just displays it again.
+function nflAdvHtml(p){
+  if (p._sp !== 'nfl' || !p.adv) return '';
+  const a = p.adv, isQB = p._market === undefined ? false : (p.pass_yds != null || p._market === 'Pass Yds');
+  const qb = a.dakota != null;
+  const items = qb
+    ? [['EPA+CPOE', a.dakota.toFixed(3)], ['PASS EPA', (a.pass_epa??0).toFixed(1)], ['SACKS', (a.sacks_taken??0).toFixed(1)]]
+    : [['WOPR', (a.wopr??0).toFixed(2)], ['TGT%', ((a.target_share??0)*100).toFixed(0)],
+       ['EPA', (a.rec_epa??0).toFixed(1)], ['AIR', (a.air_yards??0).toFixed(0)]];
+  const f = qb ? p.eff_factor : p.opp_factor;
+  const dir = f > 1.001 ? 'up' : f < 0.999 ? 'dn' : '';
+  const chips = items.map(([l,v]) => `<span class="adv-chip"><i>${l}</i><b>${v}</b></span>`).join('');
+  const fx = f == null ? '' : `<span class="adv-factor ${dir}">${f>1?'+':''}${((f-1)*100).toFixed(1)}%</span>`;
+  return `<h2>Advanced \u00b7 nflverse ${a.weeks}w</h2><div class="adv-row">${chips}${fx}</div>`;
+}
   const p = found, c = confOf(p, arr), col = confColor(c);
   const sheetEdge = edgeOf(p), sheetTags = tagsFor(p);
   const g = p._game, ctx = g && g._context;
@@ -1250,6 +1299,7 @@ function openSheet(key){
     </div>
     ${sheetTags.length ? `<div class="tags sheet-tags">${tagHtml(sheetTags)}</div>` : ''}
     ${cells.length ? `<div class="cells">${cells.map(([l,v])=>`<div class="cell"><b>${v}</b><span>${l}</span></div>`).join('')}</div>` : ''}
+    ${nflAdvHtml(p)}
     <h2>Range of outcomes</h2>
     ${distChart(p)}
     ${rings}
