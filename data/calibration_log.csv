@@ -75,21 +75,21 @@ date,sport,away,home,start,model_away_win,book_away_win,ml_away,ml_home,edge_pts
 2026-08-01,mlb,Milwaukee Brewers,Los Angeles Angels,2026-08-02T01:38:00Z,0.4449,0.6704,-215,198,-22.55,,,,Preview,2026-08-01T04:29:05+00:00,
 2026-08-01,mlb,Detroit Tigers,Athletics,2026-08-02T01:40:00Z,0.5202,0.5047,-106,-102,1.55,,,,Preview,2026-08-01T04:29:05+00:00,
 2026-08-01,nfl,Carolina Panthers,Arizona Cardinals,2026-08-07T00:00Z,0.5,,,,,,,,Preview,2026-08-01T04:29:05+00:00,
-2026-08-02,mlb,Washington Nationals,Atlanta Braves,2026-08-02T17:35:00Z,0.4049,0.4037,140,-160,0.12,,,,Live,2026-08-02T05:43:57+00:00,
-2026-08-02,mlb,Philadelphia Phillies,Baltimore Orioles,2026-08-02T17:35:00Z,0.3963,0.7739,-390,330,-37.76,,,,Live,2026-08-02T05:43:57+00:00,
-2026-08-02,mlb,St. Louis Cardinals,Toronto Blue Jays,2026-08-02T17:37:00Z,0.5403,0.5056,-110,-105,3.47,,,,Live,2026-08-02T05:43:57+00:00,
-2026-08-02,mlb,Pittsburgh Pirates,Cincinnati Reds,2026-08-02T17:40:00Z,0.473,0.122,700,-900,35.1,,,,Live,2026-08-02T05:43:57+00:00,
-2026-08-02,mlb,Arizona Diamondbacks,Cleveland Guardians,2026-08-02T17:40:00Z,0.5521,0.3412,185,-210,21.09,,,,Live,2026-08-02T05:43:57+00:00,
-2026-08-02,mlb,Miami Marlins,New York Mets,2026-08-02T17:40:00Z,0.417,0.4944,-105,-110,-7.74,,,,Live,2026-08-02T05:43:57+00:00,
-2026-08-02,mlb,Chicago White Sox,Tampa Bay Rays,2026-08-02T17:40:00Z,0.5187,0.6588,-210,185,-14.01,,,,Live,2026-08-02T05:43:57+00:00,
-2026-08-02,mlb,Texas Rangers,Houston Astros,2026-08-02T18:10:00Z,0.4711,0.4118,135,-155,5.93,,,,Live,2026-08-02T05:43:57+00:00,
-2026-08-02,mlb,New York Yankees,Chicago Cubs,2026-08-02T18:20:00Z,0.3762,0.5252,-116,106,-14.9,,,,Live,2026-08-02T05:43:57+00:00,
-2026-08-02,mlb,Kansas City Royals,Colorado Rockies,2026-08-02T19:10:00Z,0.4628,0.4661,110,-120,-0.33,,,,Preview,2026-08-02T05:43:57+00:00,
-2026-08-02,mlb,Milwaukee Brewers,Los Angeles Angels,2026-08-02T19:15:00Z,0.4052,0.6657,-210,194,-26.05,,,,Preview,2026-08-02T05:43:57+00:00,
-2026-08-02,mlb,Detroit Tigers,Athletics,2026-08-02T20:05:00Z,0.4687,0.5208,-114,104,-5.21,,,,Preview,2026-08-02T05:43:57+00:00,
-2026-08-02,mlb,San Francisco Giants,San Diego Padres,2026-08-02T20:10:00Z,0.4531,0.4768,106,-114,-2.37,,,,Preview,2026-08-02T05:43:57+00:00,
-2026-08-02,mlb,Minnesota Twins,Seattle Mariners,2026-08-02T20:10:00Z,0.4121,0.4381,124,-134,-2.6,,,,Preview,2026-08-02T05:43:57+00:00,
-2026-08-02,mlb,Boston Red Sox,Los Angeles Dodgers,2026-08-02T23:20:00Z,,,,,,,,,Preview,2026-08-02T05:43:57+00:00,
+2026-08-02,mlb,Washington Nationals,Atlanta Braves,2026-08-02T17:35:00Z,0.419,0.4037,140,-160,0.12,2,4,home,Final,2026-08-02T05:43:57+00:00,2026-08-02T22:15:05+00:00
+2026-08-02,mlb,Philadelphia Phillies,Baltimore Orioles,2026-08-02T17:35:00Z,0.3963,0.7739,-390,330,-37.76,8,0,away,Final,2026-08-02T05:43:57+00:00,2026-08-02T22:15:05+00:00
+2026-08-02,mlb,St. Louis Cardinals,Toronto Blue Jays,2026-08-02T17:37:00Z,0.5497,0.5056,-110,-105,3.47,5,1,away,Final,2026-08-02T05:43:57+00:00,2026-08-02T22:15:05+00:00
+2026-08-02,mlb,Pittsburgh Pirates,Cincinnati Reds,2026-08-02T17:40:00Z,0.4562,0.122,700,-900,35.1,2,10,home,Final,2026-08-02T05:43:57+00:00,2026-08-02T22:15:05+00:00
+2026-08-02,mlb,Arizona Diamondbacks,Cleveland Guardians,2026-08-02T17:40:00Z,0.5667,0.3412,185,-210,21.09,0,5,home,Final,2026-08-02T05:43:57+00:00,2026-08-02T22:15:05+00:00
+2026-08-02,mlb,Miami Marlins,New York Mets,2026-08-02T17:40:00Z,0.416,0.4944,-105,-110,-7.74,2,0,away,Final,2026-08-02T05:43:57+00:00,2026-08-02T22:15:05+00:00
+2026-08-02,mlb,Chicago White Sox,Tampa Bay Rays,2026-08-02T17:40:00Z,0.5171,0.6588,-210,185,-14.01,9,1,away,Final,2026-08-02T05:43:57+00:00,2026-08-02T22:15:05+00:00
+2026-08-02,mlb,Texas Rangers,Houston Astros,2026-08-02T18:10:00Z,0.4855,0.4118,135,-155,5.93,3,7,home,Final,2026-08-02T05:43:57+00:00,2026-08-02T22:15:05+00:00
+2026-08-02,mlb,New York Yankees,Chicago Cubs,2026-08-02T18:20:00Z,0.388,0.5252,-116,106,-14.9,2,1,away,Final,2026-08-02T05:43:57+00:00,2026-08-02T22:15:05+00:00
+2026-08-02,mlb,Kansas City Royals,Colorado Rockies,2026-08-02T19:10:00Z,0.4628,0.4661,110,-120,-0.33,1,8,home,Final,2026-08-02T05:43:57+00:00,2026-08-02T22:15:05+00:00
+2026-08-02,mlb,Milwaukee Brewers,Los Angeles Angels,2026-08-02T19:15:00Z,0.4241,0.6657,-210,194,-26.05,0,3,home,Final,2026-08-02T05:43:57+00:00,2026-08-02T22:15:05+00:00
+2026-08-02,mlb,Detroit Tigers,Athletics,2026-08-02T20:05:00Z,0.4687,0.986,-20000,7000,-51.73,,,,Live,2026-08-02T05:43:57+00:00,
+2026-08-02,mlb,San Francisco Giants,San Diego Padres,2026-08-02T20:10:00Z,0.4512,0.1495,550,-700,30.17,,,,Live,2026-08-02T05:43:57+00:00,
+2026-08-02,mlb,Minnesota Twins,Seattle Mariners,2026-08-02T20:10:00Z,0.4121,0.0151,6500,-10000,39.7,,,,Live,2026-08-02T05:43:57+00:00,
+2026-08-02,mlb,Boston Red Sox,Los Angeles Dodgers,2026-08-02T23:20:00Z,0.363,0.38,158,-172,-1.7,,,,Preview,2026-08-02T05:43:57+00:00,
 2026-08-02,nfl,New England Patriots,Seattle Seahawks,2026-09-10T00:20Z,0.361,0.3614,166.0,-198.0,-0.04,,,,Preview,2026-08-02T05:43:57+00:00,
 2026-08-02,nfl,San Francisco 49ers,Los Angeles Rams,2026-09-11T00:35Z,0.348,0.3485,176.0,-210.0,-0.05,,,,Preview,2026-08-02T05:43:57+00:00,
 2026-08-02,nfl,Chicago Bears,Carolina Panthers,2026-09-13T17:00Z,0.558,0.5583,-138.0,118.0,-0.03,,,,Preview,2026-08-02T05:43:57+00:00,

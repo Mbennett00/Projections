@@ -1,6 +1,6 @@
 {
   "date": "2026-08-02",
-  "generated_at": "2026-08-02 18:14 UTC",
+  "generated_at": "2026-08-02 22:15 UTC",
   "games": [
     {
       "away_team": "New England Patriots",
@@ -1368,41 +1368,6 @@
           },
           "src": "form",
           "status": "O"
-        },
-        {
-          "name": "Mason Tipton",
-          "pos": "WR",
-          "player_id": "4573697",
-          "matchup_grade": null,
-          "targets": 1.8,
-          "rec": 1.2,
-          "rec_yds": 6.8,
-          "rush_yds": 4.6,
-          "rush_att": 0.3,
-          "td_prob": 0.08,
-          "fpts": 2.9,
-          "adv": {
-            "weeks": 9,
-            "pos": "WR",
-            "team": "NO",
-            "dakota": 0.0,
-            "pass_epa": 0.0,
-            "rush_epa": 0.0,
-            "rec_epa": -1.16,
-            "target_share": 0.0893,
-            "wopr": 0.226,
-            "racr": 0.682,
-            "sacks_taken": 0.0,
-            "air_yards": 36.2
-          },
-          "opp_factor": 0.974,
-          "injury": {
-            "status": null,
-            "injury": "Groin",
-            "practice": "Did Not Participate In Practice",
-            "week": 18
-          },
-          "src": "form"
         },
         {
           "name": "Juwan Johnson",
