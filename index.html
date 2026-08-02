@@ -1012,19 +1012,30 @@ function rel(iso){
 // -- the model logs whichever side (over or under) it found value on, not
 // both -- so this shows that real side and price rather than inventing the
 // other one.
+// A real book line (side + price) earns the full pill -- it's new information
+// worth the space. With no market to show, the badge was repeating the SAME
+// projection number already on the row, padded out to a big empty-looking
+// box just to hold a "+". Now it's a small icon-only control instead, sized
+// to match the confidence ring rather than a market pill.
 function propBadge(p, e, backed){
   const key = p._key;
-  const label = e && e.side ? `${e.side[0]} ${e.line}` : p._val.toFixed(p._dp);
+  const hasMarket = e && e.line != null;
+  const label = hasMarket ? `${(e.side||'')[0]||''} ${e.line}`.trim() : p._val.toFixed(p._dp);
   const price = e && e.odds != null ? fmtOdds(e.odds) : '';
-  return `<button class="mb pr-mb ${backed?'on':''}" data-add="${esc(key)}"
-      data-sport="${esc(p._sp)}" data-label="${esc(p.name)}"
-      data-detail="${esc(p._market + ' \u00b7 vs ' + p._oab)}"
-      data-line="${esc(e && e.line != null ? label + (price?' '+price:'') : label)}"
-      data-logo="${esc(teamLogo(p._sp, p._tab))}"
-      aria-label="${backed ? 'Remove bet' : 'Log bet'}">
-    <span class="mb-l">${esc(label)}</span>
-    ${price ? `<span class="mb-p">${esc(price)}</span>` : `<span class="mb-p">${backed?'\u2713':'+'}</span>`}
-  </button>`;
+  const detail = esc(p._market + ' \u00b7 vs ' + p._oab);
+  const line = esc(hasMarket ? label + (price?' '+price:'') : label);
+  const common = `data-add="${esc(key)}" data-sport="${esc(p._sp)}" data-label="${esc(p.name)}"
+      data-detail="${detail}" data-line="${line}" data-logo="${esc(teamLogo(p._sp, p._tab))}"`;
+
+  if (hasMarket){
+    return `<button class="mb pr-mb ${backed?'on':''}" ${common}
+        aria-label="${backed ? 'Remove bet' : 'Log bet'}">
+      <span class="mb-l">${esc(label)}</span>
+      ${price ? `<span class="mb-p">${esc(price)}</span>` : `<span class="mb-p">${backed?'\u2713':'+'}</span>`}
+    </button>`;
+  }
+  return `<button class="addbet ${backed?'on':''}" ${common}
+      aria-label="${backed ? 'Remove bet' : 'Log bet'}">${backed?'\u2713':'+'}</button>`;
 }
 
 // Two lines instead of one crowded row. Top: identity and the number that
