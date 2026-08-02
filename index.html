@@ -58,66 +58,6 @@ h2 a{color:var(--cyan);text-decoration:none;font-size:9.5px}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:16px}
 .muted{color:var(--mute)}
 
-/* ── dashboard ── */
-.hello{font-family:'Sora',sans-serif;font-weight:700;font-size:20px;letter-spacing:-.02em;margin-bottom:3px}
-.hello-sub{font-size:12px;color:var(--mute);margin-bottom:15px}
-
-.slate-card{padding:16px;display:flex;align-items:center;gap:16px}
-.slate-main{flex:1;min-width:0}
-.slate-lab{font-family:'IBM Plex Mono',monospace;font-size:8.5px;font-weight:700;
-  letter-spacing:.13em;text-transform:uppercase;color:var(--faint);margin-bottom:7px}
-.slate-num{font-family:'Sora',sans-serif;font-weight:800;font-size:40px;line-height:.95;
-  letter-spacing:-.04em;font-variant-numeric:tabular-nums}
-.slate-cap{font-size:11.5px;color:var(--mute);margin-top:5px}
-.slate-pill{display:inline-flex;flex-direction:column;align-items:center;gap:2px;
-  padding:9px 13px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line)}
-.slate-pill b{font-family:'Sora',sans-serif;font-weight:800;font-size:17px;color:var(--green)}
-.slate-pill span{font-family:'IBM Plex Mono',monospace;font-size:7.5px;font-weight:700;
-  letter-spacing:.08em;text-transform:uppercase;color:var(--faint);white-space:nowrap}
-
-.ringwrap{position:relative;flex:none;display:grid;place-items:center}
-.ringwrap .rv{position:absolute;font-family:'Sora',sans-serif;font-weight:800;font-size:19px;
-  font-variant-numeric:tabular-nums}
-.ringwrap .rl{position:absolute;bottom:-2px;font-family:'IBM Plex Mono',monospace;
-  font-size:7px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
-
-/* top edges carousel */
-.edges{display:flex;gap:9px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
-.edges::-webkit-scrollbar{display:none}
-.edge-card{flex:none;width:152px;padding:13px;border-radius:14px;
-  background:var(--surface);border:1px solid var(--line);cursor:pointer;position:relative;overflow:hidden}
-.edge-card::before{content:'';position:absolute;inset:0 0 auto 0;height:2px;background:var(--c,var(--green))}
-.edge-score{font-family:'Sora',sans-serif;font-weight:800;font-size:15px;color:var(--c,var(--green));
-  display:inline-block;padding:2px 8px;border-radius:6px;background:color-mix(in srgb,var(--c,var(--green)) 12%,transparent);
-  border:1px solid color-mix(in srgb,var(--c,var(--green)) 40%,transparent);margin-bottom:9px}
-.edge-name{font-family:'Sora',sans-serif;font-weight:700;font-size:13.5px;line-height:1.25;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.edge-prop{display:flex;align-items:center;gap:4px;font-size:10.5px;color:var(--mute);margin-top:2px;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.edge-proj{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-family:'IBM Plex Mono',monospace;
-  font-weight:700;font-size:15px;margin-top:9px;font-variant-numeric:tabular-nums}
-.edge-proj small{font-size:9px;color:var(--faint);font-weight:600;margin-left:4px}
-
-/* category chips */
-.cats{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
-.cats::-webkit-scrollbar{display:none}
-.cat{flex:none;display:flex;align-items:center;gap:6px;padding:9px 13px;border-radius:12px;
-  background:var(--surface);border:1px solid var(--line);cursor:pointer;
-  font-size:11.5px;font-weight:600;white-space:nowrap}
-.cat i{font-style:normal;font-size:12px}
-
-/* recently updated */
-.upd{display:flex;align-items:center;gap:11px;padding:12px 13px;border-radius:12px;
-  background:var(--surface);border:1px solid var(--line);margin-bottom:6px}
-.upd-badge{width:30px;height:30px;border-radius:8px;flex:none;display:grid;place-items:center;
-  font-family:'IBM Plex Mono',monospace;font-size:8.5px;font-weight:800;letter-spacing:.02em}
-.upd-b{flex:1;min-width:0}
-.upd-t{font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.upd-s{font-size:10.5px;color:var(--faint);margin-top:2px}
-.upd-time{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--faint);flex:none}
-.dot{width:7px;height:7px;border-radius:50%;background:var(--green);flex:none;
-  box-shadow:0 0 8px var(--green)}
-
 /* ── explore list ── */
 .filters{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;margin-bottom:12px}
 .filters::-webkit-scrollbar{display:none}
@@ -250,59 +190,7 @@ nav{position:fixed;left:0;right:0;bottom:0;z-index:70;
 .league .lg{object-fit:contain;flex:none}
 .upd-badge img{object-fit:contain}
 
-/* ── performance dashboard ── */
-.pad{padding:15px}
-.duo{display:flex;gap:9px;margin-bottom:9px}
-.duo>*{flex:1;min-width:0}
-.k-lab{font-family:'IBM Plex Mono',monospace;font-size:8.5px;font-weight:700;letter-spacing:.12em;
-  text-transform:uppercase;color:var(--faint);margin-bottom:9px}
-.k-num{font-family:'Sora',sans-serif;font-weight:800;font-size:32px;line-height:1;letter-spacing:-.035em;
-  font-variant-numeric:tabular-nums}
-.k-sub{margin-top:7px;font-size:11px;color:var(--mute)}
-.ring-card{display:grid;place-items:center;position:relative;padding:11px}
-.ring-abs{position:absolute;text-align:center}
-.ring-abs b{display:block;font-family:'Sora',sans-serif;font-weight:800;font-size:27px;
-  letter-spacing:-.03em;font-variant-numeric:tabular-nums}
-.ring-abs span{font-family:'IBM Plex Mono',monospace;font-size:7.5px;font-weight:700;
-  letter-spacing:.09em;text-transform:uppercase;color:var(--faint)}
-.ring-card .ring{background:none;border:0;padding:0}
-.ring-card .ring-l,.ring-card .ring-v{display:none}
-
-.rec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:13px}
-.dimmed{color:var(--faint);font-weight:600}
-.mini{font-family:'IBM Plex Mono',monospace;font-size:9.5px;font-weight:700;color:var(--cyan);
-  text-decoration:none}
-.rec-row{display:flex;gap:14px;margin-bottom:14px}
-.rec-row>div{flex:1;min-width:0}
-.rec-l{font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:700;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--faint);margin-bottom:5px}
-.rec-v{font-family:'Sora',sans-serif;font-weight:800;font-size:23px;line-height:1;
-  letter-spacing:-.03em;font-variant-numeric:tabular-nums}
-.rec-v .sep{color:var(--faint);margin:0 3px;font-weight:600}
-.rchart{width:100%;height:118px;display:block}
-.rchart .ax{font-family:'IBM Plex Mono',monospace;font-size:7px;fill:var(--faint)}
-.legend{display:flex;gap:14px;justify-content:center;margin-top:7px}
-.legend span{display:flex;align-items:center;gap:5px;font-family:'IBM Plex Mono',monospace;
-  font-size:8.5px;font-weight:700;letter-spacing:.06em;color:var(--faint)}
-.legend i{width:7px;height:7px;border-radius:50%;display:inline-block}
-.chart-empty{padding:26px 10px;text-align:center;font-size:11.5px;color:var(--faint);
-  border:1px dashed var(--line);border-radius:12px}
-.foot-note{margin-top:10px;font-size:10.5px;color:var(--faint);line-height:1.5}
-
-.leagues{display:flex;gap:7px}
-.lg-cell{flex:1;min-width:0;padding:11px 9px;border-radius:13px;background:var(--surface);
-  border:1px solid var(--line);text-align:left}
-.lg-head{display:flex;align-items:center;gap:5px;margin-bottom:8px}
-.lg-head img{object-fit:contain;flex:none}
-.lg-head span{font-family:'IBM Plex Mono',monospace;font-size:9.5px;font-weight:700;color:var(--mute)}
-.lg-wl{font-family:'Sora',sans-serif;font-weight:800;font-size:16px;letter-spacing:-.02em;
-  font-variant-numeric:tabular-nums}
-.lg-sub{font-size:10px;color:var(--faint);margin-top:2px}
-.lg-roi{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:12px;margin-top:5px;
-  font-variant-numeric:tabular-nums}
-
-
-/* ── run status + bets ── */
+/* ── run status ── */
 .run-status{max-height:0;overflow:hidden;opacity:0;transition:max-height .2s,opacity .2s;
   font-family:'IBM Plex Mono',monospace;font-size:10.5px;text-align:center;
   color:var(--green);border-radius:10px}
@@ -312,39 +200,9 @@ nav{position:fixed;left:0;right:0;bottom:0;z-index:70;
 #refresh.spin{animation:sp .8s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
 
-.addbet{width:28px;height:28px;flex:none;border-radius:8px;cursor:pointer;
-  font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:700;line-height:1;
-  color:var(--green);background:rgba(61,240,139,.10);border:1px solid rgba(61,240,139,.40)}
-.addbet.on{background:var(--green);color:var(--void);box-shadow:0 0 12px rgba(61,240,139,.45)}
-.addbet:active{transform:scale(.92)}
 .pr-mb{flex:none;min-width:52px;padding:5px 8px}
 .pr-mb .mb-l{font-size:9px}
 .pr-mb .mb-p{font-size:11.5px}
-
-.bet-sum{display:flex;gap:14px;margin-bottom:11px}
-.bet-sum>div{flex:1;min-width:0}
-.fn{margin-left:5px;opacity:.6;font-size:9.5px}
-.bet{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--c);
-  border-radius:13px;margin-bottom:7px;overflow:hidden}
-.bet-top{display:flex;align-items:center;gap:10px;padding:11px 12px}
-.bet-logo{width:26px;height:26px;object-fit:contain;flex:none}
-.bet-main{flex:1;min-width:0}
-.bet-l{font-family:'Sora',sans-serif;font-weight:700;font-size:13.5px;line-height:1.25;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.bet-d{font-size:10.5px;color:var(--mute);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.bet-r{flex:none;text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:4px}
-.bet-line{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--mute);
-  font-variant-numeric:tabular-nums}
-.bet-res{font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:800;letter-spacing:.09em;
-  padding:3px 6px;border-radius:5px;border:1px solid}
-.bet-acts{display:flex;gap:6px;padding:0 12px 11px}
-.ba{flex:1;font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:700;
-  padding:7px 0;border-radius:8px;cursor:pointer;color:var(--mute);
-  background:transparent;border:1px solid var(--line)}
-.ba.on{color:var(--c);background:color-mix(in srgb,var(--c) 14%,transparent);
-  border-color:color-mix(in srgb,var(--c) 45%,transparent)}
-.ba.del{flex:none;width:34px;color:var(--faint)}
-.ba:active{transform:scale(.97)}
 
 .gc-edge{display:inline-flex;align-items:center;gap:5px;font-family:'IBM Plex Mono',monospace}
 .gc-edge i{font-style:normal;font-size:7.5px;font-weight:700;letter-spacing:.09em;
@@ -463,36 +321,22 @@ nav{position:fixed;left:0;right:0;bottom:0;z-index:70;
 </div>
 
 <div class="run-status" id="run-status"></div>
-<div class="view on" id="v-dash"></div>
 <div class="view" id="v-explore"></div>
-<div class="view" id="v-games"></div>
-<div class="view" id="v-bets"></div>
-<div class="view" id="v-profile"></div>
+<div class="view on" id="v-games"></div>
 
 <div class="sheet" id="sheet"><div class="sheet-in" id="sheet-in"></div></div>
 
 <nav><div class="nav-in">
-  <button class="nb on" data-v="dash"><i>◈</i><span>Dashboard</span></button>
-  <button class="nb" data-v="games"><i>◍</i><span>Games</span></button>
+  <button class="nb on" data-v="games"><i>◍</i><span>Games</span></button>
   <button class="nb" data-v="explore"><i>⌕</i><span>Props</span></button>
-  <button class="nb" data-v="bets"><i>✓</i><span>Bets</span></button>
   <a class="nb" href="./how/"><i>?</i><span>How</span></a>
 </div></nav>
 
 <script src="./picks.js"></script>
 <script>
-// Guard: this shell borrows the slip store from picks.js. If that file is
-// missing the app should still browse projections rather than die.
-//
-// Read through an accessor -- NEVER `var Picks = ...`. picks.js declares it as
-// a const, and a `var` of the same name hoists into the same global lexical
-// scope and throws "Identifier 'Picks' has already been declared", which kills
-// this entire script before a single view renders.
-const SLIP_FALLBACK = { all:()=>[], log:()=>{}, count:()=>0, onChange:()=>{}, hasKey:()=>false };
-function slip(){
-  try { return (typeof Picks !== 'undefined' && Picks) ? Picks : SLIP_FALLBACK; }
-  catch (e){ return SLIP_FALLBACK; }
-}
+// picks.js is still loaded for RUN_TRIGGER_URL, which the refresh button uses
+// to kick off a fresh model run. The bet-slip store it also defines is no
+// longer used here -- this app is projections and props only.
 
 // ── team identity ──────────────────────────────────────────────────────────
 // Lifted verbatim from the boards, where these maps are already proven against
@@ -560,7 +404,7 @@ const LEAGUE_LOGO = {
 const DATA = {};
 let sport = localStorage.getItem('slate_sport') || 'mlb';
 let market = null;
-let view = 'dash';
+let view = 'games';
 
 const esc = s => String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;')
   .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -823,189 +667,6 @@ function ring(v, pct, label, color, size){
   </div>`;
 }
 
-/* ── record maths ──────────────────────────────────────────────────────────
-   Everything below comes from YOUR logged picks, not from model backtests.
-   That distinction matters: a claimed "model accuracy" would need settled
-   predictions this app has never stored, whereas a betting record is data you
-   own and can verify. Sparse at first, and honest the whole way.
-
-   ROI assumes a flat 1-unit stake, priced off the American odds captured with
-   the pick. Picks logged without a price (player props, mostly) count toward
-   W-L but are excluded from ROI -- you can't compute a return on a bet whose
-   price you never recorded. */
-function priceOfPick(p){
-  const m = /(^|\s)([+-]\d{3,4})(\s|$|\u00b7)/.exec(p.line || '');
-  return m ? parseInt(m[2], 10) : null;
-}
-function profitOf(p){
-  const px = priceOfPick(p);
-  if (px == null || !p.result) return null;
-  if (p.result === 'push') return 0;
-  if (p.result === 'loss') return -1;
-  return px > 0 ? px / 100 : 100 / Math.abs(px);
-}
-function recordOf(picks){
-  const settled = picks.filter(p => p.result === 'win' || p.result === 'loss');
-  const w = settled.filter(p => p.result === 'win').length;
-  const l = settled.length - w;
-  const priced = picks.map(profitOf).filter(v => v !== null);
-  const profit = priced.reduce((a,b) => a+b, 0);
-  return {
-    w, l, n: settled.length,
-    rate: settled.length ? w / settled.length : null,
-    roi: priced.length ? profit / priced.length : null,
-    profit, staked: priced.length,
-  };
-}
-
-/* Cumulative ROI and rolling win rate, oldest to newest. Two series so the
-   chart says something a single line can't: whether you're winning bets and
-   whether you're winning money are different questions. */
-function recordSeries(picks){
-  const settled = picks
-    .filter(p => p.result === 'win' || p.result === 'loss' || p.result === 'push')
-    .sort((a,b) => String(a.loggedAt||'').localeCompare(String(b.loggedAt||'')));
-  const out = [];
-  let w = 0, n = 0, profit = 0, staked = 0;
-  for (const p of settled){
-    if (p.result !== 'push'){ n++; if (p.result === 'win') w++; }
-    const pr = profitOf(p);
-    if (pr !== null){ profit += pr; staked++; }
-    out.push({
-      t: Date.parse(p.loggedAt || '') || 0,
-      roi: staked ? profit / staked : 0,
-      rate: n ? w / n : 0,
-    });
-  }
-  return out;
-}
-
-function twoLineChart(series){
-  if (series.length < 2){
-    return `<div class="chart-empty">Settle a few plays and the trend appears here.</div>`;
-  }
-  const W = 320, H = 118, PL = 34, PB = 18;
-  const vals = series.flatMap(s => [s.roi, s.rate - 0.5]);
-  const lim = Math.max(0.3, Math.ceil(Math.max(...vals.map(Math.abs)) * 10) / 10);
-  const sx = i => PL + (i / (series.length - 1)) * (W - PL - 4);
-  const sy = v => (H - PB) / 2 - (v / lim) * ((H - PB) / 2 - 6);
-  const path = key => series.map((s,i) =>
-    `${i?'L':'M'}${sx(i).toFixed(1)},${sy(key==='roi'?s.roi:s.rate-0.5).toFixed(1)}`).join(' ');
-  const grid = [lim, lim/2, 0, -lim/2, -lim].map(v =>
-    `<line x1="${PL}" y1="${sy(v).toFixed(1)}" x2="${W}" y2="${sy(v).toFixed(1)}"
-       stroke="${v===0?'rgba(255,255,255,.18)':'rgba(255,255,255,.05)'}" stroke-width="1"/>
-     <text x="0" y="${(sy(v)+3).toFixed(1)}" class="ax">${v>0?'+':''}${Math.round(v*100)}%</text>`).join('');
-  const first = new Date(series[0].t), last = new Date(series[series.length-1].t);
-  const dfmt = d => isNaN(d) ? '' : d.toLocaleDateString('en-US',{month:'short',day:'numeric'});
-  return `<svg viewBox="0 0 ${W} ${H}" class="rchart">
-    ${grid}
-    <path d="${path('rate')}" fill="none" stroke="#7C5CFF" stroke-width="2" stroke-linejoin="round"/>
-    <path d="${path('roi')}" fill="none" stroke="#3DF08B" stroke-width="2" stroke-linejoin="round"/>
-    <text x="${PL}" y="${H-4}" class="ax">${dfmt(first)}</text>
-    <text x="${W}" y="${H-4}" class="ax" text-anchor="end">${dfmt(last)}</text>
-  </svg>
-  <div class="legend"><span><i style="background:#3DF08B"></i>ROI</span>
-    <span><i style="background:#7C5CFF"></i>Win rate vs 50%</span></div>`;
-}
-
-/* ── DASHBOARD ── */
-function renderDash(){
-  const picks = slip().all();
-  const rec = recordOf(picks);
-  const series = recordSeries(picks);
-
-  // Today's board, across every sport -- how much the models disagree with the
-  // market right now. Labelled as today's board, NOT as accuracy: this says
-  // nothing about whether those disagreements have been right.
-  let edges = [], total = 0;
-  for (const sp of SPORTS){
-    const arr = players(sp);
-    total += arr.length;
-    for (const p of arr){ const e = edgeOf(p); if (e && e.edge != null) edges.push(e.edge); }
-  }
-  edges.sort((a,b)=>a-b);
-  const medEdge = edges.length ? edges[Math.floor(edges.length/2)] : null;
-  const eCol = medEdge == null ? 'var(--mute)' : appEdgeBand(medEdge)[1];
-
-  const hour = new Date().getHours();
-  const greet = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
-
-  const byLeague = SPORTS.map(sp => {
-    const r = recordOf(picks.filter(p => (p.sport||'').toLowerCase() === sp));
-    return `<div class="lg-cell">
-      <div class="lg-head"><img src="${LEAGUE_LOGO[sp]}" alt="" width="19" height="19" loading="lazy"
-        onerror="this.remove()"><span>${sp.toUpperCase()}</span></div>
-      <div class="lg-wl">${r.n ? `${r.w} - ${r.l}` : '—'}</div>
-      <div class="lg-sub">${r.rate == null ? 'no settled plays' : (r.rate*100).toFixed(1)+'%'}</div>
-      <div class="lg-roi" style="color:${r.roi == null ? 'var(--faint)' : r.roi >= 0 ? 'var(--green)' : 'var(--red)'}">
-        ${r.roi == null ? '—' : (r.roi>0?'+':'')+(r.roi*100).toFixed(1)+'%'}</div>
-    </div>`;
-  }).join('');
-
-  $('v-dash').innerHTML = `
-    <div class="hello">${greet}, Michel 👋</div>
-    <div class="hello-sub">Here's how your models are performing.</div>
-
-    <div class="duo">
-      <div class="card pad">
-        <div class="k-lab">Median edge · today's board</div>
-        <div class="k-num" style="color:${eCol}">${medEdge == null ? '—' : (medEdge>0?'+':'')+medEdge.toFixed(1)+'%'}</div>
-        <div class="k-sub">${edges.length ? `${edges.length} priced market${edges.length===1?'':'s'}` : 'no book prices yet'}</div>
-      </div>
-      <div class="card pad ring-card">
-        ${ring('', Math.min(1, total/300), '', '#7C5CFF', 96)}
-        <div class="ring-abs"><b>${total}</b><span>Projections</span></div>
-      </div>
-    </div>
-
-    <div class="card pad">
-      <div class="rec-head">
-        <div class="k-lab">Your record <span class="dimmed">(all leagues)</span></div>
-        <a class="mini" href="./picks/">Slip →</a>
-      </div>
-      <div class="rec-row">
-        <div><div class="rec-l">W–L</div>
-          <div class="rec-v"><b style="color:var(--green)">${rec.w}</b><span class="sep">–</span>${rec.l}</div></div>
-        <div><div class="rec-l">Win rate</div>
-          <div class="rec-v">${rec.rate == null ? '—' : (rec.rate*100).toFixed(1)+'%'}</div></div>
-        <div><div class="rec-l">ROI</div>
-          <div class="rec-v" style="color:${rec.roi == null ? 'var(--faint)' : rec.roi>=0?'var(--green)':'var(--red)'}">
-            ${rec.roi == null ? '—' : (rec.roi>0?'+':'')+(rec.roi*100).toFixed(1)+'%'}</div></div>
-      </div>
-      ${twoLineChart(series)}
-      ${rec.staked < picks.length ? `<div class="foot-note">ROI covers ${rec.staked} of ${picks.length} plays \u2014 the rest were logged without a price.</div>` : ''}
-    </div>
-
-    <h2>By league</h2>
-    <div class="leagues">${byLeague}</div>
-
-    <h2>Top edges <a href="#" data-goto="explore">View all</a></h2>
-    <div class="edges">${topEdgeCards()}</div>`;
-}
-
-function topEdgeCards(){
-  const arr = players(sport);
-  return arr.slice(0, 8).map(p => {
-    const c = confOf(p, arr), col = confColor(c), e = edgeOf(p);
-    return `<div class="edge-card" data-key="${esc(p._key)}" style="--c:${col}">
-      <div class="edge-score">${c}</div>
-      <div class="edge-name">${esc(p.name)}</div>
-      <div class="edge-prop">${teamMark(p._sp, p._tab, 12)}${esc(p._market)} · vs ${esc(p._oab)}</div>
-      <div class="edge-proj">${p._val.toFixed(p._dp)}<small>proj</small>${edgePill(e)}</div>
-    </div>`;
-  }).join('') || '<div class="empty"><div class="m">No projections yet</div></div>';
-}
-
-function rel(iso){
-  const t = Date.parse(iso.endsWith('Z')||/[+-]\d\d:?\d\d$/.test(iso) ? iso : iso + 'Z');
-  if (!t) return '—';
-  const m = Math.max(0, Math.round((Date.now()-t)/60000));
-  if (m < 1) return 'now';
-  if (m < 60) return m + 'm ago';
-  const h = Math.round(m/60);
-  return h < 24 ? h + 'h ago' : Math.round(h/24) + 'd ago';
-}
-
 /* ── EXPLORE ── */
 // Same pill treatment as the game-card markets: label above price, one
 // clean control instead of a bare "+". Only ONE side is ever available here
@@ -1017,25 +678,18 @@ function rel(iso){
 // projection number already on the row, padded out to a big empty-looking
 // box just to hold a "+". Now it's a small icon-only control instead, sized
 // to match the confidence ring rather than a market pill.
-function propBadge(p, e, backed){
-  const key = p._key;
+function propBadge(p, e){
   const hasMarket = e && e.line != null;
   const label = hasMarket ? `${(e.side||'')[0]||''} ${e.line}`.trim() : p._val.toFixed(p._dp);
   const price = e && e.odds != null ? fmtOdds(e.odds) : '';
-  const detail = esc(p._market + ' \u00b7 vs ' + p._oab);
-  const line = esc(hasMarket ? label + (price?' '+price:'') : label);
-  const common = `data-add="${esc(key)}" data-sport="${esc(p._sp)}" data-label="${esc(p.name)}"
-      data-detail="${detail}" data-line="${line}" data-logo="${esc(teamLogo(p._sp, p._tab))}"`;
 
   if (hasMarket){
-    return `<button class="mb pr-mb ${backed?'on':''}" ${common}
-        aria-label="${backed ? 'Remove bet' : 'Log bet'}">
+    return `<span class="mb pr-mb">
       <span class="mb-l">${esc(label)}</span>
-      ${price ? `<span class="mb-p">${esc(price)}</span>` : `<span class="mb-p">${backed?'\u2713':'+'}</span>`}
-    </button>`;
+      ${price ? `<span class="mb-p">${esc(price)}</span>` : ''}
+    </span>`;
   }
-  return `<button class="addbet ${backed?'on':''}" ${common}
-      aria-label="${backed ? 'Remove bet' : 'Log bet'}">${backed?'\u2713':'+'}</button>`;
+  return '';
 }
 
 // Two lines instead of one crowded row. Top: identity and the number that
@@ -1053,7 +707,6 @@ function propBadge(p, e, backed){
 // beside it, which is the one thing worth keeping on that line.
 function rowHtml(p, arr){
   const c = confOf(p, arr), col = confColor(c);
-  const backed = slip().hasKey(p._key);
   const e = edgeOf(p);
   const tags = tagsFor(p).slice(0, 2);
   return `<div class="row" data-key="${esc(p._key)}">
@@ -1071,7 +724,7 @@ function rowHtml(p, arr){
     <div class="row-foot">
       <div class="pv"><b>${p._val.toFixed(p._dp)}</b><span>proj</span></div>
       ${edgePill(e)}
-      ${propBadge(p, e, backed)}
+      ${propBadge(p, e)}
     </div>
   </div>`;
 }
@@ -1128,31 +781,25 @@ function marketBadges(sp, g){
   const live = g.game_state !== 'Final';
   if (!live) return '';
 
-  const badge = (label, key, price, sub) => {
-    const already = slip().hasKey(key);
-    return `<button class="mb ${already?'on':''}" data-add="${esc(key)}"
-        data-sport="${esc(sp)}" data-label="${esc(label)}" data-detail="${esc(sub)}"
-        data-line="${esc(fmtOdds(price))}" data-logo=""
-        aria-label="${already?'Remove bet':'Bet '+label}">
+  const badge = (label, price) => {
+    return `<span class="mb">
       <span class="mb-l">${esc(label)}</span>
       <span class="mb-p">${price!=null?fmtOdds(price):'\u2014'}</span>
-    </button>`;
+    </span>`;
   };
 
   const parts = [];
   if (ml){
-    parts.push(badge(`${aAb} ML`, `${sp}|ml|away|${gkey}`, ml.away, `${aAb} moneyline`));
-    parts.push(badge(`${hAb} ML`, `${sp}|ml|home|${gkey}`, ml.home, `${hAb} moneyline`));
+    parts.push(badge(`${aAb} ML`, ml.away));
+    parts.push(badge(`${hAb} ML`, ml.home));
   }
   if (L.spread != null){
-    parts.push(badge(`${aAb} ${(-L.spread>0?'+':'')}${(-L.spread)}`, `${sp}|sp|away|${gkey}`,
-      L.spread_away_price, `${aAb} spread`));
-    parts.push(badge(`${hAb} ${(L.spread>0?'+':'')}${L.spread}`, `${sp}|sp|home|${gkey}`,
-      L.spread_home_price, `${hAb} spread`));
+    parts.push(badge(`${aAb} ${(-L.spread>0?'+':'')}${(-L.spread)}`, L.spread_away_price));
+    parts.push(badge(`${hAb} ${(L.spread>0?'+':'')}${L.spread}`, L.spread_home_price));
   }
   if (L.total != null){
-    parts.push(badge(`O ${L.total}`, `${sp}|tot|over|${gkey}`, L.over_price, `Total \u00b7 over`));
-    parts.push(badge(`U ${L.total}`, `${sp}|tot|under|${gkey}`, L.under_price, `Total \u00b7 under`));
+    parts.push(badge(`O ${L.total}`, L.over_price));
+    parts.push(badge(`U ${L.total}`, L.under_price));
   }
   if (!parts.length) return '';
   return `<div class="mkts">${parts.join('')}</div>`;
@@ -1253,94 +900,6 @@ function renderGames(){
   }).join('');
 }
 
-/* ── BETS ──
-   The slip, in-app. Previously this was a watchlist and the slip lived on a
-   separate page, which meant the one thing you actually do with a projection
-   -- back it and settle it -- was two navigations away. */
-let betFilter = 'open';
-function renderBets(){
-  const picks = slip().all();
-  const rec = recordOf(picks);
-  const counts = {
-    open: picks.filter(p => !p.result).length,
-    win: picks.filter(p => p.result === 'win').length,
-    loss: picks.filter(p => p.result === 'loss').length,
-    all: picks.length,
-  };
-  const shown = betFilter === 'all' ? picks
-    : betFilter === 'open' ? picks.filter(p => !p.result)
-    : picks.filter(p => p.result === betFilter);
-
-  const chips = [['open','Open'],['win','Won'],['loss','Lost'],['all','All']].map(([k,l]) =>
-    `<div class="f ${betFilter===k?'on':''}" data-bet="${k}">${l}<span class="fn">${counts[k]}</span></div>`).join('');
-
-  const rows = shown.map(p => {
-    const r = p.result || 'open';
-    const col = r==='win'?'var(--green)':r==='loss'?'var(--red)':r==='push'?'var(--amber)':'var(--cyan)';
-    return `<div class="bet ${r}" data-bet-id="${esc(p.id)}" style="--c:${col}">
-      <div class="bet-top">
-        ${p.logo ? `<img class="bet-logo" src="${esc(p.logo)}" alt="" loading="lazy" onerror="this.remove()">` : ''}
-        <div class="bet-main">
-          <div class="bet-l">${esc(p.label)}</div>
-          ${p.detail ? `<div class="bet-d">${esc(p.detail)}</div>` : ''}
-        </div>
-        <div class="bet-r">
-          ${p.line ? `<div class="bet-line">${esc(p.line)}</div>` : ''}
-          <span class="bet-res" style="color:${col};background:${col}16;border-color:${col}55">${r==='open'?'OPEN':r.toUpperCase()}</span>
-        </div>
-      </div>
-      <div class="bet-acts">
-        <button class="ba ${r==='win'?'on':''}" data-set="win" style="--c:var(--green)">Won</button>
-        <button class="ba ${r==='loss'?'on':''}" data-set="loss" style="--c:var(--red)">Lost</button>
-        <button class="ba ${r==='push'?'on':''}" data-set="push" style="--c:var(--amber)">Push</button>
-        <button class="ba del" data-del="1">\u2715</button>
-      </div>
-    </div>`;
-  }).join('');
-
-  $('v-bets').innerHTML = `
-    <div class="card pad bet-sum">
-      <div><div class="rec-l">Record</div>
-        <div class="rec-v"><b style="color:var(--green)">${rec.w}</b><span class="sep">–</span>${rec.l}</div></div>
-      <div><div class="rec-l">Win rate</div>
-        <div class="rec-v">${rec.rate==null?'—':(rec.rate*100).toFixed(1)+'%'}</div></div>
-      <div><div class="rec-l">ROI</div>
-        <div class="rec-v" style="color:${rec.roi==null?'var(--faint)':rec.roi>=0?'var(--green)':'var(--red)'}">
-          ${rec.roi==null?'—':(rec.roi>0?'+':'')+(rec.roi*100).toFixed(1)+'%'}</div></div>
-    </div>
-    <div class="filters">${chips}</div>
-    ${rows || `<div class="empty"><div class="i">\u{1F9FE}</div>
-      <div class="m">${counts.all ? 'Nothing here' : 'No bets yet'}</div>
-      <div class="s">${counts.all ? 'Try another filter.' : 'Tap <b>+ Bet</b> on any projection or game to log one.'}</div></div>`}`;
-}
-
-/* ── PROFILE ── *//* ── PROFILE ── */
-function renderProfile(){
-  const picks = slip().all();
-  const settled = picks.filter(p => p.result === 'win' || p.result === 'loss');
-  const w = settled.filter(p => p.result === 'win').length;
-  $('v-profile').innerHTML = `
-    <h2>Your record</h2>
-    <div class="card slate-card">
-      <div class="slate-main">
-        <div class="slate-lab">Settled</div>
-        <div class="slate-num">${w}–${settled.length-w}</div>
-        <div class="slate-cap">${picks.length - settled.length} still open</div>
-      </div>
-      <div class="slate-pill"><b>${settled.length ? Math.round(w/settled.length*100) : 0}%</b><span>Win rate</span></div>
-    </div>
-    <h2>Elsewhere</h2>
-    <div class="upd"><div class="upd-b"><div class="upd-t">Bet slip</div>
-      <div class="upd-s">Log and settle your plays</div></div>
-      <a class="icon-btn" href="./picks/">→</a></div>
-    <div class="upd"><div class="upd-b"><div class="upd-t">How the models work</div>
-      <div class="upd-s">Sources and method, per league</div></div>
-      <a class="icon-btn" href="./how/">→</a></div>
-    <div class="upd"><div class="upd-b"><div class="upd-t">Classic boards</div>
-      <div class="upd-s">The original game-card view</div></div>
-      <a class="icon-btn" href="./">→</a></div>`;
-}
-
 /* ── DETAIL SHEET ── */
 function openSheet(key){
   let found = null, arr = [];
@@ -1438,11 +997,8 @@ function nflAdvHtml(p){
 function render(){
   document.querySelectorAll('.view').forEach(v => v.classList.toggle('on', v.id === 'v-'+view));
   document.querySelectorAll('.nb').forEach(b => b.classList.toggle('on', b.dataset.v === view));
-  if (view === 'dash') renderDash();
-  else if (view === 'explore') renderExplore();
+  if (view === 'explore') renderExplore();
   else if (view === 'games') renderGames();
-  else if (view === 'bets') renderBets();
-  else if (view === 'profile') renderProfile();
   $('league-btn').innerHTML = `<img class="lg" src="${LEAGUE_LOGO[sport]}" alt="" width="15" height="15"
       onerror="this.remove()">${sport.toUpperCase()} \u25be`;
 }
@@ -1458,33 +1014,6 @@ $('league-btn').addEventListener('click', () => {
   market = null; render();
 });
 document.body.addEventListener('click', e => {
-  // settle or remove a logged bet
-  const set = e.target.closest('[data-set]');
-  if (set){
-    e.stopPropagation();
-    const id = set.closest('[data-bet-id]').dataset.betId;
-    const cur = slip().all().find(x => x.id === id);
-    slip().setResult(id, cur && cur.result === set.dataset.set ? null : set.dataset.set);
-    render(); return;
-  }
-  const del = e.target.closest('[data-del]');
-  if (del){
-    e.stopPropagation();
-    slip().remove(del.closest('[data-bet-id]').dataset.betId);
-    render(); return;
-  }
-  const bf = e.target.closest('[data-bet]');
-  if (bf){ betFilter = bf.dataset.bet; render(); return; }
-
-  // log a bet straight from a projection or a game card
-  const add = e.target.closest('[data-add]');
-  if (add){
-    e.stopPropagation();
-    const d = add.dataset;
-    if (slip().hasKey(d.add)) slip().removeByKey(d.add);
-    else slip().log({sport:d.sport, label:d.label, detail:d.detail, line:d.line, logo:d.logo||'', key:d.add});
-    render(); return;
-  }
   const cat = e.target.closest('[data-market]');
   if (cat){ market = cat.dataset.market; view = 'explore'; render(); return; }
   const goto = e.target.closest('[data-goto]');
