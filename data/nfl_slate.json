@@ -1,6 +1,6 @@
 {
   "date": "2026-08-02",
-  "generated_at": "2026-08-02 05:43 UTC",
+  "generated_at": "2026-08-02 06:48 UTC",
   "games": [
     {
       "away_team": "New England Patriots",
@@ -3117,8 +3117,7 @@
           },
           "opp_factor": 0.96,
           "injury": null,
-          "src": "form",
-          "fpts_prev": 9.7
+          "src": "form"
         },
         {
           "name": "Tetairoa McMillan",
@@ -3135,8 +3134,7 @@
           "adv": null,
           "opp_factor": 1.0,
           "injury": null,
-          "src": "form",
-          "fpts_prev": 13.3
+          "src": "form"
         },
         {
           "name": "Jimmy Horn Jr.",
@@ -5424,8 +5422,7 @@
           },
           "opp_factor": 0.931,
           "injury": null,
-          "src": "form",
-          "fpts_prev": 6.4
+          "src": "form"
         },
         {
           "name": "Marvin Harrison Jr.",
@@ -5460,8 +5457,7 @@
             "practice": "Did Not Participate In Practice",
             "week": 18
           },
-          "src": "form",
-          "fpts_prev": 10.0
+          "src": "form"
         },
         {
           "name": "Trey McBride",
@@ -5491,8 +5487,7 @@
           },
           "opp_factor": 1.061,
           "injury": null,
-          "src": "form",
-          "fpts_prev": 18.1
+          "src": "form"
         }
       ],
       "home_skill": [
