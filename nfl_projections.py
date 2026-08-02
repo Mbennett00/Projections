@@ -1757,29 +1757,25 @@ def main():
             print(f"Ignoring unrecognized arg '{sys.argv[1]}' — expected a week number.")
 
     raw_games = fetch_schedule(week=week)
-    if not week and not _has_upcoming(raw_games):
-        # Out of season ESPN's default scoreboard is empty or shows a week
-        # that's already finished, which left the board blank all summer even
-        # though the schedule and early lines are published.
+    if not week:
+        # Regular season only, always -- even when ESPN's default "current"
+        # scoreboard is a legitimate upcoming game, like the Hall of Fame
+        # Game or another preseason slate. Preseason snaps are backups and
+        # scrambled usage, which makes the projections noise dressed up as
+        # a real board, so it's skipped even when it's the nearer game.
         #
-        # The trigger is "nothing left to play", not a game count -- a single
-        # real upcoming game (the Hall of Fame game, a standalone opener) is a
-        # legitimate slate and must not be skipped over.
-        #
-        # Probed in chronological order, preseason before regular season, so
-        # what appears is genuinely the NEXT slate rather than the next one
-        # that happens to be a regular-season week.
+        # Probed in chronological order (Week 1, 2, 3...) so whichever one
+        # still has games left to play is shown. Once the regular season is
+        # underway, weeks 1-3 will already be Final by the time later weeks
+        # are current, so this falls through harmlessly and the original
+        # fetch (this week's real slate) is left in place.
         import datetime as _dt
         season = _dt.date.today().year
-        # Regular season only. Preseason was probed first because it is
-        # chronologically nearer, but the projections lean on starters and
-        # usage that preseason deliberately scrambles -- the numbers would be
-        # noise wearing a real board's clothes.
         probes = [(2, wk) for wk in range(1, 4)]
         for stype, wk in probes:
             probe = fetch_schedule(week=wk, season=season, seasontype=stype)
             if _has_upcoming(probe):
-                print(f"  off-season: showing Week {wk} of {season} "
+                print(f"  showing Week {wk} of {season} "
                       f"({len(probe)} games, regular season)")
                 raw_games = probe
                 break
