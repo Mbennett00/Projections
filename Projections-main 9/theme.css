@@ -1,0 +1,427 @@
+/* ===========================================================================
+   theme.css — one palette for every page.
+
+   Loaded AFTER each page's own <style>, so it re-skins by overriding design
+   tokens rather than replacing component rules. The boards carry a lot of
+   working layout logic; re-colouring at the token layer changes how the app
+   looks without touching how it behaves.
+
+   Direction: neon on near-black, Sleeper-adjacent. One gradient (--sheen)
+   runs the whole product and is allowed to show itself in only a few places.
+   Each accent is a saturated ink on a low-alpha bed of the same hue with a
+   tight outer glow — never a flood fill, which smears at this density.
+
+   Token names differ between the hub and the boards for historical reasons,
+   so both sets are mapped onto the same underlying palette.
+   =========================================================================== */
+
+:root{
+  /* palette */
+  --void:#07080D;
+  --surface:#101219;
+  --surface-hi:#161923;
+  --hairline:#242836;
+
+  --neon-green:#3DF08B;
+  --neon-cyan:#3DD9F0;
+  --neon-red:#FF4E6A;
+  --neon-amber:#FFC65C;
+  --neon-violet:#7C5CFF;
+
+  --paper:#F4F5F8;
+  --paper-mute:#8E93A3;
+  --paper-faint:#565C6E;
+
+  --sheen:linear-gradient(115deg, var(--neon-green) 0%, var(--neon-cyan) 48%, var(--neon-violet) 100%);
+
+  /* ---- board tokens (mlb / nfl / nhl / nba) ---- */
+  --bg:var(--void);
+  --card:var(--surface);
+  --card-2:var(--surface-hi);
+  --line:var(--hairline);
+  --text:var(--paper);
+  --muted:var(--paper-mute);
+  --blue:var(--paper-mute);
+  --yellow:var(--neon-green);
+  --red:var(--neon-red);
+
+  /* ---- hub tokens ---- */
+  --panel:var(--surface);
+  --panel-hi:var(--surface-hi);
+  --g1:var(--neon-green);
+  --g2:var(--neon-cyan);
+  --grad:var(--sheen);
+  --gold:var(--neon-amber);
+  --ink:var(--paper);
+  --mute:var(--paper-mute);
+  --faint:var(--paper-faint);
+
+  /* ---- outcome tokens (bet slip) ---- */
+  --win:var(--neon-green);
+  --loss:var(--neon-red);
+  --push:var(--neon-amber);
+  --pending:var(--neon-cyan);
+  --violet:var(--neon-violet);
+}
+
+html{background:var(--void)}
+
+/* The base is never flat: three low-opacity washes give the page depth
+   without competing with content. Fixed so they don't scroll away. */
+body{background:var(--void) !important}
+body::after{
+  content:''; position:fixed; inset:0; z-index:-2; pointer-events:none;
+  background:
+    radial-gradient(680px 420px at -10% -10%, rgba(124,92,255,.20), transparent 62%),
+    radial-gradient(620px 460px at 112% 4%,  rgba(61,217,240,.13), transparent 60%),
+    radial-gradient(760px 520px at 50% 118%, rgba(61,240,139,.09), transparent 66%);
+}
+
+/* ---- shared component polish ------------------------------------------- */
+
+/* Cards sit on the wash rather than in it. */
+.game, .play, .card, .board-card{
+  background:var(--surface);
+  border-color:var(--hairline);
+}
+
+/* Accent numerals pick up a glow instead of a heavier weight. */
+.edge-val{text-shadow:0 0 14px rgba(61,240,139,.30)}
+
+/* Slip buttons: neon, matching the slip page. */
+.pick-btn{
+  border-color:rgba(61,240,139,.42) !important;
+  background:rgba(61,240,139,.10) !important;
+  color:var(--neon-green) !important;
+}
+.pick-btn.on{
+  background:var(--neon-green) !important;
+  border-color:var(--neon-green) !important;
+  color:var(--void) !important;
+  box-shadow:0 0 14px rgba(61,240,139,.45);
+}
+.pick-strip{border-top-color:var(--hairline)}
+
+#slip-bar{
+  background:rgba(16,18,25,.94) !important;
+  border-color:rgba(61,240,139,.45) !important;
+  color:var(--neon-green) !important;
+  box-shadow:0 8px 26px rgba(0,0,0,.55), 0 0 20px rgba(61,240,139,.18);
+}
+#slip-bar .slip-count{
+  background:var(--neon-green) !important;
+  color:var(--void) !important;
+}
+
+#build-stamp{
+  color:var(--neon-cyan) !important;
+  border-color:rgba(61,217,240,.28) !important;
+  background:rgba(16,18,25,.75) !important;
+}
+
+/* Live/final fading stays, but reads better against the darker base. */
+.game.is-live{opacity:.7}
+.game.is-final{opacity:.38}
+
+/* Focus is visible everywhere, on the one hue nothing else uses for state. */
+*:focus-visible{outline:2px solid var(--neon-cyan); outline-offset:2px}
+
+@media (prefers-reduced-motion:reduce){
+  *{transition:none !important; animation:none !important}
+}
+
+
+/* ===========================================================================
+   Game card layout
+   Header / body / slip. The old card stacked seven bands: accent, header,
+   two team rows, probability bar, three stat tiles, pitcher line, slip. On a
+   16-game slate that is a very long scroll for information that fits in far
+   less room.
+   =========================================================================== */
+
+.game{padding:0 !important; overflow:hidden}
+
+.gc-head{
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  padding:11px 13px 9px;
+}
+.gc-match{
+  display:flex; align-items:center; gap:5px; min-width:0;
+  font-family:'Sora',sans-serif; font-weight:700; font-size:12.5px;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.g-badges{display:flex; align-items:center; gap:5px; flex:none}
+
+.gc-body{padding:0 13px 12px}
+.gc-body .team{padding:5px 0}
+
+/* Micro stats: one line, aligned, labels quiet and numbers loud. */
+.gc-micro{
+  display:flex; align-items:center; gap:16px; flex-wrap:wrap;
+  margin-top:11px; padding-top:10px; border-top:1px solid var(--hairline);
+}
+.gc-micro span{display:flex; align-items:baseline; gap:6px}
+.gc-micro i{
+  font-style:normal; font-size:8.5px; font-weight:700; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--paper-faint);
+  font-family:'IBM Plex Mono',monospace;
+}
+.gc-micro b{
+  font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:12.5px;
+  font-variant-numeric:tabular-nums; color:var(--paper);
+}
+.gc-micro b.hot{color:var(--neon-green); text-shadow:0 0 12px rgba(61,240,139,.4)}
+
+.gc-meta{
+  margin-top:9px; font-size:10.5px; line-height:1.45; color:var(--paper-faint);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+
+/* The slip strip is the card's tear-off, echoing the bet slip's ticket. */
+.pick-strip{
+  border-top:1px dashed var(--hairline) !important;
+  padding:9px 13px 11px !important;
+  background:rgba(255,255,255,.014);
+}
+
+
+/* ===========================================================================
+   Player prop rows
+   Same anatomy as a leg on the bet slip, so a play looks like a play wherever
+   you meet it. The old row let five elements stack on the left and four on
+   the right inside a wrapping flex container, including a 44px confidence
+   ring -- the top line reflowed differently depending on how many badges a
+   player happened to have.
+   =========================================================================== */
+
+.play{
+  display:block !important; flex-wrap:nowrap !important;
+  padding:10px 12px !important;
+}
+
+/* Fixed five-slot top line: rank, avatar, identity, number, action. */
+.pp-top{display:flex; align-items:center; gap:10px; min-width:0}
+.pp-top .p-main{flex:1; min-width:0}
+.pp-top .p-player{font-size:14px; font-weight:650; letter-spacing:-.01em}
+.pp-top .p-meta{
+  font-size:11px; margin-top:2px;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.pp-top .p-edge{
+  display:flex; align-items:center; gap:7px; flex:none; text-align:right;
+}
+.pp-top .edge-val{font-size:15px}
+
+/* Confidence was a 44px ring competing with the projection for attention.
+   It's a supporting number, so it reads as one. */
+.conf-ring{
+  width:26px !important; height:26px !important;
+  border-width:2px !important;
+}
+.conf-num{font-size:9px !important}
+.conf span:not(.conf-num){display:none}
+.pp-conf{
+  display:inline-grid; place-items:center; width:26px; height:26px; border-radius:50%;
+  font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:9.5px;
+  color:var(--c, var(--neon-green)); border:2px solid var(--c, var(--neon-green));
+  background:rgba(255,255,255,.02); flex:none;
+}
+
+/* Everything that used to stack in the identity column lives here instead. */
+.pp-foot{
+  display:flex; align-items:center; gap:6px; flex-wrap:wrap;
+  margin-top:8px; padding-left:30px;
+}
+.pp-foot:empty{display:none}
+
+/* Details was a stacked text block in the number column; now a quiet affordance. */
+.sim-hint{
+  margin-top:7px !important; padding-left:30px;
+  font-size:9.5px !important; font-weight:600 !important;
+  color:var(--paper-faint) !important; letter-spacing:.04em !important;
+}
+
+/* Market chips share the slip's filter treatment. */
+.chips .chip.on, .chips .chip.active{
+  color:var(--void) !important; border-color:transparent !important;
+  background:var(--sheen) !important; font-weight:700;
+  box-shadow:0 0 16px rgba(61,217,240,.26);
+}
+
+
+/* ===========================================================================
+   Late fixes
+   =========================================================================== */
+
+/* Contrast: --paper-faint measured 2.81:1 against the panel, well under the
+   4.5 WCAG needs, and it carries the game meta line and micro-stat labels at
+   8.5-10.5px. Lifted to a value that passes at those sizes. */
+:root{ --paper-faint:#7C8296; }
+
+/* 7. Sport label on the hub cards -- it names the board, so it shouldn't be
+   the smallest thing on the card. */
+.board-tag{
+  font-size:12.5px !important;
+  letter-spacing:.08em !important;
+  color:var(--paper-mute) !important;
+}
+.board-logo{width:18px !important; height:18px !important}
+
+/* 2. Player prop badges.
+   These already carried a per-badge colour system -- yellow for elite, red for
+   scoring threat, orange for volume, teal for efficiency, violet for role,
+   green for upside. An earlier pass here forced them all to one hue with
+   !important and destroyed that. The hues now come from the boards (pushed to
+   neon values there); this only adds the glow, keyed to each badge's OWN
+   colour via currentColor so every one lights in its own hue. */
+.play .tag, .pp-foot .tag{
+  border-radius:5px !important;
+  font-weight:700 !important;
+  box-shadow:0 0 11px -2px currentColor;
+}
+.play .rk, .pp-foot .rk{
+  border-radius:5px !important;
+  font-weight:700 !important;
+  color:var(--paper-mute);
+  background:rgba(142,147,163,.10);
+  border:1px solid rgba(142,147,163,.30);
+}
+.play .rk.on, .pp-foot .rk.on, .play .rk.top, .pp-foot .rk.top{
+  color:var(--neon-green) !important;
+  background:rgba(61,240,139,.11) !important;
+  border-color:rgba(61,240,139,.42) !important;
+  box-shadow:0 0 12px -2px var(--neon-green);
+}
+.pp-foot .news, .play .news{
+  color:var(--neon-cyan) !important;
+  text-shadow:0 0 10px rgba(61,217,240,.25);
+}
+.pp-foot .news.dn, .play .news.dn{
+  color:var(--neon-red) !important;
+  text-shadow:0 0 10px rgba(255,78,106,.25);
+}
+
+/* 1. Header pill sits with the other controls. */
+header #slip-bar{margin-left:auto}
+header #slip-bar + .refresh, header #slip-bar + #hub-refresh{margin-left:8px}
+
+/* 4. Selection art on bet slip legs. */
+.leg-art{
+  width:26px; height:26px; border-radius:7px; flex:none;
+  display:grid; place-items:center; overflow:hidden;
+  background:rgba(255,255,255,.04); border:1px solid var(--hairline);
+}
+.leg-art img{width:20px; height:20px; object-fit:contain}
+.leg-ini{
+  font-family:'IBM Plex Mono',monospace; font-size:9.5px; font-weight:700;
+  color:var(--neon-cyan); background:rgba(61,217,240,.10);
+  border-color:rgba(61,217,240,.30);
+}
+
+
+/* nflverse advanced metrics on the player card.
+   Single row, no wrapping: each chip stacks its label over its value so four
+   metrics plus the adjustment fit a phone width. Wrapping put the factor pill
+   on its own line and broke the read. */
+.adv-row{
+  display:flex; align-items:stretch; gap:5px; flex-wrap:nowrap;
+  padding:9px 0 2px;
+}
+.adv-chip{
+  flex:1 1 0; min-width:0;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:2px; padding:6px 4px; border-radius:7px;
+  background:rgba(61,217,240,.08); border:1px solid rgba(61,217,240,.28);
+}
+.adv-chip i{
+  font-style:normal; font-size:7.5px; font-weight:700; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--paper-mute);
+  font-family:'IBM Plex Mono',monospace; white-space:nowrap;
+  overflow:hidden; text-overflow:ellipsis; max-width:100%;
+}
+.adv-chip b{
+  font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:12px;
+  font-variant-numeric:tabular-nums; color:var(--neon-cyan);
+  white-space:nowrap;
+}
+.adv-factor{
+  flex:none; align-self:stretch; display:flex; align-items:center;
+  font-family:'IBM Plex Mono',monospace; font-weight:800;
+  font-size:11px; padding:0 9px; border-radius:7px;
+  color:var(--paper-mute); background:rgba(142,147,163,.10);
+  border:1px solid rgba(142,147,163,.28);
+}
+.adv-factor.up{
+  color:var(--neon-green); background:rgba(61,240,139,.11);
+  border-color:rgba(61,240,139,.42); box-shadow:0 0 12px -2px var(--neon-green);
+}
+.adv-factor.dn{
+  color:var(--neon-red); background:rgba(255,78,106,.11);
+  border-color:rgba(255,78,106,.42); box-shadow:0 0 12px -2px var(--neon-red);
+}
+
+
+/* "How it works" entry point — sits with Picks and refresh in the header. */
+.how-btn{
+  width:34px;height:34px;flex:none;border-radius:50%;
+  display:inline-grid;place-items:center;text-decoration:none;
+  font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:700;
+  color:var(--neon-violet);background:rgba(124,92,255,.10);
+  border:1px solid rgba(124,92,255,.40);
+}
+.how-btn:active{transform:scale(.9)}
+
+/* The explainer reuses the app palette but sets its own layout. */
+#s-mlb .anchor, #s-nfl .anchor, #s-nhl .anchor, #s-nba .anchor{font-family:'IBM Plex Mono',monospace}
+
+
+/* ===========================================================================
+   Player card — hero + matchup rings
+   The projection leads, the book line and gap sit beside it, and confidence
+   is a ring rather than a sentence. Below, the four context factors that
+   actually fed the number get shown as rings so the card explains itself.
+   =========================================================================== */
+.hero{
+  display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+  padding:13px; margin-bottom:4px; border-radius:14px;
+  background:linear-gradient(160deg, rgba(124,92,255,.10), rgba(61,217,240,.05) 60%, transparent);
+  border:1px solid var(--hairline);
+}
+.hero-main{flex:1; min-width:110px}
+.hero-num{
+  font-family:'Sora',sans-serif; font-weight:800; font-size:30px; line-height:1;
+  letter-spacing:-.03em; font-variant-numeric:tabular-nums; color:var(--paper);
+}
+.hero-lab{
+  margin-top:5px; font-family:'IBM Plex Mono',monospace; font-size:8.5px;
+  font-weight:700; letter-spacing:.11em; text-transform:uppercase; color:var(--paper-faint);
+}
+.hero-cell{text-align:center; flex:none; min-width:52px}
+.hero-v{
+  font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:15px;
+  font-variant-numeric:tabular-nums; color:var(--paper);
+}
+.hero-l{
+  margin-top:4px; font-family:'IBM Plex Mono',monospace; font-size:8px;
+  font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--paper-faint);
+}
+.hero-ring{display:flex; flex-direction:column; align-items:center; gap:3px; flex:none}
+.hero-ring .conf-ring{width:42px !important; height:42px !important}
+.hero-ring .conf-num{font-size:13px !important}
+
+.rings{display:flex; gap:6px; padding:4px 0 2px}
+.ring{
+  flex:1 1 0; min-width:0; display:flex; flex-direction:column; align-items:center;
+  gap:1px; padding:9px 4px; border-radius:12px;
+  background:var(--surface); border:1px solid var(--hairline); position:relative;
+}
+.ring svg{display:block}
+.ring-v{
+  position:absolute; top:22px; font-family:'IBM Plex Mono',monospace;
+  font-weight:700; font-size:12px; font-variant-numeric:tabular-nums;
+}
+.ring-l{
+  margin-top:4px; font-family:'IBM Plex Mono',monospace; font-size:7.5px;
+  font-weight:700; letter-spacing:.09em; text-transform:uppercase;
+  color:var(--paper-faint); white-space:nowrap;
+}

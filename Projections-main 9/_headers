@@ -1,0 +1,15 @@
+/data/*
+  Cache-Control: no-cache, must-revalidate
+
+/sw.js
+  Cache-Control: no-cache
+
+/picks.js
+  Cache-Control: no-cache, must-revalidate
+
+/theme.css
+  Cache-Control: no-cache, must-revalidate
+
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
