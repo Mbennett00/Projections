@@ -126,18 +126,28 @@ h2 a{color:var(--cyan);text-decoration:none;font-size:9.5px}
   border-radius:99px;padding:8px 13px;cursor:pointer;white-space:nowrap}
 .f.on{color:var(--void);border-color:transparent;background:var(--violet);font-weight:800}
 
-.thead{display:flex;align-items:center;gap:10px;padding:0 13px 8px;
-  font-family:'IBM Plex Mono',monospace;font-size:7.5px;font-weight:700;
-  letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
-.thead .c1{flex:1}
-.thead .c2{width:56px;text-align:right}
-.thead .c3{width:52px;text-align:right}
-.thead .c4{width:38px;text-align:center}
-
-.row{display:flex;align-items:center;gap:10px;padding:11px 13px;border-radius:13px;
-  background:var(--surface);border:1px solid var(--line);margin-bottom:6px;cursor:pointer}
+/* Row is stacked, not a table -- a real phone gives a name maybe 130px if it
+   has to share a line with an avatar, a projection AND a confidence ring.
+   Only the confidence ring shares the top line with the name; everything
+   else gets its own row so nothing is ever squeezed into a corner. */
+.row{padding:11px 13px;border-radius:13px;background:var(--surface);
+  border:1px solid var(--line);margin-bottom:6px;cursor:pointer}
 .row:active{background:var(--surface-2)}
-.av{width:36px;height:36px;border-radius:50%;flex:none;overflow:hidden;background:var(--surface-2);
+
+.row-top{display:flex;align-items:center;gap:10px}
+.who-mkt{color:var(--faint)}
+
+.row-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px}
+.row-tags .tag{font-size:7.5px;padding:2px 5px}
+
+.row-foot{display:flex;align-items:center;gap:8px;
+  margin-top:9px;padding-top:9px;border-top:1px solid var(--line)}
+.row-foot .pv{flex:1;display:flex;align-items:baseline;gap:5px}
+.row-foot .pv b{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:15px;
+  font-variant-numeric:tabular-nums;color:var(--ink)}
+.row-foot .pv span{font-family:'IBM Plex Mono',monospace;font-size:8.5px;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+.av{width:36px;height:36px;border-radius:50%;flex:none;overflow:hidden;margin-top:1px;background:var(--surface-2);
   border:1px solid var(--line);display:grid;place-items:center;
   font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;color:var(--cyan)}
 .av img{width:100%;height:100%;object-fit:cover}
@@ -146,13 +156,11 @@ h2 a{color:var(--cyan);text-decoration:none;font-size:9.5px}
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .who-m{display:flex;align-items:center;gap:4px;font-size:10.5px;color:var(--mute);margin-top:2px;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.pv{width:56px;text-align:right;flex:none}
 .pv-n{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:14.5px;
   font-variant-numeric:tabular-nums}
 .pv-l{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--faint);margin-top:2px}
-.eg{width:56px;text-align:right;flex:none;font-family:'IBM Plex Mono',monospace;
-  font-weight:700;font-size:12.5px;font-variant-numeric:tabular-nums}
-.cf{width:38px;flex:none;display:grid;place-items:center}
+.eg{flex:none}
+.cf{flex:none}
 .cf-r{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;
   font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:700;
   border:2px solid var(--c,var(--green));color:var(--c,var(--green))}
@@ -338,14 +346,11 @@ nav{position:fixed;left:0;right:0;bottom:0;z-index:70;
 .ba.del{flex:none;width:34px;color:var(--faint)}
 .ba:active{transform:scale(.97)}
 
-.gc-edge-row{display:flex;align-items:center;gap:9px;margin-top:10px;padding-top:10px;
-  border-top:1px solid var(--line)}
-.gc-edge{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:8px;
-  border:1px solid;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700}
-.gc-edge b{font-weight:800;letter-spacing:.03em}
-.gc-edge-v{font-variant-numeric:tabular-nums;font-weight:800}
-.gc-edge-l{font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:700;
-  letter-spacing:.09em;text-transform:uppercase;color:var(--faint)}
+.gc-edge{display:inline-flex;align-items:center;gap:5px;font-family:'IBM Plex Mono',monospace}
+.gc-edge i{font-style:normal;font-size:7.5px;font-weight:700;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--faint)}
+.gc-edge b{font-weight:800;font-size:12.5px;font-variant-numeric:tabular-nums}
+.gc-badges .gc-edge{margin-left:auto}
 .gt{display:flex;align-items:center;gap:9px;padding:6px 0}
 .gc-bar{height:5px;border-radius:99px;overflow:hidden;margin:8px 0 11px;background:var(--violet)}
 .gc-bar div{height:100%;border-radius:99px}
@@ -381,7 +386,7 @@ nav{position:fixed;left:0;right:0;bottom:0;z-index:70;
 .adv-factor.dn{color:var(--red);background:rgba(255,78,106,.11);border-color:rgba(255,78,106,.42)}
 
 /* ── tags, edge pills, distribution, game cards ── */
-.tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:5px}
+.tags{display:flex;gap:4px;flex-wrap:wrap}
 .tag{font-family:'IBM Plex Mono',monospace;font-size:7.5px;font-weight:700;letter-spacing:.06em;
   padding:2px 5px;border-radius:4px;border:1px solid;white-space:nowrap;
   box-shadow:0 0 9px -3px currentColor}
@@ -409,9 +414,12 @@ nav{position:fixed;left:0;right:0;bottom:0;z-index:70;
 .gc-m .vs{color:var(--faint);font-weight:600}
 .gc-state{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.07em;
   padding:4px 9px;border-radius:6px;border:1px solid;white-space:nowrap}
-.gc-h-r{display:flex;align-items:center;gap:6px;flex:none}
-.tier-pill{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:800;letter-spacing:.06em;
-  padding:4px 8px;border-radius:6px;border:1px solid;white-space:nowrap}
+/* Header now carries only the state pill; tier + edge moved to a shared
+   row at the bottom of the card, side by side, each with its team's logo. */
+.gc-badges{display:flex;align-items:center;gap:10px;margin-top:10px;padding-top:10px;
+  border-top:1px solid var(--line);flex-wrap:wrap}
+.tier-pill{display:inline-flex;align-items:center;gap:5px;font-family:'IBM Plex Mono',monospace}
+.tier-pill b{font-size:11px;font-weight:800;letter-spacing:.06em}
 
 .gt-n{flex:1;min-width:0;font-size:13.5px;font-weight:600;white-space:nowrap;overflow:hidden;
   text-overflow:ellipsis;color:var(--mute)}
@@ -1019,24 +1027,41 @@ function propBadge(p, e, backed){
   </button>`;
 }
 
+// Two lines instead of one crowded row. Top: identity and the number that
+// matters (projection, confidence). Bottom: everything supporting that
+// number (tags, edge) with the bet control at the end where a thumb expects
+// it. Five flex columns fighting for a phone's width was the actual mess.
+// Tags now sit as a small line above the name -- they're the fastest-scanned
+// part of a row (colour before text), so they lead rather than trail. Bet
+// control and edge live in their own row at the bottom with room to breathe,
+// so neither the tags nor the price ever truncate.
+// Real widths, not jsdom's. Three fixed-width side columns (avatar, proj,
+// confidence) were squeezing the name down to ~130px on an actual phone --
+// jsdom has no layout engine, so testing never caught it; it just reported
+// the CSS as valid. Name now gets its own line with only the confidence ring
+// beside it, which is the one thing worth keeping on that line.
 function rowHtml(p, arr){
   const c = confOf(p, arr), col = confColor(c);
   const backed = slip().hasKey(p._key);
   const e = edgeOf(p);
   const tags = tagsFor(p).slice(0, 2);
   return `<div class="row" data-key="${esc(p._key)}">
-    ${avatar(p._sp, p, 'av')}
-    <div class="who">
-      <div class="who-n">${esc(p.name)}</div>
-      <div class="who-m">${teamMark(p._sp, p._tab, 13)}<span>${esc(p._tab)} · ${esc(p._market)}</span>
-        <span class="vs">vs</span>${teamMark(p._sp, p._oab, 13)}<span>${esc(p._oab)}</span></div>
-      ${tags.length ? `<div class="tags">${tagHtml(tags)}</div>` : ''}
+    <div class="row-top">
+      ${avatar(p._sp, p, 'av')}
+      <div class="who">
+        <div class="who-n">${esc(p.name)}</div>
+        <div class="who-m">${teamMark(p._sp, p._tab, 13)}<span>${esc(p._tab)}</span>
+          <span class="vs">vs</span>${teamMark(p._sp, p._oab, 13)}<span>${esc(p._oab)}</span>
+          <span class="who-mkt">\u00b7 ${esc(p._market)}</span></div>
+      </div>
+      <div class="cf"><div class="cf-r" style="--c:${col}">${c}</div></div>
     </div>
-    <div class="pv"><div class="pv-n">${p._val.toFixed(p._dp)}</div>
-      <div class="pv-l">${e && e.line != null ? esc(String(e.line)) + ' line' : 'proj'}</div></div>
-    <div class="eg">${edgePill(e)}</div>
-    <div class="cf"><div class="cf-r" style="--c:${col}">${c}</div></div>
-    ${propBadge(p, e, backed)}
+    ${tags.length ? `<div class="row-tags">${tagHtml(tags)}</div>` : ''}
+    <div class="row-foot">
+      <div class="pv"><b>${p._val.toFixed(p._dp)}</b><span>proj</span></div>
+      ${edgePill(e)}
+      ${propBadge(p, e, backed)}
+    </div>
   </div>`;
 }
 function renderExplore(){
@@ -1046,8 +1071,6 @@ function renderExplore(){
     `<div class="f ${(market||defs[0][0])===m[0]?'on':''}" data-market="${esc(m[0])}">${esc(m[0])}</div>`).join('');
   $('v-explore').innerHTML = `
     <div class="filters">${chips}</div>
-    <div class="thead"><span class="c1">Player / Prop</span><span class="c2">Proj</span>
-      <span class="c3">Edge</span><span class="c3">Conf</span><span class="c4"></span></div>
     ${arr.length ? arr.slice(0,120).map(p=>rowHtml(p,arr)).join('')
       : `<div class="empty"><div class="i">◎</div><div class="m">Nothing on the slate</div>
          <div class="s">${sport.toUpperCase()} has no games right now.</div></div>`}`;
@@ -1142,11 +1165,13 @@ function resolveTeamAbbr(sp, g, name){
 // this game is, independent of the numeric edge. Shown as its own pill so a
 // LEAN-tier edge doesn't read with the same weight as an ELITE one.
 const TIER_COLOR = { ELITE:'#3DF08B', STRONG:'#3DD9F0', LEAN:'#FFC65C', PASS:'#7C8296' };
-function tierPill(g){
+function tierPill(sp, g, favAb){
   const t = (g.tier || '').toUpperCase();
   if (!t || t === 'PASS') return '';
   const c = TIER_COLOR[t] || '#7C8296';
-  return `<span class="tier-pill" style="color:${c};background:${c}16;border-color:${c}55">${esc(t)}</span>`;
+  return `<span class="tier-pill" style="color:${c}">
+    ${favAb ? teamMark(sp, favAb, 13) : ''}<b>${esc(t)}</b>
+  </span>`;
 }
 
 function edgeTeamPill(sp, g, edge){
@@ -1155,13 +1180,9 @@ function edgeTeamPill(sp, g, edge){
   const ab = resolveTeamAbbr(sp, g, team);
   const col = appEdgeBand(edge.edge_pct)[1];
   const v = Number(edge.edge_pct);
-  return `<div class="gc-edge-row">
-    <span class="gc-edge" style="color:${col};background:${col}16;border-color:${col}55">
-      ${teamMark(sp, ab, 14)}<b>${esc(ab)}</b>
-      <span class="gc-edge-v">${v>0?'+':''}${v.toFixed(1)}%</span>
-    </span>
-    <span class="gc-edge-l">model vs market</span>
-  </div>`;
+  return `<span class="gc-edge" style="color:${col}">
+    ${teamMark(sp, ab, 13)}<i>Edge</i><b>${v>0?'+':''}${v.toFixed(1)}%</b>
+  </span>`;
 }
 
 function renderGames(){
@@ -1187,6 +1208,7 @@ function renderGames(){
     const total = (as != null && hs != null) ? (as + hs) : null;
     const dim = g.game_state === 'Final' ? 'dim' : g.game_state === 'Live' ? 'live' : '';
     const aCol = teamColor(sp, aAb, '#3DF08B'), hCol = teamColor(sp, hAb, '#7C5CFF');
+    const favAb = (aw != null && hw != null) ? (aw >= hw ? aAb : hAb) : null;
     const edge = g.edge;
     const row = (ab, name, score, win, fav) => `
       <div class="gt">
@@ -1198,10 +1220,11 @@ function renderGames(){
     return `<div class="gc ${dim}">
       <div class="gc-h">
         <span class="gc-m">${teamMark(sp,aAb,15)}${esc(aAb)} <span class="vs">@</span> ${teamMark(sp,hAb,15)}${esc(hAb)}</span>
-        <span class="gc-h-r">${tierPill(g)}<span class="gc-state" style="color:${lcol};border-color:${lcol}44;background:${lcol}14">${lab}</span></span>
+        <span class="gc-state" style="color:${lcol};border-color:${lcol}44;background:${lcol}14">${lab}</span>
       </div>
       ${row(aAb, sp==='mlb'||sp==='nfl' ? g.away_team : aAb, as, aw, aw>hw)}
       ${row(hAb, sp==='mlb'||sp==='nfl' ? g.home_team : hAb, hs, hw, hw>aw)}
+      ${marketBadges(sp, g)}
       ${aw != null ? `<div class="gc-bar" style="background:${hCol}">
         <div style="width:${(aw*100).toFixed(0)}%;background:${aCol}"></div></div>` : ''}
       <div class="gc-stats">
@@ -1213,8 +1236,7 @@ function renderGames(){
           ? `<span title="Scoring environment, 0\u2013100. Blends projected runs, the over probability, and how likely both sides are to score. High = a good game for overs and hitter props.">
               <i>Scoring env</i><b>${g.target_score}</b></span>` : ''}
       </div>
-      ${marketBadges(sp, g)}
-      ${edgeTeamPill(sp, g, edge)}
+      ${(tierPill(sp, g, favAb) || edgeTeamPill(sp, g, edge)) ? `<div class="gc-badges">${tierPill(sp, g, favAb)}${edgeTeamPill(sp, g, edge)}</div>` : ''}
       ${gameMeta(sp,g) ? `<div class="gc-meta">${esc(gameMeta(sp,g))}</div>` : ''}
     </div>`;
   }).join('');
