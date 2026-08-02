@@ -108,16 +108,41 @@ h2 a{color:var(--cyan);text-decoration:none;font-size:9.5px}
 .cell span{display:block;margin-top:3px;font-family:'IBM Plex Mono',monospace;font-size:7.5px;
   font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
 
-/* ── prop card (full card per player, Props tab) ── */
-.pcard{padding:18px;margin-bottom:11px;cursor:pointer}
+/* ── prop cards (Props tab, 2-up grid) ──
+   Two columns instead of one long full-width row per player -- cards read
+   closer to square, so a screen shows a slate at a glance instead of a
+   scroll of skinny bars. Everything below is scoped to .pcard specifically
+   (not the bare .sh-*/.hero/.cells classes) so the detail sheet, which
+   reuses those same class names at full width, is untouched. */
+.props-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.pcard{padding:12px;cursor:pointer;min-width:0}
 .pcard:active{background:var(--surface-2)}
-.pcard-mkt{margin-top:6px;font-family:'IBM Plex Mono',monospace;font-size:11px;
-  font-weight:700;color:var(--faint);letter-spacing:.02em}
-.pcard .sheet-tags{margin:13px 0}
-.pcard-foot{margin-top:11px;padding-top:11px;border-top:1px solid var(--line)}
-.pcard-foot-lab{font-family:'IBM Plex Mono',monospace;font-size:8.5px;font-weight:700;
-  letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-bottom:5px}
-.pcard-foot-val{font-family:'Sora',sans-serif;font-weight:700;font-size:15px;letter-spacing:-.01em}
+
+.pcard .sh-head{gap:8px;margin-bottom:8px}
+.pcard .sh-av{width:34px;height:34px;border-radius:10px}
+.pcard .sh-n{font-size:12.5px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pcard .sh-m{font-size:9px;gap:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pcard .sh-score{padding:5px 7px;border-radius:9px}
+.pcard .sh-score b{font-size:14px}
+.pcard .sh-score span{font-size:5.5px}
+
+.pcard-mkt{margin-top:4px;font-family:'IBM Plex Mono',monospace;font-size:9px;
+  font-weight:700;color:var(--faint);letter-spacing:.02em;white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis}
+
+.pcard .sheet-tags{margin:8px 0;gap:3px}
+.pcard .sheet-tags .tag{font-size:6.5px;padding:2px 4px}
+
+.pcard .hero{padding:10px;border-radius:12px;gap:6px;margin-bottom:8px}
+.pcard .hero-n{font-size:22px}
+.pcard .hero-l{font-size:6.5px;margin-top:3px}
+.pcard .hero-c{min-width:0}
+.pcard .hero-c b{font-size:12px}
+
+.pcard .cells{gap:5px;flex-wrap:wrap}
+.pcard .cell{flex:1 1 calc(50% - 3px);padding:7px 4px;border-radius:10px}
+.pcard .cell b{font-size:11.5px}
+.pcard .cell span{font-size:6px;margin-top:2px}
 
 .rings{display:flex;gap:6px}
 .ring{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;
@@ -402,7 +427,7 @@ const MARKETS = {
     ['RBI', p=>p.expected_rbi, 2], ['Runs', p=>p.expected_runs, 2],
   ],
   nfl: [
-    ['Rec Yds', p=>p.rec_yds, 0], ['Rush Yds', p=>p.rush_yds, 0],
+    ['Pass Yds', p=>p.pass_yds, 0], ['Rec Yds', p=>p.rec_yds, 0], ['Rush Yds', p=>p.rush_yds, 0],
     ['Targets', p=>p.targets, 1], ['Anytime TD', p=>p.td_prob, 2],
   ],
   nhl: [
@@ -414,7 +439,7 @@ const MARKETS = {
   ],
 };
 const POOLS = {
-  mlb: ['away_lineup','home_lineup'], nfl: ['away_skill','home_skill'],
+  mlb: ['away_lineup','home_lineup'], nfl: ['away_skill','home_skill','away_qb_proj','home_qb_proj'],
   nhl: ['away_skaters','home_skaters'], nba: ['away_players','home_players'],
 };
 
@@ -454,11 +479,17 @@ function tagsFor(p){
     if ((p.order ?? 9) === 4) t.push(['CLEANUP','#9B7CFF']);
     if ((p.order ?? 9) <= 2 && (p.hit_rate ?? 0) >= .26) t.push(['TABLE SETTER','#3DF08B']);
   } else if (p._sp === 'nfl'){
-    if ((p.td_prob ?? 0) >= .45) t.push(['RED ZONE','#FF6B84']);
-    if ((p.targets ?? 0) >= 7) t.push(['TARGET HOG','#3DD9F0']);
-    if ((p.rush_att ?? 0) >= 15) t.push(['BELLCOW','#FF9A3D']);
-    if ((p.rec_yds ?? 0) >= 70) t.push(['WR1','#3DF08B']);
-    if ((p.opp_factor ?? 1) >= 1.05) t.push(['HIGH USAGE','#FFE24A']);
+    if (posOf(p) === 'QB'){
+      if ((p.pass_yds ?? 0) >= 260) t.push(['GUNSLINGER','#3DD9F0']);
+      if ((p.pass_td ?? 0) >= 2) t.push(['TD MACHINE','#FF6B84']);
+      if ((p.int ?? 0) >= 1) t.push(['TURNOVER RISK','#FF9A3D']);
+    } else {
+      if ((p.td_prob ?? 0) >= .45) t.push(['RED ZONE','#FF6B84']);
+      if ((p.targets ?? 0) >= 7) t.push(['TARGET HOG','#3DD9F0']);
+      if ((p.rush_att ?? 0) >= 15) t.push(['BELLCOW','#FF9A3D']);
+      if ((p.rec_yds ?? 0) >= 70) t.push(['WR1','#3DF08B']);
+      if ((p.opp_factor ?? 1) >= 1.05) t.push(['HIGH USAGE','#FFE24A']);
+    }
   } else if (p._sp === 'nhl'){
     if ((p.goal_prob ?? 0) >= .45) t.push(['SNIPER','#FFE24A']);
     if ((p.shots_pg ?? 0) >= 3.5) t.push(['VOLUME','#FF9A3D']);
@@ -588,7 +619,12 @@ function players(sp){
         ? (away ? g.away_team : g.home_team) : (away ? g.away_abbr : g.home_abbr);
       const opp = sp === 'mlb' || sp === 'nfl'
         ? (away ? g.home_team : g.away_team) : (away ? g.home_abbr : g.away_abbr);
-      for (const p of (g[pool] || [])){
+      // Most pools are arrays (the skill-position lineup). QB projections
+      // are a single object per team, not a list -- normalized here so the
+      // rest of the function doesn't need to know the difference.
+      const raw = g[pool];
+      const poolArr = Array.isArray(raw) ? raw : (raw ? [raw] : []);
+      for (const p of poolArr){
         const v = m[1](p);
         if (v == null || isNaN(v)) continue;
         out.push({...p, _sp:sp, _team:team, _opp:opp,
@@ -629,9 +665,16 @@ function ring(v, pct, label, color, size){
   </div>`;
 }
 
-// The same four-cell breakdown used on both the Props card and the detail
-// sheet, so the two never drift apart. One sport at a time -- each has its
-// own handful of fields worth surfacing next to the projection.
+// QB position lives under adv.pos in the raw data (QB projections don't
+// carry a top-level pos field the way skill players do) -- this reads
+// whichever is there so callers don't need to know which shape they got.
+const posOf = p => p.pos || (p.adv && p.adv.pos) || '';
+
+// The same stat breakdown used on both the Props card and the detail
+// sheet, so the two never drift apart. NFL splits by position -- a QB's
+// relevant numbers (pass yards, completion%) have nothing to do with a
+// receiver's (targets, catches), so one fixed set of four fields was
+// either blank or misleading depending who you were looking at.
 function statCellsFor(p){
   const cells = [];
   if (p._sp === 'mlb'){
@@ -640,10 +683,23 @@ function statCellsFor(p){
     if (p.hr_prob != null) cells.push(['HR/PA', (p.hr_prob*100).toFixed(1)+'%']);
     if (p.k_rate != null) cells.push(['K%', (p.k_rate*100).toFixed(0)+'%']);
   } else if (p._sp === 'nfl'){
-    if (p.targets != null) cells.push(['TGT', p.targets.toFixed(1)]);
-    if (p.rec != null) cells.push(['REC', p.rec.toFixed(1)]);
-    if (p.td_prob != null) cells.push(['TD%', (p.td_prob*100).toFixed(0)+'%']);
-    if (p.fpts != null) cells.push(['FPTS', p.fpts.toFixed(1)]);
+    const pos = posOf(p);
+    if (pos === 'QB'){
+      if (p.pass_yds != null) cells.push(['PASS YDS', p.pass_yds.toFixed(0)]);
+      if (p.comp_pct != null) cells.push(['COMP%', p.comp_pct.toFixed(1)+'%']);
+      if (p.pass_td != null) cells.push(['PASS TD', p.pass_td.toFixed(1)]);
+      if (p.int != null) cells.push(['INT', p.int.toFixed(1)]);
+    } else if (pos === 'RB'){
+      if (p.rush_att != null) cells.push(['ATT', p.rush_att.toFixed(1)]);
+      if (p.rush_yds != null) cells.push(['RUSH YDS', p.rush_yds.toFixed(0)]);
+      if (p.targets != null) cells.push(['TGT', p.targets.toFixed(1)]);
+      if (p.td_prob != null) cells.push(['TD%', (p.td_prob*100).toFixed(0)+'%']);
+    } else {
+      if (p.targets != null) cells.push(['TGT', p.targets.toFixed(1)]);
+      if (p.rec != null) cells.push(['REC', p.rec.toFixed(1)]);
+      if (p.rec_yds != null) cells.push(['REC YDS', p.rec_yds.toFixed(0)]);
+      if (p.td_prob != null) cells.push(['TD%', (p.td_prob*100).toFixed(0)+'%']);
+    }
   } else if (p._sp === 'nhl'){
     if (p.shots_pg != null) cells.push(['SPG', p.shots_pg.toFixed(1)]);
     if (p.pts_pg != null) cells.push(['PTS/GP', p.pts_pg.toFixed(2)]);
@@ -668,22 +724,22 @@ function statCellsFor(p){
 function propCardHtml(p, arr){
   const c = confOf(p, arr), col = confColor(c);
   const e = edgeOf(p);
-  const tags = tagsFor(p).slice(0, 4);
+  const tags = tagsFor(p).slice(0, 3);
   const cells = statCellsFor(p);
   return `<div class="card pcard" data-key="${esc(p._key)}">
     <div class="sh-head">
       ${avatar(p._sp, p, 'sh-av')}
-      <div>
+      <div style="min-width:0">
         <div class="sh-n">${esc(p.name)}</div>
-        <div class="sh-m">${teamMark(p._sp, p._tab, 15)}<span>${esc(p._tab)}</span>
-          <span class="vs">vs</span>${teamMark(p._sp, p._oab, 15)}<span>${esc(p._oab)}</span></div>
+        <div class="sh-m">${teamMark(p._sp, p._tab, 11)}<span>${esc(p._tab)}</span>
+          <span class="vs">vs</span>${teamMark(p._sp, p._oab, 11)}<span>${esc(p._oab)}</span></div>
         <div class="pcard-mkt">${esc(p._market)}</div>
       </div>
       <div class="sh-score" style="--c:${col}"><b>${c}</b><span>Confidence</span></div>
     </div>
     ${tags.length ? `<div class="tags sheet-tags">${tagHtml(tags)}</div>` : ''}
     <div class="hero">
-      <div style="flex:1">
+      <div style="flex:1;min-width:0">
         <div class="hero-n">${p._val.toFixed(p._dp)}</div>
         <div class="hero-l">Projected</div>
       </div>
@@ -691,10 +747,6 @@ function propCardHtml(p, arr){
       ${e && e.edge != null ? `<div class="hero-c"><b style="color:${appEdgeBand(e.edge)[1]}">${e.edge>0?'+':''}${e.edge.toFixed(1)}%</b><div class="hero-l">Edge</div></div>` : ''}
     </div>
     ${cells.length ? `<div class="cells">${cells.map(([l,v])=>`<div class="cell"><b>${v}</b><span>${l}</span></div>`).join('')}</div>` : ''}
-    <div class="pcard-foot">
-      <div class="pcard-foot-lab">Projection type</div>
-      <div class="pcard-foot-val">${esc(p._market)}</div>
-    </div>
   </div>`;
 }
 function renderExplore(){
@@ -704,7 +756,7 @@ function renderExplore(){
     `<div class="f ${(market||defs[0][0])===m[0]?'on':''}" data-market="${esc(m[0])}">${esc(m[0])}</div>`).join('');
   $('v-explore').innerHTML = `
     <div class="filters">${chips}</div>
-    ${arr.length ? arr.slice(0,120).map(p=>propCardHtml(p,arr)).join('')
+    ${arr.length ? `<div class="props-grid">${arr.slice(0,120).map(p=>propCardHtml(p,arr)).join('')}</div>`
       : `<div class="empty"><div class="i">◎</div><div class="m">Nothing on the slate</div>
          <div class="s">${sport.toUpperCase()} has no games right now.</div></div>`}`;
 }
