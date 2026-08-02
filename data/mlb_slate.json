@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-02T16:22",
+  "generated_at": "2026-08-02T16:29",
   "date": "2026-08-02",
   "games": [
     {
@@ -3407,6 +3407,17 @@
           "book_src": "est."
         },
         {
+          "name": "JR Ritchie",
+          "market": "Pitcher Ks",
+          "line": 4.5,
+          "side": "OVER",
+          "model_prob": 61.0,
+          "book_prob": 40.8,
+          "edge": 20.3,
+          "book_odds": 134,
+          "book_src": "FanDuel"
+        },
+        {
           "name": "Jorbit Vivas",
           "market": "Total Bases",
           "line": 1.5,
@@ -3438,17 +3449,6 @@
           "edge": 20.0,
           "book_odds": -130,
           "book_src": "est."
-        },
-        {
-          "name": "JR Ritchie",
-          "market": "Pitcher Ks",
-          "line": 4.5,
-          "side": "OVER",
-          "model_prob": 61.0,
-          "book_prob": 41.4,
-          "edge": 19.6,
-          "book_odds": 130,
-          "book_src": "FanDuel"
         },
         {
           "name": "Drake Baldwin",
@@ -3759,6 +3759,17 @@
           "book_src": "est."
         },
         {
+          "name": "Cade Cavalli",
+          "market": "Pitcher Ks",
+          "line": 4.5,
+          "side": "UNDER",
+          "model_prob": 57.0,
+          "book_prob": 42.0,
+          "edge": 15.0,
+          "book_odds": 124,
+          "book_src": "FanDuel"
+        },
+        {
           "name": "Jos\u00e9 Tena",
           "market": "Total Bases",
           "line": 2.5,
@@ -3768,17 +3779,6 @@
           "edge": 14.9,
           "book_odds": -175,
           "book_src": "est."
-        },
-        {
-          "name": "Cade Cavalli",
-          "market": "Pitcher Ks",
-          "line": 4.5,
-          "side": "UNDER",
-          "model_prob": 57.0,
-          "book_prob": 42.2,
-          "edge": 14.9,
-          "book_odds": 124,
-          "book_src": "FanDuel"
         },
         {
           "name": "Daylen Lile",
@@ -5019,7 +5019,7 @@
         "ml_home": -126,
         "spread": -1.5,
         "spread_away_price": -184,
-        "spread_home_price": 150,
+        "spread_home_price": 152,
         "total": 8.5,
         "over_price": -124,
         "under_price": 102
@@ -11880,8 +11880,8 @@
         "ml_away": 132,
         "ml_home": -142,
         "spread": -1.5,
-        "spread_away_price": -170,
-        "spread_home_price": 140,
+        "spread_away_price": -172,
+        "spread_home_price": 142,
         "total": 7.5,
         "over_price": -106,
         "under_price": -114
@@ -12152,17 +12152,6 @@
           "book_src": "est."
         },
         {
-          "name": "Griffin Jax",
-          "market": "Pitcher Ks",
-          "line": 6.5,
-          "side": "UNDER",
-          "model_prob": 85.6,
-          "book_prob": 54.7,
-          "edge": 30.9,
-          "book_odds": -138,
-          "book_src": "FanDuel"
-        },
-        {
           "name": "Chase Meidroth",
           "market": "H+R+RBI",
           "line": 3.5,
@@ -12194,6 +12183,17 @@
           "edge": 30.7,
           "book_odds": 120,
           "book_src": "est."
+        },
+        {
+          "name": "Griffin Jax",
+          "market": "Pitcher Ks",
+          "line": 6.5,
+          "side": "UNDER",
+          "model_prob": 85.6,
+          "book_prob": 55.1,
+          "edge": 30.5,
+          "book_odds": -140,
+          "book_src": "FanDuel"
         },
         {
           "name": "Cedric Mullins",
@@ -12493,6 +12493,17 @@
           "book_src": "est."
         },
         {
+          "name": "Anthony Kay",
+          "market": "Pitcher Ks",
+          "line": 4.5,
+          "side": "OVER",
+          "model_prob": 65.8,
+          "book_prob": 40.6,
+          "edge": 25.1,
+          "book_odds": 132,
+          "book_src": "FanDuel"
+        },
+        {
           "name": "Andrew Benintendi",
           "market": "H+R+RBI",
           "line": 2.5,
@@ -12535,17 +12546,6 @@
           "edge": 24.7,
           "book_odds": 120,
           "book_src": "est."
-        },
-        {
-          "name": "Anthony Kay",
-          "market": "Pitcher Ks",
-          "line": 4.5,
-          "side": "OVER",
-          "model_prob": 65.8,
-          "book_prob": 41.7,
-          "edge": 24.1,
-          "book_odds": 126,
-          "book_src": "FanDuel"
         },
         {
           "name": "Drew Romo",
@@ -17280,6 +17280,17 @@
           "book_src": "est."
         },
         {
+          "name": "Peter Lambert",
+          "market": "Pitcher Ks",
+          "line": 5.5,
+          "side": "UNDER",
+          "model_prob": 63.4,
+          "book_prob": 48.3,
+          "edge": 15.0,
+          "book_odds": -104,
+          "book_src": "FanDuel"
+        },
+        {
           "name": "Taylor Trammell",
           "market": "Hits",
           "line": 1.5,
@@ -17311,17 +17322,6 @@
           "edge": 14.8,
           "book_odds": -165,
           "book_src": "est."
-        },
-        {
-          "name": "Peter Lambert",
-          "market": "Pitcher Ks",
-          "line": 5.5,
-          "side": "UNDER",
-          "model_prob": 63.4,
-          "book_prob": 48.5,
-          "edge": 14.8,
-          "book_odds": -106,
-          "book_src": "FanDuel"
         },
         {
           "name": "Nick Allen",
@@ -18138,17 +18138,6 @@
           "book_src": "est."
         },
         {
-          "name": "Kumar Rocker",
-          "market": "Pitcher Ks",
-          "line": 4.5,
-          "side": "OVER",
-          "model_prob": 59.4,
-          "book_prob": 54.3,
-          "edge": 5.1,
-          "book_odds": -136,
-          "book_src": "FanDuel"
-        },
-        {
           "name": "Jeremy Pe\u00f1a",
           "market": "Hits",
           "line": 0.5,
@@ -18202,6 +18191,17 @@
           "edge": 4.7,
           "book_odds": -215,
           "book_src": "est."
+        },
+        {
+          "name": "Kumar Rocker",
+          "market": "Pitcher Ks",
+          "line": 4.5,
+          "side": "OVER",
+          "model_prob": 59.4,
+          "book_prob": 54.7,
+          "edge": 4.7,
+          "book_odds": -138,
+          "book_src": "FanDuel"
         },
         {
           "name": "Jake Burger",
@@ -21247,6 +21247,17 @@
           "book_src": "est."
         },
         {
+          "name": "Seth Lugo",
+          "market": "Pitcher Ks",
+          "line": 4.5,
+          "side": "OVER",
+          "model_prob": 68.7,
+          "book_prob": 42.5,
+          "edge": 26.2,
+          "book_odds": 122,
+          "book_src": "FanDuel"
+        },
+        {
           "name": "Mickey Moniak",
           "market": "H+R+RBI",
           "line": 3.5,
@@ -21256,17 +21267,6 @@
           "edge": 25.9,
           "book_odds": -215,
           "book_src": "est."
-        },
-        {
-          "name": "Seth Lugo",
-          "market": "Pitcher Ks",
-          "line": 4.5,
-          "side": "OVER",
-          "model_prob": 68.7,
-          "book_prob": 43.3,
-          "edge": 25.4,
-          "book_odds": 118,
-          "book_src": "FanDuel"
         },
         {
           "name": "Troy Johnston",
@@ -21280,17 +21280,6 @@
           "book_src": "est."
         },
         {
-          "name": "Kyle Freeland",
-          "market": "Pitcher Ks",
-          "line": 4.5,
-          "side": "OVER",
-          "model_prob": 65.8,
-          "book_prob": 41.1,
-          "edge": 24.7,
-          "book_odds": 130,
-          "book_src": "FanDuel"
-        },
-        {
           "name": "Mickey Moniak",
           "market": "RBI",
           "line": 0.5,
@@ -21300,6 +21289,17 @@
           "edge": 24.2,
           "book_odds": -130,
           "book_src": "est."
+        },
+        {
+          "name": "Kyle Freeland",
+          "market": "Pitcher Ks",
+          "line": 4.5,
+          "side": "OVER",
+          "model_prob": 65.8,
+          "book_prob": 41.7,
+          "edge": 24.1,
+          "book_odds": 126,
+          "book_src": "FanDuel"
         },
         {
           "name": "Cole Carrigg",
