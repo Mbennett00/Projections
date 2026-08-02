@@ -66,47 +66,6 @@ h2 a{color:var(--cyan);text-decoration:none;font-size:9.5px}
   border-radius:99px;padding:8px 13px;cursor:pointer;white-space:nowrap}
 .f.on{color:var(--void);border-color:transparent;background:var(--violet);font-weight:800}
 
-/* Row is stacked, not a table -- a real phone gives a name maybe 130px if it
-   has to share a line with an avatar, a projection AND a confidence ring.
-   Only the confidence ring shares the top line with the name; everything
-   else gets its own row so nothing is ever squeezed into a corner. */
-.row{padding:11px 13px;border-radius:13px;background:var(--surface);
-  border:1px solid var(--line);margin-bottom:6px;cursor:pointer}
-.row:active{background:var(--surface-2)}
-
-.row-top{display:flex;align-items:center;gap:10px}
-.who-mkt{color:var(--faint)}
-
-.row-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px}
-.row-tags .tag{font-size:7.5px;padding:2px 5px}
-
-.row-foot{display:flex;align-items:center;gap:8px;
-  margin-top:9px;padding-top:9px;border-top:1px solid var(--line)}
-.row-foot .pv{flex:1;display:flex;align-items:baseline;gap:5px}
-.row-foot .pv b{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:15px;
-  font-variant-numeric:tabular-nums;color:var(--ink)}
-.row-foot .pv span{font-family:'IBM Plex Mono',monospace;font-size:8.5px;font-weight:700;
-  letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
-.av{width:36px;height:36px;border-radius:50%;flex:none;overflow:hidden;margin-top:1px;background:var(--surface-2);
-  border:1px solid var(--line);display:grid;place-items:center;
-  font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;color:var(--cyan)}
-.av img{width:100%;height:100%;object-fit:cover}
-.who{flex:1;min-width:0}
-.who-n{font-family:'Sora',sans-serif;font-weight:700;font-size:13.5px;line-height:1.25;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.who-m{display:flex;align-items:center;gap:4px;font-size:10.5px;color:var(--mute);margin-top:2px;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.pv-n{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:14.5px;
-  font-variant-numeric:tabular-nums}
-.pv-l{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--faint);margin-top:2px}
-.eg{flex:none}
-.cf{flex:none}
-.cf-r{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;
-  font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:700;
-  border:2px solid var(--c,var(--green));color:var(--c,var(--green))}
-.star{width:26px;flex:none;text-align:center;font-size:14px;color:var(--line);cursor:pointer;line-height:1}
-.star.on{color:var(--amber);text-shadow:0 0 10px rgba(255,198,92,.5)}
-
 /* ── detail sheet ── */
 .sheet{position:fixed;inset:0;z-index:80;background:rgba(7,8,13,.72);
   backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:none;
@@ -148,6 +107,17 @@ h2 a{color:var(--cyan);text-decoration:none;font-size:9.5px}
   font-variant-numeric:tabular-nums}
 .cell span{display:block;margin-top:3px;font-family:'IBM Plex Mono',monospace;font-size:7.5px;
   font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+
+/* ── prop card (full card per player, Props tab) ── */
+.pcard{padding:18px;margin-bottom:11px;cursor:pointer}
+.pcard:active{background:var(--surface-2)}
+.pcard-mkt{margin-top:6px;font-family:'IBM Plex Mono',monospace;font-size:11px;
+  font-weight:700;color:var(--faint);letter-spacing:.02em}
+.pcard .sheet-tags{margin:13px 0}
+.pcard-foot{margin-top:11px;padding-top:11px;border-top:1px solid var(--line)}
+.pcard-foot-lab{font-family:'IBM Plex Mono',monospace;font-size:8.5px;font-weight:700;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-bottom:5px}
+.pcard-foot-val{font-family:'Sora',sans-serif;font-weight:700;font-size:15px;letter-spacing:-.01em}
 
 .rings{display:flex;gap:6px}
 .ring{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;
@@ -250,8 +220,6 @@ nav{position:fixed;left:0;right:0;bottom:0;z-index:70;
   box-shadow:0 0 9px -3px currentColor}
 .sheet-tags{margin:0 0 9px}
 
-.epill{display:inline-block;font-family:'IBM Plex Mono',monospace;font-weight:800;font-size:10.5px;
-  padding:3px 6px;border-radius:5px;border:1px solid;font-variant-numeric:tabular-nums}
 .thead .c3{width:56px;text-align:right}
 
 .dist{padding:11px;border-radius:14px;background:var(--surface);border:1px solid var(--line);margin-bottom:9px}
@@ -536,12 +504,6 @@ function appEdgeBand(v){
   const a = Math.abs(v || 0);
   return APP_EDGE_BANDS.find(b => a < b[0]) || APP_EDGE_BANDS[APP_EDGE_BANDS.length-1];
 }
-function edgePill(e){
-  if (!e || e.edge == null) return '';
-  const [, col, note] = appEdgeBand(e.edge);
-  return `<span class="epill" style="color:${col};background:${col}1A;border-color:${col}55"
-    title="${note}">${e.edge > 0 ? '+' : ''}${e.edge.toFixed(1)}%</span>`;
-}
 
 /* ── distribution: floor, median, ceiling ──────────────────────────────────
    A single projection hides its own uncertainty. Counting stats behave close
@@ -667,64 +629,71 @@ function ring(v, pct, label, color, size){
   </div>`;
 }
 
-/* ── EXPLORE ── */
-// Same pill treatment as the game-card markets: label above price, one
-// clean control instead of a bare "+". Only ONE side is ever available here
-// -- the model logs whichever side (over or under) it found value on, not
-// both -- so this shows that real side and price rather than inventing the
-// other one.
-// A real book line (side + price) earns the full pill -- it's new information
-// worth the space. With no market to show, the badge was repeating the SAME
-// projection number already on the row, padded out to a big empty-looking
-// box just to hold a "+". Now it's a small icon-only control instead, sized
-// to match the confidence ring rather than a market pill.
-function propBadge(p, e){
-  const hasMarket = e && e.line != null;
-  const label = hasMarket ? `${(e.side||'')[0]||''} ${e.line}`.trim() : p._val.toFixed(p._dp);
-  const price = e && e.odds != null ? fmtOdds(e.odds) : '';
-
-  if (hasMarket){
-    return `<span class="mb pr-mb">
-      <span class="mb-l">${esc(label)}</span>
-      ${price ? `<span class="mb-p">${esc(price)}</span>` : ''}
-    </span>`;
+// The same four-cell breakdown used on both the Props card and the detail
+// sheet, so the two never drift apart. One sport at a time -- each has its
+// own handful of fields worth surfacing next to the projection.
+function statCellsFor(p){
+  const cells = [];
+  if (p._sp === 'mlb'){
+    if (p.pa != null) cells.push(['PA', p.pa.toFixed(1)]);
+    if (p.xwoba != null) cells.push(['xwOBA', p.xwoba.toFixed(3)]);
+    if (p.hr_prob != null) cells.push(['HR/PA', (p.hr_prob*100).toFixed(1)+'%']);
+    if (p.k_rate != null) cells.push(['K%', (p.k_rate*100).toFixed(0)+'%']);
+  } else if (p._sp === 'nfl'){
+    if (p.targets != null) cells.push(['TGT', p.targets.toFixed(1)]);
+    if (p.rec != null) cells.push(['REC', p.rec.toFixed(1)]);
+    if (p.td_prob != null) cells.push(['TD%', (p.td_prob*100).toFixed(0)+'%']);
+    if (p.fpts != null) cells.push(['FPTS', p.fpts.toFixed(1)]);
+  } else if (p._sp === 'nhl'){
+    if (p.shots_pg != null) cells.push(['SPG', p.shots_pg.toFixed(1)]);
+    if (p.pts_pg != null) cells.push(['PTS/GP', p.pts_pg.toFixed(2)]);
+    if (p.goal_prob != null) cells.push(['GOAL%', (p.goal_prob*100).toFixed(1)+'%']);
+  } else if (p._sp === 'nba'){
+    if (p.min != null) cells.push(['MIN', p.min.toFixed(1)]);
+    if (p.pts != null) cells.push(['PTS', p.pts.toFixed(1)]);
+    if (p.reb != null) cells.push(['REB', p.reb.toFixed(1)]);
+    if (p.ast != null) cells.push(['AST', p.ast.toFixed(1)]);
   }
-  return '';
+  return cells;
 }
 
-// Two lines instead of one crowded row. Top: identity and the number that
-// matters (projection, confidence). Bottom: everything supporting that
-// number (tags, edge) with the bet control at the end where a thumb expects
-// it. Five flex columns fighting for a phone's width was the actual mess.
-// Tags now sit as a small line above the name -- they're the fastest-scanned
-// part of a row (colour before text), so they lead rather than trail. Bet
-// control and edge live in their own row at the bottom with room to breathe,
-// so neither the tags nor the price ever truncate.
-// Real widths, not jsdom's. Three fixed-width side columns (avatar, proj,
-// confidence) were squeezing the name down to ~130px on an actual phone --
-// jsdom has no layout engine, so testing never caught it; it just reported
-// the CSS as valid. Name now gets its own line with only the confidence ring
-// beside it, which is the one thing worth keeping on that line.
-function rowHtml(p, arr){
+/* ── EXPLORE ── */
+// Each prop is its own full card now -- headshot, matchup, confidence,
+// tags, the projection itself, and the stat line behind it, all visible
+// without a tap. The old version packed the same information into a
+// compact row and hid the rest behind the detail sheet; that traded away
+// readability for density this list didn't actually need. Tapping a card
+// still opens the sheet, for the distribution chart and matchup rings that
+// don't fit here.
+function propCardHtml(p, arr){
   const c = confOf(p, arr), col = confColor(c);
   const e = edgeOf(p);
-  const tags = tagsFor(p).slice(0, 2);
-  return `<div class="row" data-key="${esc(p._key)}">
-    <div class="row-top">
-      ${avatar(p._sp, p, 'av')}
-      <div class="who">
-        <div class="who-n">${esc(p.name)}</div>
-        <div class="who-m">${teamMark(p._sp, p._tab, 13)}<span>${esc(p._tab)}</span>
-          <span class="vs">vs</span>${teamMark(p._sp, p._oab, 13)}<span>${esc(p._oab)}</span>
-          <span class="who-mkt">\u00b7 ${esc(p._market)}</span></div>
+  const tags = tagsFor(p).slice(0, 4);
+  const cells = statCellsFor(p);
+  return `<div class="card pcard" data-key="${esc(p._key)}">
+    <div class="sh-head">
+      ${avatar(p._sp, p, 'sh-av')}
+      <div>
+        <div class="sh-n">${esc(p.name)}</div>
+        <div class="sh-m">${teamMark(p._sp, p._tab, 15)}<span>${esc(p._tab)}</span>
+          <span class="vs">vs</span>${teamMark(p._sp, p._oab, 15)}<span>${esc(p._oab)}</span></div>
+        <div class="pcard-mkt">${esc(p._market)}</div>
       </div>
-      <div class="cf"><div class="cf-r" style="--c:${col}">${c}</div></div>
+      <div class="sh-score" style="--c:${col}"><b>${c}</b><span>Confidence</span></div>
     </div>
-    ${tags.length ? `<div class="row-tags">${tagHtml(tags)}</div>` : ''}
-    <div class="row-foot">
-      <div class="pv"><b>${p._val.toFixed(p._dp)}</b><span>proj</span></div>
-      ${edgePill(e)}
-      ${propBadge(p, e)}
+    ${tags.length ? `<div class="tags sheet-tags">${tagHtml(tags)}</div>` : ''}
+    <div class="hero">
+      <div style="flex:1">
+        <div class="hero-n">${p._val.toFixed(p._dp)}</div>
+        <div class="hero-l">Projected</div>
+      </div>
+      ${e && e.line != null ? `<div class="hero-c"><b>${esc(String(e.line))}</b><div class="hero-l">Line</div></div>` : ''}
+      ${e && e.edge != null ? `<div class="hero-c"><b style="color:${appEdgeBand(e.edge)[1]}">${e.edge>0?'+':''}${e.edge.toFixed(1)}%</b><div class="hero-l">Edge</div></div>` : ''}
+    </div>
+    ${cells.length ? `<div class="cells">${cells.map(([l,v])=>`<div class="cell"><b>${v}</b><span>${l}</span></div>`).join('')}</div>` : ''}
+    <div class="pcard-foot">
+      <div class="pcard-foot-lab">Projection type</div>
+      <div class="pcard-foot-val">${esc(p._market)}</div>
     </div>
   </div>`;
 }
@@ -735,7 +704,7 @@ function renderExplore(){
     `<div class="f ${(market||defs[0][0])===m[0]?'on':''}" data-market="${esc(m[0])}">${esc(m[0])}</div>`).join('');
   $('v-explore').innerHTML = `
     <div class="filters">${chips}</div>
-    ${arr.length ? arr.slice(0,120).map(p=>rowHtml(p,arr)).join('')
+    ${arr.length ? arr.slice(0,120).map(p=>propCardHtml(p,arr)).join('')
       : `<div class="empty"><div class="i">◎</div><div class="m">Nothing on the slate</div>
          <div class="s">${sport.toUpperCase()} has no games right now.</div></div>`}`;
 }
@@ -931,18 +900,7 @@ function nflAdvHtml(p){
   const sheetEdge = edgeOf(p), sheetTags = tagsFor(p);
   const g = p._game, ctx = g && g._context;
 
-  const cells = [];
-  if (p._sp === 'mlb'){
-    if (p.pa != null) cells.push(['PA', p.pa.toFixed(1)]);
-    if (p.xwoba != null) cells.push(['xwOBA', p.xwoba.toFixed(3)]);
-    if (p.hr_prob != null) cells.push(['HR/PA', (p.hr_prob*100).toFixed(1)+'%']);
-    if (p.k_rate != null) cells.push(['K%', (p.k_rate*100).toFixed(0)+'%']);
-  } else if (p._sp === 'nfl'){
-    if (p.targets != null) cells.push(['TGT', p.targets.toFixed(1)]);
-    if (p.rec != null) cells.push(['REC', p.rec.toFixed(1)]);
-    if (p.td_prob != null) cells.push(['TD%', (p.td_prob*100).toFixed(0)+'%']);
-    if (p.fpts != null) cells.push(['FPTS', p.fpts.toFixed(1)]);
-  }
+  const cells = statCellsFor(p);
 
   let rings = '';
   if (ctx){
