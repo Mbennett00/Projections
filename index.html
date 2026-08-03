@@ -156,6 +156,101 @@ h2 a{color:var(--cyan);text-decoration:none;font-size:9.5px}
   color:var(--faint);text-align:center}
 .simcard .gt{padding:4px 0}
 
+/* ── Simulation Lab (opens in the bottom sheet) ── */
+.lab-head{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+
+.lab-controls{background:var(--surface);border:1px solid var(--line);border-radius:14px;
+  margin-bottom:16px;overflow:hidden}
+.lab-controls-h{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;
+  cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;
+  letter-spacing:.04em;color:var(--mute)}
+.lab-controls-h i{font-style:normal;font-size:15px;color:var(--faint);width:16px;text-align:center}
+.lab-controls-body{max-height:0;overflow:hidden;padding:0 14px;transition:max-height .25s ease,padding .25s ease}
+.lab-controls.open .lab-controls-body{max-height:600px;padding:2px 14px 14px}
+.lab-ctrl-row{margin-bottom:11px}
+.lab-ctrl-l{display:block;font-family:'IBM Plex Mono',monospace;font-size:8.5px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-bottom:6px}
+.lab-ctrl-l i{font-style:normal;text-transform:none;letter-spacing:0;opacity:.7}
+.lab-chips{display:flex;gap:5px;flex-wrap:wrap}
+.lab-chip{font-family:'IBM Plex Mono',monospace;font-size:9.5px;font-weight:700;color:var(--mute);
+  background:var(--surface-2);border:1px solid var(--line);border-radius:99px;padding:6px 10px;cursor:pointer}
+.lab-chip.on{color:var(--void);background:var(--violet);border-color:transparent;font-weight:800}
+.lab-seed{width:100%;background:var(--surface-2);border:1px solid var(--line);border-radius:9px;
+  padding:8px 10px;color:var(--ink);font-family:'IBM Plex Mono',monospace;font-size:12px}
+.lab-seed::placeholder{color:var(--faint)}
+.lab-run-btn{width:100%;padding:11px;border-radius:11px;background:var(--green);color:var(--void);
+  border:0;font-family:'Sora',sans-serif;font-weight:800;font-size:13px;cursor:pointer;margin-top:4px}
+.lab-run-btn:active{transform:scale(.98)}
+
+.lab-stat-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-bottom:6px}
+.lab-stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+  padding:11px 8px;text-align:center}
+.lab-stat-v{font-family:'Sora',sans-serif;font-weight:800;font-size:16px;letter-spacing:-.02em;
+  font-variant-numeric:tabular-nums}
+.lab-stat-l{margin-top:4px;font-family:'IBM Plex Mono',monospace;font-size:7px;font-weight:700;
+  letter-spacing:.07em;text-transform:uppercase;color:var(--faint)}
+
+.lab-chart-wrap{position:relative;background:var(--surface);border:1px solid var(--line);
+  border-radius:14px;padding:10px;margin-bottom:8px}
+.lab-chart-svg{width:100%;height:130px;display:block;touch-action:none;cursor:crosshair}
+.lab-chart-legend{display:flex;gap:12px;justify-content:center;margin-top:4px}
+.lab-chart-legend span{display:flex;align-items:center;gap:4px;font-family:'IBM Plex Mono',monospace;
+  font-size:8px;font-weight:700;color:var(--faint)}
+.lab-chart-legend i{width:7px;height:7px;border-radius:2px;display:inline-block}
+.lab-tooltip{position:absolute;top:8px;opacity:0;pointer-events:none;transition:opacity .1s;
+  background:var(--void);border:1px solid var(--line);border-radius:9px;padding:6px 9px;
+  font-family:'IBM Plex Mono',monospace;white-space:nowrap;z-index:2}
+.lab-tooltip b{display:block;font-size:13px;color:var(--ink);margin-bottom:2px}
+.lab-tooltip span{display:block;font-size:8.5px;color:var(--mute)}
+
+.lab-pctile-row{display:flex;gap:4px;margin-bottom:18px}
+.lab-pctile{flex:1;text-align:center;padding:8px 2px;border-radius:9px;background:var(--surface-2)}
+.lab-pctile b{display:block;font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:11px}
+.lab-pctile span{display:block;margin-top:2px;font-family:'IBM Plex Mono',monospace;font-size:6.5px;
+  color:var(--faint);font-weight:700}
+
+.lab-table{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+  overflow:hidden;margin-bottom:6px}
+.lab-thead,.lab-trow{display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr 1fr;
+  padding:8px 9px;text-align:right}
+.lab-table-alt .lab-thead,.lab-table-alt .lab-trow{grid-template-columns:1fr 1fr 1fr 1fr}
+.lab-thead span,.lab-trow span{font-family:'IBM Plex Mono',monospace;font-size:9px}
+.lab-thead{background:var(--surface-2);color:var(--faint);font-weight:700;font-size:7.5px;
+  letter-spacing:.06em;text-transform:uppercase}
+.lab-thead span:first-child,.lab-trow span:first-child{text-align:left}
+.lab-trow{border-top:1px solid var(--line);font-weight:600;color:var(--mute)}
+.lab-trow span:first-child{color:var(--ink);font-weight:700}
+.lab-trow.hl{background:rgba(61,240,139,.08)}
+.lab-trow.hl span:first-child{color:var(--green)}
+.lab-trow .dim{color:var(--faint)}
+.lab-note{font-size:10.5px;color:var(--faint);line-height:1.5;margin-bottom:18px}
+
+.lab-sens-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px}
+.lab-sens-btn{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;color:var(--mute);
+  background:var(--surface);border:1px solid var(--line);border-radius:99px;padding:8px 12px;cursor:pointer}
+.lab-sens-btn.on{color:var(--void);background:var(--cyan);border-color:transparent}
+.lab-sens-btn.lab-reset{color:var(--red);border-color:rgba(255,78,106,.4)}
+
+.lab-inputs{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+  padding:2px 13px;margin-bottom:10px}
+.lab-input-row{display:flex;align-items:center;justify-content:space-between;
+  padding:9px 0;border-bottom:1px solid var(--line);font-size:11.5px}
+.lab-input-row:last-child{border-bottom:0}
+.lab-input-row span{color:var(--faint)}
+.lab-input-row b{font-family:'IBM Plex Mono',monospace;font-weight:700;color:var(--ink)}
+
+/* skeleton, shown for the brief moment between tapping a card and the
+   simulation's first render */
+.lab-skel{padding-top:4px}
+@keyframes labpulse{0%,100%{opacity:.5}50%{opacity:1}}
+.lab-skel-row{height:16px;border-radius:8px;background:var(--surface-2);margin-bottom:16px;
+  animation:labpulse 1.1s ease-in-out infinite}
+.lab-skel-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-bottom:14px}
+.lab-skel-card{height:56px;border-radius:12px;background:var(--surface-2);
+  animation:labpulse 1.1s ease-in-out infinite}
+.lab-skel-chart{height:150px;border-radius:14px;background:var(--surface-2);
+  animation:labpulse 1.1s ease-in-out infinite}
+
 .rings{display:flex;gap:6px}
 .ring{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;
   padding:10px 4px;border-radius:12px;background:var(--surface);border:1px solid var(--line);position:relative}
@@ -1026,20 +1121,76 @@ function nflAdvHtml(p){
    That's worth doing even though the closed-form math converges to the same
    place, because it's the same technique used for game outcomes below, where
    there ISN'T a clean closed form for "probability the score ends up X-Y". */
-function rngPoisson(lambda){
+function rngPoisson(lambda, rand){
+  rand = rand || Math.random;
   if (lambda <= 0) return 0;
   // Knuth's algorithm. Fine up to moderate lambda, which covers every
   // counting stat here -- nothing in this app averages above ~15.
   const L = Math.exp(-lambda);
   let k = 0, p = 1;
-  do { k++; p *= Math.random(); } while (p > L);
+  do { k++; p *= rand(); } while (p > L);
   return k - 1;
 }
-function rngNormal(mean, sd){
+function rngNormal(mean, sd, rand){
+  rand = rand || Math.random;
   let u = 0, v = 0;
-  while (u === 0) u = Math.random();
-  while (v === 0) v = Math.random();
+  while (u === 0) u = rand();
+  while (v === 0) v = rand();
   return mean + sd * Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+}
+// Marsaglia-Tsang for Gamma, then a Gamma-Poisson mixture for Negative
+// Binomial (which is what "Poisson, but more overdispersed than its own
+// mean" actually IS mathematically) -- and a log-space Normal for Log-Normal,
+// parameterized so its mean lands on the target mean rather than its median.
+// These three plus the two above are the four distribution choices the Sim
+// Lab's control panel offers.
+function rngGamma(shape, scale, rand){
+  rand = rand || Math.random;
+  if (shape < 1){
+    const u = rand();
+    return rngGamma(1 + shape, scale, rand) * Math.pow(u, 1/shape);
+  }
+  const d = shape - 1/3, c = 1/Math.sqrt(9*d);
+  for (;;){
+    let x, v;
+    do { x = rngNormal(0, 1, rand); v = 1 + c*x; } while (v <= 0);
+    v = v*v*v;
+    const u = rand();
+    if (u < 1 - 0.0331*x*x*x*x) return d*v*scale;
+    if (Math.log(u) < 0.5*x*x + d*(1 - v + Math.log(v))) return d*v*scale;
+  }
+}
+function rngNegBinom(mean, sd, rand){
+  rand = rand || Math.random;
+  const variance = Math.max(mean + 0.05, sd*sd);
+  const r = (mean*mean) / Math.max(1e-6, variance - mean);
+  const lambda = rngGamma(r, mean/r, rand);
+  return rngPoisson(lambda, rand);
+}
+function rngLogNormal(mean, sd, rand){
+  rand = rand || Math.random;
+  const cv = sd / Math.max(1e-6, mean);
+  const sigma2 = Math.log(1 + cv*cv);
+  const mu = Math.log(Math.max(1e-6, mean)) - 0.5*sigma2;
+  return Math.exp(rngNormal(mu, Math.sqrt(sigma2), rand));
+}
+function sampleFor(dist, mean, sd, rand){
+  if (dist === 'poisson') return rngPoisson(mean, rand);
+  if (dist === 'negbinom') return rngNegBinom(mean, sd, rand);
+  if (dist === 'lognormal') return rngLogNormal(mean, sd, rand);
+  return Math.max(0, rngNormal(mean, sd, rand));
+}
+// Mulberry32 -- small, fast, good enough for "reproducible if you want it"
+// rather than cryptographic. Only used when the Lab's seed field is filled
+// in; every other simulation in the app still uses Math.random.
+function mulberry32(seed){
+  let a = seed >>> 0;
+  return function(){
+    a |= 0; a = (a + 0x6D2B79F5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
 }
 function percentile(sortedArr, q){
   const i = Math.min(sortedArr.length - 1, Math.max(0, Math.round(q * (sortedArr.length - 1))));
@@ -1080,7 +1231,7 @@ function simPlayer(p){
 function simPlayerCardHtml(p){
   const s = simPlayer(p);
   const fmt = n => p._dp >= 2 ? n.toFixed(1) : n.toFixed(0);
-  return `<div class="card pcard simcard" data-key="${esc(p._key)}">
+  return `<div class="card pcard simcard" data-lab="${esc(p._key)}">
     <div class="sh-head">
       ${avatar(p._sp, p, 'sh-av')}
       <div style="min-width:0">
@@ -1098,7 +1249,7 @@ function simPlayerCardHtml(p){
       <span>${s.edge.side==='under'?'Under':'Over'} ${esc(String(s.edge.line))}</span>
       <b style="color:${s.hitRate>=.5?'#3DF08B':'#FF4E6A'}">${Math.round(s.hitRate*100)}% hit</b>
     </div>` : ''}
-    <div class="sim-foot">${SIM_TRIALS_PLAYER.toLocaleString()} simulated trials</div>
+    <div class="sim-foot">${SIM_TRIALS_PLAYER.toLocaleString()} simulated trials \u00b7 tap for full lab</div>
   </div>`;
 }
 
@@ -1135,6 +1286,8 @@ function simGame(sp, g){
 function simGameCardHtml(sp, g){
   const s = simGame(sp, g);
   if (!s) return '';
+  const d = DATA[sp];
+  const idx = d.games.indexOf(g);
   const aAb = teamAbbr(sp, sp==='mlb'||sp==='nfl' ? g.away_team : g.away_abbr);
   const hAb = teamAbbr(sp, sp==='mlb'||sp==='nfl' ? g.home_team : g.home_abbr);
   const dp = sp === 'mlb' || sp === 'nhl' ? 1 : 0;
@@ -1150,7 +1303,7 @@ function simGameCardHtml(sp, g){
   const model = g.away_win_pct != null
     ? `<div class="sim-compare">Model ${Math.round(g.away_win_pct*100)}/${Math.round(g.home_win_pct*100)}
        \u00b7 Sim ${Math.round(s.awayWinPct*100)}/${Math.round(s.homeWinPct*100)}</div>` : '';
-  return `<div class="card pcard simcard">
+  return `<div class="card pcard simcard" data-simgame="${idx}">
     <div class="gc-h"><span class="gc-m">${teamMark(sp,aAb,15)}${esc(aAb)}
       <span class="vs">@</span> ${teamMark(sp,hAb,15)}${esc(hAb)}</span></div>
     ${row(aAb, aName, s.awayWinPct, s.avgAway, s.awayWinPct>s.homeWinPct)}
@@ -1158,15 +1311,99 @@ function simGameCardHtml(sp, g){
     <div class="gc-bar" style="background:#7C5CFF">
       <div style="width:${(s.awayWinPct*100).toFixed(0)}%;background:#3DF08B"></div></div>
     ${model}
-    <div class="sim-foot">${SIM_TRIALS_GAME.toLocaleString()} simulated trials</div>
+    <div class="sim-tap">\u25b8 Tap to run the game \u2014 final score + box score</div>
   </div>`;
+}
+
+// ── box score (single trial) ──
+// Everything above runs thousands of trials and reports the odds. This runs
+// exactly ONE -- one random draw for the final score, one random draw per
+// player off their own distribution -- and presents it like a real result,
+// because that's what a person asking to "simulate the game" actually wants
+// to see: a score, not a percentage. Re-rolling is just running it again.
+function primaryMarketFor(sp, p){
+  if (sp === 'nfl'){
+    const pos = posOf(p);
+    if (pos === 'QB') return p.pass_yds != null ? ['Pass Yds', p.pass_yds, 0] : null;
+    if (pos === 'RB') return p.rush_yds != null ? ['Rush Yds', p.rush_yds, 0] : null;
+    return p.rec_yds != null ? ['Rec Yds', p.rec_yds, 0] : null;
+  }
+  const m = (MARKETS[sp] || [])[0];
+  if (!m) return null;
+  const v = m[1](p);
+  return v == null || isNaN(v) ? null : [m[0], v, m[2]];
+}
+function simGameOnce(sp, g){
+  const [projA, projH] = gameScore(sp, g);
+  if (projA == null || projH == null) return null;
+  const fallback = SIM_SCORE_SD_FALLBACK[sp];
+  const sdA = g.away_score_sd ?? fallback, sdH = g.home_score_sd ?? fallback;
+  const scoreA = Math.round(sdA ? Math.max(0, rngNormal(projA, sdA)) : rngPoisson(projA));
+  const scoreH = Math.round(sdH ? Math.max(0, rngNormal(projH, sdH)) : rngPoisson(projH));
+  return { scoreA, scoreH };
+}
+function simBoxScore(sp, g){
+  const once = simGameOnce(sp, g);
+  if (!once) return null;
+  const rows = [];
+  for (const pool of POOLS[sp]){
+    const away = pool.startsWith('away');
+    const raw = g[pool];
+    const poolArr = Array.isArray(raw) ? raw : (raw ? [raw] : []);
+    for (const p of poolArr){
+      const pm = primaryMarketFor(sp, p);
+      if (!pm) continue;
+      const [label, mean, dp] = pm;
+      const counting = dp >= 2 || mean < 12;
+      const sd = Math.max(1, mean * 0.42);
+      const value = Math.max(0, counting ? rngPoisson(mean) : rngNormal(mean, sd));
+      rows.push({ name: p.name, side: away ? 'away' : 'home', label, dp, value });
+    }
+  }
+  return { ...once, rows };
+}
+
+let curSimGame = null; // {sp, idx} for whichever box score is open in the sheet
+function openGameBox(sp, idx){
+  const d = DATA[sp];
+  const g = d && d.games && d.games[idx];
+  if (!g) return;
+  curSimGame = { sp, idx };
+  renderGameBox();
+  $('sheet').classList.add('on');
+}
+function renderGameBox(){
+  if (!curSimGame) return;
+  const { sp, idx } = curSimGame;
+  const g = DATA[sp].games[idx];
+  const box = simBoxScore(sp, g);
+  if (!box){ $('sheet').classList.remove('on'); return; }
+  const aAb = teamAbbr(sp, sp==='mlb'||sp==='nfl' ? g.away_team : g.away_abbr);
+  const hAb = teamAbbr(sp, sp==='mlb'||sp==='nfl' ? g.home_team : g.home_abbr);
+  const fmt = r => r.dp >= 2 ? r.value.toFixed(1) : Math.round(r.value);
+  const list = side => box.rows.filter(r => r.side === side).sort((a,b) => b.value - a.value)
+    .map(r => `<div class="boxrow"><span class="boxrow-n">${esc(r.name)}</span>
+      <span class="boxrow-l">${esc(r.label)}</span>
+      <span class="boxrow-v">${fmt(r)}</span></div>`).join('')
+    || '<div class="boxrow boxrow-empty">No players projected</div>';
+  $('sheet-in').innerHTML = `
+    <div class="boxscore-head">
+      <div class="boxscore-team">${teamMark(sp,aAb,28)}<b>${box.scoreA}</b><span>${esc(aAb)}</span></div>
+      <div class="boxscore-vs">FINAL<br><i>simulated</i></div>
+      <div class="boxscore-team">${teamMark(sp,hAb,28)}<b>${box.scoreH}</b><span>${esc(hAb)}</span></div>
+    </div>
+    <h2>${esc(aAb)}</h2>
+    <div class="boxlist">${list('away')}</div>
+    <h2>${esc(hAb)}</h2>
+    <div class="boxlist">${list('home')}</div>
+    <button class="resim-btn" data-resim>\u21bb Run it again</button>`;
 }
 
 function renderSim(){
   const arr = players(sport);
   const d = DATA[sport];
   const games = ((d && d.games) || []).filter(g => g.game_state !== 'Final');
-  const chips = `<div class="filters">
+  const modeChips = `<div class="filters">
     <div class="f ${simMode==='games'?'on':''}" data-sim="games">Games</div>
     <div class="f ${simMode==='players'?'on':''}" data-sim="players">Players</div>
   </div>`;
@@ -1177,12 +1414,403 @@ function renderSim(){
       : `<div class="empty"><div class="i">\u25ce</div><div class="m">Nothing to simulate</div>
          <div class="s">${sport.toUpperCase()} has no projected scores yet.</div></div>`;
   } else {
+    // Same market picker as Props -- players(sport) only returns whichever
+    // market is currently selected, so without this chip row the list was
+    // silently stuck on one market with no way to switch it.
+    const defs = MARKETS[sport] || [];
+    const mktChips = `<div class="filters">${defs.map(m =>
+      `<div class="f ${(market||defs[0][0])===m[0]?'on':''}" data-simmkt="${esc(m[0])}">${esc(m[0])}</div>`).join('')}</div>`;
     const cards = arr.slice(0, 40).map(p => simPlayerCardHtml(p)).join('');
-    body = cards ? `<div class="props-grid">${cards}</div>`
+    body = mktChips + (cards ? `<div class="props-grid">${cards}</div>`
       : `<div class="empty"><div class="i">\u25ce</div><div class="m">Nothing to simulate</div>
-         <div class="s">${sport.toUpperCase()} has no props right now.</div></div>`;
+         <div class="s">${sport.toUpperCase()} has no props right now.</div></div>`);
   }
-  $('v-sim').innerHTML = chips + body;
+  $('v-sim').innerHTML = modeChips + body;
+}
+
+/* ── SIMULATION LAB ───────────────────────────────────────────────────────
+   The Sim tab's player cards are the quick-scan summary. Tapping one opens
+   this -- the full instrument panel: pick a distribution, pick a trial
+   count, nudge the projection with a matchup/home-away/sensitivity toggle,
+   and see the whole probability picture redraw, not just a floor/ceiling.
+   Every number on this panel comes from the same samples; nothing here is
+   a separate hardcoded formula re-deriving what the histogram already
+   shows. */
+
+// ── odds / EV / Kelly ──
+function probToAmerican(p){
+  if (p == null || p <= 0 || p >= 1) return null;
+  return p >= 0.5 ? Math.round(-100 * p / (1 - p)) : Math.round(100 * (1 - p) / p);
+}
+// Decimal payout per $1 staked, from an American price. Used for both EV and Kelly.
+function americanToDecimal(price){
+  if (price == null) return null;
+  return price > 0 ? 1 + price/100 : 1 + 100/Math.abs(price);
+}
+function evPer100(prob, price){
+  const dec = americanToDecimal(price);
+  if (dec == null || prob == null) return null;
+  return Math.round((prob * (dec - 1) * 100 - (1 - prob) * 100) * 10) / 10;
+}
+function kellyPct(prob, price){
+  const dec = americanToDecimal(price);
+  if (dec == null || prob == null) return null;
+  const b = dec - 1;
+  const f = (prob * b - (1 - prob)) / b;
+  return Math.max(0, Math.round(f * 1000) / 10); // %, floored at 0 -- negative Kelly just means "no bet"
+}
+
+// ── volatility rating (transparently modeled, not measured) ──
+// There's no per-player historical game log in this data to measure real
+// week-to-week variance from, so this uses the same CV assumption the rest
+// of the app's distribution already runs on (~42% of the mean for a
+// continuous stat, exact for Poisson/NegBinom). Labeled "modeled" rather
+// than "historical" in the UI on purpose -- it would overclaim otherwise.
+function volatilityRating(cv){
+  if (cv < 0.25) return ['LOW', 'var(--green)'];
+  if (cv < 0.45) return ['MODERATE', 'var(--cyan)'];
+  if (cv < 0.70) return ['HIGH', 'var(--amber)'];
+  return ['EXTREME', 'var(--red)'];
+}
+
+let simLab = null; // { key, trials, dist, seed, ha:'auto'|'home'|'away', mu:'auto'|'easy'|'tough', adjPct, controlsOpen }
+
+function runLabSim(p, opts){
+  const rand = (opts.seed !== '' && opts.seed != null && !isNaN(opts.seed))
+    ? mulberry32(Number(opts.seed) >>> 0) : Math.random;
+  let mean = p._val;
+  let mult = 1 + (opts.adjPct || 0) / 100;
+  if (opts.ha === 'home') mult *= 1.03;
+  if (opts.ha === 'away') mult *= 0.97;
+  if (opts.mu === 'easy') mult *= 1.08;
+  if (opts.mu === 'tough') mult *= 0.92;
+  mean = Math.max(0.05, mean * mult);
+  const sd = Math.max(0.5, mean * 0.42);
+  const trials = opts.trials || 5000;
+  const samples = new Array(trials);
+  for (let i = 0; i < trials; i++) samples[i] = sampleFor(opts.dist, mean, sd, rand);
+  samples.sort((a,b) => a-b);
+  return { samples, mean, sd, trials };
+}
+
+function labSummary(sim){
+  const { samples, mean, sd } = sim;
+  const n = samples.length;
+  const sampleMean = samples.reduce((a,b)=>a+b,0) / n;
+  const variance = samples.reduce((a,b)=>a+(b-sampleMean)*(b-sampleMean),0) / n;
+  const sampleSd = Math.sqrt(variance);
+  // Mode via the same bucketing the histogram uses -- most-populated bin's midpoint.
+  const lo = samples[0], hi = samples[n-1], bins = 16;
+  const w = Math.max(1e-6, (hi-lo)/bins);
+  const counts = new Array(bins).fill(0);
+  for (const x of samples) counts[Math.max(0, Math.min(bins-1, Math.floor((x-lo)/w)))]++;
+  let maxI = 0; for (let i=1;i<bins;i++) if (counts[i] > counts[maxI]) maxI = i;
+  const mode = lo + (maxI + 0.5) * w;
+  const cv = sampleSd / Math.max(1e-6, sampleMean);
+  const [volLabel, volColor] = volatilityRating(cv);
+  // Confidence score: tighter distributions relative to their own mean score
+  // higher. Same underlying idea as the Props tab's percentile-based
+  // confidence, just derived from this specific run's spread instead.
+  const confidence = Math.max(1, Math.min(99, Math.round(100 - cv*100)));
+  return {
+    mean: sampleMean, median: percentile(samples,.5), mode,
+    floor: percentile(samples,.1), ceil: percentile(samples,.9),
+    sd: sampleSd, variance, cv, volLabel, volColor, confidence,
+  };
+}
+
+// Nice round step size for threshold/alt-line generation, scaled to the
+// stat's own magnitude (a Pass Yds board wants steps of 10-25; a Hits board
+// wants steps of 1).
+function niceStep(mean, dp){
+  if (dp >= 2 || mean < 8) return mean < 3 ? 1 : Math.max(1, Math.round(mean/6));
+  if (mean < 30) return 2;
+  if (mean < 100) return 5;
+  return Math.round(mean/12/5)*5 || 5;
+}
+
+function labThresholds(p, sim){
+  const { samples } = sim;
+  const n = samples.length;
+  const step = niceStep(sim.mean, p._dp);
+  const med = percentile(samples,.5);
+  const start = Math.max(0, med - step*3);
+  const rows = [];
+  const e = edgeOf(p);
+  for (let i=0;i<7;i++){
+    const t = Math.round((start + i*step) * (p._dp>=2?2:1)) / (p._dp>=2?2:1);
+    const over = samples.filter(x => x >= t).length / n;
+    const fair = probToAmerican(over);
+    let implied=null, edgePct=null, ev=null, kelly=null, isMarket=false;
+    if (e && e.line != null && Math.abs(e.line - t) < step*0.5){
+      isMarket = true;
+      const price = e.odds;
+      if (price != null){
+        implied = 1 / americanToDecimal(price);
+        // Normalize away the vig direction roughly by comparing straight up --
+        // this is model prob vs. this side's own implied prob, same as the
+        // Props tab's edge pill uses.
+        edgePct = (over - implied) * 100;
+        ev = evPer100(over, price);
+        kelly = kellyPct(over, price);
+      }
+    }
+    rows.push({ t, over, under:1-over, fair, implied, edgePct, ev, kelly, isMarket });
+  }
+  // Highlight whichever row has the strongest real edge (only rows with a
+  // real market price are eligible -- everything else has nothing to be
+  // "strong" against).
+  let bestI = -1, bestV = -1;
+  rows.forEach((r,i) => { if (r.kelly != null && r.kelly > bestV){ bestV = r.kelly; bestI = i; } });
+  if (bestI >= 0) rows[bestI].highlight = true;
+  return rows;
+}
+
+function labAltLines(p, sim){
+  const { samples } = sim;
+  const n = samples.length;
+  const qs = [.15,.30,.45,.60,.75,.90];
+  return qs.map(q => {
+    const t = Math.round(percentile(samples,q) * (p._dp>=2?2:1)) / (p._dp>=2?2:1);
+    const over = samples.filter(x => x >= t).length / n;
+    return { t, over, under: 1-over, fair: probToAmerican(over) };
+  });
+}
+
+// ── distribution chart: histogram + density line + hover tooltip ──
+function labChartSvg(p, sim, summary){
+  const { samples } = sim;
+  const n = samples.length;
+  const W = 320, H = 130, PB = 20, PT = 6;
+  const lo = samples[0], hi = samples[n-1] || samples[0]+1;
+  const bins = 22, bw = Math.max(1e-6, (hi-lo)/bins);
+  const counts = new Array(bins).fill(0);
+  for (const x of samples) counts[Math.max(0, Math.min(bins-1, Math.floor((x-lo)/bw)))]++;
+  const maxC = Math.max(...counts) || 1;
+  const x = i => (i/bins) * W;
+  const y = c => H - PB - (c/maxC) * (H - PB - PT);
+  const bars = counts.map((c,i) =>
+    `<rect x="${x(i).toFixed(1)}" y="${y(c).toFixed(1)}" width="${(W/bins-1).toFixed(1)}"
+       height="${(H-PB-y(c)).toFixed(1)}" rx="1.5" fill="url(#labGrad)"/>`).join('');
+  // Density line: smoothed bin heights connected point-to-point through bin
+  // midpoints -- a real KDE is overkill for a tooltip chart; this reads the
+  // same shape.
+  const pts = counts.map((c,i) => `${(x(i)+W/bins/2).toFixed(1)},${y(c).toFixed(1)}`).join(' ');
+  const valAtX = px => lo + (px/W) * (hi-lo);
+  const markerX = v => ((v-lo)/(hi-lo)) * W;
+  const e = edgeOf(p);
+  const lineMark = (e && e.line != null && e.line >= lo && e.line <= hi)
+    ? `<line x1="${markerX(e.line).toFixed(1)}" y1="${PT}" x2="${markerX(e.line).toFixed(1)}" y2="${H-PB}"
+         stroke="var(--red)" stroke-width="1.5" stroke-dasharray="3,2"/>` : '';
+  return `<div class="lab-chart-wrap">
+    <svg viewBox="0 0 ${W} ${H}" class="lab-chart-svg" id="lab-chart-svg"
+      data-lo="${lo}" data-hi="${hi}" data-w="${W}">
+      <defs><linearGradient id="labGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="var(--violet)" stop-opacity=".9"/>
+        <stop offset="100%" stop-color="var(--violet)" stop-opacity=".25"/>
+      </linearGradient></defs>
+      ${bars}
+      <polyline points="${pts}" fill="none" stroke="var(--cyan)" stroke-width="1.5" opacity=".85"/>
+      <line x1="${markerX(summary.mean).toFixed(1)}" y1="${PT}" x2="${markerX(summary.mean).toFixed(1)}" y2="${H-PB}"
+        stroke="var(--green)" stroke-width="1.5"/>
+      <line x1="${markerX(summary.median).toFixed(1)}" y1="${PT}" x2="${markerX(summary.median).toFixed(1)}" y2="${H-PB}"
+        stroke="var(--amber)" stroke-width="1.5" stroke-dasharray="2,2"/>
+      ${lineMark}
+      <rect id="lab-chart-hitarea" x="0" y="0" width="${W}" height="${H}" fill="transparent"/>
+    </svg>
+    <div class="lab-chart-legend">
+      <span><i style="background:var(--green)"></i>Mean</span>
+      <span><i style="background:var(--amber)"></i>Median</span>
+      ${e && e.line != null ? `<span><i style="background:var(--red)"></i>Book line</span>` : ''}
+    </div>
+    <div class="lab-tooltip" id="lab-tooltip"></div>
+  </div>`;
+}
+function wireLabChart(sim){
+  const svg = $('lab-chart-svg');
+  if (!svg) return;
+  const tip = $('lab-tooltip');
+  const lo = parseFloat(svg.dataset.lo), hi = parseFloat(svg.dataset.hi), W = parseFloat(svg.dataset.w);
+  const samples = sim.samples, n = samples.length;
+  const move = clientX => {
+    const rect = svg.getBoundingClientRect();
+    const px = Math.max(0, Math.min(W, (clientX - rect.left) * (W / rect.width)));
+    const val = lo + (px/W) * (hi-lo);
+    let cum = 0; for (const s of samples) if (s <= val) cum++;
+    const cumPct = cum / n;
+    const near = samples.filter(s => Math.abs(s-val) <= (hi-lo)/22).length / n;
+    tip.style.opacity = '1';
+    tip.style.left = Math.min(78, Math.max(2, (px/W)*100)) + '%';
+    tip.innerHTML = `<b>${val.toFixed(1)}</b><span>density ${(near*100).toFixed(1)}%</span>
+      <span>cumulative ${(cumPct*100).toFixed(1)}%</span>`;
+  };
+  svg.addEventListener('pointermove', e => move(e.clientX));
+  svg.addEventListener('pointerleave', () => { tip.style.opacity = '0'; });
+}
+
+function labControlsHtml(opts){
+  const chip = (val, cur, label, attr) =>
+    `<div class="lab-chip ${val===cur?'on':''}" data-${attr}="${val}">${label}</div>`;
+  return `<div class="lab-controls ${opts.controlsOpen ? 'open':''}">
+    <div class="lab-controls-h" data-lab-toggle>
+      <span>Simulation controls</span><i>${opts.controlsOpen ? '\u2212' : '+'}</i>
+    </div>
+    <div class="lab-controls-body">
+      <div class="lab-ctrl-row"><span class="lab-ctrl-l">Trials</span>
+        <div class="lab-chips">${[1000,5000,10000,25000,50000].map(t =>
+          chip(t, opts.trials, t.toLocaleString(), 'lab-trials')).join('')}</div></div>
+      <div class="lab-ctrl-row"><span class="lab-ctrl-l">Distribution</span>
+        <div class="lab-chips">
+          ${chip('normal', opts.dist, 'Normal', 'lab-dist')}
+          ${chip('poisson', opts.dist, 'Poisson', 'lab-dist')}
+          ${chip('negbinom', opts.dist, 'Neg. Binomial', 'lab-dist')}
+          ${chip('lognormal', opts.dist, 'Log-Normal', 'lab-dist')}
+        </div></div>
+      <div class="lab-ctrl-row"><span class="lab-ctrl-l">Venue</span>
+        <div class="lab-chips">
+          ${chip('auto', opts.ha, 'Auto', 'lab-ha')}
+          ${chip('home', opts.ha, 'Home', 'lab-ha')}
+          ${chip('away', opts.ha, 'Away', 'lab-ha')}
+        </div></div>
+      <div class="lab-ctrl-row"><span class="lab-ctrl-l">Matchup</span>
+        <div class="lab-chips">
+          ${chip('auto', opts.mu, 'Auto', 'lab-mu')}
+          ${chip('easy', opts.mu, 'Easy', 'lab-mu')}
+          ${chip('tough', opts.mu, 'Tough', 'lab-mu')}
+        </div></div>
+      <div class="lab-ctrl-row"><span class="lab-ctrl-l">Seed <i>(optional)</i></span>
+        <input class="lab-seed" id="lab-seed-input" type="number" placeholder="random"
+          value="${opts.seed ?? ''}" inputmode="numeric"/></div>
+      <button class="lab-run-btn" data-lab-run>Run Simulation</button>
+    </div>
+  </div>`;
+}
+
+function labStatCard(label, value, color, tip){
+  return `<div class="lab-stat" title="${esc(tip||'')}">
+    <div class="lab-stat-v" style="color:${color||'var(--ink)'}">${value}</div>
+    <div class="lab-stat-l">${esc(label)}</div>
+  </div>`;
+}
+
+function labSkeletonHtml(){
+  return `<div class="lab-skel">
+    <div class="lab-skel-row" style="width:60%"></div>
+    <div class="lab-skel-grid">${'<div class="lab-skel-card"></div>'.repeat(6)}</div>
+    <div class="lab-skel-chart"></div>
+  </div>`;
+}
+
+function findPlayerByKey(key){
+  for (const sp of SPORTS){
+    const p = players(sp).find(x => x._key === key);
+    if (p) return p;
+  }
+  return null;
+}
+
+function openSimLab(key){
+  simLab = { key, trials: 5000, dist: 'normal', seed: '', ha: 'auto', mu: 'auto', adjPct: 0, controlsOpen: false };
+  $('sheet-in').innerHTML = labSkeletonHtml();
+  $('sheet').classList.add('on');
+  // Tiny artificial delay -- real compute is a few ms, but a bare instant
+  // swap reads as a glitch rather than "it just simulated 5,000 trials".
+  setTimeout(renderSimLab, 220);
+}
+
+function renderSimLab(){
+  if (!simLab) return;
+  const p = findPlayerByKey(simLab.key);
+  if (!p){ $('sheet').classList.remove('on'); return; }
+  const sim = runLabSim(p, simLab);
+  const summary = labSummary(sim);
+  const thresholds = labThresholds(p, sim);
+  const altLines = labAltLines(p, sim);
+  const e = edgeOf(p);
+  const cells = statCellsFor(p);
+  const fmtN = n => p._dp >= 2 ? n.toFixed(1) : n.toFixed(0);
+
+  const oddsCell = v => v == null ? '<span class="dim">\u2014</span>' : (v>0?'+':'')+v;
+  const pctCell = v => v == null ? '<span class="dim">\u2014</span>' : Math.round(v*100)+'%';
+
+  $('sheet-in').innerHTML = `
+    <div class="lab-head">
+      ${avatar(p._sp, p, 'sh-av')}
+      <div style="min-width:0">
+        <div class="sh-n">${esc(p.name)}</div>
+        <div class="sh-m">${teamMark(p._sp, p._tab, 15)}<span>${esc(p._tab)}</span>
+          <span class="vs">vs</span>${teamMark(p._sp, p._oab, 15)}<span>${esc(p._oab)}</span></div>
+        <div class="pcard-mkt">${esc(p._market)}</div>
+      </div>
+    </div>
+
+    ${labControlsHtml(simLab)}
+
+    <h2>Projection summary</h2>
+    <div class="lab-stat-grid">
+      ${labStatCard('Mean', fmtN(summary.mean), 'var(--green)')}
+      ${labStatCard('Median', fmtN(summary.median), 'var(--amber)')}
+      ${labStatCard('Mode', fmtN(summary.mode), 'var(--cyan)')}
+      ${labStatCard('Floor (P10)', fmtN(summary.floor), '#FF9A3D')}
+      ${labStatCard('Ceiling (P90)', fmtN(summary.ceil), '#9B7CFF')}
+      ${labStatCard('Std Dev', summary.sd.toFixed(2))}
+      ${labStatCard('Variance', summary.variance.toFixed(2))}
+      ${labStatCard('Confidence', summary.confidence, 'var(--ink)', 'Tighter distribution relative to its own mean = higher score')}
+      ${labStatCard('Volatility', summary.volLabel, summary.volColor, 'Modeled from the same variance assumption as the distribution chart -- not measured from historical game logs, which this app does not have per-player.')}
+    </div>
+
+    <h2>Distribution</h2>
+    ${labChartSvg(p, sim, summary)}
+    <div class="lab-pctile-row">
+      ${[.05,.1,.25,.5,.75,.9,.95].map(q =>
+        `<div class="lab-pctile"><b>${fmtN(percentile(sim.samples,q))}</b><span>P${Math.round(q*100)}</span></div>`).join('')}
+    </div>
+
+    <h2>Probability breakdown</h2>
+    <div class="lab-table">
+      <div class="lab-thead"><span>Line</span><span>Over</span><span>Fair</span><span>Edge</span><span>EV</span><span>Kelly</span></div>
+      ${thresholds.map(r => `<div class="lab-trow ${r.highlight?'hl':''}">
+        <span>${fmtN(r.t)}+</span><span>${pctCell(r.over)}</span><span>${oddsCell(r.fair)}</span>
+        <span>${r.edgePct==null?'<span class="dim">\u2014</span>':(r.edgePct>0?'+':'')+r.edgePct.toFixed(1)+'%'}</span>
+        <span>${r.ev==null?'<span class="dim">\u2014</span>':(r.ev>0?'+$':'-$')+Math.abs(r.ev)}</span>
+        <span>${r.kelly==null?'<span class="dim">\u2014</span>':r.kelly+'%'}</span>
+      </div>`).join('')}
+    </div>
+    ${e && e.line != null ? `<div class="lab-note">Edge/EV/Kelly only compute against the row matching your real book line (${esc(String(e.line))}) -- the rest is simulated probability with no market to compare against.</div>`
+      : `<div class="lab-note">No live book line on this player right now, so every row is simulated probability only.</div>`}
+
+    <h2>Alternate lines</h2>
+    <div class="lab-table lab-table-alt">
+      <div class="lab-thead"><span>Line</span><span>Over%</span><span>Under%</span><span>Fair odds</span></div>
+      ${altLines.map(r => `<div class="lab-trow">
+        <span>${fmtN(r.t)}</span><span>${pctCell(r.over)}</span><span>${pctCell(r.under)}</span><span>${oddsCell(r.fair)}</span>
+      </div>`).join('')}
+    </div>
+
+    <h2>Sensitivity</h2>
+    <div class="lab-sens-row">
+      <button class="lab-sens-btn" data-lab-adj="10">+10%</button>
+      <button class="lab-sens-btn" data-lab-adj="-10">-10%</button>
+      <button class="lab-sens-btn ${simLab.ha==='home'?'on':''}" data-lab-ha="home">Home</button>
+      <button class="lab-sens-btn ${simLab.ha==='away'?'on':''}" data-lab-ha="away">Away</button>
+      <button class="lab-sens-btn ${simLab.mu==='easy'?'on':''}" data-lab-mu="easy">Easy matchup</button>
+      <button class="lab-sens-btn ${simLab.mu==='tough'?'on':''}" data-lab-mu="tough">Tough matchup</button>
+      ${(simLab.adjPct || simLab.ha!=='auto' || simLab.mu!=='auto') ? `<button class="lab-sens-btn lab-reset" data-lab-reset>Reset</button>` : ''}
+    </div>
+
+    <h2>Model inputs</h2>
+    <div class="lab-inputs">
+      <div class="lab-input-row"><span>Base projection</span><b>${fmtN(p._val)}</b></div>
+      ${simLab.adjPct || simLab.ha!=='auto' || simLab.mu!=='auto' ? `<div class="lab-input-row"><span>Adjusted projection</span><b>${fmtN(sim.mean)}</b></div>` : ''}
+      ${cells.map(([l,v]) => `<div class="lab-input-row"><span>${esc(l)}</span><b>${esc(v)}</b></div>`).join('')}
+      <div class="lab-input-row"><span>Matchup</span><b>${esc(p._tab)} vs ${esc(p._oab)}</b></div>
+      ${e && e.line != null ? `<div class="lab-input-row"><span>Book line</span><b>${esc(String(e.line))} ${e.odds!=null?oddsCell(e.odds):''}</b></div>` : ''}
+      <div class="lab-input-row"><span>Distribution used</span><b>${{normal:'Normal',poisson:'Poisson',negbinom:'Neg. Binomial',lognormal:'Log-Normal'}[simLab.dist]}</b></div>
+      <div class="lab-input-row"><span>Trials run</span><b>${sim.trials.toLocaleString()}</b></div>
+    </div>
+    <div class="lab-note">Volatility is modeled (\u00b142% coefficient of variation, same assumption the rest of the app's distribution chart uses), not measured from real per-player game logs -- this app doesn't have that history yet.</div>
+  `;
+  wireLabChart(sim);
 }
 
 /* ── wiring ── */
@@ -1209,6 +1837,42 @@ $('league-btn').addEventListener('click', () => {
 document.body.addEventListener('click', e => {
   const simChip = e.target.closest('[data-sim]');
   if (simChip){ simMode = simChip.dataset.sim; render(); return; }
+  const simMkt = e.target.closest('[data-simmkt]');
+  if (simMkt){ market = simMkt.dataset.simmkt; render(); return; }
+  const simGame = e.target.closest('[data-simgame]');
+  if (simGame){ openGameBox(sport, parseInt(simGame.dataset.simgame, 10)); return; }
+  const resim = e.target.closest('[data-resim]');
+  if (resim){ renderGameBox(); return; }
+  const lab = e.target.closest('[data-lab]');
+  if (lab){ openSimLab(lab.dataset.lab); return; }
+
+  // Simulation Lab controls -- all of these just mutate simLab and re-run,
+  // no full sheet reopen/reload.
+  const labToggle = e.target.closest('[data-lab-toggle]');
+  if (labToggle){ simLab.controlsOpen = !simLab.controlsOpen; renderSimLab(); return; }
+  const labTrials = e.target.closest('[data-lab-trials]');
+  if (labTrials){ simLab.trials = parseInt(labTrials.dataset.labTrials, 10); renderSimLab(); return; }
+  const labDist = e.target.closest('[data-lab-dist]');
+  if (labDist){ simLab.dist = labDist.dataset.labDist; renderSimLab(); return; }
+  const labHaChip = e.target.closest('.lab-chip[data-lab-ha]');
+  if (labHaChip){ simLab.ha = labHaChip.dataset.labHa; renderSimLab(); return; }
+  const labMuChip = e.target.closest('.lab-chip[data-lab-mu]');
+  if (labMuChip){ simLab.mu = labMuChip.dataset.labMu; renderSimLab(); return; }
+  const labRun = e.target.closest('[data-lab-run]');
+  if (labRun){
+    const seedEl = $('lab-seed-input');
+    simLab.seed = seedEl && seedEl.value !== '' ? seedEl.value : '';
+    renderSimLab(); return;
+  }
+  const labAdj = e.target.closest('[data-lab-adj]');
+  if (labAdj){ simLab.adjPct += parseInt(labAdj.dataset.labAdj, 10); renderSimLab(); return; }
+  const labHaBtn = e.target.closest('.lab-sens-btn[data-lab-ha]');
+  if (labHaBtn){ simLab.ha = simLab.ha === labHaBtn.dataset.labHa ? 'auto' : labHaBtn.dataset.labHa; renderSimLab(); return; }
+  const labMuBtn = e.target.closest('.lab-sens-btn[data-lab-mu]');
+  if (labMuBtn){ simLab.mu = simLab.mu === labMuBtn.dataset.labMu ? 'auto' : labMuBtn.dataset.labMu; renderSimLab(); return; }
+  const labReset = e.target.closest('[data-lab-reset]');
+  if (labReset){ simLab.adjPct = 0; simLab.ha = 'auto'; simLab.mu = 'auto'; renderSimLab(); return; }
+
   const cat = e.target.closest('[data-market]');
   if (cat){ market = cat.dataset.market; view = 'explore'; render(); return; }
   const goto = e.target.closest('[data-goto]');
@@ -1217,7 +1881,7 @@ document.body.addEventListener('click', e => {
   if (k){ openSheet(k.dataset.key); return; }
 });
 $('sheet').addEventListener('click', e => {
-  if (e.target === $('sheet')) $('sheet').classList.remove('on');
+  if (e.target === $('sheet')){ $('sheet').classList.remove('on'); simLab = null; }
 });
 // The refresh button only re-fetched the JSON, which never changes between
 // Action runs -- so it looked like it did nothing. It now asks the Cloudflare
