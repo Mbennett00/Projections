@@ -144,6 +144,18 @@ h2 a{color:var(--cyan);text-decoration:none;font-size:9.5px}
 .pcard .cell b{font-size:11.5px}
 .pcard .cell span{font-size:6px;margin-top:2px}
 
+.simhist{display:flex;align-items:flex-end;gap:2px;height:38px;margin:8px 0}
+.simbar{flex:1;min-width:0;border-radius:2px 2px 0 0;background:linear-gradient(180deg,#3DD9F0,#3DD9F033)}
+.sim-hit{display:flex;align-items:center;justify-content:space-between;margin-top:8px;
+  padding:6px 8px;border-radius:9px;background:var(--surface);border:1px solid var(--line)}
+.sim-hit span{font-family:'IBM Plex Mono',monospace;font-size:8.5px;color:var(--mute);font-weight:700}
+.sim-hit b{font-family:'IBM Plex Mono',monospace;font-size:11.5px;font-weight:800}
+.sim-foot{margin-top:7px;font-family:'IBM Plex Mono',monospace;font-size:7px;color:var(--faint);
+  text-align:center;letter-spacing:.04em}
+.sim-compare{margin-top:6px;font-family:'IBM Plex Mono',monospace;font-size:8px;
+  color:var(--faint);text-align:center}
+.simcard .gt{padding:4px 0}
+
 .rings{display:flex;gap:6px}
 .ring{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;
   padding:10px 4px;border-radius:12px;background:var(--surface);border:1px solid var(--line);position:relative}
@@ -316,12 +328,14 @@ nav{position:fixed;left:0;right:0;bottom:0;z-index:70;
 <div class="run-status" id="run-status"></div>
 <div class="view" id="v-explore"></div>
 <div class="view on" id="v-games"></div>
+<div class="view" id="v-sim"></div>
 
 <div class="sheet" id="sheet"><div class="sheet-in" id="sheet-in"></div></div>
 
 <nav><div class="nav-in">
   <button class="nb on" data-v="games"><i>◍</i><span>Games</span></button>
   <button class="nb" data-v="explore"><i>⌕</i><span>Props</span></button>
+  <button class="nb" data-v="sim"><i>⚂</i><span>Sim</span></button>
   <a class="nb" href="./how/"><i>?</i><span>How</span></a>
 </div></nav>
 
@@ -398,6 +412,7 @@ const DATA = {};
 let sport = localStorage.getItem('slate_sport') || 'mlb';
 let market = null;
 let view = 'games';
+let simMode = 'games';
 
 const esc = s => String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;')
   .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -1003,12 +1018,180 @@ function nflAdvHtml(p){
   $('sheet').classList.add('on');
 }
 
+/* ── MONTE CARLO SIM ──────────────────────────────────────────────────────
+   Not a new model -- it draws from the exact same assumptions the analytical
+   distribution() chart already uses (Poisson for counting stats, Normal with
+   a sport-typical spread for continuous ones). The difference is honest work
+   instead of a formula: actual random trials, thousands of them, tallied up.
+   That's worth doing even though the closed-form math converges to the same
+   place, because it's the same technique used for game outcomes below, where
+   there ISN'T a clean closed form for "probability the score ends up X-Y". */
+function rngPoisson(lambda){
+  if (lambda <= 0) return 0;
+  // Knuth's algorithm. Fine up to moderate lambda, which covers every
+  // counting stat here -- nothing in this app averages above ~15.
+  const L = Math.exp(-lambda);
+  let k = 0, p = 1;
+  do { k++; p *= Math.random(); } while (p > L);
+  return k - 1;
+}
+function rngNormal(mean, sd){
+  let u = 0, v = 0;
+  while (u === 0) u = Math.random();
+  while (v === 0) v = Math.random();
+  return mean + sd * Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+}
+function percentile(sortedArr, q){
+  const i = Math.min(sortedArr.length - 1, Math.max(0, Math.round(q * (sortedArr.length - 1))));
+  return sortedArr[i];
+}
+function simHistogram(samples){
+  const lo = samples[0], hi = samples[samples.length - 1];
+  const bins = 12, w = Math.max(1e-6, (hi - lo) / bins);
+  const counts = new Array(bins).fill(0);
+  for (const x of samples){
+    let idx = Math.floor((x - lo) / w);
+    counts[Math.max(0, Math.min(bins - 1, idx))]++;
+  }
+  const max = Math.max(...counts) || 1;
+  return `<div class="simhist">${counts.map(c =>
+    `<div class="simbar" style="height:${Math.max(4, Math.round((c/max)*100))}%"></div>`).join('')}</div>`;
+}
+
+const SIM_TRIALS_PLAYER = 3000;
+function simPlayer(p){
+  const v = p._val;
+  const counting = p._dp >= 2 || v < 12;
+  const sd = Math.max(1, v * 0.42);
+  const samples = new Array(SIM_TRIALS_PLAYER);
+  for (let i = 0; i < SIM_TRIALS_PLAYER; i++)
+    samples[i] = counting ? rngPoisson(v) : Math.max(0, rngNormal(v, sd));
+  samples.sort((a,b) => a-b);
+  const e = edgeOf(p);
+  let hitRate = null;
+  if (e && e.line != null){
+    const overShare = samples.filter(x => x >= e.line).length / samples.length;
+    hitRate = e.side === 'under' ? 1 - overShare : overShare;
+  }
+  return { samples, floor: percentile(samples,.25), median: percentile(samples,.5),
+    ceil: percentile(samples,.90), edge: e, hitRate };
+}
+
+function simPlayerCardHtml(p){
+  const s = simPlayer(p);
+  const fmt = n => p._dp >= 2 ? n.toFixed(1) : n.toFixed(0);
+  return `<div class="card pcard simcard" data-key="${esc(p._key)}">
+    <div class="sh-head">
+      ${avatar(p._sp, p, 'sh-av')}
+      <div style="min-width:0">
+        <div class="sh-n">${esc(p.name)}</div>
+        <div class="pcard-mkt">${esc(p._market)} \u00b7 vs ${esc(p._oab)}</div>
+      </div>
+    </div>
+    ${simHistogram(s.samples)}
+    <div class="cells">
+      <div class="cell"><b style="color:#FF9A3D">${fmt(s.floor)}</b><span>Floor</span></div>
+      <div class="cell"><b style="color:#3DF08B">${fmt(s.median)}</b><span>Median</span></div>
+      <div class="cell"><b style="color:#9B7CFF">${fmt(s.ceil)}</b><span>Ceiling</span></div>
+    </div>
+    ${s.hitRate != null ? `<div class="sim-hit">
+      <span>${s.edge.side==='under'?'Under':'Over'} ${esc(String(s.edge.line))}</span>
+      <b style="color:${s.hitRate>=.5?'#3DF08B':'#FF4E6A'}">${Math.round(s.hitRate*100)}% hit</b>
+    </div>` : ''}
+    <div class="sim-foot">${SIM_TRIALS_PLAYER.toLocaleString()} simulated trials</div>
+  </div>`;
+}
+
+const SIM_TRIALS_GAME = 5000;
+// NFL and NBA scores are close enough to normal to simulate that way; MLB
+// and NHL are low-scoring counting stats, so Poisson fits them better --
+// same split the player-prop sim uses, just applied per team instead of
+// per player.
+//
+// away_score_sd/home_score_sd come from each team's own last-season game
+// log (nfl_projections.py / nba_projections.py) when the pipeline has them.
+// The flat fallback below only kicks in for a team with too short a sample
+// (new franchise relocation, missing data, etc.) -- most games by now
+// should be using the real per-team number, not the league average.
+const SIM_SCORE_SD_FALLBACK = { nfl: 10, nba: 11.5 };
+function simGame(sp, g){
+  const [projA, projH] = gameScore(sp, g);
+  if (projA == null || projH == null) return null;
+  const fallback = SIM_SCORE_SD_FALLBACK[sp];
+  const sdA = g.away_score_sd ?? fallback;
+  const sdH = g.home_score_sd ?? fallback;
+  let aWins = 0, hWins = 0, aSum = 0, hSum = 0;
+  for (let i = 0; i < SIM_TRIALS_GAME; i++){
+    const a = sdA ? Math.max(0, rngNormal(projA, sdA)) : rngPoisson(projA);
+    const h = sdH ? Math.max(0, rngNormal(projH, sdH)) : rngPoisson(projH);
+    aSum += a; hSum += h;
+    if (a === h) { if (Math.random() < 0.5) aWins++; else hWins++; }
+    else if (a > h) aWins++; else hWins++;
+  }
+  return { awayWinPct: aWins/SIM_TRIALS_GAME, homeWinPct: hWins/SIM_TRIALS_GAME,
+    avgAway: aSum/SIM_TRIALS_GAME, avgHome: hSum/SIM_TRIALS_GAME };
+}
+
+function simGameCardHtml(sp, g){
+  const s = simGame(sp, g);
+  if (!s) return '';
+  const aAb = teamAbbr(sp, sp==='mlb'||sp==='nfl' ? g.away_team : g.away_abbr);
+  const hAb = teamAbbr(sp, sp==='mlb'||sp==='nfl' ? g.home_team : g.home_abbr);
+  const dp = sp === 'mlb' || sp === 'nhl' ? 1 : 0;
+  const aName = sp==='mlb'||sp==='nfl' ? g.away_team : aAb;
+  const hName = sp==='mlb'||sp==='nfl' ? g.home_team : hAb;
+  const row = (ab, name, winPct, avgScore, fav) => `
+    <div class="gt">
+      ${teamMark(sp, ab, 18)}
+      <span class="gt-n ${fav?'fav':''}">${esc(name)}</span>
+      <span class="gt-s">${avgScore.toFixed(dp)}</span>
+      <span class="gt-w">${Math.round(winPct*100)}%</span>
+    </div>`;
+  const model = g.away_win_pct != null
+    ? `<div class="sim-compare">Model ${Math.round(g.away_win_pct*100)}/${Math.round(g.home_win_pct*100)}
+       \u00b7 Sim ${Math.round(s.awayWinPct*100)}/${Math.round(s.homeWinPct*100)}</div>` : '';
+  return `<div class="card pcard simcard">
+    <div class="gc-h"><span class="gc-m">${teamMark(sp,aAb,15)}${esc(aAb)}
+      <span class="vs">@</span> ${teamMark(sp,hAb,15)}${esc(hAb)}</span></div>
+    ${row(aAb, aName, s.awayWinPct, s.avgAway, s.awayWinPct>s.homeWinPct)}
+    ${row(hAb, hName, s.homeWinPct, s.avgHome, s.homeWinPct>s.awayWinPct)}
+    <div class="gc-bar" style="background:#7C5CFF">
+      <div style="width:${(s.awayWinPct*100).toFixed(0)}%;background:#3DF08B"></div></div>
+    ${model}
+    <div class="sim-foot">${SIM_TRIALS_GAME.toLocaleString()} simulated trials</div>
+  </div>`;
+}
+
+function renderSim(){
+  const arr = players(sport);
+  const d = DATA[sport];
+  const games = ((d && d.games) || []).filter(g => g.game_state !== 'Final');
+  const chips = `<div class="filters">
+    <div class="f ${simMode==='games'?'on':''}" data-sim="games">Games</div>
+    <div class="f ${simMode==='players'?'on':''}" data-sim="players">Players</div>
+  </div>`;
+  let body;
+  if (simMode === 'games'){
+    const cards = games.map(g => simGameCardHtml(sport, g)).filter(Boolean).join('');
+    body = cards ? `<div class="props-grid">${cards}</div>`
+      : `<div class="empty"><div class="i">\u25ce</div><div class="m">Nothing to simulate</div>
+         <div class="s">${sport.toUpperCase()} has no projected scores yet.</div></div>`;
+  } else {
+    const cards = arr.slice(0, 40).map(p => simPlayerCardHtml(p)).join('');
+    body = cards ? `<div class="props-grid">${cards}</div>`
+      : `<div class="empty"><div class="i">\u25ce</div><div class="m">Nothing to simulate</div>
+         <div class="s">${sport.toUpperCase()} has no props right now.</div></div>`;
+  }
+  $('v-sim').innerHTML = chips + body;
+}
+
 /* ── wiring ── */
 function render(){
   document.querySelectorAll('.view').forEach(v => v.classList.toggle('on', v.id === 'v-'+view));
   document.querySelectorAll('.nb').forEach(b => b.classList.toggle('on', b.dataset.v === view));
   if (view === 'explore') renderExplore();
   else if (view === 'games') renderGames();
+  else if (view === 'sim') renderSim();
   $('league-btn').innerHTML = `<img class="lg" src="${LEAGUE_LOGO[sport]}" alt="" width="15" height="15"
       onerror="this.remove()">${sport.toUpperCase()} \u25be`;
 }
@@ -1024,6 +1207,8 @@ $('league-btn').addEventListener('click', () => {
   market = null; render();
 });
 document.body.addEventListener('click', e => {
+  const simChip = e.target.closest('[data-sim]');
+  if (simChip){ simMode = simChip.dataset.sim; render(); return; }
   const cat = e.target.closest('[data-market]');
   if (cat){ market = cat.dataset.market; view = 'explore'; render(); return; }
   const goto = e.target.closest('[data-goto]');
