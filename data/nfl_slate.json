@@ -1,6 +1,6 @@
 {
-  "date": "2026-08-02",
-  "generated_at": "2026-08-02 22:15 UTC",
+  "date": "2026-08-03",
+  "generated_at": "2026-08-03 08:52 UTC",
   "games": [
     {
       "away_team": "New England Patriots",
@@ -382,7 +382,9 @@
         "over_price": -115.0,
         "under_price": -105.0,
         "books": 1
-      }
+      },
+      "away_score_sd": 7.8,
+      "home_score_sd": 9.6
     },
     {
       "away_team": "San Francisco 49ers",
@@ -814,7 +816,9 @@
         "over_price": -102.0,
         "under_price": -120.0,
         "books": 1
-      }
+      },
+      "away_score_sd": 11.2,
+      "home_score_sd": 8.6
     },
     {
       "away_team": "Tampa Bay Buccaneers",
@@ -1191,7 +1195,9 @@
         "over_price": -112.0,
         "under_price": -108.0,
         "books": 1
-      }
+      },
+      "away_score_sd": 7.6,
+      "home_score_sd": 13.1
     },
     {
       "away_team": "New Orleans Saints",
@@ -1648,7 +1654,9 @@
         "over_price": -110.0,
         "under_price": -110.0,
         "books": 1
-      }
+      },
+      "away_score_sd": 7.3,
+      "home_score_sd": 12.3
     },
     {
       "away_team": "New York Jets",
@@ -2025,7 +2033,9 @@
         "over_price": -110.0,
         "under_price": -110.0,
         "books": 1
-      }
+      },
+      "away_score_sd": 9.7,
+      "home_score_sd": 8.4
     },
     {
       "away_team": "Baltimore Ravens",
@@ -2415,7 +2425,9 @@
         "over_price": -110.0,
         "under_price": -110.0,
         "books": 1
-      }
+      },
+      "away_score_sd": 9.9,
+      "home_score_sd": 8.5
     },
     {
       "away_team": "Atlanta Falcons",
@@ -2843,7 +2855,9 @@
         "over_price": -105.0,
         "under_price": -115.0,
         "books": 1
-      }
+      },
+      "away_score_sd": 8.4,
+      "home_score_sd": 8.4
     },
     {
       "away_team": "Chicago Bears",
@@ -3184,31 +3198,33 @@
           "src": "form"
         }
       ],
-      "away_win_pct": 0.558,
-      "home_win_pct": 0.442,
-      "p_cover": 0.489,
+      "away_win_pct": 0.571,
+      "home_win_pct": 0.429,
+      "p_cover": 0.481,
       "p_over": 0.5,
       "p_ml_edge": 0.0,
       "away_pts": 24.0,
       "home_pts": 21.5,
       "edge": null,
       "moneylines": {
-        "away": -138.0,
-        "home": 118.0,
+        "away": -146.0,
+        "home": 124.0,
         "book": "FanDuel"
       },
       "_lines": {
         "book": "FanDuel",
         "spread": 2.5,
         "total": 45.5,
-        "ml_away": -138.0,
-        "ml_home": 118.0,
-        "spread_away_price": -115.0,
-        "spread_home_price": -105.0,
+        "ml_away": -146.0,
+        "ml_home": 124.0,
+        "spread_away_price": -120.0,
+        "spread_home_price": -102.0,
         "over_price": -110.0,
         "under_price": -110.0,
         "books": 1
-      }
+      },
+      "away_score_sd": 7.6,
+      "home_score_sd": 8.4
     },
     {
       "away_team": "Cleveland Browns",
@@ -3595,7 +3611,9 @@
         "over_price": -118.0,
         "under_price": -104.0,
         "books": 1
-      }
+      },
+      "away_score_sd": 7.1,
+      "home_score_sd": 9.7
     },
     {
       "away_team": "Buffalo Bills",
@@ -4084,7 +4102,9 @@
         "over_price": -112.0,
         "under_price": -108.0,
         "books": 1
-      }
+      },
+      "away_score_sd": 9.9,
+      "home_score_sd": 9.9
     },
     {
       "away_team": "Miami Dolphins",
@@ -4450,7 +4470,9 @@
         "over_price": -110.0,
         "under_price": -110.0,
         "books": 1
-      }
+      },
+      "away_score_sd": 8.9,
+      "home_score_sd": 8.1
     },
     {
       "away_team": "Green Bay Packers",
@@ -4851,7 +4873,9 @@
         "over_price": -115.0,
         "under_price": -105.0,
         "books": 1
-      }
+      },
+      "away_score_sd": 9.7,
+      "home_score_sd": 11.2
     },
     {
       "away_team": "Washington Commanders",
@@ -5275,7 +5299,9 @@
         "over_price": -115.0,
         "under_price": -105.0,
         "books": 1
-      }
+      },
+      "away_score_sd": 8.9,
+      "home_score_sd": 7.8
     },
     {
       "away_team": "Arizona Cardinals",
@@ -5623,7 +5649,9 @@
         "over_price": -110.0,
         "under_price": -110.0,
         "books": 1
-      }
+      },
+      "away_score_sd": 3.8,
+      "home_score_sd": 9.1
     },
     {
       "away_team": "Dallas Cowboys",
@@ -6047,7 +6075,9 @@
         "over_price": -110.0,
         "under_price": -110.0,
         "books": 1
-      }
+      },
+      "away_score_sd": 8.8,
+      "home_score_sd": 9.1
     },
     {
       "away_team": "Denver Broncos",
@@ -6432,7 +6462,9 @@
         "over_price": -104.0,
         "under_price": -118.0,
         "books": 1
-      }
+      },
+      "away_score_sd": 7.9,
+      "home_score_sd": 8.0
     }
   ]
 }
