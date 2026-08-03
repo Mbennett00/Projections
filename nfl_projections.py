@@ -21,6 +21,7 @@ Output:
 import json
 import math
 import re
+import statistics
 import sys
 from datetime import datetime, timezone
 
@@ -877,6 +878,50 @@ _defense_cache = {}
 _defense_failures = []
 _standings_cache = {}  # season -> {team_abbr: pts_against}
 
+
+# ── team scoring volatility (feeds the front-end's Monte Carlo game sim) ──
+# The projected score is a single number; the simulator also needs how much
+# that team's score actually bounces around, and there's no clean formula
+# for that -- it's an empirical property of the team, not something the
+# per-game model derives. Pulled from last season's full slate of completed
+# games (the closest full sample available in Week 1, when this season has
+# none yet) and cached once for the whole script run: one pass through 18
+# weeks of the league-wide scoreboard populates every team at once, instead
+# of a separate call per team.
+_team_score_history_cache = {}
+
+def _team_score_history(season, seasontype=2):
+    key = (season, seasontype)
+    if key in _team_score_history_cache:
+        return _team_score_history_cache[key]
+    by_team = {}
+    for wk in range(1, 19):
+        try:
+            games = fetch_schedule(week=wk, season=season, seasontype=seasontype)
+        except Exception:
+            continue
+        for g in games:
+            if g.get("game_state") != "Final":
+                continue
+            for abbr, score in ((g.get("away_abbr"), g.get("away_score")),
+                                 (g.get("home_abbr"), g.get("home_score"))):
+                if abbr and score is not None:
+                    try:
+                        by_team.setdefault(abbr, []).append(float(score))
+                    except (TypeError, ValueError):
+                        pass
+    _team_score_history_cache[key] = by_team
+    return by_team
+
+def fetch_team_score_std(team_abbr, season=None):
+    # Last season, not this one -- Week 1 of a new season has zero completed
+    # games to measure variance from, so the most recent full sample is the
+    # year that just wrapped.
+    hist_season = season or (_season_year() - 1)
+    scores = _team_score_history(hist_season).get(team_abbr, [])
+    if len(scores) < 4:
+        return None
+    return round(statistics.pstdev(scores), 1)
 
 def fetch_standings_pts_against(season=None):
     if season in _standings_cache:
@@ -1745,6 +1790,17 @@ def build_game(raw, odds_map=None):
         game["home_score"] = raw["home_score"]
     if "quarter" in raw:
         game["quarter"] = raw["quarter"]
+
+    try:
+        away_sd = fetch_team_score_std(raw["away_abbr"])
+        home_sd = fetch_team_score_std(raw["home_abbr"])
+        if away_sd:
+            game["away_score_sd"] = away_sd
+        if home_sd:
+            game["home_score_sd"] = home_sd
+    except Exception:
+        pass  # sim falls back to the league-average spread client-side
+
     return game
 
 
