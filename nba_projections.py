@@ -23,6 +23,7 @@ Output: nba_slate.json next to this script (workflow copies to data/).
 import json
 import math
 import os
+import statistics
 import sys
 from datetime import datetime, date, timezone
 
@@ -629,6 +630,55 @@ def pace_factor_from_total(total):
     return round(raw ** 0.6, 3)     # dampened, like the other engines
 
 
+# ── team scoring volatility (feeds the front-end's Monte Carlo game sim) ──
+# Same idea as the NFL engine's version: the projection is one number, the
+# simulator also needs how much that team's score actually swings game to
+# game, which isn't something the projection itself encodes. Pulled from
+# PRIOR_SEASON specifically -- NBA labels a season by its ending year, so
+# early in a new season CUR_SEASON has few or zero completed games, while
+# PRIOR_SEASON is always a full, finished sample.
+_nba_score_history_cache = {}
+
+def _score_num(raw_score):
+    # ESPN's team-schedule endpoint nests score as {"value": ..} on some
+    # responses and as a bare number/string on others -- handle both rather
+    # than assume one shape.
+    if raw_score is None:
+        return None
+    if isinstance(raw_score, dict):
+        raw_score = raw_score.get("value", raw_score.get("displayValue"))
+    try:
+        return float(raw_score)
+    except (TypeError, ValueError):
+        return None
+
+def fetch_team_score_std(team_id, season=None):
+    if not team_id:
+        return None
+    hist_season = season or PRIOR_SEASON
+    key = (str(team_id), hist_season)
+    if key in _nba_score_history_cache:
+        return _nba_score_history_cache[key]
+    scores = []
+    try:
+        data = get_json(f"{ESPN}/teams/{team_id}/schedule?season={hist_season}")
+        for ev in data.get("events", []):
+            comp = (ev.get("competitions") or [{}])[0]
+            state = ((ev.get("status") or comp.get("status") or {}).get("type") or {}).get("state")
+            if state != "post":
+                continue
+            for c in comp.get("competitors", []):
+                if str((c.get("team") or {}).get("id")) == str(team_id):
+                    v = _score_num(c.get("score"))
+                    if v is not None:
+                        scores.append(v)
+    except Exception:
+        pass
+    sd = round(statistics.pstdev(scores), 1) if len(scores) >= 8 else None
+    _nba_score_history_cache[key] = sd
+    return sd
+
+
 def load_team_talent(team_id):
     roster = fetch_roster(team_id)
     players = []
@@ -783,6 +833,17 @@ def build_game(raw, odds_map, yesterday=None):
     if raw.get("away_score") is not None:
         game["away_score"] = raw["away_score"]
         game["home_score"] = raw["home_score"]
+
+    try:
+        away_sd = fetch_team_score_std(raw.get("away_id"))
+        home_sd = fetch_team_score_std(raw.get("home_id"))
+        if away_sd:
+            game["away_score_sd"] = away_sd
+        if home_sd:
+            game["home_score_sd"] = home_sd
+    except Exception:
+        pass  # sim falls back to the league-average spread client-side
+
     return game
 
 
