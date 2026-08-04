@@ -1,6 +1,6 @@
 {
   "date": "2026-08-04",
-  "generated_at": "2026-08-04 22:44 UTC",
+  "generated_at": "2026-08-04 22:48 UTC",
   "games": [
     {
       "away_team": "Kansas City Chiefs",
@@ -19,6 +19,7 @@
       "away_qb_proj": {
         "name": null,
         "player_id": null,
+        "pos": "QB",
         "quality": 15,
         "comp_pct": 64.5,
         "adv": null,
@@ -37,6 +38,7 @@
       "home_qb_proj": {
         "name": null,
         "player_id": null,
+        "pos": "QB",
         "quality": 15,
         "comp_pct": 64.5,
         "adv": null,
