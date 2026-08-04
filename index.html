@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Slate — Projections</title>
 <meta name="theme-color" content="#07080D">
-<link rel="manifest" href="./manifest.webmanifest">
-<link rel="apple-touch-icon" href="./icon-180.png">
-<link rel="icon" href="./favicon-32.png">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="apple-touch-icon" href="../icon-180.png">
+<link rel="icon" href="../favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -46,7 +46,7 @@ body::before{
   background:var(--surface);border:1px solid var(--line);color:var(--ink);
   font-size:14px;cursor:pointer;text-decoration:none;flex:none}
 .icon-btn:active{transform:scale(.9)}
-.league{display:inline-flex;align-items:center;gap:6px;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;
+.league{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;
   background:var(--surface);border:1px solid var(--line);color:var(--ink);
   border-radius:99px;padding:8px 12px;cursor:pointer}
 
@@ -55,10 +55,67 @@ h2{font-family:'IBM Plex Mono',monospace;font-size:9.5px;font-weight:700;letter-
   text-transform:uppercase;color:var(--faint);margin:20px 0 10px;display:flex;
   align-items:center;justify-content:space-between}
 h2 a{color:var(--cyan);text-decoration:none;font-size:9.5px}
-h3{font-family:'IBM Plex Mono',monospace;font-size:8.5px;font-weight:700;letter-spacing:.08em;
-  text-transform:uppercase;color:var(--mute);margin:14px 0 6px}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:16px}
 .muted{color:var(--mute)}
+
+/* ── dashboard ── */
+.hello{font-family:'Sora',sans-serif;font-weight:700;font-size:20px;letter-spacing:-.02em;margin-bottom:3px}
+.hello-sub{font-size:12px;color:var(--mute);margin-bottom:15px}
+
+.slate-card{padding:16px;display:flex;align-items:center;gap:16px}
+.slate-main{flex:1;min-width:0}
+.slate-lab{font-family:'IBM Plex Mono',monospace;font-size:8.5px;font-weight:700;
+  letter-spacing:.13em;text-transform:uppercase;color:var(--faint);margin-bottom:7px}
+.slate-num{font-family:'Sora',sans-serif;font-weight:800;font-size:40px;line-height:.95;
+  letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.slate-cap{font-size:11.5px;color:var(--mute);margin-top:5px}
+.slate-pill{display:inline-flex;flex-direction:column;align-items:center;gap:2px;
+  padding:9px 13px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line)}
+.slate-pill b{font-family:'Sora',sans-serif;font-weight:800;font-size:17px;color:var(--green)}
+.slate-pill span{font-family:'IBM Plex Mono',monospace;font-size:7.5px;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--faint);white-space:nowrap}
+
+.ringwrap{position:relative;flex:none;display:grid;place-items:center}
+.ringwrap .rv{position:absolute;font-family:'Sora',sans-serif;font-weight:800;font-size:19px;
+  font-variant-numeric:tabular-nums}
+.ringwrap .rl{position:absolute;bottom:-2px;font-family:'IBM Plex Mono',monospace;
+  font-size:7px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+
+/* top edges carousel */
+.edges{display:flex;gap:9px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+.edges::-webkit-scrollbar{display:none}
+.edge-card{flex:none;width:152px;padding:13px;border-radius:14px;
+  background:var(--surface);border:1px solid var(--line);cursor:pointer;position:relative;overflow:hidden}
+.edge-card::before{content:'';position:absolute;inset:0 0 auto 0;height:2px;background:var(--c,var(--green))}
+.edge-score{font-family:'Sora',sans-serif;font-weight:800;font-size:15px;color:var(--c,var(--green));
+  display:inline-block;padding:2px 8px;border-radius:6px;background:color-mix(in srgb,var(--c,var(--green)) 12%,transparent);
+  border:1px solid color-mix(in srgb,var(--c,var(--green)) 40%,transparent);margin-bottom:9px}
+.edge-name{font-family:'Sora',sans-serif;font-weight:700;font-size:13.5px;line-height:1.25;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.edge-prop{font-size:10.5px;color:var(--mute);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.edge-proj{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:15px;margin-top:9px;
+  font-variant-numeric:tabular-nums}
+.edge-proj small{font-size:9px;color:var(--faint);font-weight:600;margin-left:4px}
+
+/* category chips */
+.cats{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.cats::-webkit-scrollbar{display:none}
+.cat{flex:none;display:flex;align-items:center;gap:6px;padding:9px 13px;border-radius:12px;
+  background:var(--surface);border:1px solid var(--line);cursor:pointer;
+  font-size:11.5px;font-weight:600;white-space:nowrap}
+.cat i{font-style:normal;font-size:12px}
+
+/* recently updated */
+.upd{display:flex;align-items:center;gap:11px;padding:12px 13px;border-radius:12px;
+  background:var(--surface);border:1px solid var(--line);margin-bottom:6px}
+.upd-badge{width:30px;height:30px;border-radius:8px;flex:none;display:grid;place-items:center;
+  font-family:'IBM Plex Mono',monospace;font-size:8.5px;font-weight:800;letter-spacing:.02em}
+.upd-b{flex:1;min-width:0}
+.upd-t{font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.upd-s{font-size:10.5px;color:var(--faint);margin-top:2px}
+.upd-time{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--faint);flex:none}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--green);flex:none;
+  box-shadow:0 0 8px var(--green)}
 
 /* ── explore list ── */
 .filters{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;margin-bottom:12px}
@@ -67,6 +124,43 @@ h3{font-family:'IBM Plex Mono',monospace;font-size:8.5px;font-weight:700;letter-
   color:var(--mute);background:var(--surface);border:1px solid var(--line);
   border-radius:99px;padding:8px 13px;cursor:pointer;white-space:nowrap}
 .f.on{color:var(--void);border-color:transparent;background:var(--violet);font-weight:800}
+/* category row sits above the market row -- smaller and dimmer so the
+   two don't read as the same kind of control at a glance */
+.cat-filters{margin-bottom:7px}
+.cat-filters .f{font-size:9.5px;padding:6px 11px;background:transparent}
+.cat-filters .f.on{background:var(--surface-2);color:var(--ink);border-color:var(--line)}
+
+.thead{display:flex;align-items:center;gap:10px;padding:0 13px 8px;
+  font-family:'IBM Plex Mono',monospace;font-size:7.5px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+.thead .c1{flex:1}
+.thead .c2{width:56px;text-align:right}
+.thead .c3{width:52px;text-align:right}
+.thead .c4{width:38px;text-align:center}
+
+.row{display:flex;align-items:center;gap:10px;padding:11px 13px;border-radius:13px;
+  background:var(--surface);border:1px solid var(--line);margin-bottom:6px;cursor:pointer}
+.row:active{background:var(--surface-2)}
+.av{width:36px;height:36px;border-radius:50%;flex:none;overflow:hidden;background:var(--surface-2);
+  border:1px solid var(--line);display:grid;place-items:center;
+  font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;color:var(--cyan)}
+.av img{width:100%;height:100%;object-fit:cover}
+.who{flex:1;min-width:0}
+.who-n{font-family:'Sora',sans-serif;font-weight:700;font-size:13.5px;line-height:1.25;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.who-m{font-size:10.5px;color:var(--mute);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pv{width:56px;text-align:right;flex:none}
+.pv-n{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:14.5px;
+  font-variant-numeric:tabular-nums}
+.pv-l{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--faint);margin-top:2px}
+.eg{width:52px;text-align:right;flex:none;font-family:'IBM Plex Mono',monospace;
+  font-weight:700;font-size:12.5px;font-variant-numeric:tabular-nums}
+.cf{width:38px;flex:none;display:grid;place-items:center}
+.cf-r{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;
+  font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:700;
+  border:2px solid var(--c,var(--green));color:var(--c,var(--green))}
+.star{width:26px;flex:none;text-align:center;font-size:14px;color:var(--line);cursor:pointer;line-height:1}
+.star.on{color:var(--amber);text-shadow:0 0 10px rgba(255,198,92,.5)}
 
 /* ── detail sheet ── */
 .sheet{position:fixed;inset:0;z-index:80;background:rgba(7,8,13,.72);
@@ -83,7 +177,7 @@ h3{font-family:'IBM Plex Mono',monospace;font-size:8.5px;font-weight:700;letter-
   font-family:'IBM Plex Mono',monospace;font-weight:700;color:var(--cyan)}
 .sh-av img{width:100%;height:100%;object-fit:cover}
 .sh-n{font-family:'Sora',sans-serif;font-weight:800;font-size:19px;letter-spacing:-.02em;line-height:1.15}
-.sh-m{display:flex;align-items:center;gap:5px;flex-wrap:wrap;font-size:11.5px;color:var(--mute);margin-top:3px}
+.sh-m{font-size:11.5px;color:var(--mute);margin-top:3px}
 .sh-score{margin-left:auto;text-align:center;flex:none;padding:8px 12px;border-radius:12px;
   background:color-mix(in srgb,var(--c,var(--green)) 10%,transparent);
   border:1px solid color-mix(in srgb,var(--c,var(--green)) 38%,transparent)}
@@ -109,108 +203,6 @@ h3{font-family:'IBM Plex Mono',monospace;font-size:8.5px;font-weight:700;letter-
   font-variant-numeric:tabular-nums}
 .cell span{display:block;margin-top:3px;font-family:'IBM Plex Mono',monospace;font-size:7.5px;
   font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
-
-/* ── prop cards (Props tab, 2-up grid) ──
-   Two columns instead of one long full-width row per player -- cards read
-   closer to square, so a screen shows a slate at a glance instead of a
-   scroll of skinny bars. Everything below is scoped to .pcard specifically
-   (not the bare .sh-*/.hero/.cells classes) so the detail sheet, which
-   reuses those same class names at full width, is untouched. */
-.props-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-.pcard{padding:12px;cursor:pointer;min-width:0}
-.pcard:active{background:var(--surface-2)}
-
-.pcard .sh-head{gap:8px;margin-bottom:8px}
-.pcard .sh-av{width:34px;height:34px;border-radius:10px}
-.pcard .sh-n{font-size:12.5px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.pcard .sh-m{font-size:9px;gap:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.pcard .sh-score{padding:5px 7px;border-radius:9px}
-.pcard .sh-score b{font-size:14px}
-.pcard .sh-score span{font-size:5.5px}
-
-.pcard-mkt{margin-top:4px;font-family:'IBM Plex Mono',monospace;font-size:9px;
-  font-weight:700;color:var(--faint);letter-spacing:.02em;white-space:nowrap;
-  overflow:hidden;text-overflow:ellipsis}
-
-.pcard .sheet-tags{margin:8px 0;gap:3px}
-.pcard .sheet-tags .tag{font-size:6.5px;padding:2px 4px}
-
-.pcard .hero{padding:10px;border-radius:12px;gap:6px;margin-bottom:8px}
-.pcard .hero-n{font-size:22px}
-.pcard .hero-l{font-size:6.5px;margin-top:3px}
-.pcard .hero-c{min-width:0}
-.pcard .hero-c b{font-size:12px}
-
-.pcard .cells{gap:5px;flex-wrap:wrap}
-.pcard .cell{flex:1 1 calc(50% - 3px);padding:7px 4px;border-radius:10px}
-.pcard .cell b{font-size:11.5px}
-.pcard .cell span{font-size:6px;margin-top:2px}
-
-.simhist{display:flex;align-items:flex-end;gap:2px;height:38px;margin:8px 0}
-.simbar{flex:1;min-width:0;border-radius:2px 2px 0 0;background:linear-gradient(180deg,#3DD9F0,#3DD9F033)}
-.sim-hit{display:flex;align-items:center;justify-content:space-between;margin-top:8px;
-  padding:6px 8px;border-radius:9px;background:var(--surface);border:1px solid var(--line)}
-.sim-hit span{font-family:'IBM Plex Mono',monospace;font-size:8.5px;color:var(--mute);font-weight:700}
-.sim-hit b{font-family:'IBM Plex Mono',monospace;font-size:11.5px;font-weight:800}
-.sim-foot{margin-top:7px;font-family:'IBM Plex Mono',monospace;font-size:7px;color:var(--faint);
-  text-align:center;letter-spacing:.04em}
-.sim-compare{margin-top:6px;font-family:'IBM Plex Mono',monospace;font-size:8px;
-  color:var(--faint);text-align:center}
-.simcard .gt{padding:4px 0}
-
-/* ── box score (opens in the bottom sheet) ── */
-.lab-head{display:flex;align-items:center;gap:10px;margin-bottom:14px}
-
-/* quality metrics: Confidence / Matchup / Role Stability */
-.qual-row{display:flex;gap:7px;margin-bottom:14px}
-.qual{flex:1;text-align:center;background:var(--surface);border:1px solid var(--line);
-  border-radius:12px;padding:10px 6px}
-.qual b{display:block;font-family:'Sora',sans-serif;font-weight:800;font-size:18px;
-  letter-spacing:-.02em;font-variant-numeric:tabular-nums}
-.qual span{display:block;margin-top:4px;font-family:'IBM Plex Mono',monospace;font-size:7px;
-  font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--faint)}
-
-/* projection tables: one row per stat (player box) or one row per team-total
-   stat (game box), always Stat/Player \u2192 Projection \u2192 Range */
-.box-table{background:var(--surface);border:1px solid var(--line);border-radius:12px;
-  overflow:hidden;margin-bottom:14px}
-.box-thead{display:grid;grid-template-columns:1.4fr 1fr 1fr;padding:8px 10px;
-  background:var(--surface-2);color:var(--faint);font-family:'IBM Plex Mono',monospace;
-  font-weight:700;font-size:7.5px;letter-spacing:.06em;text-transform:uppercase}
-.box-thead span:not(:first-child),.box-row-p,.box-row-r{text-align:right}
-.box-row{display:grid;grid-template-columns:1.4fr 1fr 1fr;align-items:center;
-  padding:9px 10px;border-top:1px solid var(--line);font-family:'IBM Plex Mono',monospace;font-size:11px}
-.box-row[data-lab]{cursor:pointer}
-.box-row[data-lab]:active{background:var(--surface-2)}
-.box-row-l{color:var(--ink);font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.box-row-p{color:var(--green);font-weight:700;font-variant-numeric:tabular-nums}
-.box-row-r{color:var(--faint);font-variant-numeric:tabular-nums}
-
-.box-foot{margin-top:-6px;margin-bottom:16px;font-family:'IBM Plex Mono',monospace;
-  font-size:7.5px;color:var(--faint);text-align:center;letter-spacing:.04em}
-
-/* Game Center: projected final score header */
-.boxscore-head{display:flex;align-items:center;justify-content:space-between;
-  background:var(--surface);border:1px solid var(--line);border-radius:14px;
-  padding:16px 12px;margin-bottom:10px}
-.boxscore-team{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px}
-.boxscore-team b{font-family:'Sora',sans-serif;font-weight:800;font-size:26px;letter-spacing:-.02em}
-.boxscore-team span{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;color:var(--mute)}
-.boxscore-vs{flex:none;padding:0 10px;text-align:center;font-family:'IBM Plex Mono',monospace;
-  font-size:8px;font-weight:700;letter-spacing:.08em;color:var(--faint);line-height:1.6}
-.boxscore-vs i{font-style:normal;display:block;font-size:7.5px;opacity:.75}
-
-/* skeleton, shown for the brief moment between tapping a card and the
-   simulation's first render */
-.lab-skel{padding-top:4px}
-@keyframes labpulse{0%,100%{opacity:.5}50%{opacity:1}}
-.lab-skel-row{height:16px;border-radius:8px;background:var(--surface-2);margin-bottom:16px;
-  animation:labpulse 1.1s ease-in-out infinite}
-.lab-skel-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-bottom:14px}
-.lab-skel-card{height:56px;border-radius:12px;background:var(--surface-2);
-  animation:labpulse 1.1s ease-in-out infinite}
-.lab-skel-chart{height:150px;border-radius:14px;background:var(--surface-2);
-  animation:labpulse 1.1s ease-in-out infinite}
 
 .rings{display:flex;gap:6px}
 .ring{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;
@@ -243,76 +235,77 @@ nav{position:fixed;left:0;right:0;bottom:0;z-index:70;
 .tm{display:inline-block;vertical-align:-2px;object-fit:contain;flex:none}
 .tm-t{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;
   color:var(--faint);letter-spacing:.03em}
-
+.who-m{display:flex;align-items:center;gap:4px}
 .who-m .vs{color:var(--faint);font-size:9.5px;margin:0 1px}
-
+.sh-m{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
 .sh-m .vs{color:var(--faint)}
-
+.edge-prop{display:flex;align-items:center;gap:4px}
 .av-logo{width:22px;height:22px;object-fit:contain}
-
+.league{display:inline-flex;align-items:center;gap:6px}
 .league .lg{object-fit:contain;flex:none}
 .upd-badge img{object-fit:contain}
 
-/* ── run status ── */
-.run-status{max-height:0;overflow:hidden;opacity:0;transition:max-height .2s,opacity .2s;
-  font-family:'IBM Plex Mono',monospace;font-size:10.5px;text-align:center;
-  color:var(--green);border-radius:10px}
-.run-status.show{max-height:60px;opacity:1;padding:9px 11px;margin-bottom:11px;
-  background:rgba(61,240,139,.10);border:1px solid rgba(61,240,139,.35)}
-.run-status.bad{color:var(--amber);background:rgba(255,198,92,.10);border-color:rgba(255,198,92,.35)}
-#refresh.spin{animation:sp .8s linear infinite}
-@keyframes sp{to{transform:rotate(360deg)}}
+/* ── performance dashboard ── */
+.pad{padding:15px}
+.duo{display:flex;gap:9px;margin-bottom:9px}
+.duo>*{flex:1;min-width:0}
+.k-lab{font-family:'IBM Plex Mono',monospace;font-size:8.5px;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--faint);margin-bottom:9px}
+.k-num{font-family:'Sora',sans-serif;font-weight:800;font-size:32px;line-height:1;letter-spacing:-.035em;
+  font-variant-numeric:tabular-nums}
+.k-sub{margin-top:7px;font-size:11px;color:var(--mute)}
+.ring-card{display:grid;place-items:center;position:relative;padding:11px}
+.ring-abs{position:absolute;text-align:center}
+.ring-abs b{display:block;font-family:'Sora',sans-serif;font-weight:800;font-size:27px;
+  letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.ring-abs span{font-family:'IBM Plex Mono',monospace;font-size:7.5px;font-weight:700;
+  letter-spacing:.09em;text-transform:uppercase;color:var(--faint)}
+.ring-card .ring{background:none;border:0;padding:0}
+.ring-card .ring-l,.ring-card .ring-v{display:none}
 
-.pr-mb{flex:none;min-width:52px;padding:5px 8px}
-.pr-mb .mb-l{font-size:9px}
-.pr-mb .mb-p{font-size:11.5px}
+.rec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:13px}
+.dimmed{color:var(--faint);font-weight:600}
+.mini{font-family:'IBM Plex Mono',monospace;font-size:9.5px;font-weight:700;color:var(--cyan);
+  text-decoration:none}
+.rec-row{display:flex;gap:14px;margin-bottom:14px}
+.rec-row>div{flex:1;min-width:0}
+.rec-l{font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--faint);margin-bottom:5px}
+.rec-v{font-family:'Sora',sans-serif;font-weight:800;font-size:23px;line-height:1;
+  letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.rec-v .sep{color:var(--faint);margin:0 3px;font-weight:600}
+.rchart{width:100%;height:118px;display:block}
+.rchart .ax{font-family:'IBM Plex Mono',monospace;font-size:7px;fill:var(--faint)}
+.legend{display:flex;gap:14px;justify-content:center;margin-top:7px}
+.legend span{display:flex;align-items:center;gap:5px;font-family:'IBM Plex Mono',monospace;
+  font-size:8.5px;font-weight:700;letter-spacing:.06em;color:var(--faint)}
+.legend i{width:7px;height:7px;border-radius:50%;display:inline-block}
+.chart-empty{padding:26px 10px;text-align:center;font-size:11.5px;color:var(--faint);
+  border:1px dashed var(--line);border-radius:12px}
+.foot-note{margin-top:10px;font-size:10.5px;color:var(--faint);line-height:1.5}
 
-.gc-edge{display:inline-flex;align-items:center;gap:5px;font-family:'IBM Plex Mono',monospace}
-.gc-edge i{font-style:normal;font-size:7.5px;font-weight:700;letter-spacing:.09em;
-  text-transform:uppercase;color:var(--faint)}
-.gc-edge b{font-weight:800;font-size:12.5px;font-variant-numeric:tabular-nums}
-.gc-badges .gc-edge{margin-left:auto}
-.gt{display:flex;align-items:center;gap:9px;padding:6px 0}
-.gc-bar{height:5px;border-radius:99px;overflow:hidden;margin:8px 0 11px;background:var(--violet)}
-.gc-bar div{height:100%;border-radius:99px}
-.gc-stats span[title]{cursor:help;border-bottom:1px dotted var(--line)}
-
-/* ── market badges: every priced side, one clean row ── */
-.mkts{display:flex;gap:6px;flex-wrap:wrap;padding-top:11px;margin-top:2px;border-top:1px solid var(--line)}
-.mb{flex:1 1 auto;min-width:64px;display:flex;flex-direction:column;align-items:center;gap:2px;
-  padding:7px 9px;border-radius:9px;cursor:pointer;
-  background:var(--surface);border:1px solid var(--line);color:var(--ink)}
-.mb-l{font-family:'IBM Plex Mono',monospace;font-size:9.5px;font-weight:700;letter-spacing:.03em;
-  color:var(--mute);white-space:nowrap}
-.mb-p{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:800;
-  font-variant-numeric:tabular-nums;color:var(--ink)}
-.mb.on{background:var(--green);border-color:var(--green)}
-.mb.on .mb-l,.mb.on .mb-p{color:var(--void)}
-.mb:active{transform:scale(.96)}
-
-/* ── nfl advanced chips ── */
-.adv-row{display:flex;align-items:stretch;gap:5px;flex-wrap:nowrap;margin-bottom:9px}
-.adv-chip{flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;
-  justify-content:center;gap:2px;padding:7px 4px;border-radius:8px;
-  background:var(--surface);border:1px solid var(--line)}
-.adv-chip i{font-style:normal;font-size:7.5px;font-weight:700;letter-spacing:.08em;
-  text-transform:uppercase;color:var(--faint);white-space:nowrap;overflow:hidden;
-  text-overflow:ellipsis;max-width:100%}
-.adv-chip b{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:13px;
-  font-variant-numeric:tabular-nums;color:var(--cyan)}
-.adv-factor{flex:none;align-self:stretch;display:flex;align-items:center;
-  font-family:'IBM Plex Mono',monospace;font-weight:800;font-size:11px;padding:0 10px;
-  border-radius:8px;color:var(--mute);background:var(--surface);border:1px solid var(--line)}
-.adv-factor.up{color:var(--green);background:rgba(61,240,139,.11);border-color:rgba(61,240,139,.42)}
-.adv-factor.dn{color:var(--red);background:rgba(255,78,106,.11);border-color:rgba(255,78,106,.42)}
+.leagues{display:flex;gap:7px}
+.lg-cell{flex:1;min-width:0;padding:11px 9px;border-radius:13px;background:var(--surface);
+  border:1px solid var(--line);text-align:left}
+.lg-head{display:flex;align-items:center;gap:5px;margin-bottom:8px}
+.lg-head img{object-fit:contain;flex:none}
+.lg-head span{font-family:'IBM Plex Mono',monospace;font-size:9.5px;font-weight:700;color:var(--mute)}
+.lg-wl{font-family:'Sora',sans-serif;font-weight:800;font-size:16px;letter-spacing:-.02em;
+  font-variant-numeric:tabular-nums}
+.lg-sub{font-size:10px;color:var(--faint);margin-top:2px}
+.lg-roi{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:12px;margin-top:5px;
+  font-variant-numeric:tabular-nums}
+.edge-proj{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 
 /* ── tags, edge pills, distribution, game cards ── */
-.tags{display:flex;gap:4px;flex-wrap:wrap}
+.tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:5px}
 .tag{font-family:'IBM Plex Mono',monospace;font-size:7.5px;font-weight:700;letter-spacing:.06em;
   padding:2px 5px;border-radius:4px;border:1px solid;white-space:nowrap;
   box-shadow:0 0 9px -3px currentColor}
 .sheet-tags{margin:0 0 9px}
-
+.eg{width:56px;flex:none;text-align:right}
+.epill{display:inline-block;font-family:'IBM Plex Mono',monospace;font-weight:800;font-size:10.5px;
+  padding:3px 6px;border-radius:5px;border:1px solid;font-variant-numeric:tabular-nums}
 .thead .c3{width:56px;text-align:right}
 
 .dist{padding:11px;border-radius:14px;background:var(--surface);border:1px solid var(--line);margin-bottom:9px}
@@ -333,13 +326,7 @@ nav{position:fixed;left:0;right:0;bottom:0;z-index:70;
 .gc-m .vs{color:var(--faint);font-weight:600}
 .gc-state{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.07em;
   padding:4px 9px;border-radius:6px;border:1px solid;white-space:nowrap}
-/* Header now carries only the state pill; tier + edge moved to a shared
-   row at the bottom of the card, side by side, each with its team's logo. */
-.gc-badges{display:flex;align-items:center;gap:10px;margin-top:10px;padding-top:10px;
-  border-top:1px solid var(--line);flex-wrap:wrap}
-.tier-pill{display:inline-flex;align-items:center;gap:5px;font-family:'IBM Plex Mono',monospace}
-.tier-pill b{font-size:11px;font-weight:800;letter-spacing:.06em}
-
+.gt{display:flex;align-items:center;gap:9px;padding:6px 0}
 .gt-n{flex:1;min-width:0;font-size:13.5px;font-weight:600;white-space:nowrap;overflow:hidden;
   text-overflow:ellipsis;color:var(--mute)}
 .gt-n.fav{color:var(--ink);font-weight:700}
@@ -347,7 +334,7 @@ nav{position:fixed;left:0;right:0;bottom:0;z-index:70;
   font-variant-numeric:tabular-nums;width:42px;text-align:right}
 .gt-w{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--mute);
   width:38px;text-align:right;font-variant-numeric:tabular-nums}
-
+.gc-bar{height:4px;border-radius:99px;background:var(--violet);overflow:hidden;margin:7px 0 11px}
 .gc-bar div{height:100%;background:var(--green);border-radius:99px}
 .gc-stats{display:flex;gap:14px;flex-wrap:wrap;padding-top:10px;border-top:1px solid var(--line)}
 .gc-stats span{display:flex;align-items:baseline;gap:5px}
@@ -376,30 +363,41 @@ nav{position:fixed;left:0;right:0;bottom:0;z-index:70;
   </div>
   <div class="top-actions">
     <button class="league" id="league-btn">MLB ▾</button>
-    <a class="icon-btn" href="./how/" aria-label="How the models work">?</a>
+    <a class="icon-btn" href="../how/" aria-label="How the models work">?</a>
     <button class="icon-btn" id="refresh" aria-label="Refresh">↻</button>
   </div>
 </div>
 
-<div class="run-status" id="run-status"></div>
+<div class="view on" id="v-dash"></div>
 <div class="view" id="v-explore"></div>
-<div class="view on" id="v-games"></div>
-<div class="view" id="v-sim"></div>
+<div class="view" id="v-games"></div>
+<div class="view" id="v-watch"></div>
+<div class="view" id="v-profile"></div>
 
 <div class="sheet" id="sheet"><div class="sheet-in" id="sheet-in"></div></div>
 
 <nav><div class="nav-in">
-  <button class="nb on" data-v="games"><i>◍</i><span>Games</span></button>
+  <button class="nb on" data-v="dash"><i>◈</i><span>Dashboard</span></button>
+  <button class="nb" data-v="games"><i>◍</i><span>Games</span></button>
   <button class="nb" data-v="explore"><i>⌕</i><span>Props</span></button>
-  <button class="nb" data-v="sim"><i>⚂</i><span>Sim</span></button>
-  <a class="nb" href="./how/"><i>?</i><span>How</span></a>
+  <button class="nb" data-v="watch"><i>★</i><span>Watchlist</span></button>
+  <a class="nb" href="../how/"><i>?</i><span>How</span></a>
 </div></nav>
 
-<script src="./picks.js"></script>
+<script src="../picks.js"></script>
 <script>
-// picks.js is still loaded for RUN_TRIGGER_URL, which the refresh button uses
-// to kick off a fresh model run. The bet-slip store it also defines is no
-// longer used here -- this app is projections and props only.
+// Guard: this shell borrows the slip store from picks.js. If that file is
+// missing the app should still browse projections rather than die.
+//
+// Read through an accessor -- NEVER `var Picks = ...`. picks.js declares it as
+// a const, and a `var` of the same name hoists into the same global lexical
+// scope and throws "Identifier 'Picks' has already been declared", which kills
+// this entire script before a single view renders.
+const SLIP_FALLBACK = { all:()=>[], log:()=>{}, count:()=>0, onChange:()=>{}, hasKey:()=>false };
+function slip(){
+  try { return (typeof Picks !== 'undefined' && Picks) ? Picks : SLIP_FALLBACK; }
+  catch (e){ return SLIP_FALLBACK; }
+}
 
 // ── team identity ──────────────────────────────────────────────────────────
 // Lifted verbatim from the boards, where these maps are already proven against
@@ -408,26 +406,6 @@ nav{position:fixed;left:0;right:0;bottom:0;z-index:70;
 const MLB_TEAMID = {"ARI":109,"ATH":133,"ATL":144,"BAL":110,"BOS":111,"CHC":112,"CWS":145,"CIN":113,"CLE":114,"COL":115,"DET":116,"HOU":117,"KC":118,"LAA":108,"LAD":119,"MIA":146,"MIL":158,"MIN":142,"NYM":121,"NYY":147,"PHI":143,"PIT":134,"SD":135,"SF":137,"SEA":136,"STL":138,"TB":139,"TEX":140,"TOR":141,"WSH":120};
 const MLB_ABBR = {"Arizona Diamondbacks":"ARI","Athletics":"ATH","Oakland Athletics":"ATH","Atlanta Braves":"ATL","Baltimore Orioles":"BAL","Boston Red Sox":"BOS","Chicago Cubs":"CHC","Chicago White Sox":"CWS","Cincinnati Reds":"CIN","Cleveland Guardians":"CLE","Colorado Rockies":"COL","Detroit Tigers":"DET","Houston Astros":"HOU","Kansas City Royals":"KC","Los Angeles Angels":"LAA","Los Angeles Dodgers":"LAD","Miami Marlins":"MIA","Milwaukee Brewers":"MIL","Minnesota Twins":"MIN","New York Mets":"NYM","New York Yankees":"NYY","Philadelphia Phillies":"PHI","Pittsburgh Pirates":"PIT","San Diego Padres":"SD","San Francisco Giants":"SF","Seattle Mariners":"SEA","St. Louis Cardinals":"STL","Tampa Bay Rays":"TB","Texas Rangers":"TEX","Toronto Blue Jays":"TOR","Washington Nationals":"WSH"};
 const NFL_ABBR = {"Arizona Cardinals":"ARI","Atlanta Falcons":"ATL","Baltimore Ravens":"BAL","Buffalo Bills":"BUF","Carolina Panthers":"CAR","Chicago Bears":"CHI","Cincinnati Bengals":"CIN","Cleveland Browns":"CLE","Dallas Cowboys":"DAL","Denver Broncos":"DEN","Detroit Lions":"DET","Green Bay Packers":"GB","Houston Texans":"HOU","Indianapolis Colts":"IND","Jacksonville Jaguars":"JAX","Kansas City Chiefs":"KC","Las Vegas Raiders":"LV","Los Angeles Chargers":"LAC","Los Angeles Rams":"LAR","Miami Dolphins":"MIA","Minnesota Vikings":"MIN","New England Patriots":"NE","New Orleans Saints":"NO","New York Giants":"NYG","New York Jets":"NYJ","Philadelphia Eagles":"PHI","Pittsburgh Steelers":"PIT","San Francisco 49ers":"SF","Seattle Seahawks":"SEA","Tampa Bay Buccaneers":"TB","Tennessee Titans":"TEN","Washington Commanders":"WSH"};
-
-// Primary team colours, used for the win-probability bar so a card reads as
-// the two clubs rather than as generic accents. MLB is filled in because it's
-// the live sport; the rest fall back to the app palette until verified. A
-// wrong colour is only cosmetic, but a guessed one still shouldn't ship
-// pretending to be authoritative.
-const TEAM_COLOR = {
-  mlb: {
-    ARI:'#A71930', ATL:'#CE1141', BAL:'#DF4601', BOS:'#BD3039', CHC:'#0E3386',
-    CWS:'#27251F', CIN:'#C6011F', CLE:'#00385D', COL:'#333366', DET:'#0C2340',
-    HOU:'#EB6E1F', KC:'#004687',  LAA:'#BA0021', LAD:'#005A9C', MIA:'#00A3E0',
-    MIL:'#12284B', MIN:'#002B5C', NYM:'#FF5910', NYY:'#003087', ATH:'#003831',
-    PHI:'#E81828', PIT:'#FDB827', SD:'#2F241D',  SF:'#FD5A1E',  SEA:'#0C2C56',
-    STL:'#C41E3A', TB:'#092C5C',  TEX:'#003278', TOR:'#134A8E', WSH:'#AB0003',
-  },
-  nfl: {}, nhl: {}, nba: {},
-};
-function teamColor(sp, abbr, fallback){
-  return (TEAM_COLOR[sp] || {})[abbr] || fallback;
-}
 
 function teamAbbr(sp, name){
   if (!name) return '';
@@ -467,8 +445,7 @@ const LEAGUE_LOGO = {
 const DATA = {};
 let sport = localStorage.getItem('slate_sport') || 'mlb';
 let market = null;
-let view = 'games';
-let simMode = 'games';
+let view = 'dash';
 
 const esc = s => String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;')
   .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -498,7 +475,8 @@ const MARKETS = {
     ['RBI', p=>p.expected_rbi, 2], ['Runs', p=>p.expected_runs, 2],
   ],
   nfl: [
-    ['Pass Yds', p=>p.pass_yds, 0], ['Rec Yds', p=>p.rec_yds, 0], ['Rush Yds', p=>p.rush_yds, 0],
+    ['Pass Yds', p=>p.pass_yds, 0], ['Pass TD', p=>p.pass_td, 1], ['INT', p=>p.int, 1],
+    ['Rec Yds', p=>p.rec_yds, 0], ['Rush Yds', p=>p.rush_yds, 0],
     ['Targets', p=>p.targets, 1], ['Anytime TD', p=>p.td_prob, 2],
   ],
   nhl: [
@@ -510,9 +488,33 @@ const MARKETS = {
   ],
 };
 const POOLS = {
-  mlb: ['away_lineup','home_lineup'], nfl: ['away_skill','home_skill','away_qb_proj','home_qb_proj'],
+  mlb: ['away_lineup','home_lineup'],
+  // QB passing props live under away_qb_proj/home_qb_proj -- single objects,
+  // not arrays like every other pool (see players() below for the unwrap).
+  nfl: ['away_skill','home_skill','away_qb_proj','home_qb_proj'],
   nhl: ['away_skaters','home_skaters'], nba: ['away_players','home_players'],
 };
+
+/* ── prop categories, per sport ── grouping the flat market list so the
+   chip row stays scannable as it grows (NFL went from 4 markets to 7 once
+   passing was added -- one long row stops being "easy to navigate" past
+   about 5). Only sports with more than one category show the category row
+   at all; MLB/NFL get real groupings, NHL/NBA stay single-row since they're
+   short enough that a second row would just add a click for no benefit. */
+const CATEGORIES = {
+  mlb: [
+    { label: 'Combo', markets: ['H+R+RBI','Total Bases'] },
+    { label: 'Counting', markets: ['Hits','Home Runs','RBI','Runs'] },
+  ],
+  nfl: [
+    { label: 'Passing', markets: ['Pass Yds','Pass TD','INT'] },
+    { label: 'Rushing & Receiving', markets: ['Rush Yds','Rec Yds','Targets'] },
+    { label: 'Scoring', markets: ['Anytime TD'] },
+  ],
+  nhl: [{ label: 'Skater Props', markets: ['Shots','Points','Goals'] }],
+  nba: [{ label: 'Player Props', markets: ['Points','Rebounds','Assists','3-Pointers'] }],
+};
+let category = null;
 
 function headshot(sp, p){
   if (!p.player_id) return '';
@@ -550,17 +552,11 @@ function tagsFor(p){
     if ((p.order ?? 9) === 4) t.push(['CLEANUP','#9B7CFF']);
     if ((p.order ?? 9) <= 2 && (p.hit_rate ?? 0) >= .26) t.push(['TABLE SETTER','#3DF08B']);
   } else if (p._sp === 'nfl'){
-    if (posOf(p) === 'QB'){
-      if ((p.pass_yds ?? 0) >= 260) t.push(['GUNSLINGER','#3DD9F0']);
-      if ((p.pass_td ?? 0) >= 2) t.push(['TD MACHINE','#FF6B84']);
-      if ((p.int ?? 0) >= 1) t.push(['TURNOVER RISK','#FF9A3D']);
-    } else {
-      if ((p.td_prob ?? 0) >= .45) t.push(['RED ZONE','#FF6B84']);
-      if ((p.targets ?? 0) >= 7) t.push(['TARGET HOG','#3DD9F0']);
-      if ((p.rush_att ?? 0) >= 15) t.push(['BELLCOW','#FF9A3D']);
-      if ((p.rec_yds ?? 0) >= 70) t.push(['WR1','#3DF08B']);
-      if ((p.opp_factor ?? 1) >= 1.05) t.push(['HIGH USAGE','#FFE24A']);
-    }
+    if ((p.td_prob ?? 0) >= .45) t.push(['RED ZONE','#FF6B84']);
+    if ((p.targets ?? 0) >= 7) t.push(['TARGET HOG','#3DD9F0']);
+    if ((p.rush_att ?? 0) >= 15) t.push(['BELLCOW','#FF9A3D']);
+    if ((p.rec_yds ?? 0) >= 70) t.push(['WR1','#3DF08B']);
+    if ((p.opp_factor ?? 1) >= 1.05) t.push(['HIGH USAGE','#FFE24A']);
   } else if (p._sp === 'nhl'){
     if ((p.goal_prob ?? 0) >= .45) t.push(['SNIPER','#FFE24A']);
     if ((p.shots_pg ?? 0) >= 3.5) t.push(['VOLUME','#FF9A3D']);
@@ -605,6 +601,12 @@ const APP_EDGE_BANDS = [
 function appEdgeBand(v){
   const a = Math.abs(v || 0);
   return APP_EDGE_BANDS.find(b => a < b[0]) || APP_EDGE_BANDS[APP_EDGE_BANDS.length-1];
+}
+function edgePill(e){
+  if (!e || e.edge == null) return '';
+  const [, col, note] = appEdgeBand(e.edge);
+  return `<span class="epill" style="color:${col};background:${col}1A;border-color:${col}55"
+    title="${note}">${e.edge > 0 ? '+' : ''}${e.edge.toFixed(1)}%</span>`;
 }
 
 /* ── distribution: floor, median, ceiling ──────────────────────────────────
@@ -690,9 +692,6 @@ function players(sp){
         ? (away ? g.away_team : g.home_team) : (away ? g.away_abbr : g.home_abbr);
       const opp = sp === 'mlb' || sp === 'nfl'
         ? (away ? g.home_team : g.away_team) : (away ? g.home_abbr : g.away_abbr);
-      // Most pools are arrays (the skill-position lineup). QB projections
-      // are a single object per team, not a list -- normalized here so the
-      // rest of the function doesn't need to know the difference.
       const raw = g[pool];
       const poolArr = Array.isArray(raw) ? raw : (raw ? [raw] : []);
       for (const p of poolArr){
@@ -736,98 +735,237 @@ function ring(v, pct, label, color, size){
   </div>`;
 }
 
-// QB position lives under adv.pos in the raw data (QB projections don't
-// carry a top-level pos field the way skill players do) -- this reads
-// whichever is there so callers don't need to know which shape they got.
-const posOf = p => p.pos || (p.adv && p.adv.pos) || '';
+/* ── record maths ──────────────────────────────────────────────────────────
+   Everything below comes from YOUR logged picks, not from model backtests.
+   That distinction matters: a claimed "model accuracy" would need settled
+   predictions this app has never stored, whereas a betting record is data you
+   own and can verify. Sparse at first, and honest the whole way.
 
-// The same stat breakdown used on both the Props card and the detail
-// sheet, so the two never drift apart. NFL splits by position -- a QB's
-// relevant numbers (pass yards, completion%) have nothing to do with a
-// receiver's (targets, catches), so one fixed set of four fields was
-// either blank or misleading depending who you were looking at.
-function statCellsFor(p){
-  const cells = [];
-  if (p._sp === 'mlb'){
-    if (p.pa != null) cells.push(['PA', p.pa.toFixed(1)]);
-    if (p.xwoba != null) cells.push(['xwOBA', p.xwoba.toFixed(3)]);
-    if (p.hr_prob != null) cells.push(['HR/PA', (p.hr_prob*100).toFixed(1)+'%']);
-    if (p.k_rate != null) cells.push(['K%', (p.k_rate*100).toFixed(0)+'%']);
-  } else if (p._sp === 'nfl'){
-    const pos = posOf(p);
-    if (pos === 'QB'){
-      if (p.pass_yds != null) cells.push(['PASS YDS', p.pass_yds.toFixed(0)]);
-      if (p.comp_pct != null) cells.push(['COMP%', p.comp_pct.toFixed(1)+'%']);
-      if (p.pass_td != null) cells.push(['PASS TD', p.pass_td.toFixed(1)]);
-      if (p.int != null) cells.push(['INT', p.int.toFixed(1)]);
-    } else if (pos === 'RB'){
-      if (p.rush_att != null) cells.push(['ATT', p.rush_att.toFixed(1)]);
-      if (p.rush_yds != null) cells.push(['RUSH YDS', p.rush_yds.toFixed(0)]);
-      if (p.targets != null) cells.push(['TGT', p.targets.toFixed(1)]);
-      if (p.td_prob != null) cells.push(['TD%', (p.td_prob*100).toFixed(0)+'%']);
-    } else {
-      if (p.targets != null) cells.push(['TGT', p.targets.toFixed(1)]);
-      if (p.rec != null) cells.push(['REC', p.rec.toFixed(1)]);
-      if (p.rec_yds != null) cells.push(['REC YDS', p.rec_yds.toFixed(0)]);
-      if (p.td_prob != null) cells.push(['TD%', (p.td_prob*100).toFixed(0)+'%']);
-    }
-  } else if (p._sp === 'nhl'){
-    if (p.shots_pg != null) cells.push(['SPG', p.shots_pg.toFixed(1)]);
-    if (p.pts_pg != null) cells.push(['PTS/GP', p.pts_pg.toFixed(2)]);
-    if (p.goal_prob != null) cells.push(['GOAL%', (p.goal_prob*100).toFixed(1)+'%']);
-  } else if (p._sp === 'nba'){
-    if (p.min != null) cells.push(['MIN', p.min.toFixed(1)]);
-    if (p.pts != null) cells.push(['PTS', p.pts.toFixed(1)]);
-    if (p.reb != null) cells.push(['REB', p.reb.toFixed(1)]);
-    if (p.ast != null) cells.push(['AST', p.ast.toFixed(1)]);
+   ROI assumes a flat 1-unit stake, priced off the American odds captured with
+   the pick. Picks logged without a price (player props, mostly) count toward
+   W-L but are excluded from ROI -- you can't compute a return on a bet whose
+   price you never recorded. */
+function priceOfPick(p){
+  const m = /(^|\s)([+-]\d{3,4})(\s|$|\u00b7)/.exec(p.line || '');
+  return m ? parseInt(m[2], 10) : null;
+}
+function profitOf(p){
+  const px = priceOfPick(p);
+  if (px == null || !p.result) return null;
+  if (p.result === 'push') return 0;
+  if (p.result === 'loss') return -1;
+  return px > 0 ? px / 100 : 100 / Math.abs(px);
+}
+function recordOf(picks){
+  const settled = picks.filter(p => p.result === 'win' || p.result === 'loss');
+  const w = settled.filter(p => p.result === 'win').length;
+  const l = settled.length - w;
+  const priced = picks.map(profitOf).filter(v => v !== null);
+  const profit = priced.reduce((a,b) => a+b, 0);
+  return {
+    w, l, n: settled.length,
+    rate: settled.length ? w / settled.length : null,
+    roi: priced.length ? profit / priced.length : null,
+    profit, staked: priced.length,
+  };
+}
+
+/* Cumulative ROI and rolling win rate, oldest to newest. Two series so the
+   chart says something a single line can't: whether you're winning bets and
+   whether you're winning money are different questions. */
+function recordSeries(picks){
+  const settled = picks
+    .filter(p => p.result === 'win' || p.result === 'loss' || p.result === 'push')
+    .sort((a,b) => String(a.loggedAt||'').localeCompare(String(b.loggedAt||'')));
+  const out = [];
+  let w = 0, n = 0, profit = 0, staked = 0;
+  for (const p of settled){
+    if (p.result !== 'push'){ n++; if (p.result === 'win') w++; }
+    const pr = profitOf(p);
+    if (pr !== null){ profit += pr; staked++; }
+    out.push({
+      t: Date.parse(p.loggedAt || '') || 0,
+      roi: staked ? profit / staked : 0,
+      rate: n ? w / n : 0,
+    });
   }
-  return cells;
+  return out;
+}
+
+function twoLineChart(series){
+  if (series.length < 2){
+    return `<div class="chart-empty">Settle a few plays and the trend appears here.</div>`;
+  }
+  const W = 320, H = 118, PL = 34, PB = 18;
+  const vals = series.flatMap(s => [s.roi, s.rate - 0.5]);
+  const lim = Math.max(0.3, Math.ceil(Math.max(...vals.map(Math.abs)) * 10) / 10);
+  const sx = i => PL + (i / (series.length - 1)) * (W - PL - 4);
+  const sy = v => (H - PB) / 2 - (v / lim) * ((H - PB) / 2 - 6);
+  const path = key => series.map((s,i) =>
+    `${i?'L':'M'}${sx(i).toFixed(1)},${sy(key==='roi'?s.roi:s.rate-0.5).toFixed(1)}`).join(' ');
+  const grid = [lim, lim/2, 0, -lim/2, -lim].map(v =>
+    `<line x1="${PL}" y1="${sy(v).toFixed(1)}" x2="${W}" y2="${sy(v).toFixed(1)}"
+       stroke="${v===0?'rgba(255,255,255,.18)':'rgba(255,255,255,.05)'}" stroke-width="1"/>
+     <text x="0" y="${(sy(v)+3).toFixed(1)}" class="ax">${v>0?'+':''}${Math.round(v*100)}%</text>`).join('');
+  const first = new Date(series[0].t), last = new Date(series[series.length-1].t);
+  const dfmt = d => isNaN(d) ? '' : d.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+  return `<svg viewBox="0 0 ${W} ${H}" class="rchart">
+    ${grid}
+    <path d="${path('rate')}" fill="none" stroke="#7C5CFF" stroke-width="2" stroke-linejoin="round"/>
+    <path d="${path('roi')}" fill="none" stroke="#3DF08B" stroke-width="2" stroke-linejoin="round"/>
+    <text x="${PL}" y="${H-4}" class="ax">${dfmt(first)}</text>
+    <text x="${W}" y="${H-4}" class="ax" text-anchor="end">${dfmt(last)}</text>
+  </svg>
+  <div class="legend"><span><i style="background:#3DF08B"></i>ROI</span>
+    <span><i style="background:#7C5CFF"></i>Win rate vs 50%</span></div>`;
+}
+
+/* ── DASHBOARD ── */
+function renderDash(){
+  const picks = slip().all();
+  const rec = recordOf(picks);
+  const series = recordSeries(picks);
+
+  // Today's board, across every sport -- how much the models disagree with the
+  // market right now. Labelled as today's board, NOT as accuracy: this says
+  // nothing about whether those disagreements have been right.
+  let edges = [], total = 0;
+  for (const sp of SPORTS){
+    const arr = players(sp);
+    total += arr.length;
+    for (const p of arr){ const e = edgeOf(p); if (e && e.edge != null) edges.push(e.edge); }
+  }
+  edges.sort((a,b)=>a-b);
+  const medEdge = edges.length ? edges[Math.floor(edges.length/2)] : null;
+  const eCol = medEdge == null ? 'var(--mute)' : appEdgeBand(medEdge)[1];
+
+  const hour = new Date().getHours();
+  const greet = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
+
+  const byLeague = SPORTS.map(sp => {
+    const r = recordOf(picks.filter(p => (p.sport||'').toLowerCase() === sp));
+    return `<div class="lg-cell">
+      <div class="lg-head"><img src="${LEAGUE_LOGO[sp]}" alt="" width="19" height="19" loading="lazy"
+        onerror="this.remove()"><span>${sp.toUpperCase()}</span></div>
+      <div class="lg-wl">${r.n ? `${r.w} - ${r.l}` : '—'}</div>
+      <div class="lg-sub">${r.rate == null ? 'no settled plays' : (r.rate*100).toFixed(1)+'%'}</div>
+      <div class="lg-roi" style="color:${r.roi == null ? 'var(--faint)' : r.roi >= 0 ? 'var(--green)' : 'var(--red)'}">
+        ${r.roi == null ? '—' : (r.roi>0?'+':'')+(r.roi*100).toFixed(1)+'%'}</div>
+    </div>`;
+  }).join('');
+
+  $('v-dash').innerHTML = `
+    <div class="hello">${greet}, Michel 👋</div>
+    <div class="hello-sub">Here's how your models are performing.</div>
+
+    <div class="duo">
+      <div class="card pad">
+        <div class="k-lab">Median edge · today's board</div>
+        <div class="k-num" style="color:${eCol}">${medEdge == null ? '—' : (medEdge>0?'+':'')+medEdge.toFixed(1)+'%'}</div>
+        <div class="k-sub">${edges.length ? `${edges.length} priced market${edges.length===1?'':'s'}` : 'no book prices yet'}</div>
+      </div>
+      <div class="card pad ring-card">
+        ${ring('', Math.min(1, total/300), '', '#7C5CFF', 96)}
+        <div class="ring-abs"><b>${total}</b><span>Projections</span></div>
+      </div>
+    </div>
+
+    <div class="card pad">
+      <div class="rec-head">
+        <div class="k-lab">Your record <span class="dimmed">(all leagues)</span></div>
+        <a class="mini" href="../picks/">Slip →</a>
+      </div>
+      <div class="rec-row">
+        <div><div class="rec-l">W–L</div>
+          <div class="rec-v"><b style="color:var(--green)">${rec.w}</b><span class="sep">–</span>${rec.l}</div></div>
+        <div><div class="rec-l">Win rate</div>
+          <div class="rec-v">${rec.rate == null ? '—' : (rec.rate*100).toFixed(1)+'%'}</div></div>
+        <div><div class="rec-l">ROI</div>
+          <div class="rec-v" style="color:${rec.roi == null ? 'var(--faint)' : rec.roi>=0?'var(--green)':'var(--red)'}">
+            ${rec.roi == null ? '—' : (rec.roi>0?'+':'')+(rec.roi*100).toFixed(1)+'%'}</div></div>
+      </div>
+      ${twoLineChart(series)}
+      ${rec.staked < picks.length ? `<div class="foot-note">ROI covers ${rec.staked} of ${picks.length} plays \u2014 the rest were logged without a price.</div>` : ''}
+    </div>
+
+    <h2>By league</h2>
+    <div class="leagues">${byLeague}</div>
+
+    <h2>Top edges <a href="#" data-goto="explore">View all</a></h2>
+    <div class="edges">${topEdgeCards()}</div>`;
+}
+
+function topEdgeCards(){
+  const arr = players(sport);
+  return arr.slice(0, 8).map(p => {
+    const c = confOf(p, arr), col = confColor(c), e = edgeOf(p);
+    return `<div class="edge-card" data-key="${esc(p._key)}" style="--c:${col}">
+      <div class="edge-score">${c}</div>
+      <div class="edge-name">${esc(p.name)}</div>
+      <div class="edge-prop">${teamMark(p._sp, p._tab, 12)}${esc(p._market)} · vs ${esc(p._oab)}</div>
+      <div class="edge-proj">${p._val.toFixed(p._dp)}<small>proj</small>${edgePill(e)}</div>
+    </div>`;
+  }).join('') || '<div class="empty"><div class="m">No projections yet</div></div>';
+}
+
+function rel(iso){
+  const t = Date.parse(iso.endsWith('Z')||/[+-]\d\d:?\d\d$/.test(iso) ? iso : iso + 'Z');
+  if (!t) return '—';
+  const m = Math.max(0, Math.round((Date.now()-t)/60000));
+  if (m < 1) return 'now';
+  if (m < 60) return m + 'm ago';
+  const h = Math.round(m/60);
+  return h < 24 ? h + 'h ago' : Math.round(h/24) + 'd ago';
 }
 
 /* ── EXPLORE ── */
-// Each prop is its own full card now -- headshot, matchup, confidence,
-// tags, the projection itself, and the stat line behind it, all visible
-// without a tap. The old version packed the same information into a
-// compact row and hid the rest behind the detail sheet; that traded away
-// readability for density this list didn't actually need. Tapping a card
-// still opens the sheet, for the distribution chart and matchup rings that
-// don't fit here.
-function propCardHtml(p, arr){
+function rowHtml(p, arr){
   const c = confOf(p, arr), col = confColor(c);
+  const starred = watch.has(p._key);
   const e = edgeOf(p);
-  const tags = tagsFor(p).slice(0, 3);
-  const cells = statCellsFor(p);
-  return `<div class="card pcard" data-key="${esc(p._key)}">
-    <div class="sh-head">
-      ${avatar(p._sp, p, 'sh-av')}
-      <div style="min-width:0">
-        <div class="sh-n">${esc(p.name)}</div>
-        <div class="sh-m">${teamMark(p._sp, p._tab, 11)}<span>${esc(p._tab)}</span>
-          <span class="vs">vs</span>${teamMark(p._sp, p._oab, 11)}<span>${esc(p._oab)}</span></div>
-        <div class="pcard-mkt">${esc(p._market)}</div>
-      </div>
-      <div class="sh-score" style="--c:${col}"><b>${c}</b><span>Confidence</span></div>
+  const tags = tagsFor(p).slice(0, 2);
+  return `<div class="row" data-key="${esc(p._key)}">
+    ${avatar(p._sp, p, 'av')}
+    <div class="who">
+      <div class="who-n">${esc(p.name)}</div>
+      <div class="who-m">${teamMark(p._sp, p._tab, 13)}<span>${esc(p._tab)} · ${esc(p._market)}</span>
+        <span class="vs">vs</span>${teamMark(p._sp, p._oab, 13)}<span>${esc(p._oab)}</span></div>
+      ${tags.length ? `<div class="tags">${tagHtml(tags)}</div>` : ''}
     </div>
-    ${tags.length ? `<div class="tags sheet-tags">${tagHtml(tags)}</div>` : ''}
-    <div class="hero">
-      <div style="flex:1;min-width:0">
-        <div class="hero-n">${p._val.toFixed(p._dp)}</div>
-        <div class="hero-l">Projected</div>
-      </div>
-      ${e && e.line != null ? `<div class="hero-c"><b>${esc(String(e.line))}</b><div class="hero-l">Line</div></div>` : ''}
-      ${e && e.edge != null ? `<div class="hero-c"><b style="color:${appEdgeBand(e.edge)[1]}">${e.edge>0?'+':''}${e.edge.toFixed(1)}%</b><div class="hero-l">Edge</div></div>` : ''}
-    </div>
-    ${cells.length ? `<div class="cells">${cells.map(([l,v])=>`<div class="cell"><b>${v}</b><span>${l}</span></div>`).join('')}</div>` : ''}
+    <div class="pv"><div class="pv-n">${p._val.toFixed(p._dp)}</div>
+      <div class="pv-l">${e && e.line != null ? esc(String(e.line)) + ' line' : 'proj'}</div></div>
+    <div class="eg">${edgePill(e)}</div>
+    <div class="cf"><div class="cf-r" style="--c:${col}">${c}</div></div>
+    <span class="star ${starred?'on':''}" data-star="${esc(p._key)}">${starred?'★':'☆'}</span>
   </div>`;
 }
 function renderExplore(){
-  const arr = players(sport);
   const defs = MARKETS[sport] || [];
-  const chips = defs.map(m =>
-    `<div class="f ${(market||defs[0][0])===m[0]?'on':''}" data-market="${esc(m[0])}">${esc(m[0])}</div>`).join('');
+  const cats = CATEGORIES[sport] || [];
+
+  // Keep `category` in sync with the active `market` -- covers a sport
+  // switch (market/category both reset to null), or the dashboard's
+  // top-of-app market chips setting `market` directly without going
+  // through the category row at all.
+  if (!category || !(cats.find(c => c.label === category) || {markets:[]}).markets.includes(market)){
+    const found = cats.find(c => c.markets.includes(market));
+    category = found ? found.label : (cats[0] && cats[0].label);
+  }
+  const activeCat = cats.find(c => c.label === category);
+  const catMarkets = activeCat ? defs.filter(m => activeCat.markets.includes(m[0])) : defs;
+  if (!catMarkets.find(m => m[0] === market)) market = catMarkets[0] ? catMarkets[0][0] : (defs[0] && defs[0][0]);
+
+  const arr = players(sport);
+  const catChips = cats.length > 1 ? `<div class="filters cat-filters">${cats.map(c =>
+    `<div class="f ${c.label===category?'on':''}" data-category="${esc(c.label)}">${esc(c.label)}</div>`).join('')}</div>` : '';
+  const chips = catMarkets.map(m =>
+    `<div class="f ${(market||catMarkets[0][0])===m[0]?'on':''}" data-market="${esc(m[0])}">${esc(m[0])}</div>`).join('');
   $('v-explore').innerHTML = `
+    ${catChips}
     <div class="filters">${chips}</div>
-    ${arr.length ? `<div class="props-grid">${arr.slice(0,120).map(p=>propCardHtml(p,arr)).join('')}</div>`
+    <div class="thead"><span class="c1">Player / Prop</span><span class="c2">Proj</span>
+      <span class="c3">Edge</span><span class="c3">Conf</span><span class="c4"></span></div>
+    ${arr.length ? arr.slice(0,120).map(p=>rowHtml(p,arr)).join('')
       : `<div class="empty"><div class="i">◎</div><div class="m">Nothing on the slate</div>
          <div class="s">${sport.toUpperCase()} has no games right now.</div></div>`}`;
 }
@@ -856,85 +994,6 @@ function stateLabel(g){
   const t = g.game_time ? new Date(g.game_time) : null;
   return [t ? t.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}) : '—', '#8E93A3'];
 }
-// The edge belongs to a side, so it says which. A bare "+6.6%" leaves you
-// working out who it's on from the rest of the card.
-// Every priced market on the game, as one clean row of badges: both
-// moneylines, both sides of the spread, both sides of the total. Same
-// American-odds format the sportsbooks use. Nothing here is invented -- a
-// market only gets a badge when FanDuel has actually posted it, via _lines
-// (spread/total/moneyline together) or the older standalone `moneylines`.
-function fmtOdds(v){ return v == null ? '' : (v > 0 ? '+' + v : String(v)); }
-function marketBadges(sp, g){
-  const L = g._lines || {};
-  const ml = g.moneylines || (L.ml_away != null ? {away:L.ml_away, home:L.ml_home, book:L.book} : null);
-  const aAb = teamAbbr(sp, sp==='mlb'||sp==='nfl' ? g.away_team : g.away_abbr);
-  const hAb = teamAbbr(sp, sp==='mlb'||sp==='nfl' ? g.home_team : g.home_abbr);
-  const gkey = `${aAb}@${hAb}|${g.game_time||''}`;
-  const live = g.game_state !== 'Final';
-  if (!live) return '';
-
-  const badge = (label, price) => {
-    return `<span class="mb">
-      <span class="mb-l">${esc(label)}</span>
-      <span class="mb-p">${price!=null?fmtOdds(price):'\u2014'}</span>
-    </span>`;
-  };
-
-  const parts = [];
-  if (ml){
-    parts.push(badge(`${aAb} ML`, ml.away));
-    parts.push(badge(`${hAb} ML`, ml.home));
-  }
-  if (L.spread != null){
-    parts.push(badge(`${aAb} ${(-L.spread>0?'+':'')}${(-L.spread)}`, L.spread_away_price));
-    parts.push(badge(`${hAb} ${(L.spread>0?'+':'')}${L.spread}`, L.spread_home_price));
-  }
-  if (L.total != null){
-    parts.push(badge(`O ${L.total}`, L.over_price));
-    parts.push(badge(`U ${L.total}`, L.under_price));
-  }
-  if (!parts.length) return '';
-  return `<div class="mkts">${parts.join('')}</div>`;
-}
-
-// The edge object's `team` field is always a full team name (all four sports
-// agree on that), but NHL and NBA's OWN game fields already use abbreviations
-// everywhere else. Rather than hardcode a second 60-team name map and risk it
-// drifting from the real one, this resolves against the SAME game object's
-// away_team/home_team so it can never disagree with what the card already shows.
-function resolveTeamAbbr(sp, g, name){
-  if (!name) return '';
-  const aFull = sp==='mlb'||sp==='nfl' ? g.away_team : (g.away_team || g.away_abbr);
-  const hFull = sp==='mlb'||sp==='nfl' ? g.home_team : (g.home_team || g.home_abbr);
-  if (name === aFull) return teamAbbr(sp, sp==='mlb'||sp==='nfl' ? g.away_team : g.away_abbr);
-  if (name === hFull) return teamAbbr(sp, sp==='mlb'||sp==='nfl' ? g.home_team : g.home_abbr);
-  return teamAbbr(sp, name);   // fallback: static map (mlb/nfl) or best-effort
-}
-
-// LEAN / STRONG / ELITE / PASS -- the model's own read on how strong a signal
-// this game is, independent of the numeric edge. Shown as its own pill so a
-// LEAN-tier edge doesn't read with the same weight as an ELITE one.
-const TIER_COLOR = { ELITE:'#3DF08B', STRONG:'#3DD9F0', LEAN:'#FFC65C', PASS:'#7C8296' };
-function tierPill(sp, g, favAb){
-  const t = (g.tier || '').toUpperCase();
-  if (!t || t === 'PASS') return '';
-  const c = TIER_COLOR[t] || '#7C8296';
-  return `<span class="tier-pill" style="color:${c}">
-    ${favAb ? teamMark(sp, favAb, 13) : ''}<b>${esc(t)}</b>
-  </span>`;
-}
-
-function edgeTeamPill(sp, g, edge){
-  if (!edge || edge.edge_pct == null || g.game_state === 'Final') return '';
-  const team = edge.team || '';
-  const ab = resolveTeamAbbr(sp, g, team);
-  const col = appEdgeBand(edge.edge_pct)[1];
-  const v = Number(edge.edge_pct);
-  return `<span class="gc-edge" style="color:${col}">
-    ${teamMark(sp, ab, 13)}<i>Edge</i><b>${v>0?'+':''}${v.toFixed(1)}%</b>
-  </span>`;
-}
-
 function renderGames(){
   const d = DATA[sport], sp = sport;
   const games = (d && d.games) || [];
@@ -957,8 +1016,6 @@ function renderGames(){
     const aw = g.away_win_pct, hw = g.home_win_pct;
     const total = (as != null && hs != null) ? (as + hs) : null;
     const dim = g.game_state === 'Final' ? 'dim' : g.game_state === 'Live' ? 'live' : '';
-    const aCol = teamColor(sp, aAb, '#3DF08B'), hCol = teamColor(sp, hAb, '#7C5CFF');
-    const favAb = (aw != null && hw != null) ? (aw >= hw ? aAb : hAb) : null;
     const edge = g.edge;
     const row = (ab, name, score, win, fav) => `
       <div class="gt">
@@ -974,22 +1031,60 @@ function renderGames(){
       </div>
       ${row(aAb, sp==='mlb'||sp==='nfl' ? g.away_team : aAb, as, aw, aw>hw)}
       ${row(hAb, sp==='mlb'||sp==='nfl' ? g.home_team : hAb, hs, hw, hw>aw)}
-      ${marketBadges(sp, g)}
-      ${aw != null ? `<div class="gc-bar" style="background:${hCol}">
-        <div style="width:${(aw*100).toFixed(0)}%;background:${aCol}"></div></div>` : ''}
+      ${aw != null ? `<div class="gc-bar"><div style="width:${(aw*100).toFixed(0)}%"></div></div>` : ''}
       <div class="gc-stats">
         ${total != null ? `<span><i>Total</i><b>${total.toFixed(1)}</b></span>` : ''}
         ${g.p_over_8_5 != null ? `<span><i>O8.5</i><b>${Math.round(g.p_over_8_5*100)}%</b></span>` : ''}
         ${g.p_over_total != null ? `<span><i>Over</i><b>${Math.round(g.p_over_total*100)}%</b></span>` : ''}
         ${g.p_over_6_5 != null ? `<span><i>O6.5</i><b>${Math.round(g.p_over_6_5*100)}%</b></span>` : ''}
-        ${g.target_score != null
-          ? `<span title="Scoring environment, 0\u2013100. Blends projected runs, the over probability, and how likely both sides are to score. High = a good game for overs and hitter props.">
-              <i>Scoring env</i><b>${g.target_score}</b></span>` : ''}
+        ${g.p_any_hr != null ? `<span><i>Any HR</i><b>${Math.round(g.p_any_hr*100)}%</b></span>` : ''}
+        ${g.target_score != null ? `<span><i>Target</i><b>${g.target_score}</b></span>` : ''}
+        ${edge && edge.edge_pct != null && g.game_state !== 'Final'
+          ? `<span class="gc-edge" style="color:${appEdgeBand(edge.edge_pct)[1]}"><i>Edge</i><b>${edge.edge_pct>0?'+':''}${Number(edge.edge_pct).toFixed(1)}%</b></span>` : ''}
       </div>
-      ${(tierPill(sp, g, favAb) || edgeTeamPill(sp, g, edge)) ? `<div class="gc-badges">${tierPill(sp, g, favAb)}${edgeTeamPill(sp, g, edge)}</div>` : ''}
       ${gameMeta(sp,g) ? `<div class="gc-meta">${esc(gameMeta(sp,g))}</div>` : ''}
     </div>`;
   }).join('');
+}
+
+/* ── WATCHLIST ── */
+function renderWatch(){
+  const keys = watch.all();
+  let rows = '';
+  for (const sp of SPORTS){
+    const arr = players(sp);
+    for (const p of arr) if (keys.includes(p._key)) rows += rowHtml(p, arr);
+  }
+  $('v-watch').innerHTML = rows || `<div class="empty"><div class="i">★</div>
+    <div class="m">Nothing starred yet</div>
+    <div class="s">Tap the star on any projection to keep an eye on it.</div></div>`;
+}
+
+/* ── PROFILE ── */
+function renderProfile(){
+  const picks = slip().all();
+  const settled = picks.filter(p => p.result === 'win' || p.result === 'loss');
+  const w = settled.filter(p => p.result === 'win').length;
+  $('v-profile').innerHTML = `
+    <h2>Your record</h2>
+    <div class="card slate-card">
+      <div class="slate-main">
+        <div class="slate-lab">Settled</div>
+        <div class="slate-num">${w}–${settled.length-w}</div>
+        <div class="slate-cap">${picks.length - settled.length} still open</div>
+      </div>
+      <div class="slate-pill"><b>${settled.length ? Math.round(w/settled.length*100) : 0}%</b><span>Win rate</span></div>
+    </div>
+    <h2>Elsewhere</h2>
+    <div class="upd"><div class="upd-b"><div class="upd-t">Bet slip</div>
+      <div class="upd-s">Log and settle your plays</div></div>
+      <a class="icon-btn" href="../picks/">→</a></div>
+    <div class="upd"><div class="upd-b"><div class="upd-t">How the models work</div>
+      <div class="upd-s">Sources and method, per league</div></div>
+      <a class="icon-btn" href="../how/">→</a></div>
+    <div class="upd"><div class="upd-b"><div class="upd-t">Classic boards</div>
+      <div class="upd-s">The original game-card view</div></div>
+      <a class="icon-btn" href="../">→</a></div>`;
 }
 
 /* ── DETAIL SHEET ── */
@@ -1001,29 +1096,22 @@ function openSheet(key){
     if (p){ found = p; arr = a; break; }
   }
   if (!found) return;
-
-// nflverse advanced metrics -- EPA+CPOE for passers, WOPR/target share for
-// receivers. Existed on the old NFL board and was dropped when the app
-// replaced it; the model still emits it, this just displays it again.
-function nflAdvHtml(p){
-  if (p._sp !== 'nfl' || !p.adv) return '';
-  const a = p.adv, isQB = p._market === undefined ? false : (p.pass_yds != null || p._market === 'Pass Yds');
-  const qb = a.dakota != null;
-  const items = qb
-    ? [['EPA+CPOE', a.dakota.toFixed(3)], ['PASS EPA', (a.pass_epa??0).toFixed(1)], ['SACKS', (a.sacks_taken??0).toFixed(1)]]
-    : [['WOPR', (a.wopr??0).toFixed(2)], ['TGT%', ((a.target_share??0)*100).toFixed(0)],
-       ['EPA', (a.rec_epa??0).toFixed(1)], ['AIR', (a.air_yards??0).toFixed(0)]];
-  const f = qb ? p.eff_factor : p.opp_factor;
-  const dir = f > 1.001 ? 'up' : f < 0.999 ? 'dn' : '';
-  const chips = items.map(([l,v]) => `<span class="adv-chip"><i>${l}</i><b>${v}</b></span>`).join('');
-  const fx = f == null ? '' : `<span class="adv-factor ${dir}">${f>1?'+':''}${((f-1)*100).toFixed(1)}%</span>`;
-  return `<h2>Advanced \u00b7 nflverse ${a.weeks}w</h2><div class="adv-row">${chips}${fx}</div>`;
-}
   const p = found, c = confOf(p, arr), col = confColor(c);
   const sheetEdge = edgeOf(p), sheetTags = tagsFor(p);
   const g = p._game, ctx = g && g._context;
 
-  const cells = statCellsFor(p);
+  const cells = [];
+  if (p._sp === 'mlb'){
+    if (p.pa != null) cells.push(['PA', p.pa.toFixed(1)]);
+    if (p.xwoba != null) cells.push(['xwOBA', p.xwoba.toFixed(3)]);
+    if (p.hr_prob != null) cells.push(['HR/PA', (p.hr_prob*100).toFixed(1)+'%']);
+    if (p.k_rate != null) cells.push(['K%', (p.k_rate*100).toFixed(0)+'%']);
+  } else if (p._sp === 'nfl'){
+    if (p.targets != null) cells.push(['TGT', p.targets.toFixed(1)]);
+    if (p.rec != null) cells.push(['REC', p.rec.toFixed(1)]);
+    if (p.td_prob != null) cells.push(['TD%', (p.td_prob*100).toFixed(0)+'%']);
+    if (p.fpts != null) cells.push(['FPTS', p.fpts.toFixed(1)]);
+  }
 
   let rings = '';
   if (ctx){
@@ -1065,7 +1153,6 @@ function nflAdvHtml(p){
     </div>
     ${sheetTags.length ? `<div class="tags sheet-tags">${tagHtml(sheetTags)}</div>` : ''}
     ${cells.length ? `<div class="cells">${cells.map(([l,v])=>`<div class="cell"><b>${v}</b><span>${l}</span></div>`).join('')}</div>` : ''}
-    ${nflAdvHtml(p)}
     <h2>Range of outcomes</h2>
     ${distChart(p)}
     ${rings}
@@ -1074,431 +1161,15 @@ function nflAdvHtml(p){
   $('sheet').classList.add('on');
 }
 
-
-/* ── STATISTICAL PROJECTION & SIMULATION ENGINE ──────────────────────────
-   Full box-score projections and game simulations. Numbers only -- no
-   sportsbook lines, no odds, no generated commentary anywhere in this
-   block. Every figure is either a direct model output or a Monte Carlo
-   percentile off one. */
-
-function rngPoisson(lambda){
-  if (lambda <= 0) return 0;
-  const L = Math.exp(-lambda);
-  let k = 0, p = 1;
-  do { k++; p *= Math.random(); } while (p > L);
-  return k - 1;
-}
-function rngNormal(mean, sd){
-  let u = 0, v = 0;
-  while (u === 0) u = Math.random();
-  while (v === 0) v = Math.random();
-  return mean + sd * Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
-}
-function percentile(sortedArr, q){
-  const i = Math.min(sortedArr.length - 1, Math.max(0, Math.round(q * (sortedArr.length - 1))));
-  return sortedArr[i];
-}
-
-const SIM_TRIALS = 10000; // fixed, not user-configurable
-
-// One stat, reduced to projection + range. Counting stats (whole-number,
-// low mean -- TDs, INTs, HR) sample Poisson; continuous stats (yards,
-// points) sample Normal with a modeled ~40% coefficient of variation.
-function simStat(mean, dp){
-  if (mean == null || isNaN(mean)) return null;
-  const counting = dp === 0 && mean < 20;
-  const sd = Math.max(0.4, mean * 0.40);
-  const samples = new Array(SIM_TRIALS);
-  for (let i = 0; i < SIM_TRIALS; i++)
-    samples[i] = counting ? rngPoisson(mean) : Math.max(0, rngNormal(mean, sd));
-  samples.sort((a,b) => a-b);
-  return {
-    mean: samples.reduce((a,b)=>a+b,0) / SIM_TRIALS,
-    floor: percentile(samples, .10), ceil: percentile(samples, .90), dp,
-  };
-}
-// Same idea, but for a TEAM total across several players -- each player's
-// own trial samples are added elementwise across the same 10,000 trials
-// rather than just summing means, so the combined range reflects real
-// simulated variance instead of naive addition.
-function simTeamTotal(playerVals, dp){
-  const vals = playerVals.filter(v => v != null);
-  if (!vals.length) return null;
-  const counting = dp === 0 && (vals.reduce((a,b)=>a+b,0)/vals.length) < 20;
-  const totals = new Array(SIM_TRIALS).fill(0);
-  for (const mean of vals){
-    const sd = Math.max(0.4, mean * 0.40);
-    for (let i = 0; i < SIM_TRIALS; i++)
-      totals[i] += counting ? rngPoisson(mean) : Math.max(0, rngNormal(mean, sd));
-  }
-  totals.sort((a,b) => a-b);
-  return {
-    mean: totals.reduce((a,b)=>a+b,0) / SIM_TRIALS,
-    floor: percentile(totals, .10), ceil: percentile(totals, .90), dp,
-  };
-}
-function fmtStat(v, dp){ return dp >= 1 ? v.toFixed(dp) : Math.round(v).toString(); }
-
-/* ── box score stat definitions, per sport/position ──
-   Only real model outputs. Where the model doesn't project something yet
-   (QB rushing volume, for one), that row is left out rather than invented. */
-function boxStatsFor(p){
-  const sp = p._sp;
-  if (sp === 'mlb'){
-    const ab = p.pa != null ? Math.max(0, p.pa - (p.expected_bb||0)) : null;
-    return [['AB', ab, 1], ['H', p.expected_hits, 1], ['HR', p.expected_hr, 1],
-      ['RBI', p.expected_rbi, 1], ['R', p.expected_runs, 1],
-      ['BB', p.expected_bb, 1], ['K', p.expected_k, 1]].filter(r => r[1] != null);
-  }
-  if (sp === 'nfl'){
-    if (posOf(p) === 'QB'){
-      return [['CMP', p.completions, 1], ['ATT', p.attempts, 1], ['PASS YDS', p.pass_yds, 0],
-        ['PASS TD', p.pass_td, 1], ['INT', p.int, 1], ['FPTS', p.fpts, 1]].filter(r => r[1] != null);
-    }
-    const rows = [];
-    if (p.rush_att != null){ rows.push(['ATT', p.rush_att, 1], ['RUSH YDS', p.rush_yds, 0]); }
-    if (p.targets != null){ rows.push(['TGT', p.targets, 1], ['REC', p.rec, 1], ['REC YDS', p.rec_yds, 0]); }
-    if (p.td_prob != null) rows.push(['TD', p.td_prob, 1]);
-    if (p.fpts != null) rows.push(['FPTS', p.fpts, 1]);
-    return rows;
-  }
-  if (sp === 'nhl'){
-    const goals = p.xg_pg, points = p.pts_pg;
-    const assists = (goals != null && points != null) ? Math.max(0, points - goals) : null;
-    return [['GOALS', goals, 2], ['ASSISTS', assists, 2], ['POINTS', points, 2],
-      ['SHOTS', p.shots_pg, 1], ['TOI (MIN)', p.toi, 1],
-      ['PP GOALS', p.pp_xg, 2]].filter(r => r[1] != null);
-  }
-  if (sp === 'nba'){
-    return [['MIN', p.min, 1], ['PTS', p.pts, 1], ['REB', p.reb, 1], ['AST', p.ast, 1],
-      ['STL', p.stl, 1], ['BLK', p.blk, 1], ['3PM', p.tpm, 1], ['TOV', p.tov, 1]].filter(r => r[1] != null);
-  }
-  return [];
-}
-// The one stat someone scans for first, for the compact list card.
-function headlineStat(p){
-  const sp = p._sp;
-  const want = sp==='mlb' ? 'H' : sp==='nfl' ? (posOf(p)==='QB'?'PASS YDS':(p.targets!=null?'REC YDS':'RUSH YDS'))
-    : sp==='nhl' ? 'POINTS' : 'PTS';
-  return p._stats.find(r => r[0] === want) || p._stats[0] || null;
-}
-
-/* ── quality metrics: Confidence / Matchup / Role Stability, 0-100 each ── */
-const MATCHUP_GRADE_SCORE = {A:95,'A-':90,'B+':85,B:78,'B-':72,C:65,'C-':58,D:45,'D-':38,F:28};
-function matchupRating(p){
-  if (p.matchup_grade && MATCHUP_GRADE_SCORE[p.matchup_grade] != null) return MATCHUP_GRADE_SCORE[p.matchup_grade];
-  const f = p._matchup_factor ?? p.opp_factor ?? p.eff_factor ?? 1;
-  return Math.max(5, Math.min(95, Math.round(50 + (f - 1) * 250)));
-}
-function roleStability(p){
-  let s = 92;
-  if (p.injury || (p.status && p.status !== 'ACT')) s -= 30;
-  if (p.src === 'league_avg') s -= 25;
-  else if (p.src === 'prior') s -= 12;
-  if (p.usage_note || p.injury_impact) s -= 8;
-  return Math.max(5, Math.min(99, Math.round(s)));
-}
-const qualityColor = v => v>=75?'var(--green)': v>=50?'var(--cyan)': v>=30?'var(--amber)':'var(--red)';
-function qualityRowHtml(p, pool){
-  const conf = confOf(p, pool), mu = matchupRating(p), role = roleStability(p);
-  return `<div class="qual-row">
-    <div class="qual"><b style="color:${qualityColor(conf)}">${conf}</b><span>Confidence</span></div>
-    <div class="qual"><b style="color:${qualityColor(mu)}">${mu}</b><span>Matchup</span></div>
-    <div class="qual"><b style="color:${qualityColor(role)}">${role}</b><span>Role Stability</span></div>
-  </div>`;
-}
-
-/* ── player pool: every player with a projectable box score, no market filter ── */
-// NFL doesn't project raw completions/attempts, only yards + completion% --
-// this backs into both using a fixed league-average yards/attempt. A modeled
-// estimate, not a separate model output, so both fields it produces are
-// self-evidently derived (whole numbers wouldn't be this precise if they
-// were the real thing).
-const LEAGUE_YPA = 7.0;
-function deriveQbCounts(p){
-  if (posOf(p) !== 'QB' || p.pass_yds == null) return p;
-  const attempts = p.pass_yds / LEAGUE_YPA;
-  const completions = p.comp_pct != null ? attempts * (p.comp_pct / 100) : null;
-  return { ...p, attempts, completions };
-}
-function boxPlayerPool(sp){
-  const d = DATA[sp];
-  const out = [];
-  if (!d || !d.games) return out;
-  d.games.forEach((g, gi) => {
-    if (g.game_state === 'Final') return;
-    for (const pool of POOLS[sp]){
-      const away = pool.startsWith('away');
-      const team = away ? g.away_team : g.home_team;
-      const opp = away ? g.home_team : g.away_team;
-      const raw = g[pool];
-      const arr = Array.isArray(raw) ? raw : (raw ? [raw] : []);
-      for (let p of arr){
-        if (sp === 'nfl') p = deriveQbCounts(p);
-        const pp = {...p, _sp:sp, _team:team, _opp:opp,
-          _tab:teamAbbr(sp,team), _oab:teamAbbr(sp,opp), _game:g};
-        pp._stats = boxStatsFor(pp);
-        if (!pp._stats.length) continue;
-        pp._key = `${sp}|box|${gi}|${away?'a':'h'}|${p.name}`;
-        out.push(pp);
-      }
-    }
-  });
-  const rankVal = p => (p._sp==='mlb'?p.expected_hrr:p._sp==='nfl'?p.fpts:p._sp==='nhl'?p.pts_pg:p.pts) || 0;
-  out.sort((a,b) => rankVal(b) - rankVal(a));
-  return out;
-}
-function findBoxPlayer(key){
-  for (const sp of SPORTS){
-    const pool = boxPlayerPool(sp);
-    const p = pool.find(x => x._key === key);
-    if (p) return { p, pool };
-  }
-  return null;
-}
-
-/* ── compact player card (Sim tab, Players mode) ── */
-function boxCardHtml(p, pool){
-  const head = headlineStat(p);
-  let headHtml = '';
-  if (head){
-    const [label, mean, dp] = head;
-    const s = simStat(mean, dp);
-    if (s) headHtml = `<div class="hero">
-      <div style="flex:1;min-width:0"><div class="hero-n">${fmtStat(s.mean,dp)}</div><div class="hero-l">${esc(label)}</div></div>
-      <div class="hero-c"><b>${fmtStat(s.floor,dp)}\u2013${fmtStat(s.ceil,dp)}</b><div class="hero-l">Range</div></div>
-    </div>`;
-  }
-  return `<div class="card pcard boxcard" data-lab="${esc(p._key)}">
-    <div class="sh-head">
-      ${avatar(p._sp, p, 'sh-av')}
-      <div style="min-width:0">
-        <div class="sh-n">${esc(p.name)}</div>
-        <div class="sh-m">${teamMark(p._sp, p._tab, 13)}<span>${esc(p._tab)}</span>
-          <span class="vs">vs</span>${teamMark(p._sp, p._oab, 13)}<span>${esc(p._oab)}</span></div>
-      </div>
-    </div>
-    ${headHtml}
-    ${qualityRowHtml(p, pool)}
-  </div>`;
-}
-
-function boxSkeletonHtml(){
-  return `<div class="lab-skel">
-    <div class="lab-skel-row" style="width:60%"></div>
-    <div class="lab-skel-grid">${'<div class="lab-skel-card"></div>'.repeat(3)}</div>
-    <div class="lab-skel-chart" style="height:220px"></div>
-  </div>`;
-}
-
-/* ── full player box score (opens in the sheet) ── */
-let curBoxKey = null;
-function openPlayerBox(key){
-  curBoxKey = key;
-  $('sheet-in').innerHTML = boxSkeletonHtml();
-  $('sheet').classList.add('on');
-  setTimeout(renderPlayerBox, 180);
-}
-function renderPlayerBox(){
-  if (!curBoxKey) return;
-  const found = findBoxPlayer(curBoxKey);
-  if (!found){ $('sheet').classList.remove('on'); return; }
-  const { p, pool } = found;
-  const rows = p._stats.map(([label, mean, dp]) => {
-    const s = simStat(mean, dp);
-    if (!s) return '';
-    return `<div class="box-row"><span class="box-row-l">${esc(label)}</span>
-      <span class="box-row-p">${fmtStat(s.mean,dp)}</span>
-      <span class="box-row-r">${fmtStat(s.floor,dp)}\u2013${fmtStat(s.ceil,dp)}</span></div>`;
-  }).join('');
-  $('sheet-in').innerHTML = `
-    <div class="lab-head">
-      ${avatar(p._sp, p, 'sh-av')}
-      <div style="min-width:0">
-        <div class="sh-n">${esc(p.name)}</div>
-        <div class="sh-m">${teamMark(p._sp, p._tab, 15)}<span>${esc(p._tab)}</span>
-          <span class="vs">vs</span>${teamMark(p._sp, p._oab, 15)}<span>${esc(p._oab)}</span></div>
-      </div>
-    </div>
-    ${qualityRowHtml(p, pool)}
-    <h2>Projected box score</h2>
-    <div class="box-table">
-      <div class="box-thead"><span>Stat</span><span>Projection</span><span>Range</span></div>
-      ${rows}
-    </div>
-    <div class="box-foot">${SIM_TRIALS.toLocaleString()} simulations \u00b7 range is the 10th\u201390th percentile</div>`;
-}
-
-/* ── GAME CENTER: projected score + win probability ── */
-function gameCenterCardHtml(sp, g){
-  const [projA, projH] = gameScore(sp, g);
-  if (projA == null || projH == null) return '';
-  const d = DATA[sp];
-  const idx = d.games.indexOf(g);
-  const aAb = teamAbbr(sp, sp==='mlb'||sp==='nfl' ? g.away_team : g.away_abbr);
-  const hAb = teamAbbr(sp, sp==='mlb'||sp==='nfl' ? g.home_team : g.home_abbr);
-  const dp = sp === 'mlb' || sp === 'nhl' ? 1 : 0;
-  const awayWin = g.away_win_pct, homeWin = g.home_win_pct;
-  return `<div class="card pcard boxcard" data-simgame="${idx}">
-    <div class="gc-h"><span class="gc-m">${teamMark(sp,aAb,15)}${esc(aAb)}
-      <span class="vs">@</span> ${teamMark(sp,hAb,15)}${esc(hAb)}</span></div>
-    <div class="hero"><div style="flex:1">
-      <div class="hero-n">${projA.toFixed(dp)}\u2013${projH.toFixed(dp)}</div>
-      <div class="hero-l">Projected score</div>
-    </div></div>
-    ${awayWin != null ? `<div class="gc-bar" style="background:#7C5CFF;margin:9px 0 5px">
-      <div style="width:${(awayWin*100).toFixed(0)}%;background:#3DF08B"></div></div>
-      <div class="sim-compare">${esc(aAb)} ${Math.round(awayWin*100)}% \u00b7 ${esc(hAb)} ${Math.round(homeWin*100)}%</div>` : ''}
-    <div class="box-foot">${SIM_TRIALS.toLocaleString()} simulations \u00b7 tap for full box score</div>
-  </div>`;
-}
-
-function teamPlayersFor(sp, g, away){
-  const out = [];
-  for (const pool of POOLS[sp]){
-    if (pool.startsWith('away') !== away) continue;
-    const raw = g[pool];
-    const arr = Array.isArray(raw) ? raw : (raw ? [raw] : []);
-    for (let p of arr){
-      if (sp === 'nfl') p = deriveQbCounts(p);
-      out.push({...p, _sp: sp});
-    }
-  }
-  return out;
-}
-function statRowHtml(label, mean, dp){
-  const s = simStat(mean, dp);
-  if (!s) return '';
-  return `<div class="box-row"><span class="box-row-l">${esc(label)}</span>
-    <span class="box-row-p">${fmtStat(s.mean,dp)}</span>
-    <span class="box-row-r">${fmtStat(s.floor,dp)}\u2013${fmtStat(s.ceil,dp)}</span></div>`;
-}
-function teamTotalRowHtml(label, vals, dp){
-  const s = simTeamTotal(vals, dp);
-  if (!s) return '';
-  return `<div class="box-row"><span class="box-row-l">${esc(label)}</span>
-    <span class="box-row-p">${fmtStat(s.mean,dp)}</span>
-    <span class="box-row-r">${fmtStat(s.floor,dp)}\u2013${fmtStat(s.ceil,dp)}</span></div>`;
-}
-
-// NFL gets the doc-spec structure: Passing / Rushing / Receiving. Every
-// other sport gets a per-player roster table -- the model doesn't split
-// stats into named categories the way football does, so a roster list is
-// the honest equivalent rather than inventing category names.
-function teamBoxHtml(sp, g, away, ab){
-  const roster = teamPlayersFor(sp, g, away);
-  if (sp === 'nfl'){
-    const qb = roster.find(p => posOf(p) === 'QB');
-    const others = roster.filter(p => posOf(p) !== 'QB');
-    const rushers = others.filter(p => p.rush_att != null);
-    const receivers = others.filter(p => p.targets != null);
-    const passHtml = qb ? `<h3>${esc(ab)} Passing</h3><div class="box-table">
-      <div class="box-thead"><span>Stat</span><span>Projection</span><span>Range</span></div>
-      ${statRowHtml('Completions', qb.completions, 1)}${statRowHtml('Attempts', qb.attempts, 1)}
-      ${statRowHtml('Yards', qb.pass_yds, 0)}${statRowHtml('TDs', qb.pass_td, 1)}${statRowHtml('INTs', qb.int, 1)}
-    </div>` : '';
-    const rushHtml = rushers.length ? `<h3>${esc(ab)} Rushing (team total)</h3><div class="box-table">
-      <div class="box-thead"><span>Stat</span><span>Projection</span><span>Range</span></div>
-      ${teamTotalRowHtml('Attempts', rushers.map(p=>p.rush_att), 1)}
-      ${teamTotalRowHtml('Yards', rushers.map(p=>p.rush_yds), 0)}
-      ${teamTotalRowHtml('TDs', rushers.map(p=>p.td_prob), 1)}
-    </div>` : '';
-    const recHtml = receivers.length ? `<h3>${esc(ab)} Receiving</h3><div class="box-table">
-      <div class="box-thead"><span>Player</span><span>Rec</span><span>Yards</span></div>
-      ${receivers.map(p => {
-        const rs = simStat(p.rec, 1), ys = simStat(p.rec_yds, 0);
-        if (!rs || !ys) return '';
-        return `<div class="box-row" data-lab="${esc(findRosterKey(sp,g,away,p.name))}">
-          <span class="box-row-l">${esc(p.name)}</span>
-          <span class="box-row-p">${fmtStat(rs.mean,1)}</span>
-          <span class="box-row-r">${fmtStat(ys.mean,0)} (${fmtStat(ys.floor,0)}\u2013${fmtStat(ys.ceil,0)})</span></div>`;
-      }).join('')}
-    </div>` : '';
-    return passHtml + rushHtml + recHtml;
-  }
-  // MLB / NHL / NBA: roster table using each player's headline stat.
-  const rows = roster.map(p => {
-    const pp = {...p, _sp: sp};
-    const stats = boxStatsFor(pp);
-    if (!stats.length) return '';
-    const head = stats.find(r => (sp==='mlb'?r[0]==='H':sp==='nhl'?r[0]==='POINTS':r[0]==='PTS')) || stats[0];
-    const s = simStat(head[1], head[2]);
-    if (!s) return '';
-    return `<div class="box-row" data-lab="${esc(findRosterKey(sp,g,away,p.name))}">
-      <span class="box-row-l">${esc(p.name)}</span>
-      <span class="box-row-p">${head[0]} ${fmtStat(s.mean,head[2])}</span>
-      <span class="box-row-r">${fmtStat(s.floor,head[2])}\u2013${fmtStat(s.ceil,head[2])}</span></div>`;
-  }).join('');
-  return `<h3>${esc(ab)}</h3><div class="box-table">
-    <div class="box-thead"><span>Player</span><span>Projection</span><span>Range</span></div>
-    ${rows}
-  </div>`;
-}
-function findRosterKey(sp, g, away, name){
-  const d = DATA[sp];
-  const gi = d.games.indexOf(g);
-  return `${sp}|box|${gi}|${away?'a':'h'}|${name}`;
-}
-
-let curGameBoxIdx = null;
-function openGameBox(sp, idx){
-  curGameBoxIdx = { sp, idx };
-  $('sheet-in').innerHTML = boxSkeletonHtml();
-  $('sheet').classList.add('on');
-  setTimeout(renderGameBox, 220);
-}
-function renderGameBox(){
-  if (!curGameBoxIdx) return;
-  const { sp, idx } = curGameBoxIdx;
-  const g = DATA[sp] && DATA[sp].games && DATA[sp].games[idx];
-  if (!g){ $('sheet').classList.remove('on'); return; }
-  const [projA, projH] = gameScore(sp, g);
-  const aAb = teamAbbr(sp, sp==='mlb'||sp==='nfl' ? g.away_team : g.away_abbr);
-  const hAb = teamAbbr(sp, sp==='mlb'||sp==='nfl' ? g.home_team : g.home_abbr);
-  const dp = sp === 'mlb' || sp === 'nhl' ? 1 : 0;
-  $('sheet-in').innerHTML = `
-    <div class="boxscore-head">
-      <div class="boxscore-team">${teamMark(sp,aAb,28)}<b>${projA!=null?projA.toFixed(dp):'\u2014'}</b><span>${esc(aAb)}</span></div>
-      <div class="boxscore-vs">PROJECTED<br><i>${SIM_TRIALS.toLocaleString()} sims</i></div>
-      <div class="boxscore-team">${teamMark(sp,hAb,28)}<b>${projH!=null?projH.toFixed(dp):'\u2014'}</b><span>${esc(hAb)}</span></div>
-    </div>
-    ${g.away_win_pct != null ? `<div class="sim-compare" style="margin-bottom:14px">${esc(aAb)} ${Math.round(g.away_win_pct*100)}% win \u00b7 ${esc(hAb)} ${Math.round(g.home_win_pct*100)}% win</div>` : ''}
-    ${teamBoxHtml(sp, g, true, aAb)}
-    ${teamBoxHtml(sp, g, false, hAb)}
-  `;
-}
-
-/* ── Sim tab ── */
-function renderSim(){
-  const d = DATA[sport];
-  const games = ((d && d.games) || []).filter(g => g.game_state !== 'Final');
-  const modeChips = `<div class="filters">
-    <div class="f ${simMode==='games'?'on':''}" data-sim="games">Game Center</div>
-    <div class="f ${simMode==='players'?'on':''}" data-sim="players">Player Projections</div>
-  </div>`;
-  let body;
-  if (simMode === 'games'){
-    const cards = games.map(g => gameCenterCardHtml(sport, g)).filter(Boolean).join('');
-    body = cards ? `<div class="props-grid">${cards}</div>`
-      : `<div class="empty"><div class="i">\u25ce</div><div class="m">Nothing to simulate</div>
-         <div class="s">${sport.toUpperCase()} has no projected scores yet.</div></div>`;
-  } else {
-    const pool = boxPlayerPool(sport);
-    const cards = pool.slice(0, 40).map(p => boxCardHtml(p, pool)).join('');
-    body = cards ? `<div class="props-grid">${cards}</div>`
-      : `<div class="empty"><div class="i">\u25ce</div><div class="m">Nothing to simulate</div>
-         <div class="s">${sport.toUpperCase()} has no projections right now.</div></div>`;
-  }
-  $('v-sim').innerHTML = modeChips + body;
-}
-
 /* ── wiring ── */
 function render(){
   document.querySelectorAll('.view').forEach(v => v.classList.toggle('on', v.id === 'v-'+view));
   document.querySelectorAll('.nb').forEach(b => b.classList.toggle('on', b.dataset.v === view));
-  if (view === 'explore') renderExplore();
+  if (view === 'dash') renderDash();
+  else if (view === 'explore') renderExplore();
   else if (view === 'games') renderGames();
-  else if (view === 'sim') renderSim();
+  else if (view === 'watch') renderWatch();
+  else if (view === 'profile') renderProfile();
   $('league-btn').innerHTML = `<img class="lg" src="${LEAGUE_LOGO[sport]}" alt="" width="15" height="15"
       onerror="this.remove()">${sport.toUpperCase()} \u25be`;
 }
@@ -1511,20 +1182,13 @@ document.querySelector('nav').addEventListener('click', e => {
 $('league-btn').addEventListener('click', () => {
   sport = SPORTS[(SPORTS.indexOf(sport)+1) % SPORTS.length];
   try { localStorage.setItem('slate_sport', sport); } catch(e){}
-  market = null; render();
+  market = null; category = null; render();
 });
 document.body.addEventListener('click', e => {
-  const simChip = e.target.closest('[data-sim]');
-  if (simChip){ simMode = simChip.dataset.sim; render(); return; }
-  const simMkt = e.target.closest('[data-simmkt]');
-  if (simMkt){ market = simMkt.dataset.simmkt; render(); return; }
-  const simGame = e.target.closest('[data-simgame]');
-  if (simGame){ openGameBox(sport, parseInt(simGame.dataset.simgame, 10)); return; }
-  const resim = e.target.closest('[data-resim]');
-  if (resim){ renderGameBox(); return; }
-  const lab = e.target.closest('[data-lab]');
-  if (lab){ openPlayerBox(lab.dataset.lab); return; }
-
+  const star = e.target.closest('[data-star]');
+  if (star){ e.stopPropagation(); watch.toggle(star.dataset.star); render(); return; }
+  const catChip = e.target.closest('[data-category]');
+  if (catChip){ category = catChip.dataset.category; market = null; render(); return; }
   const cat = e.target.closest('[data-market]');
   if (cat){ market = cat.dataset.market; view = 'explore'; render(); return; }
   const goto = e.target.closest('[data-goto]');
@@ -1533,53 +1197,14 @@ document.body.addEventListener('click', e => {
   if (k){ openSheet(k.dataset.key); return; }
 });
 $('sheet').addEventListener('click', e => {
-  if (e.target === $('sheet')){ $('sheet').classList.remove('on'); curBoxKey = null; curGameBoxIdx = null; }
+  if (e.target === $('sheet')) $('sheet').classList.remove('on');
 });
-// The refresh button only re-fetched the JSON, which never changes between
-// Action runs -- so it looked like it did nothing. It now asks the Cloudflare
-// Worker to dispatch the workflow, then re-polls while the run completes.
-// RUN_TRIGGER_URL lives in picks.js.
-let runTimer = null;
-function runStatus(msg, bad){
-  const el = $('run-status');
-  el.textContent = msg;
-  el.className = 'run-status show' + (bad ? ' bad' : '');
-  clearTimeout(runTimer);
-  runTimer = setTimeout(() => el.classList.remove('show'), 9000);
-}
-async function triggerRun(){
-  let url = '';
-  try { url = (typeof RUN_TRIGGER_URL === 'string' && RUN_TRIGGER_URL) || ''; } catch (e){}
-  if (!url) return { skipped: true };
-  try {
-    const r = await fetch(url, { method: 'POST' });
-    // A Worker without CORS headers throws here, which used to look identical
-    // to "nothing configured" -- i.e. a button that silently does nothing.
-    return r.ok ? { ok: true } : { ok: false, reason: 'HTTP ' + r.status };
-  } catch (e){
-    return { ok: false, reason: 'blocked \u2014 check the Worker\u2019s CORS headers' };
-  }
-}
-$('refresh').addEventListener('click', async () => {
-  const btn = $('refresh');
-  btn.classList.add('spin');
-  const res = await triggerRun();
-  await load();
-  if (res.skipped){
-    runStatus('Reloaded. Set RUN_TRIGGER_URL in picks.js to run the models.', true);
-  } else if (res.ok){
-    runStatus('Run started \u2014 new numbers in 1\u20132 min.');
-    [20, 45, 75, 110].forEach(s => setTimeout(load, s * 1000));
-  } else {
-    runStatus('Couldn\u2019t start a run: ' + res.reason, true);
-  }
-  btn.classList.remove('spin');
-});
+$('refresh').addEventListener('click', () => load());
 
 async function load(){
   await Promise.all(SPORTS.map(async sp => {
     try {
-      const r = await fetch(`./data/${sp}_slate.json?t=${Date.now()}`);
+      const r = await fetch(`../data/${sp}_slate.json?t=${Date.now()}`);
       DATA[sp] = await r.json();
     } catch(e){ DATA[sp] = {games:[]}; }
   }));
@@ -1587,7 +1212,7 @@ async function load(){
 }
 load();
 setInterval(load, 10*60*1000);
-if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('../sw.js');
 </script>
 </body>
 </html>
