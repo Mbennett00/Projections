@@ -55,6 +55,8 @@ h2{font-family:'IBM Plex Mono',monospace;font-size:9.5px;font-weight:700;letter-
   text-transform:uppercase;color:var(--faint);margin:20px 0 10px;display:flex;
   align-items:center;justify-content:space-between}
 h2 a{color:var(--cyan);text-decoration:none;font-size:9.5px}
+h3{font-family:'IBM Plex Mono',monospace;font-size:8.5px;font-weight:700;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--mute);margin:14px 0 6px}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:16px}
 .muted{color:var(--mute)}
 
@@ -156,88 +158,47 @@ h2 a{color:var(--cyan);text-decoration:none;font-size:9.5px}
   color:var(--faint);text-align:center}
 .simcard .gt{padding:4px 0}
 
-/* ── Simulation Lab (opens in the bottom sheet) ── */
+/* ── box score (opens in the bottom sheet) ── */
 .lab-head{display:flex;align-items:center;gap:10px;margin-bottom:14px}
 
-.lab-controls{background:var(--surface);border:1px solid var(--line);border-radius:14px;
-  margin-bottom:16px;overflow:hidden}
-.lab-controls-h{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;
-  cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;
-  letter-spacing:.04em;color:var(--mute)}
-.lab-controls-h i{font-style:normal;font-size:15px;color:var(--faint);width:16px;text-align:center}
-.lab-controls-body{max-height:0;overflow:hidden;padding:0 14px;transition:max-height .25s ease,padding .25s ease}
-.lab-controls.open .lab-controls-body{max-height:600px;padding:2px 14px 14px}
-.lab-ctrl-row{margin-bottom:11px}
-.lab-ctrl-l{display:block;font-family:'IBM Plex Mono',monospace;font-size:8.5px;font-weight:700;
-  letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-bottom:6px}
-.lab-ctrl-l i{font-style:normal;text-transform:none;letter-spacing:0;opacity:.7}
-.lab-chips{display:flex;gap:5px;flex-wrap:wrap}
-.lab-chip{font-family:'IBM Plex Mono',monospace;font-size:9.5px;font-weight:700;color:var(--mute);
-  background:var(--surface-2);border:1px solid var(--line);border-radius:99px;padding:6px 10px;cursor:pointer}
-.lab-chip.on{color:var(--void);background:var(--violet);border-color:transparent;font-weight:800}
-.lab-seed{width:100%;background:var(--surface-2);border:1px solid var(--line);border-radius:9px;
-  padding:8px 10px;color:var(--ink);font-family:'IBM Plex Mono',monospace;font-size:12px}
-.lab-seed::placeholder{color:var(--faint)}
-.lab-run-btn{width:100%;padding:11px;border-radius:11px;background:var(--green);color:var(--void);
-  border:0;font-family:'Sora',sans-serif;font-weight:800;font-size:13px;cursor:pointer;margin-top:4px}
-.lab-run-btn:active{transform:scale(.98)}
+/* quality metrics: Confidence / Matchup / Role Stability */
+.qual-row{display:flex;gap:7px;margin-bottom:14px}
+.qual{flex:1;text-align:center;background:var(--surface);border:1px solid var(--line);
+  border-radius:12px;padding:10px 6px}
+.qual b{display:block;font-family:'Sora',sans-serif;font-weight:800;font-size:18px;
+  letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.qual span{display:block;margin-top:4px;font-family:'IBM Plex Mono',monospace;font-size:7px;
+  font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--faint)}
 
-.lab-stat-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-bottom:6px}
-.lab-stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;
-  padding:11px 8px;text-align:center}
-.lab-stat-v{font-family:'Sora',sans-serif;font-weight:800;font-size:16px;letter-spacing:-.02em;
-  font-variant-numeric:tabular-nums}
-.lab-stat-l{margin-top:4px;font-family:'IBM Plex Mono',monospace;font-size:7px;font-weight:700;
-  letter-spacing:.07em;text-transform:uppercase;color:var(--faint)}
+/* projection tables: one row per stat (player box) or one row per team-total
+   stat (game box), always Stat/Player \u2192 Projection \u2192 Range */
+.box-table{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+  overflow:hidden;margin-bottom:14px}
+.box-thead{display:grid;grid-template-columns:1.4fr 1fr 1fr;padding:8px 10px;
+  background:var(--surface-2);color:var(--faint);font-family:'IBM Plex Mono',monospace;
+  font-weight:700;font-size:7.5px;letter-spacing:.06em;text-transform:uppercase}
+.box-thead span:not(:first-child),.box-row-p,.box-row-r{text-align:right}
+.box-row{display:grid;grid-template-columns:1.4fr 1fr 1fr;align-items:center;
+  padding:9px 10px;border-top:1px solid var(--line);font-family:'IBM Plex Mono',monospace;font-size:11px}
+.box-row[data-lab]{cursor:pointer}
+.box-row[data-lab]:active{background:var(--surface-2)}
+.box-row-l{color:var(--ink);font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.box-row-p{color:var(--green);font-weight:700;font-variant-numeric:tabular-nums}
+.box-row-r{color:var(--faint);font-variant-numeric:tabular-nums}
 
-.lab-chart-wrap{position:relative;background:var(--surface);border:1px solid var(--line);
-  border-radius:14px;padding:10px;margin-bottom:8px}
-.lab-chart-svg{width:100%;height:130px;display:block;touch-action:none;cursor:crosshair}
-.lab-chart-legend{display:flex;gap:12px;justify-content:center;margin-top:4px}
-.lab-chart-legend span{display:flex;align-items:center;gap:4px;font-family:'IBM Plex Mono',monospace;
-  font-size:8px;font-weight:700;color:var(--faint)}
-.lab-chart-legend i{width:7px;height:7px;border-radius:2px;display:inline-block}
-.lab-tooltip{position:absolute;top:8px;opacity:0;pointer-events:none;transition:opacity .1s;
-  background:var(--void);border:1px solid var(--line);border-radius:9px;padding:6px 9px;
-  font-family:'IBM Plex Mono',monospace;white-space:nowrap;z-index:2}
-.lab-tooltip b{display:block;font-size:13px;color:var(--ink);margin-bottom:2px}
-.lab-tooltip span{display:block;font-size:8.5px;color:var(--mute)}
+.box-foot{margin-top:-6px;margin-bottom:16px;font-family:'IBM Plex Mono',monospace;
+  font-size:7.5px;color:var(--faint);text-align:center;letter-spacing:.04em}
 
-.lab-pctile-row{display:flex;gap:4px;margin-bottom:18px}
-.lab-pctile{flex:1;text-align:center;padding:8px 2px;border-radius:9px;background:var(--surface-2)}
-.lab-pctile b{display:block;font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:11px}
-.lab-pctile span{display:block;margin-top:2px;font-family:'IBM Plex Mono',monospace;font-size:6.5px;
-  color:var(--faint);font-weight:700}
-
-.lab-table{background:var(--surface);border:1px solid var(--line);border-radius:12px;
-  overflow:hidden;margin-bottom:6px}
-.lab-thead,.lab-trow{display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr 1fr;
-  padding:8px 9px;text-align:right}
-.lab-table-alt .lab-thead,.lab-table-alt .lab-trow{grid-template-columns:1fr 1fr 1fr 1fr}
-.lab-thead span,.lab-trow span{font-family:'IBM Plex Mono',monospace;font-size:9px}
-.lab-thead{background:var(--surface-2);color:var(--faint);font-weight:700;font-size:7.5px;
-  letter-spacing:.06em;text-transform:uppercase}
-.lab-thead span:first-child,.lab-trow span:first-child{text-align:left}
-.lab-trow{border-top:1px solid var(--line);font-weight:600;color:var(--mute)}
-.lab-trow span:first-child{color:var(--ink);font-weight:700}
-.lab-trow.hl{background:rgba(61,240,139,.08)}
-.lab-trow.hl span:first-child{color:var(--green)}
-.lab-trow .dim{color:var(--faint)}
-.lab-note{font-size:10.5px;color:var(--faint);line-height:1.5;margin-bottom:18px}
-
-.lab-sens-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px}
-.lab-sens-btn{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;color:var(--mute);
-  background:var(--surface);border:1px solid var(--line);border-radius:99px;padding:8px 12px;cursor:pointer}
-.lab-sens-btn.on{color:var(--void);background:var(--cyan);border-color:transparent}
-.lab-sens-btn.lab-reset{color:var(--red);border-color:rgba(255,78,106,.4)}
-
-.lab-inputs{background:var(--surface);border:1px solid var(--line);border-radius:12px;
-  padding:2px 13px;margin-bottom:10px}
-.lab-input-row{display:flex;align-items:center;justify-content:space-between;
-  padding:9px 0;border-bottom:1px solid var(--line);font-size:11.5px}
-.lab-input-row:last-child{border-bottom:0}
-.lab-input-row span{color:var(--faint)}
-.lab-input-row b{font-family:'IBM Plex Mono',monospace;font-weight:700;color:var(--ink)}
+/* Game Center: projected final score header */
+.boxscore-head{display:flex;align-items:center;justify-content:space-between;
+  background:var(--surface);border:1px solid var(--line);border-radius:14px;
+  padding:16px 12px;margin-bottom:10px}
+.boxscore-team{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px}
+.boxscore-team b{font-family:'Sora',sans-serif;font-weight:800;font-size:26px;letter-spacing:-.02em}
+.boxscore-team span{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;color:var(--mute)}
+.boxscore-vs{flex:none;padding:0 10px;text-align:center;font-family:'IBM Plex Mono',monospace;
+  font-size:8px;font-weight:700;letter-spacing:.08em;color:var(--faint);line-height:1.6}
+.boxscore-vs i{font-style:normal;display:block;font-size:7.5px;opacity:.75}
 
 /* skeleton, shown for the brief moment between tapping a card and the
    simulation's first render */
@@ -1113,877 +1074,243 @@ function nflAdvHtml(p){
   $('sheet').classList.add('on');
 }
 
-/* ── MONTE CARLO SIM ──────────────────────────────────────────────────────
-   Not a new model -- it draws from the exact same assumptions the analytical
-   distribution() chart already uses (Poisson for counting stats, Normal with
-   a sport-typical spread for continuous ones). The difference is honest work
-   instead of a formula: actual random trials, thousands of them, tallied up.
-   That's worth doing even though the closed-form math converges to the same
-   place, because it's the same technique used for game outcomes below, where
-   there ISN'T a clean closed form for "probability the score ends up X-Y". */
-function rngPoisson(lambda, rand){
-  rand = rand || Math.random;
+
+/* ── STATISTICAL PROJECTION & SIMULATION ENGINE ──────────────────────────
+   Full box-score projections and game simulations. Numbers only -- no
+   sportsbook lines, no odds, no generated commentary anywhere in this
+   block. Every figure is either a direct model output or a Monte Carlo
+   percentile off one. */
+
+function rngPoisson(lambda){
   if (lambda <= 0) return 0;
-  // Knuth's algorithm. Fine up to moderate lambda, which covers every
-  // counting stat here -- nothing in this app averages above ~15.
   const L = Math.exp(-lambda);
   let k = 0, p = 1;
-  do { k++; p *= rand(); } while (p > L);
+  do { k++; p *= Math.random(); } while (p > L);
   return k - 1;
 }
-function rngNormal(mean, sd, rand){
-  rand = rand || Math.random;
+function rngNormal(mean, sd){
   let u = 0, v = 0;
-  while (u === 0) u = rand();
-  while (v === 0) v = rand();
+  while (u === 0) u = Math.random();
+  while (v === 0) v = Math.random();
   return mean + sd * Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
-}
-// Marsaglia-Tsang for Gamma, then a Gamma-Poisson mixture for Negative
-// Binomial (which is what "Poisson, but more overdispersed than its own
-// mean" actually IS mathematically) -- and a log-space Normal for Log-Normal,
-// parameterized so its mean lands on the target mean rather than its median.
-// These three plus the two above are the four distribution choices the Sim
-// Lab's control panel offers.
-function rngGamma(shape, scale, rand){
-  rand = rand || Math.random;
-  if (shape < 1){
-    const u = rand();
-    return rngGamma(1 + shape, scale, rand) * Math.pow(u, 1/shape);
-  }
-  const d = shape - 1/3, c = 1/Math.sqrt(9*d);
-  for (;;){
-    let x, v;
-    do { x = rngNormal(0, 1, rand); v = 1 + c*x; } while (v <= 0);
-    v = v*v*v;
-    const u = rand();
-    if (u < 1 - 0.0331*x*x*x*x) return d*v*scale;
-    if (Math.log(u) < 0.5*x*x + d*(1 - v + Math.log(v))) return d*v*scale;
-  }
-}
-function rngNegBinom(mean, sd, rand){
-  rand = rand || Math.random;
-  const variance = Math.max(mean + 0.05, sd*sd);
-  const r = (mean*mean) / Math.max(1e-6, variance - mean);
-  const lambda = rngGamma(r, mean/r, rand);
-  return rngPoisson(lambda, rand);
-}
-function rngLogNormal(mean, sd, rand){
-  rand = rand || Math.random;
-  const cv = sd / Math.max(1e-6, mean);
-  const sigma2 = Math.log(1 + cv*cv);
-  const mu = Math.log(Math.max(1e-6, mean)) - 0.5*sigma2;
-  return Math.exp(rngNormal(mu, Math.sqrt(sigma2), rand));
-}
-function sampleFor(dist, mean, sd, rand){
-  if (dist === 'poisson') return rngPoisson(mean, rand);
-  if (dist === 'negbinom') return rngNegBinom(mean, sd, rand);
-  if (dist === 'lognormal') return rngLogNormal(mean, sd, rand);
-  return Math.max(0, rngNormal(mean, sd, rand));
-}
-// Mulberry32 -- small, fast, good enough for "reproducible if you want it"
-// rather than cryptographic. Only used when the Lab's seed field is filled
-// in; every other simulation in the app still uses Math.random.
-function mulberry32(seed){
-  let a = seed >>> 0;
-  return function(){
-    a |= 0; a = (a + 0x6D2B79F5) | 0;
-    let t = Math.imul(a ^ (a >>> 15), 1 | a);
-    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
 }
 function percentile(sortedArr, q){
   const i = Math.min(sortedArr.length - 1, Math.max(0, Math.round(q * (sortedArr.length - 1))));
   return sortedArr[i];
 }
-function simHistogram(samples){
-  const lo = samples[0], hi = samples[samples.length - 1];
-  const bins = 12, w = Math.max(1e-6, (hi - lo) / bins);
-  const counts = new Array(bins).fill(0);
-  for (const x of samples){
-    let idx = Math.floor((x - lo) / w);
-    counts[Math.max(0, Math.min(bins - 1, idx))]++;
-  }
-  const max = Math.max(...counts) || 1;
-  return `<div class="simhist">${counts.map(c =>
-    `<div class="simbar" style="height:${Math.max(4, Math.round((c/max)*100))}%"></div>`).join('')}</div>`;
-}
 
-const SIM_TRIALS_PLAYER = 3000;
-function simPlayer(p){
-  const v = p._val;
-  const counting = p._dp >= 2 || v < 12;
-  const sd = Math.max(1, v * 0.42);
-  const samples = new Array(SIM_TRIALS_PLAYER);
-  for (let i = 0; i < SIM_TRIALS_PLAYER; i++)
-    samples[i] = counting ? rngPoisson(v) : Math.max(0, rngNormal(v, sd));
+const SIM_TRIALS = 10000; // fixed, not user-configurable
+
+// One stat, reduced to projection + range. Counting stats (whole-number,
+// low mean -- TDs, INTs, HR) sample Poisson; continuous stats (yards,
+// points) sample Normal with a modeled ~40% coefficient of variation.
+function simStat(mean, dp){
+  if (mean == null || isNaN(mean)) return null;
+  const counting = dp === 0 && mean < 20;
+  const sd = Math.max(0.4, mean * 0.40);
+  const samples = new Array(SIM_TRIALS);
+  for (let i = 0; i < SIM_TRIALS; i++)
+    samples[i] = counting ? rngPoisson(mean) : Math.max(0, rngNormal(mean, sd));
   samples.sort((a,b) => a-b);
-  const e = edgeOf(p);
-  let hitRate = null;
-  if (e && e.line != null){
-    const overShare = samples.filter(x => x >= e.line).length / samples.length;
-    hitRate = e.side === 'under' ? 1 - overShare : overShare;
-  }
-  return { samples, floor: percentile(samples,.25), median: percentile(samples,.5),
-    ceil: percentile(samples,.90), edge: e, hitRate };
-}
-
-function simPlayerCardHtml(p){
-  const s = simPlayer(p);
-  const fmt = n => p._dp >= 2 ? n.toFixed(1) : n.toFixed(0);
-  return `<div class="card pcard simcard" data-lab="${esc(p._key)}">
-    <div class="sh-head">
-      ${avatar(p._sp, p, 'sh-av')}
-      <div style="min-width:0">
-        <div class="sh-n">${esc(p.name)}</div>
-        <div class="pcard-mkt">${esc(p._market)} \u00b7 vs ${esc(p._oab)}</div>
-      </div>
-    </div>
-    ${simHistogram(s.samples)}
-    <div class="cells">
-      <div class="cell"><b style="color:#FF9A3D">${fmt(s.floor)}</b><span>Floor</span></div>
-      <div class="cell"><b style="color:#3DF08B">${fmt(s.median)}</b><span>Median</span></div>
-      <div class="cell"><b style="color:#9B7CFF">${fmt(s.ceil)}</b><span>Ceiling</span></div>
-    </div>
-    ${s.hitRate != null ? `<div class="sim-hit">
-      <span>${s.edge.side==='under'?'Under':'Over'} ${esc(String(s.edge.line))}</span>
-      <b style="color:${s.hitRate>=.5?'#3DF08B':'#FF4E6A'}">${Math.round(s.hitRate*100)}% hit</b>
-    </div>` : ''}
-    <div class="sim-foot">${SIM_TRIALS_PLAYER.toLocaleString()} simulated trials \u00b7 tap for full lab</div>
-  </div>`;
-}
-
-const SIM_TRIALS_GAME = 5000;
-// NFL and NBA scores are close enough to normal to simulate that way; MLB
-// and NHL are low-scoring counting stats, so Poisson fits them better --
-// same split the player-prop sim uses, just applied per team instead of
-// per player.
-//
-// away_score_sd/home_score_sd come from each team's own last-season game
-// log (nfl_projections.py / nba_projections.py) when the pipeline has them.
-// The flat fallback below only kicks in for a team with too short a sample
-// (new franchise relocation, missing data, etc.) -- most games by now
-// should be using the real per-team number, not the league average.
-const SIM_SCORE_SD_FALLBACK = { nfl: 10, nba: 11.5 };
-function simGame(sp, g){
-  const [projA, projH] = gameScore(sp, g);
-  if (projA == null || projH == null) return null;
-  const fallback = SIM_SCORE_SD_FALLBACK[sp];
-  const sdA = g.away_score_sd ?? fallback;
-  const sdH = g.home_score_sd ?? fallback;
-  let aWins = 0, hWins = 0, aSum = 0, hSum = 0;
-  for (let i = 0; i < SIM_TRIALS_GAME; i++){
-    const a = sdA ? Math.max(0, rngNormal(projA, sdA)) : rngPoisson(projA);
-    const h = sdH ? Math.max(0, rngNormal(projH, sdH)) : rngPoisson(projH);
-    aSum += a; hSum += h;
-    if (a === h) { if (Math.random() < 0.5) aWins++; else hWins++; }
-    else if (a > h) aWins++; else hWins++;
-  }
-  return { awayWinPct: aWins/SIM_TRIALS_GAME, homeWinPct: hWins/SIM_TRIALS_GAME,
-    avgAway: aSum/SIM_TRIALS_GAME, avgHome: hSum/SIM_TRIALS_GAME };
-}
-
-function simGameCardHtml(sp, g){
-  const s = simGame(sp, g);
-  if (!s) return '';
-  const d = DATA[sp];
-  const idx = d.games.indexOf(g);
-  const aAb = teamAbbr(sp, sp==='mlb'||sp==='nfl' ? g.away_team : g.away_abbr);
-  const hAb = teamAbbr(sp, sp==='mlb'||sp==='nfl' ? g.home_team : g.home_abbr);
-  const dp = sp === 'mlb' || sp === 'nhl' ? 1 : 0;
-  const aName = sp==='mlb'||sp==='nfl' ? g.away_team : aAb;
-  const hName = sp==='mlb'||sp==='nfl' ? g.home_team : hAb;
-  const row = (ab, name, winPct, avgScore, fav) => `
-    <div class="gt">
-      ${teamMark(sp, ab, 18)}
-      <span class="gt-n ${fav?'fav':''}">${esc(name)}</span>
-      <span class="gt-s">${avgScore.toFixed(dp)}</span>
-      <span class="gt-w">${Math.round(winPct*100)}%</span>
-    </div>`;
-  const model = g.away_win_pct != null
-    ? `<div class="sim-compare">Model ${Math.round(g.away_win_pct*100)}/${Math.round(g.home_win_pct*100)}
-       \u00b7 Sim ${Math.round(s.awayWinPct*100)}/${Math.round(s.homeWinPct*100)}</div>` : '';
-  return `<div class="card pcard simcard" data-simgame="${idx}">
-    <div class="gc-h"><span class="gc-m">${teamMark(sp,aAb,15)}${esc(aAb)}
-      <span class="vs">@</span> ${teamMark(sp,hAb,15)}${esc(hAb)}</span></div>
-    ${row(aAb, aName, s.awayWinPct, s.avgAway, s.awayWinPct>s.homeWinPct)}
-    ${row(hAb, hName, s.homeWinPct, s.avgHome, s.homeWinPct>s.awayWinPct)}
-    <div class="gc-bar" style="background:#7C5CFF">
-      <div style="width:${(s.awayWinPct*100).toFixed(0)}%;background:#3DF08B"></div></div>
-    ${model}
-    <div class="sim-tap">\u25b8 Tap to run the game \u2014 final score + box score</div>
-  </div>`;
-}
-
-// ── box score (single trial) ──
-// Everything above runs thousands of trials and reports the odds. This runs
-// exactly ONE -- one random draw for the final score, one random draw per
-// player off their own distribution -- and presents it like a real result,
-// because that's what a person asking to "simulate the game" actually wants
-// to see: a score, not a percentage. Re-rolling is just running it again.
-function primaryMarketFor(sp, p){
-  if (sp === 'nfl'){
-    const pos = posOf(p);
-    if (pos === 'QB') return p.pass_yds != null ? ['Pass Yds', p.pass_yds, 0] : null;
-    if (pos === 'RB') return p.rush_yds != null ? ['Rush Yds', p.rush_yds, 0] : null;
-    return p.rec_yds != null ? ['Rec Yds', p.rec_yds, 0] : null;
-  }
-  const m = (MARKETS[sp] || [])[0];
-  if (!m) return null;
-  const v = m[1](p);
-  return v == null || isNaN(v) ? null : [m[0], v, m[2]];
-}
-function simGameOnce(sp, g){
-  const [projA, projH] = gameScore(sp, g);
-  if (projA == null || projH == null) return null;
-  const fallback = SIM_SCORE_SD_FALLBACK[sp];
-  const sdA = g.away_score_sd ?? fallback, sdH = g.home_score_sd ?? fallback;
-  const scoreA = Math.round(sdA ? Math.max(0, rngNormal(projA, sdA)) : rngPoisson(projA));
-  const scoreH = Math.round(sdH ? Math.max(0, rngNormal(projH, sdH)) : rngPoisson(projH));
-  return { scoreA, scoreH };
-}
-function simBoxScore(sp, g){
-  const once = simGameOnce(sp, g);
-  if (!once) return null;
-  const rows = [];
-  for (const pool of POOLS[sp]){
-    const away = pool.startsWith('away');
-    const raw = g[pool];
-    const poolArr = Array.isArray(raw) ? raw : (raw ? [raw] : []);
-    for (const p of poolArr){
-      const pm = primaryMarketFor(sp, p);
-      if (!pm) continue;
-      const [label, mean, dp] = pm;
-      const counting = dp >= 2 || mean < 12;
-      const sd = Math.max(1, mean * 0.42);
-      const value = Math.max(0, counting ? rngPoisson(mean) : rngNormal(mean, sd));
-      rows.push({ name: p.name, side: away ? 'away' : 'home', label, dp, value });
-    }
-  }
-  return { ...once, rows };
-}
-
-let curSimGame = null; // {sp, idx} for whichever box score is open in the sheet
-function openGameBox(sp, idx){
-  const d = DATA[sp];
-  const g = d && d.games && d.games[idx];
-  if (!g) return;
-  curSimGame = { sp, idx };
-  renderGameBox();
-  $('sheet').classList.add('on');
-}
-function renderGameBox(){
-  if (!curSimGame) return;
-  const { sp, idx } = curSimGame;
-  const g = DATA[sp].games[idx];
-  const box = simBoxScore(sp, g);
-  if (!box){ $('sheet').classList.remove('on'); return; }
-  const aAb = teamAbbr(sp, sp==='mlb'||sp==='nfl' ? g.away_team : g.away_abbr);
-  const hAb = teamAbbr(sp, sp==='mlb'||sp==='nfl' ? g.home_team : g.home_abbr);
-  const fmt = r => r.dp >= 2 ? r.value.toFixed(1) : Math.round(r.value);
-  const list = side => box.rows.filter(r => r.side === side).sort((a,b) => b.value - a.value)
-    .map(r => `<div class="boxrow"><span class="boxrow-n">${esc(r.name)}</span>
-      <span class="boxrow-l">${esc(r.label)}</span>
-      <span class="boxrow-v">${fmt(r)}</span></div>`).join('')
-    || '<div class="boxrow boxrow-empty">No players projected</div>';
-  $('sheet-in').innerHTML = `
-    <div class="boxscore-head">
-      <div class="boxscore-team">${teamMark(sp,aAb,28)}<b>${box.scoreA}</b><span>${esc(aAb)}</span></div>
-      <div class="boxscore-vs">FINAL<br><i>simulated</i></div>
-      <div class="boxscore-team">${teamMark(sp,hAb,28)}<b>${box.scoreH}</b><span>${esc(hAb)}</span></div>
-    </div>
-    <h2>${esc(aAb)}</h2>
-    <div class="boxlist">${list('away')}</div>
-    <h2>${esc(hAb)}</h2>
-    <div class="boxlist">${list('home')}</div>
-    <button class="resim-btn" data-resim>\u21bb Run it again</button>
-    <button class="lab-open-link" data-gamelab="${idx}">\u2192 Open full game simulation lab</button>`;
-}
-
-/* ── GAME SIMULATION LAB ──────────────────────────────────────────────────
-   Same instrument panel as the player lab, aimed at the game instead of a
-   stat line: pick a distribution, pick a trial count, toggle blowout risk /
-   score correlation / overtime, and see win%, the total, and the spread all
-   redraw from the same batch of trials. Two views share one chart --
-   Total (combined score) and Margin (home minus away) -- since those are
-   the two numbers an actual book posts a line on. */
-let gameLab = null; // { sp, idx, trials, dist, seed, adjPct, blowout, corr, ot, view, controlsOpen }
-
-function runGameLabSim(sp, g, opts){
-  const [projA, projH] = gameScore(sp, g);
-  if (projA == null || projH == null) return null;
-  const rand = (opts.seed !== '' && opts.seed != null && !isNaN(opts.seed))
-    ? mulberry32(Number(opts.seed) >>> 0) : Math.random;
-  const mult = 1 + (opts.adjPct || 0) / 100;
-  const meanA = Math.max(0.05, projA * mult), meanH = Math.max(0.05, projH * mult);
-  const fallback = SIM_SCORE_SD_FALLBACK[sp];
-  let sdA = g.away_score_sd ?? fallback, sdH = g.home_score_sd ?? fallback;
-  if (opts.blowout){ sdA *= 1.3; sdH *= 1.3; } // wider spread = more blowout / more upset risk both ways
-  const trials = opts.trials || 5000;
-  const awaySamples = new Array(trials), homeSamples = new Array(trials);
-  const totalSamples = new Array(trials), marginSamples = new Array(trials);
-  let aWins = 0, hWins = 0, ties = 0;
-  for (let i = 0; i < trials; i++){
-    // Correlation: a shared "environment" multiplier applied to both teams
-    // before their own noise -- pace-up games push both scores together,
-    // which is why real totals and real margins aren't independent draws.
-    const env = opts.corr ? Math.max(0.6, rngNormal(1, 0.08, rand)) : 1;
-    let a = sdA ? Math.max(0, rngNormal(meanA*env, sdA, rand)) : rngPoisson(meanA*env, rand);
-    let h = sdH ? Math.max(0, rngNormal(meanH*env, sdH, rand)) : rngPoisson(meanH*env, rand);
-    if (!sdA) a = Math.round(a); if (!sdH) h = Math.round(h);
-    if (a === h){
-      if (opts.ot){
-        // Sudden-death-style resolution: coin flip decides it, small bump
-        // to the winner's score so the box still reads like a final.
-        if (rand() < 0.5) a += (sp==='nfl'?3:sp==='nba'?2:1); else h += (sp==='nfl'?3:sp==='nba'?2:1);
-      } else {
-        ties++;
-      }
-    }
-    if (a > h) aWins++; else if (h > a) hWins++;
-    awaySamples[i] = a; homeSamples[i] = h;
-    totalSamples[i] = a + h; marginSamples[i] = h - a;
-  }
-  awaySamples.sort((x,y)=>x-y); homeSamples.sort((x,y)=>x-y);
-  totalSamples.sort((x,y)=>x-y); marginSamples.sort((x,y)=>x-y);
-  return { awaySamples, homeSamples, totalSamples, marginSamples, trials,
-    awayWinPct: aWins/trials, homeWinPct: hWins/trials, tiePct: ties/trials };
-}
-
-function basicStats(samples){
-  const n = samples.length;
-  const mean = samples.reduce((a,b)=>a+b,0)/n;
-  const variance = samples.reduce((a,b)=>a+(b-mean)*(b-mean),0)/n;
-  return { mean, median: percentile(samples,.5), floor: percentile(samples,.1),
-    ceil: percentile(samples,.9), sd: Math.sqrt(variance) };
-}
-
-function gameLabThresholds(samples, dp, bookLine, priceOver, priceUnder, isMargin, homeAb){
-  const n = samples.length;
-  const step = niceStep(basicStats(samples).mean, dp);
-  const med = percentile(samples,.5);
-  const start = med - step*3;
-  const rows = [];
-  for (let i=0;i<7;i++){
-    const t = Math.round(start + i*step);
-    const over = samples.filter(x => x >= t).length / n;
-    const fair = probToAmerican(over);
-    let edgePct=null, ev=null, kelly=null, isMarket=false;
-    if (bookLine != null && Math.abs(bookLine - t) < step*0.5){
-      isMarket = true;
-      const price = isMargin ? priceUnder : priceOver; // home-covers price for margin view
-      if (price != null){
-        const implied = 1/americanToDecimal(price);
-        edgePct = (over - implied) * 100;
-        ev = evPer100(over, price);
-        kelly = kellyPct(over, price);
-      }
-    }
-    rows.push({ t, over, under:1-over, fair, edgePct, ev, kelly, isMarket });
-  }
-  let bestI=-1, bestV=-1;
-  rows.forEach((r,i) => { if (r.kelly != null && r.kelly > bestV){ bestV = r.kelly; bestI = i; } });
-  if (bestI >= 0) rows[bestI].highlight = true;
-  return rows;
-}
-function gameLabAltLines(samples, dp){
-  const n = samples.length;
-  return [.15,.30,.45,.60,.75,.90].map(q => {
-    const t = Math.round(percentile(samples,q));
-    const over = samples.filter(x => x >= t).length / n;
-    return { t, over, under: 1-over, fair: probToAmerican(over) };
-  });
-}
-
-function findGame(sp, idx){ return DATA[sp] && DATA[sp].games && DATA[sp].games[idx]; }
-
-function openGameLab(sp, idx){
-  gameLab = { sp, idx, trials: 5000, dist: 'normal', seed: '', adjPct: 0,
-    blowout: false, corr: false, ot: true, view: 'total', controlsOpen: false };
-  $('sheet-in').innerHTML = labSkeletonHtml();
-  setTimeout(renderGameLab, 220);
-}
-
-function renderGameLab(){
-  if (!gameLab) return;
-  const { sp, idx } = gameLab;
-  const g = findGame(sp, idx);
-  if (!g){ $('sheet').classList.remove('on'); return; }
-  const sim = runGameLabSim(sp, g, gameLab);
-  if (!sim){ $('sheet').classList.remove('on'); return; }
-  const aAb = teamAbbr(sp, sp==='mlb'||sp==='nfl' ? g.away_team : g.away_abbr);
-  const hAb = teamAbbr(sp, sp==='mlb'||sp==='nfl' ? g.home_team : g.home_abbr);
-  const dp = sp === 'mlb' || sp === 'nhl' ? 1 : 0;
-  const L = g._lines || {};
-  const totalLine = L.total, spreadLine = L.spread; // spread is the HOME number
-
-  const awayStats = basicStats(sim.awaySamples), homeStats = basicStats(sim.homeSamples);
-  const totalStats = basicStats(sim.totalSamples), marginStats = basicStats(sim.marginSamples);
-  const viewSamples = gameLab.view === 'total' ? sim.totalSamples : sim.marginSamples;
-  const viewStats = gameLab.view === 'total' ? totalStats : marginStats;
-  const viewLine = gameLab.view === 'total' ? totalLine : (spreadLine != null ? -spreadLine : null); // flip to "home margin" sign
-  const viewLabel = gameLab.view === 'total' ? 'Combined score' : `${hAb} margin (home \u2212 away)`;
-  const viewDp = sp === 'mlb' || sp === 'nhl' ? 0 : 0;
-
-  const chip = (val, cur, label, attr) => `<div class="lab-chip ${val===cur?'on':''}" data-${attr}="${val}">${label}</div>`;
-  const oddsCell = v => v == null ? '<span class="dim">\u2014</span>' : (v>0?'+':'')+v;
-  const pctCell = v => v == null ? '<span class="dim">\u2014</span>' : Math.round(v*100)+'%';
-
-  const thresholds = gameLabThresholds(viewSamples, viewDp, viewLine,
-    L.over_price, gameLab.view==='margin' ? L.spread_home_price : L.under_price, gameLab.view==='margin', hAb);
-  const altLines = gameLabAltLines(viewSamples, viewDp);
-
-  $('sheet-in').innerHTML = `
-    <div class="lab-head">
-      <div class="gc-m" style="font-size:14px">${teamMark(sp,aAb,20)}${esc(aAb)}
-        <span class="vs">@</span> ${teamMark(sp,hAb,20)}${esc(hAb)}</div>
-    </div>
-
-    <div class="lab-controls ${gameLab.controlsOpen ? 'open':''}">
-      <div class="lab-controls-h" data-gamelab-toggle>
-        <span>Simulation controls</span><i>${gameLab.controlsOpen ? '\u2212' : '+'}</i>
-      </div>
-      <div class="lab-controls-body">
-        <div class="lab-ctrl-row"><span class="lab-ctrl-l">Trials</span>
-          <div class="lab-chips">${[1000,5000,10000,25000,50000].map(t =>
-            chip(t, gameLab.trials, t.toLocaleString(), 'gamelab-trials')).join('')}</div></div>
-        <div class="lab-ctrl-row"><span class="lab-ctrl-l">Distribution</span>
-          <div class="lab-chips">
-            ${chip('normal', gameLab.dist, 'Normal', 'gamelab-dist')}
-            ${chip('poisson', gameLab.dist, 'Poisson', 'gamelab-dist')}
-            ${chip('negbinom', gameLab.dist, 'Neg. Binomial', 'gamelab-dist')}
-            ${chip('lognormal', gameLab.dist, 'Log-Normal', 'gamelab-dist')}
-          </div></div>
-        <div class="lab-ctrl-row"><span class="lab-ctrl-l">Toggles</span>
-          <div class="lab-chips">
-            <div class="lab-chip ${gameLab.blowout?'on':''}" data-gamelab-blowout>Blowout risk</div>
-            <div class="lab-chip ${gameLab.corr?'on':''}" data-gamelab-corr>Correlation</div>
-            <div class="lab-chip ${gameLab.ot?'on':''}" data-gamelab-ot>Overtime</div>
-          </div></div>
-        <div class="lab-ctrl-row"><span class="lab-ctrl-l">Seed <i>(optional)</i></span>
-          <input class="lab-seed" id="gamelab-seed-input" type="number" placeholder="random"
-            value="${gameLab.seed ?? ''}" inputmode="numeric"/></div>
-        <button class="lab-run-btn" data-gamelab-run>Run Simulation</button>
-      </div>
-    </div>
-
-    <h2>Win probability</h2>
-    <div class="lab-stat-grid" style="grid-template-columns:1fr 1fr ${sim.tiePct>0?'1fr':''}">
-      ${labStatCard(aAb+' win', Math.round(sim.awayWinPct*100)+'%', 'var(--green)')}
-      ${labStatCard(hAb+' win', Math.round(sim.homeWinPct*100)+'%', 'var(--cyan)')}
-      ${sim.tiePct > 0 ? labStatCard('Tie', Math.round(sim.tiePct*100)+'%', 'var(--amber)', 'Overtime toggle is off, so ties are reported instead of coin-flipped') : ''}
-    </div>
-    <div class="gc-bar" style="background:#7C5CFF;margin:10px 0 4px">
-      <div style="width:${(sim.awayWinPct*100).toFixed(0)}%;background:#3DF08B"></div></div>
-    ${g.away_win_pct != null ? `<div class="sim-compare">Model ${Math.round(g.away_win_pct*100)}/${Math.round(g.home_win_pct*100)}
-       \u00b7 Sim ${Math.round(sim.awayWinPct*100)}/${Math.round(sim.homeWinPct*100)}</div>` : ''}
-
-    <h2>Projected scores</h2>
-    <div class="lab-stat-grid">
-      ${labStatCard(aAb+' mean', awayStats.mean.toFixed(dp))}
-      ${labStatCard(aAb+' floor', awayStats.floor.toFixed(dp), '#FF9A3D')}
-      ${labStatCard(aAb+' ceiling', awayStats.ceil.toFixed(dp), '#9B7CFF')}
-      ${labStatCard(hAb+' mean', homeStats.mean.toFixed(dp))}
-      ${labStatCard(hAb+' floor', homeStats.floor.toFixed(dp), '#FF9A3D')}
-      ${labStatCard(hAb+' ceiling', homeStats.ceil.toFixed(dp), '#9B7CFF')}
-    </div>
-
-    <h2>Distribution</h2>
-    <div class="lab-chips" style="margin-bottom:9px">
-      ${chip('total', gameLab.view, 'Total', 'gamelab-view')}
-      ${chip('margin', gameLab.view, 'Margin', 'gamelab-view')}
-    </div>
-    <div class="lab-note" style="margin-bottom:9px">${esc(viewLabel)}</div>
-    ${distChartSvg(viewSamples, viewStats.mean, viewStats.median, viewLine,
-      gameLab.view==='total'?'Book total':'Book spread', 'game')}
-    <div class="lab-pctile-row">
-      ${[.05,.1,.25,.5,.75,.9,.95].map(q =>
-        `<div class="lab-pctile"><b>${percentile(viewSamples,q).toFixed(viewDp)}</b><span>P${Math.round(q*100)}</span></div>`).join('')}
-    </div>
-
-    <h2>Probability breakdown</h2>
-    <div class="lab-table">
-      <div class="lab-thead"><span>Line</span><span>Over</span><span>Fair</span><span>Edge</span><span>EV</span><span>Kelly</span></div>
-      ${thresholds.map(r => `<div class="lab-trow ${r.highlight?'hl':''}">
-        <span>${r.t}+</span><span>${pctCell(r.over)}</span><span>${oddsCell(r.fair)}</span>
-        <span>${r.edgePct==null?'<span class="dim">\u2014</span>':(r.edgePct>0?'+':'')+r.edgePct.toFixed(1)+'%'}</span>
-        <span>${r.ev==null?'<span class="dim">\u2014</span>':(r.ev>0?'+$':'-$')+Math.abs(r.ev)}</span>
-        <span>${r.kelly==null?'<span class="dim">\u2014</span>':r.kelly+'%'}</span>
-      </div>`).join('')}
-    </div>
-    <div class="lab-note">${(gameLab.view==='total'?totalLine:spreadLine) != null
-      ? `Edge/EV/Kelly only compute against the row matching the real book ${gameLab.view==='total'?'total':'spread'} -- the rest is simulated probability only.`
-      : `No live book ${gameLab.view==='total'?'total':'spread'} on this game right now, so every row is simulated probability only.`}</div>
-
-    <h2>Alternate lines</h2>
-    <div class="lab-table lab-table-alt">
-      <div class="lab-thead"><span>Line</span><span>Over%</span><span>Under%</span><span>Fair odds</span></div>
-      ${altLines.map(r => `<div class="lab-trow">
-        <span>${r.t}</span><span>${pctCell(r.over)}</span><span>${pctCell(r.under)}</span><span>${oddsCell(r.fair)}</span>
-      </div>`).join('')}
-    </div>
-
-    <h2>Sensitivity</h2>
-    <div class="lab-sens-row">
-      <button class="lab-sens-btn" data-gamelab-adj="10">+10% scoring</button>
-      <button class="lab-sens-btn" data-gamelab-adj="-10">-10% scoring</button>
-      <button class="lab-sens-btn ${gameLab.blowout?'on':''}" data-gamelab-blowout-btn>Blowout risk</button>
-      <button class="lab-sens-btn ${gameLab.corr?'on':''}" data-gamelab-corr-btn>Correlation</button>
-      ${gameLab.adjPct || gameLab.blowout || gameLab.corr ? `<button class="lab-sens-btn lab-reset" data-gamelab-reset>Reset</button>` : ''}
-    </div>
-
-    <h2>Model inputs</h2>
-    <div class="lab-inputs">
-      <div class="lab-input-row"><span>${aAb} base projection</span><b>${gameScore(sp,g)[0]!=null?gameScore(sp,g)[0].toFixed(dp):'\u2014'}</b></div>
-      <div class="lab-input-row"><span>${hAb} base projection</span><b>${gameScore(sp,g)[1]!=null?gameScore(sp,g)[1].toFixed(dp):'\u2014'}</b></div>
-      <div class="lab-input-row"><span>${aAb} score volatility</span><b>${g.away_score_sd ? g.away_score_sd+' (measured)' : SIM_SCORE_SD_FALLBACK[sp]+' (league avg)'}</b></div>
-      <div class="lab-input-row"><span>${hAb} score volatility</span><b>${g.home_score_sd ? g.home_score_sd+' (measured)' : SIM_SCORE_SD_FALLBACK[sp]+' (league avg)'}</b></div>
-      ${totalLine != null ? `<div class="lab-input-row"><span>Book total</span><b>${totalLine}</b></div>` : ''}
-      ${spreadLine != null ? `<div class="lab-input-row"><span>Book spread</span><b>${hAb} ${spreadLine>0?'+':''}${spreadLine}</b></div>` : ''}
-      <div class="lab-input-row"><span>Distribution used</span><b>${{normal:'Normal',poisson:'Poisson',negbinom:'Neg. Binomial',lognormal:'Log-Normal'}[gameLab.dist]}</b></div>
-      <div class="lab-input-row"><span>Trials run</span><b>${sim.trials.toLocaleString()}</b></div>
-    </div>
-    <div class="lab-note">Score volatility marked "measured" comes from that team's actual last-season game log; "league avg" means there wasn't enough of a sample yet and it fell back to a flat number.</div>
-  `;
-  wireDistChart(viewSamples, 'game');
-}
-
-
-
-function renderSim(){
-  const arr = players(sport);
-  const d = DATA[sport];
-  const games = ((d && d.games) || []).filter(g => g.game_state !== 'Final');
-  const modeChips = `<div class="filters">
-    <div class="f ${simMode==='games'?'on':''}" data-sim="games">Games</div>
-    <div class="f ${simMode==='players'?'on':''}" data-sim="players">Players</div>
-  </div>`;
-  let body;
-  if (simMode === 'games'){
-    const cards = games.map(g => simGameCardHtml(sport, g)).filter(Boolean).join('');
-    body = cards ? `<div class="props-grid">${cards}</div>`
-      : `<div class="empty"><div class="i">\u25ce</div><div class="m">Nothing to simulate</div>
-         <div class="s">${sport.toUpperCase()} has no projected scores yet.</div></div>`;
-  } else {
-    // Same market picker as Props -- players(sport) only returns whichever
-    // market is currently selected, so without this chip row the list was
-    // silently stuck on one market with no way to switch it.
-    const defs = MARKETS[sport] || [];
-    const mktChips = `<div class="filters">${defs.map(m =>
-      `<div class="f ${(market||defs[0][0])===m[0]?'on':''}" data-simmkt="${esc(m[0])}">${esc(m[0])}</div>`).join('')}</div>`;
-    const cards = arr.slice(0, 40).map(p => simPlayerCardHtml(p)).join('');
-    body = mktChips + (cards ? `<div class="props-grid">${cards}</div>`
-      : `<div class="empty"><div class="i">\u25ce</div><div class="m">Nothing to simulate</div>
-         <div class="s">${sport.toUpperCase()} has no props right now.</div></div>`);
-  }
-  $('v-sim').innerHTML = modeChips + body;
-}
-
-/* ── SIMULATION LAB ───────────────────────────────────────────────────────
-   The Sim tab's player cards are the quick-scan summary. Tapping one opens
-   this -- the full instrument panel: pick a distribution, pick a trial
-   count, nudge the projection with a matchup/home-away/sensitivity toggle,
-   and see the whole probability picture redraw, not just a floor/ceiling.
-   Every number on this panel comes from the same samples; nothing here is
-   a separate hardcoded formula re-deriving what the histogram already
-   shows. */
-
-// ── odds / EV / Kelly ──
-function probToAmerican(p){
-  if (p == null || p <= 0 || p >= 1) return null;
-  return p >= 0.5 ? Math.round(-100 * p / (1 - p)) : Math.round(100 * (1 - p) / p);
-}
-// Decimal payout per $1 staked, from an American price. Used for both EV and Kelly.
-function americanToDecimal(price){
-  if (price == null) return null;
-  return price > 0 ? 1 + price/100 : 1 + 100/Math.abs(price);
-}
-function evPer100(prob, price){
-  const dec = americanToDecimal(price);
-  if (dec == null || prob == null) return null;
-  return Math.round((prob * (dec - 1) * 100 - (1 - prob) * 100) * 10) / 10;
-}
-function kellyPct(prob, price){
-  const dec = americanToDecimal(price);
-  if (dec == null || prob == null) return null;
-  const b = dec - 1;
-  const f = (prob * b - (1 - prob)) / b;
-  return Math.max(0, Math.round(f * 1000) / 10); // %, floored at 0 -- negative Kelly just means "no bet"
-}
-
-// ── volatility rating (transparently modeled, not measured) ──
-// There's no per-player historical game log in this data to measure real
-// week-to-week variance from, so this uses the same CV assumption the rest
-// of the app's distribution already runs on (~42% of the mean for a
-// continuous stat, exact for Poisson/NegBinom). Labeled "modeled" rather
-// than "historical" in the UI on purpose -- it would overclaim otherwise.
-function volatilityRating(cv){
-  if (cv < 0.25) return ['LOW', 'var(--green)'];
-  if (cv < 0.45) return ['MODERATE', 'var(--cyan)'];
-  if (cv < 0.70) return ['HIGH', 'var(--amber)'];
-  return ['EXTREME', 'var(--red)'];
-}
-
-let simLab = null; // { key, trials, dist, seed, ha:'auto'|'home'|'away', mu:'auto'|'easy'|'tough', adjPct, controlsOpen }
-
-function runLabSim(p, opts){
-  const rand = (opts.seed !== '' && opts.seed != null && !isNaN(opts.seed))
-    ? mulberry32(Number(opts.seed) >>> 0) : Math.random;
-  let mean = p._val;
-  let mult = 1 + (opts.adjPct || 0) / 100;
-  if (opts.ha === 'home') mult *= 1.03;
-  if (opts.ha === 'away') mult *= 0.97;
-  if (opts.mu === 'easy') mult *= 1.08;
-  if (opts.mu === 'tough') mult *= 0.92;
-  mean = Math.max(0.05, mean * mult);
-  const sd = Math.max(0.5, mean * 0.42);
-  const trials = opts.trials || 5000;
-  const samples = new Array(trials);
-  for (let i = 0; i < trials; i++) samples[i] = sampleFor(opts.dist, mean, sd, rand);
-  samples.sort((a,b) => a-b);
-  return { samples, mean, sd, trials };
-}
-
-function labSummary(sim){
-  const { samples, mean, sd } = sim;
-  const n = samples.length;
-  const sampleMean = samples.reduce((a,b)=>a+b,0) / n;
-  const variance = samples.reduce((a,b)=>a+(b-sampleMean)*(b-sampleMean),0) / n;
-  const sampleSd = Math.sqrt(variance);
-  // Mode via the same bucketing the histogram uses -- most-populated bin's midpoint.
-  const lo = samples[0], hi = samples[n-1], bins = 16;
-  const w = Math.max(1e-6, (hi-lo)/bins);
-  const counts = new Array(bins).fill(0);
-  for (const x of samples) counts[Math.max(0, Math.min(bins-1, Math.floor((x-lo)/w)))]++;
-  let maxI = 0; for (let i=1;i<bins;i++) if (counts[i] > counts[maxI]) maxI = i;
-  const mode = lo + (maxI + 0.5) * w;
-  const cv = sampleSd / Math.max(1e-6, sampleMean);
-  const [volLabel, volColor] = volatilityRating(cv);
-  // Confidence score: tighter distributions relative to their own mean score
-  // higher. Same underlying idea as the Props tab's percentile-based
-  // confidence, just derived from this specific run's spread instead.
-  const confidence = Math.max(1, Math.min(99, Math.round(100 - cv*100)));
   return {
-    mean: sampleMean, median: percentile(samples,.5), mode,
-    floor: percentile(samples,.1), ceil: percentile(samples,.9),
-    sd: sampleSd, variance, cv, volLabel, volColor, confidence,
+    mean: samples.reduce((a,b)=>a+b,0) / SIM_TRIALS,
+    floor: percentile(samples, .10), ceil: percentile(samples, .90), dp,
   };
 }
+// Same idea, but for a TEAM total across several players -- each player's
+// own trial samples are added elementwise across the same 10,000 trials
+// rather than just summing means, so the combined range reflects real
+// simulated variance instead of naive addition.
+function simTeamTotal(playerVals, dp){
+  const vals = playerVals.filter(v => v != null);
+  if (!vals.length) return null;
+  const counting = dp === 0 && (vals.reduce((a,b)=>a+b,0)/vals.length) < 20;
+  const totals = new Array(SIM_TRIALS).fill(0);
+  for (const mean of vals){
+    const sd = Math.max(0.4, mean * 0.40);
+    for (let i = 0; i < SIM_TRIALS; i++)
+      totals[i] += counting ? rngPoisson(mean) : Math.max(0, rngNormal(mean, sd));
+  }
+  totals.sort((a,b) => a-b);
+  return {
+    mean: totals.reduce((a,b)=>a+b,0) / SIM_TRIALS,
+    floor: percentile(totals, .10), ceil: percentile(totals, .90), dp,
+  };
+}
+function fmtStat(v, dp){ return dp >= 1 ? v.toFixed(dp) : Math.round(v).toString(); }
 
-// Nice round step size for threshold/alt-line generation, scaled to the
-// stat's own magnitude (a Pass Yds board wants steps of 10-25; a Hits board
-// wants steps of 1).
-function niceStep(mean, dp){
-  if (dp >= 2 || mean < 8) return mean < 3 ? 1 : Math.max(1, Math.round(mean/6));
-  if (mean < 30) return 2;
-  if (mean < 100) return 5;
-  return Math.round(mean/12/5)*5 || 5;
+/* ── box score stat definitions, per sport/position ──
+   Only real model outputs. Where the model doesn't project something yet
+   (QB rushing volume, for one), that row is left out rather than invented. */
+function boxStatsFor(p){
+  const sp = p._sp;
+  if (sp === 'mlb'){
+    const ab = p.pa != null ? Math.max(0, p.pa - (p.expected_bb||0)) : null;
+    return [['AB', ab, 1], ['H', p.expected_hits, 1], ['HR', p.expected_hr, 1],
+      ['RBI', p.expected_rbi, 1], ['R', p.expected_runs, 1],
+      ['BB', p.expected_bb, 1], ['K', p.expected_k, 1]].filter(r => r[1] != null);
+  }
+  if (sp === 'nfl'){
+    if (posOf(p) === 'QB'){
+      return [['CMP', p.completions, 1], ['ATT', p.attempts, 1], ['PASS YDS', p.pass_yds, 0],
+        ['PASS TD', p.pass_td, 1], ['INT', p.int, 1], ['FPTS', p.fpts, 1]].filter(r => r[1] != null);
+    }
+    const rows = [];
+    if (p.rush_att != null){ rows.push(['ATT', p.rush_att, 1], ['RUSH YDS', p.rush_yds, 0]); }
+    if (p.targets != null){ rows.push(['TGT', p.targets, 1], ['REC', p.rec, 1], ['REC YDS', p.rec_yds, 0]); }
+    if (p.td_prob != null) rows.push(['TD', p.td_prob, 1]);
+    if (p.fpts != null) rows.push(['FPTS', p.fpts, 1]);
+    return rows;
+  }
+  if (sp === 'nhl'){
+    const goals = p.xg_pg, points = p.pts_pg;
+    const assists = (goals != null && points != null) ? Math.max(0, points - goals) : null;
+    return [['GOALS', goals, 2], ['ASSISTS', assists, 2], ['POINTS', points, 2],
+      ['SHOTS', p.shots_pg, 1], ['TOI (MIN)', p.toi, 1],
+      ['PP GOALS', p.pp_xg, 2]].filter(r => r[1] != null);
+  }
+  if (sp === 'nba'){
+    return [['MIN', p.min, 1], ['PTS', p.pts, 1], ['REB', p.reb, 1], ['AST', p.ast, 1],
+      ['STL', p.stl, 1], ['BLK', p.blk, 1], ['3PM', p.tpm, 1], ['TOV', p.tov, 1]].filter(r => r[1] != null);
+  }
+  return [];
+}
+// The one stat someone scans for first, for the compact list card.
+function headlineStat(p){
+  const sp = p._sp;
+  const want = sp==='mlb' ? 'H' : sp==='nfl' ? (posOf(p)==='QB'?'PASS YDS':(p.targets!=null?'REC YDS':'RUSH YDS'))
+    : sp==='nhl' ? 'POINTS' : 'PTS';
+  return p._stats.find(r => r[0] === want) || p._stats[0] || null;
 }
 
-function labThresholds(p, sim){
-  const { samples } = sim;
-  const n = samples.length;
-  const step = niceStep(sim.mean, p._dp);
-  const med = percentile(samples,.5);
-  const start = Math.max(0, med - step*3);
-  const rows = [];
-  const e = edgeOf(p);
-  for (let i=0;i<7;i++){
-    const t = Math.round((start + i*step) * (p._dp>=2?2:1)) / (p._dp>=2?2:1);
-    const over = samples.filter(x => x >= t).length / n;
-    const fair = probToAmerican(over);
-    let implied=null, edgePct=null, ev=null, kelly=null, isMarket=false;
-    if (e && e.line != null && Math.abs(e.line - t) < step*0.5){
-      isMarket = true;
-      const price = e.odds;
-      if (price != null){
-        implied = 1 / americanToDecimal(price);
-        // Normalize away the vig direction roughly by comparing straight up --
-        // this is model prob vs. this side's own implied prob, same as the
-        // Props tab's edge pill uses.
-        edgePct = (over - implied) * 100;
-        ev = evPer100(over, price);
-        kelly = kellyPct(over, price);
+/* ── quality metrics: Confidence / Matchup / Role Stability, 0-100 each ── */
+const MATCHUP_GRADE_SCORE = {A:95,'A-':90,'B+':85,B:78,'B-':72,C:65,'C-':58,D:45,'D-':38,F:28};
+function matchupRating(p){
+  if (p.matchup_grade && MATCHUP_GRADE_SCORE[p.matchup_grade] != null) return MATCHUP_GRADE_SCORE[p.matchup_grade];
+  const f = p._matchup_factor ?? p.opp_factor ?? p.eff_factor ?? 1;
+  return Math.max(5, Math.min(95, Math.round(50 + (f - 1) * 250)));
+}
+function roleStability(p){
+  let s = 92;
+  if (p.injury || (p.status && p.status !== 'ACT')) s -= 30;
+  if (p.src === 'league_avg') s -= 25;
+  else if (p.src === 'prior') s -= 12;
+  if (p.usage_note || p.injury_impact) s -= 8;
+  return Math.max(5, Math.min(99, Math.round(s)));
+}
+const qualityColor = v => v>=75?'var(--green)': v>=50?'var(--cyan)': v>=30?'var(--amber)':'var(--red)';
+function qualityRowHtml(p, pool){
+  const conf = confOf(p, pool), mu = matchupRating(p), role = roleStability(p);
+  return `<div class="qual-row">
+    <div class="qual"><b style="color:${qualityColor(conf)}">${conf}</b><span>Confidence</span></div>
+    <div class="qual"><b style="color:${qualityColor(mu)}">${mu}</b><span>Matchup</span></div>
+    <div class="qual"><b style="color:${qualityColor(role)}">${role}</b><span>Role Stability</span></div>
+  </div>`;
+}
+
+/* ── player pool: every player with a projectable box score, no market filter ── */
+// NFL doesn't project raw completions/attempts, only yards + completion% --
+// this backs into both using a fixed league-average yards/attempt. A modeled
+// estimate, not a separate model output, so both fields it produces are
+// self-evidently derived (whole numbers wouldn't be this precise if they
+// were the real thing).
+const LEAGUE_YPA = 7.0;
+function deriveQbCounts(p){
+  if (posOf(p) !== 'QB' || p.pass_yds == null) return p;
+  const attempts = p.pass_yds / LEAGUE_YPA;
+  const completions = p.comp_pct != null ? attempts * (p.comp_pct / 100) : null;
+  return { ...p, attempts, completions };
+}
+function boxPlayerPool(sp){
+  const d = DATA[sp];
+  const out = [];
+  if (!d || !d.games) return out;
+  d.games.forEach((g, gi) => {
+    if (g.game_state === 'Final') return;
+    for (const pool of POOLS[sp]){
+      const away = pool.startsWith('away');
+      const team = away ? g.away_team : g.home_team;
+      const opp = away ? g.home_team : g.away_team;
+      const raw = g[pool];
+      const arr = Array.isArray(raw) ? raw : (raw ? [raw] : []);
+      for (let p of arr){
+        if (sp === 'nfl') p = deriveQbCounts(p);
+        const pp = {...p, _sp:sp, _team:team, _opp:opp,
+          _tab:teamAbbr(sp,team), _oab:teamAbbr(sp,opp), _game:g};
+        pp._stats = boxStatsFor(pp);
+        if (!pp._stats.length) continue;
+        pp._key = `${sp}|box|${gi}|${away?'a':'h'}|${p.name}`;
+        out.push(pp);
       }
     }
-    rows.push({ t, over, under:1-over, fair, implied, edgePct, ev, kelly, isMarket });
-  }
-  // Highlight whichever row has the strongest real edge (only rows with a
-  // real market price are eligible -- everything else has nothing to be
-  // "strong" against).
-  let bestI = -1, bestV = -1;
-  rows.forEach((r,i) => { if (r.kelly != null && r.kelly > bestV){ bestV = r.kelly; bestI = i; } });
-  if (bestI >= 0) rows[bestI].highlight = true;
-  return rows;
-}
-
-function labAltLines(p, sim){
-  const { samples } = sim;
-  const n = samples.length;
-  const qs = [.15,.30,.45,.60,.75,.90];
-  return qs.map(q => {
-    const t = Math.round(percentile(samples,q) * (p._dp>=2?2:1)) / (p._dp>=2?2:1);
-    const over = samples.filter(x => x >= t).length / n;
-    return { t, over, under: 1-over, fair: probToAmerican(over) };
   });
+  const rankVal = p => (p._sp==='mlb'?p.expected_hrr:p._sp==='nfl'?p.fpts:p._sp==='nhl'?p.pts_pg:p.pts) || 0;
+  out.sort((a,b) => rankVal(b) - rankVal(a));
+  return out;
 }
-
-// ── distribution chart: histogram + density line + hover tooltip ──
-// Generic distribution chart -- takes raw samples plus whatever markers
-// apply (mean/median always, a book line when one exists) and an id suffix
-// so the player lab and the game lab can each have their own on screen
-// without fighting over element ids.
-function distChartSvg(samples, mean, median, bookLine, bookLabel, idSuf){
-  const n = samples.length;
-  const W = 320, H = 130, PB = 20, PT = 6;
-  const lo = samples[0], hi = samples[n-1] || samples[0]+1;
-  const bins = 22, bw = Math.max(1e-6, (hi-lo)/bins);
-  const counts = new Array(bins).fill(0);
-  for (const x of samples) counts[Math.max(0, Math.min(bins-1, Math.floor((x-lo)/bw)))]++;
-  const maxC = Math.max(...counts) || 1;
-  const x = i => (i/bins) * W;
-  const y = c => H - PB - (c/maxC) * (H - PB - PT);
-  const bars = counts.map((c,i) =>
-    `<rect x="${x(i).toFixed(1)}" y="${y(c).toFixed(1)}" width="${(W/bins-1).toFixed(1)}"
-       height="${(H-PB-y(c)).toFixed(1)}" rx="1.5" fill="url(#labGrad${idSuf})"/>`).join('');
-  // Density line: smoothed bin heights connected point-to-point through bin
-  // midpoints -- a real KDE is overkill for a tooltip chart; this reads the
-  // same shape.
-  const pts = counts.map((c,i) => `${(x(i)+W/bins/2).toFixed(1)},${y(c).toFixed(1)}`).join(' ');
-  const markerX = v => ((v-lo)/(hi-lo)) * W;
-  const lineMark = (bookLine != null && bookLine >= lo && bookLine <= hi)
-    ? `<line x1="${markerX(bookLine).toFixed(1)}" y1="${PT}" x2="${markerX(bookLine).toFixed(1)}" y2="${H-PB}"
-         stroke="var(--red)" stroke-width="1.5" stroke-dasharray="3,2"/>` : '';
-  return `<div class="lab-chart-wrap">
-    <svg viewBox="0 0 ${W} ${H}" class="lab-chart-svg" id="lab-chart-svg-${idSuf}"
-      data-lo="${lo}" data-hi="${hi}" data-w="${W}" data-suf="${idSuf}">
-      <defs><linearGradient id="labGrad${idSuf}" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="var(--violet)" stop-opacity=".9"/>
-        <stop offset="100%" stop-color="var(--violet)" stop-opacity=".25"/>
-      </linearGradient></defs>
-      ${bars}
-      <polyline points="${pts}" fill="none" stroke="var(--cyan)" stroke-width="1.5" opacity=".85"/>
-      <line x1="${markerX(mean).toFixed(1)}" y1="${PT}" x2="${markerX(mean).toFixed(1)}" y2="${H-PB}"
-        stroke="var(--green)" stroke-width="1.5"/>
-      <line x1="${markerX(median).toFixed(1)}" y1="${PT}" x2="${markerX(median).toFixed(1)}" y2="${H-PB}"
-        stroke="var(--amber)" stroke-width="1.5" stroke-dasharray="2,2"/>
-      ${lineMark}
-    </svg>
-    <div class="lab-chart-legend">
-      <span><i style="background:var(--green)"></i>Mean</span>
-      <span><i style="background:var(--amber)"></i>Median</span>
-      ${bookLine != null ? `<span><i style="background:var(--red)"></i>${esc(bookLabel||'Book line')}</span>` : ''}
-    </div>
-    <div class="lab-tooltip" id="lab-tooltip-${idSuf}"></div>
-  </div>`;
-}
-function wireDistChart(samples, idSuf){
-  const svg = $('lab-chart-svg-'+idSuf);
-  if (!svg) return;
-  const tip = $('lab-tooltip-'+idSuf);
-  const lo = parseFloat(svg.dataset.lo), hi = parseFloat(svg.dataset.hi), W = parseFloat(svg.dataset.w);
-  const n = samples.length;
-  const move = clientX => {
-    const rect = svg.getBoundingClientRect();
-    const px = Math.max(0, Math.min(W, (clientX - rect.left) * (W / rect.width)));
-    const val = lo + (px/W) * (hi-lo);
-    let cum = 0; for (const s of samples) if (s <= val) cum++;
-    const cumPct = cum / n;
-    const near = samples.filter(s => Math.abs(s-val) <= (hi-lo)/22).length / n;
-    tip.style.opacity = '1';
-    tip.style.left = Math.min(78, Math.max(2, (px/W)*100)) + '%';
-    tip.innerHTML = `<b>${val.toFixed(1)}</b><span>density ${(near*100).toFixed(1)}%</span>
-      <span>cumulative ${(cumPct*100).toFixed(1)}%</span>`;
-  };
-  svg.addEventListener('pointermove', e => move(e.clientX));
-  svg.addEventListener('pointerleave', () => { tip.style.opacity = '0'; });
-}
-
-function labControlsHtml(opts){
-  const chip = (val, cur, label, attr) =>
-    `<div class="lab-chip ${val===cur?'on':''}" data-${attr}="${val}">${label}</div>`;
-  return `<div class="lab-controls ${opts.controlsOpen ? 'open':''}">
-    <div class="lab-controls-h" data-lab-toggle>
-      <span>Simulation controls</span><i>${opts.controlsOpen ? '\u2212' : '+'}</i>
-    </div>
-    <div class="lab-controls-body">
-      <div class="lab-ctrl-row"><span class="lab-ctrl-l">Trials</span>
-        <div class="lab-chips">${[1000,5000,10000,25000,50000].map(t =>
-          chip(t, opts.trials, t.toLocaleString(), 'lab-trials')).join('')}</div></div>
-      <div class="lab-ctrl-row"><span class="lab-ctrl-l">Distribution</span>
-        <div class="lab-chips">
-          ${chip('normal', opts.dist, 'Normal', 'lab-dist')}
-          ${chip('poisson', opts.dist, 'Poisson', 'lab-dist')}
-          ${chip('negbinom', opts.dist, 'Neg. Binomial', 'lab-dist')}
-          ${chip('lognormal', opts.dist, 'Log-Normal', 'lab-dist')}
-        </div></div>
-      <div class="lab-ctrl-row"><span class="lab-ctrl-l">Venue</span>
-        <div class="lab-chips">
-          ${chip('auto', opts.ha, 'Auto', 'lab-ha')}
-          ${chip('home', opts.ha, 'Home', 'lab-ha')}
-          ${chip('away', opts.ha, 'Away', 'lab-ha')}
-        </div></div>
-      <div class="lab-ctrl-row"><span class="lab-ctrl-l">Matchup</span>
-        <div class="lab-chips">
-          ${chip('auto', opts.mu, 'Auto', 'lab-mu')}
-          ${chip('easy', opts.mu, 'Easy', 'lab-mu')}
-          ${chip('tough', opts.mu, 'Tough', 'lab-mu')}
-        </div></div>
-      <div class="lab-ctrl-row"><span class="lab-ctrl-l">Seed <i>(optional)</i></span>
-        <input class="lab-seed" id="lab-seed-input" type="number" placeholder="random"
-          value="${opts.seed ?? ''}" inputmode="numeric"/></div>
-      <button class="lab-run-btn" data-lab-run>Run Simulation</button>
-    </div>
-  </div>`;
-}
-
-function labStatCard(label, value, color, tip){
-  return `<div class="lab-stat" title="${esc(tip||'')}">
-    <div class="lab-stat-v" style="color:${color||'var(--ink)'}">${value}</div>
-    <div class="lab-stat-l">${esc(label)}</div>
-  </div>`;
-}
-
-function labSkeletonHtml(){
-  return `<div class="lab-skel">
-    <div class="lab-skel-row" style="width:60%"></div>
-    <div class="lab-skel-grid">${'<div class="lab-skel-card"></div>'.repeat(6)}</div>
-    <div class="lab-skel-chart"></div>
-  </div>`;
-}
-
-function findPlayerByKey(key){
+function findBoxPlayer(key){
   for (const sp of SPORTS){
-    const p = players(sp).find(x => x._key === key);
-    if (p) return p;
+    const pool = boxPlayerPool(sp);
+    const p = pool.find(x => x._key === key);
+    if (p) return { p, pool };
   }
   return null;
 }
 
-function openSimLab(key){
-  simLab = { key, trials: 5000, dist: 'normal', seed: '', ha: 'auto', mu: 'auto', adjPct: 0, controlsOpen: false };
-  $('sheet-in').innerHTML = labSkeletonHtml();
-  $('sheet').classList.add('on');
-  // Tiny artificial delay -- real compute is a few ms, but a bare instant
-  // swap reads as a glitch rather than "it just simulated 5,000 trials".
-  setTimeout(renderSimLab, 220);
+/* ── compact player card (Sim tab, Players mode) ── */
+function boxCardHtml(p, pool){
+  const head = headlineStat(p);
+  let headHtml = '';
+  if (head){
+    const [label, mean, dp] = head;
+    const s = simStat(mean, dp);
+    if (s) headHtml = `<div class="hero">
+      <div style="flex:1;min-width:0"><div class="hero-n">${fmtStat(s.mean,dp)}</div><div class="hero-l">${esc(label)}</div></div>
+      <div class="hero-c"><b>${fmtStat(s.floor,dp)}\u2013${fmtStat(s.ceil,dp)}</b><div class="hero-l">Range</div></div>
+    </div>`;
+  }
+  return `<div class="card pcard boxcard" data-lab="${esc(p._key)}">
+    <div class="sh-head">
+      ${avatar(p._sp, p, 'sh-av')}
+      <div style="min-width:0">
+        <div class="sh-n">${esc(p.name)}</div>
+        <div class="sh-m">${teamMark(p._sp, p._tab, 13)}<span>${esc(p._tab)}</span>
+          <span class="vs">vs</span>${teamMark(p._sp, p._oab, 13)}<span>${esc(p._oab)}</span></div>
+      </div>
+    </div>
+    ${headHtml}
+    ${qualityRowHtml(p, pool)}
+  </div>`;
 }
 
-function renderSimLab(){
-  if (!simLab) return;
-  const p = findPlayerByKey(simLab.key);
-  if (!p){ $('sheet').classList.remove('on'); return; }
-  const sim = runLabSim(p, simLab);
-  const summary = labSummary(sim);
-  const thresholds = labThresholds(p, sim);
-  const altLines = labAltLines(p, sim);
-  const e = edgeOf(p);
-  const cells = statCellsFor(p);
-  const fmtN = n => p._dp >= 2 ? n.toFixed(1) : n.toFixed(0);
+function boxSkeletonHtml(){
+  return `<div class="lab-skel">
+    <div class="lab-skel-row" style="width:60%"></div>
+    <div class="lab-skel-grid">${'<div class="lab-skel-card"></div>'.repeat(3)}</div>
+    <div class="lab-skel-chart" style="height:220px"></div>
+  </div>`;
+}
 
-  const oddsCell = v => v == null ? '<span class="dim">\u2014</span>' : (v>0?'+':'')+v;
-  const pctCell = v => v == null ? '<span class="dim">\u2014</span>' : Math.round(v*100)+'%';
-
+/* ── full player box score (opens in the sheet) ── */
+let curBoxKey = null;
+function openPlayerBox(key){
+  curBoxKey = key;
+  $('sheet-in').innerHTML = boxSkeletonHtml();
+  $('sheet').classList.add('on');
+  setTimeout(renderPlayerBox, 180);
+}
+function renderPlayerBox(){
+  if (!curBoxKey) return;
+  const found = findBoxPlayer(curBoxKey);
+  if (!found){ $('sheet').classList.remove('on'); return; }
+  const { p, pool } = found;
+  const rows = p._stats.map(([label, mean, dp]) => {
+    const s = simStat(mean, dp);
+    if (!s) return '';
+    return `<div class="box-row"><span class="box-row-l">${esc(label)}</span>
+      <span class="box-row-p">${fmtStat(s.mean,dp)}</span>
+      <span class="box-row-r">${fmtStat(s.floor,dp)}\u2013${fmtStat(s.ceil,dp)}</span></div>`;
+  }).join('');
   $('sheet-in').innerHTML = `
     <div class="lab-head">
       ${avatar(p._sp, p, 'sh-av')}
@@ -1991,77 +1318,178 @@ function renderSimLab(){
         <div class="sh-n">${esc(p.name)}</div>
         <div class="sh-m">${teamMark(p._sp, p._tab, 15)}<span>${esc(p._tab)}</span>
           <span class="vs">vs</span>${teamMark(p._sp, p._oab, 15)}<span>${esc(p._oab)}</span></div>
-        <div class="pcard-mkt">${esc(p._market)}</div>
       </div>
     </div>
-
-    ${labControlsHtml(simLab)}
-
-    <h2>Projection summary</h2>
-    <div class="lab-stat-grid">
-      ${labStatCard('Mean', fmtN(summary.mean), 'var(--green)')}
-      ${labStatCard('Median', fmtN(summary.median), 'var(--amber)')}
-      ${labStatCard('Mode', fmtN(summary.mode), 'var(--cyan)')}
-      ${labStatCard('Floor (P10)', fmtN(summary.floor), '#FF9A3D')}
-      ${labStatCard('Ceiling (P90)', fmtN(summary.ceil), '#9B7CFF')}
-      ${labStatCard('Std Dev', summary.sd.toFixed(2))}
-      ${labStatCard('Variance', summary.variance.toFixed(2))}
-      ${labStatCard('Confidence', summary.confidence, 'var(--ink)', 'Tighter distribution relative to its own mean = higher score')}
-      ${labStatCard('Volatility', summary.volLabel, summary.volColor, 'Modeled from the same variance assumption as the distribution chart -- not measured from historical game logs, which this app does not have per-player.')}
+    ${qualityRowHtml(p, pool)}
+    <h2>Projected box score</h2>
+    <div class="box-table">
+      <div class="box-thead"><span>Stat</span><span>Projection</span><span>Range</span></div>
+      ${rows}
     </div>
+    <div class="box-foot">${SIM_TRIALS.toLocaleString()} simulations \u00b7 range is the 10th\u201390th percentile</div>`;
+}
 
-    <h2>Distribution</h2>
-    ${distChartSvg(sim.samples, summary.mean, summary.median, e&&e.line, 'Book line', 'player')}
-    <div class="lab-pctile-row">
-      ${[.05,.1,.25,.5,.75,.9,.95].map(q =>
-        `<div class="lab-pctile"><b>${fmtN(percentile(sim.samples,q))}</b><span>P${Math.round(q*100)}</span></div>`).join('')}
-    </div>
+/* ── GAME CENTER: projected score + win probability ── */
+function gameCenterCardHtml(sp, g){
+  const [projA, projH] = gameScore(sp, g);
+  if (projA == null || projH == null) return '';
+  const d = DATA[sp];
+  const idx = d.games.indexOf(g);
+  const aAb = teamAbbr(sp, sp==='mlb'||sp==='nfl' ? g.away_team : g.away_abbr);
+  const hAb = teamAbbr(sp, sp==='mlb'||sp==='nfl' ? g.home_team : g.home_abbr);
+  const dp = sp === 'mlb' || sp === 'nhl' ? 1 : 0;
+  const awayWin = g.away_win_pct, homeWin = g.home_win_pct;
+  return `<div class="card pcard boxcard" data-simgame="${idx}">
+    <div class="gc-h"><span class="gc-m">${teamMark(sp,aAb,15)}${esc(aAb)}
+      <span class="vs">@</span> ${teamMark(sp,hAb,15)}${esc(hAb)}</span></div>
+    <div class="hero"><div style="flex:1">
+      <div class="hero-n">${projA.toFixed(dp)}\u2013${projH.toFixed(dp)}</div>
+      <div class="hero-l">Projected score</div>
+    </div></div>
+    ${awayWin != null ? `<div class="gc-bar" style="background:#7C5CFF;margin:9px 0 5px">
+      <div style="width:${(awayWin*100).toFixed(0)}%;background:#3DF08B"></div></div>
+      <div class="sim-compare">${esc(aAb)} ${Math.round(awayWin*100)}% \u00b7 ${esc(hAb)} ${Math.round(homeWin*100)}%</div>` : ''}
+    <div class="box-foot">${SIM_TRIALS.toLocaleString()} simulations \u00b7 tap for full box score</div>
+  </div>`;
+}
 
-    <h2>Probability breakdown</h2>
-    <div class="lab-table">
-      <div class="lab-thead"><span>Line</span><span>Over</span><span>Fair</span><span>Edge</span><span>EV</span><span>Kelly</span></div>
-      ${thresholds.map(r => `<div class="lab-trow ${r.highlight?'hl':''}">
-        <span>${fmtN(r.t)}+</span><span>${pctCell(r.over)}</span><span>${oddsCell(r.fair)}</span>
-        <span>${r.edgePct==null?'<span class="dim">\u2014</span>':(r.edgePct>0?'+':'')+r.edgePct.toFixed(1)+'%'}</span>
-        <span>${r.ev==null?'<span class="dim">\u2014</span>':(r.ev>0?'+$':'-$')+Math.abs(r.ev)}</span>
-        <span>${r.kelly==null?'<span class="dim">\u2014</span>':r.kelly+'%'}</span>
-      </div>`).join('')}
-    </div>
-    ${e && e.line != null ? `<div class="lab-note">Edge/EV/Kelly only compute against the row matching your real book line (${esc(String(e.line))}) -- the rest is simulated probability with no market to compare against.</div>`
-      : `<div class="lab-note">No live book line on this player right now, so every row is simulated probability only.</div>`}
+function teamPlayersFor(sp, g, away){
+  const out = [];
+  for (const pool of POOLS[sp]){
+    if (pool.startsWith('away') !== away) continue;
+    const raw = g[pool];
+    const arr = Array.isArray(raw) ? raw : (raw ? [raw] : []);
+    for (let p of arr){
+      if (sp === 'nfl') p = deriveQbCounts(p);
+      out.push({...p, _sp: sp});
+    }
+  }
+  return out;
+}
+function statRowHtml(label, mean, dp){
+  const s = simStat(mean, dp);
+  if (!s) return '';
+  return `<div class="box-row"><span class="box-row-l">${esc(label)}</span>
+    <span class="box-row-p">${fmtStat(s.mean,dp)}</span>
+    <span class="box-row-r">${fmtStat(s.floor,dp)}\u2013${fmtStat(s.ceil,dp)}</span></div>`;
+}
+function teamTotalRowHtml(label, vals, dp){
+  const s = simTeamTotal(vals, dp);
+  if (!s) return '';
+  return `<div class="box-row"><span class="box-row-l">${esc(label)}</span>
+    <span class="box-row-p">${fmtStat(s.mean,dp)}</span>
+    <span class="box-row-r">${fmtStat(s.floor,dp)}\u2013${fmtStat(s.ceil,dp)}</span></div>`;
+}
 
-    <h2>Alternate lines</h2>
-    <div class="lab-table lab-table-alt">
-      <div class="lab-thead"><span>Line</span><span>Over%</span><span>Under%</span><span>Fair odds</span></div>
-      ${altLines.map(r => `<div class="lab-trow">
-        <span>${fmtN(r.t)}</span><span>${pctCell(r.over)}</span><span>${pctCell(r.under)}</span><span>${oddsCell(r.fair)}</span>
-      </div>`).join('')}
-    </div>
+// NFL gets the doc-spec structure: Passing / Rushing / Receiving. Every
+// other sport gets a per-player roster table -- the model doesn't split
+// stats into named categories the way football does, so a roster list is
+// the honest equivalent rather than inventing category names.
+function teamBoxHtml(sp, g, away, ab){
+  const roster = teamPlayersFor(sp, g, away);
+  if (sp === 'nfl'){
+    const qb = roster.find(p => posOf(p) === 'QB');
+    const others = roster.filter(p => posOf(p) !== 'QB');
+    const rushers = others.filter(p => p.rush_att != null);
+    const receivers = others.filter(p => p.targets != null);
+    const passHtml = qb ? `<h3>${esc(ab)} Passing</h3><div class="box-table">
+      <div class="box-thead"><span>Stat</span><span>Projection</span><span>Range</span></div>
+      ${statRowHtml('Completions', qb.completions, 1)}${statRowHtml('Attempts', qb.attempts, 1)}
+      ${statRowHtml('Yards', qb.pass_yds, 0)}${statRowHtml('TDs', qb.pass_td, 1)}${statRowHtml('INTs', qb.int, 1)}
+    </div>` : '';
+    const rushHtml = rushers.length ? `<h3>${esc(ab)} Rushing (team total)</h3><div class="box-table">
+      <div class="box-thead"><span>Stat</span><span>Projection</span><span>Range</span></div>
+      ${teamTotalRowHtml('Attempts', rushers.map(p=>p.rush_att), 1)}
+      ${teamTotalRowHtml('Yards', rushers.map(p=>p.rush_yds), 0)}
+      ${teamTotalRowHtml('TDs', rushers.map(p=>p.td_prob), 1)}
+    </div>` : '';
+    const recHtml = receivers.length ? `<h3>${esc(ab)} Receiving</h3><div class="box-table">
+      <div class="box-thead"><span>Player</span><span>Rec</span><span>Yards</span></div>
+      ${receivers.map(p => {
+        const rs = simStat(p.rec, 1), ys = simStat(p.rec_yds, 0);
+        if (!rs || !ys) return '';
+        return `<div class="box-row" data-lab="${esc(findRosterKey(sp,g,away,p.name))}">
+          <span class="box-row-l">${esc(p.name)}</span>
+          <span class="box-row-p">${fmtStat(rs.mean,1)}</span>
+          <span class="box-row-r">${fmtStat(ys.mean,0)} (${fmtStat(ys.floor,0)}\u2013${fmtStat(ys.ceil,0)})</span></div>`;
+      }).join('')}
+    </div>` : '';
+    return passHtml + rushHtml + recHtml;
+  }
+  // MLB / NHL / NBA: roster table using each player's headline stat.
+  const rows = roster.map(p => {
+    const pp = {...p, _sp: sp};
+    const stats = boxStatsFor(pp);
+    if (!stats.length) return '';
+    const head = stats.find(r => (sp==='mlb'?r[0]==='H':sp==='nhl'?r[0]==='POINTS':r[0]==='PTS')) || stats[0];
+    const s = simStat(head[1], head[2]);
+    if (!s) return '';
+    return `<div class="box-row" data-lab="${esc(findRosterKey(sp,g,away,p.name))}">
+      <span class="box-row-l">${esc(p.name)}</span>
+      <span class="box-row-p">${head[0]} ${fmtStat(s.mean,head[2])}</span>
+      <span class="box-row-r">${fmtStat(s.floor,head[2])}\u2013${fmtStat(s.ceil,head[2])}</span></div>`;
+  }).join('');
+  return `<h3>${esc(ab)}</h3><div class="box-table">
+    <div class="box-thead"><span>Player</span><span>Projection</span><span>Range</span></div>
+    ${rows}
+  </div>`;
+}
+function findRosterKey(sp, g, away, name){
+  const d = DATA[sp];
+  const gi = d.games.indexOf(g);
+  return `${sp}|box|${gi}|${away?'a':'h'}|${name}`;
+}
 
-    <h2>Sensitivity</h2>
-    <div class="lab-sens-row">
-      <button class="lab-sens-btn" data-lab-adj="10">+10%</button>
-      <button class="lab-sens-btn" data-lab-adj="-10">-10%</button>
-      <button class="lab-sens-btn ${simLab.ha==='home'?'on':''}" data-lab-ha="home">Home</button>
-      <button class="lab-sens-btn ${simLab.ha==='away'?'on':''}" data-lab-ha="away">Away</button>
-      <button class="lab-sens-btn ${simLab.mu==='easy'?'on':''}" data-lab-mu="easy">Easy matchup</button>
-      <button class="lab-sens-btn ${simLab.mu==='tough'?'on':''}" data-lab-mu="tough">Tough matchup</button>
-      ${(simLab.adjPct || simLab.ha!=='auto' || simLab.mu!=='auto') ? `<button class="lab-sens-btn lab-reset" data-lab-reset>Reset</button>` : ''}
+let curGameBoxIdx = null;
+function openGameBox(sp, idx){
+  curGameBoxIdx = { sp, idx };
+  $('sheet-in').innerHTML = boxSkeletonHtml();
+  $('sheet').classList.add('on');
+  setTimeout(renderGameBox, 220);
+}
+function renderGameBox(){
+  if (!curGameBoxIdx) return;
+  const { sp, idx } = curGameBoxIdx;
+  const g = DATA[sp] && DATA[sp].games && DATA[sp].games[idx];
+  if (!g){ $('sheet').classList.remove('on'); return; }
+  const [projA, projH] = gameScore(sp, g);
+  const aAb = teamAbbr(sp, sp==='mlb'||sp==='nfl' ? g.away_team : g.away_abbr);
+  const hAb = teamAbbr(sp, sp==='mlb'||sp==='nfl' ? g.home_team : g.home_abbr);
+  const dp = sp === 'mlb' || sp === 'nhl' ? 1 : 0;
+  $('sheet-in').innerHTML = `
+    <div class="boxscore-head">
+      <div class="boxscore-team">${teamMark(sp,aAb,28)}<b>${projA!=null?projA.toFixed(dp):'\u2014'}</b><span>${esc(aAb)}</span></div>
+      <div class="boxscore-vs">PROJECTED<br><i>${SIM_TRIALS.toLocaleString()} sims</i></div>
+      <div class="boxscore-team">${teamMark(sp,hAb,28)}<b>${projH!=null?projH.toFixed(dp):'\u2014'}</b><span>${esc(hAb)}</span></div>
     </div>
-
-    <h2>Model inputs</h2>
-    <div class="lab-inputs">
-      <div class="lab-input-row"><span>Base projection</span><b>${fmtN(p._val)}</b></div>
-      ${simLab.adjPct || simLab.ha!=='auto' || simLab.mu!=='auto' ? `<div class="lab-input-row"><span>Adjusted projection</span><b>${fmtN(sim.mean)}</b></div>` : ''}
-      ${cells.map(([l,v]) => `<div class="lab-input-row"><span>${esc(l)}</span><b>${esc(v)}</b></div>`).join('')}
-      <div class="lab-input-row"><span>Matchup</span><b>${esc(p._tab)} vs ${esc(p._oab)}</b></div>
-      ${e && e.line != null ? `<div class="lab-input-row"><span>Book line</span><b>${esc(String(e.line))} ${e.odds!=null?oddsCell(e.odds):''}</b></div>` : ''}
-      <div class="lab-input-row"><span>Distribution used</span><b>${{normal:'Normal',poisson:'Poisson',negbinom:'Neg. Binomial',lognormal:'Log-Normal'}[simLab.dist]}</b></div>
-      <div class="lab-input-row"><span>Trials run</span><b>${sim.trials.toLocaleString()}</b></div>
-    </div>
-    <div class="lab-note">Volatility is modeled (\u00b142% coefficient of variation, same assumption the rest of the app's distribution chart uses), not measured from real per-player game logs -- this app doesn't have that history yet.</div>
+    ${g.away_win_pct != null ? `<div class="sim-compare" style="margin-bottom:14px">${esc(aAb)} ${Math.round(g.away_win_pct*100)}% win \u00b7 ${esc(hAb)} ${Math.round(g.home_win_pct*100)}% win</div>` : ''}
+    ${teamBoxHtml(sp, g, true, aAb)}
+    ${teamBoxHtml(sp, g, false, hAb)}
   `;
-  wireDistChart(sim.samples, 'player');
+}
+
+/* ── Sim tab ── */
+function renderSim(){
+  const d = DATA[sport];
+  const games = ((d && d.games) || []).filter(g => g.game_state !== 'Final');
+  const modeChips = `<div class="filters">
+    <div class="f ${simMode==='games'?'on':''}" data-sim="games">Game Center</div>
+    <div class="f ${simMode==='players'?'on':''}" data-sim="players">Player Projections</div>
+  </div>`;
+  let body;
+  if (simMode === 'games'){
+    const cards = games.map(g => gameCenterCardHtml(sport, g)).filter(Boolean).join('');
+    body = cards ? `<div class="props-grid">${cards}</div>`
+      : `<div class="empty"><div class="i">\u25ce</div><div class="m">Nothing to simulate</div>
+         <div class="s">${sport.toUpperCase()} has no projected scores yet.</div></div>`;
+  } else {
+    const pool = boxPlayerPool(sport);
+    const cards = pool.slice(0, 40).map(p => boxCardHtml(p, pool)).join('');
+    body = cards ? `<div class="props-grid">${cards}</div>`
+      : `<div class="empty"><div class="i">\u25ce</div><div class="m">Nothing to simulate</div>
+         <div class="s">${sport.toUpperCase()} has no projections right now.</div></div>`;
+  }
+  $('v-sim').innerHTML = modeChips + body;
 }
 
 /* ── wiring ── */
@@ -2095,69 +1523,7 @@ document.body.addEventListener('click', e => {
   const resim = e.target.closest('[data-resim]');
   if (resim){ renderGameBox(); return; }
   const lab = e.target.closest('[data-lab]');
-  if (lab){ openSimLab(lab.dataset.lab); return; }
-
-  // Simulation Lab controls -- all of these just mutate simLab and re-run,
-  // no full sheet reopen/reload.
-  const labToggle = e.target.closest('[data-lab-toggle]');
-  if (labToggle){ simLab.controlsOpen = !simLab.controlsOpen; renderSimLab(); return; }
-  const labTrials = e.target.closest('[data-lab-trials]');
-  if (labTrials){ simLab.trials = parseInt(labTrials.dataset.labTrials, 10); renderSimLab(); return; }
-  const labDist = e.target.closest('[data-lab-dist]');
-  if (labDist){ simLab.dist = labDist.dataset.labDist; renderSimLab(); return; }
-  const labHaChip = e.target.closest('.lab-chip[data-lab-ha]');
-  if (labHaChip){ simLab.ha = labHaChip.dataset.labHa; renderSimLab(); return; }
-  const labMuChip = e.target.closest('.lab-chip[data-lab-mu]');
-  if (labMuChip){ simLab.mu = labMuChip.dataset.labMu; renderSimLab(); return; }
-  const labRun = e.target.closest('[data-lab-run]');
-  if (labRun){
-    const seedEl = $('lab-seed-input');
-    simLab.seed = seedEl && seedEl.value !== '' ? seedEl.value : '';
-    renderSimLab(); return;
-  }
-  const labAdj = e.target.closest('[data-lab-adj]');
-  if (labAdj){ simLab.adjPct += parseInt(labAdj.dataset.labAdj, 10); renderSimLab(); return; }
-  const labHaBtn = e.target.closest('.lab-sens-btn[data-lab-ha]');
-  if (labHaBtn){ simLab.ha = simLab.ha === labHaBtn.dataset.labHa ? 'auto' : labHaBtn.dataset.labHa; renderSimLab(); return; }
-  const labMuBtn = e.target.closest('.lab-sens-btn[data-lab-mu]');
-  if (labMuBtn){ simLab.mu = simLab.mu === labMuBtn.dataset.labMu ? 'auto' : labMuBtn.dataset.labMu; renderSimLab(); return; }
-  const labReset = e.target.closest('[data-lab-reset]');
-  if (labReset){ simLab.adjPct = 0; simLab.ha = 'auto'; simLab.mu = 'auto'; renderSimLab(); return; }
-
-  // Game Simulation Lab -- same pattern as the player lab above, mutate
-  // gameLab and re-run. This is the block that was missing entirely: the
-  // HTML and the simulation math both existed, but nothing was listening
-  // for clicks on any of it.
-  const gamelabOpen = e.target.closest('[data-gamelab]');
-  if (gamelabOpen){ openGameLab(sport, parseInt(gamelabOpen.dataset.gamelab, 10)); return; }
-  const gamelabToggle = e.target.closest('[data-gamelab-toggle]');
-  if (gamelabToggle){ gameLab.controlsOpen = !gameLab.controlsOpen; renderGameLab(); return; }
-  const gamelabTrials = e.target.closest('[data-gamelab-trials]');
-  if (gamelabTrials){ gameLab.trials = parseInt(gamelabTrials.dataset.gamelabTrials, 10); renderGameLab(); return; }
-  const gamelabDist = e.target.closest('[data-gamelab-dist]');
-  if (gamelabDist){ gameLab.dist = gamelabDist.dataset.gamelabDist; renderGameLab(); return; }
-  const gamelabView = e.target.closest('[data-gamelab-view]');
-  if (gamelabView){ gameLab.view = gamelabView.dataset.gamelabView; renderGameLab(); return; }
-  const gamelabBlowoutChip = e.target.closest('.lab-chip[data-gamelab-blowout]');
-  if (gamelabBlowoutChip){ gameLab.blowout = !gameLab.blowout; renderGameLab(); return; }
-  const gamelabCorrChip = e.target.closest('.lab-chip[data-gamelab-corr]');
-  if (gamelabCorrChip){ gameLab.corr = !gameLab.corr; renderGameLab(); return; }
-  const gamelabOtChip = e.target.closest('.lab-chip[data-gamelab-ot]');
-  if (gamelabOtChip){ gameLab.ot = !gameLab.ot; renderGameLab(); return; }
-  const gamelabRun = e.target.closest('[data-gamelab-run]');
-  if (gamelabRun){
-    const seedEl = $('gamelab-seed-input');
-    gameLab.seed = seedEl && seedEl.value !== '' ? seedEl.value : '';
-    renderGameLab(); return;
-  }
-  const gamelabAdj = e.target.closest('[data-gamelab-adj]');
-  if (gamelabAdj){ gameLab.adjPct += parseInt(gamelabAdj.dataset.gamelabAdj, 10); renderGameLab(); return; }
-  const gamelabBlowoutBtn = e.target.closest('.lab-sens-btn[data-gamelab-blowout-btn]');
-  if (gamelabBlowoutBtn){ gameLab.blowout = !gameLab.blowout; renderGameLab(); return; }
-  const gamelabCorrBtn = e.target.closest('.lab-sens-btn[data-gamelab-corr-btn]');
-  if (gamelabCorrBtn){ gameLab.corr = !gameLab.corr; renderGameLab(); return; }
-  const gamelabReset = e.target.closest('[data-gamelab-reset]');
-  if (gamelabReset){ gameLab.adjPct = 0; gameLab.blowout = false; gameLab.corr = false; renderGameLab(); return; }
+  if (lab){ openPlayerBox(lab.dataset.lab); return; }
 
   const cat = e.target.closest('[data-market]');
   if (cat){ market = cat.dataset.market; view = 'explore'; render(); return; }
@@ -2167,7 +1533,7 @@ document.body.addEventListener('click', e => {
   if (k){ openSheet(k.dataset.key); return; }
 });
 $('sheet').addEventListener('click', e => {
-  if (e.target === $('sheet')){ $('sheet').classList.remove('on'); simLab = null; gameLab = null; }
+  if (e.target === $('sheet')){ $('sheet').classList.remove('on'); curBoxKey = null; curGameBoxIdx = null; }
 });
 // The refresh button only re-fetched the JSON, which never changes between
 // Action runs -- so it looked like it did nothing. It now asks the Cloudflare
