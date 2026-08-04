@@ -146,6 +146,7 @@ date,sport,away,home,start,model_away_win,book_away_win,ml_away,ml_home,edge_pts
 2026-08-04,mlb,San Diego Padres,Arizona Diamondbacks,2026-08-05T01:40:00Z,,,,,,,,,Preview,2026-08-04T06:59:42+00:00,
 2026-08-04,mlb,Detroit Tigers,Seattle Mariners,2026-08-05T01:40:00Z,,,,,,,,,Preview,2026-08-04T06:59:42+00:00,
 2026-08-04,nfl,New England Patriots,Seattle Seahawks,2026-09-10T00:20Z,0.361,0.3614,166.0,-198.0,-0.04,,,,Preview,2026-08-04T06:59:42+00:00,
+2026-08-04,nfl,Kansas City Chiefs,Buffalo Bills,2026-09-11T00:20:00Z,0.5,,,,,,,,Preview,2026-08-04T18:20:40+00:00,
 2026-08-04,nfl,San Francisco 49ers,Los Angeles Rams,2026-09-11T00:35Z,0.348,0.3485,176.0,-210.0,-0.05,,,,Preview,2026-08-04T06:59:42+00:00,
 2026-08-04,nfl,Chicago Bears,Carolina Panthers,2026-09-13T17:00Z,0.571,0.5707,-146.0,124.0,0.03,,,,Preview,2026-08-04T06:59:42+00:00,
 2026-08-04,nfl,Tampa Bay Buccaneers,Cincinnati Bengals,2026-09-13T17:00Z,0.348,0.3485,176.0,-210.0,-0.05,,,,Preview,2026-08-04T06:59:42+00:00,

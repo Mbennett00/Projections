@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-04T07:48",
+  "generated_at": "2026-08-04T18:20",
   "date": "2026-08-04",
   "games": [
     {
@@ -60,9 +60,9 @@
       "away_team": "Washington Nationals",
       "home_team": "Philadelphia Phillies",
       "venue": "Citizens Bank Park",
-      "away_pitcher": "Zack Littell",
+      "away_pitcher": "Carson Palmquist",
       "home_pitcher": "Jes\u00fas Luzardo",
-      "away_pitcher_id": 641793,
+      "away_pitcher_id": 687223,
       "home_pitcher_id": 666200,
       "game_time": "2026-08-04T22:40:00Z",
       "game_state": "Preview",
@@ -258,9 +258,9 @@
       "away_team": "Detroit Tigers",
       "home_team": "Seattle Mariners",
       "venue": "T-Mobile Park",
-      "away_pitcher": null,
+      "away_pitcher": "Troy Melton",
       "home_pitcher": "Emerson Hancock",
-      "away_pitcher_id": null,
+      "away_pitcher_id": 675512,
       "home_pitcher_id": 676106,
       "game_time": "2026-08-05T01:40:00Z",
       "game_state": "Preview",
