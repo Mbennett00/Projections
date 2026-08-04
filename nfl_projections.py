@@ -370,6 +370,7 @@ NFL_TEAM_NAMES = {
     "SF": "San Francisco 49ers", "SEA": "Seattle Seahawks", "TB": "Tampa Bay Buccaneers",
     "TEN": "Tennessee Titans", "WSH": "Washington Commanders",
 }
+NFL_NAME_TO_ABBR = {v: k for k, v in NFL_TEAM_NAMES.items()}
 
 # Placeholder fallback used only if the live pull fails (offline, offseason
 # with no week param resolving, ESPN hiccup, etc.) so the script still
@@ -383,6 +384,25 @@ FALLBACK_GAMES = [
         "game_state": "Preview",
     },
 ]
+
+
+def _http_get_text(url, _retries=2):
+    """Same as _http_get_json but returns raw text (for CSV, not JSON)."""
+    last_err = None
+    for attempt in range(_retries + 1):
+        try:
+            if requests is not None:
+                res = requests.get(url, timeout=15, headers={"User-Agent": "Mozilla/5.0"})
+                res.raise_for_status()
+                return res.text
+            req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+            with urllib.request.urlopen(req, timeout=15) as r:
+                return r.read().decode()
+        except Exception as e:
+            last_err = e
+            if attempt < _retries:
+                continue
+    raise last_err
 
 
 def _http_get_json(url, _retries=2):
@@ -669,6 +689,141 @@ def nflverse_factor(adv, metric, base_key, scale=1.0):
     return 1.0 + max(-NFLVERSE_MAX_ADJ, min(NFLVERSE_MAX_ADJ, raw))
 
 
+# nflverse's schedule CSV is GitHub-hosted (github.com), not ESPN's — a
+# completely independent host from site.api.espn.com. If ESPN is ever slow,
+# rate-limiting, or blocking whatever IP range the runner landed on, this
+# still gets the real week's matchups instead of collapsing to one hardcoded
+# placeholder game. It won't have team box/roster data (that still needs
+# ESPN elsewhere in this script), but a real schedule beats a fake one.
+NFLVERSE_GAMES_CSV = "https://raw.githubusercontent.com/nflverse/nfldata/master/data/games.csv"
+# nflverse spells two team abbreviations differently than ESPN does.
+NFLVERSE_ABBR_FIX = {"LA": "LAR", "WAS": "WSH"}
+
+
+def fetch_schedule_nflverse(week=None, season=None, seasontype=2):
+    """Fallback schedule source when ESPN's scoreboard endpoint fails.
+    Returns the same raw-game shape fetch_schedule() produces, or None if
+    this also fails (network down, format changed, etc.) — never raises."""
+    import csv, io, datetime as _dt
+
+    game_type = {1: "PRE", 2: "REG", 3: "POST"}.get(seasontype, "REG")
+    season = season or _dt.date.today().year
+
+    try:
+        text = _http_get_text(NFLVERSE_GAMES_CSV)
+        rows = list(csv.DictReader(io.StringIO(text)))
+    except Exception as e:
+        print(f"⚠️  nflverse schedule fallback also failed ({type(e).__name__}: {e})")
+        return None
+
+    rows = [r for r in rows if r.get("season") == str(season) and r.get("game_type") == game_type]
+    if week:
+        rows = [r for r in rows if r.get("week") == str(week)]
+    if not rows:
+        return None
+
+    games = []
+    for r in rows:
+        away_abbr = NFLVERSE_ABBR_FIX.get(r["away_team"], r["away_team"])
+        home_abbr = NFLVERSE_ABBR_FIX.get(r["home_team"], r["home_team"])
+        has_score = bool(r.get("away_score")) and bool(r.get("home_score"))
+        try:
+            # nflverse's gametime is US Eastern (ET), not UTC -- naively
+            # appending "Z" would silently shift every kickoff by 4-5 hours
+            # and could even land it on the wrong calendar day.
+            naive = _dt.datetime.strptime(f"{r['gameday']} {r['gametime']}", "%Y-%m-%d %H:%M")
+            if _ET:
+                localized = naive.replace(tzinfo=_ET)
+                game_time = localized.astimezone(_dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:00Z")
+            else:
+                game_time = naive.strftime("%Y-%m-%dT%H:%M:00Z")  # best-effort, no zoneinfo available
+        except Exception:
+            game_time = r.get("gameday")
+        game = {
+            "away_team": NFL_TEAM_NAMES.get(away_abbr, away_abbr),
+            "away_abbr": away_abbr,
+            "home_team": NFL_TEAM_NAMES.get(home_abbr, home_abbr),
+            "home_abbr": home_abbr,
+            "venue": r.get("stadium") or "",
+            "indoor": (r.get("roof") or "").lower() in ("dome", "closed"),
+            "venue_city": None,
+            "venue_state": None,
+            "game_time": game_time,
+            "game_state": "Final" if has_score else "Preview",
+            "event_id": r.get("espn") or None,
+        }
+        if has_score:
+            game["away_score"] = r["away_score"]
+            game["home_score"] = r["home_score"]
+        games.append(game)
+    print(f"  (schedule via nflverse fallback: {len(games)} games)")
+    return games
+
+
+def fetch_schedule_oddsapi(days_ahead=9):
+    """Your ODDS_API_KEY, not ESPN's undocumented public scoreboard, as the
+    primary schedule source. Uses the /events endpoint, which is free (does
+    not count against your quota) and returns real matchups + kickoff times
+    without needing markets/odds to already be posted. Returns None (never
+    raises) if the key is missing, the call fails, or nothing is scheduled
+    in the window -- callers fall through to ESPN/nflverse in that case."""
+    if not ODDS_API_KEY:
+        return None
+    import datetime as _dt
+    _now = _dt.datetime.now(_dt.timezone.utc)
+    _from = _now.strftime("%Y-%m-%dT%H:%M:%SZ")
+    _to = (_now + _dt.timedelta(days=60)).strftime("%Y-%m-%dT%H:%M:%SZ")
+    url = (f"https://api.the-odds-api.com/v4/sports/{ODDS_API_SPORT}/events"
+           f"?apiKey={ODDS_API_KEY}&commenceTimeFrom={_from}&commenceTimeTo={_to}"
+           "&dateFormat=iso")
+    try:
+        data = _http_get_json(url)
+    except Exception as e:
+        print(f"⚠️  Odds API schedule pull failed ({type(e).__name__}: {e})")
+        return None
+    if not data:
+        return None
+
+    # The events endpoint returns everything scheduled in the whole 60-day
+    # window (all remaining weeks once the season's underway) -- this app
+    # shows one slate at a time, so keep only the nearest cluster of games
+    # (the earliest kickoff plus a few days, which covers one NFL week's
+    # Thu-through-Mon spread without pulling in the following week too).
+    parsed = []
+    for e in data:
+        try:
+            ct = _dt.datetime.fromisoformat(e["commence_time"].replace("Z", "+00:00"))
+        except Exception:
+            continue
+        parsed.append((ct, e))
+    if not parsed:
+        return None
+    parsed.sort(key=lambda x: x[0])
+    cutoff = parsed[0][0] + _dt.timedelta(days=days_ahead)
+
+    games = []
+    for ct, e in parsed:
+        if ct > cutoff:
+            break
+        away_name, home_name = e.get("away_team"), e.get("home_team")
+        away_abbr = NFL_NAME_TO_ABBR.get(away_name)
+        home_abbr = NFL_NAME_TO_ABBR.get(home_name)
+        if not away_abbr or not home_abbr:
+            continue  # unrecognized team name -- skip rather than guess
+        games.append({
+            "away_team": away_name, "away_abbr": away_abbr,
+            "home_team": home_name, "home_abbr": home_abbr,
+            "venue": "", "indoor": False, "venue_city": None, "venue_state": None,
+            "game_time": e["commence_time"],
+            "game_state": "Preview",
+            "event_id": e.get("id"),
+        })
+    if not games:
+        return None
+    print(f"  (schedule via The Odds API: {len(games)} games)")
+    return games
+
+
 def fetch_schedule(week=None, season=None, seasontype=2):
     url = ESPN_SCOREBOARD
     params = []
@@ -685,11 +840,12 @@ def fetch_schedule(week=None, season=None, seasontype=2):
     except Exception as e:
         # Print the real exception type + message, not just str(e) (which is
         # often blank for things like requests.exceptions.ReadTimeout). This
-        # is the line that tells you WHY a run silently fell back to the
-        # single hardcoded placeholder game instead of the real schedule.
+        # is the line that tells you WHY a run fell through to the backup
+        # schedule source instead of the real ESPN pull.
         print(f"⚠️  ESPN scoreboard pull failed for {url} "
-              f"({type(e).__name__}: {e}) — using fallback game.")
-        return FALLBACK_GAMES
+              f"({type(e).__name__}: {e}) — trying nflverse fallback.")
+        fallback = fetch_schedule_nflverse(week, season, seasontype)
+        return fallback if fallback else FALLBACK_GAMES
 
     games = []
     for event in data.get("events", []):
@@ -739,8 +895,9 @@ def fetch_schedule(week=None, season=None, seasontype=2):
         games.append(game)
 
     if not games:
-        print("⚠️  ESPN returned no games for this query — using fallback game.")
-        return FALLBACK_GAMES
+        print("⚠️  ESPN returned no games for this query — trying nflverse fallback.")
+        fallback = fetch_schedule_nflverse(week, season, seasontype)
+        return fallback if fallback else FALLBACK_GAMES
 
     return games
 
@@ -1830,8 +1987,20 @@ def main():
         except ValueError:
             print(f"Ignoring unrecognized arg '{sys.argv[1]}' — expected a week number.")
 
-    raw_games = fetch_schedule(week=week)
+    raw_games = None
     if not week:
+        # Your Odds API key is the primary schedule source now, not ESPN's
+        # undocumented public scoreboard -- it's the data you're already
+        # paying for/relying on for lines, so the slate and the odds now
+        # come from the same place instead of two independently-flaky ones.
+        raw_games = fetch_schedule_oddsapi()
+        if raw_games:
+            print(f"  showing {len(raw_games)} games via The Odds API")
+
+    if not raw_games:
+        raw_games = fetch_schedule(week=week)
+
+    if not week and not raw_games:
         # Regular season only, always -- even when ESPN's default "current"
         # scoreboard is a legitimate upcoming game, like the Hall of Fame
         # Game or another preseason slate. Preseason snaps are backups and
@@ -1853,6 +2022,8 @@ def main():
                       f"({len(probe)} games, regular season)")
                 raw_games = probe
                 break
+    if not raw_games:
+        raw_games = FALLBACK_GAMES
     if raw_games == FALLBACK_GAMES:
         print("⚠️⚠️  Every ESPN schedule attempt failed this run — the slate "
               "below is the single hardcoded placeholder game, not a real "
