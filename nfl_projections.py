@@ -385,14 +385,26 @@ FALLBACK_GAMES = [
 ]
 
 
-def _http_get_json(url):
-    if requests is not None:
-        res = requests.get(url, timeout=6, headers={"User-Agent": "Mozilla/5.0"})
-        res.raise_for_status()
-        return res.json()
-    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
-    with urllib.request.urlopen(req, timeout=6) as r:
-        return json.loads(r.read().decode())
+def _http_get_json(url, _retries=2):
+    # 6s was too tight under GitHub Actions load (8 parallel workers all
+    # hitting ESPN at once) -- a single slow response anywhere fell through
+    # to FALLBACK_GAMES with no visible reason why. 15s + one retry gives a
+    # transient blip a chance to clear before we give up on it.
+    last_err = None
+    for attempt in range(_retries + 1):
+        try:
+            if requests is not None:
+                res = requests.get(url, timeout=15, headers={"User-Agent": "Mozilla/5.0"})
+                res.raise_for_status()
+                return res.json()
+            req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+            with urllib.request.urlopen(req, timeout=15) as r:
+                return json.loads(r.read().decode())
+        except Exception as e:
+            last_err = e
+            if attempt < _retries:
+                continue
+    raise last_err
 
 
 # ──────────────────────────────────────────────────────────────────────────
@@ -671,7 +683,12 @@ def fetch_schedule(week=None, season=None, seasontype=2):
     try:
         data = _http_get_json(url)
     except Exception as e:
-        print(f"⚠️  ESPN scoreboard pull failed ({e}) — using fallback game.")
+        # Print the real exception type + message, not just str(e) (which is
+        # often blank for things like requests.exceptions.ReadTimeout). This
+        # is the line that tells you WHY a run silently fell back to the
+        # single hardcoded placeholder game instead of the real schedule.
+        print(f"⚠️  ESPN scoreboard pull failed for {url} "
+              f"({type(e).__name__}: {e}) — using fallback game.")
         return FALLBACK_GAMES
 
     games = []
@@ -1383,6 +1400,7 @@ def project_qb(team_abbr, opponent_abbr=None, vegas_factor=None, weather=None):
     return {
         "name": name,
         "player_id": athlete_id,
+        "pos": "QB",
         "quality": quality,
         "comp_pct": round(stats.get("comp_pct") or LEAGUE_AVG_QB["comp_pct"], 1),
         "adv": _adv or None, "eff_factor": round(_eff, 3), "injury": _rep,
@@ -1835,6 +1853,10 @@ def main():
                       f"({len(probe)} games, regular season)")
                 raw_games = probe
                 break
+    if raw_games == FALLBACK_GAMES:
+        print("⚠️⚠️  Every ESPN schedule attempt failed this run — the slate "
+              "below is the single hardcoded placeholder game, not a real "
+              "schedule. Check the warnings above for the actual exception.")
     print("Fetching odds...")
     odds_map = fetch_odds_for_slate()
     if odds_map:
