@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-04T20:10",
+  "generated_at": "2026-08-04T20:13",
   "date": "2026-08-04",
   "games": [
     {
@@ -8809,7 +8809,7 @@
       "away_score": 0,
       "home_score": 0,
       "confirmed": true,
-      "home_plate_ump": "John Tumpane",
+      "home_plate_ump": "Brennan Miller",
       "weather": null,
       "weather_note": null,
       "weather_hr_factor": 1.0,
