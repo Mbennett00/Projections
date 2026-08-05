@@ -794,7 +794,7 @@ def fetch_schedule_nflverse(week=None, season=None, seasontype=2):
     return games
 
 
-def fetch_schedule_oddsapi(days_ahead=9):
+def fetch_schedule_oddsapi(days_ahead=6):
     """Your ODDS_API_KEY, not ESPN's undocumented public scoreboard, as the
     primary schedule source. Uses the /events endpoint, which is free (does
     not count against your quota) and returns real matchups + kickoff times
@@ -820,9 +820,14 @@ def fetch_schedule_oddsapi(days_ahead=9):
 
     # The events endpoint returns everything scheduled in the whole 60-day
     # window (all remaining weeks once the season's underway) -- this app
-    # shows one slate at a time, so keep only the nearest cluster of games
-    # (the earliest kickoff plus a few days, which covers one NFL week's
-    # Thu-through-Mon spread without pulling in the following week too).
+    # shows one slate (one week) at a time, so keep only the nearest
+    # cluster of games. 6 days, not the previous 9: real 2026 schedule
+    # data shows a given week spans ~5 days (Wed/Thu opener through Monday
+    # night) but the NEXT week's Thursday opener starts only ~8 days after
+    # the current week's start -- a 9-day window reached into it, showing
+    # two weeks' rosters (and the same team's players from both) at once.
+    # 6 days covers the full real span with a day of buffer and stays
+    # safely under the 8-day gap to the following week.
     parsed = []
     for e in data:
         try:
@@ -1601,6 +1606,122 @@ def _player_rows_by_name():
     return idx
 
 
+# nflverse's separate "player_stats" release (the box-score-shaped one
+# _player_rows_by_name reads) stopped being updated after the 2024 season
+# as of this writing -- confirmed live via the GitHub releases API, not
+# assumed. The play-by-play release used for the Tier Engine has NOT gone
+# stale the same way (it's confirmed current through the most recent real
+# season), so player-level box scores are rebuilt directly from PBP for
+# any season the box-score release doesn't actually have yet, keeping
+# player-level stats exactly as current as the team-level engine instead
+# of silently falling back a year further than it needs to.
+_pbp_derived_player_rows_cache = {}
+_player_stats_seasons_available = None
+
+
+def _player_stats_max_season():
+    """Real seasons present in the box-score release, checked once."""
+    global _player_stats_seasons_available
+    if _player_stats_seasons_available is not None:
+        return _player_stats_seasons_available
+    seasons = {r.get("season") for r in fetch_nflverse_player_stats()}
+    seasons.discard(None)
+    _player_stats_seasons_available = max((int(s) for s in seasons), default=0)
+    return _player_stats_seasons_available
+
+
+def _new_pbp_acc(name, season, week, team):
+    return {
+        "player_display_name": name, "season": str(season), "week": str(week),
+        "season_type": "REG", "recent_team": team,
+        "attempts": 0, "completions": 0, "passing_yards": 0.0, "passing_tds": 0, "interceptions": 0,
+        "targets": 0, "receptions": 0, "receiving_yards": 0.0, "receiving_tds": 0,
+        "carries": 0, "rushing_yards": 0.0, "rushing_tds": 0,
+    }
+
+
+def derive_player_stats_from_pbp(season):
+    """Per-player weekly box scores built directly from play-by-play, in
+    the same row shape as player_stats.csv -- used only for seasons that
+    release hasn't actually caught up on yet. Keyed by (team, last-name)
+    since PBP player names are abbreviated ('P.Mahomes'), then re-keyed to
+    full display names via the roster map by the caller."""
+    if season in _pbp_derived_player_rows_cache:
+        return _pbp_derived_player_rows_cache[season]
+    acc = {}
+    for r in fetch_nflverse_pbp(season):
+        if r.get("season_type") != "REG":
+            continue
+        wk = r.get("week")
+        team = r.get("posteam")
+        if not wk or not team:
+            continue
+        passer = r.get("passer_player_name")
+        if passer and r.get("play_type") == "pass":
+            key = (team, _pbp_last_name_key(passer), wk)
+            a = acc.setdefault(key, _new_pbp_acc(passer, season, wk, team))
+            a["attempts"] += 1
+            gain = _pf(r, "yards_gained") or 0
+            if r.get("complete_pass") == "1":
+                a["completions"] += 1
+                a["passing_yards"] += gain
+                if r.get("pass_touchdown") == "1":
+                    a["passing_tds"] += 1
+            if r.get("interception") == "1":
+                a["interceptions"] += 1
+        receiver = r.get("receiver_player_name")
+        if receiver and r.get("play_type") == "pass":
+            key = (team, _pbp_last_name_key(receiver), wk)
+            a = acc.setdefault(key, _new_pbp_acc(receiver, season, wk, team))
+            a["targets"] += 1
+            gain = _pf(r, "yards_gained") or 0
+            if r.get("complete_pass") == "1":
+                a["receptions"] += 1
+                a["receiving_yards"] += gain
+                if r.get("pass_touchdown") == "1":
+                    a["receiving_tds"] += 1
+        rusher = r.get("rusher_player_name")
+        if rusher and r.get("play_type") == "run":
+            key = (team, _pbp_last_name_key(rusher), wk)
+            a = acc.setdefault(key, _new_pbp_acc(rusher, season, wk, team))
+            a["carries"] += 1
+            a["rushing_yards"] += _pf(r, "yards_gained") or 0
+            if r.get("rush_touchdown") == "1":
+                a["rushing_tds"] += 1
+    out = list(acc.values())
+    _pbp_derived_player_rows_cache[season] = out
+    return out
+
+
+_pbp_derived_by_team_lastname_cache = {}
+
+
+def _pbp_rows_for(team_abbr, full_name, season):
+    """PBP-derived rows for one player/team/season, matched by last name
+    (same scheme as historical_share_shift) since PBP has no full-name
+    field to match against directly."""
+    key = season
+    if key not in _pbp_derived_by_team_lastname_cache:
+        idx = {}
+        for r in derive_player_stats_from_pbp(season):
+            idx.setdefault((r["recent_team"], _pbp_last_name_key(r["player_display_name"])), []).append(r)
+        _pbp_derived_by_team_lastname_cache[key] = idx
+    return _pbp_derived_by_team_lastname_cache[key].get((team_abbr, _last_name_key(full_name)), [])
+
+
+def player_rows_for(full_name, team_abbr):
+    """Rows for one player, merging the box-score release (reliable for
+    any season it actually has) with PBP-derived rows for the current and
+    prior season if that release hasn't caught up to them yet -- keeps
+    player-level stats exactly as current as the team-level Tier Engine."""
+    rows = list(_player_rows_by_name().get(_nfl_norm(full_name), []))
+    max_boxscore_season = _player_stats_max_season()
+    for season in (_season_year(), PRIOR_SEASON):
+        if season > max_boxscore_season:
+            rows.extend(_pbp_rows_for(team_abbr, full_name, season))
+    return rows
+
+
 def _agg_season(rows, season):
     """Per-game rate stats for one player in one season. Same output shape
     as the old ESPN-sourced fetch_prior_stats()/fetch_qb_season_stats(), so
@@ -1878,36 +1999,176 @@ def player_usage_share(full_name, team_abbr):
     return cur or pri
 
 
+# ──────────────────────────────────────────────────────────────────────────
+# INJURY-AWARE REDISTRIBUTION — when a confirmed starter (QB1/RB1/WR1/TE1)
+# is Out/Doubtful, don't just delete him from the projection: pick the real
+# backup by his own usage evidence, and redistribute his vacated share to
+# teammates using THIS team's own historical pattern for exactly this kind
+# of absence (computed from real weekly player_stats -- weeks the player
+# genuinely didn't play vs weeks he did), never a fixed league-wide split.
+# Falls back to proportional renormalization of teammates' own existing
+# shares only when there's no real "he was out" week on record to learn
+# from -- still team-specific (their own shares), never a flat rule.
+# ──────────────────────────────────────────────────────────────────────────
+def _is_out(injury):
+    s = (injury or {}).get("status", "") or ""
+    s = s.lower()
+    return s == "out" or "doubtful" in s or "ir" in s or "pup" in s
+
+
+_team_week_usage_cache = {}
+
+
+def _team_week_usage(team_abbr, season):
+    """{week: {norm_name: {'targets':x,'carries':y}}} for one team/season
+    from real weekly player_stats rows -- lets us tell exactly which weeks
+    a given player did or didn't see the field."""
+    key = (team_abbr, season)
+    if key in _team_week_usage_cache:
+        return _team_week_usage_cache[key]
+    out = {}
+    for r in fetch_nflverse_player_stats():
+        if r.get("season") != str(season) or r.get("season_type") != "REG":
+            continue
+        if r.get("recent_team") != team_abbr:
+            continue
+        wk = r.get("week")
+        if not wk:
+            continue
+        name = _nfl_norm(r.get("player_display_name"))
+        out.setdefault(wk, {})[name] = {
+            "targets": _fnum(r, "targets") or 0, "carries": _fnum(r, "carries") or 0,
+        }
+    _team_week_usage_cache[key] = out
+    return out
+
+
+def historical_share_shift(team_abbr, missing_name_norm):
+    """{teammate_norm_name: {'target_mult','carry_mult'}} built from this
+    team's own real weeks with vs without the named player on the field.
+    Empty dict if there's no real missing-week sample to learn from --
+    caller should fall back to proportional renormalization in that case."""
+    present, absent = {}, {}
+    present_weeks = absent_weeks = 0
+    for season in (_season_year(), PRIOR_SEASON, PRIOR_SEASON - 1):
+        for wk, players in _team_week_usage(team_abbr, season).items():
+            miss = players.get(missing_name_norm, {"targets": 0, "carries": 0})
+            is_absent = (miss["targets"] + miss["carries"]) == 0
+            # A bye week (or a week this team's log is simply missing) looks
+            # identical to "he was out" from this player's row alone -- the
+            # real tell is whether TEAMMATES had usage that week. If nobody
+            # did, the team didn't play; skip the week entirely rather than
+            # let it corrupt both buckets with false zeros.
+            team_activity = sum(u["targets"] + u["carries"] for n, u in players.items()
+                                 if n != missing_name_norm)
+            if team_activity < 8:
+                continue
+            bucket = absent if is_absent else present
+            for name, u in players.items():
+                if name == missing_name_norm:
+                    continue
+                b = bucket.setdefault(name, {"targets": 0.0, "carries": 0.0})
+                b["targets"] += u["targets"]; b["carries"] += u["carries"]
+            absent_weeks += is_absent
+            present_weeks += not is_absent
+    # A single historical "he was out" week is a coincidence waiting to
+    # happen (two unrelated injuries the same week, a blowout benching,
+    # etc.) -- require at least a couple of real data points before
+    # trusting the ratio at all. Below that, return {} so the caller uses
+    # the safer proportional-renormalization fallback instead.
+    if absent_weeks < 2 or present_weeks < 2:
+        return {}
+    out = {}
+    for name in set(present) | set(absent):
+        p, a = present.get(name, {"targets": 0, "carries": 0}), absent.get(name, {"targets": 0, "carries": 0})
+        p_tgt, a_tgt = p["targets"] / present_weeks, a["targets"] / absent_weeks
+        p_car, a_car = p["carries"] / present_weeks, a["carries"] / absent_weeks
+        out[name] = {
+            "target_mult": (a_tgt / p_tgt) if p_tgt > 0.3 else None,
+            "carry_mult": (a_car / p_car) if p_car > 0.3 else None,
+        }
+    return out
+
+
+def apply_injury_redistribution(team_abbr, skill_candidates, roster_map):
+    """Given the team's normal skill-player pool, returns (active_players,
+    share_overrides, out_players) -- players confirmed Out/Doubtful removed,
+    and a real, team-specific multiplier applied to each remaining
+    teammate's target/carry share for this game only."""
+    injury_report = fetch_nfl_injury_report()
+    active, out_players = [], []
+    for name, info in skill_candidates:
+        inj = injury_report.get(_nfl_norm(info.get("name")))
+        (out_players if _is_out(inj) else active).append((name, info))
+
+    overrides = {}
+    for out_key, out_info in out_players:
+        out_name = out_info.get("name")
+        shares = player_usage_share(out_name, team_abbr) or {}
+        vacated_tgt, vacated_car = shares.get("target_share") or 0, shares.get("carry_share") or 0
+        if vacated_tgt < 0.02 and vacated_car < 0.02:
+            continue  # bit-part player out -- nothing meaningful to redistribute
+        if not active:
+            continue
+        shift = historical_share_shift(team_abbr, _nfl_norm(out_name))
+        # Real historical multipliers where we have them; otherwise fall
+        # back to renormalizing teammates' own existing shares so they
+        # sum back to 1.0 -- still each team's own real relative shares,
+        # just scaled to fill the gap instead of a flat split.
+        total_existing_tgt = sum((player_usage_share(i.get("name"), team_abbr) or {}).get("target_share") or 0
+                                  for n, i in active) or 1e-6
+        total_existing_car = sum((player_usage_share(i.get("name"), team_abbr) or {}).get("carry_share") or 0
+                                  for n, i in active) or 1e-6
+        for n, i in active:
+            s = player_usage_share(i.get("name"), team_abbr) or {}
+            hist = shift.get(_nfl_norm(i.get("name")), {})
+            tgt_mult = hist.get("target_mult")
+            car_mult = hist.get("carry_mult")
+            if tgt_mult is None:
+                own_tgt = s.get("target_share") or 0
+                tgt_mult = 1 + (vacated_tgt * (own_tgt / total_existing_tgt)) / own_tgt if own_tgt > 0.01 else 1.0
+            if car_mult is None:
+                own_car = s.get("carry_share") or 0
+                car_mult = 1 + (vacated_car * (own_car / total_existing_car)) / own_car if own_car > 0.01 else 1.0
+            prev = overrides.get(n, {"target_mult": 1.0, "carry_mult": 1.0})
+            overrides[n] = {"target_mult": prev["target_mult"] * tgt_mult, "carry_mult": prev["carry_mult"] * car_mult}
+    return active, overrides, out_players
+
+
 def _team_qb_starter(team_abbr, roster_map):
     """Pick the team's current QB1 by real usage evidence (most recent-
     season attempts among the team's rostered QBs), not a market signal
-    and not ESPN's depth chart. Falls back to the first rostered QB found
-    if nobody on the roster has any recorded attempts yet (all-rookie room)."""
-    by_name = _player_rows_by_name()
+    and not ESPN's depth chart -- and never a QB confirmed Out/Doubtful
+    this week, so an injury automatically promotes the real backup instead
+    of silently projecting a player who won't suit up. Falls back to the
+    first rostered QB found if nobody healthy has any recorded attempts
+    yet (all-rookie room)."""
+    injury_report = fetch_nfl_injury_report()
     candidates = [(name, info) for name, info in roster_map.items()
                   if info.get("team") == team_abbr and info.get("position") == "QB"]
     if not candidates:
         return None
+    healthy = [(n, i) for n, i in candidates if not _is_out(injury_report.get(_nfl_norm(n)))]
+    pool = healthy or candidates  # everyone's dinged up -- still have to start someone
     best, best_att = None, -1
-    for name, info in candidates:
-        rows = by_name.get(name, [])
+    for name, info in pool:
+        rows = player_rows_for(info.get("name"), team_abbr)
         att = sum((_fnum(r, "attempts") or 0) for r in rows
                   if r.get("season") in (str(PRIOR_SEASON), str(PRIOR_SEASON - 1)))
         if att > best_att:
             best, best_att = info, att
-    return best or candidates[0][1]
+    return best or pool[0][1]
 
 
 def _team_skill_players(team_abbr, roster_map, min_gp=3):
     """Every rostered RB/WR/TE with real recorded usage in the last two
     seasons -- a stats-driven stand-in for "who's actually a rotation
     player", not a fixed depth-chart slice."""
-    by_name = _player_rows_by_name()
     out = []
     for name, info in roster_map.items():
         if info.get("team") != team_abbr or info.get("position") not in ("RB", "WR", "TE"):
             continue
-        rows = by_name.get(name, [])
+        rows = player_rows_for(info.get("name"), team_abbr)
         recent_rows = [r for r in rows if r.get("season") in (str(PRIOR_SEASON), str(PRIOR_SEASON - 1))]
         if len(recent_rows) < min_gp:
             continue
@@ -1991,7 +2252,7 @@ def project_qb_stats(team_abbr, opponent_abbr, roster_map, team_stats, weather=N
     if not info:
         return None
     name = info.get("name")
-    rows = _player_rows_by_name().get(_nfl_norm(name), [])
+    rows = player_rows_for(name, team_abbr)
     cur = _agg_season(rows, _season_year())
     pri = _agg_season(rows, PRIOR_SEASON) or _agg_season(rows, PRIOR_SEASON - 1)
     if cur or pri:
@@ -2057,12 +2318,13 @@ def project_skill_players_stats(team_abbr, opponent_abbr, roster_map, team_stats
     his REAL target/carry/red-zone share (from play-by-play), then
     converted to yards/TDs using his own real per-target/per-carry rates.
     No market input anywhere in here."""
-    by_name = _player_rows_by_name()
     factor = fetch_defense_factor_nflverse(opponent_abbr) if opponent_abbr else 1.0
     wxp = (weather or {}).get("pass", 1.0)
     out = []
-    for name, info in _team_skill_players(team_abbr, roster_map):
-        rows = by_name.get(name, [])
+    active_candidates, share_overrides, out_players = apply_injury_redistribution(
+        team_abbr, _team_skill_players(team_abbr, roster_map), roster_map)
+    for name, info in active_candidates:
+        rows = player_rows_for(info.get("name"), team_abbr)
         cur = _agg_season(rows, _season_year())
         pri = _agg_season(rows, PRIOR_SEASON) or _agg_season(rows, PRIOR_SEASON - 1)
         if not cur and not pri:
@@ -2076,12 +2338,18 @@ def project_skill_players_stats(team_abbr, opponent_abbr, roster_map, team_stats
         carry_share = shares.get("carry_share")
         if not target_share and not carry_share:
             continue
+        # Injury-aware redistribution: real, team-specific multiplier from
+        # apply_injury_redistribution above (1.0 if nobody ahead of this
+        # player at his role is out this week).
+        boost = share_overrides.get(name, {"target_mult": 1.0, "carry_mult": 1.0})
+        target_share = (target_share or 0) * boost["target_mult"]
+        carry_share = (carry_share or 0) * boost["carry_mult"]
 
         team_pass_att = (team_stats or {}).get("pass_attempts") or 34.0
         team_rush_att = (team_stats or {}).get("rush_attempts") or 26.0
         team_rz_trips = (team_stats or {}).get("red_zone_trips") or 4.4
-        rz_target_share = shares.get("rz_target_share") or target_share
-        rz_carry_share = shares.get("rz_carry_share") or carry_share
+        rz_target_share = (shares.get("rz_target_share") or target_share) * boost["target_mult"]
+        rz_carry_share = (shares.get("rz_carry_share") or carry_share) * boost["carry_mult"]
 
         # Team Volume -> Player Distribution: this player's own targets/
         # carries this game come from the game engine's projected team
@@ -2122,6 +2390,8 @@ def project_skill_players_stats(team_abbr, opponent_abbr, roster_map, team_stats
             "opp_factor": round(factor, 3),
             "target_share": round(target_share, 3) if target_share else None,
             "carry_share": round(carry_share, 3) if carry_share else None,
+            "injury_boost": (round(boost["target_mult"], 2) if boost["target_mult"] != 1.0
+                             else round(boost["carry_mult"], 2) if boost["carry_mult"] != 1.0 else None),
             "injury": injury,
             "status": (injury or {}).get("status"),
             "sim": {
