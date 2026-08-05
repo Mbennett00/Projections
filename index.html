@@ -85,6 +85,7 @@ h1,h2,h3{font-family:'Space Grotesk',sans-serif}
 .team-name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;text-align:center}
 .team-record{font-size:11px;color:var(--text-tertiary)}
 .matchup-mid{display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--text-secondary);font-size:12px}
+.proj-score{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;color:var(--text-primary);margin-top:2px}
 .matchup-mid .at{font-family:'Space Grotesk',sans-serif;font-size:13px;color:var(--text-tertiary)}
 .game-meta{text-align:center;font-size:12px;color:var(--text-secondary);padding-top:10px;border-top:1px solid var(--border-soft);
   display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
@@ -93,6 +94,8 @@ h1,h2,h3{font-family:'Space Grotesk',sans-serif}
 .stat-box{flex:1;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px}
 .stat-label{font-size:11px;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px}
 .stat-value{font-weight:700;font-size:24px;color:var(--green)}
+.stat-value-row{display:flex;align-items:center;gap:8px}
+.stat-team-logo{width:26px;height:26px;object-fit:contain;border-radius:50%;background:var(--border-soft);padding:3px;flex:none}
 .stat-sub{font-size:11px;color:var(--text-tertiary);margin-top:2px}
 .bar-track{height:5px;background:var(--track);border-radius:4px;margin-top:10px;overflow:hidden}
 .bar-fill{height:100%;background:var(--green);border-radius:4px}
@@ -111,6 +114,8 @@ h1,h2,h3{font-family:'Space Grotesk',sans-serif}
 .player-name{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .pos-tag{font-size:9.5px;font-weight:700;padding:2px 6px;border-radius:5px;background:var(--border-soft);color:var(--text-secondary);flex:none}
 .player-sub{font-size:11.5px;color:var(--text-tertiary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tag-row{display:flex;gap:5px;margin-top:4px;flex-wrap:wrap}
+.tag-pill{font-size:9px;font-weight:800;letter-spacing:.03em;padding:2px 6px;border-radius:5px}
 .curve{width:56px;height:20px;flex:none}
 .player-right{text-align:right;flex:none;width:62px}
 .proj-value{font-weight:700;font-size:18px}
@@ -192,6 +197,14 @@ h1,h2,h3{font-family:'Space Grotesk',sans-serif}
 .dist-seg-label{font-size:10px;color:var(--text-tertiary);margin-top:2px}
 
 .insight-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border-soft);font-size:13px}
+.insight-row-full{border-bottom:1px solid var(--border-soft);padding-bottom:10px;margin-bottom:0}
+.insight-row-full .insight-row{border-bottom:none;padding-bottom:6px}
+.inline-logo{width:16px;height:16px;object-fit:contain;vertical-align:-3px;border-radius:50%}
+.player-header-vs .inline-logo{width:15px;height:15px;vertical-align:-2px}
+.grade-pill{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:13px;padding:2px 9px;border-radius:7px}
+.basis-pill{font-size:11.5px;font-weight:700;color:var(--text-primary);background:var(--border-soft);padding:3px 9px;border-radius:7px}
+.factor-track{height:4px;background:var(--border-soft);border-radius:3px;overflow:hidden;margin-top:2px}
+.factor-fill{height:100%;border-radius:3px}
 .insight-row:last-child{border-bottom:none}
 .insight-label{color:var(--text-secondary)}
 .insight-value{font-weight:600;font-family:'Space Grotesk',sans-serif}
@@ -315,6 +328,7 @@ function players(sp){
   const m = defs.find(x => x[0] === market) || defs[0];
   if (!m) return [];
   const out = [];
+  let gi = 0;
   for (const g of d.games){
     if (g.game_state === 'Final') continue;
     for (const pool of (POOLS[sp]||[])){
@@ -323,15 +337,20 @@ function players(sp){
       const opp = sp === 'nfl' ? (away ? g.home_team : g.away_team) : (away ? g.home_abbr : g.away_abbr);
       const raw = g[pool];
       const arr = Array.isArray(raw) ? raw : (raw ? [raw] : []);
-      for (const p of arr){
+      arr.forEach((p, pi) => {
         const v = m[1](p);
-        if (v == null || isNaN(v)) continue;
+        if (v == null || isNaN(v)) return;
+        // Keyed with game index + pool + position -- a name-only key
+        // collapses every player onto the same row the instant a name is
+        // ever missing (stale/partial data), which silently opens the
+        // wrong player's detail sheet. This stays unique even then.
         out.push({...p, _sp:sp, _team:team, _opp:opp,
                   _tab:teamAbbr(sp, team), _oab:teamAbbr(sp, opp),
                   _market:m[0], _val:v, _dp:m[2],
-                  _key:`${sp}|${m[0]}|${p.name}`, _game:g});
-      }
+                  _key:`${sp}|${m[0]}|${gi}|${pool}|${pi}|${p.name||''}`, _game:g});
+      });
     }
+    gi++;
   }
   out.sort((a,b) => b._val - a._val);
   return out;
@@ -347,6 +366,12 @@ function confOf(p, arr){
   return Math.max(1, Math.min(99, Math.round(s)));
 }
 const confColor = s => s >= 78 ? 'high' : s >= 55 ? 'mid' : 'low';
+// Real-data-driven descriptors -- grade letters and opponent factor both
+// come straight from the Tier Engine's actual yards-allowed numbers.
+const gradeColor = g => { const l = (g||'')[0];
+  return l==='A' ? 'var(--green)' : l==='B' ? '#4EA1FF' : l==='C' ? 'var(--amber)' : 'var(--red)'; };
+const factorColor = v => v >= 1.05 ? 'var(--green)' : v <= 0.95 ? 'var(--red)' : 'var(--text-tertiary)';
+const factorTag = v => v >= 1.05 ? 'Favorable' : v <= 0.95 ? 'Tough' : 'Neutral';
 
 function topProjections(sp, n){
   const defs = MARKETS[sp] || [];
@@ -381,12 +406,27 @@ function curveSvg(conf){
 }
 
 /* ── card renderers ── */
+function tagsFor(p){
+  // Real-data badges: red-zone role, target hog, workhorse back -- using
+  // actual usage shares from the Player Distribution Engine where present,
+  // falling back to raw counting stats for sports/pools that don't have
+  // shares (NHL/NBA, or NFL QBs).
+  const t = [];
+  if ((p.td_prob ?? 0) >= .45) t.push(['RED ZONE', 'var(--red)']);
+  if (p.target_share != null ? p.target_share >= .22 : (p.rec ?? 0) >= 6) t.push(['TARGET HOG', 'var(--green)']);
+  if (p.carry_share != null ? p.carry_share >= .55 : (p.rush_yds ?? 0) >= 80) t.push(['BELLCOW', 'var(--amber)']);
+  return t;
+}
+
 function playerCardHtml(p, conf){
+  const tags = tagsFor(p);
   return `<div class="player-card" data-key="${esc(p._key)}">
     ${avatarHtml(p, 'avatar')}
     <div class="player-info">
       <div class="player-name-row"><span class="player-name">${esc(p.name)}</span><span class="pos-tag">${esc(p.pos||'')}</span></div>
       <div class="player-sub">${esc(p._market)} · ${p._team ? 'vs '+esc(p._oab) : ''}</div>
+      ${tags.length ? `<div class="tag-row">${tags.map(([label,color]) =>
+        `<span class="tag-pill" style="color:${color};background:${color}22">${label}</span>`).join('')}</div>` : ''}
     </div>
     ${curveSvg(conf)}
     <div class="player-right">
@@ -406,7 +446,7 @@ function matchupCardHtml(sp, g){
   return `<div class="matchup-card" data-game="${DATA[sp].games.indexOf(g)}">
     <div class="matchup-row">
       <div class="team">${teamBadge(sp,aAb)}<div class="team-name">${esc(aAb)}</div></div>
-      <div class="matchup-mid"><div class="at">@</div>${projA!=null?`<div style="font-size:11px">${projA.toFixed(0)}–${projH.toFixed(0)}</div>`:''}</div>
+      <div class="matchup-mid"><div class="at">@</div>${projA!=null?`<div class="proj-score">${projA.toFixed(0)}–${projH.toFixed(0)}</div>`:''}</div>
       <div class="team">${teamBadge(sp,hAb)}<div class="team-name">${esc(hAb)}</div></div>
     </div>
     <div class="game-meta"><span>${esc(timeStr)}</span>${g.venue?`<span>·</span><span>${esc(g.venue)}</span>`:''}</div>
@@ -414,8 +454,11 @@ function matchupCardHtml(sp, g){
   ${awayWin != null ? `<div class="stat-split">
     <div class="stat-box">
       <div class="stat-label">Win Probability</div>
-      <div class="stat-value">${Math.round((homeWin>=awayWin?homeWin:awayWin)*100)}%</div>
-      <div class="stat-sub">${homeWin>=awayWin?esc(hAb):esc(aAb)}</div>
+      <div class="stat-value-row">
+        <img class="stat-team-logo" src="${teamLogo(sp, homeWin>=awayWin?hAb:aAb)}" alt="" loading="lazy" onerror="this.style.display='none'">
+        <div><div class="stat-value">${Math.round((homeWin>=awayWin?homeWin:awayWin)*100)}%</div>
+        <div class="stat-sub">${homeWin>=awayWin?esc(hAb):esc(aAb)}</div></div>
+      </div>
       <div class="bar-track"><div class="bar-fill" style="width:${Math.round((homeWin>=awayWin?homeWin:awayWin)*100)}%"></div></div>
     </div>
     <div class="stat-box">
@@ -556,6 +599,8 @@ function openPlayer(key){
   const dist = simDistribution(p._val, p._dp);
   const starred = watch.has(p._key);
   const injuryLine = p.injury ? `${esc(p.injury.status||'Injury')} — ${esc(p.injury.body_part||'')}` : null;
+  const factorVal = p.opp_factor != null ? p.opp_factor : (p._matchup_factor != null ? p._matchup_factor : null);
+  const weatherNote = (p._game && p._game.weather_note) || null;
   $('sheet-in').innerHTML = `
     <div class="detail-topbar">
       <div class="back-btn" id="sheet-back"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></div>
@@ -567,8 +612,13 @@ function openPlayer(key){
       ${avatarHtml(p, 'avatar-lg')}
       <div>
         <div class="player-header-name">${esc(p.name)}</div>
-        <div class="player-header-sub"><span class="pos">${esc(p.pos||'')}</span> · ${esc(p._tab)}</div>
-        <div class="player-header-vs">vs ${esc(p._oab)}${p.matchup_grade?` (${esc(p.matchup_grade)} matchup)`:''}</div>
+        <div class="player-header-sub"><span class="pos">${esc(p.pos||'')}</span> ·
+          <img class="inline-logo" src="${teamLogo(p._sp, p._tab)}" alt="${esc(p._tab)}" loading="lazy" onerror="this.replaceWith(document.createTextNode('${esc(p._tab)}'))">
+        </div>
+        <div class="player-header-vs">vs
+          <img class="inline-logo" src="${teamLogo(p._sp, p._oab)}" alt="${esc(p._oab)}" loading="lazy" onerror="this.replaceWith(document.createTextNode('${esc(p._oab)}'))">
+          ${p.matchup_grade?` (${esc(p.matchup_grade)} matchup)`:''}
+        </div>
       </div>
     </div>
     <div class="detail-card">
@@ -599,10 +649,20 @@ function openPlayer(key){
     </div>
     <div class="detail-card">
       <div class="dist-title"><span>Matchup &amp; Model Notes</span></div>
-      ${p.matchup_grade?`<div class="insight-row"><span class="insight-label">Matchup grade</span><span class="insight-value">${esc(p.matchup_grade)}</span></div>`:''}
-      ${p.opp_factor!=null?`<div class="insight-row"><span class="insight-label">Opponent factor</span><span class="insight-value">${p.opp_factor.toFixed(2)}×</span></div>`:''}
-      ${p._matchup_factor!=null?`<div class="insight-row"><span class="insight-label">Opponent factor</span><span class="insight-value">${p._matchup_factor.toFixed(2)}×</span></div>`:''}
-      ${p.src?`<div class="insight-row"><span class="insight-label">Data basis</span><span class="insight-value">${esc({form:'Recent form',blend:'Season blend',current:'This season',prior:'Prior season',league_avg:'League average'}[p.src] || p.src)}</span></div>`:''}
+      ${p.matchup_grade?`<div class="insight-row"><span class="insight-label">Matchup grade</span>
+        <span class="grade-pill" style="color:${gradeColor(p.matchup_grade)};background:${gradeColor(p.matchup_grade)}22">${esc(p.matchup_grade)}</span></div>`:''}
+      ${factorVal!=null?`<div class="insight-row-full">
+        <div class="insight-row" style="border-bottom:none;padding-bottom:4px">
+          <span class="insight-label">Opponent factor</span>
+          <span class="insight-value">${factorVal.toFixed(2)}× <span style="color:${factorColor(factorVal)};font-weight:700">${factorTag(factorVal)}</span></span>
+        </div>
+        <div class="factor-track"><div class="factor-fill" style="width:${Math.min(100,Math.max(0,(factorVal-0.8)/0.4*100))}%;background:${factorColor(factorVal)}"></div></div>
+      </div>`:''}
+      ${p.target_share!=null?`<div class="insight-row"><span class="insight-label">Target share</span><span class="insight-value">${(p.target_share*100).toFixed(1)}%</span></div>`:''}
+      ${p.carry_share!=null?`<div class="insight-row"><span class="insight-label">Carry share</span><span class="insight-value">${(p.carry_share*100).toFixed(1)}%</span></div>`:''}
+      ${p.src?`<div class="insight-row"><span class="insight-label">Data basis</span>
+        <span class="basis-pill">${esc({form:'Recent form',blend:'Season blend',current:'This season',prior:'Prior season',league_avg:'League average'}[p.src] || p.src)}</span></div>`:''}
+      ${weatherNote?`<div class="insight-row"><span class="insight-label">Weather</span><span class="insight-value">${esc(weatherNote)}</span></div>`:''}
       ${injuryLine?`<div class="insight-row"><span class="insight-label">Injury report</span><span class="insight-value">${injuryLine}</span></div>`:''}
       ${p.market_line!=null?`<div class="insight-row"><span class="insight-label">Book line (FanDuel)</span><span class="insight-value">${p.market_line}</span></div>`:''}
       ${p.edge_vs_market!=null?`<div class="insight-row"><span class="insight-label">Model vs. line</span><span class="insight-value" style="color:${p.edge_vs_market>0?'var(--green)':'var(--red)'}">${p.edge_vs_market>0?'+':''}${p.edge_vs_market}</span></div>`:''}
