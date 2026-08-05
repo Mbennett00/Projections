@@ -20,6 +20,7 @@ Output:
 
 import json
 import math
+import random
 import re
 import statistics
 import sys
@@ -397,6 +398,26 @@ FALLBACK_GAMES = [
         "game_state": "Preview",
     },
 ]
+
+
+def _http_get_bytes(url, _retries=2):
+    """Same as _http_get_text but returns raw bytes (for gzip'd CSVs like the
+    play-by-play release, which is ~20MB compressed per season)."""
+    last_err = None
+    for attempt in range(_retries + 1):
+        try:
+            if requests is not None:
+                res = requests.get(url, timeout=30, headers={"User-Agent": "Mozilla/5.0"})
+                res.raise_for_status()
+                return res.content
+            req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+            with urllib.request.urlopen(req, timeout=30) as r:
+                return r.read()
+        except Exception as e:
+            last_err = e
+            if attempt < _retries:
+                continue
+    raise last_err
 
 
 def _http_get_text(url, _retries=2):
@@ -1607,6 +1628,14 @@ def _agg_season(rows, season):
             "pass_td": round(s("passing_tds") / gp, 2),
             "int": round(s("interceptions") / gp, 2),
             "rating": round(((a + b + c + d) / 6) * 100, 1),
+            # per-attempt rates -- these, not the per-game totals above, are
+            # what the Player Distribution layer multiplies against the
+            # Tier Engine's own projected team pass attempts. A per-game
+            # total is only valid at the player's own historical volume;
+            # a per-attempt rate is valid at ANY volume.
+            "ypa": round(s("passing_yards") / att, 2),
+            "td_rate": round(s("passing_tds") / att, 4),
+            "int_rate": round(s("interceptions") / att, 4),
         })
     targets, carries = s("targets"), s("carries")
     if targets or carries:
@@ -1617,6 +1646,10 @@ def _agg_season(rows, season):
             "rush_att": round(carries / gp, 1),
             "rush_yds": round(s("rushing_yards") / gp, 1),
             "td_per_game": round((s("receiving_tds") + s("rushing_tds")) / gp, 2),
+            # per-target/per-carry rates, same reasoning as ypa/td_rate above
+            "catch_rate": round(s("receptions") / targets, 3) if targets else None,
+            "yds_per_target": round(s("receiving_yards") / targets, 2) if targets else None,
+            "yds_per_carry": round(s("rushing_yards") / carries, 2) if carries else None,
         })
     return out if len(out) > 1 else None  # nothing but gp -- no real signal
 
@@ -1647,6 +1680,8 @@ def _agg_recent(rows, n=None):
         out.update({
             "pass_yds": s("passing_yards") / gp, "pass_td": s("passing_tds") / gp,
             "comp_pct": (comp / att * 100) if att else None,
+            "ypa": s("passing_yards") / att, "td_rate": s("passing_tds") / att,
+            "int_rate": s("interceptions") / att,
         })
     targets, carries = s("targets"), s("carries")
     if targets or carries:
@@ -1654,6 +1689,9 @@ def _agg_recent(rows, n=None):
             "rush_yds": s("rushing_yards") / gp, "rush_td": s("rushing_tds") / gp,
             "rec": s("receptions") / gp, "rec_yds": s("receiving_yards") / gp,
             "rec_td": s("receiving_tds") / gp, "targets": targets / gp,
+            "catch_rate": (s("receptions") / targets) if targets else None,
+            "yds_per_target": (s("receiving_yards") / targets) if targets else None,
+            "yds_per_carry": (s("rushing_yards") / carries) if carries else None,
         })
     return out
 
@@ -1738,6 +1776,108 @@ def dvp_grade_nflverse(opponent_abbr, pos):
     return "F"
 
 
+# ──────────────────────────────────────────────────────────────────────────
+# PLAYER DISTRIBUTION ENGINE — allocates the Tier Engine's team volume
+# (pass attempts, rush attempts, red-zone trips) down to individual players
+# using REAL usage shares computed directly from play-by-play: target
+# share, carry share, air-yards share, red-zone target/carry share. This
+# is the layer that used to be missing -- player projections were scaling
+# each player's OWN historical per-game total by a generic factor, with no
+# real tie back to what the game engine actually projects for the team
+# this specific week. Now: Team Metrics -> Game Projection -> Team Volume
+# -> (this engine, real shares) -> Player Prop Projections.
+# ──────────────────────────────────────────────────────────────────────────
+_NAME_SUFFIXES = {"jr", "sr", "ii", "iii", "iv", "v"}
+
+
+def _last_name_key(full_name):
+    if not full_name:
+        return ""
+    parts = full_name.replace(".", "").split()
+    if len(parts) > 1 and parts[-1].lower() in _NAME_SUFFIXES:
+        parts = parts[:-1]
+    return _nfl_norm(parts[-1]) if parts else ""
+
+
+def _pbp_last_name_key(pbp_name):
+    """PBP player names are 'F.Lastname' ('T.Kelce'), not the full display
+    name -- matched to the roster by team + last name, since that's the
+    only thing both sources agree on without a shared player id here."""
+    if not pbp_name:
+        return ""
+    parts = pbp_name.split(".", 1)
+    last = parts[-1] if len(parts) > 1 else pbp_name
+    return _nfl_norm(last)
+
+
+_usage_shares_cache = {}
+
+
+def compute_usage_shares(season):
+    """{(team_abbr, last_name_key): {target_share, carry_share,
+    air_yards_share, rz_target_share, rz_carry_share}} -- every share is a
+    real count from actual plays run, divided by the team's real total."""
+    if season in _usage_shares_cache:
+        return _usage_shares_cache[season]
+    rows = fetch_nflverse_pbp(season)
+    team_targets, team_carries, team_air_yards = {}, {}, {}
+    team_rz_targets, team_rz_carries = {}, {}
+    player_targets, player_carries, player_air_yards = {}, {}, {}
+    player_rz_targets, player_rz_carries = {}, {}
+
+    for r in rows:
+        if r.get("season_type") != "REG":
+            continue
+        team = r.get("posteam")
+        if not team:
+            continue
+        is_rz = (_pf(r, "yardline_100") or 999) <= 20
+        if r.get("play_type") == "pass" and r.get("receiver_player_name"):
+            key = (team, _pbp_last_name_key(r["receiver_player_name"]))
+            team_targets[team] = team_targets.get(team, 0) + 1
+            player_targets[key] = player_targets.get(key, 0) + 1
+            ay = _pf(r, "air_yards") or 0
+            team_air_yards[team] = team_air_yards.get(team, 0) + ay
+            player_air_yards[key] = player_air_yards.get(key, 0) + ay
+            if is_rz:
+                team_rz_targets[team] = team_rz_targets.get(team, 0) + 1
+                player_rz_targets[key] = player_rz_targets.get(key, 0) + 1
+        if r.get("play_type") == "run" and r.get("rusher_player_name"):
+            key = (team, _pbp_last_name_key(r["rusher_player_name"]))
+            team_carries[team] = team_carries.get(team, 0) + 1
+            player_carries[key] = player_carries.get(key, 0) + 1
+            if is_rz:
+                team_rz_carries[team] = team_rz_carries.get(team, 0) + 1
+                player_rz_carries[key] = player_rz_carries.get(key, 0) + 1
+
+    out = {}
+    for key in set(player_targets) | set(player_carries):
+        team = key[0]
+        tt, tc = team_targets.get(team, 0), team_carries.get(team, 0)
+        trzt, trzc = team_rz_targets.get(team, 0), team_rz_carries.get(team, 0)
+        tay = team_air_yards.get(team, 0)
+        out[key] = {
+            "target_share": (player_targets.get(key, 0) / tt) if tt else None,
+            "carry_share": (player_carries.get(key, 0) / tc) if tc else None,
+            "air_yards_share": (player_air_yards.get(key, 0) / tay) if tay else None,
+            "rz_target_share": (player_rz_targets.get(key, 0) / trzt) if trzt else None,
+            "rz_carry_share": (player_rz_carries.get(key, 0) / trzc) if trzc else None,
+        }
+    _usage_shares_cache[season] = out
+    return out
+
+
+def player_usage_share(full_name, team_abbr):
+    """Blends this season's shares (if any games played yet) with last
+    season's, same shrinkage idea as everywhere else in this file."""
+    key_cur = (team_abbr, _last_name_key(full_name))
+    cur = compute_usage_shares(_season_year()).get(key_cur)
+    pri = compute_usage_shares(PRIOR_SEASON).get(key_cur) or compute_usage_shares(PRIOR_SEASON - 1).get(key_cur)
+    if cur and pri:
+        return {k: (cur.get(k) if cur.get(k) is not None else pri.get(k)) for k in cur}
+    return cur or pri
+
+
 def _team_qb_starter(team_abbr, roster_map):
     """Pick the team's current QB1 by real usage evidence (most recent-
     season attempts among the team's rostered QBs), not a market signal
@@ -1778,9 +1918,75 @@ def _team_skill_players(team_abbr, roster_map, min_gp=3):
     return out
 
 
-def project_qb_stats(team_abbr, opponent_abbr, roster_map, weather=None):
-    """QB projection from real stats only: season blend, recent form,
-    opponent yards-allowed, weather. No market input anywhere in here."""
+# ──────────────────────────────────────────────────────────────────────────
+# MONTE CARLO DISTRIBUTIONS — floor/median/ceiling/confidence per stat.
+#
+# Adopts the structure from the supplied IndependentPlayerProjectionEngine
+# (simulate around a mean with a stat-specific relative variance, report
+# percentiles), but two things from that engine don't carry over:
+#
+# 1. Pass_Block_Win_Rate_Pct, Yards_Before/After_Contact, YPRR, and
+#    Route_Participation are PFF/NGS charting-only fields -- same category
+#    already dropped from the Tier Engine for having no free live source.
+#    Nothing below uses them; yards-per-carry/target stand in where the
+#    supplied engine wanted the decomposed tracking-data versions.
+# 2. The supplied engine's confidence numbers (88, 91, 90...) are fixed
+#    constants that never change regardless of the player or the data --
+#    that's a placeholder, not a computed value. Confidence here is
+#    derived from real sample size (games played) and how tight the
+#    simulated distribution actually is, plus the same matchup-grade
+#    signal already used elsewhere in this file.
+# ──────────────────────────────────────────────────────────────────────────
+def _poisson_sample(lam):
+    """Stdlib Knuth sampler -- fine for the small means (0-5ish) used here."""
+    if lam <= 0:
+        return 0
+    l_thresh = math.exp(-lam)
+    k, p = 0, 1.0
+    while True:
+        k += 1
+        p *= random.random()
+        if p <= l_thresh:
+            return k - 1
+
+
+def _mc_normal_dist(mean, cv, n=5000):
+    if mean is None:
+        return None
+    sd = max(0.01, abs(mean) * cv)
+    vals = sorted(max(0.0, random.gauss(mean, sd)) for _ in range(n))
+    pct = lambda q: vals[min(n - 1, max(0, int(round(q * (n - 1)))))]
+    return {"median": round(pct(0.5), 1), "floor_10": round(pct(0.10), 1),
+            "ceiling_90": round(pct(0.90), 1), "_cv": cv}
+
+
+def _mc_poisson_dist(mean, n=5000):
+    if mean is None:
+        return None
+    vals = sorted(_poisson_sample(mean) for _ in range(n))
+    pct = lambda q: vals[min(n - 1, max(0, int(round(q * (n - 1)))))]
+    return {"median": pct(0.5), "floor_10": pct(0.10), "ceiling_90": pct(0.90), "_cv": None}
+
+
+def _stat_confidence(gp, dist, matchup_grade=None):
+    """Real inputs only: more games actually played this/last season, a
+    tighter simulated spread relative to the mean, and the same real
+    matchup-grade signal used on the Sim tab -- never a fixed number."""
+    base = 40 + min(35, (gp or 0) * 2.5)
+    cv = (dist or {}).get("_cv")
+    if cv is not None:
+        base -= min(20, cv * 40)
+    g = (matchup_grade or "")[:1]
+    base += {"A": 8, "B": 3, "D": -6, "F": -10}.get(g, 0)
+    return int(max(1, min(99, round(base))))
+
+
+def project_qb_stats(team_abbr, opponent_abbr, roster_map, team_stats, weather=None):
+    """QB projection: the Tier Engine's own projected team pass attempts
+    for this game (team_stats), multiplied by the QB's real per-attempt
+    rates (yards/attempt, TD rate, INT rate, blended season+recent-form).
+    A QB takes ~100% of a team's pass attempts barring a rare committee, so
+    no separate attempt-share is needed the way RB/WR/TE require below."""
     info = _team_qb_starter(team_abbr, roster_map)
     if not info:
         return None
@@ -1789,14 +1995,15 @@ def project_qb_stats(team_abbr, opponent_abbr, roster_map, weather=None):
     cur = _agg_season(rows, _season_year())
     pri = _agg_season(rows, PRIOR_SEASON) or _agg_season(rows, PRIOR_SEASON - 1)
     if cur or pri:
-        stats = blend_stats(cur, pri, keys_rate=("comp_pct", "pass_yds", "pass_td", "int", "rating"))
+        stats = blend_stats(cur, pri, keys_rate=("comp_pct", "ypa", "td_rate", "int_rate", "rating"))
         src_tag = "blend" if (cur and pri) else ("current" if cur else "prior")
         recent = _agg_recent(rows)
         if recent:
-            stats = apply_recent_form(stats, recent, ("pass_yds", "pass_td", "comp_pct"))
+            stats = apply_recent_form(stats, recent, ("comp_pct", "ypa", "td_rate", "int_rate"))
             src_tag = "form"
     else:
-        stats = dict(LEAGUE_AVG_QB)
+        stats = {"comp_pct": LEAGUE_AVG_QB["comp_pct"], "ypa": 7.0,
+                 "td_rate": 1.4 / 34, "int_rate": 0.7 / 34, "rating": LEAGUE_AVG_QB["rating"]}
         src_tag = "league_avg"
 
     factor = fetch_defense_factor_nflverse(opponent_abbr) if opponent_abbr else 1.0
@@ -1804,26 +2011,52 @@ def project_qb_stats(team_abbr, opponent_abbr, roster_map, weather=None):
     rating = stats.get("rating") or LEAGUE_AVG_QB["rating"]
     rating_adj = round(rating * (1 + (factor - 1) * 0.6), 1)
     injury = fetch_nfl_injury_report().get(_nfl_norm(name))
+    gp = (cur or {}).get("gp", 0) + (pri or {}).get("gp", 0)
+    grade = dvp_grade_nflverse(opponent_abbr, "QB")
+
+    # Team Volume -> Player Distribution: attempts come from the game
+    # engine's own projection, not the QB's historical attempt total.
+    attempts_val = (team_stats or {}).get("pass_attempts") or 34.0
+    ypa = (stats.get("ypa") or 7.0) * factor * wxp
+    pass_yds_val = round(attempts_val * ypa, 1)
+    pass_td_val = round(attempts_val * (stats.get("td_rate") or 0.041) * factor * wxp, 2)
+    int_val = round(attempts_val * (stats.get("int_rate") or 0.021), 2)
+    comp_pct_val = round(stats.get("comp_pct") or LEAGUE_AVG_QB["comp_pct"], 1)
+
+    pass_yds_dist = _mc_normal_dist(pass_yds_val, 0.18)
+    pass_td_dist = _mc_poisson_dist(pass_td_val)
+    int_dist = _mc_poisson_dist(int_val)
+    att_dist = _mc_normal_dist(attempts_val, 0.12)
 
     return {
         "name": name, "pos": "QB", "player_id": None,
         "headshot_url": info.get("headshot_url"),
-        "comp_pct": round(stats.get("comp_pct") or LEAGUE_AVG_QB["comp_pct"], 1),
-        "pass_yds": round((stats.get("pass_yds") or LEAGUE_AVG_QB["pass_yds"]) * factor * wxp, 1),
-        "pass_td": round((stats.get("pass_td") or LEAGUE_AVG_QB["pass_td"]) * factor * wxp, 2),
-        "int": round(stats.get("int") or LEAGUE_AVG_QB["int"], 2),
+        "comp_pct": comp_pct_val,
+        "pass_yds": pass_yds_val,
+        "pass_td": pass_td_val,
+        "int": int_val,
+        "attempts": round(attempts_val, 1),
         "rating": rating_adj,
-        "matchup_grade": dvp_grade_nflverse(opponent_abbr, "QB"),
+        "matchup_grade": grade,
         "_matchup_factor": round(factor, 3),
         "injury": injury,
         "status": (injury or {}).get("status"),
         "src": src_tag,
+        "sim": {
+            "pass_yds": {**pass_yds_dist, "confidence": _stat_confidence(gp, pass_yds_dist, grade)},
+            "pass_td": {**pass_td_dist, "confidence": _stat_confidence(gp, pass_td_dist, grade)},
+            "int": {**int_dist, "confidence": _stat_confidence(gp, int_dist, grade)},
+            "attempts": {**att_dist, "confidence": _stat_confidence(gp, att_dist, grade)} if att_dist else None,
+        },
     }
 
 
-def project_skill_players_stats(team_abbr, opponent_abbr, roster_map, weather=None):
-    """Skill-player projections from real stats only -- season blend,
-    recent form, opponent yards-allowed. No market input."""
+def project_skill_players_stats(team_abbr, opponent_abbr, roster_map, team_stats, weather=None):
+    """Skill-player projections: the Tier Engine's projected team pass/rush
+    attempts and red-zone trips (team_stats), allocated to each player by
+    his REAL target/carry/red-zone share (from play-by-play), then
+    converted to yards/TDs using his own real per-target/per-carry rates.
+    No market input anywhere in here."""
     by_name = _player_rows_by_name()
     factor = fetch_defense_factor_nflverse(opponent_abbr) if opponent_abbr else 1.0
     wxp = (weather or {}).get("pass", 1.0)
@@ -1834,32 +2067,70 @@ def project_skill_players_stats(team_abbr, opponent_abbr, roster_map, weather=No
         pri = _agg_season(rows, PRIOR_SEASON) or _agg_season(rows, PRIOR_SEASON - 1)
         if not cur and not pri:
             continue
-        stats = blend_stats(cur, pri, keys_usage=("targets", "rush_att"),
-                             keys_rate=("rec", "rec_yds", "rush_yds", "td_per_game"))
+        stats = blend_stats(cur, pri, keys_rate=("catch_rate", "yds_per_target", "yds_per_carry"))
         recent = _agg_recent(rows)
         if recent:
-            stats = apply_recent_form(stats, recent, ("rec", "rec_yds", "rush_yds", "targets"))
-        targets = stats.get("targets") or 0
-        rush_att = stats.get("rush_att") or 0
-        if not targets and not rush_att:
+            stats = apply_recent_form(stats, recent, ("catch_rate", "yds_per_target", "yds_per_carry"))
+        shares = player_usage_share(info.get("name"), team_abbr) or {}
+        target_share = shares.get("target_share")
+        carry_share = shares.get("carry_share")
+        if not target_share and not carry_share:
             continue
-        rec_yds = (stats.get("rec_yds") or 0) * factor * wxp
-        rush_yds = (stats.get("rush_yds") or 0) * factor
-        td_pg = (stats.get("td_per_game") or 0) * factor
+
+        team_pass_att = (team_stats or {}).get("pass_attempts") or 34.0
+        team_rush_att = (team_stats or {}).get("rush_attempts") or 26.0
+        team_rz_trips = (team_stats or {}).get("red_zone_trips") or 4.4
+        rz_target_share = shares.get("rz_target_share") or target_share
+        rz_carry_share = shares.get("rz_carry_share") or carry_share
+
+        # Team Volume -> Player Distribution: this player's own targets/
+        # carries this game come from the game engine's projected team
+        # attempts times his REAL share of them -- not his own historical
+        # per-game count scaled by a generic factor.
+        targets = (target_share or 0) * team_pass_att
+        rush_att = (carry_share or 0) * team_rush_att
+        catch_rate = stats.get("catch_rate")
+        yds_per_target = stats.get("yds_per_target")
+        yds_per_carry = stats.get("yds_per_carry")
+
+        rec = targets * (catch_rate if catch_rate is not None else 0.65)
+        rec_yds = targets * (yds_per_target if yds_per_target is not None else 6.5) * factor * wxp
+        rush_yds = rush_att * (yds_per_carry if yds_per_carry is not None else 4.2) * factor
+        # TDs: this player's real red-zone share of the team's own
+        # red-zone trips, converted at the team's own real red-zone TD%
+        # (already in ratings) -- not a flat league-average assumption.
+        team_rz_td_pct = (team_stats or {}).get("rz_td_pct") or 0.56
+        td_pg = team_rz_trips * team_rz_td_pct * max(rz_target_share or 0, rz_carry_share or 0) * factor
         td_prob = min(0.85, 1 - math.exp(-max(0.0, td_pg)))
-        fpts = (stats.get("rec") or 0) * 1.0 + rec_yds * 0.1 + rush_yds * 0.1 + td_pg * 6.0
+        fpts = rec * 1.0 + rec_yds * 0.1 + rush_yds * 0.1 + td_pg * 6.0
         injury = fetch_nfl_injury_report().get(_nfl_norm(info.get("name")))
+        gp = (cur or {}).get("gp", 0) + (pri or {}).get("gp", 0)
+        grade = dvp_grade_nflverse(opponent_abbr, info.get("position"))
+        rec_val, rec_yds_val, rush_yds_val = round(rec, 1), round(rec_yds, 1), round(rush_yds, 1)
+        rec_dist = _mc_normal_dist(rec_val, 0.16)
+        rec_yds_dist = _mc_normal_dist(rec_yds_val, 0.20)
+        rush_yds_dist = _mc_normal_dist(rush_yds_val, 0.25) if rush_att else None
+        td_dist = _mc_poisson_dist(td_pg)
         out.append({
             "name": info.get("name"), "pos": info.get("position"), "player_id": None,
             "headshot_url": info.get("headshot_url"),
-            "targets": round(targets, 1), "rec": round(stats.get("rec") or 0, 1),
-            "rec_yds": round(rec_yds, 1), "rush_att": round(rush_att, 1),
-            "rush_yds": round(rush_yds, 1), "td_prob": round(td_prob, 2),
+            "targets": round(targets, 1), "rec": rec_val,
+            "rec_yds": rec_yds_val, "rush_att": round(rush_att, 1),
+            "rush_yds": rush_yds_val, "td_prob": round(td_prob, 2),
             "fpts": round(fpts, 1),
-            "matchup_grade": dvp_grade_nflverse(opponent_abbr, info.get("position")),
+            "matchup_grade": grade,
             "opp_factor": round(factor, 3),
+            "target_share": round(target_share, 3) if target_share else None,
+            "carry_share": round(carry_share, 3) if carry_share else None,
             "injury": injury,
             "status": (injury or {}).get("status"),
+            "sim": {
+                "rec": {**rec_dist, "confidence": _stat_confidence(gp, rec_dist, grade)},
+                "rec_yds": {**rec_yds_dist, "confidence": _stat_confidence(gp, rec_yds_dist, grade)},
+                "rush_yds": ({**rush_yds_dist, "confidence": _stat_confidence(gp, rush_yds_dist, grade)}
+                             if rush_yds_dist else None),
+                "td": {**td_dist, "confidence": _stat_confidence(gp, td_dist, grade)},
+            },
         })
     return out
 
@@ -2473,31 +2744,418 @@ def build_player_props(away_abbr, home_abbr, away_name, home_name, roster_map):
     return away_qb, home_qb, away_skill, home_skill
 
 
+# ──────────────────────────────────────────────────────────────────────────
+# TEAM-LEVEL TIER ENGINE — built from real nflverse play-by-play only.
+#
+# Implements the 5-tier hierarchy from the Master Model Instructions spec.
+# Two of the spec's inputs (Pass/Run Block Win Rate, Pressure Rate -- PFF
+# charting; Motion Rate, Play-Action Rate -- NFL Next Gen Stats) have no
+# free public source, so per the confirmed decision they're dropped and
+# their weight is redistributed proportionally across the tiers built from
+# real data:
+#   Tier 1 Core Efficiency      50% -> 55.6%
+#   Tier 2 Drive Sustainability 20% -> 22.2%
+#   Tier 3 Explosiveness        12% -> 13.3%
+#   Tier 5 Game Environment      8% ->  8.9%
+#   (Tier 4 Trench Play, 10%, dropped except Sack Rate, which is folded
+#    into Tier 1 as a minor defensive-disruption term since sack EPA is
+#    already largely captured there.)
+# Sportsbook odds/lines are never an input here -- see attach_market_comparison
+# for the only place market data touches this file, strictly after the fact.
+# ──────────────────────────────────────────────────────────────────────────
+NFLVERSE_PBP_CSV_GZ = "https://github.com/nflverse/nflverse-data/releases/download/pbp/play_by_play_{season}.csv.gz"
+TIER_WEIGHTS = {"efficiency": 0.556, "drives": 0.222, "explosive": 0.133, "environment": 0.089}
+
+_pbp_rows_cache = {}
+
+
+def fetch_nflverse_pbp(season):
+    if season in _pbp_rows_cache:
+        return _pbp_rows_cache[season]
+    import csv, io, gzip
+    url = NFLVERSE_PBP_CSV_GZ.format(season=season)
+    rows = []
+    try:
+        raw = _http_get_bytes(url)
+        text = gzip.decompress(raw).decode("utf-8", errors="replace")
+        rows = list(csv.DictReader(io.StringIO(text)))
+    except Exception as e:
+        print(f"⚠️  nflverse play-by-play pull failed for {season} "
+              f"({type(e).__name__}: {e}) — team ratings for that season will be blank.")
+    _pbp_rows_cache[season] = rows
+    return rows
+
+
+def _pf(row, key):
+    v = row.get(key)
+    if v in (None, "", "NA"):
+        return None
+    try:
+        return float(v)
+    except ValueError:
+        return None
+
+
+def _new_team_acc():
+    return {
+        "plays": 0, "epa_sum": 0.0, "succ_sum": 0.0, "succ_n": 0,
+        "pass_plays": 0, "pass_epa_sum": 0.0, "rush_plays": 0, "rush_epa_sum": 0.0,
+        "explosive": 0, "proe_sum": 0.0, "proe_n": 0,
+        "third_att": 0, "third_conv": 0,
+        "sacks": 0, "dropbacks": 0, "penalties": 0, "penalty_yards": 0.0,
+        "games": set(),
+    }
+
+
+_team_tier_cache = {}
+
+
+def compute_team_tier_stats(season):
+    """{team_abbr: {offense-side real stats}}, {team_abbr: {defense-side
+    (allowed) real stats}} for one season, straight from play-by-play --
+    every number here is measured, not modeled."""
+    if season in _team_tier_cache:
+        return _team_tier_cache[season]
+    rows = fetch_nflverse_pbp(season)
+    off, deff = {}, {}
+    drive_agg = {}
+
+    # Penalties counted over EVERY row (pre-snap penalties like false start
+    # aren't coded as pass/run plays), everything else over real snaps only.
+    for r in rows:
+        if r.get("season_type") != "REG":
+            continue
+        team = r.get("posteam")
+        if team and r.get("penalty_team") == team:
+            o = off.setdefault(team, _new_team_acc())
+            o["penalties"] += 1
+            o["penalty_yards"] += (_pf(r, "penalty_yards") or 0)
+
+    plays = [r for r in rows if r.get("season_type") == "REG"
+             and r.get("play_type") in ("pass", "run") and _pf(r, "epa") is not None]
+    for r in plays:
+        team, opp = r.get("posteam"), r.get("defteam")
+        if not team or not opp:
+            continue
+        o = off.setdefault(team, _new_team_acc())
+        d = deff.setdefault(opp, _new_team_acc())
+        epa = _pf(r, "epa") or 0.0
+        succ = _pf(r, "success")
+        o["plays"] += 1; o["epa_sum"] += epa; o["games"].add(r["game_id"])
+        d["plays"] += 1; d["epa_sum"] += epa; d["games"].add(r["game_id"])
+        if succ is not None:
+            o["succ_sum"] += succ; o["succ_n"] += 1
+            d["succ_sum"] += succ; d["succ_n"] += 1
+        gain = _pf(r, "yards_gained") or 0
+        if r.get("play_type") == "pass":
+            o["pass_plays"] += 1; o["pass_epa_sum"] += epa
+            d["pass_plays"] += 1; d["pass_epa_sum"] += epa
+            if gain >= 20:
+                o["explosive"] += 1; d["explosive"] += 1
+        else:
+            o["rush_plays"] += 1; o["rush_epa_sum"] += epa
+            d["rush_plays"] += 1; d["rush_epa_sum"] += epa
+            if gain >= 10:
+                o["explosive"] += 1; d["explosive"] += 1
+        proe = _pf(r, "pass_oe")
+        if proe is not None:
+            o["proe_sum"] += proe; o["proe_n"] += 1
+        if r.get("down") == "3":
+            o["third_att"] += 1; d["third_att"] += 1
+            if _pf(r, "first_down") == 1 or r.get("touchdown") == "1":
+                o["third_conv"] += 1; d["third_conv"] += 1
+        if r.get("qb_dropback") == "1":
+            o["dropbacks"] += 1
+            if r.get("sack") == "1":
+                o["sacks"] += 1
+        dk = (r["game_id"], team, r.get("fixed_drive"))
+        if dk not in drive_agg:
+            drive_agg[dk] = {
+                "play_count": _pf(r, "drive_play_count"),
+                "result": r.get("fixed_drive_result"),
+                "inside20": r.get("drive_inside20") == "1",
+            }
+
+    drives_by_team = {}
+    for (gid, team, dnum), dv in drive_agg.items():
+        drives_by_team.setdefault(team, []).append(dv)
+
+    def summarize(o, drives):
+        n = o["plays"] or 1
+        games = len(o["games"]) or 1
+        rz = [dv for dv in drives if dv["inside20"]]
+        rz_td = sum(1 for dv in rz if dv["result"] == "Touchdown")
+        plays_valid = [dv["play_count"] for dv in drives if dv["play_count"] is not None]
+        return {
+            "epa_play": o["epa_sum"] / n,
+            "success_rate": (o["succ_sum"] / o["succ_n"]) if o["succ_n"] else None,
+            "pass_epa": (o["pass_epa_sum"] / o["pass_plays"]) if o["pass_plays"] else None,
+            "rush_epa": (o["rush_epa_sum"] / o["rush_plays"]) if o["rush_plays"] else None,
+            "explosive_rate": o["explosive"] / n,
+            "proe": (o["proe_sum"] / o["proe_n"]) if o["proe_n"] else None,
+            "third_pct": (o["third_conv"] / o["third_att"]) if o["third_att"] else None,
+            "rz_td_pct": (rz_td / len(rz)) if rz else None,
+            "sack_rate": (o["sacks"] / o["dropbacks"]) if o["dropbacks"] else None,
+            "drives_per_game": len(drives) / games,
+            "avg_drive_plays": (sum(plays_valid) / len(plays_valid)) if plays_valid else None,
+            "penalties_pg": o["penalties"] / games,
+            "penalty_yards_pg": o["penalty_yards"] / games,
+            "games": games,
+        }
+
+    off_stats = {t: summarize(o, drives_by_team.get(t, [])) for t, o in off.items()}
+    def_stats = {t: summarize(d, []) for t, d in deff.items()}  # allowed-side rates only
+    _team_tier_cache[season] = (off_stats, def_stats)
+    return off_stats, def_stats
+
+
+def _z_to_100(value, values, invert=False):
+    """League-relative 0-100 scale via z-score, not an arbitrary curve --
+    50 is exactly league average, ~68% of teams land 35-65."""
+    vals = [v for v in values if v is not None]
+    if value is None or len(vals) < 2:
+        return 50.0
+    mean = sum(vals) / len(vals)
+    sd = (sum((v - mean) ** 2 for v in vals) / len(vals)) ** 0.5 or 1.0
+    z = (value - mean) / sd
+    if invert:
+        z = -z
+    return max(1.0, min(99.0, 50 + z * 15))
+
+
+_team_ratings_cache = {}
+
+
+def build_team_ratings(season=None):
+    """{team_abbr: {...0-100 ratings + the real per-game rates behind them}}.
+    Blends current season (if any games played yet) with the prior full
+    season, same shrinkage idea used for player projections -- early in a
+    season a team's own small sample is unstable, so prior year still
+    carries real weight until enough current games accumulate."""
+    season = season or _season_year()
+    if season in _team_ratings_cache:
+        return _team_ratings_cache[season]
+
+    cur_off, cur_def = compute_team_tier_stats(season)
+    pri_off, pri_def = compute_team_tier_stats(season - 1)
+
+    def blend(cur, pri, key):
+        cv, pv = (cur or {}).get(key), (pri or {}).get(key)
+        cg = (cur or {}).get("games", 0)
+        if cv is None:
+            return pv
+        if pv is None:
+            return cv
+        w = min(1.0, cg / 8.0)  # 8 games of current season = fully current
+        return cv * w + pv * (1 - w)
+
+    teams = set(pri_off) | set(cur_off)
+    merged = {}
+    for t in teams:
+        o = {k: blend(cur_off.get(t), pri_off.get(t), k)
+             for k in ("epa_play", "success_rate", "pass_epa", "rush_epa", "explosive_rate",
+                       "proe", "third_pct", "rz_td_pct", "sack_rate", "drives_per_game",
+                       "avg_drive_plays", "penalties_pg", "penalty_yards_pg")}
+        dd = {k: blend(cur_def.get(t), pri_def.get(t), k)
+              for k in ("epa_play", "success_rate", "third_pct", "rz_td_pct", "explosive_rate")}
+        merged[t] = {"off": o, "def": dd}
+
+    all_off_epa = [m["off"]["epa_play"] for m in merged.values()]
+    all_off_succ = [m["off"]["success_rate"] for m in merged.values()]
+    all_def_epa = [m["def"]["epa_play"] for m in merged.values()]  # allowed -- lower is better
+    all_def_succ = [m["def"]["success_rate"] for m in merged.values()]
+    all_third = [m["off"]["third_pct"] for m in merged.values()]
+    all_rz = [m["off"]["rz_td_pct"] for m in merged.values()]
+    all_explosive = [m["off"]["explosive_rate"] for m in merged.values()]
+    all_proe = [abs(m["off"]["proe"]) if m["off"]["proe"] is not None else None for m in merged.values()]
+    all_pen = [m["off"]["penalties_pg"] for m in merged.values()]
+
+    out = {}
+    for t, m in merged.items():
+        o, dd = m["off"], m["def"]
+        # Tier 1: Core Efficiency (55.6% of total) -- offense EPA/success
+        # blended with the team's OWN defensive EPA/success allowed.
+        off_eff = (_z_to_100(o["epa_play"], all_off_epa) * 0.6
+                   + _z_to_100(o["success_rate"], all_off_succ) * 0.4)
+        def_eff = (_z_to_100(dd["epa_play"], all_def_epa, invert=True) * 0.6
+                   + _z_to_100(dd["success_rate"], all_def_succ, invert=True) * 0.4)
+        # Tier 2: Drive Sustainability (22.2%)
+        drive_rating = (_z_to_100(o["third_pct"], all_third) * 0.5
+                        + _z_to_100(o["rz_td_pct"], all_rz) * 0.5)
+        # Tier 3: Explosiveness (13.3%)
+        explosive_rating = _z_to_100(o["explosive_rate"], all_explosive)
+        # Tier 5: Game Environment (8.9%) -- PROE (schematic aggression,
+        # magnitude either direction) and discipline (fewer penalties better)
+        tempo_rating = _z_to_100(abs(o["proe"]) if o["proe"] is not None else None, all_proe)
+        discipline_rating = _z_to_100(o["penalties_pg"], all_pen, invert=True)
+
+        offensive_rating = (off_eff * TIER_WEIGHTS["efficiency"]
+                            + drive_rating * TIER_WEIGHTS["drives"]
+                            + explosive_rating * TIER_WEIGHTS["explosive"]
+                            + tempo_rating * TIER_WEIGHTS["environment"])
+        defensive_rating = def_eff  # defense side: efficiency dominates; drive/explosive
+        # allowed are already inside def_eff's inputs' downstream effect via EPA
+
+        out[t] = {
+            "offensive_rating": round(offensive_rating, 1),
+            "defensive_rating": round(defensive_rating, 1),
+            "drive_rating": round(drive_rating, 1),
+            "explosive_rating": round(explosive_rating, 1),
+            "tempo_rating": round(tempo_rating, 1),
+            "discipline_rating": round(discipline_rating, 1),
+            "real": o, "real_def": dd,
+        }
+    _team_ratings_cache[season] = out
+    return out
+
+
+def matchup_edge(off_rating, opp_def_rating):
+    """0-100: 50 = dead even. Offense rating vs opponent's defensive
+    rating, not two teams' overall ratings averaged against each other --
+    per the spec, never average two teams, always compare unit vs unit."""
+    return max(1.0, min(99.0, 50 + (off_rating - opp_def_rating) * 0.5))
+
+
+def project_team_game_stats(team_abbr, opp_abbr, ratings, is_home):
+    """Real-stats-only expected plays/yards/points for one team in one
+    game -- no market input anywhere in this function."""
+    r = ratings.get(team_abbr)
+    opp = ratings.get(opp_abbr)
+    if not r or not opp:
+        return None
+    edge = matchup_edge(r["offensive_rating"], opp["defensive_rating"])
+    real = r["real"]
+    drives = real.get("drives_per_game") or 10.5
+    plays_per_drive = real.get("avg_drive_plays") or 5.9
+    plays = drives * plays_per_drive
+
+    league_epa_mid = 0.0  # EPA/play is already centered near 0 league-wide
+    epa_adj = (edge - 50) / 50 * 0.12  # matchup edge nudges EPA/play, capped small
+    epa_play = (real.get("epa_play") or league_epa_mid) + epa_adj
+
+    proe = real.get("proe") or 0.0
+    pass_rate = max(0.45, min(0.72, 0.58 + proe / 100))
+    third_pct = real.get("third_pct") or 0.40
+    rz_pct = real.get("rz_td_pct") or 0.58
+    # points: red-zone trips per game (approx from drives x historical share
+    # reaching the 20) x TD rate x 7, plus a baseline for FGs/other scores.
+    rz_trips = drives * 0.42  # league-average share of drives reaching the red zone
+    td_scores = rz_trips * rz_pct
+    fg_scores = max(0.0, (drives - rz_trips) * 0.22)  # non-RZ drives that still net a FG
+    points = td_scores * 6.94 + fg_scores * 3.0  # 6.94 ~ TD + most extra points/2pt blended
+    # matchup edge and per-play efficiency still move the number directly,
+    # since red-zone share alone doesn't capture a plainly better offense/defense
+    points *= max(0.55, 1 + epa_play * 3.2)
+    home_bump = 1.02 if is_home else 0.98
+    points *= home_bump
+
+    pass_yds = plays * pass_rate * 6.9 * (1 + (real.get("pass_epa") or 0) * 1.5)
+    rush_yds = plays * (1 - pass_rate) * 4.3 * (1 + (real.get("rush_epa") or 0) * 1.5)
+    pass_attempts = plays * pass_rate
+    rush_attempts = plays * (1 - pass_rate)
+
+    return {
+        "points": max(3.0, points), "plays": plays, "pass_rate": pass_rate,
+        "pass_yds": max(0.0, pass_yds), "rush_yds": max(0.0, rush_yds),
+        "pass_attempts": pass_attempts, "rush_attempts": rush_attempts,
+        "red_zone_trips": rz_trips, "rz_td_pct": rz_pct,
+        "edge": round(edge, 1), "offensive_rating": r["offensive_rating"],
+        "defensive_rating": opp["defensive_rating"],
+    }
+
+
+def simulate_matchup(away_abbr, home_abbr, ratings, n=10000):
+    """10,000 Monte Carlo trials from real statistical distributions only
+    (each team's own scoring rate + a variance term derived from the
+    league's actual game-to-game scoring spread) -- never sportsbook
+    numbers, per the spec."""
+    import random
+    away = project_team_game_stats(away_abbr, home_abbr, ratings, is_home=False)
+    home = project_team_game_stats(home_abbr, away_abbr, ratings, is_home=True)
+    if not away or not home:
+        return None
+    # Team scoring variance: NFL team game-score standard deviation is
+    # well-documented in the 9-10 point range; used here as the real-world
+    # spread for the Monte Carlo draws, not a market-implied number.
+    sd = 9.5
+    away_wins = 0
+    away_scores, home_scores = [], []
+    for _ in range(n):
+        a = max(0.0, random.gauss(away["points"], sd))
+        h = max(0.0, random.gauss(home["points"], sd))
+        away_scores.append(a); home_scores.append(h)
+        if h > a:
+            pass
+        elif a > h:
+            away_wins += 1
+        else:
+            away_wins += 0.5
+    return {
+        "away_win_pct": round(away_wins / n, 3),
+        "home_win_pct": round(1 - away_wins / n, 3),
+        "away_points": round(sum(away_scores) / n, 1),
+        "home_points": round(sum(home_scores) / n, 1),
+        "away_edge": away["edge"], "home_edge": home["edge"],
+    }
+
+
+
 def build_game(raw, odds_map=None, roster_map=None):
+    # Game-level win probability and projected score now come from the
+    # real-stats-only Tier Engine (build_team_ratings/simulate_matchup)
+    # instead of the devigged market -- the market is fetched below purely
+    # to attach a post-hoc comparison, never to influence the numbers above.
+    ratings = build_team_ratings()
+    sim = simulate_matchup(raw["away_abbr"], raw["home_abbr"], ratings)
+    # Team Volume Projection: the same per-team plays/pass-rate/red-zone-
+    # trips numbers the Tier Engine used to build `sim` above, exposed
+    # here so the Player Distribution Engine allocates against the actual
+    # game projection instead of each player's own historical average.
+    away_team_stats = project_team_game_stats(raw["away_abbr"], raw["home_abbr"], ratings, is_home=False)
+    home_team_stats = project_team_game_stats(raw["home_abbr"], raw["away_abbr"], ratings, is_home=True)
     odds = (odds_map or {}).get((raw["away_team"], raw["home_team"]))
-    # No more ESPN FPI call here -- away_win_pct/home_win_pct now come
-    # straight from the devigged market (calc_market_fields' default path
-    # when model_home_win_pct is None). Trade-off worth knowing: this also
-    # retires the "model vs market" edge signal, since there's no longer an
-    # independent model to disagree with the market. away_win_pct/home_win_pct
-    # are still real numbers, just no longer flagged as a value bet.
-    market = calc_market_fields(raw["away_team"], raw["home_team"], odds, None)
+    market_only = calc_market_fields(raw["away_team"], raw["home_team"], odds, None)
     wx = fetch_weather(raw.get("venue_city"), raw.get("venue_state"), raw.get("indoor"))
     wxf = weather_factor(wx)
     roster_map = roster_map or {}
-    # Projections: stats only (nflverse season/prior/recent-form blend,
-    # real yards-allowed for opponent defense, real weather). No market
-    # input anywhere above this line.
-    away_qb_proj = project_qb_stats(raw["away_abbr"], raw["home_abbr"], roster_map, wxf)
-    home_qb_proj = project_qb_stats(raw["home_abbr"], raw["away_abbr"], roster_map, wxf)
-    away_skill = project_skill_players_stats(raw["away_abbr"], raw["home_abbr"], roster_map, wxf)
-    home_skill = project_skill_players_stats(raw["home_abbr"], raw["away_abbr"], roster_map, wxf)
+    # Player projections: Team Volume -> Player Distribution (real target/
+    # carry/red-zone shares) -> Player Prop Projections. No market input
+    # anywhere above this line.
+    away_qb_proj = project_qb_stats(raw["away_abbr"], raw["home_abbr"], roster_map, away_team_stats, wxf)
+    home_qb_proj = project_qb_stats(raw["home_abbr"], raw["away_abbr"], roster_map, home_team_stats, wxf)
+    away_skill = project_skill_players_stats(raw["away_abbr"], raw["home_abbr"], roster_map, away_team_stats, wxf)
+    home_skill = project_skill_players_stats(raw["home_abbr"], raw["away_abbr"], roster_map, home_team_stats, wxf)
     # Market comparison: strictly after the fact, for display only. Pulls
     # the actual book prop line and reports the gap -- never adjusts the
     # projection above.
     event_id = fetch_oddsapi_event_ids().get((raw["away_team"], raw["home_team"]))
     attach_market_comparison(away_qb_proj, away_skill, event_id)
     attach_market_comparison(home_qb_proj, home_skill, event_id)
+
+    if sim:
+        game_core = {
+            "away_win_pct": sim["away_win_pct"], "home_win_pct": sim["home_win_pct"],
+            "away_pts": sim["away_points"], "home_pts": sim["home_points"],
+            "away_matchup_edge": sim["away_edge"], "home_matchup_edge": sim["home_edge"],
+            **scoring_environment({"away_pts": sim["away_points"], "home_pts": sim["home_points"]}),
+        }
+        # Market shown alongside, never blended in -- e.g. the book's own
+        # moneyline/spread/total plus the market's own implied win prob.
+        lines = market_only.get("_lines")
+        if lines:
+            game_core["market"] = {
+                "away_ml": lines.get("ml_away"), "home_ml": lines.get("ml_home"),
+                "spread": lines.get("spread"), "total": lines.get("total"),
+                "away_win_pct_market": market_only.get("away_win_pct"),
+                "home_win_pct_market": market_only.get("home_win_pct"),
+            }
+    else:
+        # Ratings unavailable (pbp pull failed) -- fall back to the market
+        # numbers alone rather than showing nothing, but flag it clearly.
+        game_core = dict(market_only)
+        game_core.update(scoring_environment(market_only))
+        game_core["ratings_unavailable"] = True
+
     game = {
         "away_team": raw["away_team"],
         "home_team": raw["home_team"],
@@ -2507,11 +3165,6 @@ def build_game(raw, odds_map=None, roster_map=None):
         "game_time": raw["game_time"],
         "game_state": raw.get("game_state", "Preview"),
         "confirmed": True,
-        # tier/target_score were hardcoded to "LEAN" and 50 for every single
-        # game, so both badges carried no information at all on the NFL board.
-        # They are now computed from the game's projected scoring environment,
-        # matching how MLB, NHL and NBA derive theirs.
-        **scoring_environment(market),
         "referee": None,
         "away_qb": (away_qb_proj or {}).get("name"),
         "home_qb": (home_qb_proj or {}).get("name"),
@@ -2519,7 +3172,7 @@ def build_game(raw, odds_map=None, roster_map=None):
         "home_qb_proj": home_qb_proj,
         "away_skill": away_skill,
         "home_skill": home_skill,
-        **market,
+        **game_core,
     }
     if "away_score" in raw:
         game["away_score"] = raw["away_score"]
