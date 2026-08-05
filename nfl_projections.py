@@ -61,6 +61,19 @@ ODDS_API_REGIONS = "us"
 # How far ahead to accept odds. Wide enough to reach Week 1 from the preseason.
 ODDS_LOOKAHEAD_DAYS = 60
 
+# Player prop markets pulled per-event for the Sim tab / Player Projections
+# board. Kept to the props people actually look at -- each additional market
+# adds to the per-event quota cost (cost = markets x regions), so this list
+# is deliberately not the full menu The Odds API offers. Add to it if you
+# have quota to spare: player_pass_completions, player_pass_attempts, and
+# player_rush_attempts are also available and were left out here to keep
+# a full 16-game slate affordable on a free/entry API plan.
+ODDS_API_PLAYER_MARKETS = [
+    "player_pass_yds", "player_pass_tds", "player_pass_interceptions",
+    "player_rush_yds", "player_receptions", "player_reception_yds",
+    "player_anytime_td",
+]
+
 # ESPN's internal numeric team IDs — needed for roster/athlete endpoints
 # (the scoreboard endpoint uses abbreviations, but roster/stats need these).
 ESPN_TEAM_IDS = {
@@ -1515,6 +1528,364 @@ def apply_recent_form(blended, recent, keys):
 LEAGUE_AVG_QB = {"comp_pct": 64.5, "pass_yds": 220, "pass_td": 1.4, "int": 0.7, "rating": 88.0}
 
 
+# ──────────────────────────────────────────────────────────────────────────
+# STATS-ONLY REBUILD — nflverse player_stats replaces ESPN entirely as the
+# source for season/prior/recent-form numbers, and opponent defense is
+# computed directly from real yards-allowed, not ESPN standings. No
+# sportsbook price, line, or implied probability feeds into any of this;
+# market data is only ever compared against a finished projection, never
+# blended into one (see build_player_props_stats below).
+# ──────────────────────────────────────────────────────────────────────────
+NFLVERSE_PLAYER_STATS_CSV = "https://github.com/nflverse/nflverse-data/releases/download/player_stats/player_stats.csv"
+_player_stats_rows_cache = None
+_player_rows_by_name_cache = None
+
+
+def fetch_nflverse_player_stats():
+    global _player_stats_rows_cache
+    if _player_stats_rows_cache is not None:
+        return _player_stats_rows_cache
+    import csv, io
+    try:
+        text = _http_get_text(NFLVERSE_PLAYER_STATS_CSV)
+        rows = list(csv.DictReader(io.StringIO(text)))
+    except Exception as e:
+        print(f"⚠️  nflverse player_stats pull failed ({type(e).__name__}: {e}) "
+              f"— projections will fall back to league-average baselines only.")
+        rows = []
+    _player_stats_rows_cache = rows
+    return rows
+
+
+def _fnum(row, key):
+    v = row.get(key)
+    if v in (None, ""):
+        return None
+    try:
+        return float(v)
+    except ValueError:
+        return None
+
+
+def _player_rows_by_name():
+    global _player_rows_by_name_cache
+    if _player_rows_by_name_cache is not None:
+        return _player_rows_by_name_cache
+    idx = {}
+    for r in fetch_nflverse_player_stats():
+        if r.get("season_type") != "REG":
+            continue
+        idx.setdefault(_nfl_norm(r.get("player_display_name")), []).append(r)
+    _player_rows_by_name_cache = idx
+    return idx
+
+
+def _agg_season(rows, season):
+    """Per-game rate stats for one player in one season. Same output shape
+    as the old ESPN-sourced fetch_prior_stats()/fetch_qb_season_stats(), so
+    blend_stats()/apply_recent_form() below need no changes at all."""
+    wk_rows = [r for r in rows if r.get("season") == str(season)]
+    if not wk_rows:
+        return None
+    gp = len(wk_rows)
+
+    def s(key):
+        return sum((_fnum(r, key) or 0) for r in wk_rows)
+
+    att, comp = s("attempts"), s("completions")
+    out = {"gp": gp}
+    if att >= 5 * gp * 0.3:  # meaningful passing volume, not a trick-play snap
+        # Standard NFL passer-rating formula from real box-score components --
+        # a deterministic calculation, not a modeled proxy.
+        a = max(0, min((comp / att - .3) * 5, 2.375))
+        b = max(0, min((s("passing_yards") / att - 3) * .25, 2.375))
+        c = max(0, min((s("passing_tds") / att) * 20, 2.375))
+        d = max(0, min(2.375 - (s("interceptions") / att * 25), 2.375))
+        out.update({
+            "comp_pct": round(comp / att * 100, 1),
+            "pass_yds": round(s("passing_yards") / gp, 1),
+            "pass_td": round(s("passing_tds") / gp, 2),
+            "int": round(s("interceptions") / gp, 2),
+            "rating": round(((a + b + c + d) / 6) * 100, 1),
+        })
+    targets, carries = s("targets"), s("carries")
+    if targets or carries:
+        out.update({
+            "targets": round(targets / gp, 1),
+            "rec": round(s("receptions") / gp, 1),
+            "rec_yds": round(s("receiving_yards") / gp, 1),
+            "rush_att": round(carries / gp, 1),
+            "rush_yds": round(s("rushing_yards") / gp, 1),
+            "td_per_game": round((s("receiving_tds") + s("rushing_tds")) / gp, 2),
+        })
+    return out if len(out) > 1 else None  # nothing but gp -- no real signal
+
+
+def _agg_recent(rows, n=None):
+    """Last-N-game average, most recent first -- same shape as the old
+    ESPN gamelog version, feeds straight into apply_recent_form()."""
+    n = n or RECENT_N
+
+    def wk_key(r):
+        try:
+            return (int(r["season"]), int(r["week"]))
+        except (TypeError, ValueError):
+            return (0, 0)
+
+    recent_rows = sorted(rows, key=wk_key, reverse=True)[:n]
+    if len(recent_rows) < RECENT_MIN:
+        return None
+    gp = len(recent_rows)
+
+    def s(key):
+        return sum((_fnum(r, key) or 0) for r in recent_rows)
+
+    out = {"gp": gp}
+    att = s("attempts")
+    if att >= 5:
+        comp = s("completions")
+        out.update({
+            "pass_yds": s("passing_yards") / gp, "pass_td": s("passing_tds") / gp,
+            "comp_pct": (comp / att * 100) if att else None,
+        })
+    targets, carries = s("targets"), s("carries")
+    if targets or carries:
+        out.update({
+            "rush_yds": s("rushing_yards") / gp, "rush_td": s("rushing_tds") / gp,
+            "rec": s("receptions") / gp, "rec_yds": s("receiving_yards") / gp,
+            "rec_td": s("receiving_tds") / gp, "targets": targets / gp,
+        })
+    return out
+
+
+# ── opponent defense, computed from real yards-allowed (nflverse), not
+# ESPN standings and not a market-implied number of any kind. ──
+_dvp_nflverse_cache = {}
+
+
+def fetch_dvp_nflverse(season=None):
+    """{team_abbr: {'QB':ypg allowed,'WR':...,'TE':...,'RB':...}}. Built by
+    summing all offensive players' yards in each (week, opponent) game --
+    that reconstructs the true team total for that game -- then averaging
+    those per-game totals across the season for that defense."""
+    season = season or PRIOR_SEASON
+    if season in _dvp_nflverse_cache:
+        return _dvp_nflverse_cache[season]
+    rows = [r for r in fetch_nflverse_player_stats()
+            if r.get("season") == str(season) and r.get("season_type") == "REG"]
+    per_game = {}
+    for r in rows:
+        opp, wk = r.get("opponent_team"), r.get("week")
+        if not opp or not wk:
+            continue
+        d = per_game.setdefault((wk, opp), {"pass": 0.0, "rush": 0.0})
+        d["pass"] += _fnum(r, "passing_yards") or 0
+        d["rush"] += _fnum(r, "rushing_yards") or 0
+    by_team = {}
+    for (wk, opp), d in per_game.items():
+        t = by_team.setdefault(opp, {"pass": [], "rush": []})
+        t["pass"].append(d["pass"])
+        t["rush"].append(d["rush"])
+    out = {}
+    for team, d in by_team.items():
+        pass_ypg = sum(d["pass"]) / len(d["pass"]) if d["pass"] else DVP_BASE["QB"]
+        rush_ypg = sum(d["rush"]) / len(d["rush"]) if d["rush"] else DVP_BASE["RB"]
+        out[team] = {"QB": pass_ypg, "WR": pass_ypg * 0.62, "TE": pass_ypg * 0.20, "RB": rush_ypg}
+    _dvp_nflverse_cache[season] = out
+    return out
+
+
+LEAGUE_AVG_YARDS_AGAINST = DVP_BASE["QB"] + DVP_BASE["RB"]
+
+
+def fetch_defense_factor_nflverse(team_abbr):
+    """>1.0 = generous defense (good for the offense facing it), <1.0 =
+    tough defense. Dampened to a 50% effect, same as the old version --
+    only the data source (real yards allowed, nflverse) changed."""
+    if team_abbr in _defense_cache:
+        return _defense_cache[team_abbr]
+    table = fetch_dvp_nflverse()
+    if team_abbr not in table:
+        table = fetch_dvp_nflverse(PRIOR_SEASON - 1)
+    row = table.get(team_abbr)
+    factor = 1.0
+    if row:
+        total_allowed = row.get("QB", DVP_BASE["QB"]) + row.get("RB", DVP_BASE["RB"])
+        raw_factor = total_allowed / LEAGUE_AVG_YARDS_AGAINST
+        factor = 1 + (raw_factor - 1) * 0.5
+    else:
+        _defense_failures.append(team_abbr)
+    _defense_cache[team_abbr] = factor
+    return factor
+
+
+def dvp_grade_nflverse(opponent_abbr, pos):
+    pos = (pos or "").upper()
+    if pos not in DVP_BASE:
+        return None
+    table = fetch_dvp_nflverse()
+    if opponent_abbr not in table:
+        table = fetch_dvp_nflverse(PRIOR_SEASON - 1)
+    row = table.get(opponent_abbr)
+    if not row or pos not in row:
+        return None
+    ratio = row[pos] / DVP_BASE[pos]
+    scale = [(1.12, "A+"), (1.07, "A"), (1.03, "B+"), (0.99, "B"),
+             (0.95, "C+"), (0.91, "C"), (0.86, "D"), (0.0, "F")]
+    for thr, g in scale:
+        if ratio >= thr:
+            return g
+    return "F"
+
+
+def _team_qb_starter(team_abbr, roster_map):
+    """Pick the team's current QB1 by real usage evidence (most recent-
+    season attempts among the team's rostered QBs), not a market signal
+    and not ESPN's depth chart. Falls back to the first rostered QB found
+    if nobody on the roster has any recorded attempts yet (all-rookie room)."""
+    by_name = _player_rows_by_name()
+    candidates = [(name, info) for name, info in roster_map.items()
+                  if info.get("team") == team_abbr and info.get("position") == "QB"]
+    if not candidates:
+        return None
+    best, best_att = None, -1
+    for name, info in candidates:
+        rows = by_name.get(name, [])
+        att = sum((_fnum(r, "attempts") or 0) for r in rows
+                  if r.get("season") in (str(PRIOR_SEASON), str(PRIOR_SEASON - 1)))
+        if att > best_att:
+            best, best_att = info, att
+    return best or candidates[0][1]
+
+
+def _team_skill_players(team_abbr, roster_map, min_gp=3):
+    """Every rostered RB/WR/TE with real recorded usage in the last two
+    seasons -- a stats-driven stand-in for "who's actually a rotation
+    player", not a fixed depth-chart slice."""
+    by_name = _player_rows_by_name()
+    out = []
+    for name, info in roster_map.items():
+        if info.get("team") != team_abbr or info.get("position") not in ("RB", "WR", "TE"):
+            continue
+        rows = by_name.get(name, [])
+        recent_rows = [r for r in rows if r.get("season") in (str(PRIOR_SEASON), str(PRIOR_SEASON - 1))]
+        if len(recent_rows) < min_gp:
+            continue
+        touches = sum((_fnum(r, "targets") or 0) + (_fnum(r, "carries") or 0) for r in recent_rows)
+        if touches < min_gp:  # showed up on the roster but barely touched the ball
+            continue
+        out.append((name, info))
+    return out
+
+
+def project_qb_stats(team_abbr, opponent_abbr, roster_map, weather=None):
+    """QB projection from real stats only: season blend, recent form,
+    opponent yards-allowed, weather. No market input anywhere in here."""
+    info = _team_qb_starter(team_abbr, roster_map)
+    if not info:
+        return None
+    name = info.get("name")
+    rows = _player_rows_by_name().get(_nfl_norm(name), [])
+    cur = _agg_season(rows, _season_year())
+    pri = _agg_season(rows, PRIOR_SEASON) or _agg_season(rows, PRIOR_SEASON - 1)
+    if cur or pri:
+        stats = blend_stats(cur, pri, keys_rate=("comp_pct", "pass_yds", "pass_td", "int", "rating"))
+        src_tag = "blend" if (cur and pri) else ("current" if cur else "prior")
+        recent = _agg_recent(rows)
+        if recent:
+            stats = apply_recent_form(stats, recent, ("pass_yds", "pass_td", "comp_pct"))
+            src_tag = "form"
+    else:
+        stats = dict(LEAGUE_AVG_QB)
+        src_tag = "league_avg"
+
+    factor = fetch_defense_factor_nflverse(opponent_abbr) if opponent_abbr else 1.0
+    wxp = (weather or {}).get("pass", 1.0)
+    rating = stats.get("rating") or LEAGUE_AVG_QB["rating"]
+    rating_adj = round(rating * (1 + (factor - 1) * 0.6), 1)
+    injury = fetch_nfl_injury_report().get(_nfl_norm(name))
+
+    return {
+        "name": name, "pos": "QB", "player_id": None,
+        "headshot_url": info.get("headshot_url"),
+        "comp_pct": round(stats.get("comp_pct") or LEAGUE_AVG_QB["comp_pct"], 1),
+        "pass_yds": round((stats.get("pass_yds") or LEAGUE_AVG_QB["pass_yds"]) * factor * wxp, 1),
+        "pass_td": round((stats.get("pass_td") or LEAGUE_AVG_QB["pass_td"]) * factor * wxp, 2),
+        "int": round(stats.get("int") or LEAGUE_AVG_QB["int"], 2),
+        "rating": rating_adj,
+        "matchup_grade": dvp_grade_nflverse(opponent_abbr, "QB"),
+        "_matchup_factor": round(factor, 3),
+        "injury": injury,
+        "status": (injury or {}).get("status"),
+        "src": src_tag,
+    }
+
+
+def project_skill_players_stats(team_abbr, opponent_abbr, roster_map, weather=None):
+    """Skill-player projections from real stats only -- season blend,
+    recent form, opponent yards-allowed. No market input."""
+    by_name = _player_rows_by_name()
+    factor = fetch_defense_factor_nflverse(opponent_abbr) if opponent_abbr else 1.0
+    wxp = (weather or {}).get("pass", 1.0)
+    out = []
+    for name, info in _team_skill_players(team_abbr, roster_map):
+        rows = by_name.get(name, [])
+        cur = _agg_season(rows, _season_year())
+        pri = _agg_season(rows, PRIOR_SEASON) or _agg_season(rows, PRIOR_SEASON - 1)
+        if not cur and not pri:
+            continue
+        stats = blend_stats(cur, pri, keys_usage=("targets", "rush_att"),
+                             keys_rate=("rec", "rec_yds", "rush_yds", "td_per_game"))
+        recent = _agg_recent(rows)
+        if recent:
+            stats = apply_recent_form(stats, recent, ("rec", "rec_yds", "rush_yds", "targets"))
+        targets = stats.get("targets") or 0
+        rush_att = stats.get("rush_att") or 0
+        if not targets and not rush_att:
+            continue
+        rec_yds = (stats.get("rec_yds") or 0) * factor * wxp
+        rush_yds = (stats.get("rush_yds") or 0) * factor
+        td_pg = (stats.get("td_per_game") or 0) * factor
+        td_prob = min(0.85, 1 - math.exp(-max(0.0, td_pg)))
+        fpts = (stats.get("rec") or 0) * 1.0 + rec_yds * 0.1 + rush_yds * 0.1 + td_pg * 6.0
+        injury = fetch_nfl_injury_report().get(_nfl_norm(info.get("name")))
+        out.append({
+            "name": info.get("name"), "pos": info.get("position"), "player_id": None,
+            "headshot_url": info.get("headshot_url"),
+            "targets": round(targets, 1), "rec": round(stats.get("rec") or 0, 1),
+            "rec_yds": round(rec_yds, 1), "rush_att": round(rush_att, 1),
+            "rush_yds": round(rush_yds, 1), "td_prob": round(td_prob, 2),
+            "fpts": round(fpts, 1),
+            "matchup_grade": dvp_grade_nflverse(opponent_abbr, info.get("position")),
+            "opp_factor": round(factor, 3),
+            "injury": injury,
+            "status": (injury or {}).get("status"),
+        })
+    return out
+
+
+def attach_market_comparison(qb_proj, skill_list, event_id):
+    """Post-hoc only: attaches the sportsbook's own prop line + the gap
+    between it and the already-computed model number, for display. Called
+    AFTER project_qb_stats/project_skill_players_stats -- nothing here ever
+    feeds back into a projected value."""
+    if not event_id:
+        return
+    props = fetch_player_props_oddsapi(event_id)
+    if qb_proj:
+        line = props.get(_nfl_norm(qb_proj["name"]), {}).get("pass_yds")
+        if line is not None and qb_proj.get("pass_yds") is not None:
+            qb_proj["market_line"] = line
+            qb_proj["edge_vs_market"] = round(qb_proj["pass_yds"] - line, 1)
+    for p in skill_list:
+        stat = props.get(_nfl_norm(p["name"]), {})
+        line = stat.get("rec_yds") if p.get("rec_yds") else stat.get("rush_yds")
+        model_val = p.get("rec_yds") if p.get("rec_yds") else p.get("rush_yds")
+        if line is not None and model_val is not None:
+            p["market_line"] = line
+            p["edge_vs_market"] = round(model_val - line, 1)
+
+
 def project_qb(team_abbr, opponent_abbr=None, vegas_factor=None, weather=None):
     name, athlete_id = fetch_starting_qb(team_abbr)
     cur = fetch_qb_season_stats(athlete_id) if athlete_id else None
@@ -1926,16 +2297,207 @@ def _game_script(market):
     return away_script, home_script
 
 
-def build_game(raw, odds_map=None):
+# ──────────────────────────────────────────────────────────────────────────
+# PLAYER PROPS — sourced from The Odds API + nflverse, not ESPN.
+#
+# ESPN's roster/depth-chart/season-stat endpoints were the recurring failure
+# point behind every issue in this file's history (blocked/slow calls that
+# silently degraded the whole slate to placeholder data). This replaces all
+# of that: nflverse's roster file (GitHub-hosted, same reliable host as the
+# schedule fallback) supplies name -> team/position/headshot, and the actual
+# projection numbers are real sportsbook prop lines, not a model estimate.
+# ──────────────────────────────────────────────────────────────────────────
+NFLVERSE_ROSTER_CSV = "https://raw.githubusercontent.com/nflverse/nflverse-data/master/data/rosters/roster_{season}.csv"
+
+_roster_map_cache = {}
+
+
+def fetch_nflverse_roster_map(season=None):
+    """{normalized_name: {'team','position','headshot_url'}} for the given
+    season, or {} on failure (never raises). Cached for the run."""
+    import csv, io, datetime as _dt
+    season = season or _dt.date.today().year
+    if season in _roster_map_cache:
+        return _roster_map_cache[season]
+
+    url = f"https://github.com/nflverse/nflverse-data/releases/download/rosters/roster_{season}.csv"
+    out = {}
+    try:
+        text = _http_get_text(url)
+        for r in csv.DictReader(io.StringIO(text)):
+            name = r.get("full_name")
+            if not name:
+                continue
+            team = NFLVERSE_ABBR_FIX.get(r.get("team"), r.get("team"))
+            out[_nfl_norm(name)] = {
+                "name": name,
+                "team": team,
+                "position": r.get("position"),
+                "headshot_url": r.get("headshot_url") or None,
+            }
+    except Exception as e:
+        print(f"⚠️  nflverse roster pull failed ({type(e).__name__}: {e}) "
+              f"— player props will be missing team/headshot info.")
+    _roster_map_cache[season] = out
+    return out
+
+
+_oddsapi_event_id_cache = None
+
+
+def fetch_oddsapi_event_ids():
+    """{(away_team_full_name, home_team_full_name): event_id} for every
+    scheduled NFL event The Odds API currently knows about, regardless of
+    which source actually supplied the schedule (ESPN/nflverse/itself) --
+    player props need the odds-api-specific event id, not ESPN's. Cached
+    for the run. Returns {} if there's no key or the call fails."""
+    global _oddsapi_event_id_cache
+    if _oddsapi_event_id_cache is not None:
+        return _oddsapi_event_id_cache
+    if not ODDS_API_KEY:
+        _oddsapi_event_id_cache = {}
+        return {}
+    import datetime as _dt
+    _now = _dt.datetime.now(_dt.timezone.utc)
+    _from = _now.strftime("%Y-%m-%dT%H:%M:%SZ")
+    _to = (_now + _dt.timedelta(days=ODDS_LOOKAHEAD_DAYS)).strftime("%Y-%m-%dT%H:%M:%SZ")
+    url = (f"https://api.the-odds-api.com/v4/sports/{ODDS_API_SPORT}/events"
+           f"?apiKey={ODDS_API_KEY}&commenceTimeFrom={_from}&commenceTimeTo={_to}"
+           "&dateFormat=iso")
+    try:
+        data = _http_get_json(url)
+    except Exception as e:
+        print(f"⚠️  Odds API event-id lookup failed ({type(e).__name__}: {e}) "
+              f"— player props unavailable this run.")
+        _oddsapi_event_id_cache = {}
+        return {}
+    out = {}
+    for e in (data or []):
+        away, home = e.get("away_team"), e.get("home_team")
+        if away and home and e.get("id"):
+            out[(away, home)] = e["id"]
+    _oddsapi_event_id_cache = out
+    return out
+
+
+def fetch_player_props_oddsapi(event_id):
+    """{normalized_name: {stat_key: value}} for one event's player props.
+    Cost is len(ODDS_API_PLAYER_MARKETS) x 1 region per call -- see the
+    constant's comment above if you want to trim/expand it."""
+    if not event_id or not ODDS_API_KEY:
+        return {}
+    markets = ",".join(ODDS_API_PLAYER_MARKETS)
+    url = (f"https://api.the-odds-api.com/v4/sports/{ODDS_API_SPORT}/events/{event_id}/odds"
+           f"?apiKey={ODDS_API_KEY}&regions={ODDS_API_REGIONS}&bookmakers=fanduel"
+           f"&markets={markets}&oddsFormat=american")
+    try:
+        data = _http_get_json(url)
+    except Exception as e:
+        print(f"⚠️  Player props pull failed for event {event_id} "
+              f"({type(e).__name__}: {e}).")
+        return {}
+
+    by_player = {}
+    for bk in (data or {}).get("bookmakers", []):
+        if bk.get("key") != "fanduel":
+            continue
+        for mkt in bk.get("markets", []):
+            key = mkt.get("key")
+            for o in mkt.get("outcomes", []):
+                name = o.get("description")  # player name lives here, not "name"
+                if not name:
+                    continue
+                slot = by_player.setdefault(_nfl_norm(name), {"_display_name": name})
+                if key == "player_anytime_td":
+                    # single-sided market (just "Yes"/scorer priced) --
+                    # convert the American price straight to implied prob.
+                    if o.get("name") in ("Yes", None) and o.get("price") is not None:
+                        slot["td_prob"] = american_to_implied(o["price"])
+                    continue
+                point = o.get("point")
+                if point is None:
+                    continue
+                field = {
+                    "player_pass_yds": "pass_yds", "player_pass_tds": "pass_td",
+                    "player_pass_interceptions": "int", "player_rush_yds": "rush_yds",
+                    "player_receptions": "rec", "player_reception_yds": "rec_yds",
+                }.get(key)
+                if field:
+                    slot[field] = point  # same point on Over and Under; either write is fine
+    return by_player
+
+
+def build_player_props(away_abbr, home_abbr, away_name, home_name, roster_map):
+    """Returns (away_qb_proj, home_qb_proj, away_skill, home_skill) built
+    entirely from The Odds API's real prop lines + nflverse's roster map.
+    Empty/None QB and [] skill lists if props aren't posted yet or the
+    lookup fails -- never fabricated."""
+    event_ids = fetch_oddsapi_event_ids()
+    event_id = event_ids.get((away_name, home_name))
+    props = fetch_player_props_oddsapi(event_id) if event_id else {}
+
+    def build_side(team_abbr):
+        qb_proj, skill = None, []
+        for norm_name, stats in props.items():
+            info = roster_map.get(norm_name)
+            if not info or info.get("team") != team_abbr:
+                continue
+            name = stats.get("_display_name")
+            pos = info.get("position")
+            headshot_url = info.get("headshot_url")
+            if pos == "QB" and stats.get("pass_yds") is not None:
+                qb_proj = {
+                    "name": name, "pos": "QB", "player_id": None,
+                    "headshot_url": headshot_url,
+                    "pass_yds": stats.get("pass_yds"), "pass_td": stats.get("pass_td"),
+                    "int": stats.get("int"), "src": "oddsapi",
+                }
+            elif pos in ("RB", "WR", "TE"):
+                rec, rec_yds = stats.get("rec"), stats.get("rec_yds")
+                rush_yds = stats.get("rush_yds")
+                if rec is None and rush_yds is None:
+                    continue  # no props posted for this player -- omit, don't guess
+                td_prob = stats.get("td_prob")
+                fpts = ((rec or 0) * 1.0 + (rec_yds or 0) * 0.1 + (rush_yds or 0) * 0.1
+                        + (td_prob or 0) * 6.0)
+                skill.append({
+                    "name": name, "pos": pos, "player_id": None,
+                    "headshot_url": headshot_url,
+                    "rec": rec, "rec_yds": rec_yds, "rush_yds": rush_yds,
+                    "td_prob": td_prob, "fpts": round(fpts, 1), "src": "oddsapi",
+                })
+        return qb_proj, skill
+
+    away_qb, away_skill = build_side(away_abbr)
+    home_qb, home_skill = build_side(home_abbr)
+    return away_qb, home_qb, away_skill, home_skill
+
+
+def build_game(raw, odds_map=None, roster_map=None):
     odds = (odds_map or {}).get((raw["away_team"], raw["home_team"]))
-    model_home_win_pct = fetch_espn_predictor(raw.get("event_id"))
-    market = calc_market_fields(raw["away_team"], raw["home_team"], odds, model_home_win_pct)
-    away_vf, home_vf = _vegas_factors(market)
-    away_gs, home_gs = _game_script(market)
+    # No more ESPN FPI call here -- away_win_pct/home_win_pct now come
+    # straight from the devigged market (calc_market_fields' default path
+    # when model_home_win_pct is None). Trade-off worth knowing: this also
+    # retires the "model vs market" edge signal, since there's no longer an
+    # independent model to disagree with the market. away_win_pct/home_win_pct
+    # are still real numbers, just no longer flagged as a value bet.
+    market = calc_market_fields(raw["away_team"], raw["home_team"], odds, None)
     wx = fetch_weather(raw.get("venue_city"), raw.get("venue_state"), raw.get("indoor"))
     wxf = weather_factor(wx)
-    away_qb_proj = project_qb(raw["away_abbr"], raw["home_abbr"], vegas_factor=away_vf, weather=wxf)
-    home_qb_proj = project_qb(raw["home_abbr"], raw["away_abbr"], vegas_factor=home_vf, weather=wxf)
+    roster_map = roster_map or {}
+    # Projections: stats only (nflverse season/prior/recent-form blend,
+    # real yards-allowed for opponent defense, real weather). No market
+    # input anywhere above this line.
+    away_qb_proj = project_qb_stats(raw["away_abbr"], raw["home_abbr"], roster_map, wxf)
+    home_qb_proj = project_qb_stats(raw["home_abbr"], raw["away_abbr"], roster_map, wxf)
+    away_skill = project_skill_players_stats(raw["away_abbr"], raw["home_abbr"], roster_map, wxf)
+    home_skill = project_skill_players_stats(raw["home_abbr"], raw["away_abbr"], roster_map, wxf)
+    # Market comparison: strictly after the fact, for display only. Pulls
+    # the actual book prop line and reports the gap -- never adjusts the
+    # projection above.
+    event_id = fetch_oddsapi_event_ids().get((raw["away_team"], raw["home_team"]))
+    attach_market_comparison(away_qb_proj, away_skill, event_id)
+    attach_market_comparison(home_qb_proj, home_skill, event_id)
     game = {
         "away_team": raw["away_team"],
         "home_team": raw["home_team"],
@@ -1951,12 +2513,12 @@ def build_game(raw, odds_map=None):
         # matching how MLB, NHL and NBA derive theirs.
         **scoring_environment(market),
         "referee": None,
-        "away_qb": away_qb_proj.get("name"),
-        "home_qb": home_qb_proj.get("name"),
+        "away_qb": (away_qb_proj or {}).get("name"),
+        "home_qb": (home_qb_proj or {}).get("name"),
         "away_qb_proj": away_qb_proj,
         "home_qb_proj": home_qb_proj,
-        "away_skill": project_skill_players(raw["away_abbr"], raw["home_abbr"], vegas_factor=away_vf, game_script=away_gs, weather=wxf),
-        "home_skill": project_skill_players(raw["home_abbr"], raw["away_abbr"], vegas_factor=home_vf, game_script=home_gs, weather=wxf),
+        "away_skill": away_skill,
+        "home_skill": home_skill,
         **market,
     }
     if "away_score" in raw:
@@ -2033,10 +2595,20 @@ def main():
     if odds_map:
         print(f"  Matched odds available for {len(odds_map)} games.")
 
-    print(f"Fetching QB/skill/predictor data for {len(raw_games)} games "
+    print("Fetching player roster (nflverse, for name/team/headshot lookup)...")
+    roster_map = fetch_nflverse_roster_map()
+    print(f"  {len(roster_map)} players in roster map.")
+
+    # Warm the event-id cache single-threaded before the pool below fires up
+    # 8 workers at once -- avoids every worker racing to populate it (this
+    # call is free/no quota cost either way, but there's no reason to make
+    # 8 redundant requests when 1 will do).
+    fetch_oddsapi_event_ids()
+
+    print(f"Fetching player props from The Odds API for {len(raw_games)} games "
           f"(parallelized — this is the slow part)...")
     with ThreadPoolExecutor(max_workers=8) as pool:
-        games = list(pool.map(lambda g: build_game(g, odds_map), raw_games))
+        games = list(pool.map(lambda g: build_game(g, odds_map, roster_map), raw_games))
 
     slate = {
         "date": _today_et(),
