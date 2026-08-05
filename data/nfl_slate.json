@@ -1,6 +1,6 @@
 {
   "date": "2026-08-05",
-  "generated_at": "2026-08-05 20:20 UTC",
+  "generated_at": "2026-08-05 22:42 UTC",
   "games": [
     {
       "away_team": "New England Patriots",
@@ -32,9 +32,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 269.0,
-            "floor_10": 207.2,
-            "ceiling_90": 328.4,
+            "median": 267.3,
+            "floor_10": 207.3,
+            "ceiling_90": 330.3,
             "_cv": 0.18,
             "confidence": 68
           },
@@ -55,7 +55,7 @@
           "attempts": {
             "median": 37.8,
             "floor_10": 32.1,
-            "ceiling_90": 43.4,
+            "ceiling_90": 43.5,
             "_cv": 0.12,
             "confidence": 71
           }
@@ -79,9 +79,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 244.6,
-            "floor_10": 185.8,
-            "ceiling_90": 299.2,
+            "median": 244.2,
+            "floor_10": 187.7,
+            "ceiling_90": 300.4,
             "_cv": 0.18,
             "confidence": 71
           },
@@ -100,9 +100,9 @@
             "confidence": 78
           },
           "attempts": {
-            "median": 31.9,
-            "floor_10": 27.0,
-            "ceiling_90": 36.9,
+            "median": 32.0,
+            "floor_10": 27.1,
+            "ceiling_90": 36.8,
             "_cv": 0.12,
             "confidence": 73
           }
@@ -135,15 +135,15 @@
           "sim": {
             "rec": {
               "median": 4.6,
-              "floor_10": 3.6,
-              "ceiling_90": 5.5,
+              "floor_10": 3.7,
+              "ceiling_90": 5.6,
               "_cv": 0.16,
               "confidence": 72
             },
             "rec_yds": {
-              "median": 46.7,
-              "floor_10": 34.7,
-              "ceiling_90": 58.8,
+              "median": 46.9,
+              "floor_10": 35.3,
+              "ceiling_90": 58.7,
               "_cv": 0.2,
               "confidence": 70
             },
@@ -155,8 +155,7 @@
               "_cv": null,
               "confidence": 78
             }
-          },
-          "fpts_prev": 8.8
+          }
         },
         {
           "name": "Mack Hollins",
@@ -180,14 +179,14 @@
             "rec": {
               "median": 3.2,
               "floor_10": 2.5,
-              "ceiling_90": 3.8,
+              "ceiling_90": 3.9,
               "_cv": 0.16,
               "confidence": 72
             },
             "rec_yds": {
-              "median": 39.4,
+              "median": 39.6,
               "floor_10": 29.2,
-              "ceiling_90": 49.8,
+              "ceiling_90": 49.6,
               "_cv": 0.2,
               "confidence": 70
             },
@@ -205,8 +204,7 @@
               "_cv": null,
               "confidence": 78
             }
-          },
-          "fpts_prev": 6.3
+          }
         },
         {
           "name": "Rhamondre Stevenson",
@@ -237,14 +235,14 @@
             "rec_yds": {
               "median": 16.7,
               "floor_10": 12.3,
-              "ceiling_90": 20.8,
+              "ceiling_90": 21.1,
               "_cv": 0.2,
               "confidence": 75
             },
             "rush_yds": {
-              "median": 29.2,
-              "floor_10": 19.6,
-              "ceiling_90": 38.7,
+              "median": 29.3,
+              "floor_10": 19.8,
+              "ceiling_90": 38.9,
               "_cv": 0.25,
               "confidence": 73
             },
@@ -291,7 +289,7 @@
             "rec_yds": {
               "median": 35.2,
               "floor_10": 26.2,
-              "ceiling_90": 43.9,
+              "ceiling_90": 44.2,
               "_cv": 0.2,
               "confidence": 70
             },
@@ -303,8 +301,7 @@
               "_cv": null,
               "confidence": 78
             }
-          },
-          "fpts_prev": 9.7
+          }
         },
         {
           "name": "DeMario Douglas",
@@ -338,9 +335,9 @@
               "confidence": 72
             },
             "rec_yds": {
-              "median": 26.7,
-              "floor_10": 19.9,
-              "ceiling_90": 33.5,
+              "median": 26.8,
+              "floor_10": 19.8,
+              "ceiling_90": 33.7,
               "_cv": 0.2,
               "confidence": 70
             },
@@ -358,8 +355,7 @@
               "_cv": null,
               "confidence": 78
             }
-          },
-          "fpts_prev": 8.9
+          }
         }
       ],
       "home_skill": [
@@ -404,8 +400,7 @@
               "_cv": null,
               "confidence": 63
             }
-          },
-          "fpts_prev": 3.2
+          }
         },
         {
           "name": "Cooper Kupp",
@@ -439,8 +434,8 @@
               "confidence": 67
             },
             "rec_yds": {
-              "median": 39.1,
-              "floor_10": 29.1,
+              "median": 39.0,
+              "floor_10": 28.8,
               "ceiling_90": 49.1,
               "_cv": 0.2,
               "confidence": 65
@@ -453,8 +448,7 @@
               "_cv": null,
               "confidence": 73
             }
-          },
-          "fpts_prev": 12.9
+          }
         },
         {
           "name": "Rashid Shaheed",
@@ -488,9 +482,9 @@
               "confidence": 52
             },
             "rec_yds": {
-              "median": 14.1,
-              "floor_10": 10.5,
-              "ceiling_90": 17.8,
+              "median": 14.0,
+              "floor_10": 10.4,
+              "ceiling_90": 17.7,
               "_cv": 0.2,
               "confidence": 50
             },
@@ -508,8 +502,7 @@
               "_cv": null,
               "confidence": 58
             }
-          },
-          "fpts_prev": 12.4
+          }
         },
         {
           "name": "Jaxon Smith-Njigba",
@@ -537,15 +530,15 @@
           "sim": {
             "rec": {
               "median": 8.3,
-              "floor_10": 6.6,
+              "floor_10": 6.5,
               "ceiling_90": 10.0,
               "_cv": 0.16,
               "confidence": 72
             },
             "rec_yds": {
               "median": 88.9,
-              "floor_10": 65.8,
-              "ceiling_90": 111.4,
+              "floor_10": 66.7,
+              "ceiling_90": 111.2,
               "_cv": 0.2,
               "confidence": 70
             },
@@ -563,8 +556,7 @@
               "_cv": null,
               "confidence": 78
             }
-          },
-          "fpts_prev": 14.8
+          }
         },
         {
           "name": "Kenny McIntosh",
@@ -600,9 +592,9 @@
               "confidence": 58
             },
             "rush_yds": {
-              "median": 15.0,
-              "floor_10": 10.1,
-              "ceiling_90": 19.7,
+              "median": 14.8,
+              "floor_10": 10.0,
+              "ceiling_90": 19.6,
               "_cv": 0.25,
               "confidence": 56
             },
@@ -656,8 +648,7 @@
               "_cv": null,
               "confidence": 70
             }
-          },
-          "fpts_prev": 2.6
+          }
         },
         {
           "name": "Zach Charbonnet",
@@ -687,15 +678,15 @@
             },
             "rec_yds": {
               "median": 9.7,
-              "floor_10": 7.3,
+              "floor_10": 7.2,
               "ceiling_90": 12.2,
               "_cv": 0.2,
               "confidence": 75
             },
             "rush_yds": {
               "median": 50.8,
-              "floor_10": 34.3,
-              "ceiling_90": 67.2,
+              "floor_10": 34.8,
+              "ceiling_90": 67.3,
               "_cv": 0.25,
               "confidence": 73
             },
@@ -706,8 +697,7 @@
               "_cv": null,
               "confidence": 83
             }
-          },
-          "fpts_prev": 10.8
+          }
         },
         {
           "name": "AJ Barner",
@@ -741,7 +731,7 @@
               "confidence": 72
             },
             "rec_yds": {
-              "median": 30.8,
+              "median": 30.7,
               "floor_10": 23.0,
               "ceiling_90": 38.7,
               "_cv": 0.2,
@@ -761,18 +751,17 @@
               "_cv": null,
               "confidence": 78
             }
-          },
-          "fpts_prev": 5.7
+          }
         }
       ],
-      "away_win_pct": 0.643,
-      "home_win_pct": 0.357,
-      "away_pts": 29.2,
+      "away_win_pct": 0.645,
+      "home_win_pct": 0.355,
+      "away_pts": 29.1,
       "home_pts": 24.2,
       "away_matchup_edge": 47.5,
       "home_matchup_edge": 52.0,
       "tier": "STRONG",
-      "target_score": 77,
+      "target_score": 76,
       "market": {
         "away_ml": 166.0,
         "home_ml": -198.0,
@@ -814,9 +803,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 294.0,
-            "floor_10": 226.0,
-            "ceiling_90": 363.3,
+            "median": 293.3,
+            "floor_10": 223.8,
+            "ceiling_90": 359.6,
             "_cv": 0.18,
             "confidence": 68
           },
@@ -836,8 +825,8 @@
           },
           "attempts": {
             "median": 34.0,
-            "floor_10": 28.9,
-            "ceiling_90": 39.1,
+            "floor_10": 28.6,
+            "ceiling_90": 39.0,
             "_cv": 0.12,
             "confidence": 70
           }
@@ -861,9 +850,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 246.6,
-            "floor_10": 188.3,
-            "ceiling_90": 303.2,
+            "median": 246.8,
+            "floor_10": 189.6,
+            "ceiling_90": 301.1,
             "_cv": 0.18,
             "confidence": 68
           },
@@ -882,7 +871,7 @@
             "confidence": 75
           },
           "attempts": {
-            "median": 33.9,
+            "median": 34.0,
             "floor_10": 28.8,
             "ceiling_90": 39.2,
             "_cv": 0.12,
@@ -925,7 +914,7 @@
             "rec_yds": {
               "median": 12.1,
               "floor_10": 9.0,
-              "ceiling_90": 15.3,
+              "ceiling_90": 15.2,
               "_cv": 0.2,
               "confidence": 67
             },
@@ -943,8 +932,7 @@
               "_cv": null,
               "confidence": 75
             }
-          },
-          "fpts_prev": 4.4
+          }
         },
         {
           "name": "Demarcus Robinson",
@@ -975,14 +963,14 @@
             "rec_yds": {
               "median": 22.4,
               "floor_10": 16.8,
-              "ceiling_90": 28.2,
+              "ceiling_90": 28.1,
               "_cv": 0.2,
               "confidence": 67
             },
             "rush_yds": {
-              "median": 22.2,
-              "floor_10": 15.1,
-              "ceiling_90": 29.2,
+              "median": 22.0,
+              "floor_10": 15.0,
+              "ceiling_90": 29.1,
               "_cv": 0.25,
               "confidence": 65
             },
@@ -993,8 +981,7 @@
               "_cv": null,
               "confidence": 75
             }
-          },
-          "fpts_prev": 6.5
+          }
         },
         {
           "name": "Christian McCaffrey",
@@ -1028,16 +1015,16 @@
               "confidence": 44
             },
             "rec_yds": {
-              "median": 60.5,
+              "median": 60.8,
               "floor_10": 45.3,
-              "ceiling_90": 76.6,
+              "ceiling_90": 76.5,
               "_cv": 0.2,
               "confidence": 42
             },
             "rush_yds": {
-              "median": 70.5,
-              "floor_10": 48.0,
-              "ceiling_90": 93.2,
+              "median": 70.8,
+              "floor_10": 48.1,
+              "ceiling_90": 93.4,
               "_cv": 0.25,
               "confidence": 40
             },
@@ -1048,8 +1035,7 @@
               "_cv": null,
               "confidence": 50
             }
-          },
-          "fpts_prev": 12.5
+          }
         },
         {
           "name": "George Kittle",
@@ -1084,8 +1070,8 @@
             },
             "rec_yds": {
               "median": 49.0,
-              "floor_10": 36.8,
-              "ceiling_90": 61.7,
+              "floor_10": 36.6,
+              "ceiling_90": 61.9,
               "_cv": 0.2,
               "confidence": 67
             },
@@ -1103,8 +1089,7 @@
               "_cv": null,
               "confidence": 75
             }
-          },
-          "fpts_prev": 16.0
+          }
         },
         {
           "name": "Patrick Taylor",
@@ -1140,8 +1125,8 @@
               "confidence": 44
             },
             "rush_yds": {
-              "median": 10.9,
-              "floor_10": 7.5,
+              "median": 11.0,
+              "floor_10": 7.3,
               "ceiling_90": 14.4,
               "_cv": 0.25,
               "confidence": 42
@@ -1153,8 +1138,7 @@
               "_cv": null,
               "confidence": 52
             }
-          },
-          "fpts_prev": 6.0
+          }
         },
         {
           "name": "Luke Farrell",
@@ -1193,7 +1177,7 @@
             "td": {
               "median": 0,
               "floor_10": 0,
-              "ceiling_90": 1,
+              "ceiling_90": 0,
               "_cv": null,
               "confidence": 65
             }
@@ -1226,15 +1210,15 @@
               "confidence": 66
             },
             "rec_yds": {
-              "median": 11.4,
-              "floor_10": 8.4,
+              "median": 11.5,
+              "floor_10": 8.5,
               "ceiling_90": 14.4,
               "_cv": 0.2,
               "confidence": 64
             },
             "rush_yds": {
-              "median": 22.7,
-              "floor_10": 15.6,
+              "median": 22.6,
+              "floor_10": 15.5,
               "ceiling_90": 30.0,
               "_cv": 0.25,
               "confidence": 62
@@ -1246,8 +1230,7 @@
               "_cv": null,
               "confidence": 72
             }
-          },
-          "fpts_prev": 9.1
+          }
         },
         {
           "name": "Jacob Cowing",
@@ -1296,8 +1279,7 @@
               "_cv": null,
               "confidence": 48
             }
-          },
-          "fpts_prev": 4.2
+          }
         },
         {
           "name": "Ricky Pearsall",
@@ -1332,7 +1314,7 @@
             },
             "rec_yds": {
               "median": 29.9,
-              "floor_10": 22.2,
+              "floor_10": 22.1,
               "ceiling_90": 37.7,
               "_cv": 0.2,
               "confidence": 57
@@ -1347,12 +1329,11 @@
             "td": {
               "median": 0,
               "floor_10": 0,
-              "ceiling_90": 0,
+              "ceiling_90": 1,
               "_cv": null,
               "confidence": 65
             }
-          },
-          "fpts_prev": 10.7
+          }
         }
       ],
       "home_skill": [],
@@ -1417,9 +1398,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 232.7,
-            "floor_10": 179.5,
-            "ceiling_90": 287.1,
+            "median": 235.4,
+            "floor_10": 178.8,
+            "ceiling_90": 289.5,
             "_cv": 0.18,
             "confidence": 68
           },
@@ -1439,8 +1420,8 @@
           },
           "attempts": {
             "median": 32.8,
-            "floor_10": 27.5,
-            "ceiling_90": 37.8,
+            "floor_10": 27.8,
+            "ceiling_90": 37.9,
             "_cv": 0.12,
             "confidence": 71
           }
@@ -1469,9 +1450,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 245.4,
-            "floor_10": 188.1,
-            "ceiling_90": 301.1,
+            "median": 245.7,
+            "floor_10": 187.9,
+            "ceiling_90": 303.4,
             "_cv": 0.18,
             "confidence": 76
           },
@@ -1490,9 +1471,9 @@
             "confidence": 83
           },
           "attempts": {
-            "median": 34.1,
+            "median": 33.9,
             "floor_10": 28.7,
-            "ceiling_90": 39.3,
+            "ceiling_90": 39.2,
             "_cv": 0.12,
             "confidence": 78
           }
@@ -1533,7 +1514,7 @@
             "rec_yds": {
               "median": 2.1,
               "floor_10": 1.6,
-              "ceiling_90": 2.6,
+              "ceiling_90": 2.7,
               "_cv": 0.2,
               "confidence": 60
             },
@@ -1579,9 +1560,9 @@
               "confidence": 77
             },
             "rec_yds": {
-              "median": 58.2,
-              "floor_10": 42.9,
-              "ceiling_90": 73.3,
+              "median": 58.1,
+              "floor_10": 43.4,
+              "ceiling_90": 72.8,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -1593,8 +1574,7 @@
               "_cv": null,
               "confidence": 83
             }
-          },
-          "fpts_prev": 7.4
+          }
         },
         {
           "name": "Drake London",
@@ -1628,9 +1608,9 @@
               "confidence": 77
             },
             "rec_yds": {
-              "median": 62.1,
-              "floor_10": 46.2,
-              "ceiling_90": 78.1,
+              "median": 62.5,
+              "floor_10": 46.3,
+              "ceiling_90": 78.5,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -1642,8 +1622,7 @@
               "_cv": null,
               "confidence": 83
             }
-          },
-          "fpts_prev": 17.8
+          }
         },
         {
           "name": "Brian Robinson",
@@ -1672,16 +1651,16 @@
               "confidence": 63
             },
             "rec_yds": {
-              "median": 41.0,
-              "floor_10": 30.5,
+              "median": 40.9,
+              "floor_10": 30.6,
               "ceiling_90": 51.6,
               "_cv": 0.2,
               "confidence": 61
             },
             "rush_yds": {
-              "median": 75.0,
+              "median": 75.3,
               "floor_10": 50.8,
-              "ceiling_90": 98.8,
+              "ceiling_90": 99.8,
               "_cv": 0.25,
               "confidence": 59
             },
@@ -1692,8 +1671,7 @@
               "_cv": null,
               "confidence": 69
             }
-          },
-          "fpts_prev": 11.5
+          }
         },
         {
           "name": "Bijan Robinson",
@@ -1722,16 +1700,16 @@
               "confidence": 63
             },
             "rec_yds": {
-              "median": 30.8,
-              "floor_10": 23.0,
-              "ceiling_90": 38.4,
+              "median": 30.6,
+              "floor_10": 22.9,
+              "ceiling_90": 38.7,
               "_cv": 0.2,
               "confidence": 61
             },
             "rush_yds": {
-              "median": 95.8,
-              "floor_10": 65.1,
-              "ceiling_90": 127.2,
+              "median": 96.3,
+              "floor_10": 64.8,
+              "ceiling_90": 125.7,
               "_cv": 0.25,
               "confidence": 59
             },
@@ -1742,8 +1720,7 @@
               "_cv": null,
               "confidence": 69
             }
-          },
-          "fpts_prev": 20.3
+          }
         }
       ],
       "home_skill": [
@@ -1774,9 +1751,9 @@
               "confidence": 77
             },
             "rec_yds": {
-              "median": 63.2,
-              "floor_10": 47.3,
-              "ceiling_90": 79.3,
+              "median": 63.1,
+              "floor_10": 46.7,
+              "ceiling_90": 79.5,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -1794,8 +1771,7 @@
               "_cv": null,
               "confidence": 83
             }
-          },
-          "fpts_prev": 12.1
+          }
         },
         {
           "name": "Ben Skowronek",
@@ -1843,8 +1819,7 @@
               "_cv": null,
               "confidence": 58
             }
-          },
-          "fpts_prev": 3.0
+          }
         },
         {
           "name": "Pat Freiermuth",
@@ -1873,9 +1848,9 @@
               "confidence": 77
             },
             "rec_yds": {
-              "median": 28.3,
-              "floor_10": 21.0,
-              "ceiling_90": 35.6,
+              "median": 28.2,
+              "floor_10": 20.8,
+              "ceiling_90": 35.3,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -1887,8 +1862,7 @@
               "_cv": null,
               "confidence": 83
             }
-          },
-          "fpts_prev": 11.1
+          }
         },
         {
           "name": "Jaylen Warren",
@@ -1917,16 +1891,16 @@
               "confidence": 77
             },
             "rec_yds": {
-              "median": 19.7,
-              "floor_10": 14.6,
-              "ceiling_90": 24.6,
+              "median": 19.8,
+              "floor_10": 14.7,
+              "ceiling_90": 24.8,
               "_cv": 0.2,
               "confidence": 75
             },
             "rush_yds": {
               "median": 61.5,
-              "floor_10": 42.3,
-              "ceiling_90": 81.8,
+              "floor_10": 42.2,
+              "ceiling_90": 81.7,
               "_cv": 0.25,
               "confidence": 73
             },
@@ -1937,8 +1911,7 @@
               "_cv": null,
               "confidence": 83
             }
-          },
-          "fpts_prev": 8.9
+          }
         },
         {
           "name": "Darnell Washington",
@@ -1962,14 +1935,14 @@
             "rec": {
               "median": 2.2,
               "floor_10": 1.8,
-              "ceiling_90": 2.6,
+              "ceiling_90": 2.7,
               "_cv": 0.16,
               "confidence": 74
             },
             "rec_yds": {
               "median": 21.0,
-              "floor_10": 15.6,
-              "ceiling_90": 26.3,
+              "floor_10": 15.7,
+              "ceiling_90": 26.4,
               "_cv": 0.2,
               "confidence": 72
             },
@@ -1981,14 +1954,13 @@
               "_cv": null,
               "confidence": 80
             }
-          },
-          "fpts_prev": 3.2
+          }
         }
       ],
-      "away_win_pct": 0.436,
-      "home_win_pct": 0.564,
-      "away_pts": 20.7,
-      "home_pts": 22.8,
+      "away_win_pct": 0.427,
+      "home_win_pct": 0.573,
+      "away_pts": 20.4,
+      "home_pts": 23.0,
       "away_matchup_edge": 49.5,
       "home_matchup_edge": 49.6,
       "tier": "PASS",
@@ -2039,9 +2011,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 276.8,
-            "floor_10": 212.5,
-            "ceiling_90": 339.3,
+            "median": 277.2,
+            "floor_10": 214.2,
+            "ceiling_90": 339.8,
             "_cv": 0.18,
             "confidence": 76
           },
@@ -2060,7 +2032,7 @@
             "confidence": 83
           },
           "attempts": {
-            "median": 28.8,
+            "median": 28.7,
             "floor_10": 24.4,
             "ceiling_90": 33.3,
             "_cv": 0.12,
@@ -2086,8 +2058,8 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 216.5,
-            "floor_10": 166.1,
+            "median": 217.4,
+            "floor_10": 168.6,
             "ceiling_90": 267.1,
             "_cv": 0.18,
             "confidence": 66
@@ -2107,8 +2079,8 @@
             "confidence": 73
           },
           "attempts": {
-            "median": 35.1,
-            "floor_10": 29.7,
+            "median": 35.3,
+            "floor_10": 29.9,
             "ceiling_90": 40.8,
             "_cv": 0.12,
             "confidence": 68
@@ -2144,15 +2116,15 @@
             },
             "rec_yds": {
               "median": 14.4,
-              "floor_10": 10.7,
+              "floor_10": 10.8,
               "ceiling_90": 18.1,
               "_cv": 0.2,
               "confidence": 75
             },
             "rush_yds": {
-              "median": 118.4,
-              "floor_10": 81.3,
-              "ceiling_90": 157.7,
+              "median": 119.7,
+              "floor_10": 81.4,
+              "ceiling_90": 156.9,
               "_cv": 0.25,
               "confidence": 73
             },
@@ -2187,14 +2159,14 @@
             "rec": {
               "median": 3.7,
               "floor_10": 2.9,
-              "ceiling_90": 4.4,
+              "ceiling_90": 4.5,
               "_cv": 0.16,
               "confidence": 77
             },
             "rec_yds": {
-              "median": 52.2,
-              "floor_10": 38.7,
-              "ceiling_90": 65.9,
+              "median": 51.8,
+              "floor_10": 38.3,
+              "ceiling_90": 65.6,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -2243,14 +2215,14 @@
             "rec_yds": {
               "median": 14.2,
               "floor_10": 10.6,
-              "ceiling_90": 17.8,
+              "ceiling_90": 17.9,
               "_cv": 0.2,
               "confidence": 75
             },
             "rush_yds": {
               "median": 7.3,
-              "floor_10": 4.9,
-              "ceiling_90": 9.6,
+              "floor_10": 5.0,
+              "ceiling_90": 9.7,
               "_cv": 0.25,
               "confidence": 73
             },
@@ -2261,8 +2233,7 @@
               "_cv": null,
               "confidence": 83
             }
-          },
-          "fpts_prev": 9.0
+          }
         },
         {
           "name": "Rashod Bateman",
@@ -2291,14 +2262,14 @@
             "rec": {
               "median": 1.7,
               "floor_10": 1.4,
-              "ceiling_90": 2.0,
+              "ceiling_90": 2.1,
               "_cv": 0.16,
               "confidence": 77
             },
             "rec_yds": {
-              "median": 31.2,
-              "floor_10": 23.0,
-              "ceiling_90": 38.8,
+              "median": 31.0,
+              "floor_10": 23.1,
+              "ceiling_90": 39.2,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -2310,8 +2281,7 @@
               "_cv": null,
               "confidence": 83
             }
-          },
-          "fpts_prev": 11.3
+          }
         },
         {
           "name": "Zay Flowers",
@@ -2340,15 +2310,15 @@
               "confidence": 77
             },
             "rec_yds": {
-              "median": 81.2,
-              "floor_10": 60.7,
-              "ceiling_90": 101.6,
+              "median": 81.1,
+              "floor_10": 60.1,
+              "ceiling_90": 101.3,
               "_cv": 0.2,
               "confidence": 75
             },
             "rush_yds": {
               "median": 4.0,
-              "floor_10": 2.7,
+              "floor_10": 2.8,
               "ceiling_90": 5.3,
               "_cv": 0.25,
               "confidence": 73
@@ -2360,8 +2330,7 @@
               "_cv": null,
               "confidence": 83
             }
-          },
-          "fpts_prev": 12.1
+          }
         },
         {
           "name": "Rasheen Ali",
@@ -2442,7 +2411,7 @@
             },
             "rec_yds": {
               "median": 8.2,
-              "floor_10": 6.1,
+              "floor_10": 6.2,
               "ceiling_90": 10.3,
               "_cv": 0.2,
               "confidence": 70
@@ -2486,13 +2455,13 @@
             "rec_yds": {
               "median": 3.7,
               "floor_10": 2.7,
-              "ceiling_90": 4.6,
+              "ceiling_90": 4.7,
               "_cv": 0.2,
               "confidence": 62
             },
             "rush_yds": {
               "median": 1.7,
-              "floor_10": 1.2,
+              "floor_10": 1.1,
               "ceiling_90": 2.2,
               "_cv": 0.25,
               "confidence": 60
@@ -2504,8 +2473,7 @@
               "_cv": null,
               "confidence": 70
             }
-          },
-          "fpts_prev": 1.9
+          }
         },
         {
           "name": "Jonathan Taylor",
@@ -2534,16 +2502,16 @@
               "confidence": 59
             },
             "rec_yds": {
-              "median": 13.6,
+              "median": 13.7,
               "floor_10": 10.2,
-              "ceiling_90": 17.1,
+              "ceiling_90": 17.2,
               "_cv": 0.2,
               "confidence": 57
             },
             "rush_yds": {
-              "median": 101.1,
-              "floor_10": 68.3,
-              "ceiling_90": 132.6,
+              "median": 99.7,
+              "floor_10": 68.0,
+              "ceiling_90": 132.7,
               "_cv": 0.25,
               "confidence": 55
             },
@@ -2554,8 +2522,7 @@
               "_cv": null,
               "confidence": 65
             }
-          },
-          "fpts_prev": 19.6
+          }
         },
         {
           "name": "Andrew Ogletree",
@@ -2598,8 +2565,7 @@
               "_cv": null,
               "confidence": 76
             }
-          },
-          "fpts_prev": 2.3
+          }
         },
         {
           "name": "Alec Pierce",
@@ -2628,9 +2594,9 @@
               "confidence": 77
             },
             "rec_yds": {
-              "median": 61.8,
-              "floor_10": 45.8,
-              "ceiling_90": 78.4,
+              "median": 62.2,
+              "floor_10": 46.0,
+              "ceiling_90": 78.3,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -2678,7 +2644,7 @@
             "rec_yds": {
               "median": 0.2,
               "floor_10": 0.1,
-              "ceiling_90": 0.2,
+              "ceiling_90": 0.3,
               "_cv": 0.2,
               "confidence": 58
             },
@@ -2690,8 +2656,7 @@
               "_cv": null,
               "confidence": 66
             }
-          },
-          "fpts_prev": 1.0
+          }
         },
         {
           "name": "Josh Downs",
@@ -2720,9 +2685,9 @@
               "confidence": 77
             },
             "rec_yds": {
-              "median": 43.5,
+              "median": 43.6,
               "floor_10": 32.4,
-              "ceiling_90": 54.7,
+              "ceiling_90": 55.0,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -2740,14 +2705,13 @@
               "_cv": null,
               "confidence": 83
             }
-          },
-          "fpts_prev": 12.8
+          }
         }
       ],
-      "away_win_pct": 0.252,
-      "home_win_pct": 0.748,
-      "away_pts": 20.0,
-      "home_pts": 29.1,
+      "away_win_pct": 0.251,
+      "home_win_pct": 0.749,
+      "away_pts": 20.1,
+      "home_pts": 29.0,
       "away_matchup_edge": 54.7,
       "home_matchup_edge": 54.5,
       "tier": "LEAN",
@@ -2798,9 +2762,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 277.8,
+            "median": 278.8,
             "floor_10": 215.5,
-            "ceiling_90": 342.6,
+            "ceiling_90": 342.8,
             "_cv": 0.18,
             "confidence": 71
           },
@@ -2820,8 +2784,8 @@
           },
           "attempts": {
             "median": 35.1,
-            "floor_10": 29.8,
-            "ceiling_90": 40.4,
+            "floor_10": 29.5,
+            "ceiling_90": 40.3,
             "_cv": 0.12,
             "confidence": 73
           }
@@ -2847,7 +2811,7 @@
           "pass_yds": {
             "median": 263.9,
             "floor_10": 204.0,
-            "ceiling_90": 324.8,
+            "ceiling_90": 324.9,
             "_cv": 0.18,
             "confidence": 76
           },
@@ -2867,7 +2831,7 @@
           },
           "attempts": {
             "median": 38.3,
-            "floor_10": 32.4,
+            "floor_10": 32.3,
             "ceiling_90": 44.3,
             "_cv": 0.12,
             "confidence": 78
@@ -2922,8 +2886,7 @@
               "_cv": null,
               "confidence": 78
             }
-          },
-          "fpts_prev": 15.4
+          }
         },
         {
           "name": "Mecole Hardman",
@@ -2966,8 +2929,7 @@
               "_cv": null,
               "confidence": 60
             }
-          },
-          "fpts_prev": 4.5
+          }
         },
         {
           "name": "Ty Johnson",
@@ -2997,7 +2959,7 @@
             },
             "rec_yds": {
               "median": 29.0,
-              "floor_10": 21.5,
+              "floor_10": 21.7,
               "ceiling_90": 36.5,
               "_cv": 0.2,
               "confidence": 70
@@ -3005,7 +2967,7 @@
             "rush_yds": {
               "median": 14.5,
               "floor_10": 9.8,
-              "ceiling_90": 18.9,
+              "ceiling_90": 19.1,
               "_cv": 0.25,
               "confidence": 68
             },
@@ -3016,8 +2978,7 @@
               "_cv": null,
               "confidence": 78
             }
-          },
-          "fpts_prev": 6.5
+          }
         },
         {
           "name": "Dawson Knox",
@@ -3052,8 +3013,8 @@
             },
             "rec_yds": {
               "median": 32.4,
-              "floor_10": 24.1,
-              "ceiling_90": 40.7,
+              "floor_10": 23.9,
+              "ceiling_90": 41.0,
               "_cv": 0.2,
               "confidence": 70
             },
@@ -3065,8 +3026,7 @@
               "_cv": null,
               "confidence": 78
             }
-          },
-          "fpts_prev": 4.2
+          }
         },
         {
           "name": "Josh Palmer",
@@ -3097,7 +3057,7 @@
             "rec_yds": {
               "median": 22.3,
               "floor_10": 16.7,
-              "ceiling_90": 27.8,
+              "ceiling_90": 27.9,
               "_cv": 0.2,
               "confidence": 70
             },
@@ -3109,8 +3069,7 @@
               "_cv": null,
               "confidence": 78
             }
-          },
-          "fpts_prev": 7.6
+          }
         },
         {
           "name": "James Cook",
@@ -3139,21 +3098,21 @@
             "rec": {
               "median": 2.6,
               "floor_10": 2.1,
-              "ceiling_90": 3.2,
+              "ceiling_90": 3.1,
               "_cv": 0.16,
               "confidence": 72
             },
             "rec_yds": {
-              "median": 26.5,
-              "floor_10": 19.6,
+              "median": 26.3,
+              "floor_10": 19.7,
               "ceiling_90": 33.2,
               "_cv": 0.2,
               "confidence": 70
             },
             "rush_yds": {
-              "median": 90.6,
-              "floor_10": 61.8,
-              "ceiling_90": 118.6,
+              "median": 90.5,
+              "floor_10": 60.3,
+              "ceiling_90": 119.7,
               "_cv": 0.25,
               "confidence": 68
             },
@@ -3164,8 +3123,7 @@
               "_cv": null,
               "confidence": 78
             }
-          },
-          "fpts_prev": 17.1
+          }
         },
         {
           "name": "Khalil Shakir",
@@ -3194,9 +3152,9 @@
               "confidence": 72
             },
             "rec_yds": {
-              "median": 54.9,
-              "floor_10": 40.7,
-              "ceiling_90": 69.3,
+              "median": 54.8,
+              "floor_10": 40.8,
+              "ceiling_90": 69.2,
               "_cv": 0.2,
               "confidence": 70
             },
@@ -3214,8 +3172,7 @@
               "_cv": null,
               "confidence": 78
             }
-          },
-          "fpts_prev": 11.9
+          }
         },
         {
           "name": "Dalton Kincaid",
@@ -3249,9 +3206,9 @@
               "confidence": 69
             },
             "rec_yds": {
-              "median": 21.1,
-              "floor_10": 15.6,
-              "ceiling_90": 26.3,
+              "median": 21.0,
+              "floor_10": 15.7,
+              "ceiling_90": 26.5,
               "_cv": 0.2,
               "confidence": 68
             },
@@ -3263,8 +3220,7 @@
               "_cv": null,
               "confidence": 76
             }
-          },
-          "fpts_prev": 7.6
+          }
         },
         {
           "name": "Ray Davis",
@@ -3293,16 +3249,16 @@
               "confidence": 72
             },
             "rec_yds": {
-              "median": 19.1,
-              "floor_10": 14.4,
-              "ceiling_90": 24.0,
+              "median": 19.0,
+              "floor_10": 14.1,
+              "ceiling_90": 23.9,
               "_cv": 0.2,
               "confidence": 70
             },
             "rush_yds": {
               "median": 11.8,
-              "floor_10": 7.9,
-              "ceiling_90": 15.5,
+              "floor_10": 8.0,
+              "ceiling_90": 15.7,
               "_cv": 0.25,
               "confidence": 68
             },
@@ -3342,9 +3298,9 @@
               "confidence": 69
             },
             "rec_yds": {
-              "median": 38.7,
-              "floor_10": 28.7,
-              "ceiling_90": 48.8,
+              "median": 38.8,
+              "floor_10": 28.9,
+              "ceiling_90": 48.7,
               "_cv": 0.2,
               "confidence": 68
             },
@@ -3392,9 +3348,9 @@
               "confidence": 77
             },
             "rec_yds": {
-              "median": 44.6,
-              "floor_10": 33.7,
-              "ceiling_90": 56.3,
+              "median": 44.8,
+              "floor_10": 33.2,
+              "ceiling_90": 56.4,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -3406,8 +3362,7 @@
               "_cv": null,
               "confidence": 83
             }
-          },
-          "fpts_prev": 6.9
+          }
         },
         {
           "name": "Justin Watson",
@@ -3450,8 +3405,7 @@
               "_cv": null,
               "confidence": 83
             }
-          },
-          "fpts_prev": 3.9
+          }
         },
         {
           "name": "Nico Collins",
@@ -3479,15 +3433,15 @@
           "sim": {
             "rec": {
               "median": 5.8,
-              "floor_10": 4.7,
+              "floor_10": 4.6,
               "ceiling_90": 7.0,
               "_cv": 0.16,
               "confidence": 72
             },
             "rec_yds": {
-              "median": 76.2,
-              "floor_10": 56.7,
-              "ceiling_90": 95.8,
+              "median": 76.4,
+              "floor_10": 57.7,
+              "ceiling_90": 95.2,
               "_cv": 0.2,
               "confidence": 70
             },
@@ -3535,8 +3489,8 @@
             },
             "rec_yds": {
               "median": 20.3,
-              "floor_10": 15.0,
-              "ceiling_90": 25.5,
+              "floor_10": 15.1,
+              "ceiling_90": 25.3,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -3554,8 +3508,7 @@
               "_cv": null,
               "confidence": 83
             }
-          },
-          "fpts_prev": 2.0
+          }
         },
         {
           "name": "Tank Dell",
@@ -3585,15 +3538,15 @@
             },
             "rec_yds": {
               "median": 56.6,
-              "floor_10": 41.8,
-              "ceiling_90": 71.8,
+              "floor_10": 41.9,
+              "ceiling_90": 70.7,
               "_cv": 0.2,
               "confidence": 75
             },
             "rush_yds": {
               "median": 5.3,
               "floor_10": 3.6,
-              "ceiling_90": 6.9,
+              "ceiling_90": 7.0,
               "_cv": 0.25,
               "confidence": 73
             },
@@ -3604,8 +3557,7 @@
               "_cv": null,
               "confidence": 83
             }
-          },
-          "fpts_prev": 10.3
+          }
         },
         {
           "name": "Cade Stover",
@@ -3634,15 +3586,15 @@
               "confidence": 74
             },
             "rec_yds": {
-              "median": 6.3,
-              "floor_10": 4.6,
+              "median": 6.4,
+              "floor_10": 4.7,
               "ceiling_90": 7.9,
               "_cv": 0.2,
               "confidence": 72
             },
             "rush_yds": {
               "median": 1.1,
-              "floor_10": 0.8,
+              "floor_10": 0.7,
               "ceiling_90": 1.5,
               "_cv": 0.25,
               "confidence": 70
@@ -3657,9 +3609,9 @@
           }
         }
       ],
-      "away_win_pct": 0.851,
-      "home_win_pct": 0.149,
-      "away_pts": 31.7,
+      "away_win_pct": 0.855,
+      "home_win_pct": 0.145,
+      "away_pts": 31.5,
       "home_pts": 17.5,
       "away_matchup_edge": 46.8,
       "home_matchup_edge": 42.1,
@@ -3706,9 +3658,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 257.0,
-            "floor_10": 199.0,
-            "ceiling_90": 315.0,
+            "median": 258.1,
+            "floor_10": 198.6,
+            "ceiling_90": 315.7,
             "_cv": 0.18,
             "confidence": 76
           },
@@ -3727,9 +3679,9 @@
             "confidence": 83
           },
           "attempts": {
-            "median": 36.1,
+            "median": 36.2,
             "floor_10": 30.6,
-            "ceiling_90": 41.9,
+            "ceiling_90": 41.8,
             "_cv": 0.12,
             "confidence": 78
           }
@@ -3753,9 +3705,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 223.1,
-            "floor_10": 168.9,
-            "ceiling_90": 273.8,
+            "median": 222.5,
+            "floor_10": 171.2,
+            "ceiling_90": 273.1,
             "_cv": 0.18,
             "confidence": 71
           },
@@ -3767,16 +3719,16 @@
             "confidence": 78
           },
           "int": {
-            "median": 0,
+            "median": 1,
             "floor_10": 0,
             "ceiling_90": 2,
             "_cv": null,
             "confidence": 78
           },
           "attempts": {
-            "median": 31.9,
+            "median": 32.0,
             "floor_10": 27.1,
-            "ceiling_90": 36.7,
+            "ceiling_90": 36.9,
             "_cv": 0.12,
             "confidence": 73
           }
@@ -3810,16 +3762,16 @@
               "confidence": 77
             },
             "rec_yds": {
-              "median": 26.0,
+              "median": 25.9,
               "floor_10": 19.4,
-              "ceiling_90": 32.5,
+              "ceiling_90": 32.4,
               "_cv": 0.2,
               "confidence": 75
             },
             "rush_yds": {
               "median": 58.3,
-              "floor_10": 39.7,
-              "ceiling_90": 76.1,
+              "floor_10": 40.3,
+              "ceiling_90": 76.8,
               "_cv": 0.25,
               "confidence": 73
             },
@@ -3830,8 +3782,7 @@
               "_cv": null,
               "confidence": 83
             }
-          },
-          "fpts_prev": 13.4
+          }
         },
         {
           "name": "Cole Kmet",
@@ -3860,9 +3811,9 @@
               "confidence": 77
             },
             "rec_yds": {
-              "median": 29.2,
-              "floor_10": 22.0,
-              "ceiling_90": 36.9,
+              "median": 29.5,
+              "floor_10": 21.8,
+              "ceiling_90": 37.1,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -3923,8 +3874,7 @@
               "_cv": null,
               "confidence": 78
             }
-          },
-          "fpts_prev": 6.7
+          }
         },
         {
           "name": "Rome Odunze",
@@ -3953,14 +3903,14 @@
             "rec": {
               "median": 3.1,
               "floor_10": 2.5,
-              "ceiling_90": 3.7,
+              "ceiling_90": 3.8,
               "_cv": 0.16,
               "confidence": 77
             },
             "rec_yds": {
               "median": 51.0,
-              "floor_10": 38.2,
-              "ceiling_90": 64.2,
+              "floor_10": 37.8,
+              "ceiling_90": 64.0,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -3972,8 +3922,7 @@
               "_cv": null,
               "confidence": 83
             }
-          },
-          "fpts_prev": 8.8
+          }
         }
       ],
       "home_skill": [
@@ -4029,8 +3978,7 @@
               "_cv": null,
               "confidence": 78
             }
-          },
-          "fpts_prev": 5.9
+          }
         },
         {
           "name": "Dan Chisena",
@@ -4073,8 +4021,7 @@
               "_cv": null,
               "confidence": 50
             }
-          },
-          "fpts_prev": 2.3
+          }
         },
         {
           "name": "Chuba Hubbard",
@@ -4105,14 +4052,14 @@
             "rec_yds": {
               "median": 8.7,
               "floor_10": 6.5,
-              "ceiling_90": 11.0,
+              "ceiling_90": 10.9,
               "_cv": 0.2,
               "confidence": 75
             },
             "rush_yds": {
-              "median": 44.0,
-              "floor_10": 29.8,
-              "ceiling_90": 57.9,
+              "median": 43.9,
+              "floor_10": 30.1,
+              "ceiling_90": 57.7,
               "_cv": 0.25,
               "confidence": 73
             },
@@ -4123,8 +4070,7 @@
               "_cv": null,
               "confidence": 83
             }
-          },
-          "fpts_prev": 17.2
+          }
         },
         {
           "name": "Feleipe Franks",
@@ -4197,8 +4143,8 @@
             },
             "rec_yds": {
               "median": 19.6,
-              "floor_10": 14.6,
-              "ceiling_90": 24.6,
+              "floor_10": 14.5,
+              "ceiling_90": 24.4,
               "_cv": 0.2,
               "confidence": 60
             },
@@ -4210,8 +4156,7 @@
               "_cv": null,
               "confidence": 68
             }
-          },
-          "fpts_prev": 5.8
+          }
         },
         {
           "name": "Xavier Legette",
@@ -4241,7 +4186,7 @@
             },
             "rec_yds": {
               "median": 23.7,
-              "floor_10": 17.7,
+              "floor_10": 17.8,
               "ceiling_90": 29.9,
               "_cv": 0.2,
               "confidence": 70
@@ -4260,8 +4205,7 @@
               "_cv": null,
               "confidence": 78
             }
-          },
-          "fpts_prev": 8.3
+          }
         },
         {
           "name": "Jonathon Brooks",
@@ -4299,7 +4243,7 @@
             "rush_yds": {
               "median": 1.7,
               "floor_10": 1.1,
-              "ceiling_90": 2.3,
+              "ceiling_90": 2.2,
               "_cv": 0.25,
               "confidence": 46
             },
@@ -4310,8 +4254,7 @@
               "_cv": null,
               "confidence": 56
             }
-          },
-          "fpts_prev": 2.6
+          }
         },
         {
           "name": "Ja'Tavion Sanders",
@@ -4347,7 +4290,7 @@
             "rec_yds": {
               "median": 16.5,
               "floor_10": 12.3,
-              "ceiling_90": 20.5,
+              "ceiling_90": 20.8,
               "_cv": 0.2,
               "confidence": 70
             },
@@ -4383,14 +4326,14 @@
             "rec": {
               "median": 2.1,
               "floor_10": 1.7,
-              "ceiling_90": 2.6,
+              "ceiling_90": 2.5,
               "_cv": 0.16,
               "confidence": 64
             },
             "rec_yds": {
-              "median": 33.2,
-              "floor_10": 24.8,
-              "ceiling_90": 41.8,
+              "median": 33.3,
+              "floor_10": 24.7,
+              "ceiling_90": 41.7,
               "_cv": 0.2,
               "confidence": 62
             },
@@ -4402,12 +4345,11 @@
               "_cv": null,
               "confidence": 70
             }
-          },
-          "fpts_prev": 9.3
+          }
         }
       ],
-      "away_win_pct": 0.808,
-      "home_win_pct": 0.192,
+      "away_win_pct": 0.804,
+      "home_win_pct": 0.196,
       "away_pts": 27.9,
       "home_pts": 16.4,
       "away_matchup_edge": 58.5,
@@ -4460,9 +4402,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 302.0,
-            "floor_10": 231.5,
-            "ceiling_90": 372.8,
+            "median": 302.3,
+            "floor_10": 233.1,
+            "ceiling_90": 373.6,
             "_cv": 0.18,
             "confidence": 76
           },
@@ -4481,9 +4423,9 @@
             "confidence": 83
           },
           "attempts": {
-            "median": 35.1,
-            "floor_10": 29.8,
-            "ceiling_90": 40.6,
+            "median": 35.3,
+            "floor_10": 29.9,
+            "ceiling_90": 40.7,
             "_cv": 0.12,
             "confidence": 78
           }
@@ -4507,9 +4449,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 296.4,
-            "floor_10": 229.9,
-            "ceiling_90": 364.9,
+            "median": 297.8,
+            "floor_10": 231.2,
+            "ceiling_90": 367.0,
             "_cv": 0.18,
             "confidence": 76
           },
@@ -4528,9 +4470,9 @@
             "confidence": 83
           },
           "attempts": {
-            "median": 37.8,
-            "floor_10": 32.1,
-            "ceiling_90": 43.6,
+            "median": 37.9,
+            "floor_10": 32.2,
+            "ceiling_90": 43.7,
             "_cv": 0.12,
             "confidence": 78
           }
@@ -4565,7 +4507,7 @@
             },
             "rec_yds": {
               "median": 31.9,
-              "floor_10": 23.7,
+              "floor_10": 23.8,
               "ceiling_90": 40.0,
               "_cv": 0.2,
               "confidence": 58
@@ -4578,8 +4520,7 @@
               "_cv": null,
               "confidence": 66
             }
-          },
-          "fpts_prev": 20.2
+          }
         },
         {
           "name": "Cade Otton",
@@ -4609,8 +4550,8 @@
             },
             "rec_yds": {
               "median": 41.3,
-              "floor_10": 30.9,
-              "ceiling_90": 51.9,
+              "floor_10": 30.7,
+              "ceiling_90": 51.7,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -4652,15 +4593,15 @@
             },
             "rec_yds": {
               "median": 4.8,
-              "floor_10": 3.5,
+              "floor_10": 3.6,
               "ceiling_90": 6.0,
               "_cv": 0.2,
               "confidence": 68
             },
             "rush_yds": {
-              "median": 34.8,
-              "floor_10": 23.7,
-              "ceiling_90": 46.0,
+              "median": 34.7,
+              "floor_10": 23.5,
+              "ceiling_90": 45.9,
               "_cv": 0.25,
               "confidence": 66
             },
@@ -4671,8 +4612,7 @@
               "_cv": null,
               "confidence": 76
             }
-          },
-          "fpts_prev": 6.0
+          }
         },
         {
           "name": "Payne Durham",
@@ -4702,7 +4642,7 @@
             },
             "rec_yds": {
               "median": 2.2,
-              "floor_10": 1.7,
+              "floor_10": 1.6,
               "ceiling_90": 2.8,
               "_cv": 0.2,
               "confidence": 52
@@ -4715,8 +4655,7 @@
               "_cv": null,
               "confidence": 60
             }
-          },
-          "fpts_prev": 7.4
+          }
         },
         {
           "name": "Bucky Irving",
@@ -4747,26 +4686,25 @@
             "rec_yds": {
               "median": 17.2,
               "floor_10": 12.7,
-              "ceiling_90": 21.5,
+              "ceiling_90": 21.4,
               "_cv": 0.2,
               "confidence": 75
             },
             "rush_yds": {
-              "median": 62.6,
-              "floor_10": 43.3,
-              "ceiling_90": 81.9,
+              "median": 62.9,
+              "floor_10": 43.4,
+              "ceiling_90": 82.6,
               "_cv": 0.25,
               "confidence": 73
             },
             "td": {
-              "median": 1,
+              "median": 0,
               "floor_10": 0,
               "ceiling_90": 2,
               "_cv": null,
               "confidence": 83
             }
-          },
-          "fpts_prev": 16.2
+          }
         },
         {
           "name": "Kameron Johnson",
@@ -4803,8 +4741,8 @@
             },
             "rush_yds": {
               "median": 3.3,
-              "floor_10": 2.2,
-              "ceiling_90": 4.4,
+              "floor_10": 2.3,
+              "ceiling_90": 4.3,
               "_cv": 0.25,
               "confidence": 46
             },
@@ -4815,8 +4753,7 @@
               "_cv": null,
               "confidence": 56
             }
-          },
-          "fpts_prev": 0.4
+          }
         },
         {
           "name": "Jalen McMillan",
@@ -4847,7 +4784,7 @@
             "rec_yds": {
               "median": 9.0,
               "floor_10": 6.7,
-              "ceiling_90": 11.3,
+              "ceiling_90": 11.4,
               "_cv": 0.2,
               "confidence": 72
             },
@@ -4865,8 +4802,7 @@
               "_cv": null,
               "confidence": 80
             }
-          },
-          "fpts_prev": 12.6
+          }
         }
       ],
       "home_skill": [
@@ -4897,16 +4833,16 @@
               "confidence": 63
             },
             "rec_yds": {
-              "median": 15.3,
+              "median": 15.4,
               "floor_10": 11.4,
               "ceiling_90": 19.3,
               "_cv": 0.2,
               "confidence": 61
             },
             "rush_yds": {
-              "median": 29.2,
-              "floor_10": 20.0,
-              "ceiling_90": 38.7,
+              "median": 29.0,
+              "floor_10": 19.8,
+              "ceiling_90": 38.2,
               "_cv": 0.25,
               "confidence": 59
             },
@@ -4917,8 +4853,7 @@
               "_cv": null,
               "confidence": 69
             }
-          },
-          "fpts_prev": 5.2
+          }
         },
         {
           "name": "Tanner Hudson",
@@ -4947,9 +4882,9 @@
               "confidence": 64
             },
             "rec_yds": {
-              "median": 11.9,
-              "floor_10": 8.8,
-              "ceiling_90": 15.0,
+              "median": 12.0,
+              "floor_10": 9.0,
+              "ceiling_90": 15.1,
               "_cv": 0.2,
               "confidence": 62
             },
@@ -4990,9 +4925,9 @@
               "confidence": 77
             },
             "rec_yds": {
-              "median": 21.7,
-              "floor_10": 16.1,
-              "ceiling_90": 27.3,
+              "median": 21.6,
+              "floor_10": 16.0,
+              "ceiling_90": 27.1,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -5004,8 +4939,7 @@
               "_cv": null,
               "confidence": 83
             }
-          },
-          "fpts_prev": 10.1
+          }
         },
         {
           "name": "Drew Sample",
@@ -5036,7 +4970,7 @@
             "rec_yds": {
               "median": 6.6,
               "floor_10": 5.0,
-              "ceiling_90": 8.2,
+              "ceiling_90": 8.3,
               "_cv": 0.2,
               "confidence": 68
             },
@@ -5054,8 +4988,7 @@
               "_cv": null,
               "confidence": 76
             }
-          },
-          "fpts_prev": 3.3
+          }
         },
         {
           "name": "Tee Higgins",
@@ -5084,9 +5017,9 @@
               "confidence": 72
             },
             "rec_yds": {
-              "median": 55.8,
-              "floor_10": 41.9,
-              "ceiling_90": 69.5,
+              "median": 55.9,
+              "floor_10": 41.0,
+              "ceiling_90": 69.6,
               "_cv": 0.2,
               "confidence": 70
             },
@@ -5098,8 +5031,7 @@
               "_cv": null,
               "confidence": 78
             }
-          },
-          "fpts_prev": 19.8
+          }
         },
         {
           "name": "Ja'Marr Chase",
@@ -5128,16 +5060,16 @@
               "confidence": 77
             },
             "rec_yds": {
-              "median": 110.3,
-              "floor_10": 80.6,
-              "ceiling_90": 138.6,
+              "median": 109.6,
+              "floor_10": 81.2,
+              "ceiling_90": 138.5,
               "_cv": 0.2,
               "confidence": 75
             },
             "rush_yds": {
               "median": 2.0,
               "floor_10": 1.4,
-              "ceiling_90": 2.7,
+              "ceiling_90": 2.6,
               "_cv": 0.25,
               "confidence": 73
             },
@@ -5176,22 +5108,22 @@
           "sim": {
             "rec": {
               "median": 4.7,
-              "floor_10": 3.7,
+              "floor_10": 3.8,
               "ceiling_90": 5.7,
               "_cv": 0.16,
               "confidence": 63
             },
             "rec_yds": {
-              "median": 34.7,
-              "floor_10": 26.0,
-              "ceiling_90": 43.6,
+              "median": 34.6,
+              "floor_10": 25.6,
+              "ceiling_90": 43.5,
               "_cv": 0.2,
               "confidence": 61
             },
             "rush_yds": {
               "median": 71.2,
-              "floor_10": 48.8,
-              "ceiling_90": 93.7,
+              "floor_10": 49.0,
+              "ceiling_90": 94.1,
               "_cv": 0.25,
               "confidence": 59
             },
@@ -5202,8 +5134,7 @@
               "_cv": null,
               "confidence": 69
             }
-          },
-          "fpts_prev": 17.7
+          }
         },
         {
           "name": "Andrei Iosivas",
@@ -5226,15 +5157,15 @@
           "sim": {
             "rec": {
               "median": 2.2,
-              "floor_10": 1.8,
-              "ceiling_90": 2.7,
+              "floor_10": 1.7,
+              "ceiling_90": 2.6,
               "_cv": 0.16,
               "confidence": 77
             },
             "rec_yds": {
               "median": 31.3,
               "floor_10": 23.3,
-              "ceiling_90": 39.5,
+              "ceiling_90": 39.3,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -5300,8 +5231,7 @@
               "_cv": null,
               "confidence": 58
             }
-          },
-          "fpts_prev": 1.9
+          }
         },
         {
           "name": "Erick All",
@@ -5330,9 +5260,9 @@
               "confidence": 62
             },
             "rec_yds": {
-              "median": 10.4,
+              "median": 10.3,
               "floor_10": 7.7,
-              "ceiling_90": 13.1,
+              "ceiling_90": 13.0,
               "_cv": 0.2,
               "confidence": 60
             },
@@ -5344,14 +5274,13 @@
               "_cv": null,
               "confidence": 68
             }
-          },
-          "fpts_prev": 4.1
+          }
         }
       ],
-      "away_win_pct": 0.403,
-      "home_win_pct": 0.597,
+      "away_win_pct": 0.402,
+      "home_win_pct": 0.598,
       "away_pts": 20.9,
-      "home_pts": 24.1,
+      "home_pts": 24.2,
       "away_matchup_edge": 59.4,
       "home_matchup_edge": 52.1,
       "tier": "PASS",
@@ -5397,9 +5326,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 207.7,
-            "floor_10": 158.6,
-            "ceiling_90": 254.1,
+            "median": 207.8,
+            "floor_10": 159.9,
+            "ceiling_90": 254.8,
             "_cv": 0.18,
             "confidence": 58
           },
@@ -5418,9 +5347,9 @@
             "confidence": 66
           },
           "attempts": {
-            "median": 33.6,
-            "floor_10": 28.6,
-            "ceiling_90": 38.8,
+            "median": 33.7,
+            "floor_10": 28.5,
+            "ceiling_90": 38.9,
             "_cv": 0.12,
             "confidence": 61
           }
@@ -5444,9 +5373,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 298.9,
-            "floor_10": 229.6,
-            "ceiling_90": 369.7,
+            "median": 301.8,
+            "floor_10": 231.9,
+            "ceiling_90": 371.3,
             "_cv": 0.18,
             "confidence": 61
           },
@@ -5466,8 +5395,8 @@
           },
           "attempts": {
             "median": 39.2,
-            "floor_10": 33.3,
-            "ceiling_90": 45.3,
+            "floor_10": 33.1,
+            "ceiling_90": 45.2,
             "_cv": 0.12,
             "confidence": 63
           }
@@ -5495,15 +5424,15 @@
           "sim": {
             "rec": {
               "median": 4.3,
-              "floor_10": 3.4,
+              "floor_10": 3.5,
               "ceiling_90": 5.2,
               "_cv": 0.16,
               "confidence": 77
             },
             "rec_yds": {
-              "median": 57.2,
-              "floor_10": 42.6,
-              "ceiling_90": 71.9,
+              "median": 57.5,
+              "floor_10": 42.9,
+              "ceiling_90": 72.4,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -5521,8 +5450,7 @@
               "_cv": null,
               "confidence": 83
             }
-          },
-          "fpts_prev": 15.8
+          }
         },
         {
           "name": "Blake Whiteheart",
@@ -5565,8 +5493,7 @@
               "_cv": null,
               "confidence": 66
             }
-          },
-          "fpts_prev": 2.3
+          }
         },
         {
           "name": "Cedric Tillman",
@@ -5595,9 +5522,9 @@
               "confidence": 64
             },
             "rec_yds": {
-              "median": 20.2,
-              "floor_10": 15.0,
-              "ceiling_90": 25.4,
+              "median": 20.1,
+              "floor_10": 14.9,
+              "ceiling_90": 25.3,
               "_cv": 0.2,
               "confidence": 62
             },
@@ -5609,8 +5536,7 @@
               "_cv": null,
               "confidence": 70
             }
-          },
-          "fpts_prev": 11.0
+          }
         },
         {
           "name": "Jamari Thrash",
@@ -5691,7 +5617,7 @@
             "rush_yds": {
               "median": 12.7,
               "floor_10": 8.7,
-              "ceiling_90": 16.8,
+              "ceiling_90": 16.9,
               "_cv": 0.25,
               "confidence": 50
             },
@@ -5702,8 +5628,7 @@
               "_cv": null,
               "confidence": 60
             }
-          },
-          "fpts_prev": 1.5
+          }
         }
       ],
       "home_skill": [
@@ -5735,8 +5660,8 @@
             },
             "rec_yds": {
               "median": 37.3,
-              "floor_10": 27.8,
-              "ceiling_90": 46.6,
+              "floor_10": 27.9,
+              "ceiling_90": 46.7,
               "_cv": 0.2,
               "confidence": 70
             },
@@ -5754,8 +5679,7 @@
               "_cv": null,
               "confidence": 78
             }
-          },
-          "fpts_prev": 14.6
+          }
         },
         {
           "name": "DeeJay Dallas",
@@ -5804,8 +5728,7 @@
               "_cv": null,
               "confidence": 66
             }
-          },
-          "fpts_prev": 2.4
+          }
         },
         {
           "name": "Tim Jones",
@@ -5848,8 +5771,7 @@
               "_cv": null,
               "confidence": 50
             }
-          },
-          "fpts_prev": 2.4
+          }
         },
         {
           "name": "Quintin Morris",
@@ -5892,8 +5814,7 @@
               "_cv": null,
               "confidence": 56
             }
-          },
-          "fpts_prev": 3.0
+          }
         },
         {
           "name": "Hunter Long",
@@ -5923,7 +5844,7 @@
             },
             "rec_yds": {
               "median": 7.3,
-              "floor_10": 5.5,
+              "floor_10": 5.4,
               "ceiling_90": 9.2,
               "_cv": 0.2,
               "confidence": 52
@@ -5960,33 +5881,32 @@
             "rec": {
               "median": 4.6,
               "floor_10": 3.7,
-              "ceiling_90": 5.5,
+              "ceiling_90": 5.6,
               "_cv": 0.16,
               "confidence": 69
             },
             "rec_yds": {
-              "median": 56.4,
-              "floor_10": 41.9,
-              "ceiling_90": 70.8,
+              "median": 56.5,
+              "floor_10": 42.1,
+              "ceiling_90": 70.7,
               "_cv": 0.2,
               "confidence": 68
             },
             "rush_yds": {
               "median": 1.7,
-              "floor_10": 1.2,
-              "ceiling_90": 2.3,
+              "floor_10": 1.1,
+              "ceiling_90": 2.2,
               "_cv": 0.25,
               "confidence": 66
             },
             "td": {
               "median": 0,
               "floor_10": 0,
-              "ceiling_90": 1,
+              "ceiling_90": 2,
               "_cv": null,
               "confidence": 76
             }
-          },
-          "fpts_prev": 7.7
+          }
         },
         {
           "name": "Brenton Strange",
@@ -6015,9 +5935,9 @@
               "confidence": 72
             },
             "rec_yds": {
-              "median": 34.3,
-              "floor_10": 25.4,
-              "ceiling_90": 42.9,
+              "median": 34.1,
+              "floor_10": 25.5,
+              "ceiling_90": 42.8,
               "_cv": 0.2,
               "confidence": 70
             },
@@ -6029,8 +5949,7 @@
               "_cv": null,
               "confidence": 78
             }
-          },
-          "fpts_prev": 7.7
+          }
         },
         {
           "name": "Brian Thomas Jr.",
@@ -6059,9 +5978,9 @@
               "confidence": 72
             },
             "rec_yds": {
-              "median": 63.8,
-              "floor_10": 47.1,
-              "ceiling_90": 80.4,
+              "median": 63.4,
+              "floor_10": 46.9,
+              "ceiling_90": 80.2,
               "_cv": 0.2,
               "confidence": 70
             },
@@ -6079,18 +5998,17 @@
               "_cv": null,
               "confidence": 78
             }
-          },
-          "fpts_prev": 19.3
+          }
         }
       ],
-      "away_win_pct": 0.168,
-      "home_win_pct": 0.832,
+      "away_win_pct": 0.173,
+      "home_win_pct": 0.827,
       "away_pts": 12.1,
-      "home_pts": 24.6,
+      "home_pts": 24.5,
       "away_matchup_edge": 28.4,
       "home_matchup_edge": 42.0,
       "tier": "PASS",
-      "target_score": 27,
+      "target_score": 26,
       "market": {
         "away_ml": 320.0,
         "home_ml": -405.0,
@@ -6137,9 +6055,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 216.6,
-            "floor_10": 168.0,
-            "ceiling_90": 267.2,
+            "median": 216.3,
+            "floor_10": 164.8,
+            "ceiling_90": 266.8,
             "_cv": 0.18,
             "confidence": 58
           },
@@ -6158,9 +6076,9 @@
             "confidence": 66
           },
           "attempts": {
-            "median": 35.9,
-            "floor_10": 30.3,
-            "ceiling_90": 41.5,
+            "median": 36.0,
+            "floor_10": 30.6,
+            "ceiling_90": 41.6,
             "_cv": 0.12,
             "confidence": 61
           }
@@ -6184,14 +6102,14 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 323.9,
+            "median": 324.5,
             "floor_10": 249.5,
-            "ceiling_90": 399.6,
+            "ceiling_90": 397.5,
             "_cv": 0.18,
             "confidence": 76
           },
           "pass_td": {
-            "median": 3,
+            "median": 2,
             "floor_10": 1,
             "ceiling_90": 5,
             "_cv": null,
@@ -6207,7 +6125,7 @@
           "attempts": {
             "median": 34.3,
             "floor_10": 28.9,
-            "ceiling_90": 39.6,
+            "ceiling_90": 39.4,
             "_cv": 0.12,
             "confidence": 78
           }
@@ -6246,16 +6164,16 @@
               "confidence": 63
             },
             "rec_yds": {
-              "median": 15.8,
-              "floor_10": 11.7,
-              "ceiling_90": 19.8,
+              "median": 15.7,
+              "floor_10": 11.6,
+              "ceiling_90": 19.7,
               "_cv": 0.2,
               "confidence": 61
             },
             "rush_yds": {
-              "median": 38.1,
-              "floor_10": 25.9,
-              "ceiling_90": 50.2,
+              "median": 38.2,
+              "floor_10": 26.1,
+              "ceiling_90": 50.3,
               "_cv": 0.25,
               "confidence": 59
             },
@@ -6266,8 +6184,7 @@
               "_cv": null,
               "confidence": 69
             }
-          },
-          "fpts_prev": 18.7
+          }
         },
         {
           "name": "Juwan Johnson",
@@ -6296,9 +6213,9 @@
               "confidence": 77
             },
             "rec_yds": {
-              "median": 56.5,
-              "floor_10": 41.9,
-              "ceiling_90": 70.8,
+              "median": 56.8,
+              "floor_10": 42.2,
+              "ceiling_90": 71.0,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -6310,8 +6227,7 @@
               "_cv": null,
               "confidence": 83
             }
-          },
-          "fpts_prev": 9.0
+          }
         },
         {
           "name": "Kevin Austin Jr.",
@@ -6342,7 +6258,7 @@
             "rec_yds": {
               "median": 10.0,
               "floor_10": 7.5,
-              "ceiling_90": 12.6,
+              "ceiling_90": 12.5,
               "_cv": 0.2,
               "confidence": 60
             },
@@ -6354,8 +6270,7 @@
               "_cv": null,
               "confidence": 68
             }
-          },
-          "fpts_prev": 3.2
+          }
         },
         {
           "name": "Chris Olave",
@@ -6383,15 +6298,15 @@
           "sim": {
             "rec": {
               "median": 6.8,
-              "floor_10": 5.5,
+              "floor_10": 5.4,
               "ceiling_90": 8.2,
               "_cv": 0.16,
               "confidence": 62
             },
             "rec_yds": {
-              "median": 85.9,
-              "floor_10": 63.5,
-              "ceiling_90": 107.1,
+              "median": 84.9,
+              "floor_10": 62.3,
+              "ceiling_90": 106.5,
               "_cv": 0.2,
               "confidence": 60
             },
@@ -6405,12 +6320,11 @@
             "td": {
               "median": 0,
               "floor_10": 0,
-              "ceiling_90": 2,
+              "ceiling_90": 1,
               "_cv": null,
               "confidence": 68
             }
-          },
-          "fpts_prev": 9.1
+          }
         },
         {
           "name": "Kendre Miller",
@@ -6446,9 +6360,9 @@
               "confidence": 41
             },
             "rush_yds": {
-              "median": 12.0,
+              "median": 11.9,
               "floor_10": 8.1,
-              "ceiling_90": 15.9,
+              "ceiling_90": 15.8,
               "_cv": 0.25,
               "confidence": 39
             },
@@ -6459,8 +6373,7 @@
               "_cv": null,
               "confidence": 49
             }
-          },
-          "fpts_prev": 5.1
+          }
         },
         {
           "name": "Ronnie Bell",
@@ -6503,8 +6416,7 @@
               "_cv": null,
               "confidence": 56
             }
-          },
-          "fpts_prev": 1.5
+          }
         },
         {
           "name": "Audric Estim\u00e9",
@@ -6534,15 +6446,15 @@
             },
             "rec_yds": {
               "median": 5.7,
-              "floor_10": 4.2,
+              "floor_10": 4.3,
               "ceiling_90": 7.2,
               "_cv": 0.2,
               "confidence": 58
             },
             "rush_yds": {
-              "median": 12.5,
+              "median": 12.6,
               "floor_10": 8.5,
-              "ceiling_90": 16.5,
+              "ceiling_90": 16.6,
               "_cv": 0.25,
               "confidence": 56
             },
@@ -6596,8 +6508,7 @@
               "_cv": null,
               "confidence": 58
             }
-          },
-          "fpts_prev": 6.9
+          }
         },
         {
           "name": "Devaughn Vele",
@@ -6626,8 +6537,8 @@
               "confidence": 74
             },
             "rec_yds": {
-              "median": 23.9,
-              "floor_10": 18.0,
+              "median": 24.1,
+              "floor_10": 17.9,
               "ceiling_90": 30.1,
               "_cv": 0.2,
               "confidence": 72
@@ -6640,8 +6551,7 @@
               "_cv": null,
               "confidence": 80
             }
-          },
-          "fpts_prev": 7.6
+          }
         },
         {
           "name": "Mason Tipton",
@@ -6676,7 +6586,7 @@
             },
             "rec_yds": {
               "median": 4.3,
-              "floor_10": 3.2,
+              "floor_10": 3.1,
               "ceiling_90": 5.4,
               "_cv": 0.2,
               "confidence": 62
@@ -6695,8 +6605,7 @@
               "_cv": null,
               "confidence": 70
             }
-          },
-          "fpts_prev": 3.0
+          }
         }
       ],
       "home_skill": [
@@ -6728,7 +6637,7 @@
             },
             "rec_yds": {
               "median": 10.5,
-              "floor_10": 7.8,
+              "floor_10": 7.9,
               "ceiling_90": 13.2,
               "_cv": 0.2,
               "confidence": 65
@@ -6741,8 +6650,7 @@
               "_cv": null,
               "confidence": 73
             }
-          },
-          "fpts_prev": 3.5
+          }
         },
         {
           "name": "Jameson Williams",
@@ -6771,9 +6679,9 @@
               "confidence": 77
             },
             "rec_yds": {
-              "median": 75.2,
-              "floor_10": 55.9,
-              "ceiling_90": 94.0,
+              "median": 75.3,
+              "floor_10": 55.8,
+              "ceiling_90": 94.5,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -6791,8 +6699,7 @@
               "_cv": null,
               "confidence": 83
             }
-          },
-          "fpts_prev": 15.0
+          }
         },
         {
           "name": "Sam LaPorta",
@@ -6815,14 +6722,14 @@
           "sim": {
             "rec": {
               "median": 2.2,
-              "floor_10": 1.7,
+              "floor_10": 1.8,
               "ceiling_90": 2.6,
               "_cv": 0.16,
               "confidence": 77
             },
             "rec_yds": {
-              "median": 29.5,
-              "floor_10": 21.8,
+              "median": 29.4,
+              "floor_10": 21.7,
               "ceiling_90": 36.9,
               "_cv": 0.2,
               "confidence": 75
@@ -6835,8 +6742,7 @@
               "_cv": null,
               "confidence": 83
             }
-          },
-          "fpts_prev": 12.9
+          }
         },
         {
           "name": "Jahmyr Gibbs",
@@ -6865,16 +6771,16 @@
               "confidence": 77
             },
             "rec_yds": {
-              "median": 55.2,
-              "floor_10": 41.3,
-              "ceiling_90": 69.7,
+              "median": 54.8,
+              "floor_10": 40.8,
+              "ceiling_90": 69.1,
               "_cv": 0.2,
               "confidence": 75
             },
             "rush_yds": {
-              "median": 102.9,
-              "floor_10": 69.5,
-              "ceiling_90": 136.0,
+              "median": 104.8,
+              "floor_10": 71.5,
+              "ceiling_90": 136.4,
               "_cv": 0.25,
               "confidence": 73
             },
@@ -6886,7 +6792,7 @@
               "confidence": 83
             }
           },
-          "fpts_prev": 23.6
+          "fpts_prev": 30.2
         },
         {
           "name": "Sione Vaki",
@@ -6935,14 +6841,13 @@
               "_cv": null,
               "confidence": 58
             }
-          },
-          "fpts_prev": 2.1
+          }
         }
       ],
-      "away_win_pct": 0.076,
-      "home_win_pct": 0.924,
-      "away_pts": 11.1,
-      "home_pts": 29.9,
+      "away_win_pct": 0.078,
+      "home_win_pct": 0.922,
+      "away_pts": 11.3,
+      "home_pts": 30.0,
       "away_matchup_edge": 39.5,
       "home_matchup_edge": 48.4,
       "tier": "PASS",
@@ -6993,8 +6898,8 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 221.4,
-            "floor_10": 170.8,
+            "median": 222.8,
+            "floor_10": 170.6,
             "ceiling_90": 272.9,
             "_cv": 0.18,
             "confidence": 58
@@ -7014,9 +6919,9 @@
             "confidence": 65
           },
           "attempts": {
-            "median": 30.0,
-            "floor_10": 25.4,
-            "ceiling_90": 34.5,
+            "median": 29.9,
+            "floor_10": 25.3,
+            "ceiling_90": 34.6,
             "_cv": 0.12,
             "confidence": 60
           }
@@ -7040,9 +6945,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 226.5,
-            "floor_10": 175.6,
-            "ceiling_90": 280.0,
+            "median": 225.2,
+            "floor_10": 172.2,
+            "ceiling_90": 275.6,
             "_cv": 0.18,
             "confidence": 63
           },
@@ -7062,8 +6967,8 @@
           },
           "attempts": {
             "median": 33.1,
-            "floor_10": 27.9,
-            "ceiling_90": 38.0,
+            "floor_10": 28.0,
+            "ceiling_90": 38.2,
             "_cv": 0.12,
             "confidence": 65
           }
@@ -7098,7 +7003,7 @@
             },
             "rec_yds": {
               "median": 28.8,
-              "floor_10": 21.7,
+              "floor_10": 21.5,
               "ceiling_90": 36.2,
               "_cv": 0.2,
               "confidence": 61
@@ -7111,8 +7016,7 @@
               "_cv": null,
               "confidence": 69
             }
-          },
-          "fpts_prev": 14.2
+          }
         },
         {
           "name": "Jeremy Ruckert",
@@ -7189,16 +7093,16 @@
               "confidence": 77
             },
             "rec_yds": {
-              "median": 18.5,
-              "floor_10": 13.9,
-              "ceiling_90": 23.1,
+              "median": 18.6,
+              "floor_10": 13.7,
+              "ceiling_90": 23.2,
               "_cv": 0.2,
               "confidence": 75
             },
             "rush_yds": {
-              "median": 68.2,
-              "floor_10": 45.7,
-              "ceiling_90": 89.5,
+              "median": 68.1,
+              "floor_10": 45.6,
+              "ceiling_90": 90.0,
               "_cv": 0.25,
               "confidence": 73
             },
@@ -7209,8 +7113,7 @@
               "_cv": null,
               "confidence": 83
             }
-          },
-          "fpts_prev": 14.0
+          }
         },
         {
           "name": "Braelon Allen",
@@ -7259,8 +7162,7 @@
               "_cv": null,
               "confidence": 83
             }
-          },
-          "fpts_prev": 4.4
+          }
         },
         {
           "name": "Isaiah Davis",
@@ -7295,15 +7197,15 @@
             },
             "rec_yds": {
               "median": 10.5,
-              "floor_10": 7.7,
-              "ceiling_90": 13.3,
+              "floor_10": 7.8,
+              "ceiling_90": 13.2,
               "_cv": 0.2,
               "confidence": 62
             },
             "rush_yds": {
-              "median": 18.5,
-              "floor_10": 12.6,
-              "ceiling_90": 24.2,
+              "median": 18.6,
+              "floor_10": 12.5,
+              "ceiling_90": 24.5,
               "_cv": 0.25,
               "confidence": 60
             },
@@ -7314,8 +7216,7 @@
               "_cv": null,
               "confidence": 70
             }
-          },
-          "fpts_prev": 5.0
+          }
         },
         {
           "name": "Adonai Mitchell",
@@ -7345,8 +7246,8 @@
             },
             "rec_yds": {
               "median": 20.6,
-              "floor_10": 15.2,
-              "ceiling_90": 26.0,
+              "floor_10": 15.4,
+              "ceiling_90": 25.9,
               "_cv": 0.2,
               "confidence": 61
             },
@@ -7364,8 +7265,7 @@
               "_cv": null,
               "confidence": 69
             }
-          },
-          "fpts_prev": 2.8
+          }
         }
       ],
       "home_skill": [
@@ -7396,9 +7296,9 @@
               "confidence": 69
             },
             "rec_yds": {
-              "median": 23.0,
-              "floor_10": 17.0,
-              "ceiling_90": 28.8,
+              "median": 22.7,
+              "floor_10": 16.7,
+              "ceiling_90": 28.6,
               "_cv": 0.2,
               "confidence": 67
             },
@@ -7410,8 +7310,7 @@
               "_cv": null,
               "confidence": 75
             }
-          },
-          "fpts_prev": 12.2
+          }
         },
         {
           "name": "Tony Pollard",
@@ -7441,15 +7340,15 @@
             },
             "rec_yds": {
               "median": 11.0,
-              "floor_10": 8.3,
+              "floor_10": 8.2,
               "ceiling_90": 13.8,
               "_cv": 0.2,
               "confidence": 75
             },
             "rush_yds": {
-              "median": 72.2,
+              "median": 71.9,
               "floor_10": 48.3,
-              "ceiling_90": 95.5,
+              "ceiling_90": 95.4,
               "_cv": 0.25,
               "confidence": 73
             },
@@ -7460,8 +7359,7 @@
               "_cv": null,
               "confidence": 83
             }
-          },
-          "fpts_prev": 11.7
+          }
         },
         {
           "name": "Julius Chestnut",
@@ -7498,7 +7396,7 @@
             },
             "rush_yds": {
               "median": 3.9,
-              "floor_10": 2.7,
+              "floor_10": 2.6,
               "ceiling_90": 5.2,
               "_cv": 0.25,
               "confidence": 56
@@ -7539,16 +7437,16 @@
               "confidence": 72
             },
             "rec_yds": {
-              "median": 21.9,
-              "floor_10": 16.4,
-              "ceiling_90": 27.3,
+              "median": 21.8,
+              "floor_10": 16.2,
+              "ceiling_90": 27.4,
               "_cv": 0.2,
               "confidence": 70
             },
             "rush_yds": {
-              "median": 20.2,
-              "floor_10": 13.7,
-              "ceiling_90": 26.7,
+              "median": 20.0,
+              "floor_10": 13.6,
+              "ceiling_90": 26.6,
               "_cv": 0.25,
               "confidence": 68
             },
@@ -7607,14 +7505,13 @@
               "_cv": null,
               "confidence": 52
             }
-          },
-          "fpts_prev": 3.0
+          }
         }
       ],
-      "away_win_pct": 0.441,
-      "home_win_pct": 0.559,
-      "away_pts": 10.6,
-      "home_pts": 12.5,
+      "away_win_pct": 0.442,
+      "home_win_pct": 0.558,
+      "away_pts": 10.8,
+      "home_pts": 12.6,
       "away_matchup_edge": 48.9,
       "home_matchup_edge": 49.4,
       "tier": "PASS",
@@ -7660,9 +7557,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 265.1,
-            "floor_10": 204.3,
-            "ceiling_90": 325.7,
+            "median": 266.7,
+            "floor_10": 205.4,
+            "ceiling_90": 327.0,
             "_cv": 0.18,
             "confidence": 61
           },
@@ -7681,9 +7578,9 @@
             "confidence": 68
           },
           "attempts": {
-            "median": 40.3,
-            "floor_10": 34.1,
-            "ceiling_90": 46.5,
+            "median": 40.1,
+            "floor_10": 34.0,
+            "ceiling_90": 46.4,
             "_cv": 0.12,
             "confidence": 63
           }
@@ -7712,8 +7609,8 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 316.6,
-            "floor_10": 241.9,
+            "median": 316.4,
+            "floor_10": 243.7,
             "ceiling_90": 389.1,
             "_cv": 0.18,
             "confidence": 71
@@ -7733,9 +7630,9 @@
             "confidence": 78
           },
           "attempts": {
-            "median": 39.0,
-            "floor_10": 33.0,
-            "ceiling_90": 45.0,
+            "median": 39.2,
+            "floor_10": 33.1,
+            "ceiling_90": 45.2,
             "_cv": 0.12,
             "confidence": 73
           }
@@ -7770,14 +7667,14 @@
             },
             "rec_yds": {
               "median": 4.4,
-              "floor_10": 3.2,
+              "floor_10": 3.3,
               "ceiling_90": 5.5,
               "_cv": 0.2,
               "confidence": 70
             },
             "rush_yds": {
               "median": 11.3,
-              "floor_10": 7.6,
+              "floor_10": 7.7,
               "ceiling_90": 14.8,
               "_cv": 0.25,
               "confidence": 68
@@ -7789,8 +7686,7 @@
               "_cv": null,
               "confidence": 78
             }
-          },
-          "fpts_prev": 16.7
+          }
         },
         {
           "name": "Trey McBride",
@@ -7812,16 +7708,16 @@
           "status": null,
           "sim": {
             "rec": {
-              "median": 8.4,
+              "median": 8.3,
               "floor_10": 6.6,
               "ceiling_90": 10.0,
               "_cv": 0.16,
               "confidence": 72
             },
             "rec_yds": {
-              "median": 85.0,
-              "floor_10": 63.4,
-              "ceiling_90": 107.0,
+              "median": 84.5,
+              "floor_10": 62.8,
+              "ceiling_90": 106.1,
               "_cv": 0.2,
               "confidence": 70
             },
@@ -7833,8 +7729,7 @@
               "_cv": null,
               "confidence": 78
             }
-          },
-          "fpts_prev": 15.7
+          }
         },
         {
           "name": "Michael Wilson",
@@ -7863,9 +7758,9 @@
               "confidence": 72
             },
             "rec_yds": {
-              "median": 66.1,
-              "floor_10": 48.6,
-              "ceiling_90": 82.6,
+              "median": 66.3,
+              "floor_10": 49.1,
+              "ceiling_90": 82.9,
               "_cv": 0.2,
               "confidence": 70
             },
@@ -7877,8 +7772,7 @@
               "_cv": null,
               "confidence": 78
             }
-          },
-          "fpts_prev": 7.8
+          }
         },
         {
           "name": "Jalen Brooks",
@@ -7921,8 +7815,7 @@
               "_cv": null,
               "confidence": 73
             }
-          },
-          "fpts_prev": 3.1
+          }
         },
         {
           "name": "Elijah Higgins",
@@ -7952,8 +7845,8 @@
             },
             "rec_yds": {
               "median": 17.5,
-              "floor_10": 13.1,
-              "ceiling_90": 22.0,
+              "floor_10": 13.0,
+              "ceiling_90": 22.2,
               "_cv": 0.2,
               "confidence": 70
             },
@@ -8008,8 +7901,7 @@
               "_cv": null,
               "confidence": 56
             }
-          },
-          "fpts_prev": 2.0
+          }
         },
         {
           "name": "Marvin Harrison Jr.",
@@ -8043,9 +7935,9 @@
               "confidence": 72
             },
             "rec_yds": {
-              "median": 37.0,
-              "floor_10": 27.8,
-              "ceiling_90": 46.9,
+              "median": 37.3,
+              "floor_10": 28.2,
+              "ceiling_90": 46.7,
               "_cv": 0.2,
               "confidence": 70
             },
@@ -8057,8 +7949,7 @@
               "_cv": null,
               "confidence": 78
             }
-          },
-          "fpts_prev": 12.2
+          }
         },
         {
           "name": "Trey Benson",
@@ -8094,8 +7985,8 @@
               "confidence": 65
             },
             "rush_yds": {
-              "median": 9.8,
-              "floor_10": 6.7,
+              "median": 9.7,
+              "floor_10": 6.6,
               "ceiling_90": 12.9,
               "_cv": 0.25,
               "confidence": 63
@@ -8138,9 +8029,9 @@
               "confidence": 72
             },
             "rec_yds": {
-              "median": 49.2,
-              "floor_10": 36.9,
-              "ceiling_90": 61.9,
+              "median": 49.3,
+              "floor_10": 36.3,
+              "ceiling_90": 61.7,
               "_cv": 0.2,
               "confidence": 70
             },
@@ -8158,8 +8049,7 @@
               "_cv": null,
               "confidence": 78
             }
-          },
-          "fpts_prev": 13.9
+          }
         },
         {
           "name": "Derius Davis",
@@ -8213,8 +8103,7 @@
               "_cv": null,
               "confidence": 70
             }
-          },
-          "fpts_prev": 4.0
+          }
         },
         {
           "name": "Scott Matlock",
@@ -8257,8 +8146,7 @@
               "_cv": null,
               "confidence": 60
             }
-          },
-          "fpts_prev": 1.5
+          }
         },
         {
           "name": "Kimani Vidal",
@@ -8292,16 +8180,16 @@
               "confidence": 64
             },
             "rec_yds": {
-              "median": 8.7,
-              "floor_10": 6.5,
+              "median": 8.6,
+              "floor_10": 6.4,
               "ceiling_90": 10.8,
               "_cv": 0.2,
               "confidence": 62
             },
             "rush_yds": {
-              "median": 37.8,
-              "floor_10": 25.8,
-              "ceiling_90": 50.0,
+              "median": 37.7,
+              "floor_10": 25.7,
+              "ceiling_90": 49.8,
               "_cv": 0.25,
               "confidence": 60
             },
@@ -8312,8 +8200,7 @@
               "_cv": null,
               "confidence": 70
             }
-          },
-          "fpts_prev": 3.8
+          }
         },
         {
           "name": "Ladd McConkey",
@@ -8337,14 +8224,14 @@
             "rec": {
               "median": 5.7,
               "floor_10": 4.5,
-              "ceiling_90": 6.9,
+              "ceiling_90": 6.8,
               "_cv": 0.16,
               "confidence": 72
             },
             "rec_yds": {
-              "median": 82.0,
-              "floor_10": 61.3,
-              "ceiling_90": 104.1,
+              "median": 83.3,
+              "floor_10": 62.0,
+              "ceiling_90": 104.4,
               "_cv": 0.2,
               "confidence": 70
             },
@@ -8359,8 +8246,8 @@
           }
         }
       ],
-      "away_win_pct": 0.471,
-      "home_win_pct": 0.529,
+      "away_win_pct": 0.466,
+      "home_win_pct": 0.534,
       "away_pts": 16.7,
       "home_pts": 17.8,
       "away_matchup_edge": 40.6,
@@ -8413,9 +8300,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 254.3,
-            "floor_10": 196.7,
-            "ceiling_90": 314.0,
+            "median": 256.7,
+            "floor_10": 199.0,
+            "ceiling_90": 317.9,
             "_cv": 0.18,
             "confidence": 76
           },
@@ -8434,8 +8321,8 @@
             "confidence": 83
           },
           "attempts": {
-            "median": 32.6,
-            "floor_10": 27.5,
+            "median": 32.5,
+            "floor_10": 27.4,
             "ceiling_90": 37.5,
             "_cv": 0.12,
             "confidence": 78
@@ -8460,9 +8347,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 231.3,
-            "floor_10": 177.9,
-            "ceiling_90": 286.4,
+            "median": 230.8,
+            "floor_10": 175.8,
+            "ceiling_90": 284.6,
             "_cv": 0.18,
             "confidence": 71
           },
@@ -8481,9 +8368,9 @@
             "confidence": 78
           },
           "attempts": {
-            "median": 32.8,
-            "floor_10": 27.9,
-            "ceiling_90": 37.9,
+            "median": 32.9,
+            "floor_10": 27.7,
+            "ceiling_90": 37.8,
             "_cv": 0.12,
             "confidence": 73
           }
@@ -8522,16 +8409,16 @@
               "confidence": 59
             },
             "rec_yds": {
-              "median": 26.9,
+              "median": 27.0,
               "floor_10": 20.0,
-              "ceiling_90": 33.6,
+              "ceiling_90": 33.9,
               "_cv": 0.2,
               "confidence": 57
             },
             "rush_yds": {
-              "median": 64.2,
-              "floor_10": 44.2,
-              "ceiling_90": 84.3,
+              "median": 64.0,
+              "floor_10": 44.5,
+              "ceiling_90": 84.9,
               "_cv": 0.25,
               "confidence": 55
             },
@@ -8542,8 +8429,7 @@
               "_cv": null,
               "confidence": 65
             }
-          },
-          "fpts_prev": 17.9
+          }
         },
         {
           "name": "Christian Watson",
@@ -8572,9 +8458,9 @@
               "confidence": 77
             },
             "rec_yds": {
-              "median": 46.3,
-              "floor_10": 34.6,
-              "ceiling_90": 58.4,
+              "median": 46.9,
+              "floor_10": 34.7,
+              "ceiling_90": 58.7,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -8622,8 +8508,8 @@
             },
             "rec_yds": {
               "median": 2.9,
-              "floor_10": 2.2,
-              "ceiling_90": 3.6,
+              "floor_10": 2.1,
+              "ceiling_90": 3.7,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -8635,8 +8521,7 @@
               "_cv": null,
               "confidence": 83
             }
-          },
-          "fpts_prev": 4.9
+          }
         },
         {
           "name": "Tucker Kraft",
@@ -8659,15 +8544,15 @@
           "sim": {
             "rec": {
               "median": 2.2,
-              "floor_10": 1.7,
-              "ceiling_90": 2.6,
+              "floor_10": 1.8,
+              "ceiling_90": 2.7,
               "_cv": 0.16,
               "confidence": 77
             },
             "rec_yds": {
-              "median": 34.1,
-              "floor_10": 25.4,
-              "ceiling_90": 43.0,
+              "median": 34.2,
+              "floor_10": 25.7,
+              "ceiling_90": 42.8,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -8685,8 +8570,7 @@
               "_cv": null,
               "confidence": 83
             }
-          },
-          "fpts_prev": 9.9
+          }
         },
         {
           "name": "Luke Musgrave",
@@ -8717,7 +8601,7 @@
             "rec_yds": {
               "median": 11.4,
               "floor_10": 8.5,
-              "ceiling_90": 14.3,
+              "ceiling_90": 14.4,
               "_cv": 0.2,
               "confidence": 58
             },
@@ -8729,8 +8613,7 @@
               "_cv": null,
               "confidence": 66
             }
-          },
-          "fpts_prev": 1.8
+          }
         },
         {
           "name": "Jayden Reed",
@@ -8765,7 +8648,7 @@
             },
             "rec_yds": {
               "median": 17.7,
-              "floor_10": 13.0,
+              "floor_10": 13.1,
               "ceiling_90": 22.2,
               "_cv": 0.2,
               "confidence": 75
@@ -8784,8 +8667,7 @@
               "_cv": null,
               "confidence": 83
             }
-          },
-          "fpts_prev": 11.5
+          }
         }
       ],
       "home_skill": [
@@ -8816,7 +8698,7 @@
               "confidence": 62
             },
             "rec_yds": {
-              "median": 13.2,
+              "median": 13.1,
               "floor_10": 9.7,
               "ceiling_90": 16.6,
               "_cv": 0.2,
@@ -8830,8 +8712,7 @@
               "_cv": null,
               "confidence": 68
             }
-          },
-          "fpts_prev": 14.1
+          }
         },
         {
           "name": "C.J. Ham",
@@ -8880,8 +8761,7 @@
               "_cv": null,
               "confidence": 46
             }
-          },
-          "fpts_prev": 3.0
+          }
         },
         {
           "name": "Aaron Jones",
@@ -8915,7 +8795,7 @@
               "confidence": 63
             },
             "rec_yds": {
-              "median": 17.8,
+              "median": 17.9,
               "floor_10": 13.3,
               "ceiling_90": 22.4,
               "_cv": 0.2,
@@ -8924,7 +8804,7 @@
             "rush_yds": {
               "median": 36.7,
               "floor_10": 24.8,
-              "ceiling_90": 48.8,
+              "ceiling_90": 47.9,
               "_cv": 0.25,
               "confidence": 59
             },
@@ -8935,8 +8815,7 @@
               "_cv": null,
               "confidence": 69
             }
-          },
-          "fpts_prev": 14.7
+          }
         },
         {
           "name": "T.J. Hockenson",
@@ -8964,15 +8843,15 @@
           "sim": {
             "rec": {
               "median": 2.8,
-              "floor_10": 2.3,
+              "floor_10": 2.2,
               "ceiling_90": 3.4,
               "_cv": 0.16,
               "confidence": 62
             },
             "rec_yds": {
-              "median": 31.7,
-              "floor_10": 23.5,
-              "ceiling_90": 39.9,
+              "median": 31.8,
+              "floor_10": 23.7,
+              "ceiling_90": 40.0,
               "_cv": 0.2,
               "confidence": 60
             },
@@ -9020,8 +8899,8 @@
             },
             "rec_yds": {
               "median": 12.4,
-              "floor_10": 9.3,
-              "ceiling_90": 15.6,
+              "floor_10": 9.2,
+              "ceiling_90": 15.7,
               "_cv": 0.2,
               "confidence": 62
             },
@@ -9033,8 +8912,7 @@
               "_cv": null,
               "confidence": 70
             }
-          },
-          "fpts_prev": 5.7
+          }
         },
         {
           "name": "Jordan Mason",
@@ -9070,14 +8948,14 @@
             "rec_yds": {
               "median": 5.7,
               "floor_10": 4.3,
-              "ceiling_90": 7.1,
+              "ceiling_90": 7.2,
               "_cv": 0.2,
               "confidence": 56
             },
             "rush_yds": {
-              "median": 53.3,
-              "floor_10": 36.1,
-              "ceiling_90": 69.5,
+              "median": 53.5,
+              "floor_10": 36.3,
+              "ceiling_90": 70.5,
               "_cv": 0.25,
               "confidence": 54
             },
@@ -9088,8 +8966,7 @@
               "_cv": null,
               "confidence": 64
             }
-          },
-          "fpts_prev": 7.9
+          }
         },
         {
           "name": "Jordan Addison",
@@ -9118,9 +8995,9 @@
               "confidence": 72
             },
             "rec_yds": {
-              "median": 42.1,
-              "floor_10": 31.4,
-              "ceiling_90": 52.8,
+              "median": 42.2,
+              "floor_10": 31.3,
+              "ceiling_90": 52.7,
               "_cv": 0.2,
               "confidence": 70
             },
@@ -9138,13 +9015,12 @@
               "_cv": null,
               "confidence": 78
             }
-          },
-          "fpts_prev": 13.8
+          }
         }
       ],
-      "away_win_pct": 0.824,
-      "home_win_pct": 0.176,
-      "away_pts": 25.3,
+      "away_win_pct": 0.829,
+      "home_win_pct": 0.171,
+      "away_pts": 25.4,
       "home_pts": 13.2,
       "away_matchup_edge": 49.5,
       "home_matchup_edge": 46.4,
@@ -9196,14 +9072,14 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 322.4,
-            "floor_10": 247.9,
-            "ceiling_90": 396.0,
+            "median": 321.4,
+            "floor_10": 246.5,
+            "ceiling_90": 394.7,
             "_cv": 0.18,
             "confidence": 51
           },
           "pass_td": {
-            "median": 2,
+            "median": 1,
             "floor_10": 0,
             "ceiling_90": 3,
             "_cv": null,
@@ -9217,9 +9093,9 @@
             "confidence": 58
           },
           "attempts": {
-            "median": 29.7,
+            "median": 29.8,
             "floor_10": 25.2,
-            "ceiling_90": 34.3,
+            "ceiling_90": 34.2,
             "_cv": 0.12,
             "confidence": 53
           }
@@ -9243,9 +9119,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 241.3,
-            "floor_10": 186.6,
-            "ceiling_90": 298.8,
+            "median": 244.4,
+            "floor_10": 187.2,
+            "ceiling_90": 298.4,
             "_cv": 0.18,
             "confidence": 71
           },
@@ -9265,8 +9141,8 @@
           },
           "attempts": {
             "median": 32.1,
-            "floor_10": 27.3,
-            "ceiling_90": 37.1,
+            "floor_10": 27.1,
+            "ceiling_90": 37.0,
             "_cv": 0.12,
             "confidence": 73
           }
@@ -9348,22 +9224,22 @@
           "sim": {
             "rec": {
               "median": 5.0,
-              "floor_10": 3.9,
+              "floor_10": 4.0,
               "ceiling_90": 6.0,
               "_cv": 0.16,
               "confidence": 72
             },
             "rec_yds": {
-              "median": 39.1,
-              "floor_10": 29.0,
-              "ceiling_90": 49.1,
+              "median": 39.3,
+              "floor_10": 29.1,
+              "ceiling_90": 49.2,
               "_cv": 0.2,
               "confidence": 70
             },
             "rush_yds": {
-              "median": 79.6,
-              "floor_10": 54.0,
-              "ceiling_90": 105.8,
+              "median": 80.2,
+              "floor_10": 54.4,
+              "ceiling_90": 106.3,
               "_cv": 0.25,
               "confidence": 68
             },
@@ -9374,8 +9250,7 @@
               "_cv": null,
               "confidence": 78
             }
-          },
-          "fpts_prev": 18.5
+          }
         },
         {
           "name": "Jaylen Wright",
@@ -9412,8 +9287,8 @@
             },
             "rush_yds": {
               "median": 14.5,
-              "floor_10": 10.0,
-              "ceiling_90": 19.1,
+              "floor_10": 9.7,
+              "ceiling_90": 19.3,
               "_cv": 0.25,
               "confidence": 66
             },
@@ -9424,8 +9299,7 @@
               "_cv": null,
               "confidence": 76
             }
-          },
-          "fpts_prev": 2.0
+          }
         },
         {
           "name": "Malik Washington",
@@ -9454,9 +9328,9 @@
               "confidence": 67
             },
             "rec_yds": {
-              "median": 32.4,
-              "floor_10": 24.2,
-              "ceiling_90": 40.6,
+              "median": 32.1,
+              "floor_10": 24.0,
+              "ceiling_90": 40.5,
               "_cv": 0.2,
               "confidence": 65
             },
@@ -9474,8 +9348,7 @@
               "_cv": null,
               "confidence": 73
             }
-          },
-          "fpts_prev": 6.1
+          }
         }
       ],
       "home_skill": [
@@ -9549,8 +9422,8 @@
               "confidence": 72
             },
             "rec_yds": {
-              "median": 37.5,
-              "floor_10": 28.0,
+              "median": 37.3,
+              "floor_10": 27.7,
               "ceiling_90": 47.3,
               "_cv": 0.2,
               "confidence": 70
@@ -9569,8 +9442,7 @@
               "_cv": null,
               "confidence": 78
             }
-          },
-          "fpts_prev": 7.2
+          }
         },
         {
           "name": "Michael Mayer",
@@ -9599,9 +9471,9 @@
               "confidence": 64
             },
             "rec_yds": {
-              "median": 15.9,
-              "floor_10": 11.9,
-              "ceiling_90": 20.0,
+              "median": 16.1,
+              "floor_10": 12.0,
+              "ceiling_90": 20.1,
               "_cv": 0.2,
               "confidence": 62
             },
@@ -9613,8 +9485,7 @@
               "_cv": null,
               "confidence": 70
             }
-          },
-          "fpts_prev": 3.1
+          }
         },
         {
           "name": "Brock Bowers",
@@ -9643,8 +9514,8 @@
               "confidence": 72
             },
             "rec_yds": {
-              "median": 42.9,
-              "floor_10": 31.8,
+              "median": 43.1,
+              "floor_10": 32.2,
               "ceiling_90": 53.9,
               "_cv": 0.2,
               "confidence": 70
@@ -9663,14 +9534,13 @@
               "_cv": null,
               "confidence": 78
             }
-          },
-          "fpts_prev": 15.1
+          }
         }
       ],
-      "away_win_pct": 0.726,
-      "home_win_pct": 0.274,
+      "away_win_pct": 0.723,
+      "home_win_pct": 0.277,
       "away_pts": 19.0,
-      "home_pts": 11.5,
+      "home_pts": 11.4,
       "away_matchup_edge": 50.6,
       "home_matchup_edge": 45.7,
       "tier": "PASS",
@@ -9721,9 +9591,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 226.5,
-            "floor_10": 175.7,
-            "ceiling_90": 278.8,
+            "median": 226.8,
+            "floor_10": 175.9,
+            "ceiling_90": 279.8,
             "_cv": 0.18,
             "confidence": 62
           },
@@ -9743,8 +9613,8 @@
           },
           "attempts": {
             "median": 34.1,
-            "floor_10": 28.8,
-            "ceiling_90": 39.2,
+            "floor_10": 28.7,
+            "ceiling_90": 39.4,
             "_cv": 0.12,
             "confidence": 64
           }
@@ -9768,9 +9638,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 259.2,
-            "floor_10": 198.6,
-            "ceiling_90": 320.2,
+            "median": 260.6,
+            "floor_10": 199.7,
+            "ceiling_90": 319.9,
             "_cv": 0.18,
             "confidence": 68
           },
@@ -9790,8 +9660,8 @@
           },
           "attempts": {
             "median": 34.0,
-            "floor_10": 28.8,
-            "ceiling_90": 39.0,
+            "floor_10": 28.6,
+            "ceiling_90": 39.2,
             "_cv": 0.12,
             "confidence": 70
           }
@@ -9832,8 +9702,8 @@
             },
             "rec_yds": {
               "median": 54.8,
-              "floor_10": 40.3,
-              "ceiling_90": 68.7,
+              "floor_10": 40.6,
+              "ceiling_90": 68.5,
               "_cv": 0.2,
               "confidence": 57
             },
@@ -9845,8 +9715,7 @@
               "_cv": null,
               "confidence": 65
             }
-          },
-          "fpts_prev": 10.0
+          }
         },
         {
           "name": "Saquon Barkley",
@@ -9869,22 +9738,22 @@
           "sim": {
             "rec": {
               "median": 2.7,
-              "floor_10": 2.1,
-              "ceiling_90": 3.2,
+              "floor_10": 2.2,
+              "ceiling_90": 3.3,
               "_cv": 0.16,
               "confidence": 69
             },
             "rec_yds": {
               "median": 18.0,
-              "floor_10": 13.2,
-              "ceiling_90": 22.5,
+              "floor_10": 13.3,
+              "ceiling_90": 22.6,
               "_cv": 0.2,
               "confidence": 67
             },
             "rush_yds": {
-              "median": 87.8,
-              "floor_10": 60.2,
-              "ceiling_90": 116.0,
+              "median": 88.1,
+              "floor_10": 59.7,
+              "ceiling_90": 115.8,
               "_cv": 0.25,
               "confidence": 65
             },
@@ -9925,8 +9794,8 @@
             },
             "rec_yds": {
               "median": 8.8,
-              "floor_10": 6.6,
-              "ceiling_90": 11.0,
+              "floor_10": 6.5,
+              "ceiling_90": 11.1,
               "_cv": 0.2,
               "confidence": 64
             },
@@ -9938,8 +9807,7 @@
               "_cv": null,
               "confidence": 72
             }
-          },
-          "fpts_prev": 4.5
+          }
         },
         {
           "name": "Britain Covey",
@@ -9982,8 +9850,7 @@
               "_cv": null,
               "confidence": 48
             }
-          },
-          "fpts_prev": 3.7
+          }
         },
         {
           "name": "Tank Bigsby",
@@ -10019,9 +9886,9 @@
               "confidence": 67
             },
             "rush_yds": {
-              "median": 13.5,
-              "floor_10": 9.2,
-              "ceiling_90": 17.8,
+              "median": 13.6,
+              "floor_10": 9.3,
+              "ceiling_90": 17.9,
               "_cv": 0.25,
               "confidence": 65
             },
@@ -10032,8 +9899,7 @@
               "_cv": null,
               "confidence": 75
             }
-          },
-          "fpts_prev": 8.3
+          }
         },
         {
           "name": "Johnny Wilson",
@@ -10064,7 +9930,7 @@
             "rec_yds": {
               "median": 3.3,
               "floor_10": 2.5,
-              "ceiling_90": 4.1,
+              "ceiling_90": 4.2,
               "_cv": 0.2,
               "confidence": 54
             },
@@ -10125,8 +9991,7 @@
               "_cv": null,
               "confidence": 52
             }
-          },
-          "fpts_prev": 3.3
+          }
         }
       ],
       "away_win_pct": 0.344,
@@ -10190,9 +10055,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 276.4,
+            "median": 276.0,
             "floor_10": 213.2,
-            "ceiling_90": 337.9,
+            "ceiling_90": 339.8,
             "_cv": 0.18,
             "confidence": 56
           },
@@ -10212,8 +10077,8 @@
           },
           "attempts": {
             "median": 38.7,
-            "floor_10": 32.6,
-            "ceiling_90": 44.5,
+            "floor_10": 32.7,
+            "ceiling_90": 44.6,
             "_cv": 0.12,
             "confidence": 58
           }
@@ -10237,9 +10102,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 263.5,
-            "floor_10": 202.7,
-            "ceiling_90": 326.8,
+            "median": 265.5,
+            "floor_10": 205.2,
+            "ceiling_90": 326.3,
             "_cv": 0.18,
             "confidence": 68
           },
@@ -10258,9 +10123,9 @@
             "confidence": 76
           },
           "attempts": {
-            "median": 34.7,
-            "floor_10": 29.3,
-            "ceiling_90": 39.9,
+            "median": 34.6,
+            "floor_10": 29.4,
+            "ceiling_90": 40.1,
             "_cv": 0.12,
             "confidence": 71
           }
@@ -10294,9 +10159,9 @@
               "confidence": 72
             },
             "rec_yds": {
-              "median": 68.5,
-              "floor_10": 51.0,
-              "ceiling_90": 85.5,
+              "median": 68.3,
+              "floor_10": 51.1,
+              "ceiling_90": 86.0,
               "_cv": 0.2,
               "confidence": 70
             },
@@ -10314,8 +10179,7 @@
               "_cv": null,
               "confidence": 78
             }
-          },
-          "fpts_prev": 18.0
+          }
         },
         {
           "name": "Javonte Williams",
@@ -10349,16 +10213,16 @@
               "confidence": 77
             },
             "rec_yds": {
-              "median": 16.1,
-              "floor_10": 12.0,
-              "ceiling_90": 20.1,
+              "median": 16.2,
+              "floor_10": 11.9,
+              "ceiling_90": 20.3,
               "_cv": 0.2,
               "confidence": 75
             },
             "rush_yds": {
-              "median": 67.8,
-              "floor_10": 46.2,
-              "ceiling_90": 90.1,
+              "median": 68.5,
+              "floor_10": 46.8,
+              "ceiling_90": 89.9,
               "_cv": 0.25,
               "confidence": 73
             },
@@ -10369,8 +10233,7 @@
               "_cv": null,
               "confidence": 83
             }
-          },
-          "fpts_prev": 9.6
+          }
         },
         {
           "name": "George Pickens",
@@ -10393,15 +10256,15 @@
           "sim": {
             "rec": {
               "median": 4.5,
-              "floor_10": 3.5,
+              "floor_10": 3.6,
               "ceiling_90": 5.4,
               "_cv": 0.16,
               "confidence": 72
             },
             "rec_yds": {
-              "median": 73.2,
-              "floor_10": 54.6,
-              "ceiling_90": 91.9,
+              "median": 72.9,
+              "floor_10": 54.1,
+              "ceiling_90": 92.1,
               "_cv": 0.2,
               "confidence": 70
             },
@@ -10413,8 +10276,7 @@
               "_cv": null,
               "confidence": 78
             }
-          },
-          "fpts_prev": 11.0
+          }
         },
         {
           "name": "KaVontae Turpin",
@@ -10449,14 +10311,14 @@
             },
             "rec_yds": {
               "median": 19.5,
-              "floor_10": 14.5,
+              "floor_10": 14.3,
               "ceiling_90": 24.5,
               "_cv": 0.2,
               "confidence": 70
             },
             "rush_yds": {
               "median": 7.4,
-              "floor_10": 5.0,
+              "floor_10": 5.1,
               "ceiling_90": 9.8,
               "_cv": 0.25,
               "confidence": 68
@@ -10468,8 +10330,7 @@
               "_cv": null,
               "confidence": 78
             }
-          },
-          "fpts_prev": 6.2
+          }
         },
         {
           "name": "Jake Ferguson",
@@ -10504,8 +10365,8 @@
             },
             "rec_yds": {
               "median": 35.7,
-              "floor_10": 26.8,
-              "ceiling_90": 45.1,
+              "floor_10": 26.7,
+              "ceiling_90": 45.2,
               "_cv": 0.2,
               "confidence": 70
             },
@@ -10523,8 +10384,7 @@
               "_cv": null,
               "confidence": 78
             }
-          },
-          "fpts_prev": 7.1
+          }
         },
         {
           "name": "Luke Schoonmaker",
@@ -10548,13 +10408,13 @@
             "rec": {
               "median": 1.2,
               "floor_10": 1.0,
-              "ceiling_90": 1.5,
+              "ceiling_90": 1.4,
               "_cv": 0.16,
               "confidence": 62
             },
             "rec_yds": {
               "median": 10.3,
-              "floor_10": 7.7,
+              "floor_10": 7.6,
               "ceiling_90": 12.9,
               "_cv": 0.2,
               "confidence": 60
@@ -10567,8 +10427,7 @@
               "_cv": null,
               "confidence": 68
             }
-          },
-          "fpts_prev": 5.6
+          }
         },
         {
           "name": "Hunter Luepke",
@@ -10599,14 +10458,14 @@
             "rec_yds": {
               "median": 5.0,
               "floor_10": 3.7,
-              "ceiling_90": 6.2,
+              "ceiling_90": 6.3,
               "_cv": 0.2,
               "confidence": 72
             },
             "rush_yds": {
               "median": 4.2,
               "floor_10": 2.9,
-              "ceiling_90": 5.6,
+              "ceiling_90": 5.5,
               "_cv": 0.25,
               "confidence": 70
             },
@@ -10660,8 +10519,7 @@
               "_cv": null,
               "confidence": 78
             }
-          },
-          "fpts_prev": 2.3
+          }
         },
         {
           "name": "Ryan Flournoy",
@@ -10690,14 +10548,14 @@
             "rec": {
               "median": 2.6,
               "floor_10": 2.1,
-              "ceiling_90": 3.2,
+              "ceiling_90": 3.1,
               "_cv": 0.16,
               "confidence": 54
             },
             "rec_yds": {
-              "median": 27.2,
+              "median": 27.3,
               "floor_10": 20.2,
-              "ceiling_90": 34.2,
+              "ceiling_90": 34.4,
               "_cv": 0.2,
               "confidence": 52
             },
@@ -10715,8 +10573,7 @@
               "_cv": null,
               "confidence": 60
             }
-          },
-          "fpts_prev": 3.0
+          }
         },
         {
           "name": "Brevyn Spann-Ford",
@@ -10747,7 +10604,7 @@
             "rec_yds": {
               "median": 5.6,
               "floor_10": 4.2,
-              "ceiling_90": 7.1,
+              "ceiling_90": 7.0,
               "_cv": 0.2,
               "confidence": 50
             },
@@ -10759,8 +10616,7 @@
               "_cv": null,
               "confidence": 58
             }
-          },
-          "fpts_prev": 3.2
+          }
         }
       ],
       "home_skill": [
@@ -10805,8 +10661,7 @@
               "_cv": null,
               "confidence": 58
             }
-          },
-          "fpts_prev": 3.2
+          }
         },
         {
           "name": "Devin Singletary",
@@ -10842,8 +10697,8 @@
               "confidence": 75
             },
             "rush_yds": {
-              "median": 28.4,
-              "floor_10": 19.1,
+              "median": 28.1,
+              "floor_10": 18.8,
               "ceiling_90": 37.3,
               "_cv": 0.25,
               "confidence": 73
@@ -10855,8 +10710,7 @@
               "_cv": null,
               "confidence": 83
             }
-          },
-          "fpts_prev": 6.6
+          }
         },
         {
           "name": "Darius Slayton",
@@ -10885,9 +10739,9 @@
               "confidence": 77
             },
             "rec_yds": {
-              "median": 41.4,
+              "median": 41.5,
               "floor_10": 31.0,
-              "ceiling_90": 52.0,
+              "ceiling_90": 52.2,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -10899,8 +10753,7 @@
               "_cv": null,
               "confidence": 83
             }
-          },
-          "fpts_prev": 5.9
+          }
         },
         {
           "name": "Eric Gray",
@@ -10985,7 +10838,7 @@
             "rec_yds": {
               "median": 3.0,
               "floor_10": 2.2,
-              "ceiling_90": 3.7,
+              "ceiling_90": 3.8,
               "_cv": 0.2,
               "confidence": 65
             },
@@ -11040,8 +10893,7 @@
               "_cv": null,
               "confidence": 83
             }
-          },
-          "fpts_prev": 19.5
+          }
         },
         {
           "name": "Tyrone Tracy Jr.",
@@ -11071,15 +10923,15 @@
             },
             "rec_yds": {
               "median": 18.7,
-              "floor_10": 13.9,
-              "ceiling_90": 23.4,
+              "floor_10": 14.0,
+              "ceiling_90": 23.5,
               "_cv": 0.2,
               "confidence": 75
             },
             "rush_yds": {
-              "median": 45.8,
-              "floor_10": 30.7,
-              "ceiling_90": 60.5,
+              "median": 45.7,
+              "floor_10": 31.0,
+              "ceiling_90": 60.7,
               "_cv": 0.25,
               "confidence": 73
             },
@@ -11125,8 +10977,8 @@
             },
             "rec_yds": {
               "median": 42.1,
-              "floor_10": 31.3,
-              "ceiling_90": 52.8,
+              "floor_10": 31.1,
+              "ceiling_90": 53.2,
               "_cv": 0.2,
               "confidence": 65
             },
@@ -11138,14 +10990,13 @@
               "_cv": null,
               "confidence": 73
             }
-          },
-          "fpts_prev": 7.8
+          }
         }
       ],
-      "away_win_pct": 0.734,
-      "home_win_pct": 0.266,
-      "away_pts": 28.6,
-      "home_pts": 20.2,
+      "away_win_pct": 0.744,
+      "home_win_pct": 0.256,
+      "away_pts": 28.8,
+      "home_pts": 20.1,
       "away_matchup_edge": 60.7,
       "home_matchup_edge": 62.4,
       "tier": "LEAN",
@@ -11191,9 +11042,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 267.9,
-            "floor_10": 205.6,
-            "ceiling_90": 330.1,
+            "median": 266.7,
+            "floor_10": 203.8,
+            "ceiling_90": 326.5,
             "_cv": 0.18,
             "confidence": 71
           },
@@ -11212,9 +11063,9 @@
             "confidence": 78
           },
           "attempts": {
-            "median": 39.1,
-            "floor_10": 33.0,
-            "ceiling_90": 44.8,
+            "median": 38.9,
+            "floor_10": 32.9,
+            "ceiling_90": 45.1,
             "_cv": 0.12,
             "confidence": 73
           }
@@ -11239,8 +11090,8 @@
         "sim": {
           "pass_yds": {
             "median": 262.8,
-            "floor_10": 201.8,
-            "ceiling_90": 325.0,
+            "floor_10": 201.9,
+            "ceiling_90": 321.9,
             "_cv": 0.18,
             "confidence": 76
           },
@@ -11260,8 +11111,8 @@
           },
           "attempts": {
             "median": 39.7,
-            "floor_10": 33.7,
-            "ceiling_90": 45.9,
+            "floor_10": 33.6,
+            "ceiling_90": 45.7,
             "_cv": 0.12,
             "confidence": 78
           }
@@ -11295,8 +11146,8 @@
               "confidence": 59
             },
             "rec_yds": {
-              "median": 27.6,
-              "floor_10": 20.5,
+              "median": 27.5,
+              "floor_10": 20.6,
               "ceiling_90": 34.6,
               "_cv": 0.2,
               "confidence": 58
@@ -11315,8 +11166,7 @@
               "_cv": null,
               "confidence": 66
             }
-          },
-          "fpts_prev": 9.9
+          }
         },
         {
           "name": "Courtland Sutton",
@@ -11346,8 +11196,8 @@
             },
             "rec_yds": {
               "median": 65.6,
-              "floor_10": 48.6,
-              "ceiling_90": 82.2,
+              "floor_10": 48.8,
+              "ceiling_90": 82.8,
               "_cv": 0.2,
               "confidence": 70
             },
@@ -11389,7 +11239,7 @@
             },
             "rec_yds": {
               "median": 7.1,
-              "floor_10": 5.2,
+              "floor_10": 5.3,
               "ceiling_90": 8.9,
               "_cv": 0.2,
               "confidence": 70
@@ -11402,8 +11252,7 @@
               "_cv": null,
               "confidence": 78
             }
-          },
-          "fpts_prev": 4.6
+          }
         },
         {
           "name": "J.K. Dobbins",
@@ -11439,21 +11288,20 @@
               "confidence": 64
             },
             "rush_yds": {
-              "median": 42.3,
-              "floor_10": 28.8,
-              "ceiling_90": 55.7,
+              "median": 42.0,
+              "floor_10": 28.5,
+              "ceiling_90": 55.8,
               "_cv": 0.25,
               "confidence": 62
             },
             "td": {
-              "median": 1,
+              "median": 0,
               "floor_10": 0,
               "ceiling_90": 2,
               "_cv": null,
               "confidence": 72
             }
-          },
-          "fpts_prev": 14.3
+          }
         },
         {
           "name": "Adam Trautman",
@@ -11483,8 +11331,8 @@
             },
             "rec_yds": {
               "median": 10.8,
-              "floor_10": 8.1,
-              "ceiling_90": 13.5,
+              "floor_10": 8.0,
+              "ceiling_90": 13.6,
               "_cv": 0.2,
               "confidence": 68
             },
@@ -11496,8 +11344,7 @@
               "_cv": null,
               "confidence": 76
             }
-          },
-          "fpts_prev": 3.1
+          }
         },
         {
           "name": "Adam Prentice",
@@ -11638,8 +11485,7 @@
               "_cv": null,
               "confidence": 68
             }
-          },
-          "fpts_prev": 3.5
+          }
         },
         {
           "name": "Nate Adkins",
@@ -11675,7 +11521,7 @@
             "rec_yds": {
               "median": 6.0,
               "floor_10": 4.5,
-              "ceiling_90": 7.5,
+              "ceiling_90": 7.6,
               "_cv": 0.2,
               "confidence": 65
             },
@@ -11687,8 +11533,7 @@
               "_cv": null,
               "confidence": 73
             }
-          },
-          "fpts_prev": 4.1
+          }
         },
         {
           "name": "Jaleel McLaughlin",
@@ -11737,8 +11582,7 @@
               "_cv": null,
               "confidence": 75
             }
-          },
-          "fpts_prev": 7.3
+          }
         },
         {
           "name": "Marvin Mims Jr.",
@@ -11761,22 +11605,22 @@
           "sim": {
             "rec": {
               "median": 2.7,
-              "floor_10": 2.2,
+              "floor_10": 2.1,
               "ceiling_90": 3.3,
               "_cv": 0.16,
               "confidence": 72
             },
             "rec_yds": {
               "median": 34.0,
-              "floor_10": 25.4,
-              "ceiling_90": 42.8,
+              "floor_10": 25.5,
+              "ceiling_90": 42.7,
               "_cv": 0.2,
               "confidence": 70
             },
             "rush_yds": {
               "median": 1.7,
               "floor_10": 1.2,
-              "ceiling_90": 2.3,
+              "ceiling_90": 2.2,
               "_cv": 0.25,
               "confidence": 68
             },
@@ -11787,8 +11631,7 @@
               "_cv": null,
               "confidence": 78
             }
-          },
-          "fpts_prev": 9.9
+          }
         },
         {
           "name": "Troy Franklin",
@@ -11818,7 +11661,7 @@
             },
             "rec_yds": {
               "median": 32.3,
-              "floor_10": 24.1,
+              "floor_10": 23.9,
               "ceiling_90": 40.8,
               "_cv": 0.2,
               "confidence": 70
@@ -11837,8 +11680,7 @@
               "_cv": null,
               "confidence": 78
             }
-          },
-          "fpts_prev": 4.0
+          }
         }
       ],
       "home_skill": [
@@ -11869,9 +11711,9 @@
               "confidence": 77
             },
             "rec_yds": {
-              "median": 47.7,
-              "floor_10": 35.7,
-              "ceiling_90": 59.8,
+              "median": 47.8,
+              "floor_10": 35.5,
+              "ceiling_90": 60.1,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -11918,8 +11760,8 @@
               "confidence": 77
             },
             "rec_yds": {
-              "median": 20.7,
-              "floor_10": 15.5,
+              "median": 20.6,
+              "floor_10": 15.3,
               "ceiling_90": 25.9,
               "_cv": 0.2,
               "confidence": 75
@@ -11932,8 +11774,7 @@
               "_cv": null,
               "confidence": 83
             }
-          },
-          "fpts_prev": 6.0
+          }
         },
         {
           "name": "Tyquan Thornton",
@@ -11963,8 +11804,8 @@
             },
             "rec_yds": {
               "median": 15.8,
-              "floor_10": 11.6,
-              "ceiling_90": 19.8,
+              "floor_10": 11.9,
+              "ceiling_90": 19.9,
               "_cv": 0.2,
               "confidence": 50
             },
@@ -11976,8 +11817,7 @@
               "_cv": null,
               "confidence": 58
             }
-          },
-          "fpts_prev": 2.2
+          }
         },
         {
           "name": "Rashee Rice",
@@ -12001,14 +11841,14 @@
             "rec": {
               "median": 4.7,
               "floor_10": 3.7,
-              "ceiling_90": 5.6,
+              "ceiling_90": 5.7,
               "_cv": 0.16,
               "confidence": 49
             },
             "rec_yds": {
-              "median": 60.5,
-              "floor_10": 44.8,
-              "ceiling_90": 76.4,
+              "median": 60.7,
+              "floor_10": 45.0,
+              "ceiling_90": 76.5,
               "_cv": 0.2,
               "confidence": 48
             },
@@ -12026,8 +11866,7 @@
               "_cv": null,
               "confidence": 56
             }
-          },
-          "fpts_prev": 21.8
+          }
         },
         {
           "name": "Xavier Worthy",
@@ -12062,15 +11901,15 @@
             },
             "rec_yds": {
               "median": 34.2,
-              "floor_10": 25.5,
-              "ceiling_90": 42.9,
+              "floor_10": 25.7,
+              "ceiling_90": 42.8,
               "_cv": 0.2,
               "confidence": 75
             },
             "rush_yds": {
               "median": 3.6,
-              "floor_10": 2.5,
-              "ceiling_90": 4.8,
+              "floor_10": 2.4,
+              "ceiling_90": 4.7,
               "_cv": 0.25,
               "confidence": 73
             },
@@ -12081,12 +11920,11 @@
               "_cv": null,
               "confidence": 83
             }
-          },
-          "fpts_prev": 13.7
+          }
         }
       ],
-      "away_win_pct": 0.613,
-      "home_win_pct": 0.387,
+      "away_win_pct": 0.609,
+      "home_win_pct": 0.391,
       "away_pts": 24.6,
       "home_pts": 20.7,
       "away_matchup_edge": 49.2,
@@ -12134,9 +11972,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 306.7,
-            "floor_10": 235.8,
-            "ceiling_90": 377.0,
+            "median": 307.1,
+            "floor_10": 237.3,
+            "ceiling_90": 379.9,
             "_cv": 0.18,
             "confidence": 76
           },
@@ -12155,9 +11993,9 @@
             "confidence": 83
           },
           "attempts": {
-            "median": 34.3,
-            "floor_10": 28.9,
-            "ceiling_90": 39.4,
+            "median": 34.4,
+            "floor_10": 29.0,
+            "ceiling_90": 39.6,
             "_cv": 0.12,
             "confidence": 78
           }
@@ -12186,9 +12024,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 288.1,
-            "floor_10": 221.0,
-            "ceiling_90": 354.3,
+            "median": 288.9,
+            "floor_10": 221.8,
+            "ceiling_90": 353.5,
             "_cv": 0.18,
             "confidence": 76
           },
@@ -12207,9 +12045,9 @@
             "confidence": 83
           },
           "attempts": {
-            "median": 35.0,
-            "floor_10": 29.8,
-            "ceiling_90": 40.3,
+            "median": 35.2,
+            "floor_10": 29.7,
+            "ceiling_90": 40.4,
             "_cv": 0.12,
             "confidence": 78
           }
@@ -12244,8 +12082,8 @@
             },
             "rec_yds": {
               "median": 10.0,
-              "floor_10": 7.5,
-              "ceiling_90": 12.5,
+              "floor_10": 7.4,
+              "ceiling_90": 12.6,
               "_cv": 0.2,
               "confidence": 65
             },
@@ -12257,8 +12095,7 @@
               "_cv": null,
               "confidence": 73
             }
-          },
-          "fpts_prev": 3.5
+          }
         },
         {
           "name": "Jameson Williams",
@@ -12281,15 +12118,15 @@
           "sim": {
             "rec": {
               "median": 4.1,
-              "floor_10": 3.2,
+              "floor_10": 3.3,
               "ceiling_90": 4.9,
               "_cv": 0.16,
               "confidence": 77
             },
             "rec_yds": {
-              "median": 71.3,
-              "floor_10": 53.7,
-              "ceiling_90": 89.4,
+              "median": 71.6,
+              "floor_10": 53.5,
+              "ceiling_90": 90.1,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -12307,8 +12144,7 @@
               "_cv": null,
               "confidence": 83
             }
-          },
-          "fpts_prev": 15.0
+          }
         },
         {
           "name": "Sam LaPorta",
@@ -12331,15 +12167,15 @@
           "sim": {
             "rec": {
               "median": 2.2,
-              "floor_10": 1.7,
-              "ceiling_90": 2.6,
+              "floor_10": 1.8,
+              "ceiling_90": 2.7,
               "_cv": 0.16,
               "confidence": 77
             },
             "rec_yds": {
-              "median": 28.0,
-              "floor_10": 21.0,
-              "ceiling_90": 35.0,
+              "median": 27.8,
+              "floor_10": 20.7,
+              "ceiling_90": 34.9,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -12351,8 +12187,7 @@
               "_cv": null,
               "confidence": 83
             }
-          },
-          "fpts_prev": 12.9
+          }
         },
         {
           "name": "Jahmyr Gibbs",
@@ -12382,15 +12217,15 @@
             },
             "rec_yds": {
               "median": 52.3,
-              "floor_10": 39.1,
-              "ceiling_90": 65.3,
+              "floor_10": 38.7,
+              "ceiling_90": 65.8,
               "_cv": 0.2,
               "confidence": 70
             },
             "rush_yds": {
-              "median": 98.3,
-              "floor_10": 67.0,
-              "ceiling_90": 129.8,
+              "median": 98.7,
+              "floor_10": 67.9,
+              "ceiling_90": 129.5,
               "_cv": 0.25,
               "confidence": 68
             },
@@ -12401,8 +12236,7 @@
               "_cv": null,
               "confidence": 78
             }
-          },
-          "fpts_prev": 23.6
+          }
         },
         {
           "name": "Sione Vaki",
@@ -12451,8 +12285,7 @@
               "_cv": null,
               "confidence": 53
             }
-          },
-          "fpts_prev": 2.1
+          }
         }
       ],
       "home_skill": [
@@ -12484,7 +12317,7 @@
             },
             "rec_yds": {
               "median": 8.9,
-              "floor_10": 6.6,
+              "floor_10": 6.7,
               "ceiling_90": 11.2,
               "_cv": 0.2,
               "confidence": 75
@@ -12503,8 +12336,7 @@
               "_cv": null,
               "confidence": 83
             }
-          },
-          "fpts_prev": 15.4
+          }
         },
         {
           "name": "Mecole Hardman",
@@ -12547,8 +12379,7 @@
               "_cv": null,
               "confidence": 66
             }
-          },
-          "fpts_prev": 4.5
+          }
         },
         {
           "name": "Ty Johnson",
@@ -12577,16 +12408,16 @@
               "confidence": 63
             },
             "rec_yds": {
-              "median": 30.0,
-              "floor_10": 22.3,
+              "median": 30.1,
+              "floor_10": 22.5,
               "ceiling_90": 37.8,
               "_cv": 0.2,
               "confidence": 61
             },
             "rush_yds": {
-              "median": 14.9,
-              "floor_10": 10.1,
-              "ceiling_90": 19.7,
+              "median": 14.8,
+              "floor_10": 10.0,
+              "ceiling_90": 19.6,
               "_cv": 0.25,
               "confidence": 59
             },
@@ -12597,8 +12428,7 @@
               "_cv": null,
               "confidence": 69
             }
-          },
-          "fpts_prev": 6.5
+          }
         },
         {
           "name": "Dawson Knox",
@@ -12632,8 +12462,8 @@
               "confidence": 77
             },
             "rec_yds": {
-              "median": 33.6,
-              "floor_10": 24.7,
+              "median": 33.5,
+              "floor_10": 24.8,
               "ceiling_90": 42.2,
               "_cv": 0.2,
               "confidence": 75
@@ -12646,8 +12476,7 @@
               "_cv": null,
               "confidence": 83
             }
-          },
-          "fpts_prev": 4.2
+          }
         },
         {
           "name": "Josh Palmer",
@@ -12676,7 +12505,7 @@
               "confidence": 77
             },
             "rec_yds": {
-              "median": 23.1,
+              "median": 22.9,
               "floor_10": 17.1,
               "ceiling_90": 28.9,
               "_cv": 0.2,
@@ -12690,8 +12519,7 @@
               "_cv": null,
               "confidence": 83
             }
-          },
-          "fpts_prev": 7.6
+          }
         },
         {
           "name": "James Cook",
@@ -12726,15 +12554,15 @@
             },
             "rec_yds": {
               "median": 27.5,
-              "floor_10": 20.6,
-              "ceiling_90": 34.3,
+              "floor_10": 20.5,
+              "ceiling_90": 34.4,
               "_cv": 0.2,
               "confidence": 61
             },
             "rush_yds": {
-              "median": 93.3,
-              "floor_10": 63.1,
-              "ceiling_90": 123.7,
+              "median": 93.1,
+              "floor_10": 63.2,
+              "ceiling_90": 122.7,
               "_cv": 0.25,
               "confidence": 59
             },
@@ -12745,8 +12573,7 @@
               "_cv": null,
               "confidence": 69
             }
-          },
-          "fpts_prev": 17.1
+          }
         },
         {
           "name": "Khalil Shakir",
@@ -12769,15 +12596,15 @@
           "sim": {
             "rec": {
               "median": 4.9,
-              "floor_10": 3.9,
+              "floor_10": 3.8,
               "ceiling_90": 5.9,
               "_cv": 0.16,
               "confidence": 77
             },
             "rec_yds": {
-              "median": 56.9,
+              "median": 56.8,
               "floor_10": 42.3,
-              "ceiling_90": 71.4,
+              "ceiling_90": 71.1,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -12791,12 +12618,11 @@
             "td": {
               "median": 0,
               "floor_10": 0,
-              "ceiling_90": 2,
+              "ceiling_90": 1,
               "_cv": null,
               "confidence": 83
             }
-          },
-          "fpts_prev": 11.9
+          }
         },
         {
           "name": "Dalton Kincaid",
@@ -12831,7 +12657,7 @@
             },
             "rec_yds": {
               "median": 21.9,
-              "floor_10": 16.3,
+              "floor_10": 16.2,
               "ceiling_90": 27.5,
               "_cv": 0.2,
               "confidence": 72
@@ -12844,8 +12670,7 @@
               "_cv": null,
               "confidence": 80
             }
-          },
-          "fpts_prev": 7.6
+          }
         },
         {
           "name": "Ray Davis",
@@ -12875,14 +12700,14 @@
             },
             "rec_yds": {
               "median": 19.7,
-              "floor_10": 14.7,
-              "ceiling_90": 24.7,
+              "floor_10": 14.5,
+              "ceiling_90": 24.8,
               "_cv": 0.2,
               "confidence": 61
             },
             "rush_yds": {
-              "median": 12.3,
-              "floor_10": 8.5,
+              "median": 12.2,
+              "floor_10": 8.3,
               "ceiling_90": 16.1,
               "_cv": 0.25,
               "confidence": 59
@@ -12924,8 +12749,8 @@
             },
             "rec_yds": {
               "median": 40.3,
-              "floor_10": 29.8,
-              "ceiling_90": 50.5,
+              "floor_10": 29.9,
+              "ceiling_90": 50.7,
               "_cv": 0.2,
               "confidence": 72
             },
@@ -12940,10 +12765,10 @@
           }
         }
       ],
-      "away_win_pct": 0.351,
-      "home_win_pct": 0.649,
-      "away_pts": 29.4,
-      "home_pts": 34.6,
+      "away_win_pct": 0.354,
+      "home_win_pct": 0.645,
+      "away_pts": 29.3,
+      "home_pts": 34.4,
       "away_matchup_edge": 51.3,
       "home_matchup_edge": 56.7,
       "tier": "ELITE",
