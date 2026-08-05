@@ -1,6 +1,6 @@
 {
   "date": "2026-08-05",
-  "generated_at": "2026-08-05 06:15 UTC",
+  "generated_at": "2026-08-05 07:50 UTC",
   "games": [
     {
       "away_team": "New England Patriots",
@@ -3771,7 +3771,8 @@
           "matchup_grade": "A+",
           "opp_factor": 1.097,
           "injury": null,
-          "status": null
+          "status": null,
+          "fpts_prev": 23.6
         },
         {
           "name": "Sione Vaki",
