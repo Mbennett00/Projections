@@ -1,6 +1,6 @@
 {
   "date": "2026-08-14",
-  "generated_at": "2026-08-14 21:55 UTC",
+  "generated_at": "2026-08-14 22:54 UTC",
   "games": [
     {
       "away_team": "New England Patriots",
@@ -32,16 +32,16 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 323.4,
-            "floor_10": 249.7,
-            "ceiling_90": 400.0,
+            "median": 324.6,
+            "floor_10": 250.1,
+            "ceiling_90": 399.0,
             "_cv": 0.18,
             "confidence": 71
           },
           "pass_td": {
             "median": 2,
             "floor_10": 1,
-            "ceiling_90": 4,
+            "ceiling_90": 5,
             "_cv": null,
             "confidence": 78
           },
@@ -53,9 +53,9 @@
             "confidence": 78
           },
           "attempts": {
-            "median": 37.7,
-            "floor_10": 31.9,
-            "ceiling_90": 43.6,
+            "median": 37.9,
+            "floor_10": 32.0,
+            "ceiling_90": 43.7,
             "_cv": 0.12,
             "confidence": 73
           }
@@ -79,9 +79,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 250.4,
-            "floor_10": 193.3,
-            "ceiling_90": 307.8,
+            "median": 252.5,
+            "floor_10": 192.1,
+            "ceiling_90": 309.3,
             "_cv": 0.18,
             "confidence": 71
           },
@@ -100,9 +100,9 @@
             "confidence": 78
           },
           "attempts": {
-            "median": 32.1,
-            "floor_10": 27.1,
-            "ceiling_90": 36.8,
+            "median": 32.0,
+            "floor_10": 27.0,
+            "ceiling_90": 36.9,
             "_cv": 0.12,
             "confidence": 73
           }
@@ -137,14 +137,14 @@
             "rec": {
               "median": 5.0,
               "floor_10": 4.0,
-              "ceiling_90": 6.0,
+              "ceiling_90": 6.1,
               "_cv": 0.16,
               "confidence": 72
             },
             "rec_yds": {
-              "median": 62.4,
-              "floor_10": 46.5,
-              "ceiling_90": 77.8,
+              "median": 62.1,
+              "floor_10": 46.3,
+              "ceiling_90": 78.2,
               "_cv": 0.2,
               "confidence": 70
             },
@@ -186,9 +186,9 @@
               "confidence": 72
             },
             "rec_yds": {
-              "median": 40.1,
-              "floor_10": 29.5,
-              "ceiling_90": 50.2,
+              "median": 40.0,
+              "floor_10": 29.9,
+              "ceiling_90": 49.9,
               "_cv": 0.2,
               "confidence": 70
             },
@@ -236,21 +236,21 @@
               "confidence": 77
             },
             "rec_yds": {
-              "median": 28.3,
-              "floor_10": 21.1,
+              "median": 28.1,
+              "floor_10": 20.8,
               "ceiling_90": 35.4,
               "_cv": 0.2,
               "confidence": 75
             },
             "rush_yds": {
-              "median": 45.6,
-              "floor_10": 31.2,
-              "ceiling_90": 60.6,
+              "median": 45.5,
+              "floor_10": 30.9,
+              "ceiling_90": 60.0,
               "_cv": 0.25,
               "confidence": 73
             },
             "td": {
-              "median": 0,
+              "median": 1,
               "floor_10": 0,
               "ceiling_90": 2,
               "_cv": null,
@@ -292,7 +292,7 @@
             },
             "rec_yds": {
               "median": 39.3,
-              "floor_10": 29.2,
+              "floor_10": 29.5,
               "ceiling_90": 49.6,
               "_cv": 0.2,
               "confidence": 70
@@ -340,16 +340,16 @@
               "confidence": 72
             },
             "rec_yds": {
-              "median": 31.9,
-              "floor_10": 23.9,
-              "ceiling_90": 40.1,
+              "median": 32.0,
+              "floor_10": 23.5,
+              "ceiling_90": 39.9,
               "_cv": 0.2,
               "confidence": 70
             },
             "rush_yds": {
               "median": 1.4,
               "floor_10": 0.9,
-              "ceiling_90": 1.8,
+              "ceiling_90": 1.9,
               "_cv": 0.25,
               "confidence": 68
             },
@@ -398,7 +398,7 @@
             },
             "rush_yds": {
               "median": 3.9,
-              "floor_10": 2.6,
+              "floor_10": 2.7,
               "ceiling_90": 5.2,
               "_cv": 0.25,
               "confidence": 50
@@ -440,8 +440,8 @@
               "confidence": 69
             },
             "rec_yds": {
-              "median": 17.6,
-              "floor_10": 13.2,
+              "median": 17.5,
+              "floor_10": 13.0,
               "ceiling_90": 22.0,
               "_cv": 0.2,
               "confidence": 68
@@ -456,7 +456,7 @@
             "td": {
               "median": 0,
               "floor_10": 0,
-              "ceiling_90": 0,
+              "ceiling_90": 1,
               "_cv": null,
               "confidence": 76
             }
@@ -490,16 +490,16 @@
               "confidence": 77
             },
             "rec_yds": {
-              "median": 18.1,
+              "median": 18.0,
               "floor_10": 13.4,
-              "ceiling_90": 22.7,
+              "ceiling_90": 22.8,
               "_cv": 0.2,
               "confidence": 75
             },
             "rush_yds": {
-              "median": 52.2,
-              "floor_10": 35.4,
-              "ceiling_90": 68.3,
+              "median": 51.7,
+              "floor_10": 35.1,
+              "ceiling_90": 68.1,
               "_cv": 0.25,
               "confidence": 73
             },
@@ -592,8 +592,8 @@
             },
             "rec_yds": {
               "median": 39.8,
-              "floor_10": 29.9,
-              "ceiling_90": 50.2,
+              "floor_10": 29.4,
+              "ceiling_90": 50.3,
               "_cv": 0.2,
               "confidence": 70
             },
@@ -637,7 +637,7 @@
             "rec_yds": {
               "median": 6.2,
               "floor_10": 4.6,
-              "ceiling_90": 7.8,
+              "ceiling_90": 7.7,
               "_cv": 0.2,
               "confidence": 42
             },
@@ -686,13 +686,13 @@
             "rec_yds": {
               "median": 14.4,
               "floor_10": 10.7,
-              "ceiling_90": 18.1,
+              "ceiling_90": 18.2,
               "_cv": 0.2,
               "confidence": 58
             },
             "rush_yds": {
               "median": 4.9,
-              "floor_10": 3.3,
+              "floor_10": 3.4,
               "ceiling_90": 6.5,
               "_cv": 0.25,
               "confidence": 56
@@ -783,15 +783,15 @@
           "sim": {
             "rec": {
               "median": 8.3,
-              "floor_10": 6.6,
-              "ceiling_90": 10.0,
+              "floor_10": 6.5,
+              "ceiling_90": 9.9,
               "_cv": 0.16,
               "confidence": 72
             },
             "rec_yds": {
-              "median": 120.3,
-              "floor_10": 89.1,
-              "ceiling_90": 152.0,
+              "median": 120.7,
+              "floor_10": 89.3,
+              "ceiling_90": 150.5,
               "_cv": 0.2,
               "confidence": 70
             },
@@ -840,15 +840,15 @@
             },
             "rec_yds": {
               "median": 1.4,
-              "floor_10": 1.1,
+              "floor_10": 1.0,
               "ceiling_90": 1.8,
               "_cv": 0.2,
               "confidence": 58
             },
             "rush_yds": {
               "median": 14.8,
-              "floor_10": 10.0,
-              "ceiling_90": 19.6,
+              "floor_10": 10.1,
+              "ceiling_90": 19.7,
               "_cv": 0.25,
               "confidence": 56
             },
@@ -933,16 +933,16 @@
               "confidence": 77
             },
             "rec_yds": {
-              "median": 9.8,
+              "median": 9.9,
               "floor_10": 7.3,
               "ceiling_90": 12.4,
               "_cv": 0.2,
               "confidence": 75
             },
             "rush_yds": {
-              "median": 50.0,
-              "floor_10": 33.7,
-              "ceiling_90": 66.0,
+              "median": 50.1,
+              "floor_10": 34.0,
+              "ceiling_90": 66.2,
               "_cv": 0.25,
               "confidence": 73
             },
@@ -992,7 +992,7 @@
             "rush_yds": {
               "median": 4.7,
               "floor_10": 3.2,
-              "ceiling_90": 6.3,
+              "ceiling_90": 6.2,
               "_cv": 0.25,
               "confidence": 48
             },
@@ -1039,8 +1039,8 @@
             },
             "rec_yds": {
               "median": 36.9,
-              "floor_10": 27.5,
-              "ceiling_90": 46.9,
+              "floor_10": 27.3,
+              "ceiling_90": 46.5,
               "_cv": 0.2,
               "confidence": 70
             },
@@ -1089,8 +1089,8 @@
             },
             "rec_yds": {
               "median": 11.6,
-              "floor_10": 8.6,
-              "ceiling_90": 14.6,
+              "floor_10": 8.7,
+              "ceiling_90": 14.5,
               "_cv": 0.2,
               "confidence": 52
             },
@@ -1133,8 +1133,8 @@
             },
             "rec_yds": {
               "median": 6.5,
-              "floor_10": 4.9,
-              "ceiling_90": 8.1,
+              "floor_10": 4.8,
+              "ceiling_90": 8.2,
               "_cv": 0.2,
               "confidence": 42
             },
@@ -1177,8 +1177,8 @@
             },
             "rec_yds": {
               "median": 9.0,
-              "floor_10": 6.6,
-              "ceiling_90": 11.4,
+              "floor_10": 6.7,
+              "ceiling_90": 11.3,
               "_cv": 0.2,
               "confidence": 68
             },
@@ -1193,14 +1193,14 @@
           }
         }
       ],
-      "away_win_pct": 0.645,
-      "home_win_pct": 0.355,
-      "away_pts": 29.3,
-      "home_pts": 24.4,
+      "away_win_pct": 0.646,
+      "home_win_pct": 0.354,
+      "away_pts": 29.1,
+      "home_pts": 24.2,
       "away_matchup_edge": 47.6,
       "home_matchup_edge": 52.0,
       "tier": "STRONG",
-      "target_score": 78,
+      "target_score": 76,
       "market": {
         "away_ml": 160.0,
         "home_ml": -190.0,
@@ -1242,9 +1242,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 254.6,
-            "floor_10": 194.6,
-            "ceiling_90": 312.5,
+            "median": 252.2,
+            "floor_10": 194.0,
+            "ceiling_90": 311.0,
             "_cv": 0.18,
             "confidence": 55
           },
@@ -1289,9 +1289,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 246.3,
+            "median": 246.1,
             "floor_10": 188.9,
-            "ceiling_90": 301.7,
+            "ceiling_90": 303.8,
             "_cv": 0.18,
             "confidence": 68
           },
@@ -1310,9 +1310,9 @@
             "confidence": 75
           },
           "attempts": {
-            "median": 34.0,
-            "floor_10": 28.8,
-            "ceiling_90": 39.1,
+            "median": 34.1,
+            "floor_10": 28.9,
+            "ceiling_90": 39.4,
             "_cv": 0.12,
             "confidence": 70
           }
@@ -1352,8 +1352,8 @@
               "confidence": 69
             },
             "rec_yds": {
-              "median": 13.2,
-              "floor_10": 9.9,
+              "median": 13.1,
+              "floor_10": 9.6,
               "ceiling_90": 16.5,
               "_cv": 0.2,
               "confidence": 67
@@ -1404,14 +1404,14 @@
             "rec_yds": {
               "median": 22.2,
               "floor_10": 16.5,
-              "ceiling_90": 27.9,
+              "ceiling_90": 28.0,
               "_cv": 0.2,
               "confidence": 67
             },
             "rush_yds": {
-              "median": 21.4,
-              "floor_10": 14.4,
-              "ceiling_90": 28.3,
+              "median": 21.6,
+              "floor_10": 14.6,
+              "ceiling_90": 28.5,
               "_cv": 0.25,
               "confidence": 65
             },
@@ -1457,16 +1457,16 @@
               "confidence": 69
             },
             "rec_yds": {
-              "median": 50.6,
-              "floor_10": 37.5,
-              "ceiling_90": 63.8,
+              "median": 51.1,
+              "floor_10": 38.1,
+              "ceiling_90": 64.3,
               "_cv": 0.2,
               "confidence": 67
             },
             "rush_yds": {
-              "median": 73.3,
-              "floor_10": 49.8,
-              "ceiling_90": 96.8,
+              "median": 73.9,
+              "floor_10": 50.2,
+              "ceiling_90": 96.9,
               "_cv": 0.25,
               "confidence": 65
             },
@@ -1513,8 +1513,8 @@
             },
             "rec_yds": {
               "median": 40.4,
-              "floor_10": 30.3,
-              "ceiling_90": 50.7,
+              "floor_10": 30.6,
+              "ceiling_90": 50.5,
               "_cv": 0.2,
               "confidence": 60
             },
@@ -1569,9 +1569,9 @@
               "confidence": 44
             },
             "rush_yds": {
-              "median": 10.9,
-              "floor_10": 7.4,
-              "ceiling_90": 14.5,
+              "median": 11.0,
+              "floor_10": 7.5,
+              "ceiling_90": 14.6,
               "_cv": 0.25,
               "confidence": 42
             },
@@ -1613,7 +1613,7 @@
             },
             "rec_yds": {
               "median": 5.0,
-              "floor_10": 3.8,
+              "floor_10": 3.7,
               "ceiling_90": 6.3,
               "_cv": 0.2,
               "confidence": 54
@@ -1658,7 +1658,7 @@
             "rec_yds": {
               "median": 18.3,
               "floor_10": 13.6,
-              "ceiling_90": 23.0,
+              "ceiling_90": 23.1,
               "_cv": 0.2,
               "confidence": 54
             },
@@ -1701,15 +1701,15 @@
             },
             "rec_yds": {
               "median": 11.5,
-              "floor_10": 8.5,
-              "ceiling_90": 14.5,
+              "floor_10": 8.6,
+              "ceiling_90": 14.4,
               "_cv": 0.2,
               "confidence": 64
             },
             "rush_yds": {
-              "median": 23.0,
-              "floor_10": 15.5,
-              "ceiling_90": 30.1,
+              "median": 22.8,
+              "floor_10": 15.3,
+              "ceiling_90": 30.2,
               "_cv": 0.25,
               "confidence": 62
             },
@@ -1751,8 +1751,8 @@
             },
             "rec_yds": {
               "median": 5.3,
-              "floor_10": 3.9,
-              "ceiling_90": 6.7,
+              "floor_10": 4.0,
+              "ceiling_90": 6.6,
               "_cv": 0.2,
               "confidence": 40
             },
@@ -1799,15 +1799,15 @@
           "sim": {
             "rec": {
               "median": 2.2,
-              "floor_10": 1.7,
-              "ceiling_90": 2.6,
+              "floor_10": 1.8,
+              "ceiling_90": 2.7,
               "_cv": 0.16,
               "confidence": 56
             },
             "rec_yds": {
-              "median": 32.5,
-              "floor_10": 23.9,
-              "ceiling_90": 40.7,
+              "median": 32.3,
+              "floor_10": 24.1,
+              "ceiling_90": 40.6,
               "_cv": 0.2,
               "confidence": 54
             },
@@ -1890,9 +1890,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 234.3,
-            "floor_10": 178.6,
-            "ceiling_90": 287.3,
+            "median": 234.9,
+            "floor_10": 180.8,
+            "ceiling_90": 288.9,
             "_cv": 0.18,
             "confidence": 68
           },
@@ -1911,9 +1911,9 @@
             "confidence": 76
           },
           "attempts": {
-            "median": 32.8,
+            "median": 32.7,
             "floor_10": 27.8,
-            "ceiling_90": 37.9,
+            "ceiling_90": 37.8,
             "_cv": 0.12,
             "confidence": 71
           }
@@ -1942,9 +1942,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 218.4,
-            "floor_10": 167.9,
-            "ceiling_90": 268.9,
+            "median": 217.9,
+            "floor_10": 169.8,
+            "ceiling_90": 267.0,
             "_cv": 0.18,
             "confidence": 76
           },
@@ -1964,8 +1964,8 @@
           },
           "attempts": {
             "median": 33.9,
-            "floor_10": 28.7,
-            "ceiling_90": 39.2,
+            "floor_10": 28.6,
+            "ceiling_90": 39.1,
             "_cv": 0.12,
             "confidence": 78
           }
@@ -2048,15 +2048,15 @@
           "sim": {
             "rec": {
               "median": 5.6,
-              "floor_10": 4.5,
+              "floor_10": 4.4,
               "ceiling_90": 6.7,
               "_cv": 0.16,
               "confidence": 77
             },
             "rec_yds": {
-              "median": 62.0,
-              "floor_10": 46.0,
-              "ceiling_90": 77.9,
+              "median": 62.2,
+              "floor_10": 46.2,
+              "ceiling_90": 78.0,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -2097,15 +2097,15 @@
           "sim": {
             "rec": {
               "median": 4.2,
-              "floor_10": 3.3,
-              "ceiling_90": 5.0,
+              "floor_10": 3.4,
+              "ceiling_90": 5.1,
               "_cv": 0.16,
               "confidence": 72
             },
             "rec_yds": {
               "median": 59.5,
-              "floor_10": 44.4,
-              "ceiling_90": 74.6,
+              "floor_10": 44.3,
+              "ceiling_90": 74.7,
               "_cv": 0.2,
               "confidence": 70
             },
@@ -2147,16 +2147,16 @@
               "confidence": 63
             },
             "rec_yds": {
-              "median": 49.2,
-              "floor_10": 36.8,
-              "ceiling_90": 61.5,
+              "median": 49.5,
+              "floor_10": 37.1,
+              "ceiling_90": 61.8,
               "_cv": 0.2,
               "confidence": 61
             },
             "rush_yds": {
-              "median": 100.9,
-              "floor_10": 69.7,
-              "ceiling_90": 133.7,
+              "median": 101.7,
+              "floor_10": 69.3,
+              "ceiling_90": 134.7,
               "_cv": 0.25,
               "confidence": 59
             },
@@ -2197,16 +2197,16 @@
               "confidence": 63
             },
             "rec_yds": {
-              "median": 49.2,
-              "floor_10": 36.5,
-              "ceiling_90": 62.3,
+              "median": 49.3,
+              "floor_10": 36.7,
+              "ceiling_90": 61.9,
               "_cv": 0.2,
               "confidence": 61
             },
             "rush_yds": {
-              "median": 102.0,
+              "median": 101.1,
               "floor_10": 69.8,
-              "ceiling_90": 135.1,
+              "ceiling_90": 133.7,
               "_cv": 0.25,
               "confidence": 59
             },
@@ -2337,15 +2337,15 @@
               "confidence": 77
             },
             "rec_yds": {
-              "median": 59.9,
-              "floor_10": 44.0,
-              "ceiling_90": 75.0,
+              "median": 60.0,
+              "floor_10": 45.0,
+              "ceiling_90": 75.1,
               "_cv": 0.2,
               "confidence": 75
             },
             "rush_yds": {
               "median": 0.8,
-              "floor_10": 0.5,
+              "floor_10": 0.6,
               "ceiling_90": 1.1,
               "_cv": 0.25,
               "confidence": 73
@@ -2388,15 +2388,15 @@
             },
             "rec_yds": {
               "median": 13.8,
-              "floor_10": 10.3,
-              "ceiling_90": 17.3,
+              "floor_10": 10.4,
+              "ceiling_90": 17.4,
               "_cv": 0.2,
               "confidence": 75
             },
             "rush_yds": {
               "median": 4.9,
               "floor_10": 3.3,
-              "ceiling_90": 6.4,
+              "ceiling_90": 6.5,
               "_cv": 0.25,
               "confidence": 73
             },
@@ -2443,7 +2443,7 @@
             },
             "rec_yds": {
               "median": 4.7,
-              "floor_10": 3.5,
+              "floor_10": 3.4,
               "ceiling_90": 5.9,
               "_cv": 0.2,
               "confidence": 55
@@ -2487,8 +2487,8 @@
             },
             "rec_yds": {
               "median": 33.3,
-              "floor_10": 25.0,
-              "ceiling_90": 41.8,
+              "floor_10": 24.7,
+              "ceiling_90": 41.7,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -2524,7 +2524,7 @@
           "sim": {
             "rec": {
               "median": 2.7,
-              "floor_10": 2.2,
+              "floor_10": 2.1,
               "ceiling_90": 3.2,
               "_cv": 0.16,
               "confidence": 77
@@ -2532,14 +2532,14 @@
             "rec_yds": {
               "median": 20.5,
               "floor_10": 15.3,
-              "ceiling_90": 25.7,
+              "ceiling_90": 25.8,
               "_cv": 0.2,
               "confidence": 75
             },
             "rush_yds": {
-              "median": 70.2,
+              "median": 70.8,
               "floor_10": 48.0,
-              "ceiling_90": 93.2,
+              "ceiling_90": 93.6,
               "_cv": 0.25,
               "confidence": 73
             },
@@ -2580,9 +2580,9 @@
               "confidence": 74
             },
             "rec_yds": {
-              "median": 24.4,
-              "floor_10": 18.1,
-              "ceiling_90": 30.5,
+              "median": 24.3,
+              "floor_10": 18.2,
+              "ceiling_90": 30.7,
               "_cv": 0.2,
               "confidence": 72
             },
@@ -2625,7 +2625,7 @@
             },
             "rec_yds": {
               "median": 10.1,
-              "floor_10": 7.6,
+              "floor_10": 7.5,
               "ceiling_90": 12.7,
               "_cv": 0.2,
               "confidence": 62
@@ -2676,7 +2676,7 @@
             },
             "rush_yds": {
               "median": 4.5,
-              "floor_10": 3.0,
+              "floor_10": 3.1,
               "ceiling_90": 6.0,
               "_cv": 0.25,
               "confidence": 63
@@ -2691,14 +2691,14 @@
           }
         }
       ],
-      "away_win_pct": 0.436,
-      "home_win_pct": 0.564,
-      "away_pts": 20.7,
+      "away_win_pct": 0.424,
+      "home_win_pct": 0.576,
+      "away_pts": 20.3,
       "home_pts": 22.9,
       "away_matchup_edge": 49.5,
       "home_matchup_edge": 49.7,
       "tier": "PASS",
-      "target_score": 47,
+      "target_score": 46,
       "market": {
         "away_ml": 136.0,
         "home_ml": -162.0,
@@ -2745,9 +2745,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 243.8,
-            "floor_10": 188.8,
-            "ceiling_90": 301.2,
+            "median": 243.0,
+            "floor_10": 186.1,
+            "ceiling_90": 301.0,
             "_cv": 0.18,
             "confidence": 73
           },
@@ -2767,8 +2767,8 @@
           },
           "attempts": {
             "median": 28.9,
-            "floor_10": 24.5,
-            "ceiling_90": 33.2,
+            "floor_10": 24.3,
+            "ceiling_90": 33.4,
             "_cv": 0.12,
             "confidence": 76
           }
@@ -2792,9 +2792,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 265.1,
-            "floor_10": 203.7,
-            "ceiling_90": 326.7,
+            "median": 265.3,
+            "floor_10": 205.3,
+            "ceiling_90": 327.2,
             "_cv": 0.18,
             "confidence": 73
           },
@@ -2813,8 +2813,8 @@
             "confidence": 80
           },
           "attempts": {
-            "median": 35.2,
-            "floor_10": 29.9,
+            "median": 35.3,
+            "floor_10": 29.7,
             "ceiling_90": 40.6,
             "_cv": 0.12,
             "confidence": 76
@@ -2851,14 +2851,14 @@
             },
             "rec_yds": {
               "median": 7.4,
-              "floor_10": 5.6,
+              "floor_10": 5.5,
               "ceiling_90": 9.3,
               "_cv": 0.2,
               "confidence": 75
             },
             "rush_yds": {
-              "median": 113.8,
-              "floor_10": 76.8,
+              "median": 115.1,
+              "floor_10": 78.0,
               "ceiling_90": 151.0,
               "_cv": 0.25,
               "confidence": 73
@@ -2900,16 +2900,16 @@
               "confidence": 77
             },
             "rec_yds": {
-              "median": 32.0,
-              "floor_10": 23.6,
-              "ceiling_90": 40.2,
+              "median": 32.2,
+              "floor_10": 24.1,
+              "ceiling_90": 40.7,
               "_cv": 0.2,
               "confidence": 75
             },
             "rush_yds": {
               "median": 2.7,
-              "floor_10": 1.9,
-              "ceiling_90": 3.5,
+              "floor_10": 1.8,
+              "ceiling_90": 3.6,
               "_cv": 0.25,
               "confidence": 73
             },
@@ -2950,16 +2950,16 @@
               "confidence": 64
             },
             "rec_yds": {
-              "median": 12.2,
-              "floor_10": 9.0,
-              "ceiling_90": 15.3,
+              "median": 12.1,
+              "floor_10": 8.9,
+              "ceiling_90": 15.1,
               "_cv": 0.2,
               "confidence": 62
             },
             "rush_yds": {
               "median": 4.9,
               "floor_10": 3.3,
-              "ceiling_90": 6.4,
+              "ceiling_90": 6.5,
               "_cv": 0.25,
               "confidence": 60
             },
@@ -3005,9 +3005,9 @@
               "confidence": 74
             },
             "rec_yds": {
-              "median": 15.4,
+              "median": 15.5,
               "floor_10": 11.5,
-              "ceiling_90": 19.2,
+              "ceiling_90": 19.4,
               "_cv": 0.2,
               "confidence": 72
             },
@@ -3043,22 +3043,22 @@
           "sim": {
             "rec": {
               "median": 6.2,
-              "floor_10": 4.9,
-              "ceiling_90": 7.4,
+              "floor_10": 5.0,
+              "ceiling_90": 7.5,
               "_cv": 0.16,
               "confidence": 77
             },
             "rec_yds": {
-              "median": 102.7,
-              "floor_10": 77.7,
-              "ceiling_90": 129.5,
+              "median": 102.6,
+              "floor_10": 76.2,
+              "ceiling_90": 129.1,
               "_cv": 0.2,
               "confidence": 75
             },
             "rush_yds": {
-              "median": 6.7,
-              "floor_10": 4.5,
-              "ceiling_90": 8.9,
+              "median": 6.6,
+              "floor_10": 4.6,
+              "ceiling_90": 8.8,
               "_cv": 0.25,
               "confidence": 73
             },
@@ -3101,7 +3101,7 @@
             "rec_yds": {
               "median": 10.5,
               "floor_10": 7.8,
-              "ceiling_90": 13.2,
+              "ceiling_90": 13.1,
               "_cv": 0.2,
               "confidence": 52
             },
@@ -3145,7 +3145,7 @@
             "rec_yds": {
               "median": 5.1,
               "floor_10": 3.8,
-              "ceiling_90": 6.4,
+              "ceiling_90": 6.5,
               "_cv": 0.2,
               "confidence": 60
             },
@@ -3195,9 +3195,9 @@
               "confidence": 69
             },
             "rec_yds": {
-              "median": 7.6,
+              "median": 7.7,
               "floor_10": 5.7,
-              "ceiling_90": 9.5,
+              "ceiling_90": 9.6,
               "_cv": 0.2,
               "confidence": 68
             },
@@ -3241,14 +3241,14 @@
             "rec_yds": {
               "median": 7.0,
               "floor_10": 5.2,
-              "ceiling_90": 8.8,
+              "ceiling_90": 8.7,
               "_cv": 0.2,
               "confidence": 58
             },
             "rush_yds": {
               "median": 3.2,
-              "floor_10": 2.2,
-              "ceiling_90": 4.2,
+              "floor_10": 2.1,
+              "ceiling_90": 4.3,
               "_cv": 0.25,
               "confidence": 56
             },
@@ -3289,16 +3289,16 @@
               "confidence": 59
             },
             "rec_yds": {
-              "median": 23.1,
-              "floor_10": 17.4,
+              "median": 22.9,
+              "floor_10": 17.1,
               "ceiling_90": 28.7,
               "_cv": 0.2,
               "confidence": 57
             },
             "rush_yds": {
-              "median": 86.1,
-              "floor_10": 58.5,
-              "ceiling_90": 114.2,
+              "median": 86.3,
+              "floor_10": 58.6,
+              "ceiling_90": 114.0,
               "_cv": 0.25,
               "confidence": 55
             },
@@ -3383,9 +3383,9 @@
               "confidence": 77
             },
             "rec_yds": {
-              "median": 71.2,
-              "floor_10": 52.9,
-              "ceiling_90": 89.1,
+              "median": 70.7,
+              "floor_10": 52.5,
+              "ceiling_90": 89.0,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -3421,15 +3421,15 @@
           "sim": {
             "rec": {
               "median": 3.7,
-              "floor_10": 3.0,
+              "floor_10": 2.9,
               "ceiling_90": 4.4,
               "_cv": 0.16,
               "confidence": 77
             },
             "rec_yds": {
-              "median": 38.4,
-              "floor_10": 28.7,
-              "ceiling_90": 48.1,
+              "median": 38.3,
+              "floor_10": 28.6,
+              "ceiling_90": 48.4,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -3521,9 +3521,9 @@
               "confidence": 77
             },
             "rec_yds": {
-              "median": 46.6,
-              "floor_10": 34.8,
-              "ceiling_90": 58.5,
+              "median": 47.3,
+              "floor_10": 35.2,
+              "ceiling_90": 58.8,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -3594,9 +3594,9 @@
           }
         }
       ],
-      "away_win_pct": 0.246,
-      "home_win_pct": 0.754,
-      "away_pts": 20.0,
+      "away_win_pct": 0.245,
+      "home_win_pct": 0.755,
+      "away_pts": 19.9,
       "home_pts": 29.2,
       "away_matchup_edge": 54.7,
       "home_matchup_edge": 54.6,
@@ -3648,8 +3648,8 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 250.3,
-            "floor_10": 193.7,
+            "median": 249.6,
+            "floor_10": 192.0,
             "ceiling_90": 307.5,
             "_cv": 0.18,
             "confidence": 71
@@ -3669,9 +3669,9 @@
             "confidence": 78
           },
           "attempts": {
-            "median": 35.2,
-            "floor_10": 29.6,
-            "ceiling_90": 40.4,
+            "median": 35.1,
+            "floor_10": 29.8,
+            "ceiling_90": 40.5,
             "_cv": 0.12,
             "confidence": 73
           }
@@ -3695,9 +3695,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 280.3,
-            "floor_10": 216.7,
-            "ceiling_90": 347.6,
+            "median": 281.2,
+            "floor_10": 215.8,
+            "ceiling_90": 343.8,
             "_cv": 0.18,
             "confidence": 76
           },
@@ -3709,16 +3709,16 @@
             "confidence": 83
           },
           "int": {
-            "median": 1,
+            "median": 0,
             "floor_10": 0,
             "ceiling_90": 2,
             "_cv": null,
             "confidence": 83
           },
           "attempts": {
-            "median": 38.2,
+            "median": 38.1,
             "floor_10": 32.4,
-            "ceiling_90": 44.0,
+            "ceiling_90": 44.1,
             "_cv": 0.12,
             "confidence": 78
           }
@@ -3754,7 +3754,7 @@
             },
             "rec_yds": {
               "median": 7.3,
-              "floor_10": 5.4,
+              "floor_10": 5.5,
               "ceiling_90": 9.2,
               "_cv": 0.2,
               "confidence": 58
@@ -3847,16 +3847,16 @@
               "confidence": 72
             },
             "rec_yds": {
-              "median": 15.2,
-              "floor_10": 11.3,
-              "ceiling_90": 19.2,
+              "median": 15.3,
+              "floor_10": 11.4,
+              "ceiling_90": 19.1,
               "_cv": 0.2,
               "confidence": 70
             },
             "rush_yds": {
               "median": 10.5,
-              "floor_10": 7.2,
-              "ceiling_90": 13.8,
+              "floor_10": 7.1,
+              "ceiling_90": 13.9,
               "_cv": 0.25,
               "confidence": 68
             },
@@ -3902,9 +3902,9 @@
               "confidence": 72
             },
             "rec_yds": {
-              "median": 29.4,
-              "floor_10": 22.0,
-              "ceiling_90": 36.9,
+              "median": 29.3,
+              "floor_10": 21.8,
+              "ceiling_90": 37.0,
               "_cv": 0.2,
               "confidence": 70
             },
@@ -3946,8 +3946,8 @@
               "confidence": 67
             },
             "rec_yds": {
-              "median": 19.3,
-              "floor_10": 14.5,
+              "median": 19.4,
+              "floor_10": 14.4,
               "ceiling_90": 24.3,
               "_cv": 0.2,
               "confidence": 65
@@ -3996,15 +3996,15 @@
             },
             "rec_yds": {
               "median": 16.4,
-              "floor_10": 12.3,
-              "ceiling_90": 20.6,
+              "floor_10": 12.2,
+              "ceiling_90": 20.5,
               "_cv": 0.2,
               "confidence": 70
             },
             "rush_yds": {
-              "median": 91.9,
-              "floor_10": 61.6,
-              "ceiling_90": 120.8,
+              "median": 91.7,
+              "floor_10": 61.9,
+              "ceiling_90": 120.7,
               "_cv": 0.25,
               "confidence": 68
             },
@@ -4045,9 +4045,9 @@
               "confidence": 72
             },
             "rec_yds": {
-              "median": 50.2,
-              "floor_10": 36.8,
-              "ceiling_90": 62.8,
+              "median": 49.7,
+              "floor_10": 36.7,
+              "ceiling_90": 62.5,
               "_cv": 0.2,
               "confidence": 70
             },
@@ -4061,7 +4061,7 @@
             "td": {
               "median": 0,
               "floor_10": 0,
-              "ceiling_90": 1,
+              "ceiling_90": 2,
               "_cv": null,
               "confidence": 78
             }
@@ -4095,9 +4095,9 @@
               "confidence": 62
             },
             "rec_yds": {
-              "median": 22.2,
-              "floor_10": 16.7,
-              "ceiling_90": 27.9,
+              "median": 22.3,
+              "floor_10": 16.6,
+              "ceiling_90": 28.0,
               "_cv": 0.2,
               "confidence": 60
             },
@@ -4145,8 +4145,8 @@
             },
             "rec_yds": {
               "median": 38.8,
-              "floor_10": 29.0,
-              "ceiling_90": 48.7,
+              "floor_10": 28.8,
+              "ceiling_90": 48.8,
               "_cv": 0.2,
               "confidence": 65
             },
@@ -4189,15 +4189,15 @@
             },
             "rec_yds": {
               "median": 16.0,
-              "floor_10": 11.9,
-              "ceiling_90": 20.0,
+              "floor_10": 11.8,
+              "ceiling_90": 20.1,
               "_cv": 0.2,
               "confidence": 70
             },
             "rush_yds": {
               "median": 17.9,
-              "floor_10": 12.1,
-              "ceiling_90": 23.6,
+              "floor_10": 12.0,
+              "ceiling_90": 23.7,
               "_cv": 0.25,
               "confidence": 68
             },
@@ -4238,9 +4238,9 @@
               "confidence": 67
             },
             "rec_yds": {
-              "median": 29.3,
+              "median": 29.4,
               "floor_10": 21.9,
-              "ceiling_90": 36.8,
+              "ceiling_90": 37.0,
               "_cv": 0.2,
               "confidence": 65
             },
@@ -4282,9 +4282,9 @@
               "confidence": 69
             },
             "rec_yds": {
-              "median": 12.4,
-              "floor_10": 9.3,
-              "ceiling_90": 15.5,
+              "median": 12.5,
+              "floor_10": 9.2,
+              "ceiling_90": 15.6,
               "_cv": 0.2,
               "confidence": 68
             },
@@ -4292,7 +4292,7 @@
             "td": {
               "median": 0,
               "floor_10": 0,
-              "ceiling_90": 1,
+              "ceiling_90": 0,
               "_cv": null,
               "confidence": 76
             }
@@ -4327,15 +4327,15 @@
           "sim": {
             "rec": {
               "median": 6.0,
-              "floor_10": 4.7,
+              "floor_10": 4.8,
               "ceiling_90": 7.2,
               "_cv": 0.16,
               "confidence": 77
             },
             "rec_yds": {
-              "median": 61.1,
-              "floor_10": 45.1,
-              "ceiling_90": 76.7,
+              "median": 60.5,
+              "floor_10": 45.6,
+              "ceiling_90": 76.0,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -4426,9 +4426,9 @@
               "confidence": 77
             },
             "rec_yds": {
-              "median": 90.2,
-              "floor_10": 67.1,
-              "ceiling_90": 113.5,
+              "median": 90.1,
+              "floor_10": 67.4,
+              "ceiling_90": 114.1,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -4484,8 +4484,8 @@
             },
             "rush_yds": {
               "median": 12.5,
-              "floor_10": 8.4,
-              "ceiling_90": 16.4,
+              "floor_10": 8.5,
+              "ceiling_90": 16.5,
               "_cv": 0.25,
               "confidence": 48
             },
@@ -4526,9 +4526,9 @@
               "confidence": 77
             },
             "rec_yds": {
-              "median": 31.0,
-              "floor_10": 23.1,
-              "ceiling_90": 38.9,
+              "median": 30.9,
+              "floor_10": 23.0,
+              "ceiling_90": 38.8,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -4571,21 +4571,21 @@
             "rec": {
               "median": 3.6,
               "floor_10": 2.9,
-              "ceiling_90": 4.3,
+              "ceiling_90": 4.4,
               "_cv": 0.16,
               "confidence": 77
             },
             "rec_yds": {
-              "median": 56.6,
-              "floor_10": 41.6,
-              "ceiling_90": 70.9,
+              "median": 56.5,
+              "floor_10": 42.3,
+              "ceiling_90": 70.8,
               "_cv": 0.2,
               "confidence": 75
             },
             "rush_yds": {
               "median": 5.3,
               "floor_10": 3.6,
-              "ceiling_90": 7.0,
+              "ceiling_90": 7.1,
               "_cv": 0.25,
               "confidence": 73
             },
@@ -4628,7 +4628,7 @@
             "rec_yds": {
               "median": 5.7,
               "floor_10": 4.2,
-              "ceiling_90": 7.2,
+              "ceiling_90": 7.1,
               "_cv": 0.2,
               "confidence": 55
             },
@@ -4684,7 +4684,7 @@
             },
             "rush_yds": {
               "median": 12.5,
-              "floor_10": 8.4,
+              "floor_10": 8.5,
               "ceiling_90": 16.5,
               "_cv": 0.25,
               "confidence": 43
@@ -4776,9 +4776,9 @@
               "confidence": 77
             },
             "rec_yds": {
-              "median": 42.2,
-              "floor_10": 31.3,
-              "ceiling_90": 52.7,
+              "median": 41.7,
+              "floor_10": 30.9,
+              "ceiling_90": 52.8,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -4820,9 +4820,9 @@
               "confidence": 77
             },
             "rec_yds": {
-              "median": 22.3,
-              "floor_10": 16.5,
-              "ceiling_90": 27.8,
+              "median": 22.2,
+              "floor_10": 16.6,
+              "ceiling_90": 27.9,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -4870,14 +4870,14 @@
               "confidence": 72
             },
             "rec_yds": {
-              "median": 11.5,
+              "median": 11.6,
               "floor_10": 8.6,
               "ceiling_90": 14.6,
               "_cv": 0.2,
               "confidence": 70
             },
             "rush_yds": {
-              "median": 45.2,
+              "median": 45.1,
               "floor_10": 30.7,
               "ceiling_90": 59.7,
               "_cv": 0.25,
@@ -4893,14 +4893,14 @@
           }
         }
       ],
-      "away_win_pct": 0.859,
-      "home_win_pct": 0.141,
-      "away_pts": 31.5,
+      "away_win_pct": 0.857,
+      "home_win_pct": 0.143,
+      "away_pts": 31.6,
       "home_pts": 17.4,
       "away_matchup_edge": 46.8,
       "home_matchup_edge": 42.1,
       "tier": "LEAN",
-      "target_score": 63,
+      "target_score": 64,
       "market": {
         "away_ml": -106.0,
         "home_ml": -110.0,
@@ -4942,9 +4942,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 281.9,
-            "floor_10": 216.7,
-            "ceiling_90": 346.7,
+            "median": 281.0,
+            "floor_10": 216.5,
+            "ceiling_90": 345.3,
             "_cv": 0.18,
             "confidence": 76
           },
@@ -4964,8 +4964,8 @@
           },
           "attempts": {
             "median": 36.0,
-            "floor_10": 30.5,
-            "ceiling_90": 41.6,
+            "floor_10": 30.4,
+            "ceiling_90": 41.5,
             "_cv": 0.12,
             "confidence": 78
           }
@@ -4989,9 +4989,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 196.2,
-            "floor_10": 151.3,
-            "ceiling_90": 242.6,
+            "median": 196.9,
+            "floor_10": 151.1,
+            "ceiling_90": 241.7,
             "_cv": 0.18,
             "confidence": 71
           },
@@ -5010,7 +5010,7 @@
             "confidence": 78
           },
           "attempts": {
-            "median": 32.0,
+            "median": 31.9,
             "floor_10": 27.1,
             "ceiling_90": 36.7,
             "_cv": 0.12,
@@ -5048,15 +5048,15 @@
             },
             "rec_yds": {
               "median": 19.9,
-              "floor_10": 14.6,
-              "ceiling_90": 24.9,
+              "floor_10": 14.7,
+              "ceiling_90": 25.0,
               "_cv": 0.2,
               "confidence": 75
             },
             "rush_yds": {
-              "median": 76.9,
-              "floor_10": 52.1,
-              "ceiling_90": 101.0,
+              "median": 76.4,
+              "floor_10": 51.8,
+              "ceiling_90": 101.3,
               "_cv": 0.25,
               "confidence": 73
             },
@@ -5098,8 +5098,8 @@
             },
             "rec_yds": {
               "median": 24.0,
-              "floor_10": 17.8,
-              "ceiling_90": 30.2,
+              "floor_10": 17.9,
+              "ceiling_90": 30.4,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -5196,9 +5196,9 @@
               "confidence": 72
             },
             "rec_yds": {
-              "median": 48.0,
-              "floor_10": 35.9,
-              "ceiling_90": 60.3,
+              "median": 48.3,
+              "floor_10": 35.7,
+              "ceiling_90": 60.0,
               "_cv": 0.2,
               "confidence": 70
             },
@@ -5240,9 +5240,9 @@
               "confidence": 77
             },
             "rec_yds": {
-              "median": 55.3,
+              "median": 55.2,
               "floor_10": 41.0,
-              "ceiling_90": 69.3,
+              "ceiling_90": 69.4,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -5285,20 +5285,20 @@
             "rec": {
               "median": 1.2,
               "floor_10": 1.0,
-              "ceiling_90": 1.5,
+              "ceiling_90": 1.4,
               "_cv": 0.16,
               "confidence": 77
             },
             "rec_yds": {
-              "median": 13.1,
-              "floor_10": 9.8,
-              "ceiling_90": 16.4,
+              "median": 12.9,
+              "floor_10": 9.7,
+              "ceiling_90": 16.3,
               "_cv": 0.2,
               "confidence": 75
             },
             "rush_yds": {
-              "median": 52.1,
-              "floor_10": 34.9,
+              "median": 51.9,
+              "floor_10": 35.1,
               "ceiling_90": 68.2,
               "_cv": 0.25,
               "confidence": 73
@@ -5384,14 +5384,14 @@
             "rec": {
               "median": 3.2,
               "floor_10": 2.5,
-              "ceiling_90": 3.9,
+              "ceiling_90": 3.8,
               "_cv": 0.16,
               "confidence": 77
             },
             "rec_yds": {
               "median": 52.6,
-              "floor_10": 39.1,
-              "ceiling_90": 66.3,
+              "floor_10": 39.0,
+              "ceiling_90": 66.0,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -5534,22 +5534,22 @@
           "sim": {
             "rec": {
               "median": 2.2,
-              "floor_10": 1.8,
-              "ceiling_90": 2.7,
+              "floor_10": 1.7,
+              "ceiling_90": 2.6,
               "_cv": 0.16,
               "confidence": 77
             },
             "rec_yds": {
-              "median": 14.2,
-              "floor_10": 10.6,
-              "ceiling_90": 17.9,
+              "median": 14.1,
+              "floor_10": 10.5,
+              "ceiling_90": 17.7,
               "_cv": 0.2,
               "confidence": 75
             },
             "rush_yds": {
-              "median": 34.5,
-              "floor_10": 23.0,
-              "ceiling_90": 45.4,
+              "median": 34.6,
+              "floor_10": 23.3,
+              "ceiling_90": 45.3,
               "_cv": 0.25,
               "confidence": 73
             },
@@ -5635,8 +5635,8 @@
             },
             "rec_yds": {
               "median": 17.1,
-              "floor_10": 12.9,
-              "ceiling_90": 21.6,
+              "floor_10": 12.7,
+              "ceiling_90": 21.5,
               "_cv": 0.2,
               "confidence": 70
             },
@@ -5679,8 +5679,8 @@
             },
             "rec_yds": {
               "median": 11.1,
-              "floor_10": 8.2,
-              "ceiling_90": 14.0,
+              "floor_10": 8.3,
+              "ceiling_90": 13.9,
               "_cv": 0.2,
               "confidence": 55
             },
@@ -5723,8 +5723,8 @@
             },
             "rec_yds": {
               "median": 27.4,
-              "floor_10": 20.3,
-              "ceiling_90": 34.3,
+              "floor_10": 20.4,
+              "ceiling_90": 34.5,
               "_cv": 0.2,
               "confidence": 70
             },
@@ -5829,7 +5829,7 @@
             "rec_yds": {
               "median": 12.5,
               "floor_10": 9.3,
-              "ceiling_90": 15.7,
+              "ceiling_90": 15.8,
               "_cv": 0.2,
               "confidence": 62
             },
@@ -5871,8 +5871,8 @@
               "confidence": 64
             },
             "rec_yds": {
-              "median": 28.5,
-              "floor_10": 21.2,
+              "median": 28.4,
+              "floor_10": 21.0,
               "ceiling_90": 35.6,
               "_cv": 0.2,
               "confidence": 62
@@ -5915,8 +5915,8 @@
               "confidence": 72
             },
             "rec_yds": {
-              "median": 69.3,
-              "floor_10": 51.1,
+              "median": 69.1,
+              "floor_10": 51.8,
               "ceiling_90": 87.3,
               "_cv": 0.2,
               "confidence": 70
@@ -5959,8 +5959,8 @@
               "confidence": 69
             },
             "rec_yds": {
-              "median": 11.1,
-              "floor_10": 8.2,
+              "median": 11.0,
+              "floor_10": 8.3,
               "ceiling_90": 13.9,
               "_cv": 0.2,
               "confidence": 68
@@ -6010,15 +6010,15 @@
             },
             "rec_yds": {
               "median": 7.8,
-              "floor_10": 5.9,
+              "floor_10": 5.8,
               "ceiling_90": 9.8,
               "_cv": 0.2,
               "confidence": 60
             },
             "rush_yds": {
               "median": 8.1,
-              "floor_10": 5.4,
-              "ceiling_90": 10.6,
+              "floor_10": 5.5,
+              "ceiling_90": 10.8,
               "_cv": 0.25,
               "confidence": 58
             },
@@ -6066,8 +6066,8 @@
               "confidence": 60
             },
             "rush_yds": {
-              "median": 6.4,
-              "floor_10": 4.4,
+              "median": 6.3,
+              "floor_10": 4.3,
               "ceiling_90": 8.4,
               "_cv": 0.25,
               "confidence": 58
@@ -6082,10 +6082,10 @@
           }
         }
       ],
-      "away_win_pct": 0.806,
-      "home_win_pct": 0.194,
-      "away_pts": 27.8,
-      "home_pts": 16.6,
+      "away_win_pct": 0.805,
+      "home_win_pct": 0.195,
+      "away_pts": 27.9,
+      "home_pts": 16.7,
       "away_matchup_edge": 58.5,
       "home_matchup_edge": 50.8,
       "tier": "PASS",
@@ -6136,9 +6136,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 241.3,
-            "floor_10": 184.3,
-            "ceiling_90": 298.0,
+            "median": 240.6,
+            "floor_10": 186.2,
+            "ceiling_90": 296.8,
             "_cv": 0.18,
             "confidence": 76
           },
@@ -6157,9 +6157,9 @@
             "confidence": 83
           },
           "attempts": {
-            "median": 35.1,
-            "floor_10": 29.8,
-            "ceiling_90": 40.6,
+            "median": 35.3,
+            "floor_10": 29.9,
+            "ceiling_90": 40.9,
             "_cv": 0.12,
             "confidence": 78
           }
@@ -6183,9 +6183,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 265.8,
-            "floor_10": 205.2,
-            "ceiling_90": 325.8,
+            "median": 265.1,
+            "floor_10": 204.1,
+            "ceiling_90": 328.1,
             "_cv": 0.18,
             "confidence": 61
           },
@@ -6197,16 +6197,16 @@
             "confidence": 68
           },
           "int": {
-            "median": 1,
+            "median": 0,
             "floor_10": 0,
             "ceiling_90": 2,
             "_cv": null,
             "confidence": 68
           },
           "attempts": {
-            "median": 37.8,
-            "floor_10": 31.9,
-            "ceiling_90": 43.8,
+            "median": 38.0,
+            "floor_10": 32.1,
+            "ceiling_90": 43.7,
             "_cv": 0.12,
             "confidence": 63
           }
@@ -6241,9 +6241,9 @@
               "confidence": 64
             },
             "rec_yds": {
-              "median": 25.6,
-              "floor_10": 18.9,
-              "ceiling_90": 32.0,
+              "median": 25.7,
+              "floor_10": 19.1,
+              "ceiling_90": 32.3,
               "_cv": 0.2,
               "confidence": 62
             },
@@ -6286,8 +6286,8 @@
             },
             "rec_yds": {
               "median": 41.4,
-              "floor_10": 30.5,
-              "ceiling_90": 52.4,
+              "floor_10": 30.7,
+              "ceiling_90": 52.2,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -6336,9 +6336,9 @@
               "confidence": 75
             },
             "rush_yds": {
-              "median": 15.7,
+              "median": 15.8,
               "floor_10": 10.7,
-              "ceiling_90": 20.8,
+              "ceiling_90": 20.9,
               "_cv": 0.25,
               "confidence": 73
             },
@@ -6425,14 +6425,14 @@
             "rec_yds": {
               "median": 15.0,
               "floor_10": 11.1,
-              "ceiling_90": 18.7,
+              "ceiling_90": 18.8,
               "_cv": 0.2,
               "confidence": 65
             },
             "rush_yds": {
-              "median": 38.7,
-              "floor_10": 26.0,
-              "ceiling_90": 50.8,
+              "median": 38.8,
+              "floor_10": 26.5,
+              "ceiling_90": 51.1,
               "_cv": 0.25,
               "confidence": 63
             },
@@ -6474,15 +6474,15 @@
             },
             "rec_yds": {
               "median": 25.4,
-              "floor_10": 18.8,
-              "ceiling_90": 31.9,
+              "floor_10": 19.0,
+              "ceiling_90": 32.0,
               "_cv": 0.2,
               "confidence": 75
             },
             "rush_yds": {
               "median": 2.6,
               "floor_10": 1.8,
-              "ceiling_90": 3.4,
+              "ceiling_90": 3.5,
               "_cv": 0.25,
               "confidence": 73
             },
@@ -6529,7 +6529,7 @@
             },
             "rec_yds": {
               "median": 0.6,
-              "floor_10": 0.5,
+              "floor_10": 0.4,
               "ceiling_90": 0.8,
               "_cv": 0.2,
               "confidence": 42
@@ -6573,7 +6573,7 @@
             },
             "rec_yds": {
               "median": 12.0,
-              "floor_10": 9.0,
+              "floor_10": 8.9,
               "ceiling_90": 15.0,
               "_cv": 0.2,
               "confidence": 50
@@ -6622,9 +6622,9 @@
               "confidence": 77
             },
             "rec_yds": {
-              "median": 64.7,
-              "floor_10": 48.1,
-              "ceiling_90": 81.6,
+              "median": 65.0,
+              "floor_10": 48.4,
+              "ceiling_90": 81.5,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -6666,15 +6666,15 @@
           "sim": {
             "rec": {
               "median": 2.3,
-              "floor_10": 1.8,
+              "floor_10": 1.9,
               "ceiling_90": 2.8,
               "_cv": 0.16,
               "confidence": 77
             },
             "rec_yds": {
-              "median": 25.5,
-              "floor_10": 18.8,
-              "ceiling_90": 32.0,
+              "median": 25.4,
+              "floor_10": 19.0,
+              "ceiling_90": 31.9,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -6731,9 +6731,9 @@
               "confidence": 61
             },
             "rush_yds": {
-              "median": 25.4,
-              "floor_10": 17.2,
-              "ceiling_90": 33.8,
+              "median": 25.5,
+              "floor_10": 17.4,
+              "ceiling_90": 33.6,
               "_cv": 0.25,
               "confidence": 59
             },
@@ -6776,7 +6776,7 @@
             "rec_yds": {
               "median": 10.8,
               "floor_10": 8.1,
-              "ceiling_90": 13.6,
+              "ceiling_90": 13.5,
               "_cv": 0.2,
               "confidence": 65
             },
@@ -6818,9 +6818,9 @@
               "confidence": 72
             },
             "rec_yds": {
-              "median": 22.4,
-              "floor_10": 16.5,
-              "ceiling_90": 28.1,
+              "median": 22.3,
+              "floor_10": 16.6,
+              "ceiling_90": 28.3,
               "_cv": 0.2,
               "confidence": 70
             },
@@ -6912,9 +6912,9 @@
               "confidence": 77
             },
             "rec_yds": {
-              "median": 58.9,
-              "floor_10": 44.0,
-              "ceiling_90": 74.3,
+              "median": 58.7,
+              "floor_10": 43.9,
+              "ceiling_90": 73.6,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -6956,9 +6956,9 @@
               "confidence": 77
             },
             "rec_yds": {
-              "median": 95.8,
-              "floor_10": 70.6,
-              "ceiling_90": 120.8,
+              "median": 95.6,
+              "floor_10": 70.4,
+              "ceiling_90": 120.3,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -7011,16 +7011,16 @@
               "confidence": 63
             },
             "rec_yds": {
-              "median": 30.8,
-              "floor_10": 22.8,
-              "ceiling_90": 38.9,
+              "median": 30.9,
+              "floor_10": 22.9,
+              "ceiling_90": 38.6,
               "_cv": 0.2,
               "confidence": 61
             },
             "rush_yds": {
-              "median": 76.1,
-              "floor_10": 51.4,
-              "ceiling_90": 100.8,
+              "median": 76.7,
+              "floor_10": 52.1,
+              "ceiling_90": 100.9,
               "_cv": 0.25,
               "confidence": 59
             },
@@ -7062,8 +7062,8 @@
             },
             "rec_yds": {
               "median": 26.8,
-              "floor_10": 20.0,
-              "ceiling_90": 33.8,
+              "floor_10": 19.9,
+              "ceiling_90": 33.7,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -7112,8 +7112,8 @@
             },
             "rec_yds": {
               "median": 6.9,
-              "floor_10": 5.1,
-              "ceiling_90": 8.6,
+              "floor_10": 5.2,
+              "ceiling_90": 8.7,
               "_cv": 0.2,
               "confidence": 60
             },
@@ -7321,10 +7321,10 @@
           }
         }
       ],
-      "away_win_pct": 0.407,
-      "home_win_pct": 0.593,
+      "away_win_pct": 0.398,
+      "home_win_pct": 0.602,
       "away_pts": 20.9,
-      "home_pts": 24.1,
+      "home_pts": 24.2,
       "away_matchup_edge": 59.4,
       "home_matchup_edge": 52.1,
       "tier": "PASS",
@@ -7375,9 +7375,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 212.2,
-            "floor_10": 163.4,
-            "ceiling_90": 260.9,
+            "median": 211.0,
+            "floor_10": 162.3,
+            "ceiling_90": 258.3,
             "_cv": 0.18,
             "confidence": 63
           },
@@ -7396,9 +7396,9 @@
             "confidence": 70
           },
           "attempts": {
-            "median": 33.5,
-            "floor_10": 28.4,
-            "ceiling_90": 38.8,
+            "median": 33.6,
+            "floor_10": 28.5,
+            "ceiling_90": 38.9,
             "_cv": 0.12,
             "confidence": 66
           }
@@ -7422,9 +7422,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 290.4,
-            "floor_10": 223.9,
-            "ceiling_90": 356.5,
+            "median": 289.0,
+            "floor_10": 221.4,
+            "ceiling_90": 353.2,
             "_cv": 0.18,
             "confidence": 71
           },
@@ -7443,9 +7443,9 @@
             "confidence": 78
           },
           "attempts": {
-            "median": 38.9,
-            "floor_10": 33.0,
-            "ceiling_90": 45.0,
+            "median": 39.1,
+            "floor_10": 33.2,
+            "ceiling_90": 45.2,
             "_cv": 0.12,
             "confidence": 73
           }
@@ -7480,9 +7480,9 @@
               "confidence": 77
             },
             "rec_yds": {
-              "median": 57.0,
-              "floor_10": 41.8,
-              "ceiling_90": 71.7,
+              "median": 56.5,
+              "floor_10": 42.3,
+              "ceiling_90": 71.2,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -7575,8 +7575,8 @@
             },
             "rec_yds": {
               "median": 35.7,
-              "floor_10": 26.6,
-              "ceiling_90": 44.8,
+              "floor_10": 26.7,
+              "ceiling_90": 45.0,
               "_cv": 0.2,
               "confidence": 70
             },
@@ -7619,7 +7619,7 @@
             },
             "rec_yds": {
               "median": 10.7,
-              "floor_10": 7.9,
+              "floor_10": 7.8,
               "ceiling_90": 13.5,
               "_cv": 0.2,
               "confidence": 60
@@ -7712,14 +7712,14 @@
             },
             "rec_yds": {
               "median": 10.4,
-              "floor_10": 7.7,
+              "floor_10": 7.8,
               "ceiling_90": 13.1,
               "_cv": 0.2,
               "confidence": 70
             },
             "rush_yds": {
               "median": 9.4,
-              "floor_10": 6.3,
+              "floor_10": 6.4,
               "ceiling_90": 12.4,
               "_cv": 0.25,
               "confidence": 68
@@ -7766,16 +7766,16 @@
               "confidence": 77
             },
             "rec_yds": {
-              "median": 26.0,
-              "floor_10": 19.2,
-              "ceiling_90": 32.5,
+              "median": 26.1,
+              "floor_10": 19.3,
+              "ceiling_90": 32.8,
               "_cv": 0.2,
               "confidence": 75
             },
             "rush_yds": {
               "median": 14.6,
-              "floor_10": 9.9,
-              "ceiling_90": 19.4,
+              "floor_10": 10.0,
+              "ceiling_90": 19.5,
               "_cv": 0.25,
               "confidence": 73
             },
@@ -7817,7 +7817,7 @@
             },
             "rec_yds": {
               "median": 7.1,
-              "floor_10": 5.4,
+              "floor_10": 5.3,
               "ceiling_90": 8.9,
               "_cv": 0.2,
               "confidence": 58
@@ -7873,9 +7873,9 @@
               "confidence": 62
             },
             "rush_yds": {
-              "median": 21.0,
+              "median": 21.2,
               "floor_10": 14.5,
-              "ceiling_90": 27.9,
+              "ceiling_90": 28.0,
               "_cv": 0.25,
               "confidence": 60
             },
@@ -7917,7 +7917,7 @@
             },
             "rec_yds": {
               "median": 45.7,
-              "floor_10": 33.6,
+              "floor_10": 33.7,
               "ceiling_90": 57.5,
               "_cv": 0.2,
               "confidence": 75
@@ -7925,7 +7925,7 @@
             "rush_yds": {
               "median": 1.7,
               "floor_10": 1.2,
-              "ceiling_90": 2.2,
+              "ceiling_90": 2.3,
               "_cv": 0.25,
               "confidence": 73
             },
@@ -7968,8 +7968,8 @@
               "confidence": 59
             },
             "rec_yds": {
-              "median": 33.9,
-              "floor_10": 25.0,
+              "median": 34.0,
+              "floor_10": 25.6,
               "ceiling_90": 42.7,
               "_cv": 0.2,
               "confidence": 58
@@ -8026,8 +8026,8 @@
             },
             "rush_yds": {
               "median": 1.4,
-              "floor_10": 1.0,
-              "ceiling_90": 1.9,
+              "floor_10": 0.9,
+              "ceiling_90": 1.8,
               "_cv": 0.25,
               "confidence": 40
             },
@@ -8069,7 +8069,7 @@
             },
             "rec_yds": {
               "median": 1.0,
-              "floor_10": 0.8,
+              "floor_10": 0.7,
               "ceiling_90": 1.3,
               "_cv": 0.2,
               "confidence": 38
@@ -8113,7 +8113,7 @@
             },
             "rec_yds": {
               "median": 4.4,
-              "floor_10": 3.3,
+              "floor_10": 3.2,
               "ceiling_90": 5.5,
               "_cv": 0.2,
               "confidence": 48
@@ -8202,7 +8202,7 @@
             "rec_yds": {
               "median": 6.0,
               "floor_10": 4.5,
-              "ceiling_90": 7.6,
+              "ceiling_90": 7.5,
               "_cv": 0.2,
               "confidence": 52
             },
@@ -8244,8 +8244,8 @@
               "confidence": 72
             },
             "rec_yds": {
-              "median": 72.5,
-              "floor_10": 54.0,
+              "median": 72.9,
+              "floor_10": 54.2,
               "ceiling_90": 91.1,
               "_cv": 0.2,
               "confidence": 70
@@ -8294,9 +8294,9 @@
               "confidence": 67
             },
             "rec_yds": {
-              "median": 38.8,
-              "floor_10": 29.1,
-              "ceiling_90": 49.1,
+              "median": 38.3,
+              "floor_10": 28.3,
+              "ceiling_90": 48.5,
               "_cv": 0.2,
               "confidence": 65
             },
@@ -8333,21 +8333,21 @@
             "rec": {
               "median": 3.6,
               "floor_10": 2.9,
-              "ceiling_90": 4.3,
+              "ceiling_90": 4.4,
               "_cv": 0.16,
               "confidence": 72
             },
             "rec_yds": {
-              "median": 52.4,
-              "floor_10": 39.3,
-              "ceiling_90": 65.8,
+              "median": 52.5,
+              "floor_10": 39.2,
+              "ceiling_90": 65.9,
               "_cv": 0.2,
               "confidence": 70
             },
             "rush_yds": {
               "median": 1.1,
               "floor_10": 0.7,
-              "ceiling_90": 1.5,
+              "ceiling_90": 1.4,
               "_cv": 0.25,
               "confidence": 68
             },
@@ -8397,7 +8397,7 @@
             "rush_yds": {
               "median": 4.8,
               "floor_10": 3.3,
-              "ceiling_90": 6.4,
+              "ceiling_90": 6.3,
               "_cv": 0.25,
               "confidence": 73
             },
@@ -8439,8 +8439,8 @@
             },
             "rec_yds": {
               "median": 23.4,
-              "floor_10": 17.3,
-              "ceiling_90": 29.3,
+              "floor_10": 17.5,
+              "ceiling_90": 29.4,
               "_cv": 0.2,
               "confidence": 52
             },
@@ -8500,9 +8500,9 @@
               "confidence": 75
             },
             "rush_yds": {
-              "median": 17.4,
-              "floor_10": 11.6,
-              "ceiling_90": 22.6,
+              "median": 17.3,
+              "floor_10": 11.7,
+              "ceiling_90": 22.8,
               "_cv": 0.25,
               "confidence": 73
             },
@@ -8516,14 +8516,14 @@
           }
         }
       ],
-      "away_win_pct": 0.167,
-      "home_win_pct": 0.833,
-      "away_pts": 12.1,
-      "home_pts": 24.6,
+      "away_win_pct": 0.161,
+      "home_win_pct": 0.839,
+      "away_pts": 12.2,
+      "home_pts": 24.8,
       "away_matchup_edge": 28.3,
       "home_matchup_edge": 42.0,
       "tier": "PASS",
-      "target_score": 27,
+      "target_score": 28,
       "market": {
         "away_ml": 320.0,
         "home_ml": -420.0,
@@ -8570,9 +8570,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 230.9,
-            "floor_10": 177.0,
-            "ceiling_90": 284.0,
+            "median": 230.2,
+            "floor_10": 178.4,
+            "ceiling_90": 283.3,
             "_cv": 0.18,
             "confidence": 63
           },
@@ -8592,8 +8592,8 @@
           },
           "attempts": {
             "median": 35.9,
-            "floor_10": 30.3,
-            "ceiling_90": 41.5,
+            "floor_10": 30.6,
+            "ceiling_90": 41.4,
             "_cv": 0.12,
             "confidence": 66
           }
@@ -8617,9 +8617,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 273.0,
-            "floor_10": 209.7,
-            "ceiling_90": 337.3,
+            "median": 274.0,
+            "floor_10": 211.7,
+            "ceiling_90": 336.8,
             "_cv": 0.18,
             "confidence": 76
           },
@@ -8638,9 +8638,9 @@
             "confidence": 83
           },
           "attempts": {
-            "median": 34.4,
-            "floor_10": 29.2,
-            "ceiling_90": 39.7,
+            "median": 34.3,
+            "floor_10": 28.9,
+            "ceiling_90": 39.6,
             "_cv": 0.12,
             "confidence": 78
           }
@@ -8668,16 +8668,16 @@
           "status": null,
           "sim": {
             "rec": {
-              "median": 19.8,
-              "floor_10": 15.6,
-              "ceiling_90": 23.9,
+              "median": 19.9,
+              "floor_10": 15.7,
+              "ceiling_90": 23.8,
               "_cv": 0.16,
               "confidence": 77
             },
             "rec_yds": {
-              "median": 259.8,
-              "floor_10": 194.0,
-              "ceiling_90": 328.6,
+              "median": 261.6,
+              "floor_10": 195.0,
+              "ceiling_90": 331.0,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -8713,15 +8713,15 @@
           "sim": {
             "rec": {
               "median": 3.1,
-              "floor_10": 2.4,
-              "ceiling_90": 3.7,
+              "floor_10": 2.5,
+              "ceiling_90": 3.8,
               "_cv": 0.16,
               "confidence": 54
             },
             "rec_yds": {
-              "median": 35.0,
-              "floor_10": 25.9,
-              "ceiling_90": 44.0,
+              "median": 35.3,
+              "floor_10": 26.3,
+              "ceiling_90": 44.1,
               "_cv": 0.2,
               "confidence": 52
             },
@@ -8765,14 +8765,14 @@
             "rec_yds": {
               "median": 6.7,
               "floor_10": 5.0,
-              "ceiling_90": 8.4,
+              "ceiling_90": 8.5,
               "_cv": 0.2,
               "confidence": 44
             },
             "rush_yds": {
-              "median": 281.1,
-              "floor_10": 189.7,
-              "ceiling_90": 367.4,
+              "median": 277.8,
+              "floor_10": 191.2,
+              "ceiling_90": 365.0,
               "_cv": 0.25,
               "confidence": 42
             },
@@ -8814,7 +8814,7 @@
             },
             "rec_yds": {
               "median": 1.4,
-              "floor_10": 1.0,
+              "floor_10": 1.1,
               "ceiling_90": 1.8,
               "_cv": 0.2,
               "confidence": 42
@@ -8857,16 +8857,16 @@
               "confidence": 40
             },
             "rec_yds": {
-              "median": 13.8,
+              "median": 13.7,
               "floor_10": 10.2,
-              "ceiling_90": 17.3,
+              "ceiling_90": 17.1,
               "_cv": 0.2,
               "confidence": 38
             },
             "rush_yds": {
-              "median": 33.7,
-              "floor_10": 23.0,
-              "ceiling_90": 44.1,
+              "median": 33.5,
+              "floor_10": 22.8,
+              "ceiling_90": 44.5,
               "_cv": 0.25,
               "confidence": 36
             },
@@ -8951,8 +8951,8 @@
               "confidence": 64
             },
             "rec_yds": {
-              "median": 41.8,
-              "floor_10": 31.0,
+              "median": 41.9,
+              "floor_10": 31.2,
               "ceiling_90": 52.7,
               "_cv": 0.2,
               "confidence": 62
@@ -9091,14 +9091,14 @@
             "rec": {
               "median": 4.1,
               "floor_10": 3.3,
-              "ceiling_90": 4.9,
+              "ceiling_90": 5.0,
               "_cv": 0.16,
               "confidence": 77
             },
             "rec_yds": {
-              "median": 74.2,
-              "floor_10": 55.5,
-              "ceiling_90": 93.0,
+              "median": 74.3,
+              "floor_10": 55.8,
+              "ceiling_90": 93.9,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -9146,9 +9146,9 @@
               "confidence": 64
             },
             "rec_yds": {
-              "median": 33.4,
-              "floor_10": 25.0,
-              "ceiling_90": 42.2,
+              "median": 33.3,
+              "floor_10": 24.4,
+              "ceiling_90": 42.0,
               "_cv": 0.2,
               "confidence": 62
             },
@@ -9190,16 +9190,16 @@
               "confidence": 77
             },
             "rec_yds": {
-              "median": 38.9,
-              "floor_10": 28.8,
-              "ceiling_90": 48.6,
+              "median": 39.0,
+              "floor_10": 28.9,
+              "ceiling_90": 48.7,
               "_cv": 0.2,
               "confidence": 75
             },
             "rush_yds": {
-              "median": 79.2,
-              "floor_10": 53.1,
-              "ceiling_90": 104.5,
+              "median": 78.6,
+              "floor_10": 53.3,
+              "ceiling_90": 104.3,
               "_cv": 0.25,
               "confidence": 73
             },
@@ -9291,8 +9291,8 @@
             },
             "rec_yds": {
               "median": 16.5,
-              "floor_10": 12.3,
-              "ceiling_90": 20.8,
+              "floor_10": 12.2,
+              "ceiling_90": 20.7,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -9307,14 +9307,14 @@
           }
         }
       ],
-      "away_win_pct": 0.072,
-      "home_win_pct": 0.928,
-      "away_pts": 11.2,
-      "home_pts": 30.3,
+      "away_win_pct": 0.071,
+      "home_win_pct": 0.929,
+      "away_pts": 11.1,
+      "home_pts": 30.1,
       "away_matchup_edge": 39.5,
       "home_matchup_edge": 48.4,
       "tier": "PASS",
-      "target_score": 41,
+      "target_score": 40,
       "market": {
         "away_ml": 270.0,
         "home_ml": -335.0,
@@ -9356,9 +9356,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 126.1,
-            "floor_10": 96.6,
-            "ceiling_90": 155.2,
+            "median": 126.4,
+            "floor_10": 98.1,
+            "ceiling_90": 155.7,
             "_cv": 0.18,
             "confidence": 35
           },
@@ -9377,8 +9377,8 @@
             "confidence": 42
           },
           "attempts": {
-            "median": 29.9,
-            "floor_10": 25.2,
+            "median": 30.0,
+            "floor_10": 25.3,
             "ceiling_90": 34.6,
             "_cv": 0.12,
             "confidence": 38
@@ -9403,9 +9403,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 192.6,
-            "floor_10": 147.8,
-            "ceiling_90": 237.0,
+            "median": 192.1,
+            "floor_10": 147.5,
+            "ceiling_90": 236.4,
             "_cv": 0.18,
             "confidence": 68
           },
@@ -9424,9 +9424,9 @@
             "confidence": 75
           },
           "attempts": {
-            "median": 33.1,
+            "median": 33.0,
             "floor_10": 28.0,
-            "ceiling_90": 38.0,
+            "ceiling_90": 38.1,
             "_cv": 0.12,
             "confidence": 70
           }
@@ -9524,8 +9524,8 @@
             },
             "rush_yds": {
               "median": 74.0,
-              "floor_10": 49.8,
-              "ceiling_90": 97.8,
+              "floor_10": 50.0,
+              "ceiling_90": 98.2,
               "_cv": 0.25,
               "confidence": 43
             },
@@ -9560,14 +9560,14 @@
           "sim": {
             "rec": {
               "median": 4.6,
-              "floor_10": 3.7,
+              "floor_10": 3.6,
               "ceiling_90": 5.5,
               "_cv": 0.16,
               "confidence": 45
             },
             "rec_yds": {
-              "median": 49.0,
-              "floor_10": 36.5,
+              "median": 48.8,
+              "floor_10": 36.4,
               "ceiling_90": 61.8,
               "_cv": 0.2,
               "confidence": 44
@@ -9612,7 +9612,7 @@
             "rec_yds": {
               "median": 17.3,
               "floor_10": 12.8,
-              "ceiling_90": 21.9,
+              "ceiling_90": 21.6,
               "_cv": 0.2,
               "confidence": 54
             },
@@ -9649,14 +9649,14 @@
             "rec": {
               "median": 3.1,
               "floor_10": 2.5,
-              "ceiling_90": 3.7,
+              "ceiling_90": 3.8,
               "_cv": 0.16,
               "confidence": 50
             },
             "rec_yds": {
-              "median": 22.5,
-              "floor_10": 16.8,
-              "ceiling_90": 28.2,
+              "median": 22.6,
+              "floor_10": 16.9,
+              "ceiling_90": 28.1,
               "_cv": 0.2,
               "confidence": 48
             },
@@ -9711,9 +9711,9 @@
               "confidence": 50
             },
             "rush_yds": {
-              "median": 54.1,
-              "floor_10": 36.6,
-              "ceiling_90": 71.3,
+              "median": 53.9,
+              "floor_10": 36.7,
+              "ceiling_90": 71.4,
               "_cv": 0.25,
               "confidence": 48
             },
@@ -9754,9 +9754,9 @@
               "confidence": 48
             },
             "rec_yds": {
-              "median": 32.9,
-              "floor_10": 24.4,
-              "ceiling_90": 41.2,
+              "median": 32.8,
+              "floor_10": 24.3,
+              "ceiling_90": 41.1,
               "_cv": 0.2,
               "confidence": 46
             },
@@ -9856,9 +9856,9 @@
               "confidence": 51
             },
             "rec_yds": {
-              "median": 26.5,
-              "floor_10": 19.7,
-              "ceiling_90": 33.4,
+              "median": 26.6,
+              "floor_10": 19.8,
+              "ceiling_90": 33.2,
               "_cv": 0.2,
               "confidence": 50
             },
@@ -9900,16 +9900,16 @@
               "confidence": 77
             },
             "rec_yds": {
-              "median": 15.4,
+              "median": 15.2,
               "floor_10": 11.3,
-              "ceiling_90": 19.2,
+              "ceiling_90": 19.0,
               "_cv": 0.2,
               "confidence": 75
             },
             "rush_yds": {
-              "median": 85.2,
-              "floor_10": 58.2,
-              "ceiling_90": 112.4,
+              "median": 85.7,
+              "floor_10": 58.4,
+              "ceiling_90": 113.1,
               "_cv": 0.25,
               "confidence": 73
             },
@@ -10044,16 +10044,16 @@
               "confidence": 74
             },
             "rec_yds": {
-              "median": 17.7,
+              "median": 17.9,
               "floor_10": 13.2,
-              "ceiling_90": 22.3,
+              "ceiling_90": 22.5,
               "_cv": 0.2,
               "confidence": 72
             },
             "rush_yds": {
-              "median": 21.8,
-              "floor_10": 15.0,
-              "ceiling_90": 28.9,
+              "median": 22.1,
+              "floor_10": 14.7,
+              "ceiling_90": 29.1,
               "_cv": 0.25,
               "confidence": 70
             },
@@ -10187,9 +10187,9 @@
               "confidence": 69
             },
             "rec_yds": {
-              "median": 41.8,
-              "floor_10": 31.1,
-              "ceiling_90": 52.2,
+              "median": 41.9,
+              "floor_10": 30.9,
+              "ceiling_90": 52.7,
               "_cv": 0.2,
               "confidence": 67
             },
@@ -10281,9 +10281,9 @@
               "confidence": 69
             },
             "rec_yds": {
-              "median": 34.2,
-              "floor_10": 25.4,
-              "ceiling_90": 43.0,
+              "median": 34.3,
+              "floor_10": 25.7,
+              "ceiling_90": 43.3,
               "_cv": 0.2,
               "confidence": 67
             },
@@ -10304,8 +10304,8 @@
           }
         }
       ],
-      "away_win_pct": 0.439,
-      "home_win_pct": 0.561,
+      "away_win_pct": 0.433,
+      "home_win_pct": 0.567,
       "away_pts": 10.8,
       "home_pts": 12.7,
       "away_matchup_edge": 49.0,
@@ -10359,9 +10359,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 270.2,
-            "floor_10": 206.9,
-            "ceiling_90": 331.8,
+            "median": 271.3,
+            "floor_10": 210.1,
+            "ceiling_90": 331.6,
             "_cv": 0.18,
             "confidence": 71
           },
@@ -10380,9 +10380,9 @@
             "confidence": 78
           },
           "attempts": {
-            "median": 39.0,
-            "floor_10": 33.0,
-            "ceiling_90": 45.0,
+            "median": 38.9,
+            "floor_10": 33.1,
+            "ceiling_90": 44.9,
             "_cv": 0.12,
             "confidence": 73
           }
@@ -10425,9 +10425,9 @@
               "confidence": 55
             },
             "rush_yds": {
-              "median": 16.0,
+              "median": 15.9,
               "floor_10": 10.8,
-              "ceiling_90": 21.2,
+              "ceiling_90": 21.1,
               "_cv": 0.25,
               "confidence": 53
             },
@@ -10468,9 +10468,9 @@
               "confidence": 69
             },
             "rec_yds": {
-              "median": 69.2,
-              "floor_10": 51.3,
-              "ceiling_90": 86.6,
+              "median": 68.5,
+              "floor_10": 51.0,
+              "ceiling_90": 86.5,
               "_cv": 0.2,
               "confidence": 68
             },
@@ -10575,7 +10575,7 @@
             "rec_yds": {
               "median": 1.0,
               "floor_10": 0.7,
-              "ceiling_90": 1.2,
+              "ceiling_90": 1.3,
               "_cv": 0.2,
               "confidence": 48
             },
@@ -10616,22 +10616,22 @@
           "sim": {
             "rec": {
               "median": 1.2,
-              "floor_10": 1.0,
-              "ceiling_90": 1.5,
+              "floor_10": 0.9,
+              "ceiling_90": 1.4,
               "_cv": 0.16,
               "confidence": 72
             },
             "rec_yds": {
-              "median": 16.4,
-              "floor_10": 12.4,
-              "ceiling_90": 20.7,
+              "median": 16.6,
+              "floor_10": 12.3,
+              "ceiling_90": 20.8,
               "_cv": 0.2,
               "confidence": 70
             },
             "rush_yds": {
-              "median": 57.1,
-              "floor_10": 38.4,
-              "ceiling_90": 75.2,
+              "median": 56.7,
+              "floor_10": 38.8,
+              "ceiling_90": 75.5,
               "_cv": 0.25,
               "confidence": 68
             },
@@ -10672,9 +10672,9 @@
               "confidence": 72
             },
             "rec_yds": {
-              "median": 62.5,
-              "floor_10": 46.4,
-              "ceiling_90": 78.8,
+              "median": 62.3,
+              "floor_10": 46.0,
+              "ceiling_90": 78.1,
               "_cv": 0.2,
               "confidence": 70
             },
@@ -10760,9 +10760,9 @@
               "confidence": 72
             },
             "rec_yds": {
-              "median": 52.7,
+              "median": 53.0,
               "floor_10": 39.4,
-              "ceiling_90": 66.1,
+              "ceiling_90": 66.5,
               "_cv": 0.2,
               "confidence": 70
             },
@@ -10804,14 +10804,14 @@
               "confidence": 72
             },
             "rec_yds": {
-              "median": 29.7,
-              "floor_10": 22.0,
+              "median": 29.4,
+              "floor_10": 21.8,
               "ceiling_90": 37.0,
               "_cv": 0.2,
               "confidence": 70
             },
             "rush_yds": {
-              "median": 8.7,
+              "median": 8.8,
               "floor_10": 6.0,
               "ceiling_90": 11.4,
               "_cv": 0.25,
@@ -10827,9 +10827,9 @@
           }
         }
       ],
-      "away_win_pct": 0.474,
-      "home_win_pct": 0.526,
-      "away_pts": 16.8,
+      "away_win_pct": 0.467,
+      "home_win_pct": 0.533,
+      "away_pts": 16.7,
       "home_pts": 17.8,
       "away_matchup_edge": 40.6,
       "home_matchup_edge": 56.4,
@@ -10881,9 +10881,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 247.3,
-            "floor_10": 191.6,
-            "ceiling_90": 305.2,
+            "median": 248.0,
+            "floor_10": 190.3,
+            "ceiling_90": 304.0,
             "_cv": 0.18,
             "confidence": 76
           },
@@ -10904,7 +10904,7 @@
           "attempts": {
             "median": 32.6,
             "floor_10": 27.7,
-            "ceiling_90": 37.5,
+            "ceiling_90": 37.6,
             "_cv": 0.12,
             "confidence": 78
           }
@@ -10928,9 +10928,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 231.0,
-            "floor_10": 177.6,
-            "ceiling_90": 285.2,
+            "median": 230.2,
+            "floor_10": 175.8,
+            "ceiling_90": 284.2,
             "_cv": 0.18,
             "confidence": 71
           },
@@ -10949,9 +10949,9 @@
             "confidence": 78
           },
           "attempts": {
-            "median": 33.0,
+            "median": 32.9,
             "floor_10": 27.8,
-            "ceiling_90": 37.9,
+            "ceiling_90": 38.0,
             "_cv": 0.12,
             "confidence": 73
           }
@@ -10985,22 +10985,22 @@
           "sim": {
             "rec": {
               "median": 2.7,
-              "floor_10": 2.1,
-              "ceiling_90": 3.2,
+              "floor_10": 2.2,
+              "ceiling_90": 3.3,
               "_cv": 0.16,
               "confidence": 59
             },
             "rec_yds": {
-              "median": 19.5,
-              "floor_10": 14.5,
-              "ceiling_90": 24.3,
+              "median": 19.3,
+              "floor_10": 14.4,
+              "ceiling_90": 24.2,
               "_cv": 0.2,
               "confidence": 57
             },
             "rush_yds": {
-              "median": 60.6,
+              "median": 60.5,
               "floor_10": 40.7,
-              "ceiling_90": 79.6,
+              "ceiling_90": 80.0,
               "_cv": 0.25,
               "confidence": 55
             },
@@ -11042,8 +11042,8 @@
             },
             "rec_yds": {
               "median": 47.2,
-              "floor_10": 35.0,
-              "ceiling_90": 59.6,
+              "floor_10": 35.3,
+              "ceiling_90": 59.4,
               "_cv": 0.2,
               "confidence": 65
             },
@@ -11137,13 +11137,13 @@
             "rec_yds": {
               "median": 6.4,
               "floor_10": 4.8,
-              "ceiling_90": 8.0,
+              "ceiling_90": 8.1,
               "_cv": 0.2,
               "confidence": 57
             },
             "rush_yds": {
               "median": 7.3,
-              "floor_10": 5.0,
+              "floor_10": 4.9,
               "ceiling_90": 9.7,
               "_cv": 0.25,
               "confidence": 55
@@ -11151,7 +11151,7 @@
             "td": {
               "median": 0,
               "floor_10": 0,
-              "ceiling_90": 0,
+              "ceiling_90": 1,
               "_cv": null,
               "confidence": 65
             }
@@ -11186,8 +11186,8 @@
             },
             "rec_yds": {
               "median": 37.1,
-              "floor_10": 27.4,
-              "ceiling_90": 46.4,
+              "floor_10": 27.8,
+              "ceiling_90": 46.6,
               "_cv": 0.2,
               "confidence": 60
             },
@@ -11230,14 +11230,14 @@
             "rec": {
               "median": 1.7,
               "floor_10": 1.3,
-              "ceiling_90": 2.1,
+              "ceiling_90": 2.0,
               "_cv": 0.16,
               "confidence": 74
             },
             "rec_yds": {
-              "median": 20.3,
-              "floor_10": 15.0,
-              "ceiling_90": 25.7,
+              "median": 20.4,
+              "floor_10": 15.1,
+              "ceiling_90": 25.6,
               "_cv": 0.2,
               "confidence": 72
             },
@@ -11284,7 +11284,7 @@
               "confidence": 54
             },
             "rec_yds": {
-              "median": 15.8,
+              "median": 15.9,
               "floor_10": 11.7,
               "ceiling_90": 19.9,
               "_cv": 0.2,
@@ -11292,7 +11292,7 @@
             },
             "rush_yds": {
               "median": 1.7,
-              "floor_10": 1.2,
+              "floor_10": 1.1,
               "ceiling_90": 2.3,
               "_cv": 0.25,
               "confidence": 50
@@ -11334,9 +11334,9 @@
               "confidence": 77
             },
             "rec_yds": {
-              "median": 25.9,
-              "floor_10": 19.1,
-              "ceiling_90": 32.6,
+              "median": 25.8,
+              "floor_10": 19.2,
+              "ceiling_90": 32.4,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -11523,7 +11523,7 @@
           "sim": {
             "rec": {
               "median": 1.7,
-              "floor_10": 1.3,
+              "floor_10": 1.4,
               "ceiling_90": 2.1,
               "_cv": 0.16,
               "confidence": 63
@@ -11536,16 +11536,16 @@
               "confidence": 61
             },
             "rush_yds": {
-              "median": 68.1,
-              "floor_10": 46.1,
-              "ceiling_90": 90.6,
+              "median": 67.6,
+              "floor_10": 46.5,
+              "ceiling_90": 90.1,
               "_cv": 0.25,
               "confidence": 59
             },
             "td": {
               "median": 2,
               "floor_10": 0,
-              "ceiling_90": 3,
+              "ceiling_90": 4,
               "_cv": null,
               "confidence": 69
             }
@@ -11579,16 +11579,16 @@
               "confidence": 50
             },
             "rec_yds": {
-              "median": 11.1,
+              "median": 11.0,
               "floor_10": 8.3,
-              "ceiling_90": 14.0,
+              "ceiling_90": 13.9,
               "_cv": 0.2,
               "confidence": 48
             },
             "rush_yds": {
-              "median": 10.6,
-              "floor_10": 7.2,
-              "ceiling_90": 14.1,
+              "median": 10.8,
+              "floor_10": 7.3,
+              "ceiling_90": 14.2,
               "_cv": 0.25,
               "confidence": 46
             },
@@ -11629,16 +11629,16 @@
               "confidence": 72
             },
             "rec_yds": {
-              "median": 25.5,
-              "floor_10": 19.2,
-              "ceiling_90": 32.1,
+              "median": 25.8,
+              "floor_10": 19.3,
+              "ceiling_90": 32.2,
               "_cv": 0.2,
               "confidence": 70
             },
             "rush_yds": {
               "median": 6.2,
               "floor_10": 4.2,
-              "ceiling_90": 8.1,
+              "ceiling_90": 8.2,
               "_cv": 0.25,
               "confidence": 68
             },
@@ -11673,22 +11673,22 @@
           "sim": {
             "rec": {
               "median": 3.2,
-              "floor_10": 2.5,
+              "floor_10": 2.6,
               "ceiling_90": 3.9,
               "_cv": 0.16,
               "confidence": 67
             },
             "rec_yds": {
-              "median": 21.7,
-              "floor_10": 16.2,
-              "ceiling_90": 27.4,
+              "median": 21.9,
+              "floor_10": 16.3,
+              "ceiling_90": 27.5,
               "_cv": 0.2,
               "confidence": 65
             },
             "rush_yds": {
-              "median": 47.2,
-              "floor_10": 32.0,
-              "ceiling_90": 62.3,
+              "median": 47.5,
+              "floor_10": 32.2,
+              "ceiling_90": 62.7,
               "_cv": 0.25,
               "confidence": 63
             },
@@ -11746,14 +11746,14 @@
           }
         }
       ],
-      "away_win_pct": 0.824,
-      "home_win_pct": 0.176,
-      "away_pts": 25.5,
-      "home_pts": 13.2,
+      "away_win_pct": 0.821,
+      "home_win_pct": 0.179,
+      "away_pts": 25.3,
+      "home_pts": 13.3,
       "away_matchup_edge": 49.5,
       "home_matchup_edge": 46.5,
       "tier": "PASS",
-      "target_score": 33,
+      "target_score": 32,
       "market": {
         "away_ml": -102.0,
         "home_ml": -116.0,
@@ -11795,9 +11795,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 209.7,
-            "floor_10": 161.1,
-            "ceiling_90": 257.8,
+            "median": 209.9,
+            "floor_10": 161.7,
+            "ceiling_90": 259.1,
             "_cv": 0.18,
             "confidence": 46
           },
@@ -11816,9 +11816,9 @@
             "confidence": 53
           },
           "attempts": {
-            "median": 29.7,
-            "floor_10": 25.1,
-            "ceiling_90": 34.3,
+            "median": 29.8,
+            "floor_10": 25.2,
+            "ceiling_90": 34.2,
             "_cv": 0.12,
             "confidence": 48
           }
@@ -11842,9 +11842,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 242.7,
-            "floor_10": 187.4,
-            "ceiling_90": 299.1,
+            "median": 241.8,
+            "floor_10": 187.0,
+            "ceiling_90": 298.4,
             "_cv": 0.18,
             "confidence": 71
           },
@@ -11863,9 +11863,9 @@
             "confidence": 78
           },
           "attempts": {
-            "median": 32.0,
+            "median": 32.1,
             "floor_10": 27.2,
-            "ceiling_90": 37.0,
+            "ceiling_90": 37.1,
             "_cv": 0.12,
             "confidence": 73
           }
@@ -11895,14 +11895,14 @@
             "rec": {
               "median": 2.2,
               "floor_10": 1.8,
-              "ceiling_90": 2.6,
+              "ceiling_90": 2.7,
               "_cv": 0.16,
               "confidence": 59
             },
             "rec_yds": {
-              "median": 30.5,
-              "floor_10": 22.7,
-              "ceiling_90": 38.3,
+              "median": 30.7,
+              "floor_10": 22.6,
+              "ceiling_90": 38.5,
               "_cv": 0.2,
               "confidence": 58
             },
@@ -11950,16 +11950,16 @@
               "confidence": 72
             },
             "rec_yds": {
-              "median": 32.8,
-              "floor_10": 24.3,
+              "median": 32.5,
+              "floor_10": 24.0,
               "ceiling_90": 40.9,
               "_cv": 0.2,
               "confidence": 70
             },
             "rush_yds": {
-              "median": 17.8,
-              "floor_10": 12.1,
-              "ceiling_90": 23.5,
+              "median": 17.7,
+              "floor_10": 12.2,
+              "ceiling_90": 23.3,
               "_cv": 0.25,
               "confidence": 68
             },
@@ -12001,15 +12001,15 @@
             },
             "rec_yds": {
               "median": 4.9,
-              "floor_10": 3.7,
-              "ceiling_90": 6.2,
+              "floor_10": 3.6,
+              "ceiling_90": 6.1,
               "_cv": 0.2,
               "confidence": 58
             },
             "rush_yds": {
               "median": 43.1,
-              "floor_10": 29.0,
-              "ceiling_90": 56.5,
+              "floor_10": 28.8,
+              "ceiling_90": 56.8,
               "_cv": 0.25,
               "confidence": 56
             },
@@ -12050,16 +12050,16 @@
               "confidence": 72
             },
             "rec_yds": {
-              "median": 32.8,
-              "floor_10": 24.4,
-              "ceiling_90": 41.2,
+              "median": 32.6,
+              "floor_10": 24.3,
+              "ceiling_90": 40.9,
               "_cv": 0.2,
               "confidence": 70
             },
             "rush_yds": {
-              "median": 17.7,
-              "floor_10": 11.8,
-              "ceiling_90": 23.3,
+              "median": 17.9,
+              "floor_10": 12.0,
+              "ceiling_90": 23.5,
               "_cv": 0.25,
               "confidence": 68
             },
@@ -12100,16 +12100,16 @@
               "confidence": 72
             },
             "rec_yds": {
-              "median": 32.8,
-              "floor_10": 24.3,
-              "ceiling_90": 41.3,
+              "median": 32.6,
+              "floor_10": 24.5,
+              "ceiling_90": 40.7,
               "_cv": 0.2,
               "confidence": 70
             },
             "rush_yds": {
-              "median": 17.6,
-              "floor_10": 11.9,
-              "ceiling_90": 23.3,
+              "median": 17.8,
+              "floor_10": 12.1,
+              "ceiling_90": 23.5,
               "_cv": 0.25,
               "confidence": 68
             },
@@ -12158,8 +12158,8 @@
             },
             "rush_yds": {
               "median": 24.6,
-              "floor_10": 16.8,
-              "ceiling_90": 32.4,
+              "floor_10": 16.5,
+              "ceiling_90": 32.3,
               "_cv": 0.25,
               "confidence": 68
             },
@@ -12201,7 +12201,7 @@
             },
             "rec_yds": {
               "median": 12.1,
-              "floor_10": 8.9,
+              "floor_10": 9.1,
               "ceiling_90": 15.2,
               "_cv": 0.2,
               "confidence": 42
@@ -12290,9 +12290,9 @@
               "confidence": 72
             },
             "rec_yds": {
-              "median": 41.9,
+              "median": 41.8,
               "floor_10": 31.2,
-              "ceiling_90": 52.6,
+              "ceiling_90": 52.5,
               "_cv": 0.2,
               "confidence": 70
             },
@@ -12390,9 +12390,9 @@
               "confidence": 67
             },
             "rec_yds": {
-              "median": 23.4,
-              "floor_10": 17.3,
-              "ceiling_90": 29.3,
+              "median": 23.3,
+              "floor_10": 17.4,
+              "ceiling_90": 29.1,
               "_cv": 0.2,
               "confidence": 65
             },
@@ -12434,9 +12434,9 @@
               "confidence": 67
             },
             "rec_yds": {
-              "median": 43.9,
-              "floor_10": 32.5,
-              "ceiling_90": 54.9,
+              "median": 43.7,
+              "floor_10": 32.6,
+              "ceiling_90": 54.6,
               "_cv": 0.2,
               "confidence": 65
             },
@@ -12534,16 +12534,16 @@
               "confidence": 69
             },
             "rec_yds": {
-              "median": 24.3,
+              "median": 24.0,
               "floor_10": 17.9,
               "ceiling_90": 30.4,
               "_cv": 0.2,
               "confidence": 67
             },
             "rush_yds": {
-              "median": 69.6,
-              "floor_10": 46.5,
-              "ceiling_90": 91.8,
+              "median": 70.0,
+              "floor_10": 46.7,
+              "ceiling_90": 92.6,
               "_cv": 0.25,
               "confidence": 65
             },
@@ -12633,9 +12633,9 @@
               "confidence": 67
             },
             "rec_yds": {
-              "median": 14.5,
-              "floor_10": 10.7,
-              "ceiling_90": 18.2,
+              "median": 14.4,
+              "floor_10": 10.8,
+              "ceiling_90": 18.3,
               "_cv": 0.2,
               "confidence": 65
             },
@@ -12650,14 +12650,14 @@
           }
         }
       ],
-      "away_win_pct": 0.733,
-      "home_win_pct": 0.267,
-      "away_pts": 19.1,
-      "home_pts": 11.4,
+      "away_win_pct": 0.728,
+      "home_win_pct": 0.272,
+      "away_pts": 19.0,
+      "home_pts": 11.3,
       "away_matchup_edge": 50.5,
       "home_matchup_edge": 45.7,
       "tier": "PASS",
-      "target_score": 8,
+      "target_score": 7,
       "market": {
         "away_ml": 168.0,
         "home_ml": -200.0,
@@ -12699,9 +12699,9 @@
         "src": "league_avg",
         "sim": {
           "pass_yds": {
-            "median": 226.3,
-            "floor_10": 173.5,
-            "ceiling_90": 279.0,
+            "median": 226.1,
+            "floor_10": 173.6,
+            "ceiling_90": 278.0,
             "_cv": 0.18,
             "confidence": 27
           },
@@ -12720,9 +12720,9 @@
             "confidence": 34
           },
           "attempts": {
-            "median": 33.9,
-            "floor_10": 28.8,
-            "ceiling_90": 39.3,
+            "median": 34.1,
+            "floor_10": 28.9,
+            "ceiling_90": 39.2,
             "_cv": 0.12,
             "confidence": 29
           }
@@ -12746,9 +12746,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 218.8,
-            "floor_10": 168.6,
-            "ceiling_90": 268.9,
+            "median": 218.6,
+            "floor_10": 168.1,
+            "ceiling_90": 268.1,
             "_cv": 0.18,
             "confidence": 68
           },
@@ -12767,9 +12767,9 @@
             "confidence": 75
           },
           "attempts": {
-            "median": 34.0,
-            "floor_10": 28.9,
-            "ceiling_90": 39.3,
+            "median": 34.1,
+            "floor_10": 28.8,
+            "ceiling_90": 39.2,
             "_cv": 0.12,
             "confidence": 70
           }
@@ -12805,16 +12805,16 @@
               "confidence": 69
             },
             "rec_yds": {
-              "median": 10.7,
+              "median": 10.8,
               "floor_10": 8.0,
               "ceiling_90": 13.4,
               "_cv": 0.2,
               "confidence": 67
             },
             "rush_yds": {
-              "median": 89.4,
-              "floor_10": 59.9,
-              "ceiling_90": 118.3,
+              "median": 89.9,
+              "floor_10": 60.7,
+              "ceiling_90": 119.6,
               "_cv": 0.25,
               "confidence": 65
             },
@@ -12855,9 +12855,9 @@
               "confidence": 69
             },
             "rec_yds": {
-              "median": 102.1,
-              "floor_10": 76.2,
-              "ceiling_90": 128.5,
+              "median": 101.4,
+              "floor_10": 75.4,
+              "ceiling_90": 128.0,
               "_cv": 0.2,
               "confidence": 67
             },
@@ -12994,9 +12994,9 @@
               "confidence": 57
             },
             "rush_yds": {
-              "median": 17.6,
-              "floor_10": 11.9,
-              "ceiling_90": 23.3,
+              "median": 17.7,
+              "floor_10": 12.2,
+              "ceiling_90": 23.4,
               "_cv": 0.25,
               "confidence": 55
             },
@@ -13141,7 +13141,7 @@
             "td": {
               "median": 0,
               "floor_10": 0,
-              "ceiling_90": 0,
+              "ceiling_90": 1,
               "_cv": null,
               "confidence": 52
             }
@@ -13209,14 +13209,14 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 296.3,
-            "floor_10": 226.6,
-            "ceiling_90": 363.2,
+            "median": 294.1,
+            "floor_10": 226.5,
+            "ceiling_90": 361.1,
             "_cv": 0.18,
             "confidence": 71
           },
           "pass_td": {
-            "median": 1,
+            "median": 2,
             "floor_10": 0,
             "ceiling_90": 3,
             "_cv": null,
@@ -13230,9 +13230,9 @@
             "confidence": 78
           },
           "attempts": {
-            "median": 38.8,
+            "median": 38.6,
             "floor_10": 32.7,
-            "ceiling_90": 44.8,
+            "ceiling_90": 44.7,
             "_cv": 0.12,
             "confidence": 73
           }
@@ -13256,9 +13256,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 221.0,
-            "floor_10": 171.1,
-            "ceiling_90": 271.0,
+            "median": 220.4,
+            "floor_10": 169.5,
+            "ceiling_90": 271.4,
             "_cv": 0.18,
             "confidence": 76
           },
@@ -13314,9 +13314,9 @@
               "confidence": 69
             },
             "rec_yds": {
-              "median": 75.0,
-              "floor_10": 55.7,
-              "ceiling_90": 94.1,
+              "median": 74.8,
+              "floor_10": 55.9,
+              "ceiling_90": 94.3,
               "_cv": 0.2,
               "confidence": 68
             },
@@ -13358,15 +13358,15 @@
           "sim": {
             "rec": {
               "median": 6.5,
-              "floor_10": 5.1,
-              "ceiling_90": 7.9,
+              "floor_10": 5.2,
+              "ceiling_90": 7.8,
               "_cv": 0.16,
               "confidence": 72
             },
             "rec_yds": {
-              "median": 107.3,
-              "floor_10": 80.4,
-              "ceiling_90": 135.2,
+              "median": 107.1,
+              "floor_10": 78.6,
+              "ceiling_90": 135.5,
               "_cv": 0.2,
               "confidence": 70
             },
@@ -13413,16 +13413,16 @@
               "confidence": 72
             },
             "rec_yds": {
-              "median": 32.7,
-              "floor_10": 24.2,
+              "median": 32.6,
+              "floor_10": 24.1,
               "ceiling_90": 41.0,
               "_cv": 0.2,
               "confidence": 70
             },
             "rush_yds": {
-              "median": 44.1,
+              "median": 44.3,
               "floor_10": 30.2,
-              "ceiling_90": 58.3,
+              "ceiling_90": 58.9,
               "_cv": 0.25,
               "confidence": 68
             },
@@ -13468,9 +13468,9 @@
               "confidence": 72
             },
             "rec_yds": {
-              "median": 39.0,
-              "floor_10": 29.0,
-              "ceiling_90": 49.1,
+              "median": 39.2,
+              "floor_10": 29.3,
+              "ceiling_90": 49.0,
               "_cv": 0.2,
               "confidence": 70
             },
@@ -13482,7 +13482,7 @@
               "confidence": 68
             },
             "td": {
-              "median": 0,
+              "median": 1,
               "floor_10": 0,
               "ceiling_90": 2,
               "_cv": null,
@@ -13518,9 +13518,9 @@
               "confidence": 72
             },
             "rec_yds": {
-              "median": 13.1,
+              "median": 13.0,
               "floor_10": 9.7,
-              "ceiling_90": 16.5,
+              "ceiling_90": 16.4,
               "_cv": 0.2,
               "confidence": 70
             },
@@ -13563,15 +13563,15 @@
             },
             "rec_yds": {
               "median": 8.2,
-              "floor_10": 6.1,
+              "floor_10": 6.2,
               "ceiling_90": 10.3,
               "_cv": 0.2,
               "confidence": 68
             },
             "rush_yds": {
-              "median": 34.7,
+              "median": 34.8,
               "floor_10": 23.5,
-              "ceiling_90": 46.2,
+              "ceiling_90": 45.6,
               "_cv": 0.25,
               "confidence": 66
             },
@@ -13661,9 +13661,9 @@
               "confidence": 69
             },
             "rec_yds": {
-              "median": 35.8,
+              "median": 35.7,
               "floor_10": 26.5,
-              "ceiling_90": 45.0,
+              "ceiling_90": 45.1,
               "_cv": 0.2,
               "confidence": 68
             },
@@ -13712,8 +13712,8 @@
             },
             "rec_yds": {
               "median": 7.6,
-              "floor_10": 5.7,
-              "ceiling_90": 9.5,
+              "floor_10": 5.6,
+              "ceiling_90": 9.6,
               "_cv": 0.2,
               "confidence": 60
             },
@@ -13762,9 +13762,9 @@
               "confidence": 52
             },
             "rush_yds": {
-              "median": 64.5,
-              "floor_10": 43.3,
-              "ceiling_90": 84.7,
+              "median": 64.4,
+              "floor_10": 44.0,
+              "ceiling_90": 85.3,
               "_cv": 0.25,
               "confidence": 50
             },
@@ -13859,8 +13859,8 @@
             },
             "rush_yds": {
               "median": 29.4,
-              "floor_10": 20.0,
-              "ceiling_90": 38.9,
+              "floor_10": 19.9,
+              "ceiling_90": 39.0,
               "_cv": 0.25,
               "confidence": 73
             },
@@ -13901,8 +13901,8 @@
               "confidence": 77
             },
             "rec_yds": {
-              "median": 19.3,
-              "floor_10": 14.5,
+              "median": 19.2,
+              "floor_10": 14.3,
               "ceiling_90": 24.2,
               "_cv": 0.2,
               "confidence": 75
@@ -13945,9 +13945,9 @@
               "confidence": 54
             },
             "rec_yds": {
-              "median": 13.2,
+              "median": 13.3,
               "floor_10": 9.9,
-              "ceiling_90": 16.5,
+              "ceiling_90": 16.7,
               "_cv": 0.2,
               "confidence": 52
             },
@@ -13989,8 +13989,8 @@
               "confidence": 57
             },
             "rec_yds": {
-              "median": 8.4,
-              "floor_10": 6.2,
+              "median": 8.3,
+              "floor_10": 6.3,
               "ceiling_90": 10.5,
               "_cv": 0.2,
               "confidence": 55
@@ -14133,8 +14133,8 @@
             },
             "rec_yds": {
               "median": 25.1,
-              "floor_10": 18.9,
-              "ceiling_90": 31.6,
+              "floor_10": 18.7,
+              "ceiling_90": 31.5,
               "_cv": 0.2,
               "confidence": 50
             },
@@ -14177,15 +14177,15 @@
             },
             "rec_yds": {
               "median": 27.3,
-              "floor_10": 20.3,
-              "ceiling_90": 34.5,
+              "floor_10": 20.4,
+              "ceiling_90": 34.1,
               "_cv": 0.2,
               "confidence": 75
             },
             "rush_yds": {
-              "median": 45.2,
-              "floor_10": 31.3,
-              "ceiling_90": 59.6,
+              "median": 45.1,
+              "floor_10": 30.6,
+              "ceiling_90": 59.2,
               "_cv": 0.25,
               "confidence": 73
             },
@@ -14275,14 +14275,14 @@
               "confidence": 62
             },
             "rec_yds": {
-              "median": 19.4,
+              "median": 19.3,
               "floor_10": 14.4,
               "ceiling_90": 24.3,
               "_cv": 0.2,
               "confidence": 60
             },
             "rush_yds": {
-              "median": 27.2,
+              "median": 27.4,
               "floor_10": 18.7,
               "ceiling_90": 35.8,
               "_cv": 0.25,
@@ -14298,10 +14298,10 @@
           }
         }
       ],
-      "away_win_pct": 0.738,
-      "home_win_pct": 0.262,
-      "away_pts": 28.7,
-      "home_pts": 20.2,
+      "away_win_pct": 0.742,
+      "home_win_pct": 0.258,
+      "away_pts": 28.8,
+      "home_pts": 20.0,
       "away_matchup_edge": 60.8,
       "home_matchup_edge": 62.4,
       "tier": "LEAN",
@@ -14347,9 +14347,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 248.6,
-            "floor_10": 191.6,
-            "ceiling_90": 306.7,
+            "median": 247.0,
+            "floor_10": 189.0,
+            "ceiling_90": 306.4,
             "_cv": 0.18,
             "confidence": 71
           },
@@ -14368,9 +14368,9 @@
             "confidence": 78
           },
           "attempts": {
-            "median": 38.8,
-            "floor_10": 32.9,
-            "ceiling_90": 45.0,
+            "median": 39.0,
+            "floor_10": 33.2,
+            "ceiling_90": 44.8,
             "_cv": 0.12,
             "confidence": 73
           }
@@ -14394,9 +14394,9 @@
         "src": "form",
         "sim": {
           "pass_yds": {
-            "median": 259.6,
-            "floor_10": 200.6,
-            "ceiling_90": 322.0,
+            "median": 261.3,
+            "floor_10": 200.8,
+            "ceiling_90": 321.5,
             "_cv": 0.18,
             "confidence": 76
           },
@@ -14415,9 +14415,9 @@
             "confidence": 83
           },
           "attempts": {
-            "median": 39.6,
-            "floor_10": 33.6,
-            "ceiling_90": 45.6,
+            "median": 39.7,
+            "floor_10": 33.5,
+            "ceiling_90": 45.7,
             "_cv": 0.12,
             "confidence": 78
           }
@@ -14452,9 +14452,9 @@
               "confidence": 72
             },
             "rec_yds": {
-              "median": 33.4,
-              "floor_10": 25.1,
-              "ceiling_90": 42.1,
+              "median": 33.6,
+              "floor_10": 25.3,
+              "ceiling_90": 42.4,
               "_cv": 0.2,
               "confidence": 70
             },
@@ -14502,9 +14502,9 @@
               "confidence": 72
             },
             "rec_yds": {
-              "median": 64.9,
-              "floor_10": 49.0,
-              "ceiling_90": 81.7,
+              "median": 64.8,
+              "floor_10": 48.3,
+              "ceiling_90": 81.1,
               "_cv": 0.2,
               "confidence": 70
             },
@@ -14546,7 +14546,7 @@
               "confidence": 49
             },
             "rec_yds": {
-              "median": 6.8,
+              "median": 6.9,
               "floor_10": 5.1,
               "ceiling_90": 8.7,
               "_cv": 0.2,
@@ -14598,13 +14598,13 @@
             },
             "rush_yds": {
               "median": 47.6,
-              "floor_10": 32.2,
-              "ceiling_90": 63.3,
+              "floor_10": 32.1,
+              "ceiling_90": 62.9,
               "_cv": 0.25,
               "confidence": 55
             },
             "td": {
-              "median": 0,
+              "median": 1,
               "floor_10": 0,
               "ceiling_90": 2,
               "_cv": null,
@@ -14640,8 +14640,8 @@
               "confidence": 64
             },
             "rec_yds": {
-              "median": 13.4,
-              "floor_10": 10.0,
+              "median": 13.5,
+              "floor_10": 10.1,
               "ceiling_90": 16.8,
               "_cv": 0.2,
               "confidence": 62
@@ -14685,14 +14685,14 @@
             },
             "rec_yds": {
               "median": 3.7,
-              "floor_10": 2.8,
+              "floor_10": 2.7,
               "ceiling_90": 4.7,
               "_cv": 0.2,
               "confidence": 62
             },
             "rush_yds": {
               "median": 2.7,
-              "floor_10": 1.9,
+              "floor_10": 1.8,
               "ceiling_90": 3.6,
               "_cv": 0.25,
               "confidence": 60
@@ -14736,7 +14736,7 @@
             "rec_yds": {
               "median": 3.4,
               "floor_10": 2.5,
-              "ceiling_90": 4.3,
+              "ceiling_90": 4.2,
               "_cv": 0.2,
               "confidence": 42
             },
@@ -14779,7 +14779,7 @@
             },
             "rec_yds": {
               "median": 9.8,
-              "floor_10": 7.2,
+              "floor_10": 7.3,
               "ceiling_90": 12.3,
               "_cv": 0.2,
               "confidence": 67
@@ -14878,7 +14878,7 @@
             },
             "rec_yds": {
               "median": 3.7,
-              "floor_10": 2.7,
+              "floor_10": 2.8,
               "ceiling_90": 4.6,
               "_cv": 0.2,
               "confidence": 50
@@ -14928,9 +14928,9 @@
               "confidence": 52
             },
             "rush_yds": {
-              "median": 12.2,
-              "floor_10": 8.2,
-              "ceiling_90": 16.0,
+              "median": 12.1,
+              "floor_10": 8.3,
+              "ceiling_90": 15.9,
               "_cv": 0.25,
               "confidence": 50
             },
@@ -14971,9 +14971,9 @@
               "confidence": 72
             },
             "rec_yds": {
-              "median": 19.4,
+              "median": 19.5,
               "floor_10": 14.4,
-              "ceiling_90": 24.5,
+              "ceiling_90": 24.4,
               "_cv": 0.2,
               "confidence": 70
             },
@@ -15021,9 +15021,9 @@
               "confidence": 72
             },
             "rec_yds": {
-              "median": 56.7,
-              "floor_10": 42.1,
-              "ceiling_90": 71.5,
+              "median": 56.9,
+              "floor_10": 42.5,
+              "ceiling_90": 71.7,
               "_cv": 0.2,
               "confidence": 70
             },
@@ -15076,9 +15076,9 @@
               "confidence": 67
             },
             "rec_yds": {
-              "median": 23.3,
-              "floor_10": 17.2,
-              "ceiling_90": 29.2,
+              "median": 23.5,
+              "floor_10": 17.5,
+              "ceiling_90": 29.3,
               "_cv": 0.2,
               "confidence": 65
             },
@@ -15120,15 +15120,15 @@
               "confidence": 69
             },
             "rec_yds": {
-              "median": 24.8,
-              "floor_10": 18.4,
-              "ceiling_90": 31.1,
+              "median": 24.9,
+              "floor_10": 18.6,
+              "ceiling_90": 30.9,
               "_cv": 0.2,
               "confidence": 67
             },
             "rush_yds": {
-              "median": 31.6,
-              "floor_10": 21.6,
+              "median": 31.7,
+              "floor_10": 21.5,
               "ceiling_90": 41.9,
               "_cv": 0.25,
               "confidence": 65
@@ -15172,9 +15172,9 @@
               "confidence": 77
             },
             "rec_yds": {
-              "median": 65.4,
-              "floor_10": 48.2,
-              "ceiling_90": 82.6,
+              "median": 65.8,
+              "floor_10": 49.0,
+              "ceiling_90": 83.0,
               "_cv": 0.2,
               "confidence": 75
             },
@@ -15222,9 +15222,9 @@
               "confidence": 74
             },
             "rec_yds": {
-              "median": 16.7,
-              "floor_10": 12.4,
-              "ceiling_90": 21.0,
+              "median": 16.8,
+              "floor_10": 12.5,
+              "ceiling_90": 20.9,
               "_cv": 0.2,
               "confidence": 72
             },
@@ -15232,7 +15232,7 @@
             "td": {
               "median": 0,
               "floor_10": 0,
-              "ceiling_90": 1,
+              "ceiling_90": 0,
               "_cv": null,
               "confidence": 80
             }
@@ -15266,9 +15266,9 @@
               "confidence": 69
             },
             "rec_yds": {
-              "median": 41.5,
-              "floor_10": 30.9,
-              "ceiling_90": 51.9,
+              "median": 41.6,
+              "floor_10": 30.8,
+              "ceiling_90": 52.1,
               "_cv": 0.2,
               "confidence": 68
             },
@@ -15360,7 +15360,7 @@
               "confidence": 62
             },
             "rec_yds": {
-              "median": 50.5,
+              "median": 50.9,
               "floor_10": 37.9,
               "ceiling_90": 63.8,
               "_cv": 0.2,
@@ -15368,8 +15368,8 @@
             },
             "rush_yds": {
               "median": 1.1,
-              "floor_10": 0.7,
-              "ceiling_90": 1.4,
+              "floor_10": 0.8,
+              "ceiling_90": 1.5,
               "_cv": 0.25,
               "confidence": 58
             },
@@ -15411,15 +15411,15 @@
             },
             "rec_yds": {
               "median": 11.2,
-              "floor_10": 8.3,
+              "floor_10": 8.4,
               "ceiling_90": 14.1,
               "_cv": 0.2,
               "confidence": 61
             },
             "rush_yds": {
-              "median": 10.6,
-              "floor_10": 7.2,
-              "ceiling_90": 14.0,
+              "median": 10.5,
+              "floor_10": 7.1,
+              "ceiling_90": 13.9,
               "_cv": 0.25,
               "confidence": 59
             },
@@ -15460,8 +15460,8 @@
               "confidence": 63
             },
             "rec_yds": {
-              "median": 11.1,
-              "floor_10": 8.4,
+              "median": 11.2,
+              "floor_10": 8.3,
               "ceiling_90": 14.0,
               "_cv": 0.2,
               "confidence": 61
@@ -15469,7 +15469,7 @@
             "rush_yds": {
               "median": 10.6,
               "floor_10": 7.1,
-              "ceiling_90": 14.0,
+              "ceiling_90": 14.1,
               "_cv": 0.25,
               "confidence": 59
             },
@@ -15483,14 +15483,14 @@
           }
         }
       ],
-      "away_win_pct": 0.619,
-      "home_win_pct": 0.381,
-      "away_pts": 24.6,
-      "home_pts": 20.8,
+      "away_win_pct": 0.612,
+      "home_win_pct": 0.388,
+      "away_pts": 24.5,
+      "home_pts": 20.7,
       "away_matchup_edge": 49.3,
       "home_matchup_edge": 38.3,
       "tier": "PASS",
-      "target_score": 53,
+      "target_score": 52,
       "market": {
         "away_ml": 130.0,
         "home_ml": -154.0,
