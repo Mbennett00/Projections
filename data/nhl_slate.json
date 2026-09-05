@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-05T17:03:31Z",
+  "generated_at": "2026-09-05T21:05:28Z",
   "date": "2026-09-19",
   "games": [
     {
@@ -2418,7 +2418,8 @@
           "pp1": true,
           "pp_xg": 0.046,
           "matchup_grade": "B+",
-          "src": "prior"
+          "src": "prior",
+          "xg_prev": 0.028
         },
         {
           "name": "Marco Rossi",
