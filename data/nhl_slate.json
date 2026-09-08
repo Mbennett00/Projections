@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-07T23:51:50Z",
+  "generated_at": "2026-09-08T16:55:09Z",
   "date": "2026-09-19",
   "games": [
     {
@@ -373,16 +373,16 @@
           "src": "prior"
         },
         {
-          "name": "Mason McTavish",
-          "player_id": 8482745,
-          "pos": "C",
-          "toi": 15.3,
-          "shots_pg": 1.95,
-          "xg_pg": 0.284,
-          "goal_prob": 0.247,
-          "pts_pg": 0.5,
+          "name": "Theo Lindstein",
+          "player_id": 8484188,
+          "pos": "D",
+          "toi": 15.8,
+          "shots_pg": 1.18,
+          "xg_pg": 0.078,
+          "goal_prob": 0.075,
+          "pts_pg": 0.22,
           "pp1": false,
-          "pp_xg": 0.07,
+          "pp_xg": 0,
           "matchup_grade": "C+",
           "src": "prior"
         }
