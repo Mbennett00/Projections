@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-12T23:32:20Z",
+  "generated_at": "2026-09-13T16:43:04Z",
   "date": "2026-09-19",
   "games": [
     {
@@ -547,6 +547,20 @@
           "src": "prior"
         },
         {
+          "name": "Chris Kreider",
+          "player_id": 8475184,
+          "pos": "C",
+          "toi": 17.0,
+          "shots_pg": 1.85,
+          "xg_pg": 0.399,
+          "goal_prob": 0.329,
+          "pts_pg": 0.77,
+          "pp1": true,
+          "pp_xg": 0.106,
+          "matchup_grade": "A+",
+          "src": "prior"
+        },
+        {
           "name": "Phillip Danault",
           "player_id": 8476479,
           "pos": "C",
@@ -585,20 +599,6 @@
           "pts_pg": 0.41,
           "pp1": false,
           "pp_xg": 0,
-          "matchup_grade": "A+",
-          "src": "prior"
-        },
-        {
-          "name": "Oliver Kapanen",
-          "player_id": 8482775,
-          "pos": "C",
-          "toi": 14.5,
-          "shots_pg": 1.6,
-          "xg_pg": 0.257,
-          "goal_prob": 0.226,
-          "pts_pg": 0.52,
-          "pp1": false,
-          "pp_xg": 0.031,
           "matchup_grade": "A+",
           "src": "prior"
         }
@@ -1103,6 +1103,20 @@
           "src": "prior"
         },
         {
+          "name": "Chris Kreider",
+          "player_id": 8475184,
+          "pos": "C",
+          "toi": 17.0,
+          "shots_pg": 1.85,
+          "xg_pg": 0.413,
+          "goal_prob": 0.338,
+          "pts_pg": 0.79,
+          "pp1": true,
+          "pp_xg": 0.106,
+          "matchup_grade": "A+",
+          "src": "prior"
+        },
+        {
           "name": "Phillip Danault",
           "player_id": 8476479,
           "pos": "C",
@@ -1141,20 +1155,6 @@
           "pts_pg": 0.42,
           "pp1": false,
           "pp_xg": 0,
-          "matchup_grade": "A+",
-          "src": "prior"
-        },
-        {
-          "name": "Oliver Kapanen",
-          "player_id": 8482775,
-          "pos": "C",
-          "toi": 14.5,
-          "shots_pg": 1.6,
-          "xg_pg": 0.266,
-          "goal_prob": 0.233,
-          "pts_pg": 0.54,
-          "pp1": false,
-          "pp_xg": 0.031,
           "matchup_grade": "A+",
           "src": "prior"
         }
