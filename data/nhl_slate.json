@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-16T18:34:39Z",
+  "generated_at": "2026-09-16T22:01:22Z",
   "date": "2026-09-19",
   "games": [
     {
@@ -2263,7 +2263,7 @@
         {
           "name": "Mats Zuccarello",
           "player_id": 8475692,
-          "pos": "C",
+          "pos": "R",
           "toi": 18.6,
           "shots_pg": 2.07,
           "xg_pg": 0.258,
