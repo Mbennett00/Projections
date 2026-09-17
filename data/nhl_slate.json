@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-17T18:43:50Z",
+  "generated_at": "2026-09-17T22:03:20Z",
   "date": "2026-09-19",
   "games": [
     {
@@ -549,7 +549,7 @@
         {
           "name": "Chris Kreider",
           "player_id": 8475184,
-          "pos": "C",
+          "pos": "L",
           "toi": 17.0,
           "shots_pg": 1.85,
           "xg_pg": 0.399,
@@ -745,20 +745,6 @@
           "src": "prior"
         },
         {
-          "name": "William Villeneuve",
-          "player_id": 8482174,
-          "pos": "D",
-          "toi": 17.3,
-          "shots_pg": 0.67,
-          "xg_pg": 0.023,
-          "goal_prob": 0.023,
-          "pts_pg": 0.0,
-          "pp1": false,
-          "pp_xg": 0,
-          "matchup_grade": "A",
-          "src": "prior"
-        },
-        {
           "name": "Teddy Blueger",
           "player_id": 8476927,
           "pos": "C",
@@ -769,6 +755,20 @@
           "pts_pg": 0.52,
           "pp1": false,
           "pp_xg": 0.02,
+          "matchup_grade": "A",
+          "src": "prior"
+        },
+        {
+          "name": "Jack Roslovic",
+          "player_id": 8478458,
+          "pos": "C",
+          "toi": 15.8,
+          "shots_pg": 2.04,
+          "xg_pg": 0.264,
+          "goal_prob": 0.232,
+          "pts_pg": 0.56,
+          "pp1": false,
+          "pp_xg": 0.046,
           "matchup_grade": "A",
           "src": "prior"
         }
@@ -961,20 +961,6 @@
           "src": "prior"
         },
         {
-          "name": "William Villeneuve",
-          "player_id": 8482174,
-          "pos": "D",
-          "toi": 17.3,
-          "shots_pg": 0.67,
-          "xg_pg": 0.023,
-          "goal_prob": 0.022,
-          "pts_pg": 0.0,
-          "pp1": false,
-          "pp_xg": 0,
-          "matchup_grade": "A",
-          "src": "prior"
-        },
-        {
           "name": "Teddy Blueger",
           "player_id": 8476927,
           "pos": "C",
@@ -985,6 +971,20 @@
           "pts_pg": 0.5,
           "pp1": false,
           "pp_xg": 0.02,
+          "matchup_grade": "A",
+          "src": "prior"
+        },
+        {
+          "name": "Jack Roslovic",
+          "player_id": 8478458,
+          "pos": "C",
+          "toi": 15.8,
+          "shots_pg": 2.04,
+          "xg_pg": 0.255,
+          "goal_prob": 0.225,
+          "pts_pg": 0.54,
+          "pp1": false,
+          "pp_xg": 0.046,
           "matchup_grade": "A",
           "src": "prior"
         }
@@ -1105,7 +1105,7 @@
         {
           "name": "Chris Kreider",
           "player_id": 8475184,
-          "pos": "C",
+          "pos": "L",
           "toi": 17.0,
           "shots_pg": 1.85,
           "xg_pg": 0.413,
