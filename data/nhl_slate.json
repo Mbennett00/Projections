@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-19T22:50:55Z",
+  "generated_at": "2026-09-19T23:46:07Z",
   "date": "2026-09-19",
   "games": [
     {
@@ -9,7 +9,7 @@
       "home_abbr": "STL",
       "venue": "Enterprise Center",
       "game_time": "2026-09-19T23:00:00Z",
-      "game_state": "Preview",
+      "game_state": "Live",
       "away_goals": 3.12,
       "home_goals": 2.7,
       "away_win_pct": 0.562,
@@ -386,7 +386,9 @@
           "matchup_grade": "C+",
           "src": "prior"
         }
-      ]
+      ],
+      "away_score": 1,
+      "home_score": 0
     },
     {
       "away_team": "Montr\u00e9al Canadiens",
@@ -395,7 +397,7 @@
       "home_abbr": "TOR",
       "venue": "Scotiabank Arena",
       "game_time": "2026-09-19T23:00:00Z",
-      "game_state": "Preview",
+      "game_state": "Live",
       "away_goals": 3.74,
       "home_goals": 3.34,
       "away_win_pct": 0.55,
@@ -772,7 +774,9 @@
           "matchup_grade": "A",
           "src": "prior"
         }
-      ]
+      ],
+      "away_score": 0,
+      "home_score": 0
     },
     {
       "away_team": "Toronto Maple Leafs",
@@ -781,7 +785,7 @@
       "home_abbr": "MTL",
       "venue": "Centre Bell",
       "game_time": "2026-09-19T23:00:00Z",
-      "game_state": "Preview",
+      "game_state": "Live",
       "away_goals": 3.18,
       "home_goals": 3.92,
       "away_win_pct": 0.387,
@@ -1158,7 +1162,9 @@
           "matchup_grade": "A+",
           "src": "prior"
         }
-      ]
+      ],
+      "away_score": 0,
+      "home_score": 2
     },
     {
       "away_team": "Winnipeg Jets",
