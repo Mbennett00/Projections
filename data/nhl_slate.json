@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-20T21:23:27Z",
+  "generated_at": "2026-09-20T23:08:09Z",
   "date": "2026-09-20",
   "games": [
     {
@@ -397,7 +397,7 @@
       "home_abbr": "ANA",
       "venue": "Honda Center",
       "game_time": "2026-09-20T20:00:00Z",
-      "game_state": "Live",
+      "game_state": "Final",
       "away_goals": 3.24,
       "home_goals": 3.87,
       "away_win_pct": 0.404,
@@ -775,8 +775,8 @@
           "src": "prior"
         }
       ],
-      "away_score": 1,
-      "home_score": 2
+      "away_score": 2,
+      "home_score": 6
     },
     {
       "away_team": "Nashville Predators",
@@ -1164,7 +1164,7 @@
         }
       ],
       "away_score": 1,
-      "home_score": 1
+      "home_score": 2
     },
     {
       "away_team": "Washington Capitals",
@@ -1551,8 +1551,8 @@
           "src": "prior"
         }
       ],
-      "away_score": 0,
-      "home_score": 0
+      "away_score": 1,
+      "home_score": 1
     },
     {
       "away_team": "Carolina Hurricanes",
