@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-20T16:35:24Z",
+  "generated_at": "2026-09-20T17:50:24Z",
   "date": "2026-09-20",
   "games": [
     {
@@ -9,7 +9,7 @@
       "home_abbr": "NJD",
       "venue": "Prudential Center",
       "game_time": "2026-09-20T17:00:00Z",
-      "game_state": "Preview",
+      "game_state": "Live",
       "away_goals": 3.12,
       "home_goals": 3.69,
       "away_win_pct": 0.41,
@@ -386,7 +386,9 @@
           "matchup_grade": "A",
           "src": "prior"
         }
-      ]
+      ],
+      "away_score": 0,
+      "home_score": 0
     },
     {
       "away_team": "San Jose Sharks",
