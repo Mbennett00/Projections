@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-21T23:59:58Z",
+  "generated_at": "2026-09-22T00:22:31Z",
   "date": "2026-09-21",
   "games": [
     {
@@ -1164,7 +1164,7 @@
         }
       ],
       "away_score": 0,
-      "home_score": 0
+      "home_score": 1
     },
     {
       "away_team": "Philadelphia Flyers",
@@ -1551,7 +1551,7 @@
           "src": "prior"
         }
       ],
-      "away_score": 1,
+      "away_score": 2,
       "home_score": 2
     },
     {
@@ -1949,7 +1949,7 @@
       "home_abbr": "WPG",
       "venue": "Canada Life Centre",
       "game_time": "2026-09-22T00:00:00Z",
-      "game_state": "Preview",
+      "game_state": "Live",
       "away_goals": 3.87,
       "home_goals": 2.93,
       "away_win_pct": 0.629,
@@ -2326,7 +2326,9 @@
           "matchup_grade": "C",
           "src": "prior"
         }
-      ]
+      ],
+      "away_score": 0,
+      "home_score": 0
     },
     {
       "away_team": "Minnesota Wild",
@@ -2335,7 +2337,7 @@
       "home_abbr": "CHI",
       "venue": "United Center",
       "game_time": "2026-09-22T00:00:00Z",
-      "game_state": "Preview",
+      "game_state": "Live",
       "away_goals": 3.6,
       "home_goals": 2.73,
       "away_win_pct": 0.626,
@@ -2712,7 +2714,9 @@
           "matchup_grade": "C+",
           "src": "prior"
         }
-      ]
+      ],
+      "away_score": 1,
+      "home_score": 0
     },
     {
       "away_team": "St. Louis Blues",
@@ -2721,7 +2725,7 @@
       "home_abbr": "DAL",
       "venue": "American Airlines Center",
       "game_time": "2026-09-22T00:00:00Z",
-      "game_state": "Preview",
+      "game_state": "Live",
       "away_goals": 2.58,
       "home_goals": 3.28,
       "away_win_pct": 0.385,
@@ -3098,7 +3102,9 @@
           "matchup_grade": "B",
           "src": "prior"
         }
-      ]
+      ],
+      "away_score": 0,
+      "home_score": 0
     }
   ],
   "standouts": {
