@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-22T17:25:34Z",
+  "generated_at": "2026-09-22T18:27:32Z",
   "date": "2026-09-22",
   "games": [
     {
@@ -2202,8 +2202,7 @@
           "pp1": true,
           "pp_xg": 0.084,
           "matchup_grade": "B+",
-          "src": "prior",
-          "xg_prev": 0.359
+          "src": "prior"
         },
         {
           "name": "Mark Scheifele",
@@ -2805,7 +2804,8 @@
           "pp1": true,
           "pp_xg": 0.046,
           "matchup_grade": "A",
-          "src": "prior"
+          "src": "prior",
+          "xg_prev": 0.029
         },
         {
           "name": "Marco Rossi",
