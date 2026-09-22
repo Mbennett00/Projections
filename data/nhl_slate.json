@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-22T23:35:34Z",
+  "generated_at": "2026-09-22T23:56:40Z",
   "date": "2026-09-22",
   "games": [
     {
@@ -775,7 +775,7 @@
           "src": "prior"
         }
       ],
-      "away_score": 0,
+      "away_score": 1,
       "home_score": 1
     },
     {
@@ -1939,7 +1939,7 @@
           "src": "prior"
         }
       ],
-      "away_score": 0,
+      "away_score": 1,
       "home_score": 1
     },
     {
