@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-24T22:11:39Z",
+  "generated_at": "2026-09-24T23:51:27Z",
   "date": "2026-09-24",
   "games": [
     {
@@ -9,7 +9,7 @@
       "home_abbr": "PHI",
       "venue": "Xfinity Mobile Arena",
       "game_time": "2026-09-24T23:00:00Z",
-      "game_state": "Preview",
+      "game_state": "Live",
       "away_goals": 2.8,
       "home_goals": 3.43,
       "away_win_pct": 0.399,
@@ -386,7 +386,9 @@
           "matchup_grade": "A",
           "src": "prior"
         }
-      ]
+      ],
+      "away_score": 0,
+      "home_score": 1
     },
     {
       "away_team": "Buffalo Sabres",
@@ -395,7 +397,7 @@
       "home_abbr": "DET",
       "venue": "Little Caesars Arena",
       "game_time": "2026-09-24T23:00:00Z",
-      "game_state": "Preview",
+      "game_state": "Live",
       "away_goals": 3.18,
       "home_goals": 3.47,
       "away_win_pct": 0.45,
@@ -772,7 +774,9 @@
           "matchup_grade": "B+",
           "src": "prior"
         }
-      ]
+      ],
+      "away_score": 1,
+      "home_score": 1
     },
     {
       "away_team": "Florida Panthers",
@@ -781,7 +785,7 @@
       "home_abbr": "TBL",
       "venue": "Benchmark International Arena",
       "game_time": "2026-09-24T23:00:00Z",
-      "game_state": "Preview",
+      "game_state": "Live",
       "away_goals": 3.12,
       "home_goals": 3.86,
       "away_win_pct": 0.387,
@@ -1158,7 +1162,9 @@
           "matchup_grade": "A",
           "src": "prior"
         }
-      ]
+      ],
+      "away_score": 1,
+      "home_score": 0
     },
     {
       "away_team": "Nashville Predators",
@@ -1167,7 +1173,7 @@
       "home_abbr": "CAR",
       "venue": "First Horizon Coliseum",
       "game_time": "2026-09-24T23:00:00Z",
-      "game_state": "Preview",
+      "game_state": "Live",
       "away_goals": 2.88,
       "home_goals": 4.15,
       "away_win_pct": 0.314,
@@ -1544,7 +1550,9 @@
           "matchup_grade": "A",
           "src": "prior"
         }
-      ]
+      ],
+      "away_score": 3,
+      "home_score": 0
     },
     {
       "away_team": "New Jersey Devils",
@@ -1553,7 +1561,7 @@
       "home_abbr": "NYR",
       "venue": "Madison Square Garden",
       "game_time": "2026-09-24T23:00:00Z",
-      "game_state": "Preview",
+      "game_state": "Live",
       "away_goals": 3.42,
       "home_goals": 3.03,
       "away_win_pct": 0.554,
@@ -1930,7 +1938,9 @@
           "matchup_grade": "B",
           "src": "prior"
         }
-      ]
+      ],
+      "away_score": 1,
+      "home_score": 0
     },
     {
       "away_team": "Pittsburgh Penguins",
@@ -1939,7 +1949,7 @@
       "home_abbr": "CBJ",
       "venue": "Nationwide Arena",
       "game_time": "2026-09-24T23:00:00Z",
-      "game_state": "Preview",
+      "game_state": "Live",
       "away_goals": 3.44,
       "home_goals": 3.44,
       "away_win_pct": 0.494,
@@ -2316,7 +2326,9 @@
           "matchup_grade": "B+",
           "src": "prior"
         }
-      ]
+      ],
+      "away_score": 0,
+      "home_score": 1
     },
     {
       "away_team": "Chicago Blackhawks",
