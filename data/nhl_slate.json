@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-24T18:47:50Z",
+  "generated_at": "2026-09-24T22:11:39Z",
   "date": "2026-09-24",
   "games": [
     {
@@ -2974,7 +2974,8 @@
           "pp1": true,
           "pp_xg": 0.046,
           "matchup_grade": "B+",
-          "src": "prior"
+          "src": "prior",
+          "xg_prev": 0.029
         },
         {
           "name": "Marco Rossi",
@@ -4233,16 +4234,16 @@
           "src": "prior"
         },
         {
-          "name": "Adam Ginning",
-          "player_id": 8480874,
-          "pos": "D",
-          "toi": 15.3,
-          "shots_pg": 0.4,
-          "xg_pg": 0.017,
-          "goal_prob": 0.017,
-          "pts_pg": 0.0,
+          "name": "William Karlsson",
+          "player_id": 8476448,
+          "pos": "C",
+          "toi": 15.1,
+          "shots_pg": 2.14,
+          "xg_pg": 0.296,
+          "goal_prob": 0.256,
+          "pts_pg": 0.54,
           "pp1": false,
-          "pp_xg": 0,
+          "pp_xg": 0.019,
           "matchup_grade": "B",
           "src": "prior"
         }
