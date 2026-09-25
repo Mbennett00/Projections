@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-25T22:09:51Z",
+  "generated_at": "2026-09-25T23:57:01Z",
   "date": "2026-09-25",
   "games": [
     {
@@ -9,7 +9,7 @@
       "home_abbr": "WSH",
       "venue": "Capital One Arena",
       "game_time": "2026-09-25T23:00:00Z",
-      "game_state": "Preview",
+      "game_state": "Live",
       "away_goals": 3.18,
       "home_goals": 3.84,
       "away_win_pct": 0.399,
@@ -386,7 +386,9 @@
           "matchup_grade": "A",
           "src": "prior"
         }
-      ]
+      ],
+      "away_score": 0,
+      "home_score": 1
     },
     {
       "away_team": "New York Rangers",
@@ -395,7 +397,7 @@
       "home_abbr": "NYI",
       "venue": "UBS Arena",
       "game_time": "2026-09-25T23:30:00Z",
-      "game_state": "Preview",
+      "game_state": "Live",
       "away_goals": 3.19,
       "home_goals": 3.53,
       "away_win_pct": 0.445,
@@ -772,7 +774,9 @@
           "matchup_grade": "A",
           "src": "prior"
         }
-      ]
+      ],
+      "away_score": 2,
+      "home_score": 0
     },
     {
       "away_team": "Dallas Stars",
