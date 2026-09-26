@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-25T23:57:01Z",
+  "generated_at": "2026-09-26T00:15:16Z",
   "date": "2026-09-25",
   "games": [
     {
@@ -388,7 +388,7 @@
         }
       ],
       "away_score": 0,
-      "home_score": 1
+      "home_score": 2
     },
     {
       "away_team": "New York Rangers",
@@ -785,7 +785,7 @@
       "home_abbr": "MIN",
       "venue": "Grand Casino Arena",
       "game_time": "2026-09-26T00:00:00Z",
-      "game_state": "Preview",
+      "game_state": "Live",
       "away_goals": 3.07,
       "home_goals": 3.24,
       "away_win_pct": 0.469,
@@ -1162,7 +1162,9 @@
           "matchup_grade": "C+",
           "src": "prior"
         }
-      ]
+      ],
+      "away_score": 0,
+      "home_score": 0
     },
     {
       "away_team": "Winnipeg Jets",
